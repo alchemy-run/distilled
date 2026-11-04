@@ -172,8 +172,8 @@ export interface AddGroupMemberRequest {
   DirectoryId: string;
   GroupName: string;
   MemberName: string;
-  MemberRealm?: string;
-  ClientToken?: string;
+  MemberRealm?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface AddGroupMemberResult {}
 export type GroupType = "Distribution" | "Security" | (string & {});
@@ -192,16 +192,16 @@ export type Attributes = { [key: string]: AttributeValue | undefined };
 export interface CreateGroupRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  GroupType?: GroupType;
-  GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
-  ClientToken?: string;
+  GroupType?: GroupType | undefined;
+  GroupScope?: GroupScope | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type SID = string;
 export interface CreateGroupResult {
-  DirectoryId?: string;
-  SAMAccountName?: string;
-  SID?: string;
+  DirectoryId?: string | undefined;
+  SAMAccountName?: string | undefined;
+  SID?: string | undefined;
 }
 export type UserName = string;
 export type EmailAddress = string | redacted.Redacted<string>;
@@ -210,82 +210,82 @@ export type Surname = string | redacted.Redacted<string>;
 export interface CreateUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  EmailAddress?: string | redacted.Redacted<string>;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
-  ClientToken?: string;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateUserResult {
-  DirectoryId?: string;
-  SID?: string;
-  SAMAccountName?: string;
+  DirectoryId?: string | undefined;
+  SID?: string | undefined;
+  SAMAccountName?: string | undefined;
 }
 export interface DeleteGroupRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteGroupResult {}
 export interface DeleteUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteUserResult {}
 export type LdapDisplayNameList = string[];
 export interface DescribeGroupRequest {
   DirectoryId: string;
-  Realm?: string;
+  Realm?: string | undefined;
   SAMAccountName: string;
-  OtherAttributes?: string[];
+  OtherAttributes?: string[] | undefined;
 }
 export type DistinguishedName = string | redacted.Redacted<string>;
 export interface DescribeGroupResult {
-  DirectoryId?: string;
-  Realm?: string;
-  SID?: string;
-  SAMAccountName?: string;
-  DistinguishedName?: string | redacted.Redacted<string>;
-  GroupType?: GroupType;
-  GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  SID?: string | undefined;
+  SAMAccountName?: string | undefined;
+  DistinguishedName?: string | redacted.Redacted<string> | undefined;
+  GroupType?: GroupType | undefined;
+  GroupScope?: GroupScope | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export interface DescribeUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  OtherAttributes?: string[];
-  Realm?: string;
+  OtherAttributes?: string[] | undefined;
+  Realm?: string | undefined;
 }
 export type UserPrincipalName = string | redacted.Redacted<string>;
 export interface DescribeUserResult {
-  DirectoryId?: string;
-  Realm?: string;
-  SID?: string;
-  SAMAccountName?: string;
-  DistinguishedName?: string | redacted.Redacted<string>;
-  UserPrincipalName?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
-  Enabled?: boolean;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  SID?: string | undefined;
+  SAMAccountName?: string | undefined;
+  DistinguishedName?: string | redacted.Redacted<string> | undefined;
+  UserPrincipalName?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
+  Enabled?: boolean | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export interface DisableUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisableUserResult {}
 export type NextToken = string | redacted.Redacted<string>;
 export type MaxResults = number;
 export interface ListGroupMembersRequest {
   DirectoryId: string;
-  Realm?: string;
-  MemberRealm?: string;
+  Realm?: string | undefined;
+  MemberRealm?: string | undefined;
   SAMAccountName: string;
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export type MemberType = "USER" | "GROUP" | "COMPUTER" | (string & {});
 export interface Member {
@@ -295,17 +295,17 @@ export interface Member {
 }
 export type MemberList = Member[];
 export interface ListGroupMembersResult {
-  DirectoryId?: string;
-  Realm?: string;
-  MemberRealm?: string;
-  Members?: Member[];
-  NextToken?: string | redacted.Redacted<string>;
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  MemberRealm?: string | undefined;
+  Members?: Member[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListGroupsRequest {
   DirectoryId: string;
-  Realm?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  Realm?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GroupSummary {
   SID: string;
@@ -315,52 +315,52 @@ export interface GroupSummary {
 }
 export type GroupSummaryList = GroupSummary[];
 export interface ListGroupsResult {
-  DirectoryId?: string;
-  Realm?: string;
-  Groups?: GroupSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  Groups?: GroupSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListGroupsForMemberRequest {
   DirectoryId: string;
-  Realm?: string;
-  MemberRealm?: string;
+  Realm?: string | undefined;
+  MemberRealm?: string | undefined;
   SAMAccountName: string;
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListGroupsForMemberResult {
-  DirectoryId?: string;
-  Realm?: string;
-  MemberRealm?: string;
-  Groups?: GroupSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  MemberRealm?: string | undefined;
+  Groups?: GroupSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListUsersRequest {
   DirectoryId: string;
-  Realm?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  Realm?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface UserSummary {
   SID: string;
   SAMAccountName: string;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
   Enabled: boolean;
 }
 export type UserSummaryList = UserSummary[];
 export interface ListUsersResult {
-  DirectoryId?: string;
-  Realm?: string;
-  Users?: UserSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  Users?: UserSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface RemoveGroupMemberRequest {
   DirectoryId: string;
   GroupName: string;
   MemberName: string;
-  MemberRealm?: string;
-  ClientToken?: string;
+  MemberRealm?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface RemoveGroupMemberResult {}
 export type SearchString = string | redacted.Redacted<string>;
@@ -368,71 +368,71 @@ export interface SearchGroupsRequest {
   DirectoryId: string;
   SearchString: string | redacted.Redacted<string>;
   SearchAttributes: string[];
-  Realm?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  Realm?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Group {
-  SID?: string;
+  SID?: string | undefined;
   SAMAccountName: string;
-  DistinguishedName?: string | redacted.Redacted<string>;
-  GroupType?: GroupType;
-  GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
+  DistinguishedName?: string | redacted.Redacted<string> | undefined;
+  GroupType?: GroupType | undefined;
+  GroupScope?: GroupScope | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export type GroupList = Group[];
 export interface SearchGroupsResult {
-  DirectoryId?: string;
-  Realm?: string;
-  Groups?: Group[];
-  NextToken?: string | redacted.Redacted<string>;
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  Groups?: Group[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchUsersRequest {
   DirectoryId: string;
-  Realm?: string;
+  Realm?: string | undefined;
   SearchString: string | redacted.Redacted<string>;
   SearchAttributes: string[];
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface User {
-  SID?: string;
+  SID?: string | undefined;
   SAMAccountName: string;
-  DistinguishedName?: string | redacted.Redacted<string>;
-  UserPrincipalName?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
-  Enabled?: boolean;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
+  DistinguishedName?: string | redacted.Redacted<string> | undefined;
+  UserPrincipalName?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
+  Enabled?: boolean | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export type UserList = User[];
 export interface SearchUsersResult {
-  DirectoryId?: string;
-  Realm?: string;
-  Users?: User[];
-  NextToken?: string | redacted.Redacted<string>;
+  DirectoryId?: string | undefined;
+  Realm?: string | undefined;
+  Users?: User[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type UpdateType = "ADD" | "REPLACE" | "REMOVE" | (string & {});
 export interface UpdateGroupRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  GroupType?: GroupType;
-  GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
-  UpdateType?: UpdateType;
-  ClientToken?: string;
+  GroupType?: GroupType | undefined;
+  GroupScope?: GroupScope | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  UpdateType?: UpdateType | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateGroupResult {}
 export interface UpdateUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  EmailAddress?: string | redacted.Redacted<string>;
-  GivenName?: string | redacted.Redacted<string>;
-  Surname?: string | redacted.Redacted<string>;
-  OtherAttributes?: { [key: string]: AttributeValue | undefined };
-  UpdateType?: UpdateType;
-  ClientToken?: string;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  Surname?: string | redacted.Redacted<string> | undefined;
+  OtherAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  UpdateType?: UpdateType | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateUserResult {}
 export type ExceptionMessage = string;

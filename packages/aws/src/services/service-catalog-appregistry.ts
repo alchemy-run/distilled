@@ -144,8 +144,8 @@ export interface AssociateAttributeGroupRequest {
 export type ApplicationArn = string;
 export type AttributeGroupArn = string;
 export interface AssociateAttributeGroupResponse {
-  applicationArn?: string;
-  attributeGroupArn?: string;
+  applicationArn?: string | undefined;
+  attributeGroupArn?: string | undefined;
 }
 export type ResourceType = "CFN_STACK" | "RESOURCE_TAG_VALUE" | (string & {});
 export type ResourceSpecifier = string;
@@ -155,13 +155,13 @@ export interface AssociateResourceRequest {
   application: string;
   resourceType: ResourceType;
   resource: string;
-  options?: AssociationOption[];
+  options?: AssociationOption[] | undefined;
 }
 export type Arn = string;
 export interface AssociateResourceResponse {
-  applicationArn?: string;
-  resourceArn?: string;
-  options?: AssociationOption[];
+  applicationArn?: string | undefined;
+  resourceArn?: string | undefined;
+  options?: AssociationOption[] | undefined;
 }
 export type Name = string;
 export type Description = string;
@@ -171,83 +171,83 @@ export type Tags = { [key: string]: string | undefined };
 export type ClientToken = string;
 export interface CreateApplicationRequest {
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
 }
 export type ApplicationId = string;
 export type ApplicationTagDefinition = { [key: string]: string | undefined };
 export interface Application {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  applicationTag?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  applicationTag?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateApplicationResponse {
-  application?: Application;
+  application?: Application | undefined;
 }
 export type Attributes = string;
 export interface CreateAttributeGroupRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   attributes: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
 }
 export type AttributeGroupId = string;
 export interface AttributeGroup {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAttributeGroupResponse {
-  attributeGroup?: AttributeGroup;
+  attributeGroup?: AttributeGroup | undefined;
 }
 export interface DeleteApplicationRequest {
   application: string;
 }
 export interface ApplicationSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
 }
 export interface DeleteApplicationResponse {
-  application?: ApplicationSummary;
+  application?: ApplicationSummary | undefined;
 }
 export interface DeleteAttributeGroupRequest {
   attributeGroup: string;
 }
 export type CreatedBy = string;
 export interface AttributeGroupSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  createdBy?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export interface DeleteAttributeGroupResponse {
-  attributeGroup?: AttributeGroupSummary;
+  attributeGroup?: AttributeGroupSummary | undefined;
 }
 export interface DisassociateAttributeGroupRequest {
   application: string;
   attributeGroup: string;
 }
 export interface DisassociateAttributeGroupResponse {
-  applicationArn?: string;
-  attributeGroupArn?: string;
+  applicationArn?: string | undefined;
+  attributeGroupArn?: string | undefined;
 }
 export interface DisassociateResourceRequest {
   application: string;
@@ -255,8 +255,8 @@ export interface DisassociateResourceRequest {
   resource: string;
 }
 export interface DisassociateResourceResponse {
-  applicationArn?: string;
-  resourceArn?: string;
+  applicationArn?: string | undefined;
+  resourceArn?: string | undefined;
 }
 export interface GetApplicationRequest {
   application: string;
@@ -271,25 +271,25 @@ export type ResourceGroupState =
   | "UPDATE_FAILED"
   | (string & {});
 export interface ResourceGroup {
-  state?: ResourceGroupState;
-  arn?: string;
-  errorMessage?: string;
+  state?: ResourceGroupState | undefined;
+  arn?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface Integrations {
-  resourceGroup?: ResourceGroup;
-  applicationTagResourceGroup?: ResourceGroup;
+  resourceGroup?: ResourceGroup | undefined;
+  applicationTagResourceGroup?: ResourceGroup | undefined;
 }
 export interface GetApplicationResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  associatedResourceCount?: number;
-  tags?: { [key: string]: string | undefined };
-  integrations?: Integrations;
-  applicationTag?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  associatedResourceCount?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  integrations?: Integrations | undefined;
+  applicationTag?: { [key: string]: string | undefined } | undefined;
 }
 export type NextToken = string;
 export type ResourceItemStatus = "SUCCESS" | "FAILED" | "IN_PROGRESS" | "SKIPPED" | (string & {});
@@ -299,134 +299,134 @@ export interface GetAssociatedResourceRequest {
   application: string;
   resourceType: ResourceType;
   resource: string;
-  nextToken?: string;
-  resourceTagStatus?: ResourceItemStatus[];
-  maxResults?: number;
+  nextToken?: string | undefined;
+  resourceTagStatus?: ResourceItemStatus[] | undefined;
+  maxResults?: number | undefined;
 }
 export interface ResourceIntegrations {
-  resourceGroup?: ResourceGroup;
+  resourceGroup?: ResourceGroup | undefined;
 }
 export interface Resource {
-  name?: string;
-  arn?: string;
-  associationTime?: Date;
-  integrations?: ResourceIntegrations;
+  name?: string | undefined;
+  arn?: string | undefined;
+  associationTime?: Date | undefined;
+  integrations?: ResourceIntegrations | undefined;
 }
 export type ApplicationTagStatus = "IN_PROGRESS" | "SUCCESS" | "FAILURE" | (string & {});
 export type ResourcesListItemErrorMessage = string;
 export type ResourceItemType = string;
 export interface ResourcesListItem {
-  resourceArn?: string;
-  errorMessage?: string;
-  status?: string;
-  resourceType?: string;
+  resourceArn?: string | undefined;
+  errorMessage?: string | undefined;
+  status?: string | undefined;
+  resourceType?: string | undefined;
 }
 export type ResourcesList = ResourcesListItem[];
 export interface ApplicationTagResult {
-  applicationTagStatus?: ApplicationTagStatus;
-  errorMessage?: string;
-  resources?: ResourcesListItem[];
-  nextToken?: string;
+  applicationTagStatus?: ApplicationTagStatus | undefined;
+  errorMessage?: string | undefined;
+  resources?: ResourcesListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetAssociatedResourceResponse {
-  resource?: Resource;
-  options?: AssociationOption[];
-  applicationTagResult?: ApplicationTagResult;
+  resource?: Resource | undefined;
+  options?: AssociationOption[] | undefined;
+  applicationTagResult?: ApplicationTagResult | undefined;
 }
 export interface GetAttributeGroupRequest {
   attributeGroup: string;
 }
 export interface GetAttributeGroupResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  attributes?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  createdBy?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  attributes?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  createdBy?: string | undefined;
 }
 export interface GetConfigurationRequest {}
 export type TagKeyConfig = string;
 export interface TagQueryConfiguration {
-  tagKey?: string;
+  tagKey?: string | undefined;
 }
 export interface AppRegistryConfiguration {
-  tagQueryConfiguration?: TagQueryConfiguration;
+  tagQueryConfiguration?: TagQueryConfiguration | undefined;
 }
 export interface GetConfigurationResponse {
-  configuration?: AppRegistryConfiguration;
+  configuration?: AppRegistryConfiguration | undefined;
 }
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ApplicationSummaries = ApplicationSummary[];
 export interface ListApplicationsResponse {
-  applications?: ApplicationSummary[];
-  nextToken?: string;
+  applications?: ApplicationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssociatedAttributeGroupsRequest {
   application: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AttributeGroupIds = string[];
 export interface ListAssociatedAttributeGroupsResponse {
-  attributeGroups?: string[];
-  nextToken?: string;
+  attributeGroups?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssociatedResourcesRequest {
   application: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ResourceDetails {
-  tagValue?: string;
+  tagValue?: string | undefined;
 }
 export interface ResourceInfo {
-  name?: string;
-  arn?: string;
-  resourceType?: ResourceType;
-  resourceDetails?: ResourceDetails;
-  options?: AssociationOption[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  resourceDetails?: ResourceDetails | undefined;
+  options?: AssociationOption[] | undefined;
 }
 export type Resources = ResourceInfo[];
 export interface ListAssociatedResourcesResponse {
-  resources?: ResourceInfo[];
-  nextToken?: string;
+  resources?: ResourceInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAttributeGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AttributeGroupSummaries = AttributeGroupSummary[];
 export interface ListAttributeGroupsResponse {
-  attributeGroups?: AttributeGroupSummary[];
-  nextToken?: string;
+  attributeGroups?: AttributeGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAttributeGroupsForApplicationRequest {
   application: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AttributeGroupDetails {
-  id?: string;
-  arn?: string;
-  name?: string;
-  createdBy?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  createdBy?: string | undefined;
 }
 export type AttributeGroupDetailsList = AttributeGroupDetails[];
 export interface ListAttributeGroupsForApplicationResponse {
-  attributeGroupsDetails?: AttributeGroupDetails[];
-  nextToken?: string;
+  attributeGroupsDetails?: AttributeGroupDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutConfigurationRequest {
   configuration: AppRegistryConfiguration;
@@ -438,9 +438,9 @@ export interface SyncResourceRequest {
 }
 export type SyncAction = "START_SYNC" | "NO_ACTION" | (string & {});
 export interface SyncResourceResponse {
-  applicationArn?: string;
-  resourceArn?: string;
-  actionTaken?: SyncAction;
+  applicationArn?: string | undefined;
+  resourceArn?: string | undefined;
+  actionTaken?: SyncAction | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -455,20 +455,20 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   application: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateApplicationResponse {
-  application?: Application;
+  application?: Application | undefined;
 }
 export interface UpdateAttributeGroupRequest {
   attributeGroup: string;
-  name?: string;
-  description?: string;
-  attributes?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  attributes?: string | undefined;
 }
 export interface UpdateAttributeGroupResponse {
-  attributeGroup?: AttributeGroup;
+  attributeGroup?: AttributeGroup | undefined;
 }
 export type AssociateAttributeGroupError =
   | ConflictException

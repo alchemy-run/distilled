@@ -152,24 +152,24 @@ export type AssetIdentifier = string;
 export type Revision = string;
 export type AcceptRuleBehavior = "ALL" | "NONE" | (string & {});
 export interface AcceptRule {
-  rule?: AcceptRuleBehavior;
-  threshold?: number;
+  rule?: AcceptRuleBehavior | undefined;
+  threshold?: number | undefined;
 }
 export type EditedValue = string | redacted.Redacted<string>;
 export interface AcceptChoice {
-  predictionTarget?: string;
-  predictionChoice?: number;
-  editedValue?: string | redacted.Redacted<string>;
+  predictionTarget?: string | undefined;
+  predictionChoice?: number | undefined;
+  editedValue?: string | redacted.Redacted<string> | undefined;
 }
 export type AcceptChoices = AcceptChoice[];
 export type ClientToken = string;
 export interface AcceptPredictionsInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
-  acceptRule?: AcceptRule;
-  acceptChoices?: AcceptChoice[];
-  clientToken?: string;
+  revision?: string | undefined;
+  acceptRule?: AcceptRule | undefined;
+  acceptChoices?: AcceptChoice[] | undefined;
+  clientToken?: string | undefined;
 }
 export type AssetId = string;
 export interface AcceptPredictionsOutput {
@@ -197,9 +197,9 @@ export type AssetPermissions = AssetPermission[];
 export interface AcceptSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  assetScopes?: AcceptedAssetScope[];
-  assetPermissions?: AssetPermission[];
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  assetScopes?: AcceptedAssetScope[] | undefined;
+  assetPermissions?: AssetPermission[] | undefined;
 }
 export type CreatedBy = string;
 export type UpdatedBy = string;
@@ -210,40 +210,40 @@ export type RequestReason = string | redacted.Redacted<string>;
 export type ProjectId = string;
 export type ProjectName = string | redacted.Redacted<string>;
 export interface SubscribedProject {
-  id?: string;
-  name?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
 }
 export type UserProfileId = string;
 export interface IamUserProfileDetails {
-  arn?: string;
-  principalId?: string;
-  sessionName?: string;
-  groupProfileId?: string;
+  arn?: string | undefined;
+  principalId?: string | undefined;
+  sessionName?: string | undefined;
+  groupProfileId?: string | undefined;
 }
 export type UserProfileName = string | redacted.Redacted<string>;
 export type FirstName = string | redacted.Redacted<string>;
 export type LastName = string | redacted.Redacted<string>;
 export interface SsoUserProfileDetails {
-  username?: string | redacted.Redacted<string>;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
+  username?: string | redacted.Redacted<string> | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
 }
 export type UserProfileDetails =
   | { iam: IamUserProfileDetails; sso?: never }
   | { iam?: never; sso: SsoUserProfileDetails };
 export interface SubscribedUser {
-  id?: string;
-  details?: UserProfileDetails;
+  id?: string | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type GroupProfileId = string;
 export type GroupProfileName = string | redacted.Redacted<string>;
 export interface SubscribedGroup {
-  id?: string;
-  name?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
 }
 export type IamPrincipalArn = string;
 export interface SubscribedIamPrincipal {
-  principalArn?: string;
+  principalArn?: string | undefined;
 }
 export type SubscribedPrincipal =
   | { project: SubscribedProject; user?: never; group?: never; iam?: never }
@@ -259,51 +259,51 @@ export type Forms = string;
 export type GlossaryTermName = string | redacted.Redacted<string>;
 export type ShortDescription = string | redacted.Redacted<string>;
 export interface DetailedGlossaryTerm {
-  name?: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
 }
 export type DetailedGlossaryTerms = DetailedGlossaryTerm[];
 export interface AssetScope {
   assetId: string;
   filterIds: string[];
   status: string;
-  scopeName?: string;
-  errorMessage?: string;
+  scopeName?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface SubscribedAssetListing {
-  entityId?: string;
-  entityRevision?: string;
-  entityType?: string;
-  forms?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  assetScope?: AssetScope;
-  permissions?: Permissions;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  entityType?: string | undefined;
+  forms?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  assetScope?: AssetScope | undefined;
+  permissions?: Permissions | undefined;
 }
 export interface AssetInDataProductListingItem {
-  entityId?: string;
-  entityRevision?: string;
-  entityType?: string;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  entityType?: string | undefined;
 }
 export type AssetInDataProductListingItems = AssetInDataProductListingItem[];
 export interface SubscribedProductListing {
-  entityId?: string;
-  entityRevision?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  name?: string;
-  description?: string;
-  assetListings?: AssetInDataProductListingItem[];
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  assetListings?: AssetInDataProductListingItem[] | undefined;
 }
 export type SubscribedListingItem =
   | { assetListing: SubscribedAssetListing; productListing?: never }
   | { assetListing?: never; productListing: SubscribedProductListing };
 export interface SubscribedListing {
   id: string;
-  revision?: string;
+  revision?: string | undefined;
   name: string;
   description: string | redacted.Redacted<string>;
   item: SubscribedListingItem;
   ownerProjectId: string;
-  ownerProjectName?: string;
+  ownerProjectName?: string | undefined;
 }
 export type SubscribedListings = SubscribedListing[];
 export type SubscriptionId = string;
@@ -311,15 +311,15 @@ export type FormName = string;
 export type FormTypeName = string | redacted.Redacted<string>;
 export interface FormOutput {
   formName: string;
-  typeName?: string | redacted.Redacted<string>;
-  typeRevision?: string;
-  content?: string;
+  typeName?: string | redacted.Redacted<string> | undefined;
+  typeRevision?: string | undefined;
+  content?: string | undefined;
 }
 export type MetadataForms = FormOutput[];
 export interface AcceptSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -327,10 +327,10 @@ export interface AcceptSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export type DataZoneEntityType = "DOMAIN_UNIT" | (string & {});
 export type UserIdentifier = string;
@@ -349,7 +349,7 @@ export interface AddEntityOwnerInput {
   entityType: DataZoneEntityType;
   entityIdentifier: string;
   owner: OwnerProperties;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AddEntityOwnerOutput {}
 export type TargetEntityType =
@@ -387,21 +387,21 @@ export type ProjectDesignation =
 export type DomainUnitId = string;
 export interface DomainUnitFilterForProject {
   domainUnit: string;
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export type ProjectGrantFilter = { domainUnitFilter: DomainUnitFilterForProject };
 export interface ProjectPolicyGrantPrincipal {
   projectDesignation: ProjectDesignation;
-  projectIdentifier?: string;
-  projectGrantFilter?: ProjectGrantFilter;
+  projectIdentifier?: string | undefined;
+  projectGrantFilter?: ProjectGrantFilter | undefined;
 }
 export type DomainUnitDesignation = "OWNER" | (string & {});
 export interface AllDomainUnitsGrantFilter {}
 export type DomainUnitGrantFilter = { allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter };
 export interface DomainUnitPolicyGrantPrincipal {
   domainUnitDesignation: DomainUnitDesignation;
-  domainUnitIdentifier?: string;
-  domainUnitGrantFilter?: DomainUnitGrantFilter;
+  domainUnitIdentifier?: string | undefined;
+  domainUnitGrantFilter?: DomainUnitGrantFilter | undefined;
 }
 export type PolicyGrantPrincipal =
   | { user: UserPolicyGrantPrincipal; group?: never; project?: never; domainUnit?: never }
@@ -409,40 +409,40 @@ export type PolicyGrantPrincipal =
   | { user?: never; group?: never; project: ProjectPolicyGrantPrincipal; domainUnit?: never }
   | { user?: never; group?: never; project?: never; domainUnit: DomainUnitPolicyGrantPrincipal };
 export interface CreateDomainUnitPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface OverrideDomainUnitOwnersPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface AddToProjectMemberPoolPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface OverrideProjectOwnersPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateGlossaryPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateFormTypePolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateAssetTypePolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateProjectPolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface CreateEnvironmentProfilePolicyGrantDetail {
-  domainUnitId?: string;
+  domainUnitId?: string | undefined;
 }
 export interface Unit {}
 export type ProjectProfileList = string[];
 export interface CreateProjectFromProjectProfilePolicyGrantDetail {
-  includeChildDomainUnits?: boolean;
-  projectProfiles?: string[];
+  includeChildDomainUnits?: boolean | undefined;
+  projectProfiles?: string[] | undefined;
 }
 export interface UseAssetTypePolicyGrantDetail {
-  domainUnitId?: string;
+  domainUnitId?: string | undefined;
 }
 export type PolicyGrantDetail =
   | {
@@ -676,11 +676,11 @@ export interface AddPolicyGrantInput {
   policyType: ManagedPolicyType;
   principal: PolicyGrantPrincipal;
   detail: PolicyGrantDetail;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type GrantIdentifier = string;
 export interface AddPolicyGrantOutput {
-  grantId?: string;
+  grantId?: string | undefined;
 }
 export type EnvironmentId = string;
 export interface AssociateEnvironmentRoleInput {
@@ -708,13 +708,13 @@ export interface BatchGetAttributesMetadataInput {
   domainIdentifier: string;
   entityType: AttributeEntityType;
   entityIdentifier: string;
-  entityRevision?: string;
+  entityRevision?: string | undefined;
   attributeIdentifiers: string[];
 }
 export type FormOutputList = FormOutput[];
 export interface BatchGetAttributeOutput {
   attributeIdentifier: string;
-  forms?: FormOutput[];
+  forms?: FormOutput[] | undefined;
 }
 export type BatchGetAttributeItems = BatchGetAttributeOutput[];
 export interface AttributeError {
@@ -724,16 +724,16 @@ export interface AttributeError {
 }
 export type AttributesErrors = AttributeError[];
 export interface BatchGetAttributesMetadataOutput {
-  attributes?: BatchGetAttributeOutput[];
+  attributes?: BatchGetAttributeOutput[] | undefined;
   errors: AttributeError[];
 }
 export type FormTypeIdentifier = string;
 export type RevisionInput = string;
 export interface FormInput {
   formName: string;
-  typeIdentifier?: string;
-  typeRevision?: string;
-  content?: string;
+  typeIdentifier?: string | undefined;
+  typeRevision?: string | undefined;
+  content?: string | undefined;
 }
 export type FormInputList = FormInput[];
 export interface AttributeInput {
@@ -745,7 +745,7 @@ export interface BatchPutAttributesMetadataInput {
   domainIdentifier: string;
   entityType: AttributeEntityType;
   entityIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   attributes: AttributeInput[];
 }
 export interface BatchPutAttributeOutput {
@@ -753,8 +753,8 @@ export interface BatchPutAttributeOutput {
 }
 export type BatchPutAttributeItems = BatchPutAttributeOutput[];
 export interface BatchPutAttributesMetadataOutput {
-  errors?: AttributeError[];
-  attributes?: BatchPutAttributeOutput[];
+  errors?: AttributeError[] | undefined;
+  attributes?: BatchPutAttributeOutput[] | undefined;
 }
 export type MetadataGenerationRunIdentifier = string;
 export interface CancelMetadataGenerationRunInput {
@@ -770,15 +770,15 @@ export type SubscriptionStatus = "APPROVED" | "REVOKED" | "CANCELLED" | (string 
 export interface CancelSubscriptionOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export type AccountPoolName = string | redacted.Redacted<string>;
 export type ResolutionStrategy = "MANUAL" | (string & {});
@@ -789,14 +789,14 @@ export type AwsAccountName = string | redacted.Redacted<string>;
 export interface AccountInfo {
   awsAccountId: string;
   supportedRegions: string[];
-  awsAccountName?: string | redacted.Redacted<string>;
+  awsAccountName?: string | redacted.Redacted<string> | undefined;
 }
 export type AccountInfoList = AccountInfo[];
 export type LambdaFunctionArn = string;
 export type LambdaExecutionRoleArn = string;
 export interface CustomAccountPoolHandler {
   lambdaFunctionArn: string;
-  lambdaExecutionRoleArn?: string;
+  lambdaExecutionRoleArn?: string | undefined;
 }
 export type AccountSource =
   | { accounts: AccountInfo[]; customAccountPoolHandler?: never }
@@ -804,46 +804,46 @@ export type AccountSource =
 export interface CreateAccountPoolInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   resolutionStrategy: ResolutionStrategy;
   accountSource: AccountSource;
 }
 export type AccountPoolId = string;
 export interface CreateAccountPoolOutput {
-  domainId?: string;
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
+  domainId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
   accountSource: AccountSource;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  updatedBy?: string;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  domainUnitId?: string | undefined;
 }
 export type AssetName = string | redacted.Redacted<string>;
 export type ExternalIdentifier = string;
 export type AssetTypeIdentifier = string;
 export type GlossaryTerms = string[];
 export interface BusinessNameGenerationConfiguration {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface PredictionConfiguration {
-  businessNameGeneration?: BusinessNameGenerationConfiguration;
+  businessNameGeneration?: BusinessNameGenerationConfiguration | undefined;
 }
 export interface CreateAssetInput {
   name: string | redacted.Redacted<string>;
   domainIdentifier: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   typeIdentifier: string;
-  typeRevision?: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  formsInput?: FormInput[];
+  typeRevision?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  formsInput?: FormInput[] | undefined;
   owningProjectIdentifier: string;
-  predictionConfiguration?: PredictionConfiguration;
-  clientToken?: string;
+  predictionConfiguration?: PredictionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export type ListingStatus = "CREATING" | "ACTIVE" | "INACTIVE" | (string & {});
 export interface AssetListingDetails {
@@ -855,10 +855,10 @@ export type DataPointIdentifier = string;
 export interface TimeSeriesDataPointSummaryFormOutput {
   formName: string;
   typeIdentifier: string;
-  typeRevision?: string;
+  typeRevision?: string | undefined;
   timestamp: Date;
-  contentSummary?: string;
-  id?: string;
+  contentSummary?: string | undefined;
+  id?: string | undefined;
 }
 export type TimeSeriesDataPointSummaryFormOutputList = TimeSeriesDataPointSummaryFormOutput[];
 export interface CreateAssetOutput {
@@ -866,27 +866,27 @@ export interface CreateAssetOutput {
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
-  governedGlossaryTerms?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  governedGlossaryTerms?: string[] | undefined;
   owningProjectId: string;
   domainId: string;
-  listing?: AssetListingDetails;
+  listing?: AssetListingDetails | undefined;
   formsOutput: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
-  predictionConfiguration?: PredictionConfiguration;
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  predictionConfiguration?: PredictionConfiguration | undefined;
 }
 export type FilterName = string | redacted.Redacted<string>;
 export type ColumnNameList = string[];
 export interface ColumnFilterConfiguration {
-  includedColumnNames?: string[];
+  includedColumnNames?: string[] | undefined;
 }
 export interface EqualToExpression {
   columnName: string;
@@ -1111,7 +1111,7 @@ export type RowFilter =
   | { expression?: never; and?: never; or: RowFilter[] };
 export interface RowFilterConfiguration {
   rowFilter: RowFilter;
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
 }
 export type AssetFilterConfiguration =
   | { columnConfiguration: ColumnFilterConfiguration; rowConfiguration?: never }
@@ -1120,9 +1120,9 @@ export interface CreateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   configuration: AssetFilterConfiguration;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type FilterStatus = "VALID" | "INVALID" | (string & {});
 export interface CreateAssetFilterOutput {
@@ -1130,106 +1130,106 @@ export interface CreateAssetFilterOutput {
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
   configuration: AssetFilterConfiguration;
-  createdAt?: Date;
-  errorMessage?: string;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
 }
 export interface CreateAssetRevisionInput {
   name: string | redacted.Redacted<string>;
   domainIdentifier: string;
   identifier: string;
-  typeRevision?: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  formsInput?: FormInput[];
-  predictionConfiguration?: PredictionConfiguration;
-  clientToken?: string;
+  typeRevision?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  formsInput?: FormInput[] | undefined;
+  predictionConfiguration?: PredictionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateAssetRevisionOutput {
   id: string;
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
-  governedGlossaryTerms?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  governedGlossaryTerms?: string[] | undefined;
   owningProjectId: string;
   domainId: string;
-  listing?: AssetListingDetails;
+  listing?: AssetListingDetails | undefined;
   formsOutput: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
-  predictionConfiguration?: PredictionConfiguration;
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  predictionConfiguration?: PredictionConfiguration | undefined;
 }
 export interface FormEntryInput {
   typeIdentifier: string;
   typeRevision: string;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type FormsInputMap = { [key: string]: FormEntryInput | undefined };
 export interface CreateAssetTypeInput {
   domainIdentifier: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsInput: { [key: string]: FormEntryInput | undefined };
   owningProjectIdentifier: string;
 }
 export interface FormEntryOutput {
   typeName: string | redacted.Redacted<string>;
   typeRevision: string;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type FormsOutputMap = { [key: string]: FormEntryOutput | undefined };
 export interface CreateAssetTypeOutput {
   domainId: string;
   name: string;
   revision: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type ConnectionId = string;
 export interface AwsLocation {
-  accessRole?: string;
-  awsAccountId?: string;
-  awsRegion?: string;
-  iamConnectionId?: string;
+  accessRole?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsRegion?: string | undefined;
+  iamConnectionId?: string | undefined;
 }
 export type PropertyMap = { [key: string]: string | undefined };
 export interface Configuration {
-  classification?: string;
-  properties?: { [key: string]: string | undefined };
+  classification?: string | undefined;
+  properties?: { [key: string]: string | undefined } | undefined;
 }
 export type Configurations = Configuration[];
 export type ConnectionName = string;
 export interface AthenaPropertiesInput {
-  workgroupName?: string;
+  workgroupName?: string | undefined;
 }
 export type ConnectionProperties = { [key: string]: string | undefined };
 export type SubnetId = string;
 export type SubnetIdList = string[];
 export type SecurityGroupIdList = string[];
 export interface PhysicalConnectionRequirements {
-  subnetId?: string;
-  subnetIdList?: string[];
-  securityGroupIdList?: string[];
-  availabilityZone?: string;
+  subnetId?: string | undefined;
+  subnetIdList?: string[] | undefined;
+  securityGroupIdList?: string[] | undefined;
+  availabilityZone?: string | undefined;
 }
 export type GlueConnectionType =
   | "SNOWFLAKE"
@@ -1255,65 +1255,65 @@ export type OAuth2GrantType =
   | "JWT_BEARER"
   | (string & {});
 export interface OAuth2ClientApplication {
-  userManagedClientApplicationClientId?: string;
-  aWSManagedClientApplicationReference?: string;
+  userManagedClientApplicationClientId?: string | undefined;
+  aWSManagedClientApplicationReference?: string | undefined;
 }
 export type TokenUrlParametersMap = { [key: string]: string | undefined };
 export interface AuthorizationCodeProperties {
-  authorizationCode?: string;
-  redirectUri?: string;
+  authorizationCode?: string | undefined;
+  redirectUri?: string | undefined;
 }
 export interface GlueOAuth2Credentials {
-  userManagedClientApplicationClientSecret?: string;
-  accessToken?: string;
-  refreshToken?: string;
-  jwtToken?: string;
+  userManagedClientApplicationClientSecret?: string | undefined;
+  accessToken?: string | undefined;
+  refreshToken?: string | undefined;
+  jwtToken?: string | undefined;
 }
 export interface OAuth2Properties {
-  oAuth2GrantType?: OAuth2GrantType;
-  oAuth2ClientApplication?: OAuth2ClientApplication;
-  tokenUrl?: string;
-  tokenUrlParametersMap?: { [key: string]: string | undefined };
-  authorizationCodeProperties?: AuthorizationCodeProperties;
-  oAuth2Credentials?: GlueOAuth2Credentials;
+  oAuth2GrantType?: OAuth2GrantType | undefined;
+  oAuth2ClientApplication?: OAuth2ClientApplication | undefined;
+  tokenUrl?: string | undefined;
+  tokenUrlParametersMap?: { [key: string]: string | undefined } | undefined;
+  authorizationCodeProperties?: AuthorizationCodeProperties | undefined;
+  oAuth2Credentials?: GlueOAuth2Credentials | undefined;
 }
 export interface BasicAuthenticationCredentials {
-  userName?: string;
-  password?: string;
+  userName?: string | undefined;
+  password?: string | undefined;
 }
 export type CredentialMap = { [key: string]: string | undefined };
 export interface AuthenticationConfigurationInput {
-  authenticationType?: AuthenticationType;
-  oAuth2Properties?: OAuth2Properties;
-  secretArn?: string;
-  kmsKeyArn?: string;
-  basicAuthenticationCredentials?: BasicAuthenticationCredentials;
-  customAuthenticationCredentials?: { [key: string]: string | undefined };
+  authenticationType?: AuthenticationType | undefined;
+  oAuth2Properties?: OAuth2Properties | undefined;
+  secretArn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  basicAuthenticationCredentials?: BasicAuthenticationCredentials | undefined;
+  customAuthenticationCredentials?: { [key: string]: string | undefined } | undefined;
 }
 export interface GlueConnectionInput {
-  connectionProperties?: { [key: string]: string | undefined };
-  physicalConnectionRequirements?: PhysicalConnectionRequirements;
-  name?: string;
-  description?: string;
-  connectionType?: GlueConnectionType;
-  matchCriteria?: string;
-  validateCredentials?: boolean;
-  validateForComputeEnvironments?: ComputeEnvironments[];
-  sparkProperties?: { [key: string]: string | undefined };
-  athenaProperties?: { [key: string]: string | undefined };
-  pythonProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationInput;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  physicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  connectionType?: GlueConnectionType | undefined;
+  matchCriteria?: string | undefined;
+  validateCredentials?: boolean | undefined;
+  validateForComputeEnvironments?: ComputeEnvironments[] | undefined;
+  sparkProperties?: { [key: string]: string | undefined } | undefined;
+  athenaProperties?: { [key: string]: string | undefined } | undefined;
+  pythonProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationInput | undefined;
 }
 export interface GluePropertiesInput {
-  glueConnectionInput?: GlueConnectionInput;
+  glueConnectionInput?: GlueConnectionInput | undefined;
 }
 export interface HyperPodPropertiesInput {
   clusterName: string;
 }
 export type RoleArn = string;
 export interface IamPropertiesInput {
-  glueLineageSyncEnabled?: boolean;
-  roleArn?: string;
+  glueLineageSyncEnabled?: boolean | undefined;
+  roleArn?: string | undefined;
 }
 export type RedshiftStorageProperties =
   | { clusterName: string; workgroupName?: never }
@@ -1328,69 +1328,69 @@ export type RedshiftCredentials =
   | { secretArn: string; usernamePassword?: never }
   | { secretArn?: never; usernamePassword: UsernamePassword };
 export interface LineageSyncSchedule {
-  schedule?: string;
+  schedule?: string | undefined;
 }
 export interface RedshiftLineageSyncConfigurationInput {
-  enabled?: boolean;
-  schedule?: LineageSyncSchedule;
+  enabled?: boolean | undefined;
+  schedule?: LineageSyncSchedule | undefined;
 }
 export interface RedshiftPropertiesInput {
-  storage?: RedshiftStorageProperties;
-  databaseName?: string;
-  host?: string;
-  port?: number;
-  credentials?: RedshiftCredentials;
-  lineageSync?: RedshiftLineageSyncConfigurationInput;
+  storage?: RedshiftStorageProperties | undefined;
+  databaseName?: string | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
+  credentials?: RedshiftCredentials | undefined;
+  lineageSync?: RedshiftLineageSyncConfigurationInput | undefined;
 }
 export interface SparkEmrPropertiesInput {
-  computeArn?: string;
-  instanceProfileArn?: string;
-  javaVirtualEnv?: string;
-  logUri?: string;
-  pythonVirtualEnv?: string;
-  runtimeRole?: string;
-  trustedCertificatesS3Uri?: string;
-  managedEndpointArn?: string;
+  computeArn?: string | undefined;
+  instanceProfileArn?: string | undefined;
+  javaVirtualEnv?: string | undefined;
+  logUri?: string | undefined;
+  pythonVirtualEnv?: string | undefined;
+  runtimeRole?: string | undefined;
+  trustedCertificatesS3Uri?: string | undefined;
+  managedEndpointArn?: string | undefined;
 }
 export interface SparkGlueArgs {
-  connection?: string;
+  connection?: string | undefined;
 }
 export type GlueConnectionName = string;
 export type GlueConnectionNames = string[];
 export interface SparkGluePropertiesInput {
-  additionalArgs?: SparkGlueArgs;
-  glueConnectionName?: string;
-  glueConnectionNames?: string[];
-  glueVersion?: string;
-  idleTimeout?: number;
-  javaVirtualEnv?: string;
-  numberOfWorkers?: number;
-  pythonVirtualEnv?: string;
-  workerType?: string;
+  additionalArgs?: SparkGlueArgs | undefined;
+  glueConnectionName?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
+  glueVersion?: string | undefined;
+  idleTimeout?: number | undefined;
+  javaVirtualEnv?: string | undefined;
+  numberOfWorkers?: number | undefined;
+  pythonVirtualEnv?: string | undefined;
+  workerType?: string | undefined;
 }
 export type S3Uri = string;
 export type S3AccessGrantLocationId = string;
 export interface S3PropertiesInput {
   s3Uri: string;
-  s3AccessGrantLocationId?: string;
-  registerS3AccessGrantLocation?: boolean;
+  s3AccessGrantLocationId?: string | undefined;
+  registerS3AccessGrantLocation?: boolean | undefined;
 }
 export interface ConnectivityProperties {
-  connectionProperties?: { [key: string]: string | undefined };
-  physicalConnectionRequirements?: PhysicalConnectionRequirements;
-  name?: string;
-  description?: string;
-  validateCredentials?: boolean;
-  validateForComputeEnvironments?: ComputeEnvironments[];
-  sparkProperties?: { [key: string]: string | undefined };
-  athenaProperties?: { [key: string]: string | undefined };
-  pythonProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationInput;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  physicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  validateCredentials?: boolean | undefined;
+  validateForComputeEnvironments?: ComputeEnvironments[] | undefined;
+  sparkProperties?: { [key: string]: string | undefined } | undefined;
+  athenaProperties?: { [key: string]: string | undefined } | undefined;
+  pythonProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationInput | undefined;
 }
 export type SnowflakeRole = string;
 export interface IdentityMapping {
   usernameAttribute: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type Timezone =
   | "UTC"
@@ -1460,30 +1460,30 @@ export type Timezone =
   | (string & {});
 export type LineageSyncScheduleCronString = string;
 export interface LineageSyncInput {
-  timezone?: Timezone;
+  timezone?: Timezone | undefined;
   enabled: boolean;
-  schedule?: string;
+  schedule?: string | undefined;
 }
 export interface SnowflakePropertiesInput {
-  connectivityProperties?: ConnectivityProperties;
+  connectivityProperties?: ConnectivityProperties | undefined;
   snowflakeRole: string;
   identityMapping: IdentityMapping;
-  lineageSync?: LineageSyncInput;
+  lineageSync?: LineageSyncInput | undefined;
 }
 export interface AmazonQPropertiesInput {
   isEnabled: boolean;
-  profileArn?: string;
-  authMode?: string;
+  profileArn?: string | undefined;
+  authMode?: string | undefined;
 }
 export interface MlflowPropertiesInput {
-  trackingServerArn?: string;
+  trackingServerArn?: string | undefined;
 }
 export interface WorkflowsMwaaPropertiesInput {
-  mwaaEnvironmentName?: string;
+  mwaaEnvironmentName?: string | undefined;
 }
 export interface WorkflowsServerlessPropertiesInput {}
 export interface LakehousePropertiesInput {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export type VpcId = string;
 export type VpcConnectionSubnetIdList = string[];
@@ -1491,7 +1491,7 @@ export type SecurityGroupId = string;
 export interface VpcPropertiesInput {
   vpcId: string;
   subnetIds: string[];
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
 }
 export interface GitPropertiesInput {
   codeConnectionArn: string;
@@ -1789,16 +1789,16 @@ export type ConnectionPropertiesInput =
     };
 export type ConnectionScope = "DOMAIN" | "PROJECT" | (string & {});
 export interface CreateConnectionInput {
-  awsLocation?: AwsLocation;
-  clientToken?: string;
-  configurations?: Configuration[];
-  description?: string | redacted.Redacted<string>;
+  awsLocation?: AwsLocation | undefined;
+  clientToken?: string | undefined;
+  configurations?: Configuration[] | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   domainIdentifier: string;
-  environmentIdentifier?: string;
+  environmentIdentifier?: string | undefined;
   name: string;
-  props?: ConnectionPropertiesInput;
-  enableTrustedIdentityPropagation?: boolean;
-  scope?: ConnectionScope;
+  props?: ConnectionPropertiesInput | undefined;
+  enableTrustedIdentityPropagation?: boolean | undefined;
+  scope?: ConnectionScope | undefined;
 }
 export type ConnectionType =
   | "ATHENA"
@@ -1838,29 +1838,29 @@ export type ConnectionStatus =
   | "DELETED"
   | (string & {});
 export interface AuthenticationConfiguration {
-  authenticationType?: AuthenticationType;
-  secretArn?: string;
-  oAuth2Properties?: OAuth2Properties;
+  authenticationType?: AuthenticationType | undefined;
+  secretArn?: string | undefined;
+  oAuth2Properties?: OAuth2Properties | undefined;
 }
 export interface GlueConnection {
-  name?: string;
-  description?: string;
-  connectionType?: ConnectionType;
-  matchCriteria?: string[];
-  connectionProperties?: { [key: string]: string | undefined };
-  sparkProperties?: { [key: string]: string | undefined };
-  athenaProperties?: { [key: string]: string | undefined };
-  pythonProperties?: { [key: string]: string | undefined };
-  physicalConnectionRequirements?: PhysicalConnectionRequirements;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  lastUpdatedBy?: string;
-  status?: ConnectionStatus;
-  statusReason?: string;
-  lastConnectionValidationTime?: Date;
-  authenticationConfiguration?: AuthenticationConfiguration;
-  connectionSchemaVersion?: number;
-  compatibleComputeEnvironments?: ComputeEnvironments[];
+  name?: string | undefined;
+  description?: string | undefined;
+  connectionType?: ConnectionType | undefined;
+  matchCriteria?: string[] | undefined;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  sparkProperties?: { [key: string]: string | undefined } | undefined;
+  athenaProperties?: { [key: string]: string | undefined } | undefined;
+  pythonProperties?: { [key: string]: string | undefined } | undefined;
+  physicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  lastUpdatedBy?: string | undefined;
+  status?: ConnectionStatus | undefined;
+  statusReason?: string | undefined;
+  lastConnectionValidationTime?: Date | undefined;
+  authenticationConfiguration?: AuthenticationConfiguration | undefined;
+  connectionSchemaVersion?: number | undefined;
+  compatibleComputeEnvironments?: ComputeEnvironments[] | undefined;
 }
 export type Protocol =
   | "ATHENA"
@@ -1872,130 +1872,130 @@ export type Protocol =
   | "PRISM"
   | (string & {});
 export interface PhysicalEndpoint {
-  awsLocation?: AwsLocation;
-  glueConnectionName?: string;
-  glueConnectionNames?: string[];
-  glueConnection?: GlueConnection;
-  enableTrustedIdentityPropagation?: boolean;
-  host?: string;
-  port?: number;
-  protocol?: Protocol;
-  stage?: string;
+  awsLocation?: AwsLocation | undefined;
+  glueConnectionName?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
+  glueConnection?: GlueConnection | undefined;
+  enableTrustedIdentityPropagation?: boolean | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
+  protocol?: Protocol | undefined;
+  stage?: string | undefined;
 }
 export type PhysicalEndpoints = PhysicalEndpoint[];
 export interface AthenaPropertiesOutput {
-  workgroupName?: string;
+  workgroupName?: string | undefined;
 }
 export interface GluePropertiesOutput {
-  status?: ConnectionStatus;
-  errorMessage?: string;
+  status?: ConnectionStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export type HyperPodOrchestrator = "EKS" | "SLURM" | (string & {});
 export interface HyperPodPropertiesOutput {
   clusterName: string;
-  clusterArn?: string;
-  orchestrator?: HyperPodOrchestrator;
+  clusterArn?: string | undefined;
+  orchestrator?: HyperPodOrchestrator | undefined;
 }
 export interface IamPropertiesOutput {
-  environmentId?: string;
-  glueLineageSyncEnabled?: boolean;
+  environmentId?: string | undefined;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface RedshiftLineageSyncConfigurationOutput {
-  lineageJobId?: string;
-  enabled?: boolean;
-  schedule?: LineageSyncSchedule;
+  lineageJobId?: string | undefined;
+  enabled?: boolean | undefined;
+  schedule?: LineageSyncSchedule | undefined;
 }
 export interface RedshiftPropertiesOutput {
-  storage?: RedshiftStorageProperties;
-  credentials?: RedshiftCredentials;
-  isProvisionedSecret?: boolean;
-  jdbcIamUrl?: string;
-  jdbcUrl?: string;
-  redshiftTempDir?: string;
-  lineageSync?: RedshiftLineageSyncConfigurationOutput;
-  status?: ConnectionStatus;
-  databaseName?: string;
+  storage?: RedshiftStorageProperties | undefined;
+  credentials?: RedshiftCredentials | undefined;
+  isProvisionedSecret?: boolean | undefined;
+  jdbcIamUrl?: string | undefined;
+  jdbcUrl?: string | undefined;
+  redshiftTempDir?: string | undefined;
+  lineageSync?: RedshiftLineageSyncConfigurationOutput | undefined;
+  status?: ConnectionStatus | undefined;
+  databaseName?: string | undefined;
 }
 export type GovernanceType = "AWS_MANAGED" | "USER_MANAGED" | (string & {});
 export interface ManagedEndpointCredentials {
-  id?: string;
-  token?: string;
+  id?: string | undefined;
+  token?: string | undefined;
 }
 export interface SparkEmrPropertiesOutput {
-  computeArn?: string;
-  credentials?: UsernamePassword;
-  credentialsExpiration?: Date;
-  governanceType?: GovernanceType;
-  instanceProfileArn?: string;
-  javaVirtualEnv?: string;
-  livyEndpoint?: string;
-  logUri?: string;
-  pythonVirtualEnv?: string;
-  runtimeRole?: string;
-  trustedCertificatesS3Uri?: string;
-  certificateData?: string;
-  managedEndpointArn?: string;
-  managedEndpointCredentials?: ManagedEndpointCredentials;
+  computeArn?: string | undefined;
+  credentials?: UsernamePassword | undefined;
+  credentialsExpiration?: Date | undefined;
+  governanceType?: GovernanceType | undefined;
+  instanceProfileArn?: string | undefined;
+  javaVirtualEnv?: string | undefined;
+  livyEndpoint?: string | undefined;
+  logUri?: string | undefined;
+  pythonVirtualEnv?: string | undefined;
+  runtimeRole?: string | undefined;
+  trustedCertificatesS3Uri?: string | undefined;
+  certificateData?: string | undefined;
+  managedEndpointArn?: string | undefined;
+  managedEndpointCredentials?: ManagedEndpointCredentials | undefined;
 }
 export interface SparkGluePropertiesOutput {
-  additionalArgs?: SparkGlueArgs;
-  glueConnectionName?: string;
-  glueConnectionNames?: string[];
-  glueVersion?: string;
-  idleTimeout?: number;
-  javaVirtualEnv?: string;
-  numberOfWorkers?: number;
-  pythonVirtualEnv?: string;
-  workerType?: string;
+  additionalArgs?: SparkGlueArgs | undefined;
+  glueConnectionName?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
+  glueVersion?: string | undefined;
+  idleTimeout?: number | undefined;
+  javaVirtualEnv?: string | undefined;
+  numberOfWorkers?: number | undefined;
+  pythonVirtualEnv?: string | undefined;
+  workerType?: string | undefined;
 }
 export interface S3PropertiesOutput {
   s3Uri: string;
-  s3AccessGrantLocationId?: string;
-  registerS3AccessGrantLocation?: boolean;
-  status?: ConnectionStatus;
-  errorMessage?: string;
+  s3AccessGrantLocationId?: string | undefined;
+  registerS3AccessGrantLocation?: boolean | undefined;
+  status?: ConnectionStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export interface LineageSyncOutput {
-  lineageJobId?: string;
-  timezone?: Timezone;
-  enabled?: boolean;
-  schedule?: string;
+  lineageJobId?: string | undefined;
+  timezone?: Timezone | undefined;
+  enabled?: boolean | undefined;
+  schedule?: string | undefined;
 }
 export interface SnowflakePropertiesOutput {
   snowflakeRole: string;
   identityMapping: IdentityMapping;
   lineageSync: LineageSyncOutput;
   status: ConnectionStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface AmazonQPropertiesOutput {
   isEnabled: boolean;
-  profileArn?: string;
-  authMode?: string;
+  profileArn?: string | undefined;
+  authMode?: string | undefined;
 }
 export interface MlflowPropertiesOutput {
-  trackingServerArn?: string;
+  trackingServerArn?: string | undefined;
 }
 export interface WorkflowsMwaaPropertiesOutput {
-  mwaaEnvironmentName?: string;
+  mwaaEnvironmentName?: string | undefined;
 }
 export interface WorkflowsServerlessPropertiesOutput {}
 export interface LakehousePropertiesOutput {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface VpcPropertiesOutput {
   vpcId: string;
   subnetIds: string[];
   status: ConnectionStatus;
-  securityGroupId?: string;
-  glueConnectionNames?: string[];
+  securityGroupId?: string | undefined;
+  glueConnectionNames?: string[] | undefined;
 }
 export interface GitPropertiesOutput {
   codeConnectionArn: string;
   repositoryId: string;
   defaultBranch: string;
-  status?: ConnectionStatus;
-  errorMessage?: string;
+  status?: ConnectionStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export type ConnectionPropertiesOutput =
   | {
@@ -2288,17 +2288,17 @@ export type ConnectionPropertiesOutput =
     };
 export interface CreateConnectionOutput {
   connectionId: string;
-  configurations?: Configuration[];
-  description?: string | redacted.Redacted<string>;
+  configurations?: Configuration[] | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export type DataProductName = string | redacted.Redacted<string>;
 export type DataProductDescription = string | redacted.Redacted<string>;
@@ -2307,19 +2307,19 @@ export type ItemGlossaryTerms = string[];
 export interface DataProductItem {
   itemType: DataProductItemType;
   identifier: string;
-  revision?: string;
-  glossaryTerms?: string[];
+  revision?: string | undefined;
+  glossaryTerms?: string[] | undefined;
 }
 export type DataProductItems = DataProductItem[];
 export interface CreateDataProductInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
   owningProjectIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  formsInput?: FormInput[];
-  items?: DataProductItem[];
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  formsInput?: FormInput[] | undefined;
+  items?: DataProductItem[] | undefined;
+  clientToken?: string | undefined;
 }
 export type DataProductId = string;
 export type DataProductStatus = "CREATED" | "CREATING" | "CREATE_FAILED" | (string & {});
@@ -2330,24 +2330,24 @@ export interface CreateDataProductOutput {
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
   status: DataProductStatus;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsOutput?: FormOutput[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
 }
 export interface CreateDataProductRevisionInput {
   domainIdentifier: string;
   identifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsInput?: FormInput[];
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsInput?: FormInput[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateDataProductRevisionOutput {
   domainId: string;
@@ -2356,14 +2356,14 @@ export interface CreateDataProductRevisionOutput {
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
   status: DataProductStatus;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsOutput?: FormOutput[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
 }
 export type Name = string | redacted.Redacted<string>;
 export type DataSourceType = string;
@@ -2375,15 +2375,15 @@ export interface FilterExpression {
 export type FilterExpressions = FilterExpression[];
 export interface RelationalFilterConfiguration {
   databaseName: string;
-  schemaName?: string;
-  filterExpressions?: FilterExpression[];
+  schemaName?: string | undefined;
+  filterExpressions?: FilterExpression[] | undefined;
 }
 export type RelationalFilterConfigurations = RelationalFilterConfiguration[];
 export interface GlueRunConfigurationInput {
-  dataAccessRole?: string;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  autoImportDataQualityResult?: boolean;
-  catalogName?: string;
+  autoImportDataQualityResult?: boolean | undefined;
+  catalogName?: string | undefined;
 }
 export interface RedshiftCredentialConfiguration {
   secretManagerArn: string;
@@ -2398,10 +2398,10 @@ export type RedshiftStorage =
   | { redshiftClusterSource: RedshiftClusterStorage; redshiftServerlessSource?: never }
   | { redshiftClusterSource?: never; redshiftServerlessSource: RedshiftServerlessStorage };
 export interface RedshiftRunConfigurationInput {
-  dataAccessRole?: string;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration;
-  redshiftStorage?: RedshiftStorage;
+  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration | undefined;
+  redshiftStorage?: RedshiftStorage | undefined;
 }
 export type SageMakerAssetType = string;
 export type SageMakerResourceArn = string;
@@ -2427,29 +2427,29 @@ export type DataSourceConfigurationInput =
       sageMakerRunConfiguration: SageMakerRunConfigurationInput;
     };
 export interface RecommendationConfiguration {
-  enableBusinessNameGeneration?: boolean;
+  enableBusinessNameGeneration?: boolean | undefined;
 }
 export type EnableSetting = "ENABLED" | "DISABLED" | (string & {});
 export type CronString = string;
 export interface ScheduleConfiguration {
-  timezone?: Timezone;
-  schedule?: string;
+  timezone?: Timezone | undefined;
+  schedule?: string | undefined;
 }
 export interface CreateDataSourceInput {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainIdentifier: string;
   projectIdentifier: string;
-  environmentIdentifier?: string;
-  connectionIdentifier?: string;
+  environmentIdentifier?: string | undefined;
+  connectionIdentifier?: string | undefined;
   type: string;
-  configuration?: DataSourceConfigurationInput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  schedule?: ScheduleConfiguration;
-  publishOnImport?: boolean;
-  assetFormsInput?: FormInput[];
-  clientToken?: string;
+  configuration?: DataSourceConfigurationInput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsInput?: FormInput[] | undefined;
+  clientToken?: string | undefined;
 }
 export type DataSourceId = string;
 export type DataSourceStatus =
@@ -2463,24 +2463,24 @@ export type DataSourceStatus =
   | "FAILED_DELETION"
   | (string & {});
 export interface GlueRunConfigurationOutput {
-  accountId?: string;
-  region?: string;
-  dataAccessRole?: string;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  autoImportDataQualityResult?: boolean;
-  catalogName?: string;
+  autoImportDataQualityResult?: boolean | undefined;
+  catalogName?: string | undefined;
 }
 export interface RedshiftRunConfigurationOutput {
-  accountId?: string;
-  region?: string;
-  dataAccessRole?: string;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  dataAccessRole?: string | undefined;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
-  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration;
+  redshiftCredentialConfiguration?: RedshiftCredentialConfiguration | undefined;
   redshiftStorage: RedshiftStorage;
 }
 export interface SageMakerRunConfigurationOutput {
-  accountId?: string;
-  region?: string;
+  accountId?: string | undefined;
+  region?: string | undefined;
   trackingAssets: { [key: string]: string[] | undefined };
 }
 export type DataSourceConfigurationOutput =
@@ -2517,37 +2517,37 @@ export type DataSourceErrorType =
   | (string & {});
 export interface DataSourceErrorMessage {
   errorType: DataSourceErrorType;
-  errorDetail?: string;
+  errorDetail?: string | undefined;
 }
 export interface CreateDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type AuthType = "IAM_IDC" | "DISABLED" | (string & {});
 export type UserAssignment = "AUTOMATIC" | "MANUAL" | (string & {});
 export interface SingleSignOn {
-  type?: AuthType;
-  userAssignment?: UserAssignment;
-  idcInstanceArn?: string;
+  type?: AuthType | undefined;
+  userAssignment?: UserAssignment | undefined;
+  idcInstanceArn?: string | undefined;
 }
 export type KmsKeyArn = string;
 export type TagKey = string;
@@ -2556,14 +2556,14 @@ export type Tags = { [key: string]: string | undefined };
 export type DomainVersion = "V1" | "V2" | (string & {});
 export interface CreateDomainInput {
   name: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  kmsKeyIdentifier?: string;
-  tags?: { [key: string]: string | undefined };
-  domainVersion?: DomainVersion;
-  serviceRole?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  domainVersion?: DomainVersion | undefined;
+  serviceRole?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type DomainStatus =
   | "CREATING"
@@ -2575,18 +2575,18 @@ export type DomainStatus =
   | (string & {});
 export interface CreateDomainOutput {
   id: string;
-  rootDomainUnitId?: string;
-  name?: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  arn?: string;
-  kmsKeyIdentifier?: string;
-  status?: DomainStatus;
-  portalUrl?: string;
-  tags?: { [key: string]: string | undefined };
-  domainVersion?: DomainVersion;
-  serviceRole?: string;
+  rootDomainUnitId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  status?: DomainStatus | undefined;
+  portalUrl?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  domainVersion?: DomainVersion | undefined;
+  serviceRole?: string | undefined;
 }
 export type DomainUnitName = string | redacted.Redacted<string>;
 export type DomainUnitDescription = string | redacted.Redacted<string>;
@@ -2594,14 +2594,14 @@ export interface CreateDomainUnitInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
   parentDomainUnitIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface DomainUnitUserProperties {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface DomainUnitGroupProperties {
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type DomainUnitOwnerProperties =
   | { user: DomainUnitUserProperties; group?: never }
@@ -2612,39 +2612,39 @@ export interface CreateDomainUnitOutput {
   id: string;
   domainId: string;
   name: string | redacted.Redacted<string>;
-  parentDomainUnitId?: string;
-  description?: string | redacted.Redacted<string>;
+  parentDomainUnitId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   owners: DomainUnitOwnerProperties[];
   ancestorDomainUnitIds: string[];
-  createdAt?: Date;
-  createdBy?: string;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type EnvironmentProfileId = string;
 export interface EnvironmentParameter {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type EnvironmentParametersList = EnvironmentParameter[];
 export type EnvironmentConfigurationName = string | redacted.Redacted<string>;
 export interface CreateEnvironmentInput {
   projectIdentifier: string;
   domainIdentifier: string;
-  description?: string;
+  description?: string | undefined;
   name: string;
-  environmentProfileIdentifier?: string;
-  userParameters?: EnvironmentParameter[];
-  glossaryTerms?: string[];
-  environmentAccountIdentifier?: string;
-  environmentAccountRegion?: string;
-  environmentBlueprintIdentifier?: string;
-  deploymentOrder?: number;
-  environmentConfigurationId?: string;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  environmentProfileIdentifier?: string | undefined;
+  userParameters?: EnvironmentParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  environmentAccountIdentifier?: string | undefined;
+  environmentAccountRegion?: string | undefined;
+  environmentBlueprintIdentifier?: string | undefined;
+  deploymentOrder?: number | undefined;
+  environmentConfigurationId?: string | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export type EnvironmentName = string | redacted.Redacted<string>;
 export interface Resource {
-  provider?: string;
-  name?: string;
+  provider?: string | undefined;
+  name?: string | undefined;
   value: string;
   type: string;
 }
@@ -2666,24 +2666,24 @@ export type EnvironmentStatus =
   | (string & {});
 export type ConfigurableActionTypeAuthorization = "IAM" | "HTTPS" | (string & {});
 export interface ConfigurableActionParameter {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type ConfigurableActionParameterList = ConfigurableActionParameter[];
 export interface ConfigurableEnvironmentAction {
   type: string;
-  auth?: ConfigurableActionTypeAuthorization;
+  auth?: ConfigurableActionTypeAuthorization | undefined;
   parameters: ConfigurableActionParameter[];
 }
 export type EnvironmentActionList = ConfigurableEnvironmentAction[];
 export interface CustomParameter {
   keyName: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   fieldType: string;
-  defaultValue?: string;
-  isEditable?: boolean;
-  isOptional?: boolean;
-  isUpdateSupported?: boolean;
+  defaultValue?: string | undefined;
+  isEditable?: boolean | undefined;
+  isOptional?: boolean | undefined;
+  isUpdateSupported?: boolean | undefined;
 }
 export type CustomParameterList = CustomParameter[];
 export type DeploymentType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
@@ -2694,18 +2694,18 @@ export type DeploymentStatus =
   | "PENDING_DEPLOYMENT"
   | (string & {});
 export interface EnvironmentError {
-  code?: string;
+  code?: string | undefined;
   message: string;
 }
 export type DeploymentMessage = string;
 export type DeploymentMessagesList = string[];
 export interface Deployment {
-  deploymentId?: string;
-  deploymentType?: DeploymentType;
-  deploymentStatus?: DeploymentStatus;
-  failureReason?: EnvironmentError;
-  messages?: string[];
-  isDeploymentComplete?: boolean;
+  deploymentId?: string | undefined;
+  deploymentType?: DeploymentType | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
+  failureReason?: EnvironmentError | undefined;
+  messages?: string[] | undefined;
+  isDeploymentComplete?: boolean | undefined;
 }
 export interface CloudFormationProperties {
   templateUrl: string;
@@ -2714,38 +2714,38 @@ export type ProvisioningProperties =
   | { cloudFormation: CloudFormationProperties; manual?: never }
   | { cloudFormation?: never; manual: Record<string, never> };
 export interface DeploymentProperties {
-  startTimeoutMinutes?: number;
-  endTimeoutMinutes?: number;
+  startTimeoutMinutes?: number | undefined;
+  endTimeoutMinutes?: number | undefined;
 }
 export type EnvironmentBlueprintId = string;
 export type EnvironmentConfigurationId = string | redacted.Redacted<string>;
 export interface CreateEnvironmentOutput {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  provisionedResources?: Resource[];
-  status?: EnvironmentStatus;
-  environmentActions?: ConfigurableEnvironmentAction[];
-  glossaryTerms?: string[];
-  userParameters?: CustomParameter[];
-  lastDeployment?: Deployment;
-  provisioningProperties?: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  environmentBlueprintId?: string;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  provisionedResources?: Resource[] | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentActions?: ConfigurableEnvironmentAction[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  lastDeployment?: Deployment | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
+  environmentBlueprintId?: string | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface AwsConsoleLinkParameters {
-  uri?: string;
+  uri?: string | undefined;
 }
 export type ActionParameters = { awsConsoleLink: AwsConsoleLinkParameters };
 export interface CreateEnvironmentActionInput {
@@ -2753,7 +2753,7 @@ export interface CreateEnvironmentActionInput {
   environmentIdentifier: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export type EnvironmentActionId = string;
 export interface CreateEnvironmentActionOutput {
@@ -2762,55 +2762,55 @@ export interface CreateEnvironmentActionOutput {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export type EnvironmentBlueprintName = string;
 export type BlueprintCategory = "TOOLING" | (string & {});
 export interface CreateEnvironmentBlueprintInput {
   domainIdentifier: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provisioningProperties: ProvisioningProperties;
-  userParameters?: CustomParameter[];
-  blueprintCategory?: BlueprintCategory;
+  userParameters?: CustomParameter[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
 }
 export interface CreateEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  userParameters?: CustomParameter[];
-  glossaryTerms?: string[];
-  blueprintCategory?: BlueprintCategory;
-  createdAt?: Date;
-  updatedAt?: Date;
+  deploymentProperties?: DeploymentProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type EnvironmentProfileName = string | redacted.Redacted<string>;
 export interface CreateEnvironmentProfileInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintIdentifier: string;
   projectIdentifier: string;
-  userParameters?: EnvironmentParameter[];
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  userParameters?: EnvironmentParameter[] | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
 }
 export interface CreateEnvironmentProfileOutput {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
-  userParameters?: CustomParameter[];
+  projectId?: string | undefined;
+  userParameters?: CustomParameter[] | undefined;
 }
 export type Smithy = string;
 export type Model = { smithy: string };
@@ -2820,17 +2820,17 @@ export interface CreateFormTypeInput {
   name: string | redacted.Redacted<string>;
   model: Model;
   owningProjectIdentifier: string;
-  status?: FormTypeStatus;
-  description?: string | redacted.Redacted<string>;
+  status?: FormTypeStatus | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateFormTypeOutput {
   domainId: string;
   name: string | redacted.Redacted<string>;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
 }
 export type GlossaryName = string | redacted.Redacted<string>;
 export type GlossaryDescription = string | redacted.Redacted<string>;
@@ -2841,10 +2841,10 @@ export interface CreateGlossaryInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
   owningProjectIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
+  clientToken?: string | undefined;
 }
 export type GlossaryId = string;
 export interface CreateGlossaryOutput {
@@ -2852,25 +2852,25 @@ export interface CreateGlossaryOutput {
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export type GlossaryTermStatus = "ENABLED" | "DISABLED" | (string & {});
 export type LongDescription = string | redacted.Redacted<string>;
 export interface TermRelations {
-  isA?: string[];
-  classifies?: string[];
+  isA?: string[] | undefined;
+  classifies?: string[] | undefined;
 }
 export interface CreateGlossaryTermInput {
   domainIdentifier: string;
   glossaryIdentifier: string;
   name: string | redacted.Redacted<string>;
-  status?: GlossaryTermStatus;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  clientToken?: string;
+  status?: GlossaryTermStatus | undefined;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateGlossaryTermOutput {
   id: string;
@@ -2878,25 +2878,25 @@ export interface CreateGlossaryTermOutput {
   glossaryId: string;
   name: string | redacted.Redacted<string>;
   status: GlossaryTermStatus;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface CreateGroupProfileInput {
   domainIdentifier: string;
-  groupIdentifier?: string;
-  rolePrincipalArn?: string;
-  clientToken?: string;
+  groupIdentifier?: string | undefined;
+  rolePrincipalArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type GroupProfileStatus = "ASSIGNED" | "NOT_ASSIGNED" | (string & {});
 export interface CreateGroupProfileOutput {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export type EntityType = "ASSET" | "DATA_PRODUCT" | (string & {});
 export type ChangeAction = "PUBLISH" | "UNPUBLISH" | (string & {});
@@ -2904,9 +2904,9 @@ export interface CreateListingChangeSetInput {
   domainIdentifier: string;
   entityIdentifier: string;
   entityType: EntityType;
-  entityRevision?: string;
+  entityRevision?: string | undefined;
   action: ChangeAction;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateListingChangeSetOutput {
   listingId: string;
@@ -2925,11 +2925,11 @@ export interface CreateNotebookInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  type?: NotebookType;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  type?: NotebookType | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type NotebookId = string;
 export interface CellInformation {}
@@ -2944,11 +2944,11 @@ export type ComputeId = string;
 export type PackageManager = "UV" | (string & {});
 export interface PackageConfig {
   packageManager: PackageManager;
-  packageSpecification?: string;
+  packageSpecification?: string | undefined;
 }
 export interface EnvironmentConfig {
-  imageVersion?: string;
-  packageConfig?: PackageConfig;
+  imageVersion?: string | undefined;
+  packageConfig?: PackageConfig | undefined;
 }
 export interface NotebookError {
   message: string;
@@ -2964,9 +2964,9 @@ export interface GitMetadata {
   repository: string | redacted.Redacted<string>;
   branch: string | redacted.Redacted<string>;
   commitHash: string;
-  fileName?: string;
-  committedAt?: Date;
-  commitMessage?: string | redacted.Redacted<string>;
+  fileName?: string | undefined;
+  committedAt?: Date | undefined;
+  commitMessage?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateNotebookOutput {
   id: string;
@@ -2975,33 +2975,33 @@ export interface CreateNotebookOutput {
   domainId: string;
   cellOrder: CellInformation[];
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  lockedBy?: string;
-  lockedAt?: Date;
-  lockExpiresAt?: Date;
-  computeId?: string;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  error?: NotebookError;
-  gitMetadata?: GitMetadata;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  lockedBy?: string | undefined;
+  lockedAt?: Date | undefined;
+  lockExpiresAt?: Date | undefined;
+  computeId?: string | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  error?: NotebookError | undefined;
+  gitMetadata?: GitMetadata | undefined;
 }
 export type ProjectProfileId = string;
 export interface EnvironmentResolvedAccount {
   awsAccountId: string;
   regionName: string;
-  sourceAccountPoolId?: string;
+  sourceAccountPoolId?: string | undefined;
 }
 export interface EnvironmentConfigurationUserParameter {
-  environmentId?: string;
-  environmentResolvedAccount?: EnvironmentResolvedAccount;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
-  environmentParameters?: EnvironmentParameter[];
+  environmentId?: string | undefined;
+  environmentResolvedAccount?: EnvironmentResolvedAccount | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
+  environmentParameters?: EnvironmentParameter[] | undefined;
 }
 export type EnvironmentConfigurationUserParametersList = EnvironmentConfigurationUserParameter[];
 export type Member =
@@ -3022,15 +3022,15 @@ export type ProjectMembershipAssignments = ProjectMembershipAssignment[];
 export interface CreateProjectInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  resourceTags?: { [key: string]: string | undefined };
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  projectCategory?: string;
-  projectExecutionRole?: string;
-  membershipAssignments?: ProjectMembershipAssignment[];
+  description?: string | redacted.Redacted<string> | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  projectCategory?: string | undefined;
+  projectExecutionRole?: string | undefined;
+  membershipAssignments?: ProjectMembershipAssignment[] | undefined;
 }
 export type ProjectStatus =
   | "ACTIVE"
@@ -3041,8 +3041,8 @@ export type ProjectStatus =
   | "MOVING"
   | (string & {});
 export interface ProjectDeletionError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type FailureReasons = ProjectDeletionError[];
 export type ResourceTagSource = "PROJECT" | "PROJECT_PROFILE" | (string & {});
@@ -3062,26 +3062,26 @@ export type OverallDeploymentStatus =
 export type EnvironmentFailureReasonsList = EnvironmentError[];
 export type EnvironmentFailureReasons = { [key: string]: EnvironmentError[] | undefined };
 export interface EnvironmentDeploymentDetails {
-  overallDeploymentStatus?: OverallDeploymentStatus;
-  environmentFailureReasons?: { [key: string]: EnvironmentError[] | undefined };
+  overallDeploymentStatus?: OverallDeploymentStatus | undefined;
+  environmentFailureReasons?: { [key: string]: EnvironmentError[] | undefined } | undefined;
 }
 export interface CreateProjectOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  resourceTags?: ResourceTag[];
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  resourceTags?: ResourceTag[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  projectCategory?: string | undefined;
 }
 export interface CreateProjectMembershipInput {
   domainIdentifier: string;
@@ -3102,15 +3102,15 @@ export type DeploymentMode = "ON_CREATE" | "ON_DEMAND" | (string & {});
 export type ParameterStorePath = string;
 export type EnvironmentConfigurationParameterName = string;
 export interface EnvironmentConfigurationParameter {
-  name?: string;
-  value?: string;
-  isEditable?: boolean;
+  name?: string | undefined;
+  value?: string | undefined;
+  isEditable?: boolean | undefined;
 }
 export type EnvironmentConfigurationParametersList = EnvironmentConfigurationParameter[];
 export interface EnvironmentConfigurationParametersDetails {
-  ssmPath?: string;
-  parameterOverrides?: EnvironmentConfigurationParameter[];
-  resolvedParameters?: EnvironmentConfigurationParameter[];
+  ssmPath?: string | undefined;
+  parameterOverrides?: EnvironmentConfigurationParameter[] | undefined;
+  resolvedParameters?: EnvironmentConfigurationParameter[] | undefined;
 }
 export type AwsAccount =
   | { awsAccountId: string; awsAccountIdPath?: never }
@@ -3124,47 +3124,47 @@ const Region = /*@__PURE__*/ __L.at(__c234, 0);
 export type DeploymentOrder = number;
 export interface EnvironmentConfiguration {
   name: string | redacted.Redacted<string>;
-  id?: string | redacted.Redacted<string>;
+  id?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  description?: string | redacted.Redacted<string>;
-  deploymentMode?: DeploymentMode;
-  configurationParameters?: EnvironmentConfigurationParametersDetails;
-  awsAccount?: AwsAccount;
-  accountPools?: string[];
-  awsRegion?: Region;
-  deploymentOrder?: number;
+  description?: string | redacted.Redacted<string> | undefined;
+  deploymentMode?: DeploymentMode | undefined;
+  configurationParameters?: EnvironmentConfigurationParametersDetails | undefined;
+  awsAccount?: AwsAccount | undefined;
+  accountPools?: string[] | undefined;
+  awsRegion?: Region | undefined;
+  deploymentOrder?: number | undefined;
 }
 export type EnvironmentConfigurationsList = EnvironmentConfiguration[];
 export interface CreateProjectProfileInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
-  domainUnitIdentifier?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
+  domainUnitIdentifier?: string | undefined;
 }
 export interface CreateProjectProfileOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export type RuleName = string | redacted.Redacted<string>;
 export interface DomainUnitTarget {
   domainUnitId: string;
-  includeChildDomainUnits?: boolean;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export type RuleTarget = { domainUnitTarget: DomainUnitTarget };
 export type RuleAction =
@@ -3175,17 +3175,17 @@ export type RuleScopeSelectionMode = "ALL" | "SPECIFIC" | (string & {});
 export type RuleAssetTypeList = string[];
 export interface AssetTypesForRule {
   selectionMode: RuleScopeSelectionMode;
-  specificAssetTypes?: string[];
+  specificAssetTypes?: string[] | undefined;
 }
 export type RuleProjectIdentifierList = string[];
 export interface ProjectsForRule {
   selectionMode: RuleScopeSelectionMode;
-  specificProjects?: string[];
+  specificProjects?: string[] | undefined;
 }
 export interface RuleScope {
-  assetType?: AssetTypesForRule;
-  dataProduct?: boolean;
-  project?: ProjectsForRule;
+  assetType?: AssetTypesForRule | undefined;
+  dataProduct?: boolean | undefined;
+  project?: ProjectsForRule | undefined;
 }
 export interface MetadataFormReference {
   typeIdentifier: string;
@@ -3193,11 +3193,11 @@ export interface MetadataFormReference {
 }
 export type RequiredMetadataFormList = MetadataFormReference[];
 export interface MetadataFormEnforcementDetail {
-  requiredMetadataForms?: MetadataFormReference[];
+  requiredMetadataForms?: MetadataFormReference[] | undefined;
 }
 export type GlossaryTermIdentifiers = string[];
 export interface GlossaryTermEnforcementDetail {
-  requiredGlossaryTermIds?: string[];
+  requiredGlossaryTermIds?: string[] | undefined;
 }
 export type RuleDetail =
   | {
@@ -3215,8 +3215,8 @@ export interface CreateRuleInput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export type RuleId = string;
 export type RuleType = "METADATA_FORM_ENFORCEMENT" | "GLOSSARY_TERM_ENFORCEMENT" | (string & {});
@@ -3229,8 +3229,8 @@ export interface CreateRuleOutput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  targetType?: RuleTargetType;
-  description?: string | redacted.Redacted<string>;
+  targetType?: RuleTargetType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   createdBy: string;
 }
@@ -3248,10 +3248,10 @@ export type AssetTargetNames = AssetTargetNameMap[];
 export interface CreateSubscriptionGrantInput {
   domainIdentifier: string;
   environmentIdentifier: string;
-  subscriptionTargetIdentifier?: string;
+  subscriptionTargetIdentifier?: string | undefined;
   grantedEntity: GrantedEntityInput;
-  assetTargetNames?: AssetTargetNameMap[];
-  clientToken?: string;
+  assetTargetNames?: AssetTargetNameMap[] | undefined;
+  clientToken?: string | undefined;
 }
 export type SubscriptionGrantId = string;
 export interface ListingRevision {
@@ -3279,45 +3279,45 @@ export type SubscriptionGrantStatus =
   | "REVOKE_FAILED"
   | (string & {});
 export interface FailureCause {
-  message?: string;
+  message?: string | undefined;
 }
 export interface SubscribedAsset {
   assetId: string;
   assetRevision: string;
   status: SubscriptionGrantStatus;
-  targetName?: string;
-  failureCause?: FailureCause;
-  grantedTimestamp?: Date;
-  failureTimestamp?: Date;
-  assetScope?: AssetScope;
-  permissions?: Permissions;
+  targetName?: string | undefined;
+  failureCause?: FailureCause | undefined;
+  grantedTimestamp?: Date | undefined;
+  failureTimestamp?: Date | undefined;
+  assetScope?: AssetScope | undefined;
+  permissions?: Permissions | undefined;
 }
 export type SubscribedAssets = SubscribedAsset[];
 export interface CreateSubscriptionGrantOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface SubscribedProjectInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export interface SubscribedUserInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export interface SubscribedGroupInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export interface SubscribedIamPrincipalInput {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type SubscribedPrincipalInput =
   | { project: SubscribedProjectInput; user?: never; group?: never; iam?: never }
@@ -3335,15 +3335,15 @@ export interface CreateSubscriptionRequestInput {
   subscribedPrincipals: SubscribedPrincipalInput[];
   subscribedListings: SubscribedListingInput[];
   requestReason: string | redacted.Redacted<string>;
-  clientToken?: string;
-  metadataForms?: FormInput[];
-  assetPermissions?: AssetPermission[];
-  assetScopes?: AcceptedAssetScope[];
+  clientToken?: string | undefined;
+  metadataForms?: FormInput[] | undefined;
+  assetPermissions?: AssetPermission[] | undefined;
+  assetScopes?: AcceptedAssetScope[] | undefined;
 }
 export interface CreateSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -3351,10 +3351,10 @@ export interface CreateSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export type SubscriptionTargetName = string | redacted.Redacted<string>;
 export interface SubscriptionTargetForm {
@@ -3376,9 +3376,9 @@ export interface CreateSubscriptionTargetInput {
   authorizedPrincipals: string[];
   manageAccessRole: string;
   applicableAssetTypes: string[];
-  provider?: string;
-  clientToken?: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  provider?: string | undefined;
+  clientToken?: string | undefined;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export interface CreateSubscriptionTargetOutput {
   id: string;
@@ -3389,22 +3389,22 @@ export interface CreateSubscriptionTargetOutput {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export type UserType = "IAM_USER" | "IAM_ROLE" | "SSO_USER" | "IAM_ROLE_SESSION" | (string & {});
 export interface CreateUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
-  userType?: UserType;
-  sessionName?: string;
-  clientToken?: string;
+  userType?: UserType | undefined;
+  sessionName?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type UserProfileType = "IAM" | "SSO" | (string & {});
 export type UserProfileStatus =
@@ -3414,11 +3414,11 @@ export type UserProfileStatus =
   | "DEACTIVATED"
   | (string & {});
 export interface CreateUserProfileOutput {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export interface DeleteAccountPoolInput {
   domainIdentifier: string;
@@ -3446,7 +3446,7 @@ export interface DeleteConnectionInput {
   identifier: string;
 }
 export interface DeleteConnectionOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeleteDataExportConfigurationInput {
   domainIdentifier: string;
@@ -3460,8 +3460,8 @@ export interface DeleteDataProductOutput {}
 export interface DeleteDataSourceInput {
   domainIdentifier: string;
   identifier: string;
-  clientToken?: string;
-  retainPermissionsOnRevokeFailure?: boolean;
+  clientToken?: string | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export type SelfGrantStatus =
   | "GRANT_PENDING"
@@ -3474,9 +3474,9 @@ export type SelfGrantStatus =
   | (string & {});
 export interface SelfGrantStatusDetail {
   databaseName: string;
-  schemaName?: string;
+  schemaName?: string | undefined;
   status: SelfGrantStatus;
-  failureCause?: string;
+  failureCause?: string | undefined;
 }
 export type SelfGrantStatusDetails = SelfGrantStatusDetail[];
 export interface GlueSelfGrantStatusOutput {
@@ -3490,33 +3490,33 @@ export type SelfGrantStatusOutput =
   | { glueSelfGrantStatus?: never; redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput };
 export interface DeleteDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
-  selfGrantStatus?: SelfGrantStatusOutput;
-  retainPermissionsOnRevokeFailure?: boolean;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  selfGrantStatus?: SelfGrantStatusOutput | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export interface DeleteDomainInput {
   identifier: string;
-  clientToken?: string;
-  skipDeletionCheck?: boolean;
-  cascadeDelete?: boolean;
+  clientToken?: string | undefined;
+  skipDeletionCheck?: boolean | undefined;
+  cascadeDelete?: boolean | undefined;
 }
 export interface DeleteDomainOutput {
   status: DomainStatus;
@@ -3579,9 +3579,9 @@ export type LineageEventProcessingStatus =
   | "FAILED"
   | (string & {});
 export interface DeleteLineageEventOutput {
-  id?: string;
-  domainId?: string;
-  processingStatus?: LineageEventProcessingStatus;
+  id?: string | undefined;
+  domainId?: string | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
 }
 export interface DeleteListingInput {
   domainIdentifier: string;
@@ -3596,7 +3596,7 @@ export interface DeleteNotebookOutput {}
 export interface DeleteProjectInput {
   domainIdentifier: string;
   identifier: string;
-  skipDeletionCheck?: boolean;
+  skipDeletionCheck?: boolean | undefined;
 }
 export interface DeleteProjectOutput {}
 export interface DeleteProjectMembershipInput {
@@ -3622,16 +3622,16 @@ export interface DeleteSubscriptionGrantInput {
 export interface DeleteSubscriptionGrantOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface DeleteSubscriptionRequestInput {
   domainIdentifier: string;
@@ -3650,7 +3650,7 @@ export interface DeleteTimeSeriesDataPointsInput {
   entityIdentifier: string;
   entityType: TimeSeriesEntityType;
   formName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteTimeSeriesDataPointsOutput {}
 export interface DisassociateEnvironmentRoleInput {
@@ -3671,43 +3671,43 @@ export interface GetAccountPoolInput {
   identifier: string;
 }
 export interface GetAccountPoolOutput {
-  domainId?: string;
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
+  domainId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
   accountSource: AccountSource;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  updatedBy?: string;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface GetAssetInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetAssetOutput {
   id: string;
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
+  externalIdentifier?: string | undefined;
   revision: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
-  governedGlossaryTerms?: string[];
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  governedGlossaryTerms?: string[] | undefined;
   owningProjectId: string;
   domainId: string;
-  listing?: AssetListingDetails;
+  listing?: AssetListingDetails | undefined;
   formsOutput: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
 }
 export interface GetAssetFilterInput {
   domainIdentifier: string;
@@ -3719,80 +3719,80 @@ export interface GetAssetFilterOutput {
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
   configuration: AssetFilterConfiguration;
-  createdAt?: Date;
-  errorMessage?: string;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
 }
 export interface GetAssetTypeInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetAssetTypeOutput {
   domainId: string;
   name: string;
   revision: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
   owningProjectId: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetConnectionInput {
   domainIdentifier: string;
   identifier: string;
-  withSecret?: boolean;
+  withSecret?: boolean | undefined;
 }
 export interface ConnectionCredentials {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: Date;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  sessionToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: Date | undefined;
 }
 export interface GetConnectionOutput {
-  connectionCredentials?: ConnectionCredentials;
-  configurations?: Configuration[];
+  connectionCredentials?: ConnectionCredentials | undefined;
+  configurations?: Configuration[] | undefined;
   connectionId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
-  environmentUserRole?: string;
+  environmentId?: string | undefined;
+  environmentUserRole?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export interface GetDataExportConfigurationInput {
   domainIdentifier: string;
 }
 export type ConfigurationStatus = "COMPLETED" | "FAILED" | (string & {});
 export interface EncryptionConfiguration {
-  kmsKeyArn?: string;
-  sseAlgorithm?: string;
+  kmsKeyArn?: string | undefined;
+  sseAlgorithm?: string | undefined;
 }
 export interface GetDataExportConfigurationOutput {
-  isExportEnabled?: boolean;
-  status?: ConfigurationStatus;
-  encryptionConfiguration?: EncryptionConfiguration;
-  s3TableBucketArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  isExportEnabled?: boolean | undefined;
+  status?: ConfigurationStatus | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  s3TableBucketArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetDataProductInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetDataProductOutput {
   domainId: string;
@@ -3801,14 +3801,14 @@ export interface GetDataProductOutput {
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
   status: DataProductStatus;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  items?: DataProductItem[];
-  formsOutput?: FormOutput[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  items?: DataProductItem[] | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
 }
 export interface GetDataSourceInput {
   domainIdentifier: string;
@@ -3816,28 +3816,28 @@ export interface GetDataSourceInput {
 }
 export interface GetDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  lastRunAssetCount?: number;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
-  selfGrantStatus?: SelfGrantStatusOutput;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  lastRunAssetCount?: number | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  selfGrantStatus?: SelfGrantStatusOutput | undefined;
 }
 export type DataSourceRunId = string;
 export interface GetDataSourceRunInput {
@@ -3846,11 +3846,11 @@ export interface GetDataSourceRunInput {
 }
 export type DataSourceRunType = "PRIORITIZED" | "SCHEDULED" | (string & {});
 export interface RunStatisticsForAssets {
-  added?: number;
-  updated?: number;
-  unchanged?: number;
-  skipped?: number;
-  failed?: number;
+  added?: number | undefined;
+  updated?: number | undefined;
+  unchanged?: number | undefined;
+  skipped?: number | undefined;
+  failed?: number | undefined;
 }
 export type LineageImportStatus =
   | "IN_PROGRESS"
@@ -3859,7 +3859,7 @@ export type LineageImportStatus =
   | "PARTIALLY_SUCCEEDED"
   | (string & {});
 export interface DataSourceRunLineageSummary {
-  importStatus?: LineageImportStatus;
+  importStatus?: LineageImportStatus | undefined;
 }
 export interface GetDataSourceRunOutput {
   domainId: string;
@@ -3868,44 +3868,44 @@ export interface GetDataSourceRunOutput {
   projectId: string;
   status: DataSourceRunStatus;
   type: DataSourceRunType;
-  dataSourceConfigurationSnapshot?: string;
-  runStatisticsForAssets?: RunStatisticsForAssets;
-  lineageSummary?: DataSourceRunLineageSummary;
-  errorMessage?: DataSourceErrorMessage;
+  dataSourceConfigurationSnapshot?: string | undefined;
+  runStatisticsForAssets?: RunStatisticsForAssets | undefined;
+  lineageSummary?: DataSourceRunLineageSummary | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
   createdAt: Date;
   updatedAt: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
 }
 export interface GetDomainInput {
   identifier: string;
 }
 export interface FailureReason {
-  id?: string;
-  message?: string;
+  id?: string | undefined;
+  message?: string | undefined;
 }
 export type FailureReasonsList = FailureReason[];
 export interface DeleteProgress {
-  successfullyDeletedProjectCount?: number;
+  successfullyDeletedProjectCount?: number | undefined;
 }
 export interface GetDomainOutput {
   id: string;
-  rootDomainUnitId?: string;
-  name?: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
+  rootDomainUnitId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
   domainExecutionRole: string;
-  arn?: string;
-  kmsKeyIdentifier?: string;
+  arn?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
   status: DomainStatus;
-  portalUrl?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  domainVersion?: DomainVersion;
-  serviceRole?: string;
-  failureReasons?: FailureReason[];
-  deleteProgress?: DeleteProgress;
+  portalUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  domainVersion?: DomainVersion | undefined;
+  serviceRole?: string | undefined;
+  failureReasons?: FailureReason[] | undefined;
+  deleteProgress?: DeleteProgress | undefined;
 }
 export interface GetDomainUnitInput {
   domainIdentifier: string;
@@ -3915,13 +3915,13 @@ export interface GetDomainUnitOutput {
   id: string;
   domainId: string;
   name: string | redacted.Redacted<string>;
-  parentDomainUnitId?: string;
-  description?: string | redacted.Redacted<string>;
+  parentDomainUnitId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   owners: DomainUnitOwnerProperties[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  lastUpdatedBy?: string | undefined;
 }
 export interface GetEnvironmentInput {
   domainIdentifier: string;
@@ -3929,28 +3929,28 @@ export interface GetEnvironmentInput {
 }
 export interface GetEnvironmentOutput {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  provisionedResources?: Resource[];
-  status?: EnvironmentStatus;
-  environmentActions?: ConfigurableEnvironmentAction[];
-  glossaryTerms?: string[];
-  userParameters?: CustomParameter[];
-  lastDeployment?: Deployment;
-  provisioningProperties?: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  environmentBlueprintId?: string;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  provisionedResources?: Resource[] | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentActions?: ConfigurableEnvironmentAction[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  lastDeployment?: Deployment | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
+  environmentBlueprintId?: string | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetEnvironmentActionInput {
   domainIdentifier: string;
@@ -3963,7 +3963,7 @@ export interface GetEnvironmentActionOutput {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetEnvironmentBlueprintInput {
   domainIdentifier: string;
@@ -3972,15 +3972,15 @@ export interface GetEnvironmentBlueprintInput {
 export interface GetEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  userParameters?: CustomParameter[];
-  glossaryTerms?: string[];
-  blueprintCategory?: BlueprintCategory;
-  createdAt?: Date;
-  updatedAt?: Date;
+  deploymentProperties?: DeploymentProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetEnvironmentBlueprintConfigurationInput {
   domainIdentifier: string;
@@ -3996,7 +3996,7 @@ export type ResourceConfigurationParameterMap = { [key: string]: string | undefi
 export interface ResourceConfiguration {
   identifier: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   region: string;
   parameters: { [key: string]: string | undefined };
 }
@@ -4004,34 +4004,36 @@ export type ResourceConfigurations = ResourceConfiguration[];
 export type S3Location = string;
 export type S3LocationList = string[];
 export interface LakeFormationConfiguration {
-  locationRegistrationRole?: string;
-  locationRegistrationExcludeS3Locations?: string[];
+  locationRegistrationRole?: string | undefined;
+  locationRegistrationExcludeS3Locations?: string[] | undefined;
 }
 export type ProvisioningConfiguration = { lakeFormationConfiguration: LakeFormationConfiguration };
 export type ProvisioningConfigurationList = ProvisioningConfiguration[];
 export interface GetEnvironmentBlueprintConfigurationOutput {
   domainId: string;
   environmentBlueprintId: string;
-  provisioningRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
-  manageAccessRoleArn?: string;
-  enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  allowUserProvidedConfigurations?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  resourceConfigurations?: ResourceConfiguration[];
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  provisioningRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  enabledRegions?: string[] | undefined;
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  resourceConfigurations?: ResourceConfiguration[] | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export interface GetEnvironmentCredentialsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
 }
 export interface GetEnvironmentCredentialsOutput {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: Date;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  sessionToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: Date | undefined;
 }
 export interface GetEnvironmentProfileInput {
   domainIdentifier: string;
@@ -4040,21 +4042,21 @@ export interface GetEnvironmentProfileInput {
 export interface GetEnvironmentProfileOutput {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
-  userParameters?: CustomParameter[];
+  projectId?: string | undefined;
+  userParameters?: CustomParameter[] | undefined;
 }
 export interface GetFormTypeInput {
   domainIdentifier: string;
   formTypeIdentifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface Import {
   name: string | redacted.Redacted<string>;
@@ -4066,14 +4068,14 @@ export interface GetFormTypeOutput {
   name: string | redacted.Redacted<string>;
   revision: string;
   model: Model;
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  status?: FormTypeStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  description?: string | redacted.Redacted<string>;
-  imports?: Import[];
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  status?: FormTypeStatus | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  imports?: Import[] | undefined;
 }
 export interface GetGlossaryInput {
   domainIdentifier: string;
@@ -4084,13 +4086,13 @@ export interface GetGlossaryOutput {
   id: string;
   owningProjectId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   status: GlossaryStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface GetGlossaryTermInput {
   domainIdentifier: string;
@@ -4101,33 +4103,33 @@ export interface GetGlossaryTermOutput {
   glossaryId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
   status: GlossaryTermStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface GetGroupProfileInput {
   domainIdentifier: string;
   groupIdentifier: string;
 }
 export interface GetGroupProfileOutput {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export interface GetIamPortalLoginUrlInput {
   domainIdentifier: string;
 }
 export interface GetIamPortalLoginUrlOutput {
-  authCodeUrl?: string;
+  authCodeUrl?: string | undefined;
   userProfileId: string;
 }
 export type RunIdentifier = string;
@@ -4139,14 +4141,14 @@ export type JobType = "LINEAGE" | (string & {});
 export type JobRunMode = "SCHEDULED" | "ON_DEMAND" | (string & {});
 export type FailedQueryProcessingErrorMessages = string[];
 export interface LineageSqlQueryRunDetails {
-  queryStartTime?: Date;
-  queryEndTime?: Date;
-  totalQueriesProcessed?: number;
-  numQueriesFailed?: number;
-  errorMessages?: string[];
+  queryStartTime?: Date | undefined;
+  queryEndTime?: Date | undefined;
+  totalQueriesProcessed?: number | undefined;
+  numQueriesFailed?: number | undefined;
+  errorMessages?: string[] | undefined;
 }
 export interface LineageRunDetails {
-  sqlQueryRunDetails?: LineageSqlQueryRunDetails;
+  sqlQueryRunDetails?: LineageSqlQueryRunDetails | undefined;
 }
 export type JobRunDetails = { lineageRunDetails: LineageRunDetails };
 export type JobRunStatus =
@@ -4163,91 +4165,91 @@ export interface JobRunError {
   message: string;
 }
 export interface GetJobRunOutput {
-  domainId?: string;
-  id?: string;
-  jobId?: string;
-  jobType?: JobType;
-  runMode?: JobRunMode;
-  details?: JobRunDetails;
-  status?: JobRunStatus;
-  error?: JobRunError;
-  createdBy?: string;
-  createdAt?: Date;
-  startTime?: Date;
-  endTime?: Date;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  jobId?: string | undefined;
+  jobType?: JobType | undefined;
+  runMode?: JobRunMode | undefined;
+  details?: JobRunDetails | undefined;
+  status?: JobRunStatus | undefined;
+  error?: JobRunError | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface GetLineageEventInput {
   domainIdentifier: string;
   identifier: string;
 }
 export interface GetLineageEventOutput {
-  domainId?: string;
-  id?: string;
-  event?: T.StreamingOutputBody;
-  createdBy?: string;
-  processingStatus?: LineageEventProcessingStatus;
-  eventTime?: Date;
-  createdAt?: Date;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  event?: T.StreamingOutputBody | undefined;
+  createdBy?: string | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
+  eventTime?: Date | undefined;
+  createdAt?: Date | undefined;
 }
 export type LineageNodeIdentifier = string;
 export interface GetLineageNodeInput {
   domainIdentifier: string;
   identifier: string;
-  eventTimestamp?: Date;
+  eventTimestamp?: Date | undefined;
 }
 export type LineageNodeId = string;
 export interface LineageNodeReference {
-  id?: string;
-  eventTimestamp?: Date;
+  id?: string | undefined;
+  eventTimestamp?: Date | undefined;
 }
 export type LineageNodeReferenceList = LineageNodeReference[];
 export interface GetLineageNodeOutput {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   id: string;
   typeName: string;
-  typeRevision?: string;
-  sourceIdentifier?: string;
-  eventTimestamp?: Date;
-  formsOutput?: FormOutput[];
-  upstreamNodes?: LineageNodeReference[];
-  downstreamNodes?: LineageNodeReference[];
+  typeRevision?: string | undefined;
+  sourceIdentifier?: string | undefined;
+  eventTimestamp?: Date | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  upstreamNodes?: LineageNodeReference[] | undefined;
+  downstreamNodes?: LineageNodeReference[] | undefined;
 }
 export interface GetListingInput {
   domainIdentifier: string;
   identifier: string;
-  listingRevision?: string;
+  listingRevision?: string | undefined;
 }
 export interface AssetListing {
-  assetId?: string;
-  assetRevision?: string;
-  assetType?: string;
-  createdAt?: Date;
-  forms?: string;
-  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[];
-  glossaryTerms?: DetailedGlossaryTerm[];
-  governedGlossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
+  assetId?: string | undefined;
+  assetRevision?: string | undefined;
+  assetType?: string | undefined;
+  createdAt?: Date | undefined;
+  forms?: string | undefined;
+  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  governedGlossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
 }
 export interface ListingSummary {
-  listingId?: string;
-  listingRevision?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
 }
 export type ListingSummaries = ListingSummary[];
 export interface DataProductListing {
-  dataProductId?: string;
-  dataProductRevision?: string;
-  createdAt?: Date;
-  forms?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
-  items?: ListingSummary[];
+  dataProductId?: string | undefined;
+  dataProductRevision?: string | undefined;
+  createdAt?: Date | undefined;
+  forms?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
+  items?: ListingSummary[] | undefined;
 }
 export type ListingItem =
   | { assetListing: AssetListing; dataProductListing?: never }
@@ -4256,14 +4258,14 @@ export interface GetListingOutput {
   domainId: string;
   id: string;
   listingRevision: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  createdBy?: string;
-  updatedBy?: string;
-  item?: ListingItem;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  status?: ListingStatus;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedBy?: string | undefined;
+  item?: ListingItem | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: ListingStatus | undefined;
 }
 export type MetadataGenerationRunType =
   | "BUSINESS_DESCRIPTIONS"
@@ -4273,13 +4275,13 @@ export type MetadataGenerationRunType =
 export interface GetMetadataGenerationRunInput {
   domainIdentifier: string;
   identifier: string;
-  type?: MetadataGenerationRunType;
+  type?: MetadataGenerationRunType | undefined;
 }
 export type MetadataGenerationTargetType = "ASSET" | (string & {});
 export interface MetadataGenerationRunTarget {
   type: MetadataGenerationTargetType;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export type MetadataGenerationRunStatus =
   | "SUBMITTED"
@@ -4293,20 +4295,20 @@ export type MetadataGenerationRunTypes = MetadataGenerationRunType[];
 export interface MetadataGenerationRunTypeStat {
   type: MetadataGenerationRunType;
   status: MetadataGenerationRunStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type MetadataGenerationRunTypeStats = MetadataGenerationRunTypeStat[];
 export interface GetMetadataGenerationRunOutput {
   domainId: string;
   id: string;
-  target?: MetadataGenerationRunTarget;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
-  createdAt?: Date;
-  createdBy?: string;
+  target?: MetadataGenerationRunTarget | undefined;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
   owningProjectId: string;
-  typeStats?: MetadataGenerationRunTypeStat[];
+  typeStats?: MetadataGenerationRunTypeStat[] | undefined;
 }
 export interface GetNotebookInput {
   domainIdentifier: string;
@@ -4319,21 +4321,21 @@ export interface GetNotebookOutput {
   domainId: string;
   cellOrder: CellInformation[];
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  lockedBy?: string;
-  lockedAt?: Date;
-  lockExpiresAt?: Date;
-  computeId?: string;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  error?: NotebookError;
-  gitMetadata?: GitMetadata;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  lockedBy?: string | undefined;
+  lockedAt?: Date | undefined;
+  lockExpiresAt?: Date | undefined;
+  computeId?: string | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  error?: NotebookError | undefined;
+  gitMetadata?: GitMetadata | undefined;
 }
 export type ExportId = string;
 export interface GetNotebookExportInput {
@@ -4344,7 +4346,7 @@ export type FileFormat = "PDF" | "IPYNB" | (string & {});
 export type NotebookExportStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type NotebookS3Uri = string | redacted.Redacted<string>;
 export interface S3Destination {
-  uri?: string | redacted.Redacted<string>;
+  uri?: string | redacted.Redacted<string> | undefined;
 }
 export type OutputLocation = { s3: S3Destination };
 export interface NotebookExportError {
@@ -4358,11 +4360,11 @@ export interface GetNotebookExportOutput {
   notebookId: string;
   fileFormat: FileFormat;
   status: NotebookExportStatus;
-  outputLocation?: OutputLocation;
-  error?: NotebookExportError;
-  completedAt?: Date;
-  createdAt?: Date;
-  createdBy?: string;
+  outputLocation?: OutputLocation | undefined;
+  error?: NotebookExportError | undefined;
+  completedAt?: Date | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type NotebookRunId = string;
 export interface GetNotebookRunInput {
@@ -4381,25 +4383,25 @@ export type NotebookRunStatus =
   | (string & {});
 export type InstanceType = string;
 export interface ComputeConfig {
-  instanceType?: string;
-  environmentVersion?: string;
+  instanceType?: string | undefined;
+  environmentVersion?: string | undefined;
 }
 export type NetworkAccessType = "PUBLIC_INTERNET_ONLY" | "VPC_ONLY" | (string & {});
 export type SubnetIds = string[];
 export type SecurityGroupIds = string[];
 export interface NetworkConfig {
   networkAccessType: NetworkAccessType;
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export interface TimeoutConfig {
-  runTimeoutInMinutes?: number;
+  runTimeoutInMinutes?: number | undefined;
 }
 export type S3Path = string;
 export interface StorageConfig {
-  projectS3Path?: string;
-  kmsKeyArn?: string;
+  projectS3Path?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type NotifyOnState =
   | "SUCCEEDED"
@@ -4416,8 +4418,8 @@ export interface NotificationConfig {
 }
 export type TriggerSourceType = "MANUAL" | "SCHEDULED" | "WORKFLOW" | (string & {});
 export interface TriggerSource {
-  type?: TriggerSourceType;
-  name?: string;
+  type?: TriggerSourceType | undefined;
+  name?: string | undefined;
 }
 export interface NotebookRunError {
   message: string;
@@ -4427,25 +4429,25 @@ export interface GetNotebookRunOutput {
   domainId: string;
   owningProjectId: string;
   notebookId: string;
-  scheduleId?: string;
+  scheduleId?: string | undefined;
   status: NotebookRunStatus;
-  cellOrder?: CellInformation[];
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  computeConfiguration?: ComputeConfig;
-  networkConfiguration?: NetworkConfig;
-  timeoutConfiguration?: TimeoutConfig;
-  environmentConfiguration?: EnvironmentConfig;
-  storageConfiguration?: StorageConfig;
-  notificationConfiguration?: NotificationConfig;
-  triggerSource?: TriggerSource;
-  error?: NotebookRunError;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  completedAt?: Date;
+  cellOrder?: CellInformation[] | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  computeConfiguration?: ComputeConfig | undefined;
+  networkConfiguration?: NetworkConfig | undefined;
+  timeoutConfiguration?: TimeoutConfig | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  storageConfiguration?: StorageConfig | undefined;
+  notificationConfiguration?: NotificationConfig | undefined;
+  triggerSource?: TriggerSource | undefined;
+  error?: NotebookRunError | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export interface GetProjectInput {
   domainIdentifier: string;
@@ -4455,19 +4457,19 @@ export interface GetProjectOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  resourceTags?: ResourceTag[];
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  resourceTags?: ResourceTag[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  projectCategory?: string | undefined;
 }
 export interface GetProjectProfileInput {
   domainIdentifier: string;
@@ -4477,21 +4479,21 @@ export interface GetProjectProfileOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface GetRuleInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetRuleOutput {
   identifier: string;
@@ -4502,8 +4504,8 @@ export interface GetRuleOutput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  targetType?: RuleTargetType;
-  description?: string | redacted.Redacted<string>;
+  targetType?: RuleTargetType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -4516,15 +4518,15 @@ export interface GetSubscriptionInput {
 export interface GetSubscriptionOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export interface GetSubscriptionGrantInput {
   domainIdentifier: string;
@@ -4533,16 +4535,16 @@ export interface GetSubscriptionGrantInput {
 export interface GetSubscriptionGrantOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface GetSubscriptionRequestDetailsInput {
   domainIdentifier: string;
@@ -4551,7 +4553,7 @@ export interface GetSubscriptionRequestDetailsInput {
 export interface GetSubscriptionRequestDetailsOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -4559,10 +4561,10 @@ export interface GetSubscriptionRequestDetailsOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export interface GetSubscriptionTargetInput {
   domainIdentifier: string;
@@ -4578,14 +4580,14 @@ export interface GetSubscriptionTargetOutput {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export type TimeSeriesDataPointIdentifier = string;
 export interface GetTimeSeriesDataPointInput {
@@ -4598,30 +4600,30 @@ export interface GetTimeSeriesDataPointInput {
 export interface TimeSeriesDataPointFormOutput {
   formName: string;
   typeIdentifier: string;
-  typeRevision?: string;
+  typeRevision?: string | undefined;
   timestamp: Date;
-  content?: string;
-  id?: string;
+  content?: string | undefined;
+  id?: string | undefined;
 }
 export interface GetTimeSeriesDataPointOutput {
-  domainId?: string;
-  entityId?: string;
-  entityType?: TimeSeriesEntityType;
-  formName?: string;
-  form?: TimeSeriesDataPointFormOutput;
+  domainId?: string | undefined;
+  entityId?: string | undefined;
+  entityType?: TimeSeriesEntityType | undefined;
+  formName?: string | undefined;
+  form?: TimeSeriesDataPointFormOutput | undefined;
 }
 export interface GetUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
-  type?: UserProfileType;
-  sessionName?: string;
+  type?: UserProfileType | undefined;
+  sessionName?: string | undefined;
 }
 export interface GetUserProfileOutput {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type SortFieldAccountPool = "NAME" | (string & {});
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
@@ -4629,126 +4631,126 @@ export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListAccountPoolsInput {
   domainIdentifier: string;
-  name?: string | redacted.Redacted<string>;
-  sortBy?: SortFieldAccountPool;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | redacted.Redacted<string> | undefined;
+  sortBy?: SortFieldAccountPool | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AccountPoolSummary {
-  domainId?: string;
-  id?: string;
-  name?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
-  domainUnitId?: string;
-  createdBy?: string;
-  updatedBy?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
+  domainUnitId?: string | undefined;
+  createdBy?: string | undefined;
+  updatedBy?: string | undefined;
 }
 export type AccountPoolSummaries = AccountPoolSummary[];
 export interface ListAccountPoolsOutput {
-  items?: AccountPoolSummary[];
-  nextToken?: string;
+  items?: AccountPoolSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAccountsInAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAccountsInAccountPoolOutput {
-  items?: AccountInfo[];
-  nextToken?: string;
+  items?: AccountInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssetFiltersInput {
   domainIdentifier: string;
   assetIdentifier: string;
-  status?: FilterStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: FilterStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetFilterSummary {
   id: string;
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
-  createdAt?: Date;
-  errorMessage?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
 }
 export type AssetFilters = AssetFilterSummary[];
 export interface ListAssetFiltersOutput {
   items: AssetFilterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssetRevisionsInput {
   domainIdentifier: string;
   identifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetRevision {
-  domainId?: string;
-  id?: string;
-  revision?: string;
-  createdBy?: string;
-  createdAt?: Date;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  revision?: string | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type AssetRevisions = AssetRevision[];
 export interface ListAssetRevisionsOutput {
-  items?: AssetRevision[];
-  nextToken?: string;
+  items?: AssetRevision[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SortFieldConnection = "NAME" | (string & {});
 export interface ListConnectionsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortFieldConnection;
-  sortOrder?: SortOrder;
-  name?: string;
-  environmentIdentifier?: string;
-  projectIdentifier?: string;
-  type?: ConnectionType;
-  scope?: ConnectionScope;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortFieldConnection | undefined;
+  sortOrder?: SortOrder | undefined;
+  name?: string | undefined;
+  environmentIdentifier?: string | undefined;
+  projectIdentifier?: string | undefined;
+  type?: ConnectionType | undefined;
+  scope?: ConnectionScope | undefined;
 }
 export interface ConnectionSummary {
-  configurations?: Configuration[];
+  configurations?: Configuration[] | undefined;
   connectionId: string;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export type ConnectionSummaries = ConnectionSummary[];
 export interface ListConnectionsOutput {
   items: ConnectionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataProductRevisionsInput {
   domainIdentifier: string;
   identifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataProductRevision {
-  domainId?: string;
-  id?: string;
-  revision?: string;
-  createdAt?: Date;
-  createdBy?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  revision?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type DataProductRevisions = DataProductRevision[];
 export interface ListDataProductRevisionsOutput {
   items: DataProductRevision[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataAssetActivityStatus =
   | "FAILED"
@@ -4763,15 +4765,15 @@ export type DataAssetActivityStatus =
 export interface ListDataSourceRunActivitiesInput {
   domainIdentifier: string;
   identifier: string;
-  status?: DataAssetActivityStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: DataAssetActivityStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type LineageEventErrorMessage = string;
 export interface LineageInfo {
-  eventId?: string;
-  eventStatus?: LineageEventProcessingStatus;
-  errorMessage?: string;
+  eventId?: string | undefined;
+  eventStatus?: LineageEventProcessingStatus | undefined;
+  errorMessage?: string | undefined;
 }
 export interface DataSourceRunActivity {
   database: string | redacted.Redacted<string>;
@@ -4779,24 +4781,24 @@ export interface DataSourceRunActivity {
   technicalName: string | redacted.Redacted<string>;
   dataAssetStatus: DataAssetActivityStatus;
   projectId: string;
-  dataAssetId?: string;
-  technicalDescription?: string | redacted.Redacted<string>;
-  errorMessage?: DataSourceErrorMessage;
-  lineageSummary?: LineageInfo;
+  dataAssetId?: string | undefined;
+  technicalDescription?: string | redacted.Redacted<string> | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  lineageSummary?: LineageInfo | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type DataSourceRunActivities = DataSourceRunActivity[];
 export interface ListDataSourceRunActivitiesOutput {
   items: DataSourceRunActivity[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourceRunsInput {
   domainIdentifier: string;
   dataSourceIdentifier: string;
-  status?: DataSourceRunStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: DataSourceRunStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataSourceRunSummary {
   id: string;
@@ -4804,83 +4806,83 @@ export interface DataSourceRunSummary {
   type: DataSourceRunType;
   status: DataSourceRunStatus;
   projectId: string;
-  runStatisticsForAssets?: RunStatisticsForAssets;
-  errorMessage?: DataSourceErrorMessage;
+  runStatisticsForAssets?: RunStatisticsForAssets | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
   createdAt: Date;
   updatedAt: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
-  lineageSummary?: DataSourceRunLineageSummary;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
+  lineageSummary?: DataSourceRunLineageSummary | undefined;
 }
 export type DataSourceRunSummaries = DataSourceRunSummary[];
 export interface ListDataSourceRunsOutput {
   items: DataSourceRunSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourcesInput {
   domainIdentifier: string;
   projectIdentifier: string;
-  environmentIdentifier?: string;
-  connectionIdentifier?: string;
-  type?: string;
-  status?: DataSourceStatus;
-  name?: string | redacted.Redacted<string>;
-  nextToken?: string;
-  maxResults?: number;
+  environmentIdentifier?: string | undefined;
+  connectionIdentifier?: string | undefined;
+  type?: string | undefined;
+  status?: DataSourceStatus | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataSourceSummary {
   domainId: string;
-  environmentId?: string;
-  connectionId?: string;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
   dataSourceId: string;
   name: string | redacted.Redacted<string>;
   type: string;
   status: DataSourceStatus;
-  enableSetting?: EnableSetting;
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  lastRunAssetCount?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  description?: string | redacted.Redacted<string>;
+  enableSetting?: EnableSetting | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  lastRunAssetCount?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type DataSourceSummaries = DataSourceSummary[];
 export interface ListDataSourcesOutput {
   items: DataSourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxResultsForListDomains = number;
 export interface ListDomainsInput {
-  status?: DomainStatus;
-  maxResults?: number;
-  nextToken?: string;
+  status?: DomainStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DomainName = string | redacted.Redacted<string>;
 export type DomainDescription = string | redacted.Redacted<string>;
 export interface DomainSummary {
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   arn: string;
   managedAccountId: string;
   status: DomainStatus;
-  portalUrl?: string;
+  portalUrl?: string | undefined;
   createdAt: Date;
-  lastUpdatedAt?: Date;
-  domainVersion?: DomainVersion;
+  lastUpdatedAt?: Date | undefined;
+  domainVersion?: DomainVersion | undefined;
 }
 export type DomainSummaries = DomainSummary[];
 export interface ListDomainsOutput {
   items: DomainSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDomainUnitsForParentInput {
   domainIdentifier: string;
   parentDomainUnitIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DomainUnitSummary {
   name: string;
@@ -4889,20 +4891,20 @@ export interface DomainUnitSummary {
 export type DomainUnitSummaries = DomainUnitSummary[];
 export interface ListDomainUnitsForParentOutput {
   items: DomainUnitSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEntityOwnersInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
   entityIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface OwnerUserPropertiesOutput {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface OwnerGroupPropertiesOutput {
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type OwnerPropertiesOutput =
   | { user: OwnerUserPropertiesOutput; group?: never }
@@ -4910,13 +4912,13 @@ export type OwnerPropertiesOutput =
 export type EntityOwners = OwnerPropertiesOutput[];
 export interface ListEntityOwnersOutput {
   owners: OwnerPropertiesOutput[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentActionsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EnvironmentActionSummary {
   domainId: string;
@@ -4924,156 +4926,158 @@ export interface EnvironmentActionSummary {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export type ListEnvironmentActionSummaries = EnvironmentActionSummary[];
 export interface ListEnvironmentActionsOutput {
-  items?: EnvironmentActionSummary[];
-  nextToken?: string;
+  items?: EnvironmentActionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentBlueprintConfigurationsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EnvironmentBlueprintConfigurationItem {
   domainId: string;
   environmentBlueprintId: string;
-  provisioningRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
-  manageAccessRoleArn?: string;
-  enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  allowUserProvidedConfigurations?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  resourceConfigurations?: ResourceConfiguration[];
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  provisioningRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  enabledRegions?: string[] | undefined;
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  resourceConfigurations?: ResourceConfiguration[] | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export type EnvironmentBlueprintConfigurations = EnvironmentBlueprintConfigurationItem[];
 export interface ListEnvironmentBlueprintConfigurationsOutput {
-  items?: EnvironmentBlueprintConfigurationItem[];
-  nextToken?: string;
+  items?: EnvironmentBlueprintConfigurationItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentBlueprintsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
-  name?: string;
-  managed?: boolean;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  name?: string | undefined;
+  managed?: boolean | undefined;
 }
 export interface EnvironmentBlueprintSummary {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  createdAt?: Date;
-  updatedAt?: Date;
-  blueprintCategory?: BlueprintCategory;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
 }
 export type EnvironmentBlueprintSummaries = EnvironmentBlueprintSummary[];
 export interface ListEnvironmentBlueprintsOutput {
   items: EnvironmentBlueprintSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentProfilesInput {
   domainIdentifier: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
-  environmentBlueprintIdentifier?: string;
-  projectIdentifier?: string;
-  name?: string | redacted.Redacted<string>;
-  nextToken?: string;
-  maxResults?: number;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
+  environmentBlueprintIdentifier?: string | undefined;
+  projectIdentifier?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EnvironmentProfileSummary {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type EnvironmentProfileSummaries = EnvironmentProfileSummary[];
 export interface ListEnvironmentProfilesOutput {
   items: EnvironmentProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentsInput {
   domainIdentifier: string;
-  awsAccountId?: string;
-  status?: EnvironmentStatus;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  awsAccountRegion?: string | undefined;
   projectIdentifier: string;
-  environmentProfileIdentifier?: string;
-  environmentBlueprintIdentifier?: string;
-  provider?: string;
-  name?: string;
-  maxResults?: number;
-  nextToken?: string;
+  environmentProfileIdentifier?: string | undefined;
+  environmentBlueprintIdentifier?: string | undefined;
+  provider?: string | undefined;
+  name?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EnvironmentSummary {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  status?: EnvironmentStatus;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  status?: EnvironmentStatus | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export type EnvironmentSummaries = EnvironmentSummary[];
 export interface ListEnvironmentsOutput {
   items: EnvironmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobRunsInput {
   domainIdentifier: string;
   jobIdentifier: string;
-  status?: JobRunStatus;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  status?: JobRunStatus | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface JobRunSummary {
-  domainId?: string;
-  jobId?: string;
-  jobType?: JobType;
-  runId?: string;
-  runMode?: JobRunMode;
-  status?: JobRunStatus;
-  error?: JobRunError;
-  createdBy?: string;
-  createdAt?: Date;
-  startTime?: Date;
-  endTime?: Date;
+  domainId?: string | undefined;
+  jobId?: string | undefined;
+  jobType?: JobType | undefined;
+  runId?: string | undefined;
+  runMode?: JobRunMode | undefined;
+  status?: JobRunStatus | undefined;
+  error?: JobRunError | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type JobRunSummaries = JobRunSummary[];
 export interface ListJobRunsOutput {
-  items?: JobRunSummary[];
-  nextToken?: string;
+  items?: JobRunSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListLineageEventsInput {
   domainIdentifier: string;
-  maxResults?: number;
-  timestampAfter?: Date;
-  timestampBefore?: Date;
-  processingStatus?: LineageEventProcessingStatus;
-  sortOrder?: SortOrder;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  timestampAfter?: Date | undefined;
+  timestampBefore?: Date | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
 }
 export type OpenLineageRunState =
   | "START"
@@ -5084,126 +5088,126 @@ export type OpenLineageRunState =
   | "OTHER"
   | (string & {});
 export interface NameIdentifier {
-  name?: string;
-  namespace?: string;
+  name?: string | undefined;
+  namespace?: string | undefined;
 }
 export type NameIdentifiers = NameIdentifier[];
 export interface OpenLineageRunEventSummary {
-  eventType?: OpenLineageRunState;
-  runId?: string;
-  job?: NameIdentifier;
-  inputs?: NameIdentifier[];
-  outputs?: NameIdentifier[];
+  eventType?: OpenLineageRunState | undefined;
+  runId?: string | undefined;
+  job?: NameIdentifier | undefined;
+  inputs?: NameIdentifier[] | undefined;
+  outputs?: NameIdentifier[] | undefined;
 }
 export type EventSummary = { openLineageRunEventSummary: OpenLineageRunEventSummary };
 export interface LineageEventSummary {
-  id?: string;
-  domainId?: string;
-  processingStatus?: LineageEventProcessingStatus;
-  eventTime?: Date;
-  eventSummary?: EventSummary;
-  createdBy?: string;
-  createdAt?: Date;
+  id?: string | undefined;
+  domainId?: string | undefined;
+  processingStatus?: LineageEventProcessingStatus | undefined;
+  eventTime?: Date | undefined;
+  eventSummary?: EventSummary | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type LineageEventSummaries = LineageEventSummary[];
 export interface ListLineageEventsOutput {
-  items?: LineageEventSummary[];
-  nextToken?: string;
+  items?: LineageEventSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EdgeDirection = "UPSTREAM" | "DOWNSTREAM" | (string & {});
 export interface ListLineageNodeHistoryInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   identifier: string;
-  direction?: EdgeDirection;
-  eventTimestampGTE?: Date;
-  eventTimestampLTE?: Date;
-  sortOrder?: SortOrder;
+  direction?: EdgeDirection | undefined;
+  eventTimestampGTE?: Date | undefined;
+  eventTimestampLTE?: Date | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface LineageNodeSummary {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   id: string;
   typeName: string;
-  typeRevision?: string;
-  sourceIdentifier?: string;
-  eventTimestamp?: Date;
+  typeRevision?: string | undefined;
+  sourceIdentifier?: string | undefined;
+  eventTimestamp?: Date | undefined;
 }
 export type LineageNodeSummaries = LineageNodeSummary[];
 export interface ListLineageNodeHistoryOutput {
-  nodes?: LineageNodeSummary[];
-  nextToken?: string;
+  nodes?: LineageNodeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMetadataGenerationRunsInput {
   domainIdentifier: string;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  nextToken?: string;
-  maxResults?: number;
-  targetIdentifier?: string;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  targetIdentifier?: string | undefined;
 }
 export interface MetadataGenerationRunItem {
   domainId: string;
   id: string;
-  target?: MetadataGenerationRunTarget;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
-  createdAt?: Date;
-  createdBy?: string;
+  target?: MetadataGenerationRunTarget | undefined;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
   owningProjectId: string;
 }
 export type MetadataGenerationRuns = MetadataGenerationRunItem[];
 export interface ListMetadataGenerationRunsOutput {
-  items?: MetadataGenerationRunItem[];
-  nextToken?: string;
+  items?: MetadataGenerationRunItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListNotebookRunsInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
-  notebookIdentifier?: string;
-  status?: NotebookRunStatus;
-  scheduleIdentifier?: string;
-  maxResults?: number;
-  sortOrder?: SortOrder;
-  nextToken?: string;
+  notebookIdentifier?: string | undefined;
+  status?: NotebookRunStatus | undefined;
+  scheduleIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
 }
 export interface NotebookRunSummary {
   id: string;
   domainId: string;
   owningProjectId: string;
   notebookId: string;
-  scheduleId?: string;
+  scheduleId?: string | undefined;
   status: NotebookRunStatus;
-  triggerSource?: TriggerSource;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  completedAt?: Date;
+  triggerSource?: TriggerSource | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export type NotebookRunSummaryList = NotebookRunSummary[];
 export interface ListNotebookRunsOutput {
-  items?: NotebookRunSummary[];
-  nextToken?: string;
+  items?: NotebookRunSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SortKey = "CREATED_AT" | "UPDATED_AT" | (string & {});
 export interface ListNotebooksInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
-  maxResults?: number;
-  sortOrder?: SortOrder;
-  sortBy?: SortKey;
-  status?: NotebookStatus;
-  type?: NotebookType;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  sortOrder?: SortOrder | undefined;
+  sortBy?: SortKey | undefined;
+  status?: NotebookStatus | undefined;
+  type?: NotebookType | undefined;
+  nextToken?: string | undefined;
 }
 export interface NotebookSummary {
   id: string;
@@ -5211,17 +5215,17 @@ export interface NotebookSummary {
   owningProjectId: string;
   domainId: string;
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type NotebookSummaryList = NotebookSummary[];
 export interface ListNotebooksOutput {
-  items?: NotebookSummary[];
-  nextToken?: string;
+  items?: NotebookSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type NotificationType = "TASK" | "EVENT" | (string & {});
 export type NotificationSubjects = string[];
@@ -5229,19 +5233,19 @@ export type TaskStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface ListNotificationsInput {
   domainIdentifier: string;
   type: NotificationType;
-  afterTimestamp?: Date;
-  beforeTimestamp?: Date;
-  subjects?: string[];
-  taskStatus?: TaskStatus;
-  maxResults?: number;
-  nextToken?: string;
+  afterTimestamp?: Date | undefined;
+  beforeTimestamp?: Date | undefined;
+  subjects?: string[] | undefined;
+  taskStatus?: TaskStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TaskId = string;
 export type NotificationResourceType = "PROJECT" | (string & {});
 export interface NotificationResource {
   type: NotificationResourceType;
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type NotificationRole =
   | "PROJECT_OWNER"
@@ -5266,45 +5270,45 @@ export interface NotificationOutput {
   topic: Topic;
   title: string | redacted.Redacted<string>;
   message: string | redacted.Redacted<string>;
-  status?: TaskStatus;
+  status?: TaskStatus | undefined;
   actionLink: string | redacted.Redacted<string>;
   creationTimestamp: Date;
   lastUpdatedTimestamp: Date;
-  metadata?: { [key: string]: string | undefined };
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type NotificationsList = NotificationOutput[];
 export interface ListNotificationsOutput {
-  notifications?: NotificationOutput[];
-  nextToken?: string;
+  notifications?: NotificationOutput[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPolicyGrantsInput {
   domainIdentifier: string;
   entityType: TargetEntityType;
   entityIdentifier: string;
   policyType: ManagedPolicyType;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PolicyGrantMember {
-  principal?: PolicyGrantPrincipal;
-  detail?: PolicyGrantDetail;
-  createdAt?: Date;
-  createdBy?: string;
-  grantId?: string;
+  principal?: PolicyGrantPrincipal | undefined;
+  detail?: PolicyGrantDetail | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  grantId?: string | undefined;
 }
 export type PolicyGrantList = PolicyGrantMember[];
 export interface ListPolicyGrantsOutput {
   grantList: PolicyGrantMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SortFieldProject = "NAME" | (string & {});
 export interface ListProjectMembershipsInput {
   domainIdentifier: string;
   projectIdentifier: string;
-  sortBy?: SortFieldProject;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  sortBy?: SortFieldProject | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface UserDetails {
   userId: string;
@@ -5322,58 +5326,58 @@ export interface ProjectMember {
 export type ProjectMembers = ProjectMember[];
 export interface ListProjectMembershipsOutput {
   members: ProjectMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListProjectProfilesInput {
   domainIdentifier: string;
-  name?: string | redacted.Redacted<string>;
-  sortBy?: SortFieldProject;
-  sortOrder?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | redacted.Redacted<string> | undefined;
+  sortBy?: SortFieldProject | undefined;
+  sortOrder?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ProjectProfileSummary {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export type ProjectProfileSummaries = ProjectProfileSummary[];
 export interface ListProjectProfilesOutput {
-  items?: ProjectProfileSummary[];
-  nextToken?: string;
+  items?: ProjectProfileSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProjectsInput {
   domainIdentifier: string;
-  userIdentifier?: string;
-  groupIdentifier?: string;
-  name?: string | redacted.Redacted<string>;
-  projectCategory?: string;
-  nextToken?: string;
-  maxResults?: number;
+  userIdentifier?: string | undefined;
+  groupIdentifier?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  projectCategory?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ProjectSummary {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  domainUnitId?: string;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
+  projectCategory?: string | undefined;
 }
 export type ProjectSummaries = ProjectSummary[];
 export interface ListProjectsOutput {
-  items?: ProjectSummary[];
-  nextToken?: string;
+  items?: ProjectSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ProjectIds = string[];
 export type AssetTypeIdentifiers = string[];
@@ -5381,82 +5385,82 @@ export interface ListRulesInput {
   domainIdentifier: string;
   targetType: RuleTargetType;
   targetIdentifier: string;
-  ruleType?: RuleType;
-  action?: RuleAction;
-  projectIds?: string[];
-  assetTypes?: string[];
-  dataProduct?: boolean;
-  includeCascaded?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  ruleType?: RuleType | undefined;
+  action?: RuleAction | undefined;
+  projectIds?: string[] | undefined;
+  assetTypes?: string[] | undefined;
+  dataProduct?: boolean | undefined;
+  includeCascaded?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RuleSummary {
-  identifier?: string;
-  revision?: string;
-  ruleType?: RuleType;
-  name?: string | redacted.Redacted<string>;
-  targetType?: RuleTargetType;
-  target?: RuleTarget;
-  action?: RuleAction;
-  scope?: RuleScope;
-  updatedAt?: Date;
-  lastUpdatedBy?: string;
+  identifier?: string | undefined;
+  revision?: string | undefined;
+  ruleType?: RuleType | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  targetType?: RuleTargetType | undefined;
+  target?: RuleTarget | undefined;
+  action?: RuleAction | undefined;
+  scope?: RuleScope | undefined;
+  updatedAt?: Date | undefined;
+  lastUpdatedBy?: string | undefined;
 }
 export type RuleSummaries = RuleSummary[];
 export interface ListRulesOutput {
   items: RuleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionGrantsInput {
   domainIdentifier: string;
-  environmentId?: string;
-  subscriptionTargetId?: string;
-  subscribedListingId?: string;
-  subscriptionId?: string;
-  owningProjectId?: string;
-  owningIamPrincipalArn?: string;
-  owningUserId?: string;
-  owningGroupId?: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  environmentId?: string | undefined;
+  subscriptionTargetId?: string | undefined;
+  subscribedListingId?: string | undefined;
+  subscriptionId?: string | undefined;
+  owningProjectId?: string | undefined;
+  owningIamPrincipalArn?: string | undefined;
+  owningUserId?: string | undefined;
+  owningGroupId?: string | undefined;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionGrantSummary {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export type SubscriptionGrants = SubscriptionGrantSummary[];
 export interface ListSubscriptionGrantsOutput {
   items: SubscriptionGrantSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionRequestsInput {
   domainIdentifier: string;
-  status?: SubscriptionRequestStatus;
-  subscribedListingId?: string;
-  owningProjectId?: string;
-  owningIamPrincipalArn?: string;
-  approverProjectId?: string;
-  owningUserId?: string;
-  owningGroupId?: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  status?: SubscriptionRequestStatus | undefined;
+  subscribedListingId?: string | undefined;
+  owningProjectId?: string | undefined;
+  owningIamPrincipalArn?: string | undefined;
+  approverProjectId?: string | undefined;
+  owningUserId?: string | undefined;
+  owningGroupId?: string | undefined;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MetadataFormSummary {
-  formName?: string;
+  formName?: string | undefined;
   typeName: string | redacted.Redacted<string>;
   typeRevision: string;
 }
@@ -5464,7 +5468,7 @@ export type MetadataFormsSummary = MetadataFormSummary[];
 export interface SubscriptionRequestSummary {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -5472,56 +5476,56 @@ export interface SubscriptionRequestSummary {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataFormsSummary?: MetadataFormSummary[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataFormsSummary?: MetadataFormSummary[] | undefined;
 }
 export type SubscriptionRequests = SubscriptionRequestSummary[];
 export interface ListSubscriptionRequestsOutput {
   items: SubscriptionRequestSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionsInput {
   domainIdentifier: string;
-  subscriptionRequestIdentifier?: string;
-  status?: SubscriptionStatus;
-  subscribedListingId?: string;
-  owningProjectId?: string;
-  owningIamPrincipalArn?: string;
-  owningUserId?: string;
-  owningGroupId?: string;
-  approverProjectId?: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  subscriptionRequestIdentifier?: string | undefined;
+  status?: SubscriptionStatus | undefined;
+  subscribedListingId?: string | undefined;
+  owningProjectId?: string | undefined;
+  owningIamPrincipalArn?: string | undefined;
+  owningUserId?: string | undefined;
+  owningGroupId?: string | undefined;
+  approverProjectId?: string | undefined;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionSummary {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export type Subscriptions = SubscriptionSummary[];
 export interface ListSubscriptionsOutput {
   items: SubscriptionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionTargetsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
-  sortBy?: SortKey;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: SortKey | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionTargetSummary {
   id: string;
@@ -5532,55 +5536,55 @@ export interface SubscriptionTargetSummary {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export type SubscriptionTargets = SubscriptionTargetSummary[];
 export interface ListSubscriptionTargetsOutput {
   items: SubscriptionTargetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTimeSeriesDataPointsInput {
   domainIdentifier: string;
   entityIdentifier: string;
   entityType: TimeSeriesEntityType;
   formName: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  nextToken?: string;
-  maxResults?: number;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTimeSeriesDataPointsOutput {
-  items?: TimeSeriesDataPointSummaryFormOutput[];
-  nextToken?: string;
+  items?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PostLineageEventInput {
   domainIdentifier: string;
   event: T.StreamingInputBody;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PostLineageEventOutput {
-  id?: string;
-  domainId?: string;
+  id?: string | undefined;
+  domainId?: string | undefined;
 }
 export interface TimeSeriesDataPointFormInput {
   formName: string;
   typeIdentifier: string;
-  typeRevision?: string;
+  typeRevision?: string | undefined;
   timestamp: Date;
-  content?: string;
+  content?: string | undefined;
 }
 export type TimeSeriesDataPointFormInputList = TimeSeriesDataPointFormInput[];
 export interface PostTimeSeriesDataPointsInput {
@@ -5588,25 +5592,25 @@ export interface PostTimeSeriesDataPointsInput {
   entityIdentifier: string;
   entityType: TimeSeriesEntityType;
   forms: TimeSeriesDataPointFormInput[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type TimeSeriesDataPointFormOutputList = TimeSeriesDataPointFormOutput[];
 export interface PostTimeSeriesDataPointsOutput {
-  domainId?: string;
-  entityId?: string;
-  entityType?: TimeSeriesEntityType;
-  forms?: TimeSeriesDataPointFormOutput[];
+  domainId?: string | undefined;
+  entityId?: string | undefined;
+  entityType?: TimeSeriesEntityType | undefined;
+  forms?: TimeSeriesDataPointFormOutput[] | undefined;
 }
 export interface PutDataExportConfigurationInput {
   domainIdentifier: string;
   enableExport: boolean;
-  encryptionConfiguration?: EncryptionConfiguration;
-  clientToken?: string;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutDataExportConfigurationOutput {}
 export interface PutResourceConfiguration {
   name: string;
-  description?: string;
+  description?: string | undefined;
   region: string;
   parameters: { [key: string]: string | undefined };
 }
@@ -5615,45 +5619,49 @@ export type GlobalParameterMap = { [key: string]: string | undefined };
 export interface PutEnvironmentBlueprintConfigurationInput {
   domainIdentifier: string;
   environmentBlueprintIdentifier: string;
-  provisioningRoleArn?: string;
-  manageAccessRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
+  provisioningRoleArn?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
   enabledRegions: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  resourceConfigurations?: PutResourceConfiguration[];
-  allowUserProvidedConfigurations?: boolean;
-  globalParameters?: { [key: string]: string | undefined };
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  resourceConfigurations?: PutResourceConfiguration[] | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  globalParameters?: { [key: string]: string | undefined } | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export interface PutEnvironmentBlueprintConfigurationOutput {
   domainId: string;
   environmentBlueprintId: string;
-  provisioningRoleArn?: string;
-  environmentRolePermissionBoundary?: string;
-  manageAccessRoleArn?: string;
-  enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  allowUserProvidedConfigurations?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  resourceConfigurations?: ResourceConfiguration[];
-  provisioningConfigurations?: ProvisioningConfiguration[];
+  provisioningRoleArn?: string | undefined;
+  environmentRolePermissionBoundary?: string | undefined;
+  manageAccessRoleArn?: string | undefined;
+  enabledRegions?: string[] | undefined;
+  regionalParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  allowUserProvidedConfigurations?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  resourceConfigurations?: ResourceConfiguration[] | undefined;
+  provisioningConfigurations?: ProvisioningConfiguration[] | undefined;
 }
 export type RelationType = "LINEAGE" | (string & {});
 export type RelationDirection = "IN" | "OUT" | (string & {});
 export interface RelationPattern {
   relationType: RelationType;
   relationDirection: RelationDirection;
-  maxPathLength?: number;
+  maxPathLength?: number | undefined;
 }
 export type GraphEntityType = "LINEAGE_NODE" | (string & {});
 export type Attribute = string;
 export type FilterOperator = "EQ" | "LE" | "LT" | "GE" | "GT" | "TEXT_SEARCH" | (string & {});
 export interface Filter {
   attribute: string;
-  value?: string;
-  intValue?: number;
-  operator?: FilterOperator;
+  value?: string | undefined;
+  intValue?: number | undefined;
+  operator?: FilterOperator | undefined;
 }
 export type FilterList = FilterClause[];
 export type FilterClause =
@@ -5663,7 +5671,7 @@ export type FilterClause =
 export interface EntityPattern {
   entityType: GraphEntityType;
   identifier: string;
-  filters?: FilterClause;
+  filters?: FilterClause | undefined;
 }
 export type MatchClause =
   | { relationPattern: RelationPattern; entityPattern?: never }
@@ -5671,57 +5679,57 @@ export type MatchClause =
 export type MatchClauses = MatchClause[];
 export type FormNameList = string[];
 export interface AdditionalAttributes {
-  formNames?: string[];
+  formNames?: string[] | undefined;
 }
 export interface QueryGraphInput {
   domainIdentifier: string;
   match: MatchClause[];
-  maxResults?: number;
-  nextToken?: string;
-  additionalAttributes?: AdditionalAttributes;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  additionalAttributes?: AdditionalAttributes | undefined;
 }
 export type LineageNodeIds = string[];
 export interface LineageNodeItem {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   id: string;
   typeName: string;
-  typeRevision?: string;
-  sourceIdentifier?: string;
-  eventTimestamp?: Date;
-  formsOutput?: FormOutput[];
-  upstreamLineageNodeIds?: string[];
-  downstreamLineageNodeIds?: string[];
+  typeRevision?: string | undefined;
+  sourceIdentifier?: string | undefined;
+  eventTimestamp?: Date | undefined;
+  formsOutput?: FormOutput[] | undefined;
+  upstreamLineageNodeIds?: string[] | undefined;
+  downstreamLineageNodeIds?: string[] | undefined;
 }
 export type ResultItem = { lineageNode: LineageNodeItem };
 export type ResultItemList = ResultItem[];
 export interface QueryGraphOutput {
-  items?: ResultItem[];
-  nextToken?: string;
+  items?: ResultItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RejectRuleBehavior = "ALL" | "NONE" | (string & {});
 export interface RejectRule {
-  rule?: RejectRuleBehavior;
-  threshold?: number;
+  rule?: RejectRuleBehavior | undefined;
+  threshold?: number | undefined;
 }
 export type PredictionChoices = number[];
 export interface RejectChoice {
-  predictionTarget?: string;
-  predictionChoices?: number[];
+  predictionTarget?: string | undefined;
+  predictionChoices?: number[] | undefined;
 }
 export type RejectChoices = RejectChoice[];
 export interface RejectPredictionsInput {
   domainIdentifier: string;
   identifier: string;
-  revision?: string;
-  rejectRule?: RejectRule;
-  rejectChoices?: RejectChoice[];
-  clientToken?: string;
+  revision?: string | undefined;
+  rejectRule?: RejectRule | undefined;
+  rejectChoices?: RejectChoice[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface RejectPredictionsOutput {
   domainId: string;
@@ -5731,12 +5739,12 @@ export interface RejectPredictionsOutput {
 export interface RejectSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
-  decisionComment?: string | redacted.Redacted<string>;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface RejectSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -5744,17 +5752,17 @@ export interface RejectSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export interface RemoveEntityOwnerInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
   entityIdentifier: string;
   owner: OwnerProperties;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface RemoveEntityOwnerOutput {}
 export interface RemovePolicyGrantInput {
@@ -5763,27 +5771,27 @@ export interface RemovePolicyGrantInput {
   entityIdentifier: string;
   policyType: ManagedPolicyType;
   principal: PolicyGrantPrincipal;
-  grantIdentifier?: string;
-  clientToken?: string;
+  grantIdentifier?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface RemovePolicyGrantOutput {}
 export interface RevokeSubscriptionInput {
   domainIdentifier: string;
   identifier: string;
-  retainPermissions?: boolean;
+  retainPermissions?: boolean | undefined;
 }
 export interface RevokeSubscriptionOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionStatus;
   createdAt: Date;
   updatedAt: Date;
   subscribedPrincipal: SubscribedPrincipal;
   subscribedListing: SubscribedListing;
-  subscriptionRequestId?: string;
-  retainPermissions?: boolean;
+  subscriptionRequestId?: string | undefined;
+  retainPermissions?: boolean | undefined;
 }
 export type InventorySearchScope =
   | "ASSET"
@@ -5798,7 +5806,7 @@ export interface SearchInItem {
 export type SearchInList = SearchInItem[];
 export interface SearchSort {
   attribute: string;
-  order?: SortOrder;
+  order?: SortOrder | undefined;
 }
 export type SearchOutputAdditionalAttribute =
   | "FORMS"
@@ -5808,70 +5816,70 @@ export type SearchOutputAdditionalAttribute =
 export type SearchOutputAdditionalAttributes = SearchOutputAdditionalAttribute[];
 export interface SearchInput {
   domainIdentifier: string;
-  owningProjectIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  owningProjectIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   searchScope: InventorySearchScope;
-  searchText?: string;
-  searchIn?: SearchInItem[];
-  filters?: FilterClause;
-  sort?: SearchSort;
-  additionalAttributes?: SearchOutputAdditionalAttribute[];
+  searchText?: string | undefined;
+  searchIn?: SearchInItem[] | undefined;
+  filters?: FilterClause | undefined;
+  sort?: SearchSort | undefined;
+  additionalAttributes?: SearchOutputAdditionalAttribute[] | undefined;
 }
 export interface MatchOffset {
-  startOffset?: number;
-  endOffset?: number;
+  startOffset?: number | undefined;
+  endOffset?: number | undefined;
 }
 export type MatchOffsets = MatchOffset[];
 export interface TextMatchItem {
-  attribute?: string;
-  text?: string;
-  matchOffsets?: MatchOffset[];
+  attribute?: string | undefined;
+  text?: string | undefined;
+  matchOffsets?: MatchOffset[] | undefined;
 }
 export type TextMatches = TextMatchItem[];
 export type MatchRationaleItem = { textMatches: TextMatchItem[] };
 export type MatchRationale = MatchRationaleItem[];
 export interface GlossaryItemAdditionalAttributes {
-  matchRationale?: MatchRationaleItem[];
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface GlossaryItem {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   status: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  additionalAttributes?: GlossaryItemAdditionalAttributes;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  additionalAttributes?: GlossaryItemAdditionalAttributes | undefined;
 }
 export interface GlossaryTermItemAdditionalAttributes {
-  matchRationale?: MatchRationaleItem[];
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface GlossaryTermItem {
   domainId: string;
   glossaryId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
-  usageRestrictions?: GlossaryUsageRestriction[];
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
   status: GlossaryTermStatus;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  additionalAttributes?: GlossaryTermItemAdditionalAttributes;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  additionalAttributes?: GlossaryTermItemAdditionalAttributes | undefined;
 }
 export interface AssetItemAdditionalAttributes {
-  formsOutput?: FormOutput[];
-  readOnlyFormsOutput?: FormOutput[];
-  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
-  matchRationale?: MatchRationaleItem[];
+  formsOutput?: FormOutput[] | undefined;
+  readOnlyFormsOutput?: FormOutput[] | undefined;
+  latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface AssetItem {
   domainId: string;
@@ -5879,32 +5887,32 @@ export interface AssetItem {
   name: string | redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
-  externalIdentifier?: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  glossaryTerms?: string[];
+  externalIdentifier?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  glossaryTerms?: string[] | undefined;
   owningProjectId: string;
-  additionalAttributes?: AssetItemAdditionalAttributes;
-  governedGlossaryTerms?: string[];
+  additionalAttributes?: AssetItemAdditionalAttributes | undefined;
+  governedGlossaryTerms?: string[] | undefined;
 }
 export interface DataProductItemAdditionalAttributes {
-  matchRationale?: MatchRationaleItem[];
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface DataProductResultItem {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
-  glossaryTerms?: string[];
-  createdAt?: Date;
-  createdBy?: string;
-  firstRevisionCreatedAt?: Date;
-  firstRevisionCreatedBy?: string;
-  additionalAttributes?: DataProductItemAdditionalAttributes;
+  description?: string | redacted.Redacted<string> | undefined;
+  glossaryTerms?: string[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  firstRevisionCreatedAt?: Date | undefined;
+  firstRevisionCreatedBy?: string | undefined;
+  additionalAttributes?: DataProductItemAdditionalAttributes | undefined;
 }
 export type SearchInventoryResultItem =
   | {
@@ -5933,9 +5941,9 @@ export type SearchInventoryResultItem =
     };
 export type SearchInventoryResultItems = SearchInventoryResultItem[];
 export interface SearchOutput {
-  items?: SearchInventoryResultItem[];
-  nextToken?: string;
-  totalMatchCount?: number;
+  items?: SearchInventoryResultItem[] | undefined;
+  nextToken?: string | undefined;
+  totalMatchCount?: number | undefined;
 }
 export type GroupSearchType =
   | "SSO_GROUP"
@@ -5946,85 +5954,85 @@ export type GroupSearchText = string | redacted.Redacted<string>;
 export interface SearchGroupProfilesInput {
   domainIdentifier: string;
   groupType: GroupSearchType;
-  searchText?: string | redacted.Redacted<string>;
-  maxResults?: number;
-  nextToken?: string;
+  searchText?: string | redacted.Redacted<string> | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GroupProfileSummary {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export type GroupProfileSummaries = GroupProfileSummary[];
 export interface SearchGroupProfilesOutput {
-  items?: GroupProfileSummary[];
-  nextToken?: string;
+  items?: GroupProfileSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AggregationDisplayValue = string;
 export interface AggregationListItem {
   attribute: string;
-  displayValue?: string;
+  displayValue?: string | undefined;
 }
 export type AggregationList = AggregationListItem[];
 export interface SearchListingsInput {
   domainIdentifier: string;
-  searchText?: string;
-  searchIn?: SearchInItem[];
-  maxResults?: number;
-  nextToken?: string;
-  filters?: FilterClause;
-  aggregations?: AggregationListItem[];
-  sort?: SearchSort;
-  additionalAttributes?: SearchOutputAdditionalAttribute[];
+  searchText?: string | undefined;
+  searchIn?: SearchInItem[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: FilterClause | undefined;
+  aggregations?: AggregationListItem[] | undefined;
+  sort?: SearchSort | undefined;
+  additionalAttributes?: SearchOutputAdditionalAttribute[] | undefined;
 }
 export interface AssetListingItemAdditionalAttributes {
-  forms?: string;
-  matchRationale?: MatchRationaleItem[];
-  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[];
+  forms?: string | undefined;
+  matchRationale?: MatchRationaleItem[] | undefined;
+  latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
 }
 export interface AssetListingItem {
-  listingId?: string;
-  listingRevision?: string;
-  name?: string | redacted.Redacted<string>;
-  entityId?: string;
-  entityRevision?: string;
-  entityType?: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  listingCreatedBy?: string;
-  listingUpdatedBy?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  governedGlossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
-  additionalAttributes?: AssetListingItemAdditionalAttributes;
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  entityType?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  listingCreatedBy?: string | undefined;
+  listingUpdatedBy?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  governedGlossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
+  additionalAttributes?: AssetListingItemAdditionalAttributes | undefined;
 }
 export interface DataProductListingItemAdditionalAttributes {
-  forms?: string;
-  matchRationale?: MatchRationaleItem[];
+  forms?: string | undefined;
+  matchRationale?: MatchRationaleItem[] | undefined;
 }
 export interface ListingSummaryItem {
-  listingId?: string;
-  listingRevision?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
 }
 export type ListingSummaryItems = ListingSummaryItem[];
 export interface DataProductListingItem {
-  listingId?: string;
-  listingRevision?: string;
-  name?: string | redacted.Redacted<string>;
-  entityId?: string;
-  entityRevision?: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  listingCreatedBy?: string;
-  listingUpdatedBy?: string;
-  glossaryTerms?: DetailedGlossaryTerm[];
-  owningProjectId?: string;
-  additionalAttributes?: DataProductListingItemAdditionalAttributes;
-  items?: ListingSummaryItem[];
+  listingId?: string | undefined;
+  listingRevision?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  entityId?: string | undefined;
+  entityRevision?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  listingCreatedBy?: string | undefined;
+  listingUpdatedBy?: string | undefined;
+  glossaryTerms?: DetailedGlossaryTerm[] | undefined;
+  owningProjectId?: string | undefined;
+  additionalAttributes?: DataProductListingItemAdditionalAttributes | undefined;
+  items?: ListingSummaryItem[] | undefined;
 }
 export type SearchResultItem =
   | { assetListing: AssetListingItem; dataProductListing?: never }
@@ -6033,71 +6041,71 @@ export type SearchResultItems = SearchResultItem[];
 export type AggregationAttributeValue = string;
 export type AggregationAttributeDisplayValue = string;
 export interface AggregationOutputItem {
-  value?: string;
-  count?: number;
-  displayValue?: string;
+  value?: string | undefined;
+  count?: number | undefined;
+  displayValue?: string | undefined;
 }
 export type AggregationOutputItems = AggregationOutputItem[];
 export interface AggregationOutput {
-  attribute?: string;
-  displayValue?: string;
-  items?: AggregationOutputItem[];
+  attribute?: string | undefined;
+  displayValue?: string | undefined;
+  items?: AggregationOutputItem[] | undefined;
 }
 export type AggregationOutputList = AggregationOutput[];
 export interface SearchListingsOutput {
-  items?: SearchResultItem[];
-  nextToken?: string;
-  totalMatchCount?: number;
-  aggregates?: AggregationOutput[];
+  items?: SearchResultItem[] | undefined;
+  nextToken?: string | undefined;
+  totalMatchCount?: number | undefined;
+  aggregates?: AggregationOutput[] | undefined;
 }
 export type TypesSearchScope = "ASSET_TYPE" | "FORM_TYPE" | "LINEAGE_NODE_TYPE" | (string & {});
 export interface SearchTypesInput {
   domainIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   searchScope: TypesSearchScope;
-  searchText?: string;
-  searchIn?: SearchInItem[];
-  filters?: FilterClause;
-  sort?: SearchSort;
+  searchText?: string | undefined;
+  searchIn?: SearchInItem[] | undefined;
+  filters?: FilterClause | undefined;
+  sort?: SearchSort | undefined;
   managed: boolean;
 }
 export interface AssetTypeItem {
   domainId: string;
   name: string;
   revision: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
   owningProjectId: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface FormTypeData {
   domainId: string;
   name: string | redacted.Redacted<string>;
   revision: string;
-  model?: Model;
-  status?: FormTypeStatus;
-  owningProjectId?: string;
-  originDomainId?: string;
-  originProjectId?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  description?: string | redacted.Redacted<string>;
-  imports?: Import[];
+  model?: Model | undefined;
+  status?: FormTypeStatus | undefined;
+  owningProjectId?: string | undefined;
+  originDomainId?: string | undefined;
+  originProjectId?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  imports?: Import[] | undefined;
 }
 export interface LineageNodeTypeItem {
   domainId: string;
-  name?: string;
-  description?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   revision: string;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
 }
@@ -6107,9 +6115,9 @@ export type SearchTypesResultItem =
   | { assetTypeItem?: never; formTypeItem?: never; lineageNodeTypeItem: LineageNodeTypeItem };
 export type SearchTypesResultItems = SearchTypesResultItem[];
 export interface SearchTypesOutput {
-  items?: SearchTypesResultItem[];
-  nextToken?: string;
-  totalMatchCount?: number;
+  items?: SearchTypesResultItem[] | undefined;
+  nextToken?: string | undefined;
+  totalMatchCount?: number | undefined;
 }
 export type UserSearchType =
   | "SSO_USER"
@@ -6121,26 +6129,26 @@ export type UserSearchText = string | redacted.Redacted<string>;
 export interface SearchUserProfilesInput {
   domainIdentifier: string;
   userType: UserSearchType;
-  searchText?: string | redacted.Redacted<string>;
-  maxResults?: number;
-  nextToken?: string;
+  searchText?: string | redacted.Redacted<string> | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface UserProfileSummary {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type UserProfileSummaries = UserProfileSummary[];
 export interface SearchUserProfilesOutput {
-  items?: UserProfileSummary[];
-  nextToken?: string;
+  items?: UserProfileSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartDataSourceRunInput {
   domainIdentifier: string;
   dataSourceIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartDataSourceRunOutput {
   domainId: string;
@@ -6149,38 +6157,38 @@ export interface StartDataSourceRunOutput {
   projectId: string;
   status: DataSourceRunStatus;
   type: DataSourceRunType;
-  dataSourceConfigurationSnapshot?: string;
-  runStatisticsForAssets?: RunStatisticsForAssets;
-  errorMessage?: DataSourceErrorMessage;
+  dataSourceConfigurationSnapshot?: string | undefined;
+  runStatisticsForAssets?: RunStatisticsForAssets | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
   createdAt: Date;
   updatedAt: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
 }
 export interface StartMetadataGenerationRunInput {
   domainIdentifier: string;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
   target: MetadataGenerationRunTarget;
-  clientToken?: string;
+  clientToken?: string | undefined;
   owningProjectIdentifier: string;
 }
 export interface StartMetadataGenerationRunOutput {
   domainId: string;
   id: string;
-  status?: MetadataGenerationRunStatus;
-  type?: MetadataGenerationRunType;
-  types?: MetadataGenerationRunType[];
-  createdAt?: Date;
-  createdBy?: string;
-  owningProjectId?: string;
+  status?: MetadataGenerationRunStatus | undefined;
+  type?: MetadataGenerationRunType | undefined;
+  types?: MetadataGenerationRunType[] | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  owningProjectId?: string | undefined;
 }
 export interface StartNotebookExportInput {
   domainIdentifier: string;
   notebookIdentifier: string;
   owningProjectIdentifier: string;
   fileFormat: FileFormat;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookExportOutput {
   id: string;
@@ -6189,8 +6197,8 @@ export interface StartNotebookExportOutput {
   notebookId: string;
   fileFormat: FileFormat;
   status: NotebookExportStatus;
-  createdAt?: Date;
-  createdBy?: string;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type S3SourceLocation = string | redacted.Redacted<string>;
 export type S3BucketName = string | redacted.Redacted<string>;
@@ -6211,87 +6219,87 @@ export interface StartNotebookImportInput {
   owningProjectIdentifier: string;
   sourceLocation: SourceLocation;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  type?: NotebookType;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  type?: NotebookType | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookImportOutput {
-  notebookId?: string;
-  status?: NotebookStatus;
-  domainId?: string;
-  owningProjectId?: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  type?: NotebookType;
-  sourceLocation?: SourceLocation;
-  createdAt?: Date;
-  createdBy?: string;
+  notebookId?: string | undefined;
+  status?: NotebookStatus | undefined;
+  domainId?: string | undefined;
+  owningProjectId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  type?: NotebookType | undefined;
+  sourceLocation?: SourceLocation | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export interface StartNotebookRunInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
   notebookIdentifier: string;
-  scheduleIdentifier?: string;
-  computeConfiguration?: ComputeConfig;
-  networkConfiguration?: NetworkConfig;
-  timeoutConfiguration?: TimeoutConfig;
-  notificationConfiguration?: NotificationConfig;
-  triggerSource?: TriggerSource;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  clientToken?: string;
+  scheduleIdentifier?: string | undefined;
+  computeConfiguration?: ComputeConfig | undefined;
+  networkConfiguration?: NetworkConfig | undefined;
+  timeoutConfiguration?: TimeoutConfig | undefined;
+  notificationConfiguration?: NotificationConfig | undefined;
+  triggerSource?: TriggerSource | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookRunOutput {
   id: string;
   domainId: string;
   owningProjectId: string;
   notebookId: string;
-  scheduleId?: string;
+  scheduleId?: string | undefined;
   status: NotebookRunStatus;
-  cellOrder?: CellInformation[];
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  computeConfiguration?: ComputeConfig;
-  networkConfiguration?: NetworkConfig;
-  timeoutConfiguration?: TimeoutConfig;
-  environmentConfiguration?: EnvironmentConfig;
-  storageConfiguration?: StorageConfig;
-  notificationConfiguration?: NotificationConfig;
-  triggerSource?: TriggerSource;
-  error?: NotebookRunError;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  completedAt?: Date;
+  cellOrder?: CellInformation[] | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  computeConfiguration?: ComputeConfig | undefined;
+  networkConfiguration?: NetworkConfig | undefined;
+  timeoutConfiguration?: TimeoutConfig | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  storageConfiguration?: StorageConfig | undefined;
+  notificationConfiguration?: NotificationConfig | undefined;
+  triggerSource?: TriggerSource | undefined;
+  error?: NotebookRunError | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export interface StartNotebookSyncInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
   sourceLocation: SourceLocation;
-  gitMetadata?: GitMetadata;
-  notebookId?: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  gitMetadata?: GitMetadata | undefined;
+  notebookId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartNotebookSyncOutput {
-  notebookId?: string;
-  status?: NotebookStatus;
-  domainId?: string;
-  owningProjectId?: string;
-  sourceLocation?: SourceLocation;
-  gitMetadata?: GitMetadata;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
+  notebookId?: string | undefined;
+  status?: NotebookStatus | undefined;
+  domainId?: string | undefined;
+  owningProjectId?: string | undefined;
+  sourceLocation?: SourceLocation | undefined;
+  gitMetadata?: GitMetadata | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export interface StopNotebookRunInput {
   domainIdentifier: string;
   identifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StopNotebookRunOutput {
   id: string;
@@ -6313,115 +6321,115 @@ export interface UntagResourceResponse {}
 export interface UpdateAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
-  accountSource?: AccountSource;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
+  accountSource?: AccountSource | undefined;
 }
 export interface UpdateAccountPoolOutput {
-  domainId?: string;
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  description?: string | redacted.Redacted<string>;
-  resolutionStrategy?: ResolutionStrategy;
+  domainId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resolutionStrategy?: ResolutionStrategy | undefined;
   accountSource: AccountSource;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  updatedBy?: string;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface UpdateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  configuration?: AssetFilterConfiguration;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  configuration?: AssetFilterConfiguration | undefined;
 }
 export interface UpdateAssetFilterOutput {
   id: string;
   domainId: string;
   assetId: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: FilterStatus;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: FilterStatus | undefined;
   configuration: AssetFilterConfiguration;
-  createdAt?: Date;
-  errorMessage?: string;
-  effectiveColumnNames?: string[];
-  effectiveRowFilter?: string;
+  createdAt?: Date | undefined;
+  errorMessage?: string | undefined;
+  effectiveColumnNames?: string[] | undefined;
+  effectiveRowFilter?: string | undefined;
 }
 export interface AthenaPropertiesPatch {
-  workgroupName?: string;
+  workgroupName?: string | undefined;
 }
 export interface AuthenticationConfigurationPatch {
-  secretArn?: string;
-  basicAuthenticationCredentials?: BasicAuthenticationCredentials;
+  secretArn?: string | undefined;
+  basicAuthenticationCredentials?: BasicAuthenticationCredentials | undefined;
 }
 export interface GlueConnectionPatch {
-  description?: string;
-  connectionProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationPatch;
+  description?: string | undefined;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationPatch | undefined;
 }
 export interface GluePropertiesPatch {
-  glueConnectionInput?: GlueConnectionPatch;
+  glueConnectionInput?: GlueConnectionPatch | undefined;
 }
 export interface IamPropertiesPatch {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface RedshiftPropertiesPatch {
-  storage?: RedshiftStorageProperties;
-  databaseName?: string;
-  host?: string;
-  port?: number;
-  credentials?: RedshiftCredentials;
-  lineageSync?: RedshiftLineageSyncConfigurationInput;
+  storage?: RedshiftStorageProperties | undefined;
+  databaseName?: string | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
+  credentials?: RedshiftCredentials | undefined;
+  lineageSync?: RedshiftLineageSyncConfigurationInput | undefined;
 }
 export interface SparkEmrPropertiesPatch {
-  computeArn?: string;
-  instanceProfileArn?: string;
-  javaVirtualEnv?: string;
-  logUri?: string;
-  pythonVirtualEnv?: string;
-  runtimeRole?: string;
-  trustedCertificatesS3Uri?: string;
-  managedEndpointArn?: string;
+  computeArn?: string | undefined;
+  instanceProfileArn?: string | undefined;
+  javaVirtualEnv?: string | undefined;
+  logUri?: string | undefined;
+  pythonVirtualEnv?: string | undefined;
+  runtimeRole?: string | undefined;
+  trustedCertificatesS3Uri?: string | undefined;
+  managedEndpointArn?: string | undefined;
 }
 export interface S3PropertiesPatch {
   s3Uri: string;
-  s3AccessGrantLocationId?: string;
-  registerS3AccessGrantLocation?: boolean;
+  s3AccessGrantLocationId?: string | undefined;
+  registerS3AccessGrantLocation?: boolean | undefined;
 }
 export interface ConnectivityPropertiesPatch {
-  description?: string;
-  connectionProperties?: { [key: string]: string | undefined };
-  authenticationConfiguration?: AuthenticationConfigurationPatch;
+  description?: string | undefined;
+  connectionProperties?: { [key: string]: string | undefined } | undefined;
+  authenticationConfiguration?: AuthenticationConfigurationPatch | undefined;
 }
 export interface SnowflakePropertiesPatch {
-  connectivityPropertiesPatch?: ConnectivityPropertiesPatch;
-  snowflakeRole?: string;
-  lineageSync?: LineageSyncInput;
+  connectivityPropertiesPatch?: ConnectivityPropertiesPatch | undefined;
+  snowflakeRole?: string | undefined;
+  lineageSync?: LineageSyncInput | undefined;
 }
 export interface AmazonQPropertiesPatch {
   isEnabled: boolean;
-  profileArn?: string;
-  authMode?: string;
+  profileArn?: string | undefined;
+  authMode?: string | undefined;
 }
 export interface MlflowPropertiesPatch {
-  trackingServerArn?: string;
+  trackingServerArn?: string | undefined;
 }
 export interface LakehousePropertiesPatch {
-  glueLineageSyncEnabled?: boolean;
+  glueLineageSyncEnabled?: boolean | undefined;
 }
 export interface VpcPropertiesPatch {
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupId?: string;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupId?: string | undefined;
 }
 export interface GitPropertiesPatch {
-  codeConnectionArn?: string;
-  defaultBranch?: string;
+  codeConnectionArn?: string | undefined;
+  defaultBranch?: string | undefined;
 }
 export type ConnectionPropertiesPatch =
   | {
@@ -6593,144 +6601,144 @@ export type ConnectionPropertiesPatch =
       gitProperties: GitPropertiesPatch;
     };
 export interface UpdateConnectionInput {
-  configurations?: Configuration[];
+  configurations?: Configuration[] | undefined;
   domainIdentifier: string;
   identifier: string;
-  description?: string | redacted.Redacted<string>;
-  awsLocation?: AwsLocation;
-  props?: ConnectionPropertiesPatch;
+  description?: string | redacted.Redacted<string> | undefined;
+  awsLocation?: AwsLocation | undefined;
+  props?: ConnectionPropertiesPatch | undefined;
 }
 export interface UpdateConnectionOutput {
-  configurations?: Configuration[];
+  configurations?: Configuration[] | undefined;
   connectionId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   domainUnitId: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   name: string;
   physicalEndpoints: PhysicalEndpoint[];
-  projectId?: string;
-  props?: ConnectionPropertiesOutput;
+  projectId?: string | undefined;
+  props?: ConnectionPropertiesOutput | undefined;
   type: ConnectionType;
-  scope?: ConnectionScope;
+  scope?: ConnectionScope | undefined;
 }
 export interface UpdateDataSourceInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsInput?: FormInput[];
-  schedule?: ScheduleConfiguration;
-  configuration?: DataSourceConfigurationInput;
-  recommendation?: RecommendationConfiguration;
-  retainPermissionsOnRevokeFailure?: boolean;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsInput?: FormInput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  configuration?: DataSourceConfigurationInput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export interface UpdateDataSourceOutput {
   id: string;
-  status?: DataSourceStatus;
-  type?: string;
+  status?: DataSourceStatus | undefined;
+  type?: string | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   domainId: string;
   projectId: string;
-  environmentId?: string;
-  connectionId?: string;
-  configuration?: DataSourceConfigurationOutput;
-  recommendation?: RecommendationConfiguration;
-  enableSetting?: EnableSetting;
-  publishOnImport?: boolean;
-  assetFormsOutput?: FormOutput[];
-  schedule?: ScheduleConfiguration;
-  lastRunStatus?: DataSourceRunStatus;
-  lastRunAt?: Date;
-  lastRunErrorMessage?: DataSourceErrorMessage;
-  errorMessage?: DataSourceErrorMessage;
-  createdAt?: Date;
-  updatedAt?: Date;
-  selfGrantStatus?: SelfGrantStatusOutput;
-  retainPermissionsOnRevokeFailure?: boolean;
+  environmentId?: string | undefined;
+  connectionId?: string | undefined;
+  configuration?: DataSourceConfigurationOutput | undefined;
+  recommendation?: RecommendationConfiguration | undefined;
+  enableSetting?: EnableSetting | undefined;
+  publishOnImport?: boolean | undefined;
+  assetFormsOutput?: FormOutput[] | undefined;
+  schedule?: ScheduleConfiguration | undefined;
+  lastRunStatus?: DataSourceRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  lastRunErrorMessage?: DataSourceErrorMessage | undefined;
+  errorMessage?: DataSourceErrorMessage | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  selfGrantStatus?: SelfGrantStatusOutput | undefined;
+  retainPermissionsOnRevokeFailure?: boolean | undefined;
 }
 export interface UpdateDomainInput {
   identifier: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  serviceRole?: string;
-  name?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  serviceRole?: string | undefined;
+  name?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateDomainOutput {
   id: string;
-  rootDomainUnitId?: string;
-  description?: string;
-  singleSignOn?: SingleSignOn;
-  domainExecutionRole?: string;
-  serviceRole?: string;
-  name?: string;
-  lastUpdatedAt?: Date;
+  rootDomainUnitId?: string | undefined;
+  description?: string | undefined;
+  singleSignOn?: SingleSignOn | undefined;
+  domainExecutionRole?: string | undefined;
+  serviceRole?: string | undefined;
+  name?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface UpdateDomainUnitInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string | redacted.Redacted<string>;
-  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateDomainUnitOutput {
   id: string;
   domainId: string;
   name: string | redacted.Redacted<string>;
   owners: DomainUnitOwnerProperties[];
-  description?: string | redacted.Redacted<string>;
-  parentDomainUnitId?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  parentDomainUnitId?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  lastUpdatedBy?: string | undefined;
 }
 export interface UpdateEnvironmentInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
-  glossaryTerms?: string[];
-  blueprintVersion?: string;
-  userParameters?: EnvironmentParameter[];
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  name?: string | undefined;
+  description?: string | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintVersion?: string | undefined;
+  userParameters?: EnvironmentParameter[] | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateEnvironmentOutput {
   projectId: string;
-  id?: string;
+  id?: string | undefined;
   domainId: string;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  environmentProfileId?: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  environmentProfileId?: string | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   provider: string;
-  provisionedResources?: Resource[];
-  status?: EnvironmentStatus;
-  environmentActions?: ConfigurableEnvironmentAction[];
-  glossaryTerms?: string[];
-  userParameters?: CustomParameter[];
-  lastDeployment?: Deployment;
-  provisioningProperties?: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  environmentBlueprintId?: string;
-  environmentConfigurationId?: string | redacted.Redacted<string>;
-  environmentConfigurationName?: string | redacted.Redacted<string>;
+  provisionedResources?: Resource[] | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentActions?: ConfigurableEnvironmentAction[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  lastDeployment?: Deployment | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  deploymentProperties?: DeploymentProperties | undefined;
+  environmentBlueprintId?: string | undefined;
+  environmentConfigurationId?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateEnvironmentActionInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
-  parameters?: ActionParameters;
-  name?: string;
-  description?: string;
+  parameters?: ActionParameters | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateEnvironmentActionOutput {
   domainId: string;
@@ -6738,78 +6746,78 @@ export interface UpdateEnvironmentActionOutput {
   id: string;
   name: string;
   parameters: ActionParameters;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateEnvironmentBlueprintInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string;
-  provisioningProperties?: ProvisioningProperties;
-  userParameters?: CustomParameter[];
-  blueprintCategory?: BlueprintCategory;
+  description?: string | undefined;
+  provisioningProperties?: ProvisioningProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
 }
 export interface UpdateEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   provider: string;
   provisioningProperties: ProvisioningProperties;
-  deploymentProperties?: DeploymentProperties;
-  userParameters?: CustomParameter[];
-  glossaryTerms?: string[];
-  blueprintCategory?: BlueprintCategory;
-  createdAt?: Date;
-  updatedAt?: Date;
+  deploymentProperties?: DeploymentProperties | undefined;
+  userParameters?: CustomParameter[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  blueprintCategory?: BlueprintCategory | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateEnvironmentProfileInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string;
-  userParameters?: EnvironmentParameter[];
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | undefined;
+  userParameters?: EnvironmentParameter[] | undefined;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
 }
 export interface UpdateEnvironmentProfileOutput {
   id: string;
   domainId: string;
-  awsAccountId?: string;
-  awsAccountRegion?: string;
+  awsAccountId?: string | undefined;
+  awsAccountRegion?: string | undefined;
   createdBy: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   environmentBlueprintId: string;
-  projectId?: string;
-  userParameters?: CustomParameter[];
+  projectId?: string | undefined;
+  userParameters?: CustomParameter[] | undefined;
 }
 export interface UpdateGlossaryInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  clientToken?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateGlossaryOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string | redacted.Redacted<string>;
-  status?: GlossaryStatus;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: GlossaryStatus | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface UpdateGlossaryTermInput {
   domainIdentifier: string;
-  glossaryIdentifier?: string;
+  glossaryIdentifier?: string | undefined;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  status?: GlossaryTermStatus;
+  name?: string | redacted.Redacted<string> | undefined;
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  status?: GlossaryTermStatus | undefined;
 }
 export interface UpdateGlossaryTermOutput {
   id: string;
@@ -6817,10 +6825,10 @@ export interface UpdateGlossaryTermOutput {
   glossaryId: string;
   name: string | redacted.Redacted<string>;
   status: GlossaryTermStatus;
-  shortDescription?: string | redacted.Redacted<string>;
-  longDescription?: string | redacted.Redacted<string>;
-  termRelations?: TermRelations;
-  usageRestrictions?: GlossaryUsageRestriction[];
+  shortDescription?: string | redacted.Redacted<string> | undefined;
+  longDescription?: string | redacted.Redacted<string> | undefined;
+  termRelations?: TermRelations | undefined;
+  usageRestrictions?: GlossaryUsageRestriction[] | undefined;
 }
 export interface UpdateGroupProfileInput {
   domainIdentifier: string;
@@ -6828,25 +6836,25 @@ export interface UpdateGroupProfileInput {
   status: GroupProfileStatus;
 }
 export interface UpdateGroupProfileOutput {
-  domainId?: string;
-  id?: string;
-  status?: GroupProfileStatus;
-  groupName?: string | redacted.Redacted<string>;
-  rolePrincipalArn?: string;
-  rolePrincipalId?: string;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  status?: GroupProfileStatus | undefined;
+  groupName?: string | redacted.Redacted<string> | undefined;
+  rolePrincipalArn?: string | undefined;
+  rolePrincipalId?: string | undefined;
 }
 export interface UpdateNotebookInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string | redacted.Redacted<string>;
-  status?: NotebookStatus;
-  name?: string | redacted.Redacted<string>;
-  cellOrder?: CellInformation[];
-  type?: NotebookType;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: NotebookStatus | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  cellOrder?: CellInformation[] | undefined;
+  type?: NotebookType | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateNotebookOutput {
   id: string;
@@ -6855,94 +6863,94 @@ export interface UpdateNotebookOutput {
   domainId: string;
   cellOrder: CellInformation[];
   status: NotebookStatus;
-  type?: NotebookType;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  lockedBy?: string;
-  lockedAt?: Date;
-  lockExpiresAt?: Date;
-  computeId?: string;
-  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  parameters?: { [key: string]: string | undefined };
-  environmentConfiguration?: EnvironmentConfig;
-  error?: NotebookError;
-  gitMetadata?: GitMetadata;
+  type?: NotebookType | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  lockedBy?: string | undefined;
+  lockedAt?: Date | undefined;
+  lockExpiresAt?: Date | undefined;
+  computeId?: string | undefined;
+  metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  environmentConfiguration?: EnvironmentConfig | undefined;
+  error?: NotebookError | undefined;
+  gitMetadata?: GitMetadata | undefined;
 }
 export interface UpdateProjectInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  resourceTags?: { [key: string]: string | undefined };
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  projectProfileVersion?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  projectProfileVersion?: string | undefined;
 }
 export interface UpdateProjectOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  projectStatus?: ProjectStatus;
-  failureReasons?: ProjectDeletionError[];
+  description?: string | redacted.Redacted<string> | undefined;
+  projectStatus?: ProjectStatus | undefined;
+  failureReasons?: ProjectDeletionError[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  resourceTags?: ResourceTag[];
-  glossaryTerms?: string[];
-  domainUnitId?: string;
-  projectProfileId?: string;
-  userParameters?: EnvironmentConfigurationUserParameter[];
-  environmentDeploymentDetails?: EnvironmentDeploymentDetails;
-  projectCategory?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  resourceTags?: ResourceTag[] | undefined;
+  glossaryTerms?: string[] | undefined;
+  domainUnitId?: string | undefined;
+  projectProfileId?: string | undefined;
+  userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
+  environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
+  projectCategory?: string | undefined;
 }
 export interface UpdateProjectProfileInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
-  domainUnitIdentifier?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
+  domainUnitIdentifier?: string | undefined;
 }
 export interface UpdateProjectProfileOutput {
   domainId: string;
   id: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  status?: Status;
-  projectResourceTags?: ResourceTagParameter[];
-  allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string | redacted.Redacted<string>;
-  environmentConfigurations?: EnvironmentConfiguration[];
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: Status | undefined;
+  projectResourceTags?: ResourceTagParameter[] | undefined;
+  allowCustomProjectResourceTags?: boolean | undefined;
+  projectResourceTagsDescription?: string | redacted.Redacted<string> | undefined;
+  environmentConfigurations?: EnvironmentConfiguration[] | undefined;
   createdBy: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  domainUnitId?: string;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  domainUnitId?: string | undefined;
 }
 export interface UpdateRootDomainUnitOwnerInput {
   domainIdentifier: string;
   currentOwner: string;
   newOwner: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateRootDomainUnitOwnerOutput {}
 export interface UpdateRuleInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  scope?: RuleScope;
-  detail?: RuleDetail;
-  includeChildDomainUnits?: boolean;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  scope?: RuleScope | undefined;
+  detail?: RuleDetail | undefined;
+  includeChildDomainUnits?: boolean | undefined;
 }
 export interface UpdateRuleOutput {
   identifier: string;
@@ -6953,7 +6961,7 @@ export interface UpdateRuleOutput {
   action: RuleAction;
   scope: RuleScope;
   detail: RuleDetail;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -6964,22 +6972,22 @@ export interface UpdateSubscriptionGrantStatusInput {
   identifier: string;
   assetIdentifier: string;
   status: SubscriptionGrantStatus;
-  failureCause?: FailureCause;
-  targetName?: string;
+  failureCause?: FailureCause | undefined;
+  targetName?: string | undefined;
 }
 export interface UpdateSubscriptionGrantStatusOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   createdAt: Date;
   updatedAt: Date;
-  environmentId?: string;
+  environmentId?: string | undefined;
   subscriptionTargetId: string;
   grantedEntity: GrantedEntity;
   status: SubscriptionGrantOverallStatus;
-  assets?: SubscribedAsset[];
-  subscriptionId?: string;
+  assets?: SubscribedAsset[] | undefined;
+  subscriptionId?: string | undefined;
 }
 export interface UpdateSubscriptionRequestInput {
   domainIdentifier: string;
@@ -6989,7 +6997,7 @@ export interface UpdateSubscriptionRequestInput {
 export interface UpdateSubscriptionRequestOutput {
   id: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   domainId: string;
   status: SubscriptionRequestStatus;
   createdAt: Date;
@@ -6997,22 +7005,22 @@ export interface UpdateSubscriptionRequestOutput {
   requestReason: string | redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipal[];
   subscribedListings: SubscribedListing[];
-  reviewerId?: string;
-  decisionComment?: string | redacted.Redacted<string>;
-  existingSubscriptionId?: string;
-  metadataForms?: FormOutput[];
+  reviewerId?: string | undefined;
+  decisionComment?: string | redacted.Redacted<string> | undefined;
+  existingSubscriptionId?: string | undefined;
+  metadataForms?: FormOutput[] | undefined;
 }
 export interface UpdateSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
-  name?: string | redacted.Redacted<string>;
-  authorizedPrincipals?: string[];
-  applicableAssetTypes?: string[];
-  subscriptionTargetConfig?: SubscriptionTargetForm[];
-  manageAccessRole?: string;
-  provider?: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  name?: string | redacted.Redacted<string> | undefined;
+  authorizedPrincipals?: string[] | undefined;
+  applicableAssetTypes?: string[] | undefined;
+  subscriptionTargetConfig?: SubscriptionTargetForm[] | undefined;
+  manageAccessRole?: string | undefined;
+  provider?: string | undefined;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export interface UpdateSubscriptionTargetOutput {
   id: string;
@@ -7023,28 +7031,28 @@ export interface UpdateSubscriptionTargetOutput {
   name: string | redacted.Redacted<string>;
   type: string;
   createdBy: string;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   createdAt: Date;
-  updatedAt?: Date;
-  manageAccessRole?: string;
+  updatedAt?: Date | undefined;
+  manageAccessRole?: string | undefined;
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
-  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode | undefined;
 }
 export interface UpdateUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
-  type?: UserProfileType;
+  type?: UserProfileType | undefined;
   status: UserProfileStatus;
-  sessionName?: string;
+  sessionName?: string | undefined;
 }
 export interface UpdateUserProfileOutput {
-  domainId?: string;
-  id?: string;
-  type?: UserProfileType;
-  status?: UserProfileStatus;
-  details?: UserProfileDetails;
+  domainId?: string | undefined;
+  id?: string | undefined;
+  type?: UserProfileType | undefined;
+  status?: UserProfileStatus | undefined;
+  details?: UserProfileDetails | undefined;
 }
 export type ErrorMessage = string;
 export type AcceptPredictionsError =

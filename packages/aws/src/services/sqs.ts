@@ -391,7 +391,7 @@ export interface CancelMessageMoveTaskRequest {
   TaskHandle: string;
 }
 export interface CancelMessageMoveTaskResult {
-  ApproximateNumberOfMessagesMoved?: number;
+  ApproximateNumberOfMessagesMoved?: number | undefined;
 }
 export interface ChangeMessageVisibilityRequest {
   QueueUrl: string;
@@ -402,7 +402,7 @@ export interface ChangeMessageVisibilityResponse {}
 export interface ChangeMessageVisibilityBatchRequestEntry {
   Id: string;
   ReceiptHandle: string;
-  VisibilityTimeout?: number;
+  VisibilityTimeout?: number | undefined;
 }
 export type ChangeMessageVisibilityBatchRequestEntryList =
   ChangeMessageVisibilityBatchRequestEntry[];
@@ -418,12 +418,12 @@ export interface BatchResultErrorEntry {
   Id: string;
   SenderFault: boolean;
   Code: string;
-  Message?: string;
+  Message?: string | undefined;
 }
 export type BatchResultErrorEntryList = BatchResultErrorEntry[];
 export interface ChangeMessageVisibilityBatchResult {
-  Successful?: ChangeMessageVisibilityBatchResultEntry[];
-  Failed?: BatchResultErrorEntry[];
+  Successful?: ChangeMessageVisibilityBatchResultEntry[] | undefined;
+  Failed?: BatchResultErrorEntry[] | undefined;
 }
 export type QueueAttributeName =
   | "All"
@@ -449,17 +449,17 @@ export type QueueAttributeName =
   | "RedriveAllowPolicy"
   | "SqsManagedSseEnabled"
   | (string & {});
-export type QueueAttributeMap = { [key in QueueAttributeName]?: string };
+export type QueueAttributeMap = { [key in QueueAttributeName]?: string | undefined };
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateQueueRequest {
   QueueName: string;
-  Attributes?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateQueueResult {
-  QueueUrl?: string;
+  QueueUrl?: string | undefined;
 }
 export interface DeleteMessageRequest {
   QueueUrl: string;
@@ -480,8 +480,8 @@ export interface DeleteMessageBatchResultEntry {
 }
 export type DeleteMessageBatchResultEntryList = DeleteMessageBatchResultEntry[];
 export interface DeleteMessageBatchResult {
-  Successful?: DeleteMessageBatchResultEntry[];
-  Failed?: BatchResultErrorEntry[];
+  Successful?: DeleteMessageBatchResultEntry[] | undefined;
+  Failed?: BatchResultErrorEntry[] | undefined;
 }
 export interface DeleteQueueRequest {
   QueueUrl: string;
@@ -490,63 +490,63 @@ export interface DeleteQueueResponse {}
 export type AttributeNameList = QueueAttributeName[];
 export interface GetQueueAttributesRequest {
   QueueUrl: string;
-  AttributeNames?: QueueAttributeName[];
+  AttributeNames?: QueueAttributeName[] | undefined;
 }
 export interface GetQueueAttributesResult {
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetQueueUrlRequest {
   QueueName: string;
-  QueueOwnerAWSAccountId?: string;
+  QueueOwnerAWSAccountId?: string | undefined;
 }
 export interface GetQueueUrlResult {
-  QueueUrl?: string;
+  QueueUrl?: string | undefined;
 }
 export type Token = string;
 export type BoxedInteger = number;
 export interface ListDeadLetterSourceQueuesRequest {
   QueueUrl: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type QueueUrlList = string[];
 export interface ListDeadLetterSourceQueuesResult {
   queueUrls: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListMessageMoveTasksRequest {
   SourceArn: string;
-  MaxResults?: number;
+  MaxResults?: number | undefined;
 }
 export interface ListMessageMoveTasksResultEntry {
-  TaskHandle?: string;
-  Status?: string;
-  SourceArn?: string;
-  DestinationArn?: string;
-  MaxNumberOfMessagesPerSecond?: number;
-  ApproximateNumberOfMessagesMoved?: number;
-  ApproximateNumberOfMessagesToMove?: number;
-  FailureReason?: string;
-  StartedTimestamp?: number;
+  TaskHandle?: string | undefined;
+  Status?: string | undefined;
+  SourceArn?: string | undefined;
+  DestinationArn?: string | undefined;
+  MaxNumberOfMessagesPerSecond?: number | undefined;
+  ApproximateNumberOfMessagesMoved?: number | undefined;
+  ApproximateNumberOfMessagesToMove?: number | undefined;
+  FailureReason?: string | undefined;
+  StartedTimestamp?: number | undefined;
 }
 export type ListMessageMoveTasksResultEntryList = ListMessageMoveTasksResultEntry[];
 export interface ListMessageMoveTasksResult {
-  Results?: ListMessageMoveTasksResultEntry[];
+  Results?: ListMessageMoveTasksResultEntry[] | undefined;
 }
 export interface ListQueuesRequest {
-  QueueNamePrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  QueueNamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListQueuesResult {
-  QueueUrls?: string[];
-  NextToken?: string;
+  QueueUrls?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListQueueTagsRequest {
   QueueUrl: string;
 }
 export interface ListQueueTagsResult {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PurgeQueueRequest {
   QueueUrl: string;
@@ -569,38 +569,40 @@ export type MessageAttributeName = string;
 export type MessageAttributeNameList = string[];
 export interface ReceiveMessageRequest {
   QueueUrl: string;
-  AttributeNames?: QueueAttributeName[];
-  MessageSystemAttributeNames?: MessageSystemAttributeName[];
-  MessageAttributeNames?: string[];
-  MaxNumberOfMessages?: number;
-  VisibilityTimeout?: number;
-  WaitTimeSeconds?: number;
-  ReceiveRequestAttemptId?: string;
+  AttributeNames?: QueueAttributeName[] | undefined;
+  MessageSystemAttributeNames?: MessageSystemAttributeName[] | undefined;
+  MessageAttributeNames?: string[] | undefined;
+  MaxNumberOfMessages?: number | undefined;
+  VisibilityTimeout?: number | undefined;
+  WaitTimeSeconds?: number | undefined;
+  ReceiveRequestAttemptId?: string | undefined;
 }
-export type MessageSystemAttributeMap = { [key in MessageSystemAttributeName]?: string };
+export type MessageSystemAttributeMap = {
+  [key in MessageSystemAttributeName]?: string | undefined;
+};
 export type Binary = Uint8Array;
 export type StringList = string[];
 export type BinaryList = Uint8Array[];
 export interface MessageAttributeValue {
-  StringValue?: string;
-  BinaryValue?: Uint8Array;
-  StringListValues?: string[];
-  BinaryListValues?: Uint8Array[];
+  StringValue?: string | undefined;
+  BinaryValue?: Uint8Array | undefined;
+  StringListValues?: string[] | undefined;
+  BinaryListValues?: Uint8Array[] | undefined;
   DataType: string;
 }
 export type MessageBodyAttributeMap = { [key: string]: MessageAttributeValue | undefined };
 export interface Message {
-  MessageId?: string;
-  ReceiptHandle?: string;
-  MD5OfBody?: string;
-  Body?: string;
-  Attributes?: { [key: string]: string | undefined };
-  MD5OfMessageAttributes?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
+  MessageId?: string | undefined;
+  ReceiptHandle?: string | undefined;
+  MD5OfBody?: string | undefined;
+  Body?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  MD5OfMessageAttributes?: string | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
 }
 export type MessageList = Message[];
 export interface ReceiveMessageResult {
-  Messages?: Message[];
+  Messages?: Message[] | undefined;
 }
 export interface RemovePermissionRequest {
   QueueUrl: string;
@@ -609,39 +611,39 @@ export interface RemovePermissionRequest {
 export interface RemovePermissionResponse {}
 export type MessageSystemAttributeNameForSends = "AWSTraceHeader" | (string & {});
 export interface MessageSystemAttributeValue {
-  StringValue?: string;
-  BinaryValue?: Uint8Array;
-  StringListValues?: string[];
-  BinaryListValues?: Uint8Array[];
+  StringValue?: string | undefined;
+  BinaryValue?: Uint8Array | undefined;
+  StringListValues?: string[] | undefined;
+  BinaryListValues?: Uint8Array[] | undefined;
   DataType: string;
 }
 export type MessageBodySystemAttributeMap = {
-  [key in MessageSystemAttributeNameForSends]?: MessageSystemAttributeValue;
+  [key in MessageSystemAttributeNameForSends]?: MessageSystemAttributeValue | undefined;
 };
 export interface SendMessageRequest {
   QueueUrl: string;
   MessageBody: string;
-  DelaySeconds?: number;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined };
-  MessageDeduplicationId?: string;
-  MessageGroupId?: string;
+  DelaySeconds?: number | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined } | undefined;
+  MessageDeduplicationId?: string | undefined;
+  MessageGroupId?: string | undefined;
 }
 export interface SendMessageResult {
-  MD5OfMessageBody?: string;
-  MD5OfMessageAttributes?: string;
-  MD5OfMessageSystemAttributes?: string;
-  MessageId?: string;
-  SequenceNumber?: string;
+  MD5OfMessageBody?: string | undefined;
+  MD5OfMessageAttributes?: string | undefined;
+  MD5OfMessageSystemAttributes?: string | undefined;
+  MessageId?: string | undefined;
+  SequenceNumber?: string | undefined;
 }
 export interface SendMessageBatchRequestEntry {
   Id: string;
   MessageBody: string;
-  DelaySeconds?: number;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined };
-  MessageDeduplicationId?: string;
-  MessageGroupId?: string;
+  DelaySeconds?: number | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined } | undefined;
+  MessageDeduplicationId?: string | undefined;
+  MessageGroupId?: string | undefined;
 }
 export type SendMessageBatchRequestEntryList = SendMessageBatchRequestEntry[];
 export interface SendMessageBatchRequest {
@@ -652,14 +654,14 @@ export interface SendMessageBatchResultEntry {
   Id: string;
   MessageId: string;
   MD5OfMessageBody: string;
-  MD5OfMessageAttributes?: string;
-  MD5OfMessageSystemAttributes?: string;
-  SequenceNumber?: string;
+  MD5OfMessageAttributes?: string | undefined;
+  MD5OfMessageSystemAttributes?: string | undefined;
+  SequenceNumber?: string | undefined;
 }
 export type SendMessageBatchResultEntryList = SendMessageBatchResultEntry[];
 export interface SendMessageBatchResult {
-  Successful?: SendMessageBatchResultEntry[];
-  Failed?: BatchResultErrorEntry[];
+  Successful?: SendMessageBatchResultEntry[] | undefined;
+  Failed?: BatchResultErrorEntry[] | undefined;
 }
 export interface SetQueueAttributesRequest {
   QueueUrl: string;
@@ -668,11 +670,11 @@ export interface SetQueueAttributesRequest {
 export interface SetQueueAttributesResponse {}
 export interface StartMessageMoveTaskRequest {
   SourceArn: string;
-  DestinationArn?: string;
-  MaxNumberOfMessagesPerSecond?: number;
+  DestinationArn?: string | undefined;
+  MaxNumberOfMessagesPerSecond?: number | undefined;
 }
 export interface StartMessageMoveTaskResult {
-  TaskHandle?: string;
+  TaskHandle?: string | undefined;
 }
 export interface TagQueueRequest {
   QueueUrl: string;

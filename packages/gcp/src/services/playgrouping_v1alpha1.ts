@@ -86,21 +86,21 @@ export class NotFound
 /** A tag is associated with exactly one package name and user. */
 export interface Tag {
   /** A string value of the tag. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** A signed 64-bit integer value of the tag. */
-  int64Value?: string;
+  int64Value?: string | undefined;
   /** Required. Key for the tag. */
-  key?: string;
+  key?: string | undefined;
   /** A boolean value of the tag. */
-  booleanValue?: boolean;
+  booleanValue?: boolean | undefined;
   /** A time value of the tag. */
-  timeValue?: string;
+  timeValue?: string | undefined;
 }
 export type TagList = Array<Tag>;
 /** Request message for CreateOrUpdateTags. VerifyToken. */
 export interface CreateOrUpdateTagsRequest {
   /** Tags to be inserted or updated. */
-  tags?: TagList;
+  tags?: TagList | undefined;
 }
 export interface CreateOrUpdateAppsTokensTagsRequest {
   /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
@@ -108,17 +108,17 @@ export interface CreateOrUpdateAppsTokensTagsRequest {
   /** Required. Token for which the tags are being inserted or updated. Format: tokens/{token} */
   token: string;
   /** Request body */
-  body?: CreateOrUpdateTagsRequest;
+  body?: CreateOrUpdateTagsRequest | undefined;
 }
 /** Response message for CreateOrUpdateTags. */
 export interface CreateOrUpdateTagsResponse {
   /** All requested tags are returned, including pre-existing ones. */
-  tags?: TagList;
+  tags?: TagList | undefined;
 }
 /** Request message for VerifyToken. */
 export interface VerifyTokenRequest {
   /** Required. Persona represented by the token. Format: personas/{persona} */
-  persona?: string;
+  persona?: string | undefined;
 }
 export interface VerifyAppsTokensRequest {
   /** Required. The token to be verified. Format: tokens/{token} */
@@ -126,7 +126,7 @@ export interface VerifyAppsTokensRequest {
   /** Required. App the token belongs to. Format: apps/{package_name} */
   appPackage: string;
   /** Request body */
-  body?: VerifyTokenRequest;
+  body?: VerifyTokenRequest | undefined;
 }
 /** Response message for VerifyToken. */
 export interface VerifyTokenResponse {}

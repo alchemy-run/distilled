@@ -61,29 +61,29 @@ export class NotFound
 
 export interface ActivityLogsListRequest {
   /** Page number */
-  page?: string;
+  page?: string | undefined;
   /** Items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ActivityLogsListResponseLogsItemUser {
-  email?: string;
-  name?: string;
-  profile_image_url?: string;
+  email?: string | undefined;
+  name?: string | undefined;
+  profile_image_url?: string | undefined;
 }
 export interface ActivityLogsListResponseLogsItem {
-  id?: string;
-  text?: string;
-  html?: string;
-  created_at?: string;
-  config?: unknown;
-  environment?: string;
-  project?: string;
-  user?: ActivityLogsListResponseLogsItemUser;
+  id?: string | undefined;
+  text?: string | undefined;
+  html?: string | undefined;
+  created_at?: string | undefined;
+  config?: unknown | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  user?: ActivityLogsListResponseLogsItemUser | undefined;
 }
 export type ActivityLogsListResponseLogsList = Array<ActivityLogsListResponseLogsItem>;
 export interface ActivityLogsListResponse {
-  page?: number;
-  logs?: ActivityLogsListResponseLogsList;
+  page?: number | undefined;
+  logs?: ActivityLogsListResponseLogsList | undefined;
 }
 export interface ActivityLogsRetrieveRequest {
   /** Unique identifier for the log object. */
@@ -92,79 +92,79 @@ export interface ActivityLogsRetrieveRequest {
 export type ActivityLogsRetrieveResponseLogUser = ActivityLogsListResponseLogsItemUser;
 export type ActivityLogsRetrieveResponseLog = ActivityLogsListResponseLogsItem;
 export interface ActivityLogsRetrieveResponse {
-  log?: ActivityLogsListResponseLogsItem;
+  log?: ActivityLogsListResponseLogsItem | undefined;
 }
 export type AddWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic";
 export interface AddWebhookRequestAuthentication {
-  type?: AddWebhookRequestAuthenticationType | (string & {});
+  type?: AddWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string;
+  token?: string | undefined;
   /** Used when type = Basic */
-  username?: string;
+  username?: string | undefined;
   /** Used when type = Basic */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Config slugs that the webhook should be enabled for */
 export type AddWebhookRequestEnableConfigsList = Array<string>;
 export interface AddWebhookRequest {
   /** The project's name */
-  project?: string;
+  project?: string | undefined;
   /** The webhook URL. Must be https */
   url: string;
   /** See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing */
-  secret?: string | Redacted.Redacted<string>;
-  authentication?: AddWebhookRequestAuthentication;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  authentication?: AddWebhookRequestAuthentication | undefined;
   /** See: https://docs.doppler.com/docs/webhooks#default-payload */
-  payload?: string;
+  payload?: string | undefined;
   /** Config slugs that the webhook should be enabled for */
-  enableConfigs?: AddWebhookRequestEnableConfigsList;
+  enableConfigs?: AddWebhookRequestEnableConfigsList | undefined;
   /** The name of the webhook. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AddWebhookResponse = unknown;
 export interface AuditGetUserRequest {
   /** The ID of the workplace user */
   workplace_user_id: string;
   /** If true, the api will return more information if the user has e.g. SAML enabled and/or Multi Factor Auth enabled */
-  settings?: boolean;
+  settings?: boolean | undefined;
 }
 export interface AuditGetUserResponseWorkplaceUserUser {
-  email?: string;
-  name?: string;
-  username?: string;
-  profile_image_url?: string;
-  mfa_enabled?: boolean;
-  thirdparty_sso_enabled?: boolean;
-  saml_sso_enabled?: boolean;
+  email?: string | undefined;
+  name?: string | undefined;
+  username?: string | undefined;
+  profile_image_url?: string | undefined;
+  mfa_enabled?: boolean | undefined;
+  thirdparty_sso_enabled?: boolean | undefined;
+  saml_sso_enabled?: boolean | undefined;
 }
 export interface AuditGetUserResponseWorkplaceUser {
-  id?: string;
-  access?: string;
-  created_at?: string;
-  user?: AuditGetUserResponseWorkplaceUserUser;
+  id?: string | undefined;
+  access?: string | undefined;
+  created_at?: string | undefined;
+  user?: AuditGetUserResponseWorkplaceUserUser | undefined;
 }
 export interface AuditGetUserResponse {
-  workplace_user?: AuditGetUserResponseWorkplaceUser;
-  success?: boolean;
+  workplace_user?: AuditGetUserResponseWorkplaceUser | undefined;
+  success?: boolean | undefined;
 }
 export interface AuthMeRequest {}
 export interface AuthMeResponseWorkplace {
-  slug?: string;
-  name?: string;
+  slug?: string | undefined;
+  name?: string | undefined;
 }
 export interface AuthMeResponsePrincipal {
-  type?: string;
-  slug?: string;
+  type?: string | undefined;
+  slug?: string | undefined;
 }
 export interface AuthMeResponse {
-  slug?: string;
-  name?: string;
-  created_at?: string;
-  last_seen_at?: string | null;
-  type?: string;
-  token_preview?: string;
-  workplace?: AuthMeResponseWorkplace;
-  principal?: AuthMeResponsePrincipal;
+  slug?: string | undefined;
+  name?: string | undefined;
+  created_at?: string | undefined;
+  last_seen_at?: string | null | undefined;
+  type?: string | undefined;
+  token_preview?: string | undefined;
+  workplace?: AuthMeResponseWorkplace | undefined;
+  principal?: AuthMeResponsePrincipal | undefined;
 }
 export interface AuthOidcRequest {
   /** the OIDC token string from your OIDC provider (likely CI) */
@@ -193,29 +193,29 @@ export interface CloneConfigRequest {
   name: string;
 }
 export interface CloneConfigResponseConfigInheritsItem {
-  project?: string;
-  config?: string;
+  project?: string | undefined;
+  config?: string | undefined;
 }
 export type CloneConfigResponseConfigInheritsList = Array<CloneConfigResponseConfigInheritsItem>;
 export type CloneConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
 export type CloneConfigResponseConfigInheritedByList = Array<CloneConfigResponseConfigInheritsItem>;
 export interface CloneConfigResponseConfig {
-  name?: string;
-  root?: boolean;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: CloneConfigResponseConfigInheritsList;
-  inheritedBy?: CloneConfigResponseConfigInheritedByList;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: CloneConfigResponseConfigInheritsList | undefined;
+  inheritedBy?: CloneConfigResponseConfigInheritedByList | undefined;
 }
 export interface CloneConfigResponse {
-  config?: CloneConfigResponseConfig;
+  config?: CloneConfigResponseConfig | undefined;
 }
 export interface ConfigLogsGetRequest {
   /** Unique identifier for the project object. */
@@ -226,30 +226,30 @@ export interface ConfigLogsGetRequest {
   log: string;
 }
 export interface ConfigLogsGetResponseLogDiffItem {
-  name?: string;
-  added?: string;
+  name?: string | undefined;
+  added?: string | undefined;
 }
 export type ConfigLogsGetResponseLogDiffList = Array<ConfigLogsGetResponseLogDiffItem>;
 export interface ConfigLogsGetResponseLogUser {
-  email?: string;
-  name?: string;
-  username?: string;
-  profile_image_url?: string;
+  email?: string | undefined;
+  name?: string | undefined;
+  username?: string | undefined;
+  profile_image_url?: string | undefined;
 }
 export interface ConfigLogsGetResponseLog {
-  id?: string;
-  text?: string;
-  html?: string;
-  diff?: ConfigLogsGetResponseLogDiffList;
-  rollback?: boolean;
-  created_at?: string;
-  config?: string;
-  environment?: string;
-  project?: string;
-  user?: ConfigLogsGetResponseLogUser;
+  id?: string | undefined;
+  text?: string | undefined;
+  html?: string | undefined;
+  diff?: ConfigLogsGetResponseLogDiffList | undefined;
+  rollback?: boolean | undefined;
+  created_at?: string | undefined;
+  config?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  user?: ConfigLogsGetResponseLogUser | undefined;
 }
 export interface ConfigLogsGetResponse {
-  log?: ConfigLogsGetResponseLog;
+  log?: ConfigLogsGetResponseLog | undefined;
 }
 export interface ConfigLogsListRequest {
   /** Unique identifier for the project object. */
@@ -257,26 +257,26 @@ export interface ConfigLogsListRequest {
   /** Name of the config object. */
   config: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ConfigLogsListResponseLogsItemUser = ConfigLogsGetResponseLogUser;
 export interface ConfigLogsListResponseLogsItem {
-  id?: string;
-  text?: string;
-  html?: string;
-  rollback?: boolean;
-  created_at?: string;
-  config?: string;
-  environment?: string;
-  project?: string;
-  user?: ConfigLogsGetResponseLogUser;
+  id?: string | undefined;
+  text?: string | undefined;
+  html?: string | undefined;
+  rollback?: boolean | undefined;
+  created_at?: string | undefined;
+  config?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  user?: ConfigLogsGetResponseLogUser | undefined;
 }
 export type ConfigLogsListResponseLogsList = Array<ConfigLogsListResponseLogsItem>;
 export interface ConfigLogsListResponse {
-  page?: number;
-  logs?: ConfigLogsListResponseLogsList;
+  page?: number | undefined;
+  logs?: ConfigLogsListResponseLogsList | undefined;
 }
 export interface ConfigLogsRollbackRequest {
   /** Unique identifier for the project object. */
@@ -287,25 +287,25 @@ export interface ConfigLogsRollbackRequest {
   log: string;
 }
 export interface ConfigLogsRollbackResponseLogDiffItem {
-  name?: string;
-  removed?: string;
+  name?: string | undefined;
+  removed?: string | undefined;
 }
 export type ConfigLogsRollbackResponseLogDiffList = Array<ConfigLogsRollbackResponseLogDiffItem>;
 export type ConfigLogsRollbackResponseLogUser = ConfigLogsGetResponseLogUser;
 export interface ConfigLogsRollbackResponseLog {
-  id?: string;
-  text?: string;
-  html?: string;
-  diff?: ConfigLogsRollbackResponseLogDiffList;
-  rollback?: boolean;
-  created_at?: string;
-  config?: string;
-  environment?: string;
-  project?: string;
-  user?: ConfigLogsGetResponseLogUser;
+  id?: string | undefined;
+  text?: string | undefined;
+  html?: string | undefined;
+  diff?: ConfigLogsRollbackResponseLogDiffList | undefined;
+  rollback?: boolean | undefined;
+  created_at?: string | undefined;
+  config?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  user?: ConfigLogsGetResponseLogUser | undefined;
 }
 export interface ConfigLogsRollbackResponse {
-  log?: ConfigLogsRollbackResponseLog;
+  log?: ConfigLogsRollbackResponseLog | undefined;
 }
 export interface ConfigsAddTrustedIpRequest {
   project: string;
@@ -314,7 +314,7 @@ export interface ConfigsAddTrustedIpRequest {
   ip: string;
 }
 export interface ConfigsAddTrustedIpResponse {
-  ip?: string;
+  ip?: string | undefined;
 }
 export interface ConfigsDeleteTrustedIpRequest {
   project: string;
@@ -338,23 +338,23 @@ export type ConfigsInheritableResponseConfigInheritedByItem = CloneConfigRespons
 export type ConfigsInheritableResponseConfigInheritedByList =
   Array<CloneConfigResponseConfigInheritsItem>;
 export interface ConfigsInheritableResponseConfig {
-  name?: string;
-  root?: boolean;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: ConfigsInheritableResponseConfigInheritsList;
-  inheritedBy?: ConfigsInheritableResponseConfigInheritedByList;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: ConfigsInheritableResponseConfigInheritsList | undefined;
+  inheritedBy?: ConfigsInheritableResponseConfigInheritedByList | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
 }
 export interface ConfigsInheritableResponse {
-  config?: ConfigsInheritableResponseConfig;
-  success?: boolean;
+  config?: ConfigsInheritableResponseConfig | undefined;
+  success?: boolean | undefined;
 }
 export interface ConfigsInheritsRequestInheritsItem {
   /** Unique identifier for the project object of the config being inherited. */
@@ -379,23 +379,23 @@ export type ConfigsInheritsResponseConfigInheritedByItem = CloneConfigResponseCo
 export type ConfigsInheritsResponseConfigInheritedByList =
   Array<CloneConfigResponseConfigInheritsItem>;
 export interface ConfigsInheritsResponseConfig {
-  name?: string;
-  root?: boolean;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: ConfigsInheritsResponseConfigInheritsList;
-  inheritedBy?: ConfigsInheritsResponseConfigInheritedByList;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: ConfigsInheritsResponseConfigInheritsList | undefined;
+  inheritedBy?: ConfigsInheritsResponseConfigInheritedByList | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
 }
 export interface ConfigsInheritsResponse {
-  config?: ConfigsInheritsResponseConfig;
-  success?: boolean;
+  config?: ConfigsInheritsResponseConfig | undefined;
+  success?: boolean | undefined;
 }
 export interface ConfigsListTrustedIpsRequest {
   project: string;
@@ -403,7 +403,7 @@ export interface ConfigsListTrustedIpsRequest {
 }
 export type ConfigsListTrustedIpsResponseIpsList = Array<string>;
 export interface ConfigsListTrustedIpsResponse {
-  ips?: ConfigsListTrustedIpsResponseIpsList;
+  ips?: ConfigsListTrustedIpsResponseIpsList | undefined;
 }
 export type CreateChangeRequestPolicyRequestRulesItemType =
   | '"RequiredReviewer"'
@@ -424,9 +424,9 @@ export type CreateChangeRequestPolicyRequestRulesItemSubjectsList =
 export interface CreateChangeRequestPolicyRequestRulesItem {
   type: CreateChangeRequestPolicyRequestRulesItemType | (string & {});
   /** The number of required reviewers. Only applies to "RequiredReviewer" rules. */
-  count?: number;
+  count?: number | undefined;
   /** A list of required reviewers. If specified, only reviews from reviewers in this list will satisfy the policy. Only applies to "RequiredReviewer" rules. */
-  subjects?: CreateChangeRequestPolicyRequestRulesItemSubjectsList;
+  subjects?: CreateChangeRequestPolicyRequestRulesItemSubjectsList | undefined;
 }
 /** A list of rules the policy enforces. */
 export type CreateChangeRequestPolicyRequestRulesList =
@@ -434,15 +434,15 @@ export type CreateChangeRequestPolicyRequestRulesList =
 /** Describes the which projects, environments, and configs the policy applies to. */
 export interface CreateChangeRequestPolicyRequestTargets {
   /** If true, the policy will apply to every config in the workplace. */
-  allProjects?: boolean;
+  allProjects?: boolean | undefined;
   /** A dictionary where the key is the project name, and the value contains information about what within the project the policy should apply to. */
-  projects?: string;
+  projects?: string | undefined;
 }
 export interface CreateChangeRequestPolicyRequest {
   /** The name of the policy. */
   name: string;
   /** An optional description of the policy. */
-  description?: string;
+  description?: string | undefined;
   /** A list of rules the policy enforces. */
   rules: CreateChangeRequestPolicyRequestRulesList;
   /** Describes the which projects, environments, and configs the policy applies to. */
@@ -450,19 +450,19 @@ export interface CreateChangeRequestPolicyRequest {
 }
 export type CreateChangeRequestPolicyResponsePolicyRulesList = Array<unknown>;
 export interface CreateChangeRequestPolicyResponsePolicyTargets {
-  allProjects?: boolean;
-  projects?: unknown;
+  allProjects?: boolean | undefined;
+  projects?: unknown | undefined;
 }
 export interface CreateChangeRequestPolicyResponsePolicy {
-  id?: string;
-  name?: string;
-  description?: string;
-  rules?: CreateChangeRequestPolicyResponsePolicyRulesList;
-  targets?: CreateChangeRequestPolicyResponsePolicyTargets;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  rules?: CreateChangeRequestPolicyResponsePolicyRulesList | undefined;
+  targets?: CreateChangeRequestPolicyResponsePolicyTargets | undefined;
 }
 export interface CreateChangeRequestPolicyResponse {
-  policy?: CreateChangeRequestPolicyResponsePolicy;
-  success?: boolean;
+  policy?: CreateChangeRequestPolicyResponsePolicy | undefined;
+  success?: boolean | undefined;
 }
 export interface CreateConfigRequest {
   /** Unique identifier for the project object. */
@@ -478,22 +478,22 @@ export type CreateConfigResponseConfigInheritedByItem = CloneConfigResponseConfi
 export type CreateConfigResponseConfigInheritedByList =
   Array<CloneConfigResponseConfigInheritsItem>;
 export interface CreateConfigResponseConfig {
-  name?: string;
-  root?: boolean;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: CreateConfigResponseConfigInheritsList;
-  inheritedBy?: CreateConfigResponseConfigInheritedByList;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: CreateConfigResponseConfigInheritsList | undefined;
+  inheritedBy?: CreateConfigResponseConfigInheritedByList | undefined;
 }
 export interface CreateConfigResponse {
-  config?: CreateConfigResponseConfig;
+  config?: CreateConfigResponseConfig | undefined;
 }
 export interface CreateEnvironmentRequest {
   /** The project's name */
@@ -501,45 +501,45 @@ export interface CreateEnvironmentRequest {
   name: string;
   slug: string;
   /** Whether or not to enable personal configs for the environment */
-  personal_configs?: boolean;
+  personal_configs?: boolean | undefined;
 }
 export interface CreateEnvironmentResponseEnvironment {
-  id?: string;
-  name?: string;
-  initial_fetch_at?: string;
-  created_at?: string;
-  project?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  initial_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  project?: string | undefined;
 }
 export interface CreateEnvironmentResponse {
-  environment?: CreateEnvironmentResponseEnvironment;
+  environment?: CreateEnvironmentResponseEnvironment | undefined;
 }
 export interface CreateGroupRequest {
   name: string;
   /** Identifier of the project role */
-  default_project_role?: string;
+  default_project_role?: string | undefined;
 }
 export interface CreateGroupResponseGroupDefaultProjectRole {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type CreateGroupResponseGroupProjectsItemRole = CreateGroupResponseGroupDefaultProjectRole;
 export interface CreateGroupResponseGroupProjectsItem {
-  name?: string;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
+  name?: string | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
 }
 export type CreateGroupResponseGroupProjectsList = Array<CreateGroupResponseGroupProjectsItem>;
 export type CreateGroupResponseGroupMembersItem = AuthMeResponsePrincipal;
 export type CreateGroupResponseGroupMembersList = Array<AuthMeResponsePrincipal>;
 export interface CreateGroupResponseGroup {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  default_project_role?: CreateGroupResponseGroupDefaultProjectRole;
-  projects?: CreateGroupResponseGroupProjectsList;
-  members?: CreateGroupResponseGroupMembersList;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  default_project_role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  projects?: CreateGroupResponseGroupProjectsList | undefined;
+  members?: CreateGroupResponseGroupMembersList | undefined;
 }
 export interface CreateGroupResponse {
-  group?: CreateGroupResponseGroup;
+  group?: CreateGroupResponseGroup | undefined;
 }
 export interface CreateIntegrationRequest {
   /** The integration type */
@@ -547,7 +547,7 @@ export interface CreateIntegrationRequest {
   /** The name of the integration */
   name: string;
   /** The authentication data for the integration */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface CreateIntegrationResponseIntegrationFederationCase0 {
   kind: string;
@@ -568,14 +568,14 @@ export type CreateIntegrationResponseIntegrationFederation =
   | CreateIntegrationResponseIntegrationFederationCase0
   | CreateIntegrationResponseIntegrationFederationCase1;
 export interface CreateIntegrationResponseIntegration {
-  slug?: string;
-  name?: string;
-  type?: string;
+  slug?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
   /** The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection. */
-  federation?: CreateIntegrationResponseIntegrationFederation | null;
+  federation?: CreateIntegrationResponseIntegrationFederation | null | undefined;
 }
 export interface CreateIntegrationResponse {
-  integration?: CreateIntegrationResponseIntegration;
+  integration?: CreateIntegrationResponseIntegration | undefined;
 }
 export type CreateIntegrationsIntegrationMemberRequestType =
   | "workplace_user"
@@ -597,27 +597,27 @@ export type CreateIntegrationsIntegrationMemberResponseMemberType =
 export type CreateIntegrationsIntegrationMemberResponseMemberRole =
   CreateGroupResponseGroupDefaultProjectRole;
 export interface CreateIntegrationsIntegrationMemberResponseMember {
-  type?: CreateIntegrationsIntegrationMemberResponseMemberType;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
+  type?: CreateIntegrationsIntegrationMemberResponseMemberType | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
 }
 export interface CreateIntegrationsIntegrationMemberResponse {
-  member?: CreateIntegrationsIntegrationMemberResponseMember;
+  member?: CreateIntegrationsIntegrationMemberResponseMember | undefined;
 }
 export interface CreateProjectRequest {
   /** Name of project */
   name: string;
   /** Description of project */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectResponseProject {
-  id?: string;
-  name?: string;
-  description?: string;
-  created_at?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  created_at?: string | undefined;
 }
 export interface CreateProjectResponse {
-  project?: CreateProjectResponseProject;
+  project?: CreateProjectResponseProject | undefined;
 }
 /** An option indicating if and how Doppler should attempt to import secrets from the sync destination */
 export type CreateSyncRequestImportOption = "none" | "prefer_doppler" | "prefer_integration";
@@ -631,27 +631,27 @@ export interface CreateSyncRequest {
   /** Configuration data for the sync */
   data: unknown;
   /** An option indicating if and how Doppler should attempt to import secrets from the sync destination */
-  import_option?: CreateSyncRequestImportOption | (string & {});
+  import_option?: CreateSyncRequestImportOption | (string & {}) | undefined;
   /** Causes sync creation to wait for the initial sync to complete before returning. */
-  await_initial_sync?: boolean;
+  await_initial_sync?: boolean | undefined;
 }
 export interface CreateSyncResponseSync {
-  slug?: string;
-  integration?: string;
-  project?: string;
-  config?: string;
-  enabled?: boolean;
-  lastSyncedAt?: string;
+  slug?: string | undefined;
+  integration?: string | undefined;
+  project?: string | undefined;
+  config?: string | undefined;
+  enabled?: boolean | undefined;
+  lastSyncedAt?: string | undefined;
 }
 export interface CreateSyncResponse {
-  sync?: CreateSyncResponseSync;
+  sync?: CreateSyncResponseSync | undefined;
 }
 export interface DeleteChangeRequestPolicyRequest {
   /** The unique identifier of the policy. */
   slug: string;
 }
 export interface DeleteChangeRequestPolicyResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface DeleteConfigRequest {
   /** Unique identifier for the project. */
@@ -660,7 +660,7 @@ export interface DeleteConfigRequest {
   config: string;
 }
 export interface DeleteConfigResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface DeleteEnvironmentRequest {
   /** The project's name */
@@ -713,11 +713,15 @@ export type DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunit
   | "open"
   | "canceled";
 export interface DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnit {
-  id?: string;
-  status?: DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnitStatus;
+  id?: string | undefined;
+  status?:
+    | DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnitStatus
+    | undefined;
 }
 export interface DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponse {
-  unit?: DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnit;
+  unit?:
+    | DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnit
+    | undefined;
 }
 export interface DeleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequest {
   service_account: string;
@@ -728,7 +732,7 @@ export interface DeleteWebhookRequest {
   /** Webhook's slug */
   slug: string;
   /** The project's name */
-  project?: string;
+  project?: string | undefined;
 }
 export type DeleteWebhookResponse = unknown;
 export type DeleteWorkplaceIntegrationsIntegrationMemberRequestType =
@@ -748,7 +752,7 @@ export interface DisableWebhookRequest {
   /** Webhook's slug */
   slug: string;
   /** The project's name */
-  project?: string;
+  project?: string | undefined;
 }
 export type DisableWebhookResponse = unknown;
 export type DownloadSecretRequestFormat =
@@ -768,18 +772,18 @@ export type DownloadSecretRequestNameTransformer =
   | "lower-kebab";
 export interface DownloadSecretRequest {
   /** Unique identifier for the project object. Not required if using a Service Token. */
-  project?: string;
+  project?: string | undefined;
   /** Name of the config object. Not required if using a Service Token. */
-  config?: string;
-  format?: DownloadSecretRequestFormat | (string & {});
+  config?: string | undefined;
+  format?: DownloadSecretRequestFormat | (string & {}) | undefined;
   /** Transform secret names to a different case */
-  name_transformer?: DownloadSecretRequestNameTransformer | (string & {});
+  name_transformer?: DownloadSecretRequestNameTransformer | (string & {}) | undefined;
   /** Whether or not to issue leases and include dynamic secret values for the config */
-  include_dynamic_secrets?: boolean;
+  include_dynamic_secrets?: boolean | undefined;
   /** The number of seconds until dynamic leases expire. Must be used with `include_dynamic_secrets`. Defaults to 1800 (30 minutes). */
-  dynamic_secrets_ttl_sec?: number;
+  dynamic_secrets_ttl_sec?: number | undefined;
   /** Comma-delimited list of secrets to include in the download. Defaults to all secrets if left unspecified. */
-  secrets?: string;
+  secrets?: string | undefined;
 }
 export type DownloadSecretResponseBodyMap = { [key: string]: string | undefined };
 export type DownloadSecretResponse = DownloadSecretResponseBodyMap;
@@ -794,10 +798,10 @@ export interface DynamicSecretsIssueLeaseRequest {
   ttl_sec: number;
 }
 export interface DynamicSecretsIssueLeaseResponse {
-  success?: boolean;
-  id?: string;
-  expires_at?: string;
-  value?: unknown;
+  success?: boolean | undefined;
+  id?: string | undefined;
+  expires_at?: string | undefined;
+  value?: unknown | undefined;
 }
 export interface DynamicSecretsRevokeLeaseRequest {
   /** The project where the dynamic secret is located */
@@ -810,13 +814,13 @@ export interface DynamicSecretsRevokeLeaseRequest {
   slug: string;
 }
 export interface DynamicSecretsRevokeLeaseResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface EnableWebhookRequest {
   /** Webhook's slug */
   slug: string;
   /** The project's name */
-  project?: string;
+  project?: string | undefined;
 }
 export type EnableWebhookResponse = unknown;
 export interface GenerateCliAuthRequest {
@@ -839,15 +843,15 @@ export type GetChangeRequestPolicyResponsePolicyRulesList = Array<unknown>;
 export type GetChangeRequestPolicyResponsePolicyTargets =
   CreateChangeRequestPolicyResponsePolicyTargets;
 export interface GetChangeRequestPolicyResponsePolicy {
-  id?: string;
-  name?: string;
-  description?: string;
-  rules?: GetChangeRequestPolicyResponsePolicyRulesList;
-  targets?: CreateChangeRequestPolicyResponsePolicyTargets;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  rules?: GetChangeRequestPolicyResponsePolicyRulesList | undefined;
+  targets?: CreateChangeRequestPolicyResponsePolicyTargets | undefined;
 }
 export interface GetChangeRequestPolicyResponse {
-  policy?: GetChangeRequestPolicyResponsePolicy;
-  success?: boolean;
+  policy?: GetChangeRequestPolicyResponsePolicy | undefined;
+  success?: boolean | undefined;
 }
 export interface GetConfigRequest {
   /** Unique identifier for the project object. */
@@ -860,22 +864,22 @@ export type GetConfigResponseConfigInheritsList = Array<CloneConfigResponseConfi
 export type GetConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
 export type GetConfigResponseConfigInheritedByList = Array<CloneConfigResponseConfigInheritsItem>;
 export interface GetConfigResponseConfig {
-  name?: string;
-  root?: boolean;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: GetConfigResponseConfigInheritsList;
-  inheritedBy?: GetConfigResponseConfigInheritedByList;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: GetConfigResponseConfigInheritsList | undefined;
+  inheritedBy?: GetConfigResponseConfigInheritedByList | undefined;
 }
 export interface GetConfigResponse {
-  config?: GetConfigResponseConfig;
+  config?: GetConfigResponseConfig | undefined;
 }
 export interface GetEnvironmentRequest {
   /** The project's name */
@@ -885,7 +889,7 @@ export interface GetEnvironmentRequest {
 }
 export type GetEnvironmentResponseEnvironment = CreateEnvironmentResponseEnvironment;
 export interface GetEnvironmentResponse {
-  environment?: CreateEnvironmentResponseEnvironment;
+  environment?: CreateEnvironmentResponseEnvironment | undefined;
 }
 export interface GetGroupRequest {
   /** The group's slug */
@@ -898,15 +902,15 @@ export type GetGroupResponseGroupProjectsList = Array<CreateGroupResponseGroupPr
 export type GetGroupResponseGroupMembersItem = AuthMeResponsePrincipal;
 export type GetGroupResponseGroupMembersList = Array<AuthMeResponsePrincipal>;
 export interface GetGroupResponseGroup {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  default_project_role?: CreateGroupResponseGroupDefaultProjectRole;
-  projects?: GetGroupResponseGroupProjectsList;
-  members?: GetGroupResponseGroupMembersList;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  default_project_role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  projects?: GetGroupResponseGroupProjectsList | undefined;
+  members?: GetGroupResponseGroupMembersList | undefined;
 }
 export interface GetGroupResponse {
-  group?: GetGroupResponseGroup;
+  group?: GetGroupResponseGroup | undefined;
 }
 export interface GetIntegrationRequest {
   /** The integration slug */
@@ -921,20 +925,20 @@ export type GetIntegrationResponseIntegrationFederation =
   | CreateIntegrationResponseIntegrationFederationCase0
   | CreateIntegrationResponseIntegrationFederationCase1;
 export interface GetIntegrationResponseIntegration {
-  slug?: string;
-  name?: string;
-  type?: string;
+  slug?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
   /** The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection. */
-  federation?: GetIntegrationResponseIntegrationFederation | null;
+  federation?: GetIntegrationResponseIntegrationFederation | null | undefined;
 }
 export interface GetIntegrationResponse {
-  integration?: GetIntegrationResponseIntegration;
+  integration?: GetIntegrationResponseIntegration | undefined;
 }
 export interface GetIntegrationsIntegrationMembersRequest {
   /** Integration slug */
   integration: string;
-  page?: number;
-  per_page?: number;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export type GetIntegrationsIntegrationMembersResponseMembersItemType =
   | "workplace_user"
@@ -944,14 +948,14 @@ export type GetIntegrationsIntegrationMembersResponseMembersItemType =
 export type GetIntegrationsIntegrationMembersResponseMembersItemRole =
   CreateGroupResponseGroupDefaultProjectRole;
 export interface GetIntegrationsIntegrationMembersResponseMembersItem {
-  type?: GetIntegrationsIntegrationMembersResponseMembersItemType;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
+  type?: GetIntegrationsIntegrationMembersResponseMembersItemType | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
 }
 export type GetIntegrationsIntegrationMembersResponseMembersList =
   Array<GetIntegrationsIntegrationMembersResponseMembersItem>;
 export interface GetIntegrationsIntegrationMembersResponse {
-  members?: GetIntegrationsIntegrationMembersResponseMembersList;
+  members?: GetIntegrationsIntegrationMembersResponseMembersList | undefined;
 }
 export type GetMemberRequestMemberType = "workplace_user";
 export interface GetMemberRequest {
@@ -968,15 +972,15 @@ export type GetMemberResponseGroupProjectsList = Array<CreateGroupResponseGroupP
 export type GetMemberResponseGroupMembersItem = AuthMeResponsePrincipal;
 export type GetMemberResponseGroupMembersList = Array<AuthMeResponsePrincipal>;
 export interface GetMemberResponseGroup {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  default_project_role?: CreateGroupResponseGroupDefaultProjectRole;
-  projects?: GetMemberResponseGroupProjectsList;
-  members?: GetMemberResponseGroupMembersList;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  default_project_role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  projects?: GetMemberResponseGroupProjectsList | undefined;
+  members?: GetMemberResponseGroupMembersList | undefined;
 }
 export interface GetMemberResponse {
-  group?: GetMemberResponseGroup;
+  group?: GetMemberResponseGroup | undefined;
 }
 export interface GetOptionsRequest {
   /** The integration slug */
@@ -989,7 +993,7 @@ export interface GetProjectRequest {
 }
 export type GetProjectResponseProject = CreateProjectResponseProject;
 export interface GetProjectResponse {
-  project?: CreateProjectResponseProject;
+  project?: CreateProjectResponseProject | undefined;
 }
 export interface GetSecretRequest {
   /** Unique identifier for the project object. */
@@ -1001,21 +1005,21 @@ export interface GetSecretRequest {
 }
 export type GetSecretResponseValueRawVisibility = "unmasked" | "masked" | "restricted";
 export interface GetSecretResponseValueRawValueType {
-  type?: string;
+  type?: string | undefined;
 }
 export type GetSecretResponseValueComputedValueType = GetSecretResponseValueRawValueType;
 export interface GetSecretResponseValue {
-  raw?: string | Redacted.Redacted<string> | null;
-  computed?: string | Redacted.Redacted<string> | null;
-  note?: string;
-  rawVisibility?: GetSecretResponseValueRawVisibility;
-  computedVisibility?: string;
-  rawValueType?: GetSecretResponseValueRawValueType;
-  computedValueType?: GetSecretResponseValueRawValueType;
+  raw?: string | Redacted.Redacted<string> | null | undefined;
+  computed?: string | Redacted.Redacted<string> | null | undefined;
+  note?: string | undefined;
+  rawVisibility?: GetSecretResponseValueRawVisibility | undefined;
+  computedVisibility?: string | undefined;
+  rawValueType?: GetSecretResponseValueRawValueType | undefined;
+  computedValueType?: GetSecretResponseValueRawValueType | undefined;
 }
 export interface GetSecretResponse {
-  name?: string;
-  value?: GetSecretResponseValue;
+  name?: string | undefined;
+  value?: GetSecretResponseValue | undefined;
 }
 export interface GetSyncRequest {
   /** The project slug */
@@ -1027,7 +1031,7 @@ export interface GetSyncRequest {
 }
 export type GetSyncResponseSync = CreateSyncResponseSync;
 export interface GetSyncResponse {
-  sync?: CreateSyncResponseSync;
+  sync?: CreateSyncResponseSync | undefined;
 }
 export interface GetUserRequest {
   /** The slug of the workplace user */
@@ -1035,30 +1039,30 @@ export interface GetUserRequest {
 }
 export type GetUserResponseWorkplaceUserUser = ConfigLogsGetResponseLogUser;
 export interface GetUserResponseWorkplaceUser {
-  id?: string;
-  access?: string;
-  created_at?: string;
-  user?: ConfigLogsGetResponseLogUser;
+  id?: string | undefined;
+  access?: string | undefined;
+  created_at?: string | undefined;
+  user?: ConfigLogsGetResponseLogUser | undefined;
 }
 export interface GetUserResponse {
-  workplace_user?: GetUserResponseWorkplaceUser;
-  success?: boolean;
+  workplace_user?: GetUserResponseWorkplaceUser | undefined;
+  success?: boolean | undefined;
 }
 export type GetV3workplacechangeRequestsRequestStatusList = Array<string>;
 export interface GetV3workplacechangeRequestsRequest {
-  page?: number;
-  per_page?: number;
-  status?: GetV3workplacechangeRequestsRequestStatusList;
-  title?: string;
+  page?: number | undefined;
+  per_page?: number | undefined;
+  status?: GetV3workplacechangeRequestsRequestStatusList | undefined;
+  title?: string | undefined;
 }
 export type GetV3workplacechangeRequestsResponseBodyItemStatus = "open" | "closed";
 export type GetV3workplacechangeRequestsResponseBodyItemCreatedByType = "User" | "ServiceAccount";
 export interface GetV3workplacechangeRequestsResponseBodyItemCreatedBy {
-  slug?: string;
-  type?: GetV3workplacechangeRequestsResponseBodyItemCreatedByType;
-  name?: string;
-  isActive?: boolean;
-  image?: string;
+  slug?: string | undefined;
+  type?: GetV3workplacechangeRequestsResponseBodyItemCreatedByType | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
+  image?: string | undefined;
 }
 export type GetV3workplacechangeRequestsResponseBodyItemUnitsItemStatus =
   | "draft"
@@ -1072,14 +1076,14 @@ export type GetV3workplacechangeRequestsResponseBodyItemUnitsItemTargetEnvironme
 export type GetV3workplacechangeRequestsResponseBodyItemUnitsItemTargetConfig =
   AuthMeResponseWorkplace;
 export interface GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget {
-  project?: AuthMeResponseWorkplace;
-  environment?: AuthMeResponseWorkplace;
-  config?: AuthMeResponseWorkplace;
+  project?: AuthMeResponseWorkplace | undefined;
+  environment?: AuthMeResponseWorkplace | undefined;
+  config?: AuthMeResponseWorkplace | undefined;
 }
 export interface GetV3workplacechangeRequestsResponseBodyItemUnitsItem {
-  id?: string;
-  status?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemStatus;
-  target?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget;
+  id?: string | undefined;
+  status?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemStatus | undefined;
+  target?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget | undefined;
 }
 export type GetV3workplacechangeRequestsResponseBodyItemUnitsList =
   Array<GetV3workplacechangeRequestsResponseBodyItemUnitsItem>;
@@ -1087,22 +1091,22 @@ export type GetV3workplacechangeRequestsResponseBodyItemAssignedItemType =
   | "WorkplaceUser"
   | "ServiceAccount";
 export interface GetV3workplacechangeRequestsResponseBodyItemAssignedItem {
-  type?: GetV3workplacechangeRequestsResponseBodyItemAssignedItemType;
-  slug?: string;
-  name?: string;
-  email?: string;
-  image?: string;
+  type?: GetV3workplacechangeRequestsResponseBodyItemAssignedItemType | undefined;
+  slug?: string | undefined;
+  name?: string | undefined;
+  email?: string | undefined;
+  image?: string | undefined;
 }
 export type GetV3workplacechangeRequestsResponseBodyItemAssignedList =
   Array<GetV3workplacechangeRequestsResponseBodyItemAssignedItem>;
 export interface GetV3workplacechangeRequestsResponseBodyItem {
-  id?: string;
-  title?: string;
-  status?: GetV3workplacechangeRequestsResponseBodyItemStatus;
-  createdAt?: string;
-  createdBy?: GetV3workplacechangeRequestsResponseBodyItemCreatedBy;
-  units?: GetV3workplacechangeRequestsResponseBodyItemUnitsList;
-  assigned?: GetV3workplacechangeRequestsResponseBodyItemAssignedList;
+  id?: string | undefined;
+  title?: string | undefined;
+  status?: GetV3workplacechangeRequestsResponseBodyItemStatus | undefined;
+  createdAt?: string | undefined;
+  createdBy?: GetV3workplacechangeRequestsResponseBodyItemCreatedBy | undefined;
+  units?: GetV3workplacechangeRequestsResponseBodyItemUnitsList | undefined;
+  assigned?: GetV3workplacechangeRequestsResponseBodyItemAssignedList | undefined;
 }
 export type GetV3workplacechangeRequestsResponseBodyList =
   Array<GetV3workplacechangeRequestsResponseBodyItem>;
@@ -1110,7 +1114,7 @@ export type GetV3workplacechangeRequestsResponse = GetV3workplacechangeRequestsR
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdRequest {
   change_request_id: string;
   /** Whether to reveal secret values. If defined, any value except "false" is treated as true */
-  reveal?: string;
+  reveal?: string | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestStatus =
   | "open"
@@ -1119,11 +1123,13 @@ export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChan
   | "User"
   | "ServiceAccount";
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestCreatedBy {
-  slug?: string;
-  type?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestCreatedByType;
-  name?: string;
-  isActive?: boolean;
-  image?: string;
+  slug?: string | undefined;
+  type?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestCreatedByType
+    | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
+  image?: string | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemStatus =
   | "draft"
@@ -1139,23 +1145,29 @@ export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChan
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemTarget =
   GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget;
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemAppliedConfigLog {
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemAppliedActivityLog =
   GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemAppliedConfigLog;
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemApplied {
-  configLog?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemAppliedConfigLog;
-  activityLog?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemAppliedConfigLog;
+  configLog?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemAppliedConfigLog
+    | undefined;
+  activityLog?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemAppliedConfigLog
+    | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemCreatedByType =
   | "User"
   | "ServiceAccount";
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemCreatedBy {
-  slug?: string;
-  type?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemCreatedByType;
-  name?: string;
-  isActive?: boolean;
-  image?: string;
+  slug?: string | undefined;
+  type?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemCreatedByType
+    | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
+  image?: string | undefined;
 }
 /** 0 = masked, 1 = unmasked, 2 = restricted */
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemVisType =
@@ -1165,24 +1177,34 @@ export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChan
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType =
   GetSecretResponseValueRawValueType;
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItem {
-  name?: string;
-  value?: string;
-  shouldDelete?: boolean;
+  name?: string | undefined;
+  value?: string | undefined;
+  shouldDelete?: boolean | undefined;
   /** 0 = masked, 1 = unmasked, 2 = restricted */
-  visType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemVisType;
-  valueType?: GetSecretResponseValueRawValueType;
-  generationSettings?: unknown;
+  visType?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemVisType
+    | undefined;
+  valueType?: GetSecretResponseValueRawValueType | undefined;
+  generationSettings?: unknown | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesList =
   Array<GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItem>;
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItem {
-  id?: string;
-  status?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemStatus;
-  target?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget;
-  applied?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemApplied;
-  createdAt?: string;
-  createdBy?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemCreatedBy;
-  updates?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesList;
+  id?: string | undefined;
+  status?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemStatus
+    | undefined;
+  target?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget | undefined;
+  applied?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemApplied
+    | undefined;
+  createdAt?: string | undefined;
+  createdBy?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemCreatedBy
+    | undefined;
+  updates?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesList
+    | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsList =
   Array<GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItem>;
@@ -1190,32 +1212,44 @@ export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChan
   | "WorkplaceUser"
   | "ServiceAccount";
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestAssignedItem {
-  type?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestAssignedItemType;
-  slug?: string;
-  name?: string;
-  email?: string;
-  image?: string;
+  type?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestAssignedItemType
+    | undefined;
+  slug?: string | undefined;
+  name?: string | undefined;
+  email?: string | undefined;
+  image?: string | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestAssignedList =
   Array<GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestAssignedItem>;
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequest {
-  id?: string;
-  title?: string;
-  description?: string;
-  status?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestStatus;
-  createdAt?: string;
-  createdBy?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestCreatedBy;
-  units?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsList;
-  assigned?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestAssignedList;
+  id?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  status?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestStatus
+    | undefined;
+  createdAt?: string | undefined;
+  createdBy?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestCreatedBy
+    | undefined;
+  units?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsList
+    | undefined;
+  assigned?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestAssignedList
+    | undefined;
 }
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponse {
-  changeRequest?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequest;
+  changeRequest?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequest
+    | undefined;
 }
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdRequest {
   change_request_id: string;
   unit_id: string;
   /** Whether to reveal secret values. If defined, any value except "false" is treated as true */
-  reveal?: string;
+  reveal?: string | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitStatus =
   | "draft"
@@ -1240,11 +1274,13 @@ export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUni
   | "User"
   | "ServiceAccount";
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitCreatedBy {
-  slug?: string;
-  type?: GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitCreatedByType;
-  name?: string;
-  isActive?: boolean;
-  image?: string;
+  slug?: string | undefined;
+  type?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitCreatedByType
+    | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
+  image?: string | undefined;
 }
 /** 0 = masked, 1 = unmasked, 2 = restricted */
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemVisType =
@@ -1254,32 +1290,44 @@ export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUni
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemValueType =
   GetSecretResponseValueRawValueType;
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItem {
-  name?: string;
-  value?: string;
-  shouldDelete?: boolean;
+  name?: string | undefined;
+  value?: string | undefined;
+  shouldDelete?: boolean | undefined;
   /** 0 = masked, 1 = unmasked, 2 = restricted */
-  visType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemVisType;
-  valueType?: GetSecretResponseValueRawValueType;
-  generationSettings?: unknown;
+  visType?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemVisType
+    | undefined;
+  valueType?: GetSecretResponseValueRawValueType | undefined;
+  generationSettings?: unknown | undefined;
 }
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesList =
   Array<GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItem>;
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnit {
-  id?: string;
-  status?: GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitStatus;
-  target?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget;
-  applied?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemApplied;
-  createdAt?: string;
-  createdBy?: GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitCreatedBy;
-  updates?: GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesList;
+  id?: string | undefined;
+  status?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitStatus
+    | undefined;
+  target?: GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget | undefined;
+  applied?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemApplied
+    | undefined;
+  createdAt?: string | undefined;
+  createdBy?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitCreatedBy
+    | undefined;
+  updates?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesList
+    | undefined;
 }
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponse {
-  unit?: GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnit;
+  unit?:
+    | GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnit
+    | undefined;
 }
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequest {
   service_account: string;
-  page?: number;
-  per_page?: number;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsType =
   | "wildcard"
@@ -1294,25 +1342,33 @@ export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesR
       | undefined;
   };
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfig {
-  discovery_url?: string;
-  claims_type?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsType;
+  discovery_url?: string | undefined;
+  claims_type?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsType
+    | undefined;
   /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
-  claims?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap;
+  claims?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap
+    | undefined;
 }
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItem {
-  slug?: string;
-  name?: string;
-  method?: string;
-  config?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfig;
-  ttl_seconds?: number;
-  created_at?: string;
-  last_seen_at?: string | null;
+  slug?: string | undefined;
+  name?: string | undefined;
+  method?: string | undefined;
+  config?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfig
+    | undefined;
+  ttl_seconds?: number | undefined;
+  created_at?: string | undefined;
+  last_seen_at?: string | null | undefined;
 }
 export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesList =
   Array<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItem>;
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponse {
-  identities?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesList;
-  success?: boolean;
+  identities?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesList
+    | undefined;
+  success?: boolean | undefined;
 }
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequest {
   service_account: string;
@@ -1333,66 +1389,76 @@ export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesi
       | undefined;
   };
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig {
-  discovery_url?: string;
-  claims_type?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType;
+  discovery_url?: string | undefined;
+  claims_type?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType
+    | undefined;
   /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
-  claims?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap;
+  claims?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap
+    | undefined;
 }
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity {
-  slug?: string;
-  name?: string;
-  method?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityMethod;
-  config?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig;
-  ttl_seconds?: number;
-  created_at?: string;
-  last_seen_at?: string | null;
+  slug?: string | undefined;
+  name?: string | undefined;
+  method?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityMethod
+    | undefined;
+  config?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig
+    | undefined;
+  ttl_seconds?: number | undefined;
+  created_at?: string | undefined;
+  last_seen_at?: string | null | undefined;
 }
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse {
-  identity?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity;
+  identity?:
+    | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity
+    | undefined;
 }
 export interface GetWebhookRequest {
   /** Webhook's slug */
   slug: string;
   /** The project's name */
-  project?: string;
+  project?: string | undefined;
 }
 export type GetWebhookResponseWebhookAuthenticationType = "None" | "Basic" | "Bearer";
 /** Webhook's authentication type */
 export interface GetWebhookResponseWebhookAuthentication {
-  type?: GetWebhookResponseWebhookAuthenticationType;
+  type?: GetWebhookResponseWebhookAuthenticationType | undefined;
 }
 /** The configs the webhook will trigger for */
 export type GetWebhookResponseWebhookEnabledConfigsList = Array<string>;
 export interface GetWebhookResponseWebhook {
   /** Webhook's slug */
-  id?: string;
+  id?: string | undefined;
   /** Webhook's name */
-  name?: string;
+  name?: string | undefined;
   /** Webhook's URL */
-  url?: string;
+  url?: string | undefined;
   /** Whether the webhook is enabled or disabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether the webhook has a secret set. See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing */
-  hasSecret?: boolean;
+  hasSecret?: boolean | undefined;
   /** Webhook's authentication type */
-  authentication?: GetWebhookResponseWebhookAuthentication;
+  authentication?: GetWebhookResponseWebhookAuthentication | undefined;
   /** The configs the webhook will trigger for */
-  enabledConfigs?: GetWebhookResponseWebhookEnabledConfigsList;
+  enabledConfigs?: GetWebhookResponseWebhookEnabledConfigsList | undefined;
   /** Whether the requestor has permission to modify the webhook */
-  canManage?: boolean;
+  canManage?: boolean | undefined;
 }
 export interface GetWebhookResponse {
   webhook: GetWebhookResponseWebhook;
 }
 export interface GetWorkplaceRequest {}
 export interface GetWorkplaceResponseWorkplace {
-  id?: string;
-  name?: string;
-  billing_email?: string;
-  security_email?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  billing_email?: string | undefined;
+  security_email?: string | undefined;
 }
 export interface GetWorkplaceResponse {
-  workplace?: GetWorkplaceResponseWorkplace;
+  workplace?: GetWorkplaceResponseWorkplace | undefined;
 }
 export type GetWorkplaceIntegrationsIntegrationMemberRequestType =
   | "workplace_user"
@@ -1414,12 +1480,12 @@ export type GetWorkplaceIntegrationsIntegrationMemberResponseMemberType =
 export type GetWorkplaceIntegrationsIntegrationMemberResponseMemberRole =
   CreateGroupResponseGroupDefaultProjectRole;
 export interface GetWorkplaceIntegrationsIntegrationMemberResponseMember {
-  type?: GetWorkplaceIntegrationsIntegrationMemberResponseMemberType;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
+  type?: GetWorkplaceIntegrationsIntegrationMemberResponseMemberType | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
 }
 export interface GetWorkplaceIntegrationsIntegrationMemberResponse {
-  member?: GetWorkplaceIntegrationsIntegrationMemberResponseMember;
+  member?: GetWorkplaceIntegrationsIntegrationMemberResponseMember | undefined;
 }
 export type GroupsAddMemberRequestType = "workplace_user";
 export interface GroupsAddMemberRequest {
@@ -1442,52 +1508,52 @@ export type ListChangeRequestPoliciesResponsePoliciesItemPolicyRulesList = Array
 export type ListChangeRequestPoliciesResponsePoliciesItemPolicyTargets =
   CreateChangeRequestPolicyResponsePolicyTargets;
 export interface ListChangeRequestPoliciesResponsePoliciesItemPolicy {
-  id?: string;
-  name?: string;
-  description?: string;
-  rules?: ListChangeRequestPoliciesResponsePoliciesItemPolicyRulesList;
-  targets?: CreateChangeRequestPolicyResponsePolicyTargets;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  rules?: ListChangeRequestPoliciesResponsePoliciesItemPolicyRulesList | undefined;
+  targets?: CreateChangeRequestPolicyResponsePolicyTargets | undefined;
 }
 export interface ListChangeRequestPoliciesResponsePoliciesItem {
-  policy?: ListChangeRequestPoliciesResponsePoliciesItemPolicy;
+  policy?: ListChangeRequestPoliciesResponsePoliciesItemPolicy | undefined;
 }
 export type ListChangeRequestPoliciesResponsePoliciesList =
   Array<ListChangeRequestPoliciesResponsePoliciesItem>;
 export interface ListChangeRequestPoliciesResponse {
-  policies?: ListChangeRequestPoliciesResponsePoliciesList;
-  success?: boolean;
+  policies?: ListChangeRequestPoliciesResponsePoliciesList | undefined;
+  success?: boolean | undefined;
 }
 export interface ListConfigsRequest {
   /** The project's name */
   project: string;
   /** (optional) the environment from which to list configs */
-  environment?: string;
+  environment?: string | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListConfigsResponseConfigsItemInheritsItem = CloneConfigResponseConfigInheritsItem;
 export type ListConfigsResponseConfigsItemInheritsList =
   Array<CloneConfigResponseConfigInheritsItem>;
 export interface ListConfigsResponseConfigsItem {
-  name?: string;
-  root?: boolean;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: ListConfigsResponseConfigsItemInheritsList;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: ListConfigsResponseConfigsItemInheritsList | undefined;
 }
 export type ListConfigsResponseConfigsList = Array<ListConfigsResponseConfigsItem>;
 export interface ListConfigsResponse {
-  page?: number;
-  configs?: ListConfigsResponseConfigsList;
+  page?: number | undefined;
+  configs?: ListConfigsResponseConfigsList | undefined;
 }
 export interface ListEnvironmentsRequest {
   /** The project's name */
@@ -1496,79 +1562,79 @@ export interface ListEnvironmentsRequest {
 export type ListEnvironmentsResponseEnvironmentsItem = CreateEnvironmentResponseEnvironment;
 export type ListEnvironmentsResponseEnvironmentsList = Array<CreateEnvironmentResponseEnvironment>;
 export interface ListEnvironmentsResponse {
-  environments?: ListEnvironmentsResponseEnvironmentsList;
-  page?: number;
+  environments?: ListEnvironmentsResponseEnvironmentsList | undefined;
+  page?: number | undefined;
 }
 export interface ListGroupsRequest {
-  page?: number;
-  per_page?: number;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export type ListGroupsResponseGroupsItemDefaultProjectRole =
   CreateGroupResponseGroupDefaultProjectRole;
 export interface ListGroupsResponseGroupsItem {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  default_project_role?: CreateGroupResponseGroupDefaultProjectRole;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  default_project_role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
 }
 export type ListGroupsResponseGroupsList = Array<ListGroupsResponseGroupsItem>;
 export interface ListGroupsResponse {
-  groups?: ListGroupsResponseGroupsList;
+  groups?: ListGroupsResponseGroupsList | undefined;
 }
 export interface ListIntegrationsRequest {}
 export interface ListIntegrationsResponseIntegrationsItem {
-  slug?: string;
-  name?: string;
-  type?: string;
-  kind?: string;
-  enabled?: boolean;
+  slug?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  kind?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export type ListIntegrationsResponseIntegrationsList =
   Array<ListIntegrationsResponseIntegrationsItem>;
 export interface ListIntegrationsResponse {
-  integrations?: ListIntegrationsResponseIntegrationsList;
-  success?: boolean;
+  integrations?: ListIntegrationsResponseIntegrationsList | undefined;
+  success?: boolean | undefined;
 }
 export interface ListInvitesRequest {
-  page?: number;
-  per_page?: number;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export type ListInvitesResponseInvitesItemWorkplaceRolePermissionsList = Array<string>;
 export interface ListInvitesResponseInvitesItemWorkplaceRole {
-  name?: string;
-  permissions?: ListInvitesResponseInvitesItemWorkplaceRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: ListInvitesResponseInvitesItemWorkplaceRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface ListInvitesResponseInvitesItem {
-  slug?: string;
-  email?: string;
-  created_at?: string;
-  workplace_role?: ListInvitesResponseInvitesItemWorkplaceRole;
+  slug?: string | undefined;
+  email?: string | undefined;
+  created_at?: string | undefined;
+  workplace_role?: ListInvitesResponseInvitesItemWorkplaceRole | undefined;
 }
 export type ListInvitesResponseInvitesList = Array<ListInvitesResponseInvitesItem>;
 export interface ListInvitesResponse {
-  invites?: ListInvitesResponseInvitesList;
+  invites?: ListInvitesResponseInvitesList | undefined;
 }
 export interface ListProjectsRequest {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ListProjectsResponseProjectsItem {
-  id?: string;
-  slug?: string;
-  name?: string;
-  description?: string;
-  created_at?: string;
+  id?: string | undefined;
+  slug?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  created_at?: string | undefined;
 }
 export type ListProjectsResponseProjectsList = Array<ListProjectsResponseProjectsItem>;
 export interface ListProjectsResponse {
-  page?: number;
-  projects?: ListProjectsResponseProjectsList;
+  page?: number | undefined;
+  projects?: ListProjectsResponseProjectsList | undefined;
 }
 export interface ListSecretsRequest {
   /** Unique identifier for the project object. */
@@ -1576,74 +1642,74 @@ export interface ListSecretsRequest {
   /** Name of the config object. */
   config: string;
   /** Whether or not to issue leases and include dynamic secret values for the config */
-  include_dynamic_secrets?: boolean;
+  include_dynamic_secrets?: boolean | undefined;
   /** The number of seconds until dynamic leases expire. Must be used with `include_dynamic_secrets`. Defaults to 1800 (30 minutes). */
-  dynamic_secrets_ttl_sec?: number;
+  dynamic_secrets_ttl_sec?: number | undefined;
   /** A comma-separated list of secrets to include in the response */
-  secrets?: string;
+  secrets?: string | undefined;
   /** Whether to include Doppler's auto-generated (managed) secrets */
-  include_managed_secrets?: boolean;
+  include_managed_secrets?: boolean | undefined;
 }
 export type ListSecretsResponseSecretsValueRawVisibility = "unmasked" | "masked" | "restricted";
 export type ListSecretsResponseSecretsValueRawValueType = GetSecretResponseValueRawValueType;
 export type ListSecretsResponseSecretsValueComputedValueType = GetSecretResponseValueRawValueType;
 export interface ListSecretsResponseSecretsValue {
-  raw?: string | Redacted.Redacted<string> | null;
-  computed?: string | Redacted.Redacted<string> | null;
-  note?: string;
-  rawVisibility?: ListSecretsResponseSecretsValueRawVisibility;
-  computedVisibility?: string;
-  rawValueType?: GetSecretResponseValueRawValueType;
-  computedValueType?: GetSecretResponseValueRawValueType;
+  raw?: string | Redacted.Redacted<string> | null | undefined;
+  computed?: string | Redacted.Redacted<string> | null | undefined;
+  note?: string | undefined;
+  rawVisibility?: ListSecretsResponseSecretsValueRawVisibility | undefined;
+  computedVisibility?: string | undefined;
+  rawValueType?: GetSecretResponseValueRawValueType | undefined;
+  computedValueType?: GetSecretResponseValueRawValueType | undefined;
 }
 export type ListSecretsResponseSecretsMap = {
   [key: string]: ListSecretsResponseSecretsValue | undefined;
 };
 export interface ListSecretsResponse {
-  secrets?: ListSecretsResponseSecretsMap;
+  secrets?: ListSecretsResponseSecretsMap | undefined;
 }
 export interface ListUsersRequest {
   /** The page of users to fetch */
-  page?: number;
+  page?: number | undefined;
   /** Filter results to only include the user with the provided email address */
-  email?: string;
+  email?: string | undefined;
 }
 export type ListUsersResponseWorkplaceUsersItemUser = ConfigLogsGetResponseLogUser;
 export type ListUsersResponseWorkplaceUsersItem = GetUserResponseWorkplaceUser;
 export type ListUsersResponseWorkplaceUsersList = Array<GetUserResponseWorkplaceUser>;
 export interface ListUsersResponse {
-  workplace_users?: ListUsersResponseWorkplaceUsersList;
-  page?: number;
-  success?: boolean;
+  workplace_users?: ListUsersResponseWorkplaceUsersList | undefined;
+  page?: number | undefined;
+  success?: boolean | undefined;
 }
 export interface ListWebhooksRequest {
   /** The project's name */
-  project?: string;
+  project?: string | undefined;
 }
 export type ListWebhooksResponseWebhooksItemAuthenticationType = "None" | "Basic" | "Bearer";
 /** Webhook's authentication type */
 export interface ListWebhooksResponseWebhooksItemAuthentication {
-  type?: ListWebhooksResponseWebhooksItemAuthenticationType;
+  type?: ListWebhooksResponseWebhooksItemAuthenticationType | undefined;
 }
 /** The configs the webhook will trigger for */
 export type ListWebhooksResponseWebhooksItemEnabledConfigsList = Array<string>;
 export interface ListWebhooksResponseWebhooksItem {
   /** Webhook's slug */
-  id?: string;
+  id?: string | undefined;
   /** Webhook's name */
-  name?: string;
+  name?: string | undefined;
   /** Webhook's URL */
-  url?: string;
+  url?: string | undefined;
   /** Whether the webhook is enabled or disabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether the webhook has a secret set. See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing */
-  hasSecret?: boolean;
+  hasSecret?: boolean | undefined;
   /** Webhook's authentication type */
-  authentication?: ListWebhooksResponseWebhooksItemAuthentication;
+  authentication?: ListWebhooksResponseWebhooksItemAuthentication | undefined;
   /** The configs the webhook will trigger for */
-  enabledConfigs?: ListWebhooksResponseWebhooksItemEnabledConfigsList;
+  enabledConfigs?: ListWebhooksResponseWebhooksItemEnabledConfigsList | undefined;
   /** Whether the requestor has permission to modify the webhook */
-  canManage?: boolean;
+  canManage?: boolean | undefined;
 }
 export type ListWebhooksResponseWebhooksList = Array<ListWebhooksResponseWebhooksItem>;
 export interface ListWebhooksResponse {
@@ -1660,22 +1726,22 @@ export type LockConfigResponseConfigInheritsList = Array<CloneConfigResponseConf
 export type LockConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
 export type LockConfigResponseConfigInheritedByList = Array<CloneConfigResponseConfigInheritsItem>;
 export interface LockConfigResponseConfig {
-  name?: string;
-  root?: boolean;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: LockConfigResponseConfigInheritsList;
-  inheritedBy?: LockConfigResponseConfigInheritedByList;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: LockConfigResponseConfigInheritsList | undefined;
+  inheritedBy?: LockConfigResponseConfigInheritedByList | undefined;
 }
 export interface LockConfigResponse {
-  config?: LockConfigResponseConfig;
+  config?: LockConfigResponseConfig | undefined;
 }
 export type PostV3workplacechangeRequestsRequestAssignedItemType =
   | "WorkplaceUser"
@@ -1698,37 +1764,40 @@ export type PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemValueType =
   GetSecretResponseValueRawValueType;
 export interface PostV3workplacechangeRequestsRequestUnitsItemUpdatesItem {
   name: string;
-  value?: string;
+  value?: string | undefined;
   /** Whether to delete the secret from target config when applied */
-  shouldDelete?: boolean;
+  shouldDelete?: boolean | undefined;
   /** 0 = masked, 1 = unmasked, 2 = restricted */
-  visType?: PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemVisType | (number & {});
-  valueType?: GetSecretResponseValueRawValueType;
-  generationSettings?: unknown;
-  originalSecretUpdateName?: string;
+  visType?:
+    | PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemVisType
+    | (number & {})
+    | undefined;
+  valueType?: GetSecretResponseValueRawValueType | undefined;
+  generationSettings?: unknown | undefined;
+  originalSecretUpdateName?: string | undefined;
 }
 export type PostV3workplacechangeRequestsRequestUnitsItemUpdatesList =
   Array<PostV3workplacechangeRequestsRequestUnitsItemUpdatesItem>;
 export interface PostV3workplacechangeRequestsRequestUnitsItem {
   action: PostV3workplacechangeRequestsRequestUnitsItemAction | (string & {});
-  id?: string;
+  id?: string | undefined;
   target: PostV3workplacechangeRequestsRequestUnitsItemTarget;
-  status?: PostV3workplacechangeRequestsRequestUnitsItemStatus | (string & {});
+  status?: PostV3workplacechangeRequestsRequestUnitsItemStatus | (string & {}) | undefined;
   updates: PostV3workplacechangeRequestsRequestUnitsItemUpdatesList;
 }
 export type PostV3workplacechangeRequestsRequestUnitsList =
   Array<PostV3workplacechangeRequestsRequestUnitsItem>;
 export interface PostV3workplacechangeRequestsRequest {
   title: string;
-  description?: string;
+  description?: string | undefined;
   assigned: PostV3workplacechangeRequestsRequestAssignedList;
   units: PostV3workplacechangeRequestsRequestUnitsList;
 }
 export interface PostV3workplacechangeRequestsResponseChangeRequest {
-  id?: string;
+  id?: string | undefined;
 }
 export interface PostV3workplacechangeRequestsResponse {
-  changeRequest?: PostV3workplacechangeRequestsResponseChangeRequest;
+  changeRequest?: PostV3workplacechangeRequestsResponseChangeRequest | undefined;
 }
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdRequestAssignedItemType =
   | "WorkplaceUser"
@@ -1749,22 +1818,26 @@ export type PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAss
   | "WorkplaceUser"
   | "ServiceAccount";
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAssignedItem {
-  type?: PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAssignedItemType;
-  slug?: string;
-  name?: string;
-  email?: string;
-  image?: string;
+  type?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAssignedItemType
+    | undefined;
+  slug?: string | undefined;
+  name?: string | undefined;
+  email?: string | undefined;
+  image?: string | undefined;
 }
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAssignedList =
   Array<PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAssignedItem>;
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdResponse {
-  assigned?: PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAssignedList;
+  assigned?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdResponseAssignedList
+    | undefined;
 }
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdCloseRequest {
   change_request_id: string;
 }
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdCloseResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyRequest {
   change_request_id: string;
@@ -1773,11 +1846,15 @@ export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsu
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponseUnitStatus =
   "applied";
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponseUnit {
-  id?: string;
-  status?: PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponseUnitStatus;
+  id?: string | undefined;
+  status?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponseUnitStatus
+    | undefined;
 }
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponse {
-  unit?: PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponseUnit;
+  unit?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponseUnit
+    | undefined;
 }
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewRequest {
   change_request_id: string;
@@ -1788,11 +1865,15 @@ export type PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUn
   | "open"
   | "canceled";
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnit {
-  id?: string;
-  status?: PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnitStatus;
+  id?: string | undefined;
+  status?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnitStatus
+    | undefined;
 }
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponse {
-  unit?: PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnit;
+  unit?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponseUnit
+    | undefined;
 }
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusRequestStatus =
   | "draft"
@@ -1810,11 +1891,15 @@ export type PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUn
   | "open"
   | "canceled";
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponseUnit {
-  id?: string;
-  status?: PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponseUnitStatus;
+  id?: string | undefined;
+  status?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponseUnitStatus
+    | undefined;
 }
 export interface PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponse {
-  unit?: PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponseUnit;
+  unit?:
+    | PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponseUnit
+    | undefined;
 }
 export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestMethod =
   "oidc";
@@ -1859,22 +1944,30 @@ export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
       | undefined;
   };
 export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig {
-  discovery_url?: string;
-  claims_type?: string;
+  discovery_url?: string | undefined;
+  claims_type?: string | undefined;
   /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
-  claims?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap;
+  claims?:
+    | PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap
+    | undefined;
 }
 export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentity {
-  slug?: string;
-  name?: string;
-  method?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityMethod;
-  config?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig;
-  ttl_seconds?: number;
-  created_at?: string;
-  last_seen_at?: string | null;
+  slug?: string | undefined;
+  name?: string | undefined;
+  method?:
+    | PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityMethod
+    | undefined;
+  config?:
+    | PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig
+    | undefined;
+  ttl_seconds?: number | undefined;
+  created_at?: string | undefined;
+  last_seen_at?: string | null | undefined;
 }
 export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponse {
-  identity?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentity;
+  identity?:
+    | PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentity
+    | undefined;
 }
 export type ProjectMembersAddRequestType =
   | "workplace_user"
@@ -1890,21 +1983,21 @@ export interface ProjectMembersAddRequest {
   /** Member's slug */
   slug: string;
   /** Identifier of the project role */
-  role?: string;
+  role?: string | undefined;
   /** Environment slugs to grant the member access to */
-  environments?: ProjectMembersAddRequestEnvironmentsList;
+  environments?: ProjectMembersAddRequestEnvironmentsList | undefined;
 }
 export type ProjectMembersAddResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersAddResponseMemberEnvironmentsList = Array<string>;
 export interface ProjectMembersAddResponseMember {
-  type?: string;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
-  access_all_environments?: boolean;
-  environments?: ProjectMembersAddResponseMemberEnvironmentsList;
+  type?: string | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersAddResponseMemberEnvironmentsList | undefined;
 }
 export interface ProjectMembersAddResponse {
-  member?: ProjectMembersAddResponseMember;
+  member?: ProjectMembersAddResponseMember | undefined;
 }
 export type ProjectMembersDeleteRequestType =
   | "workplace_user"
@@ -1934,33 +2027,33 @@ export interface ProjectMembersGetRequest {
 export type ProjectMembersGetResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersGetResponseMemberEnvironmentsList = Array<string>;
 export interface ProjectMembersGetResponseMember {
-  type?: string;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
-  access_all_environments?: boolean;
-  environments?: ProjectMembersGetResponseMemberEnvironmentsList;
+  type?: string | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersGetResponseMemberEnvironmentsList | undefined;
 }
 export interface ProjectMembersGetResponse {
-  member?: ProjectMembersGetResponseMember;
+  member?: ProjectMembersGetResponseMember | undefined;
 }
 export interface ProjectMembersListRequest {
   /** Project slug */
   project: string;
-  page?: number;
-  per_page?: number;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export type ProjectMembersListResponseMembersItemRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersListResponseMembersItemEnvironmentsList = Array<string>;
 export interface ProjectMembersListResponseMembersItem {
-  type?: string;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
-  access_all_environments?: boolean;
-  environments?: ProjectMembersListResponseMembersItemEnvironmentsList;
+  type?: string | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersListResponseMembersItemEnvironmentsList | undefined;
 }
 export type ProjectMembersListResponseMembersList = Array<ProjectMembersListResponseMembersItem>;
 export interface ProjectMembersListResponse {
-  members?: ProjectMembersListResponseMembersList;
+  members?: ProjectMembersListResponseMembersList | undefined;
 }
 export type ProjectMembersUpdateRequestType =
   | "workplace_user"
@@ -1976,21 +2069,21 @@ export interface ProjectMembersUpdateRequest {
   /** Project slug */
   project: string;
   /** Identifier of the project role */
-  role?: string;
+  role?: string | undefined;
   /** Environment slugs to grant the member access to */
-  environments?: ProjectMembersUpdateRequestEnvironmentsList;
+  environments?: ProjectMembersUpdateRequestEnvironmentsList | undefined;
 }
 export type ProjectMembersUpdateResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersUpdateResponseMemberEnvironmentsList = Array<string>;
 export interface ProjectMembersUpdateResponseMember {
-  type?: string;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
-  access_all_environments?: boolean;
-  environments?: ProjectMembersUpdateResponseMemberEnvironmentsList;
+  type?: string | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersUpdateResponseMemberEnvironmentsList | undefined;
 }
 export interface ProjectMembersUpdateResponse {
-  member?: ProjectMembersUpdateResponseMember;
+  member?: ProjectMembersUpdateResponseMember | undefined;
 }
 /** An array containing the permissions the role has. Valid permissions are: `enclave_config_access_logs`, `enclave_config_change_request_policy_manage`, `enclave_config_change_request_review`, `enclave_config_logs`, `enclave_config_secrets_referencing`, `enclave_config_syncs_manage`, `enclave_config_toggle_inheritable`, `enclave_project_config_create`, `enclave_project_config_delete`, `enclave_project_config_duplicate`, `enclave_project_config_dynamic_secrets_leases_write`, `enclave_project_config_dynamic_secrets_manage`, `enclave_project_config_dynamic_secrets_read`, `enclave_project_config_lock`, `enclave_project_config_logs_rollback`, `enclave_project_config_rename`, `enclave_project_config_rotated_secrets_manage`, `enclave_project_config_rotated_secrets_read`, `enclave_project_config_secrets_read`, `enclave_project_config_secrets_write`, `enclave_project_config_service_tokens`, `enclave_project_config_trusted_ips`, `enclave_project_delete`, `enclave_project_environment_all`, `enclave_project_environment_create`, `enclave_project_environment_delete`, `enclave_project_environment_list_all`, `enclave_project_environment_order`, `enclave_project_environment_rename`, `enclave_project_environment_settings_manage`, `enclave_project_inheritance`, `enclave_project_members`, `enclave_project_rename`, `enclave_project_secrets_notes_manage`, `enclave_project_secrets_referencing`, `enclave_project_webhooks`, `enclave_secret_reminders` */
 export type ProjectRolesCreateRequestPermissionsList = Array<string>;
@@ -2002,14 +2095,14 @@ export interface ProjectRolesCreateRequest {
 }
 export type ProjectRolesCreateResponseRolePermissionsList = Array<string>;
 export interface ProjectRolesCreateResponseRole {
-  name?: string;
-  permissions?: ProjectRolesCreateResponseRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
+  name?: string | undefined;
+  permissions?: ProjectRolesCreateResponseRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
 }
 export interface ProjectRolesCreateResponse {
-  role?: ProjectRolesCreateResponseRole;
+  role?: ProjectRolesCreateResponseRole | undefined;
 }
 export interface ProjectRolesDeleteRequest {
   /** The role's unique identifier */
@@ -2022,32 +2115,32 @@ export interface ProjectRolesGetRequest {
 }
 export type ProjectRolesGetResponseRolePermissionsList = Array<string>;
 export interface ProjectRolesGetResponseRole {
-  name?: string;
-  permissions?: ProjectRolesGetResponseRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
+  name?: string | undefined;
+  permissions?: ProjectRolesGetResponseRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
 }
 export interface ProjectRolesGetResponse {
-  role?: ProjectRolesGetResponseRole;
+  role?: ProjectRolesGetResponseRole | undefined;
 }
 export interface ProjectRolesListRequest {}
 export type ProjectRolesListResponseRolesItemPermissionsList = Array<string>;
 export interface ProjectRolesListResponseRolesItem {
-  name?: string;
-  permissions?: ProjectRolesListResponseRolesItemPermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
+  name?: string | undefined;
+  permissions?: ProjectRolesListResponseRolesItemPermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
 }
 export type ProjectRolesListResponseRolesList = Array<ProjectRolesListResponseRolesItem>;
 export interface ProjectRolesListResponse {
-  roles?: ProjectRolesListResponseRolesList;
+  roles?: ProjectRolesListResponseRolesList | undefined;
 }
 export interface ProjectRolesListPermissionsRequest {}
 export type ProjectRolesListPermissionsResponsePermissionsList = Array<string>;
 export interface ProjectRolesListPermissionsResponse {
-  permissions?: ProjectRolesListPermissionsResponsePermissionsList;
+  permissions?: ProjectRolesListPermissionsResponsePermissionsList | undefined;
 }
 /** An array containing the permissions the role has. Valid permissions are: `enclave_config_access_logs`, `enclave_config_change_request_policy_manage`, `enclave_config_change_request_review`, `enclave_config_logs`, `enclave_config_secrets_referencing`, `enclave_config_syncs_manage`, `enclave_config_toggle_inheritable`, `enclave_project_config_create`, `enclave_project_config_delete`, `enclave_project_config_duplicate`, `enclave_project_config_dynamic_secrets_leases_write`, `enclave_project_config_dynamic_secrets_manage`, `enclave_project_config_dynamic_secrets_read`, `enclave_project_config_lock`, `enclave_project_config_logs_rollback`, `enclave_project_config_rename`, `enclave_project_config_rotated_secrets_manage`, `enclave_project_config_rotated_secrets_read`, `enclave_project_config_secrets_read`, `enclave_project_config_secrets_write`, `enclave_project_config_service_tokens`, `enclave_project_config_trusted_ips`, `enclave_project_delete`, `enclave_project_environment_all`, `enclave_project_environment_create`, `enclave_project_environment_delete`, `enclave_project_environment_list_all`, `enclave_project_environment_order`, `enclave_project_environment_rename`, `enclave_project_environment_settings_manage`, `enclave_project_inheritance`, `enclave_project_members`, `enclave_project_rename`, `enclave_project_secrets_notes_manage`, `enclave_project_secrets_referencing`, `enclave_project_webhooks`, `enclave_secret_reminders` */
 export type ProjectRolesUpdateRequestPermissionsList = Array<string>;
@@ -2055,20 +2148,20 @@ export interface ProjectRolesUpdateRequest {
   /** The role's unique identifier */
   role: string;
   /** The name of the role */
-  name?: string;
+  name?: string | undefined;
   /** An array containing the permissions the role has. Valid permissions are: `enclave_config_access_logs`, `enclave_config_change_request_policy_manage`, `enclave_config_change_request_review`, `enclave_config_logs`, `enclave_config_secrets_referencing`, `enclave_config_syncs_manage`, `enclave_config_toggle_inheritable`, `enclave_project_config_create`, `enclave_project_config_delete`, `enclave_project_config_duplicate`, `enclave_project_config_dynamic_secrets_leases_write`, `enclave_project_config_dynamic_secrets_manage`, `enclave_project_config_dynamic_secrets_read`, `enclave_project_config_lock`, `enclave_project_config_logs_rollback`, `enclave_project_config_rename`, `enclave_project_config_rotated_secrets_manage`, `enclave_project_config_rotated_secrets_read`, `enclave_project_config_secrets_read`, `enclave_project_config_secrets_write`, `enclave_project_config_service_tokens`, `enclave_project_config_trusted_ips`, `enclave_project_delete`, `enclave_project_environment_all`, `enclave_project_environment_create`, `enclave_project_environment_delete`, `enclave_project_environment_list_all`, `enclave_project_environment_order`, `enclave_project_environment_rename`, `enclave_project_environment_settings_manage`, `enclave_project_inheritance`, `enclave_project_members`, `enclave_project_rename`, `enclave_project_secrets_notes_manage`, `enclave_project_secrets_referencing`, `enclave_project_webhooks`, `enclave_secret_reminders` */
-  permissions?: ProjectRolesUpdateRequestPermissionsList;
+  permissions?: ProjectRolesUpdateRequestPermissionsList | undefined;
 }
 export type ProjectRolesUpdateResponseRolePermissionsList = Array<string>;
 export interface ProjectRolesUpdateResponseRole {
-  name?: string;
-  permissions?: ProjectRolesUpdateResponseRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
+  name?: string | undefined;
+  permissions?: ProjectRolesUpdateResponseRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
 }
 export interface ProjectRolesUpdateResponse {
-  role?: ProjectRolesUpdateResponseRole;
+  role?: ProjectRolesUpdateResponseRole | undefined;
 }
 export type PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestAssignedItemType =
   | "WorkplaceUser"
@@ -2100,18 +2193,20 @@ export type PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnits
 export interface PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItem {
   action?:
     | PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItemAction
-    | (string & {});
+    | (string & {})
+    | undefined;
   name: string;
-  value?: string;
+  value?: string | undefined;
   /** Whether to delete the secret from target config when applied */
-  shouldDelete?: boolean;
+  shouldDelete?: boolean | undefined;
   /** 0 = masked, 1 = unmasked, 2 = restricted */
   visType?:
     | PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItemVisType
-    | (number & {});
-  valueType?: GetSecretResponseValueRawValueType;
-  generationSettings?: unknown;
-  originalSecretUpdateName?: string;
+    | (number & {})
+    | undefined;
+  valueType?: GetSecretResponseValueRawValueType | undefined;
+  generationSettings?: unknown | undefined;
+  originalSecretUpdateName?: string | undefined;
 }
 export type PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesList =
   Array<PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItem>;
@@ -2119,25 +2214,28 @@ export interface PutV3workplacechangeRequestschangeRequestChangeRequestIdRequest
   action:
     | PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemAction
     | (string & {});
-  id?: string;
+  id?: string | undefined;
   status?:
     | PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemStatus
-    | (string & {});
+    | (string & {})
+    | undefined;
   updates: PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesList;
 }
 export type PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsList =
   Array<PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItem>;
 export interface PutV3workplacechangeRequestschangeRequestChangeRequestIdRequest {
   change_request_id: string;
-  title?: string;
-  description?: string;
-  assigned?: PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestAssignedList;
-  units?: PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsList;
+  title?: string | undefined;
+  description?: string | undefined;
+  assigned?:
+    | PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestAssignedList
+    | undefined;
+  units?: PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsList | undefined;
 }
 export type PutV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequest =
   PostV3workplacechangeRequestsResponseChangeRequest;
 export interface PutV3workplacechangeRequestschangeRequestChangeRequestIdResponse {
-  changeRequest?: PostV3workplacechangeRequestsResponseChangeRequest;
+  changeRequest?: PostV3workplacechangeRequestsResponseChangeRequest | undefined;
 }
 export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestMethod =
   "oidc";
@@ -2186,22 +2284,32 @@ export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesi
       | undefined;
   };
 export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig {
-  discovery_url?: string;
-  claims_type?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType;
+  discovery_url?: string | undefined;
+  claims_type?:
+    | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType
+    | undefined;
   /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
-  claims?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap;
+  claims?:
+    | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap
+    | undefined;
 }
 export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity {
-  slug?: string;
-  name?: string;
-  method?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityMethod;
-  config?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig;
-  ttl_seconds?: number;
-  created_at?: string;
-  last_seen_at?: string | null;
+  slug?: string | undefined;
+  name?: string | undefined;
+  method?:
+    | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityMethod
+    | undefined;
+  config?:
+    | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig
+    | undefined;
+  ttl_seconds?: number | undefined;
+  created_at?: string | undefined;
+  last_seen_at?: string | null | undefined;
 }
 export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse {
-  identity?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity;
+  identity?:
+    | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity
+    | undefined;
 }
 export interface RenameEnvironmentRequest {
   /** The project's name */
@@ -2209,15 +2317,15 @@ export interface RenameEnvironmentRequest {
   /** The environment's slug */
   environment: string;
   /** Desired name */
-  name?: string;
+  name?: string | undefined;
   /** Desired slug */
-  slug?: string;
+  slug?: string | undefined;
   /** Whether or not to enable personal configs for the environment */
-  personal_configs?: boolean;
+  personal_configs?: boolean | undefined;
 }
 export type RenameEnvironmentResponseEnvironment = CreateEnvironmentResponseEnvironment;
 export interface RenameEnvironmentResponse {
-  environment?: CreateEnvironmentResponseEnvironment;
+  environment?: CreateEnvironmentResponseEnvironment | undefined;
 }
 export interface RevokeAuthRequest {
   token: string;
@@ -2233,57 +2341,57 @@ export interface SecretsNamesRequest {
   /** Name of the config object. */
   config: string;
   /** Whether or not to issue leases and include dynamic secret values for the config */
-  include_dynamic_secrets?: boolean;
+  include_dynamic_secrets?: boolean | undefined;
   /** Whether to include Doppler's auto-generated (managed) secrets */
-  include_managed_secrets?: boolean;
+  include_managed_secrets?: boolean | undefined;
 }
 export type SecretsNamesResponseNamesList = Array<string>;
 export interface SecretsNamesResponse {
-  names?: SecretsNamesResponseNamesList;
+  names?: SecretsNamesResponseNamesList | undefined;
 }
 export interface SecretsUpdateNoteRequest {
   /** Unique identifier for the project object. */
-  project?: string;
+  project?: string | undefined;
   /** The name of the secret */
   secret: string | Redacted.Redacted<string>;
   /** The note you want to set on the secret. This note will be applied to the specified secret in all environments. */
   note: string;
 }
 export interface SecretsUpdateNoteResponse {
-  secret?: string | Redacted.Redacted<string>;
-  note?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  note?: string | undefined;
 }
 /** Workplace permissions to grant */
 export type ServiceAccountsCreateRequestWorkplaceRolePermissionsList = Array<string>;
 /** You may provide an identifier OR permissions, but not both */
 export interface ServiceAccountsCreateRequestWorkplaceRole {
   /** Identifier of an existing workplace role */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Workplace permissions to grant */
-  permissions?: ServiceAccountsCreateRequestWorkplaceRolePermissionsList;
+  permissions?: ServiceAccountsCreateRequestWorkplaceRolePermissionsList | undefined;
 }
 export interface ServiceAccountsCreateRequest {
-  name?: string;
+  name?: string | undefined;
   /** You may provide an identifier OR permissions, but not both */
-  workplace_role?: ServiceAccountsCreateRequestWorkplaceRole;
+  workplace_role?: ServiceAccountsCreateRequestWorkplaceRole | undefined;
 }
 export type ServiceAccountsCreateResponseServiceAccountWorkplaceRolePermissionsList = Array<string>;
 export interface ServiceAccountsCreateResponseServiceAccountWorkplaceRole {
-  name?: string;
-  permissions?: ServiceAccountsCreateResponseServiceAccountWorkplaceRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: ServiceAccountsCreateResponseServiceAccountWorkplaceRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface ServiceAccountsCreateResponseServiceAccount {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  workplace_role?: ServiceAccountsCreateResponseServiceAccountWorkplaceRole;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  workplace_role?: ServiceAccountsCreateResponseServiceAccountWorkplaceRole | undefined;
 }
 export interface ServiceAccountsCreateResponse {
-  service_account?: ServiceAccountsCreateResponseServiceAccount;
+  service_account?: ServiceAccountsCreateResponseServiceAccount | undefined;
 }
 export interface ServiceAccountsDeleteRequest {
   /** Slug of the service account */
@@ -2296,101 +2404,103 @@ export interface ServiceAccountsGetRequest {
 }
 export type ServiceAccountsGetResponseServiceAccountWorkplaceRolePermissionsList = Array<string>;
 export interface ServiceAccountsGetResponseServiceAccountWorkplaceRole {
-  name?: string;
-  permissions?: ServiceAccountsGetResponseServiceAccountWorkplaceRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: ServiceAccountsGetResponseServiceAccountWorkplaceRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface ServiceAccountsGetResponseServiceAccount {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  workplace_role?: ServiceAccountsGetResponseServiceAccountWorkplaceRole;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  workplace_role?: ServiceAccountsGetResponseServiceAccountWorkplaceRole | undefined;
 }
 export interface ServiceAccountsGetResponse {
-  service_account?: ServiceAccountsGetResponseServiceAccount;
+  service_account?: ServiceAccountsGetResponseServiceAccount | undefined;
 }
 export interface ServiceAccountsListRequest {
-  page?: number;
-  per_page?: number;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export type ServiceAccountsListResponseServiceAccountsItemWorkplaceRolePermissionsList =
   Array<string>;
 export interface ServiceAccountsListResponseServiceAccountsItemWorkplaceRole {
-  name?: string;
-  permissions?: ServiceAccountsListResponseServiceAccountsItemWorkplaceRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?:
+    | ServiceAccountsListResponseServiceAccountsItemWorkplaceRolePermissionsList
+    | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface ServiceAccountsListResponseServiceAccountsItem {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  workplace_role?: ServiceAccountsListResponseServiceAccountsItemWorkplaceRole;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  workplace_role?: ServiceAccountsListResponseServiceAccountsItemWorkplaceRole | undefined;
 }
 export type ServiceAccountsListResponseServiceAccountsList =
   Array<ServiceAccountsListResponseServiceAccountsItem>;
 export interface ServiceAccountsListResponse {
-  service_accounts?: ServiceAccountsListResponseServiceAccountsList;
+  service_accounts?: ServiceAccountsListResponseServiceAccountsList | undefined;
 }
 /** Workplace permissions to grant */
 export type ServiceAccountsUpdateRequestWorkplaceRolePermissionsList = Array<string>;
 /** You may provide an identifier OR permissions, but not both */
 export interface ServiceAccountsUpdateRequestWorkplaceRole {
   /** Identifier of an existing workplace role */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Workplace permissions to grant */
-  permissions?: ServiceAccountsUpdateRequestWorkplaceRolePermissionsList;
+  permissions?: ServiceAccountsUpdateRequestWorkplaceRolePermissionsList | undefined;
 }
 export interface ServiceAccountsUpdateRequest {
   /** Slug of the service account */
   slug: string;
-  name?: string;
+  name?: string | undefined;
   /** You may provide an identifier OR permissions, but not both */
-  workplace_role?: ServiceAccountsUpdateRequestWorkplaceRole;
+  workplace_role?: ServiceAccountsUpdateRequestWorkplaceRole | undefined;
 }
 export type ServiceAccountsUpdateResponseServiceAccountWorkplaceRolePermissionsList =
   Array<unknown>;
 export interface ServiceAccountsUpdateResponseServiceAccountWorkplaceRole {
-  name?: string;
-  permissions?: ServiceAccountsUpdateResponseServiceAccountWorkplaceRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: ServiceAccountsUpdateResponseServiceAccountWorkplaceRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface ServiceAccountsUpdateResponseServiceAccount {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  workplace_role?: ServiceAccountsUpdateResponseServiceAccountWorkplaceRole;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  workplace_role?: ServiceAccountsUpdateResponseServiceAccountWorkplaceRole | undefined;
 }
 export interface ServiceAccountsUpdateResponse {
-  service_account?: ServiceAccountsUpdateResponseServiceAccount;
+  service_account?: ServiceAccountsUpdateResponseServiceAccount | undefined;
 }
 export interface ServiceAccountTokensCreateRequest {
   /** Slug of the service account */
   service_account: string;
   /** The display name of the API token */
-  name?: string;
+  name?: string | undefined;
   /** The datetime at which the API token should expire. If not provided, the API token will remain vaild indefinitely unless manually revoked */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 export interface ServiceAccountTokensCreateResponseApiToken {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  last_seen_at?: string | null;
-  expires_at?: string | null;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  last_seen_at?: string | null | undefined;
+  expires_at?: string | null | undefined;
 }
 export interface ServiceAccountTokensCreateResponse {
-  api_token?: ServiceAccountTokensCreateResponseApiToken;
-  api_key?: string | Redacted.Redacted<string>;
-  success?: boolean;
+  api_token?: ServiceAccountTokensCreateResponseApiToken | undefined;
+  api_key?: string | Redacted.Redacted<string> | undefined;
+  success?: boolean | undefined;
 }
 export interface ServiceAccountTokensDeleteRequest {
   /** Slug of the service account */
@@ -2407,22 +2517,22 @@ export interface ServiceAccountTokensGetRequest {
 }
 export type ServiceAccountTokensGetResponseApiToken = ServiceAccountTokensCreateResponseApiToken;
 export interface ServiceAccountTokensGetResponse {
-  api_token?: ServiceAccountTokensCreateResponseApiToken;
-  success?: boolean;
+  api_token?: ServiceAccountTokensCreateResponseApiToken | undefined;
+  success?: boolean | undefined;
 }
 export interface ServiceAccountTokensListRequest {
   /** Slug of the service account */
   service_account: string;
-  page?: number;
-  per_page?: number;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export type ServiceAccountTokensListResponseApiTokensItem =
   ServiceAccountTokensCreateResponseApiToken;
 export type ServiceAccountTokensListResponseApiTokensList =
   Array<ServiceAccountTokensCreateResponseApiToken>;
 export interface ServiceAccountTokensListResponse {
-  api_tokens?: ServiceAccountTokensListResponseApiTokensList;
-  success?: boolean;
+  api_tokens?: ServiceAccountTokensListResponseApiTokensList | undefined;
+  success?: boolean | undefined;
 }
 /** Token's capabilities. */
 export type ServiceTokensCreateRequestAccess = "read" | "read/write";
@@ -2434,23 +2544,23 @@ export interface ServiceTokensCreateRequest {
   /** Name of the service token. */
   name: string;
   /** Unix timestamp of when token should expire. */
-  expire_at?: string;
+  expire_at?: string | undefined;
   /** Token's capabilities. */
-  access?: ServiceTokensCreateRequestAccess | (string & {});
+  access?: ServiceTokensCreateRequestAccess | (string & {}) | undefined;
 }
 export interface ServiceTokensCreateResponseToken {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  key?: string | Redacted.Redacted<string>;
-  config?: string;
-  environment?: string;
-  project?: string;
-  expires_at?: string | null;
-  access?: string;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
+  config?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  expires_at?: string | null | undefined;
+  access?: string | undefined;
 }
 export interface ServiceTokensCreateResponse {
-  token?: ServiceTokensCreateResponseToken;
+  token?: ServiceTokensCreateResponseToken | undefined;
 }
 export interface ServiceTokensDeleteRequest {
   /** Unique identifier for the project object. */
@@ -2458,12 +2568,12 @@ export interface ServiceTokensDeleteRequest {
   /** Name of the config object. */
   config: string;
   /** The slug of the service token. */
-  slug?: string;
+  slug?: string | undefined;
   /** The token value. */
-  token?: string | Redacted.Redacted<string>;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ServiceTokensDeleteResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface ServiceTokensListRequest {
   /** Unique identifier for the project object. */
@@ -2472,31 +2582,31 @@ export interface ServiceTokensListRequest {
   config: string;
 }
 export interface ServiceTokensListResponseTokensItem {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  config?: string;
-  environment?: string;
-  project?: string;
-  expires_at?: string | null;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  config?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  expires_at?: string | null | undefined;
 }
 export type ServiceTokensListResponseTokensList = Array<ServiceTokensListResponseTokensItem>;
 export interface ServiceTokensListResponse {
-  tokens?: ServiceTokensListResponseTokensList;
+  tokens?: ServiceTokensListResponseTokensList | undefined;
 }
 export interface ShareSecretRequest {
   /** Plain text secret to share. */
   secret: string | Redacted.Redacted<string>;
   /** Number of views before the link expires. Valid ranges: 1 to 50. -1 for unlimited. */
-  expire_views?: number;
+  expire_views?: number | undefined;
   /** Number of days before the link expires. Valid range: 1 to 90. */
-  expire_days?: number;
+  expire_days?: number | undefined;
 }
 export interface ShareSecretResponse {
-  url?: string;
-  authenticated_url?: string;
-  password?: string | Redacted.Redacted<string>;
-  success?: boolean;
+  url?: string | undefined;
+  authenticated_url?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  success?: boolean | undefined;
 }
 export interface ShareSecretEncryptedRequest {
   /** Ecrypted secret using AES-GCM with a symmetric key derived from a cryptographically random 64 character passphrase using PBKDF2. 1,000,000 salt rounds required. Then base64 encode the encrypted secret. */
@@ -2504,17 +2614,17 @@ export interface ShareSecretEncryptedRequest {
   /** SHA256 hash of the password. This is NOT the hash of the derived encryption key. */
   hashed_password: string | Redacted.Redacted<string>;
   /** Number of views before the link expires. Valid ranges: 1 to 50. -1 for unlimited. */
-  expire_views?: number;
+  expire_views?: number | undefined;
   /** Number of days before the link expires. Valid range: 1 to 90. */
-  expire_days?: number;
+  expire_days?: number | undefined;
   /** The key derivation function used. Must by "pbkdf2". */
   encryption_kdf: string;
   /** Number of salt rounds used by KDF. Must be "1000000". */
   encryption_salt_rounds: number;
 }
 export interface ShareSecretEncryptedResponse {
-  url?: string;
-  success?: boolean;
+  url?: string | undefined;
+  success?: boolean | undefined;
 }
 export interface UnlockConfigRequest {
   /** Unique identifier for the project object. */
@@ -2528,22 +2638,22 @@ export type UnlockConfigResponseConfigInheritedByItem = CloneConfigResponseConfi
 export type UnlockConfigResponseConfigInheritedByList =
   Array<CloneConfigResponseConfigInheritsItem>;
 export interface UnlockConfigResponseConfig {
-  name?: string;
-  root?: boolean;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: UnlockConfigResponseConfigInheritsList;
-  inheritedBy?: UnlockConfigResponseConfigInheritedByList;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: UnlockConfigResponseConfigInheritsList | undefined;
+  inheritedBy?: UnlockConfigResponseConfigInheritedByList | undefined;
 }
 export interface UnlockConfigResponse {
-  config?: UnlockConfigResponseConfig;
+  config?: UnlockConfigResponseConfig | undefined;
 }
 export type UpdateChangeRequestPolicyRequestRulesItemType =
   | '"RequiredReviewer"'
@@ -2564,9 +2674,9 @@ export type UpdateChangeRequestPolicyRequestRulesItemSubjectsList =
 export interface UpdateChangeRequestPolicyRequestRulesItem {
   type: UpdateChangeRequestPolicyRequestRulesItemType | (string & {});
   /** The number of required reviewers. Only applies to "RequiredReviewer" rules. */
-  count?: number;
+  count?: number | undefined;
   /** A list of required reviewers. If specified, only reviews from reviewers in this list will satisfy the policy. Only applies to "RequiredReviewer" rules. */
-  subjects?: UpdateChangeRequestPolicyRequestRulesItemSubjectsList;
+  subjects?: UpdateChangeRequestPolicyRequestRulesItemSubjectsList | undefined;
 }
 /** A list of rules the policy enforces. */
 export type UpdateChangeRequestPolicyRequestRulesList =
@@ -2579,7 +2689,7 @@ export interface UpdateChangeRequestPolicyRequest {
   /** The name of the policy. */
   name: string;
   /** An optional description of the policy. */
-  description?: string;
+  description?: string | undefined;
   /** A list of rules the policy enforces. */
   rules: UpdateChangeRequestPolicyRequestRulesList;
   /** Describes the which projects, environments, and configs the policy applies to. */
@@ -2589,15 +2699,15 @@ export type UpdateChangeRequestPolicyResponsePolicyRulesList = Array<unknown>;
 export type UpdateChangeRequestPolicyResponsePolicyTargets =
   CreateChangeRequestPolicyResponsePolicyTargets;
 export interface UpdateChangeRequestPolicyResponsePolicy {
-  id?: string;
-  name?: string;
-  description?: string;
-  rules?: UpdateChangeRequestPolicyResponsePolicyRulesList;
-  targets?: CreateChangeRequestPolicyResponsePolicyTargets;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  rules?: UpdateChangeRequestPolicyResponsePolicyRulesList | undefined;
+  targets?: CreateChangeRequestPolicyResponsePolicyTargets | undefined;
 }
 export interface UpdateChangeRequestPolicyResponse {
-  policy?: UpdateChangeRequestPolicyResponsePolicy;
-  success?: boolean;
+  policy?: UpdateChangeRequestPolicyResponsePolicy | undefined;
+  success?: boolean | undefined;
 }
 export interface UpdateConfigRequest {
   /** Unique identifier for the project object. */
@@ -2613,29 +2723,29 @@ export type UpdateConfigResponseConfigInheritedByItem = CloneConfigResponseConfi
 export type UpdateConfigResponseConfigInheritedByList =
   Array<CloneConfigResponseConfigInheritsItem>;
 export interface UpdateConfigResponseConfig {
-  name?: string;
-  root?: boolean;
-  locked?: boolean;
-  initial_fetch_at?: string;
-  last_fetch_at?: string;
-  created_at?: string;
-  environment?: string;
-  project?: string;
-  slug?: string;
-  inheritable?: boolean;
-  inheriting?: boolean;
-  inherits?: UpdateConfigResponseConfigInheritsList;
-  inheritedBy?: UpdateConfigResponseConfigInheritedByList;
+  name?: string | undefined;
+  root?: boolean | undefined;
+  locked?: boolean | undefined;
+  initial_fetch_at?: string | undefined;
+  last_fetch_at?: string | undefined;
+  created_at?: string | undefined;
+  environment?: string | undefined;
+  project?: string | undefined;
+  slug?: string | undefined;
+  inheritable?: boolean | undefined;
+  inheriting?: boolean | undefined;
+  inherits?: UpdateConfigResponseConfigInheritsList | undefined;
+  inheritedBy?: UpdateConfigResponseConfigInheritedByList | undefined;
 }
 export interface UpdateConfigResponse {
-  config?: UpdateConfigResponseConfig;
+  config?: UpdateConfigResponseConfig | undefined;
 }
 export interface UpdateGroupRequest {
   /** The group's slug */
   slug: string;
-  name?: string;
+  name?: string | undefined;
   /** Identifier of the project role */
-  default_project_role?: string;
+  default_project_role?: string | undefined;
 }
 export type UpdateGroupResponseGroupDefaultProjectRole = CreateGroupResponseGroupDefaultProjectRole;
 export type UpdateGroupResponseGroupProjectsItemRole = CreateGroupResponseGroupDefaultProjectRole;
@@ -2644,23 +2754,23 @@ export type UpdateGroupResponseGroupProjectsList = Array<CreateGroupResponseGrou
 export type UpdateGroupResponseGroupMembersItem = AuthMeResponsePrincipal;
 export type UpdateGroupResponseGroupMembersList = Array<AuthMeResponsePrincipal>;
 export interface UpdateGroupResponseGroup {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  default_project_role?: CreateGroupResponseGroupDefaultProjectRole;
-  projects?: UpdateGroupResponseGroupProjectsList;
-  members?: UpdateGroupResponseGroupMembersList;
+  name?: string | undefined;
+  slug?: string | undefined;
+  created_at?: string | undefined;
+  default_project_role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  projects?: UpdateGroupResponseGroupProjectsList | undefined;
+  members?: UpdateGroupResponseGroupMembersList | undefined;
 }
 export interface UpdateGroupResponse {
-  group?: UpdateGroupResponseGroup;
+  group?: UpdateGroupResponseGroup | undefined;
 }
 export interface UpdateIntegrationRequest {
   /** The slug of the integration to update */
   integration: string;
   /** The new name of the integration */
-  name?: string;
+  name?: string | undefined;
   /** The new authentication data for the integration */
-  data?: string;
+  data?: string | undefined;
 }
 export type UpdateIntegrationResponse = unknown;
 export type UpdateIntegrationsIntegrationMemberRequestType =
@@ -2684,12 +2794,12 @@ export type UpdateIntegrationsIntegrationMemberResponseMemberType =
 export type UpdateIntegrationsIntegrationMemberResponseMemberRole =
   CreateGroupResponseGroupDefaultProjectRole;
 export interface UpdateIntegrationsIntegrationMemberResponseMember {
-  type?: UpdateIntegrationsIntegrationMemberResponseMemberType;
-  slug?: string;
-  role?: CreateGroupResponseGroupDefaultProjectRole;
+  type?: UpdateIntegrationsIntegrationMemberResponseMemberType | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
 }
 export interface UpdateIntegrationsIntegrationMemberResponse {
-  member?: UpdateIntegrationsIntegrationMemberResponseMember;
+  member?: UpdateIntegrationsIntegrationMemberResponseMember | undefined;
 }
 export interface UpdateProjectRequest {
   /** Unique identifier for the project object. */
@@ -2697,11 +2807,11 @@ export interface UpdateProjectRequest {
   /** Name of the project. */
   name: string;
   /** Description of the project. */
-  description?: string;
+  description?: string | undefined;
 }
 export type UpdateProjectResponseProject = CreateProjectResponseProject;
 export interface UpdateProjectResponse {
-  project?: CreateProjectResponseProject;
+  project?: CreateProjectResponseProject | undefined;
 }
 /** Either `secrets` or `change_requests` is required (can't use both). Secret name to value; a `null` value deletes the secret. */
 export type UpdateSecretRequestSecretsMap = { [key: string]: string | null | undefined };
@@ -2722,7 +2832,7 @@ export type UpdateSecretRequestChangeRequestsItemValueTypeType =
   | "yaml";
 /** The default valueType (string) will result in no validations being applied. */
 export interface UpdateSecretRequestChangeRequestsItemValueType {
-  type?: UpdateSecretRequestChangeRequestsItemValueTypeType | (string & {});
+  type?: UpdateSecretRequestChangeRequestsItemValueTypeType | (string & {}) | undefined;
 }
 export type UpdateSecretRequestChangeRequestsItemOriginalValueTypeType =
   | "string"
@@ -2741,31 +2851,31 @@ export type UpdateSecretRequestChangeRequestsItemOriginalValueTypeType =
   | "yaml";
 /** The valueType you expect the secret to have before `valueType` is applied. If specified, the request will only be processed if the provided valueType matches what's found in Doppler. */
 export interface UpdateSecretRequestChangeRequestsItemOriginalValueType {
-  type?: UpdateSecretRequestChangeRequestsItemOriginalValueTypeType | (string & {});
+  type?: UpdateSecretRequestChangeRequestsItemOriginalValueTypeType | (string & {}) | undefined;
 }
 export interface UpdateSecretRequestChangeRequestsItem {
   /** The name of the secret. */
   name: string;
   /** The original name of the secret. Use `null` (an actual `null`, not the string `null`) or omit this parameter for new secrets. If it differs from `name` then a rename is inferred. */
-  originalName?: string | null;
+  originalName?: string | null | undefined;
   /** The value the secret should have. Use `null` (an actual `null`, not the string `null`) to leave the existing secret value unchanged. */
   value: string | Redacted.Redacted<string> | null;
   /** The value you expect the secret to have before `name` is applied. If specified, the request will only be processed if the provided value matches what's found in Doppler. */
-  originalValue?: string | Redacted.Redacted<string>;
+  originalValue?: string | Redacted.Redacted<string> | undefined;
   /** Must be set to either `masked`, `unmasked`, or `restricted`. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** Must be set to either `masked`, `unmasked`, or `restricted`. The visibility you expect the secret to have before `visibility` is applied. If specified, the request will only be processed if the provided visibility matches what's found in Doppler. */
-  originalVisibility?: string;
+  originalVisibility?: string | undefined;
   /** Defaults to `false`. Can only be set to `true` if the config being updated is a branch config. If set to `true`, the provided secret will be set in both the branch config as well as the root config in that environment. */
-  shouldPromote?: boolean;
+  shouldPromote?: boolean | undefined;
   /** Defaults to `false`. If set to `true`, will delete the secret matching the `name` field. */
-  shouldDelete?: boolean;
+  shouldDelete?: boolean | undefined;
   /** Defaults to `false`. Can only be set to `true` if the config being updated is a branch config and there is a secret with the same name in the root config. In this case, the branch secret will inherit the value and visibility type from the root secret. */
-  shouldConverge?: boolean;
+  shouldConverge?: boolean | undefined;
   /** The default valueType (string) will result in no validations being applied. */
-  valueType?: UpdateSecretRequestChangeRequestsItemValueType;
+  valueType?: UpdateSecretRequestChangeRequestsItemValueType | undefined;
   /** The valueType you expect the secret to have before `valueType` is applied. If specified, the request will only be processed if the provided valueType matches what's found in Doppler. */
-  originalValueType?: UpdateSecretRequestChangeRequestsItemOriginalValueType;
+  originalValueType?: UpdateSecretRequestChangeRequestsItemOriginalValueType | undefined;
 }
 /** Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below. */
 export type UpdateSecretRequestChangeRequestsList = Array<UpdateSecretRequestChangeRequestsItem>;
@@ -2775,49 +2885,49 @@ export interface UpdateSecretRequest {
   /** Name of the config object. */
   config: string;
   /** Either `secrets` or `change_requests` is required (can't use both). Secret name to value; a `null` value deletes the secret. */
-  secrets?: UpdateSecretRequestSecretsMap;
+  secrets?: UpdateSecretRequestSecretsMap | undefined;
   /** Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below. */
-  change_requests?: UpdateSecretRequestChangeRequestsList;
+  change_requests?: UpdateSecretRequestChangeRequestsList | undefined;
 }
 export type UpdateSecretResponseSecretsValueRawVisibility = "unmasked" | "masked" | "restricted";
 export type UpdateSecretResponseSecretsValueRawValueType = GetSecretResponseValueRawValueType;
 export type UpdateSecretResponseSecretsValueComputedValueType = GetSecretResponseValueRawValueType;
 export interface UpdateSecretResponseSecretsValue {
-  raw?: string | Redacted.Redacted<string> | null;
-  computed?: string | Redacted.Redacted<string> | null;
-  note?: string;
-  rawVisibility?: UpdateSecretResponseSecretsValueRawVisibility;
-  computedVisibility?: string;
-  rawValueType?: GetSecretResponseValueRawValueType;
-  computedValueType?: GetSecretResponseValueRawValueType;
+  raw?: string | Redacted.Redacted<string> | null | undefined;
+  computed?: string | Redacted.Redacted<string> | null | undefined;
+  note?: string | undefined;
+  rawVisibility?: UpdateSecretResponseSecretsValueRawVisibility | undefined;
+  computedVisibility?: string | undefined;
+  rawValueType?: GetSecretResponseValueRawValueType | undefined;
+  computedValueType?: GetSecretResponseValueRawValueType | undefined;
 }
 export type UpdateSecretResponseSecretsMap = {
   [key: string]: UpdateSecretResponseSecretsValue | undefined;
 };
 export interface UpdateSecretResponse {
-  secrets?: UpdateSecretResponseSecretsMap;
+  secrets?: UpdateSecretResponseSecretsMap | undefined;
 }
 export interface UpdateUserRequest {
   /** The slug of the workplace user. */
   slug: string;
   /** The identifier of the workplace role. E.g., `owner`, `collaborator`, etc. */
-  access?: string;
+  access?: string | undefined;
 }
 export type UpdateUserResponseWorkplaceUserUser = ConfigLogsGetResponseLogUser;
 export type UpdateUserResponseWorkplaceUser = GetUserResponseWorkplaceUser;
 export interface UpdateUserResponse {
-  workplace_user?: GetUserResponseWorkplaceUser;
-  success?: boolean;
+  workplace_user?: GetUserResponseWorkplaceUser | undefined;
+  success?: boolean | undefined;
 }
 export type UpdateWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic";
 export interface UpdateWebhookRequestAuthentication {
-  type?: UpdateWebhookRequestAuthenticationType | (string & {});
+  type?: UpdateWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string;
+  token?: string | undefined;
   /** Used when type = Basic */
-  username?: string;
+  username?: string | undefined;
   /** Used when type = Basic */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Config slugs that the webhook should be enabled for */
 export type UpdateWebhookRequestEnableConfigsList = Array<string>;
@@ -2827,31 +2937,31 @@ export interface UpdateWebhookRequest {
   /** Webhook's slug */
   slug: string;
   /** The project's name */
-  project?: string;
+  project?: string | undefined;
   /** The webhook URL. Must be https */
-  url?: string;
+  url?: string | undefined;
   /** See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing */
-  secret?: string | Redacted.Redacted<string>;
-  authentication?: UpdateWebhookRequestAuthentication;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  authentication?: UpdateWebhookRequestAuthentication | undefined;
   /** See: https://docs.doppler.com/docs/webhooks#default-payload */
-  payload?: string;
+  payload?: string | undefined;
   /** Name of the webhook. */
-  name?: string;
+  name?: string | undefined;
   /** Config slugs that the webhook should be enabled for */
-  enableConfigs?: UpdateWebhookRequestEnableConfigsList;
+  enableConfigs?: UpdateWebhookRequestEnableConfigsList | undefined;
   /** Config slugs that the webhook should be disabled for */
-  disableConfigs?: UpdateWebhookRequestDisableConfigsList;
+  disableConfigs?: UpdateWebhookRequestDisableConfigsList | undefined;
 }
 export type UpdateWebhookResponse = unknown;
 export interface UpdateWorkplaceRequest {
   /** Workplace name */
-  name?: string;
-  billing_email?: string;
-  security_email?: string;
+  name?: string | undefined;
+  billing_email?: string | undefined;
+  security_email?: string | undefined;
 }
 export type UpdateWorkplaceResponseWorkplace = GetWorkplaceResponseWorkplace;
 export interface UpdateWorkplaceResponse {
-  workplace?: GetWorkplaceResponseWorkplace;
+  workplace?: GetWorkplaceResponseWorkplace | undefined;
 }
 /** An array containing the permissions the role has. Valid permissions are: `all_enclave_projects`, `all_enclave_projects_admin`, `analytics_dashboard`, `billing`, `billing_manage`, `change_request_policy_manage`, `change_request_policy_read`, `create_enclave_project`, `custom_roles_manage`, `ekm`, `enclave_inheritance`, `enclave_secrets_referencing`, `logs`, `logs_audit`, `service_account_api_tokens`, `service_account_api_tokens_manage`, `service_account_identities`, `service_account_identities_manage`, `service_accounts`, `service_accounts_manage`, `settings`, `settings_manage`, `team`, `team_manage`, `verified_domains`, `verified_domains_manage`, `workplace_default_environments_manage`, `workplace_default_environments_read`, `workplace_integrations_create`, `workplace_integrations_list`, `workplace_integrations_manage`, `workplace_integrations_read` */
 export type WorkplaceRolesCreateRequestPermissionsList = Array<string>;
@@ -2863,15 +2973,15 @@ export interface WorkplaceRolesCreateRequest {
 }
 export type WorkplaceRolesCreateResponseRolePermissionsList = Array<string>;
 export interface WorkplaceRolesCreateResponseRole {
-  name?: string;
-  permissions?: WorkplaceRolesCreateResponseRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: WorkplaceRolesCreateResponseRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface WorkplaceRolesCreateResponse {
-  role?: WorkplaceRolesCreateResponseRole;
+  role?: WorkplaceRolesCreateResponseRole | undefined;
 }
 export interface WorkplaceRolesDeleteRequest {
   /** The role's unique identifier */
@@ -2884,34 +2994,34 @@ export interface WorkplaceRolesGetRequest {
 }
 export type WorkplaceRolesGetResponseRolePermissionsList = Array<string>;
 export interface WorkplaceRolesGetResponseRole {
-  name?: string;
-  permissions?: WorkplaceRolesGetResponseRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: WorkplaceRolesGetResponseRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface WorkplaceRolesGetResponse {
-  role?: WorkplaceRolesGetResponseRole;
+  role?: WorkplaceRolesGetResponseRole | undefined;
 }
 export interface WorkplaceRolesListRequest {}
 export type WorkplaceRolesListResponseRolesItemPermissionsList = Array<string>;
 export interface WorkplaceRolesListResponseRolesItem {
-  name?: string;
-  permissions?: WorkplaceRolesListResponseRolesItemPermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: WorkplaceRolesListResponseRolesItemPermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export type WorkplaceRolesListResponseRolesList = Array<WorkplaceRolesListResponseRolesItem>;
 export interface WorkplaceRolesListResponse {
-  roles?: WorkplaceRolesListResponseRolesList;
+  roles?: WorkplaceRolesListResponseRolesList | undefined;
 }
 export interface WorkplaceRolesListPermissionsRequest {}
 export type WorkplaceRolesListPermissionsResponsePermissionsList = Array<string>;
 export interface WorkplaceRolesListPermissionsResponse {
-  permissions?: WorkplaceRolesListPermissionsResponsePermissionsList;
+  permissions?: WorkplaceRolesListPermissionsResponsePermissionsList | undefined;
 }
 /** An array containing the permissions the role has. Valid permissions are: `all_enclave_projects`, `all_enclave_projects_admin`, `analytics_dashboard`, `billing`, `billing_manage`, `change_request_policy_manage`, `change_request_policy_read`, `create_enclave_project`, `custom_roles_manage`, `ekm`, `enclave_inheritance`, `enclave_secrets_referencing`, `logs`, `logs_audit`, `service_account_api_tokens`, `service_account_api_tokens_manage`, `service_account_identities`, `service_account_identities_manage`, `service_accounts`, `service_accounts_manage`, `settings`, `settings_manage`, `team`, `team_manage`, `verified_domains`, `verified_domains_manage`, `workplace_default_environments_manage`, `workplace_default_environments_read`, `workplace_integrations_create`, `workplace_integrations_list`, `workplace_integrations_manage`, `workplace_integrations_read` */
 export type WorkplaceRolesUpdateRequestPermissionsList = Array<string>;
@@ -2919,21 +3029,21 @@ export interface WorkplaceRolesUpdateRequest {
   /** The role's unique identifier, which is the initial name the role was given */
   role: string;
   /** The name of the role */
-  name?: string;
+  name?: string | undefined;
   /** An array containing the permissions the role has. Valid permissions are: `all_enclave_projects`, `all_enclave_projects_admin`, `analytics_dashboard`, `billing`, `billing_manage`, `change_request_policy_manage`, `change_request_policy_read`, `create_enclave_project`, `custom_roles_manage`, `ekm`, `enclave_inheritance`, `enclave_secrets_referencing`, `logs`, `logs_audit`, `service_account_api_tokens`, `service_account_api_tokens_manage`, `service_account_identities`, `service_account_identities_manage`, `service_accounts`, `service_accounts_manage`, `settings`, `settings_manage`, `team`, `team_manage`, `verified_domains`, `verified_domains_manage`, `workplace_default_environments_manage`, `workplace_default_environments_read`, `workplace_integrations_create`, `workplace_integrations_list`, `workplace_integrations_manage`, `workplace_integrations_read` */
-  permissions?: WorkplaceRolesUpdateRequestPermissionsList;
+  permissions?: WorkplaceRolesUpdateRequestPermissionsList | undefined;
 }
 export type WorkplaceRolesUpdateResponseRolePermissionsList = Array<string>;
 export interface WorkplaceRolesUpdateResponseRole {
-  name?: string;
-  permissions?: WorkplaceRolesUpdateResponseRolePermissionsList;
-  identifier?: string;
-  created_at?: string;
-  is_custom_role?: boolean;
-  is_inline_role?: boolean;
+  name?: string | undefined;
+  permissions?: WorkplaceRolesUpdateResponseRolePermissionsList | undefined;
+  identifier?: string | undefined;
+  created_at?: string | undefined;
+  is_custom_role?: boolean | undefined;
+  is_inline_role?: boolean | undefined;
 }
 export interface WorkplaceRolesUpdateResponse {
-  role?: WorkplaceRolesUpdateResponseRole;
+  role?: WorkplaceRolesUpdateResponseRole | undefined;
 }
 export type ActivityLogsListError = DopplerOpError;
 /** List Activity Logs */

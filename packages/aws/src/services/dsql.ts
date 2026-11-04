@@ -163,19 +163,19 @@ export type Region = string;
 export type ClusterArn = string;
 export type ClusterArnList = string[];
 export interface MultiRegionProperties {
-  witnessRegion?: string;
-  clusters?: string[];
+  witnessRegion?: string | undefined;
+  clusters?: string[] | undefined;
 }
 export type PolicyDocument = string;
 export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface CreateClusterInput {
-  deletionProtectionEnabled?: boolean;
-  kmsEncryptionKey?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-  multiRegionProperties?: MultiRegionProperties;
-  policy?: string;
-  bypassPolicyLockoutSafetyCheck?: boolean;
+  deletionProtectionEnabled?: boolean | undefined;
+  kmsEncryptionKey?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  multiRegionProperties?: MultiRegionProperties | undefined;
+  policy?: string | undefined;
+  bypassPolicyLockoutSafetyCheck?: boolean | undefined;
 }
 export type ClusterId = string;
 export type ClusterStatus =
@@ -201,7 +201,7 @@ export type EncryptionStatus =
   | (string & {});
 export interface EncryptionDetails {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   encryptionStatus: EncryptionStatus;
 }
 export type Endpoint = string;
@@ -210,10 +210,10 @@ export interface CreateClusterOutput {
   arn: string;
   status: ClusterStatus;
   creationTime: Date;
-  multiRegionProperties?: MultiRegionProperties;
-  encryptionDetails?: EncryptionDetails;
+  multiRegionProperties?: MultiRegionProperties | undefined;
+  encryptionDetails?: EncryptionDetails | undefined;
   deletionProtectionEnabled: boolean;
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 export type KinesisStreamArn = string;
 export type RoleArn = string;
@@ -229,8 +229,8 @@ export interface CreateStreamInput {
   targetDefinition: TargetDefinition;
   ordering: StreamOrdering;
   format: StreamFormat;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type StreamId = string;
 export type StreamArn = string;
@@ -254,7 +254,7 @@ export interface CreateStreamOutput {
 }
 export interface DeleteClusterInput {
   identifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteClusterOutput {
   identifier: string;
@@ -265,8 +265,8 @@ export interface DeleteClusterOutput {
 export type PolicyVersion = string;
 export interface DeleteClusterPolicyInput {
   identifier: string;
-  expectedPolicyVersion?: string;
-  clientToken?: string;
+  expectedPolicyVersion?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface DeleteClusterPolicyOutput {
   policyVersion: string;
@@ -274,7 +274,7 @@ export interface DeleteClusterPolicyOutput {
 export interface DeleteStreamInput {
   clusterIdentifier: string;
   streamIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteStreamOutput {
   clusterIdentifier: string;
@@ -292,10 +292,10 @@ export interface GetClusterOutput {
   status: ClusterStatus;
   creationTime: Date;
   deletionProtectionEnabled: boolean;
-  multiRegionProperties?: MultiRegionProperties;
-  tags?: { [key: string]: string | undefined };
-  encryptionDetails?: EncryptionDetails;
-  endpoint?: string;
+  multiRegionProperties?: MultiRegionProperties | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  encryptionDetails?: EncryptionDetails | undefined;
+  endpoint?: string | undefined;
 }
 export interface GetClusterPolicyInput {
   identifier: string;
@@ -330,9 +330,9 @@ export interface GetStreamOutput {
   creationTime: Date;
   ordering: StreamOrdering;
   format: StreamFormat;
-  targetDefinition?: TargetDefinition;
-  statusReason?: StatusReason;
-  tags?: { [key: string]: string | undefined };
+  targetDefinition?: TargetDefinition | undefined;
+  statusReason?: StatusReason | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetVpcEndpointServiceNameInput {
   identifier: string;
@@ -341,13 +341,13 @@ export type ServiceName = string;
 export type ClusterVpcEndpoint = string;
 export interface GetVpcEndpointServiceNameOutput {
   serviceName: string;
-  clusterVpcEndpoint?: string;
+  clusterVpcEndpoint?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListClustersInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ClusterSummary {
   identifier: string;
@@ -355,13 +355,13 @@ export interface ClusterSummary {
 }
 export type ClusterList = ClusterSummary[];
 export interface ListClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   clusters: ClusterSummary[];
 }
 export interface ListStreamsInput {
   clusterIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface StreamSummary {
   clusterIdentifier: string;
@@ -372,7 +372,7 @@ export interface StreamSummary {
 }
 export type StreamList = StreamSummary[];
 export interface ListStreamsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   streams: StreamSummary[];
 }
 export type Arn = string;
@@ -380,14 +380,14 @@ export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutClusterPolicyInput {
   identifier: string;
   policy: string;
-  bypassPolicyLockoutSafetyCheck?: boolean;
-  expectedPolicyVersion?: string;
-  clientToken?: string;
+  bypassPolicyLockoutSafetyCheck?: boolean | undefined;
+  expectedPolicyVersion?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutClusterPolicyOutput {
   policyVersion: string;
@@ -405,10 +405,10 @@ export interface UntagResourceInput {
 export interface UntagResourceResponse {}
 export interface UpdateClusterInput {
   identifier: string;
-  deletionProtectionEnabled?: boolean;
-  kmsEncryptionKey?: string;
-  clientToken?: string;
-  multiRegionProperties?: MultiRegionProperties;
+  deletionProtectionEnabled?: boolean | undefined;
+  kmsEncryptionKey?: string | undefined;
+  clientToken?: string | undefined;
+  multiRegionProperties?: MultiRegionProperties | undefined;
 }
 export interface UpdateClusterOutput {
   identifier: string;

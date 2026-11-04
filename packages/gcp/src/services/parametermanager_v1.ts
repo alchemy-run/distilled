@@ -86,47 +86,47 @@ export class NotFound
 /** Output-only policy member strings of a Google Cloud resource's built-in identity. */
 export interface ResourcePolicyMember {
   /** Output only. IAM policy binding member referring to a Google Cloud resource by system-assigned unique identifier (https://google.aip.dev/148#uid). If a resource is deleted and recreated with the same name, the binding will not be applicable to the new resource Example: `principal://parametermanager.googleapis.com/projects/12345/uid/locations/us-central1-a/parameters/a918fed5` */
-  iamPolicyUidPrincipal?: string;
+  iamPolicyUidPrincipal?: string | undefined;
   /** Output only. IAM policy binding member referring to a Google Cloud resource by user-assigned name (https://google.aip.dev/122). If a resource is deleted and recreated with the same name, the binding will be applicable to the new resource. Example: `principal://parametermanager.googleapis.com/projects/12345/name/locations/us-central1-a/parameters/my-parameter` */
-  iamPolicyNamePrincipal?: string;
+  iamPolicyNamePrincipal?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type ParameterFormatEnum = "PARAMETER_FORMAT_UNSPECIFIED" | "UNFORMATTED" | "YAML" | "JSON";
 /** Message describing Parameter resource */
 export interface Parameter {
   /** Output only. Create time stamp */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the Parameter in the format `projects/*\/locations/*\/parameters/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Policy member strings of a Google Cloud resource. */
-  policyMember?: ResourcePolicyMember;
+  policyMember?: ResourcePolicyMember | undefined;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Input only. Immutable. Tag keys and tag values that are bound to this Parameter. You must represent each item in the map as: `"" : ""`. For example, a single resource can have the following tags: ``` "123/environment": "production", "123/costCenter": "marketing", ``` Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Output only. Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Specifies the format of a Parameter. */
-  format?: ParameterFormatEnum | (string & {});
+  format?: ParameterFormatEnum | (string & {}) | undefined;
   /** Optional. Customer managed encryption key (CMEK) to use for encrypting the Parameter Versions. If not set, the default Google-managed encryption key will be used. Cloud KMS CryptoKeys must reside in the same location as the Parameter. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export interface CreateProjectsLocationsParametersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Id of the Parameter resource */
-  parameterId?: string;
+  parameterId?: string | undefined;
   /** Required. Value for parent in the format `projects/*\/locations/*`. */
   parent: string;
   /** Request body */
-  body?: Parameter;
+  body?: Parameter | undefined;
 }
 /** Message for storing a ParameterVersion resource's payload data */
 export interface ParameterVersionPayload {
   /** Optional. The integrity checksum of the payload. If provided, the server will verify that the checksum matches the payload. If not provided, the server will generate the checksum. */
-  dataCrc32c?: string;
+  dataCrc32c?: string | undefined;
   /** Required. bytes data for storing payload. */
-  data?: string;
+  data?: string | undefined;
 }
 export type ParameterVersionChecksumSourceEnum =
   | "CHECKSUM_SOURCE_UNSPECIFIED"
@@ -135,29 +135,29 @@ export type ParameterVersionChecksumSourceEnum =
 /** Message describing ParameterVersion resource */
 export interface ParameterVersion {
   /** Output only. Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Immutable. Payload content of a ParameterVersion resource. This is only returned when the request provides the View value of FULL (default for GET request). */
-  payload?: ParameterVersionPayload;
+  payload?: ParameterVersionPayload | undefined;
   /** Optional. Output only. The resource name of the KMS key version used to encrypt the ParameterVersion payload. This field is populated only if the Parameter resource has customer managed encryption key (CMEK) configured. */
-  kmsKeyVersion?: string;
+  kmsKeyVersion?: string | undefined;
   /** Output only. Create time stamp */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Optional. Output only. The source of the checksum. */
-  checksumSource?: ParameterVersionChecksumSourceEnum | (string & {});
+  checksumSource?: ParameterVersionChecksumSourceEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsParametersVersionsRequest {
   /** Required. Id of the ParameterVersion resource */
-  parameterVersionId?: string;
+  parameterVersionId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent in the format `projects/*\/locations/*\/parameters/*`. */
   parent: string;
   /** Request body */
-  body?: ParameterVersion;
+  body?: ParameterVersion | undefined;
 }
 export type TemplateFormatEnum =
   | "TEMPLATE_FORMAT_UNSPECIFIED"
@@ -166,57 +166,57 @@ export type TemplateFormatEnum =
 /** Message describing Template resource */
 export interface Template {
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Specifies the format of a Template. */
-  format?: TemplateFormatEnum | (string & {});
+  format?: TemplateFormatEnum | (string & {}) | undefined;
   /** Output only. Create time stamp */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsTemplatesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Id of the Template resource */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Required. Value for parent in the format `projects/*\/locations/*`. */
   parent: string;
   /** Request body */
-  body?: Template;
+  body?: Template | undefined;
 }
 /** Message for storing a TemplateVersion resource's payload data */
 export interface TemplateVersionPayload {
   /** Required. bytes data for storing payload. */
-  data?: string;
+  data?: string | undefined;
 }
 /** Message describing TemplateVersion resource */
 export interface TemplateVersion {
   /** Output only. Create time stamp */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. Immutable. Payload content of a TemplateVersion resource. */
-  payload?: TemplateVersionPayload;
+  payload?: TemplateVersionPayload | undefined;
   /** Optional. Disabled boolean to determine if a TemplateVersion acts as a metadata only resource (payload is never returned if disabled is true). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export interface CreateProjectsLocationsTemplatesVersionsRequest {
   /** Required. Value for parent in the format `projects/*\/locations/*\/templates/*`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Id of the TemplateVersion resource */
-  templateVersionId?: string;
+  templateVersionId?: string | undefined;
   /** Request body */
-  body?: TemplateVersion;
+  body?: TemplateVersion | undefined;
 }
 export interface DeleteProjectsLocationsParametersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the resource in the format `projects/*\/locations/*\/parameters/*`. */
   name: string;
 }
@@ -226,17 +226,17 @@ export interface DeleteProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsTemplatesRequest {
   /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsTemplatesVersionsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
   name: string;
 }
@@ -248,15 +248,15 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsParametersRequest {
   /** Required. Name of the resource in the format `projects/*\/locations/*\/parameters/*`. */
@@ -267,7 +267,7 @@ export interface GetProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
   name: string;
   /** Optional. View of the ParameterVersion. In the default FULL view, all metadata & payload associated with the ParameterVersion will be returned. */
-  view?: GetProjectsLocationsParametersVersionsViewEnum | (string & {});
+  view?: GetProjectsLocationsParametersVersionsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsTemplatesRequest {
   /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*`. */
@@ -278,18 +278,18 @@ export interface GetProjectsLocationsTemplatesVersionsRequest {
   /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
   name: string;
   /** Optional. Specifies the view of the TemplateVersion to return. In the default FULL view, all metadata & payload associated with the TemplateVersion will be returned. */
-  view?: GetProjectsLocationsTemplatesVersionsViewEnum | (string & {});
+  view?: GetProjectsLocationsTemplatesVersionsViewEnum | (string & {}) | undefined;
 }
 export type StringList = Array<string>;
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -297,85 +297,85 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsParametersRequest {
   /** Required. Parent value for ListParametersRequest in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListParameters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListParameters` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ParameterList = Array<Parameter>;
 /** Message for response to listing Parameters */
 export interface ListParametersResponse {
   /** The list of Parameters */
-  parameters?: ParameterList;
+  parameters?: ParameterList | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsParametersVersionsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent value for ListParameterVersionsRequest in the format `projects/*\/locations/*\/parameters/*`. */
   parent: string;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListParameterVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListParameterVersions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ParameterVersionList = Array<ParameterVersion>;
 /** Message for response to listing ParameterVersions */
 export interface ListParameterVersionsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of ParameterVersions */
-  parameterVersions?: ParameterVersionList;
+  parameterVersions?: ParameterVersionList | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTemplatesRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent value for ListTemplatesRequest in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. A page token, received from a previous `ListTemplates` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTemplates` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type TemplateList = Array<Template>;
 /** Message for response to listing Templates */
 export interface ListTemplatesResponse {
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Templates */
-  templates?: TemplateList;
+  templates?: TemplateList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsTemplatesVersionsRequest {
   /** Optional. A page token, received from a previous `ListTemplateVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTemplateVersions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value for ListTemplateVersionsRequest in the format `projects/*\/locations/*\/templates/*`. */
   parent: string;
 }
@@ -383,51 +383,51 @@ export type TemplateVersionList = Array<TemplateVersion>;
 /** Message for response to listing TemplateVersions */
 export interface ListTemplateVersionsResponse {
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of TemplateVersions */
-  templateVersions?: TemplateVersionList;
+  templateVersions?: TemplateVersionList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsParametersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Parameter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the Parameter in the format `projects/*\/locations/*\/parameters/*`. */
   name: string;
   /** Request body */
-  body?: Parameter;
+  body?: Parameter | undefined;
 }
 export interface PatchProjectsLocationsParametersVersionsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ParameterVersion resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
   name: string;
   /** Request body */
-  body?: ParameterVersion;
+  body?: ParameterVersion | undefined;
 }
 export interface PatchProjectsLocationsTemplatesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Template resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Template;
+  body?: Template | undefined;
 }
 export interface PatchProjectsLocationsTemplatesVersionsRequest {
   /** Identifier. The resource name of the TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TemplateVersion resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: TemplateVersion;
+  body?: TemplateVersion | undefined;
 }
 export interface RenderProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource */
@@ -436,15 +436,15 @@ export interface RenderProjectsLocationsParametersVersionsRequest {
 /** Message describing response of the `RenderParameterVersion` method */
 export interface RenderParameterVersionResponse {
   /** Payload content of a ParameterVersion resource. */
-  payload?: ParameterVersionPayload;
+  payload?: ParameterVersionPayload | undefined;
   /** Server generated rendered version of the user provided payload data (ParameterVersionPayload) which has substitutions of all (if any) references to a SecretManager SecretVersion resources. This substitution only works for a Parameter which is in JSON or YAML format. */
-  renderedPayload?: string;
+  renderedPayload?: string | undefined;
   /** Resource identifier of a ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
-  parameterVersion?: string;
+  parameterVersion?: string | undefined;
 }
 export interface RenderProjectsLocationsTemplatesVersionsRequest {
   /** Required. Parameter version used to render the template version. */
-  parameterVersion?: string;
+  parameterVersion?: string | undefined;
   /** Required. Name of the resource */
   name: string;
 }
@@ -455,15 +455,15 @@ export type RenderTemplateVersionResponseTemplateFormatEnum =
 /** Message describing response for `RenderTemplateVersion` method */
 export interface RenderTemplateVersionResponse {
   /** The resource name of the ParameterVersion used to render the template version in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
-  parameterVersion?: string;
+  parameterVersion?: string | undefined;
   /** Payload content of a TemplateVersion resource. */
-  payload?: TemplateVersionPayload;
+  payload?: TemplateVersionPayload | undefined;
   /** Format of the template version. */
-  templateFormat?: RenderTemplateVersionResponseTemplateFormatEnum;
+  templateFormat?: RenderTemplateVersionResponseTemplateFormatEnum | undefined;
   /** Server generated rendered version of the user provided payload data (TemplateVersionPayload) which has all the variables resolved using the provided parameter version. */
-  renderedPayload?: string;
+  renderedPayload?: string | undefined;
   /** Resource identifier of a TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
-  templateVersion?: string;
+  templateVersion?: string | undefined;
 }
 export type CreateProjectsLocationsParametersError =
   | NotFound

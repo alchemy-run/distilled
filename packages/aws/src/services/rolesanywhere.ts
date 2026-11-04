@@ -130,14 +130,14 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateProfileRequest {
   name: string;
-  requireInstanceProperties?: boolean;
-  sessionPolicy?: string;
+  requireInstanceProperties?: boolean | undefined;
+  sessionPolicy?: string | undefined;
   roleArns: string[];
-  managedPolicyArns?: string[];
-  durationSeconds?: number;
-  enabled?: boolean;
-  tags?: Tag[];
-  acceptRoleSessionName?: boolean;
+  managedPolicyArns?: string[] | undefined;
+  durationSeconds?: number | undefined;
+  enabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
+  acceptRoleSessionName?: boolean | undefined;
 }
 export type Uuid = string;
 export type ProfileArn = string;
@@ -147,70 +147,70 @@ export interface MappingRule {
 }
 export type MappingRules = MappingRule[];
 export interface AttributeMapping {
-  certificateField?: string;
-  mappingRules?: MappingRule[];
+  certificateField?: string | undefined;
+  mappingRules?: MappingRule[] | undefined;
 }
 export type AttributeMappings = AttributeMapping[];
 export interface ProfileDetail {
-  profileId?: string;
-  profileArn?: string;
-  name?: string;
-  requireInstanceProperties?: boolean;
-  enabled?: boolean;
-  createdBy?: string;
-  sessionPolicy?: string;
-  roleArns?: string[];
-  managedPolicyArns?: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
-  durationSeconds?: number;
-  acceptRoleSessionName?: boolean;
-  attributeMappings?: AttributeMapping[];
+  profileId?: string | undefined;
+  profileArn?: string | undefined;
+  name?: string | undefined;
+  requireInstanceProperties?: boolean | undefined;
+  enabled?: boolean | undefined;
+  createdBy?: string | undefined;
+  sessionPolicy?: string | undefined;
+  roleArns?: string[] | undefined;
+  managedPolicyArns?: string[] | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  durationSeconds?: number | undefined;
+  acceptRoleSessionName?: boolean | undefined;
+  attributeMappings?: AttributeMapping[] | undefined;
 }
 export interface ProfileDetailResponse {
-  profile?: ProfileDetail;
+  profile?: ProfileDetail | undefined;
 }
 export type TrustAnchorType = string;
 export type SourceData =
   | { x509CertificateData: string; acmPcaArn?: never }
   | { x509CertificateData?: never; acmPcaArn: string };
 export interface Source {
-  sourceType?: string;
-  sourceData?: SourceData;
+  sourceType?: string | undefined;
+  sourceData?: SourceData | undefined;
 }
 export type NotificationEvent = string;
 export type NotificationChannel = string;
 export interface NotificationSetting {
   enabled: boolean;
   event: string;
-  threshold?: number;
-  channel?: string;
+  threshold?: number | undefined;
+  channel?: string | undefined;
 }
 export type NotificationSettings = NotificationSetting[];
 export interface CreateTrustAnchorRequest {
   name: string;
   source: Source;
-  enabled?: boolean;
-  tags?: Tag[];
-  notificationSettings?: NotificationSetting[];
+  enabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
+  notificationSettings?: NotificationSetting[] | undefined;
 }
 export interface NotificationSettingDetail {
   enabled: boolean;
   event: string;
-  threshold?: number;
-  channel?: string;
-  configuredBy?: string;
+  threshold?: number | undefined;
+  channel?: string | undefined;
+  configuredBy?: string | undefined;
 }
 export type NotificationSettingDetails = NotificationSettingDetail[];
 export interface TrustAnchorDetail {
-  trustAnchorId?: string;
-  trustAnchorArn?: string;
-  name?: string;
-  source?: Source;
-  enabled?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  notificationSettings?: NotificationSettingDetail[];
+  trustAnchorId?: string | undefined;
+  trustAnchorArn?: string | undefined;
+  name?: string | undefined;
+  source?: Source | undefined;
+  enabled?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  notificationSettings?: NotificationSettingDetail[] | undefined;
 }
 export interface TrustAnchorDetailResponse {
   trustAnchor: TrustAnchorDetail;
@@ -219,7 +219,7 @@ export type SpecifierList = string[];
 export interface DeleteAttributeMappingRequest {
   profileId: string;
   certificateField: string;
-  specifiers?: string[];
+  specifiers?: string[] | undefined;
 }
 export interface DeleteAttributeMappingResponse {
   profile: ProfileDetail;
@@ -228,14 +228,14 @@ export interface ScalarCrlRequest {
   crlId: string;
 }
 export interface CrlDetail {
-  crlId?: string;
-  crlArn?: string;
-  name?: string;
-  enabled?: boolean;
-  crlData?: Uint8Array;
-  trustAnchorArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  crlId?: string | undefined;
+  crlArn?: string | undefined;
+  name?: string | undefined;
+  enabled?: boolean | undefined;
+  crlData?: Uint8Array | undefined;
+  trustAnchorArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CrlDetailResponse {
   crl: CrlDetail;
@@ -250,82 +250,82 @@ export interface ScalarSubjectRequest {
   subjectId: string;
 }
 export interface CredentialSummary {
-  seenAt?: Date;
-  serialNumber?: string;
-  issuer?: string;
-  enabled?: boolean;
-  x509CertificateData?: string;
-  failed?: boolean;
+  seenAt?: Date | undefined;
+  serialNumber?: string | undefined;
+  issuer?: string | undefined;
+  enabled?: boolean | undefined;
+  x509CertificateData?: string | undefined;
+  failed?: boolean | undefined;
 }
 export type CredentialSummaries = CredentialSummary[];
 export type InstancePropertyMap = { [key: string]: string | undefined };
 export interface InstanceProperty {
-  seenAt?: Date;
-  properties?: { [key: string]: string | undefined };
-  failed?: boolean;
+  seenAt?: Date | undefined;
+  properties?: { [key: string]: string | undefined } | undefined;
+  failed?: boolean | undefined;
 }
 export type InstanceProperties = InstanceProperty[];
 export interface SubjectDetail {
-  subjectArn?: string;
-  subjectId?: string;
-  enabled?: boolean;
-  x509Subject?: string;
-  lastSeenAt?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-  credentials?: CredentialSummary[];
-  instanceProperties?: InstanceProperty[];
+  subjectArn?: string | undefined;
+  subjectId?: string | undefined;
+  enabled?: boolean | undefined;
+  x509Subject?: string | undefined;
+  lastSeenAt?: Date | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  credentials?: CredentialSummary[] | undefined;
+  instanceProperties?: InstanceProperty[] | undefined;
 }
 export interface SubjectDetailResponse {
-  subject?: SubjectDetail;
+  subject?: SubjectDetail | undefined;
 }
 export type TrustAnchorArn = string;
 export interface ImportCrlRequest {
   name: string;
   crlData: Uint8Array;
-  enabled?: boolean;
-  tags?: Tag[];
+  enabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
   trustAnchorArn: string;
 }
 export interface ListRequest {
-  nextToken?: string;
-  pageSize?: number;
+  nextToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type CrlDetails = CrlDetail[];
 export interface ListCrlsResponse {
-  nextToken?: string;
-  crls?: CrlDetail[];
+  nextToken?: string | undefined;
+  crls?: CrlDetail[] | undefined;
 }
 export type ProfileDetails = ProfileDetail[];
 export interface ListProfilesResponse {
-  nextToken?: string;
-  profiles?: ProfileDetail[];
+  nextToken?: string | undefined;
+  profiles?: ProfileDetail[] | undefined;
 }
 export interface SubjectSummary {
-  subjectArn?: string;
-  subjectId?: string;
-  enabled?: boolean;
-  x509Subject?: string;
-  lastSeenAt?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
+  subjectArn?: string | undefined;
+  subjectId?: string | undefined;
+  enabled?: boolean | undefined;
+  x509Subject?: string | undefined;
+  lastSeenAt?: Date | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type SubjectSummaries = SubjectSummary[];
 export interface ListSubjectsResponse {
-  subjects?: SubjectSummary[];
-  nextToken?: string;
+  subjects?: SubjectSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type TrustAnchorDetails = TrustAnchorDetail[];
 export interface ListTrustAnchorsResponse {
-  nextToken?: string;
-  trustAnchors?: TrustAnchorDetail[];
+  nextToken?: string | undefined;
+  trustAnchors?: TrustAnchorDetail[] | undefined;
 }
 export interface PutAttributeMappingRequest {
   profileId: string;
@@ -344,7 +344,7 @@ export interface PutNotificationSettingsResponse {
 }
 export interface NotificationSettingKey {
   event: string;
-  channel?: string;
+  channel?: string | undefined;
 }
 export type NotificationSettingKeys = NotificationSettingKey[];
 export interface ResetNotificationSettingsRequest {
@@ -367,22 +367,22 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateCrlRequest {
   crlId: string;
-  name?: string;
-  crlData?: Uint8Array;
+  name?: string | undefined;
+  crlData?: Uint8Array | undefined;
 }
 export interface UpdateProfileRequest {
   profileId: string;
-  name?: string;
-  sessionPolicy?: string;
-  roleArns?: string[];
-  managedPolicyArns?: string[];
-  durationSeconds?: number;
-  acceptRoleSessionName?: boolean;
+  name?: string | undefined;
+  sessionPolicy?: string | undefined;
+  roleArns?: string[] | undefined;
+  managedPolicyArns?: string[] | undefined;
+  durationSeconds?: number | undefined;
+  acceptRoleSessionName?: boolean | undefined;
 }
 export interface UpdateTrustAnchorRequest {
   trustAnchorId: string;
-  name?: string;
-  source?: Source;
+  name?: string | undefined;
+  source?: Source | undefined;
 }
 export type CreateProfileError = AccessDeniedException | ValidationException | CommonErrors;
 /**

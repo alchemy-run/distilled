@@ -139,7 +139,7 @@ export interface CreateIndexRequest {
   config: IndexesCreateRequestConfig;
   name: string;
   /** Specifies the description of the index. */
-  description?: string;
+  description?: string | undefined;
 }
 export type IndexesCreateResponseConfigMetric = "cosine" | "euclidean" | "dot-product";
 export type IndexesCreateResponseConfigPreset =
@@ -154,18 +154,18 @@ export interface IndexesCreateResponseConfig {
   /** Specifies the type of metric to use calculating distance. */
   metric: IndexesCreateResponseConfigMetric;
   /** Specifies the preset to use for the index. */
-  preset?: IndexesCreateResponseConfigPreset | null;
+  preset?: IndexesCreateResponseConfigPreset | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateIndexResponse {
-  config?: IndexesCreateResponseConfig | null;
+  config?: IndexesCreateResponseConfig | null | undefined;
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Specifies the description of the index. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specifies the timestamp the resource was modified as an ISO8601 string. */
-  modifiedOn?: string | null;
-  name?: string | null;
+  modifiedOn?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export type IndexesMetadataIndexCreateRequestIndexType = "string" | "number" | "boolean";
 export interface CreateIndexMetadataIndexRequest {
@@ -180,7 +180,7 @@ export interface CreateIndexMetadataIndexRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateIndexMetadataIndexResponse {
   /** The unique identifier for the async mutation operation containing the changeset. */
-  mutationId?: string | null;
+  mutationId?: string | null | undefined;
 }
 export type IndexesDeleteByIdsRequestIdsList = Array<string>;
 export interface DeleteByIdsIndexRequest {
@@ -188,12 +188,12 @@ export interface DeleteByIdsIndexRequest {
   accountId: string;
   indexName: string;
   /** A list of vector identifiers to delete from the index indicated by the path. */
-  ids?: IndexesDeleteByIdsRequestIdsList;
+  ids?: IndexesDeleteByIdsRequestIdsList | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteByIdsIndexResponse {
   /** The unique identifier for the async mutation operation containing the changeset. */
-  mutationId?: string | null;
+  mutationId?: string | null | undefined;
 }
 export interface DeleteIndexRequest {
   /** Identifier */
@@ -211,7 +211,7 @@ export interface DeleteIndexMetadataIndexRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteIndexMetadataIndexResponse {
   /** The unique identifier for the async mutation operation containing the changeset. */
-  mutationId?: string | null;
+  mutationId?: string | null | undefined;
 }
 export type IndexesGetByIdsRequestIdsList = Array<string>;
 export interface GetByIdsIndexRequest {
@@ -219,15 +219,15 @@ export interface GetByIdsIndexRequest {
   accountId: string;
   indexName: string;
   /** A list of vector identifiers to retrieve from the index indicated by the path. */
-  ids?: IndexesGetByIdsRequestIdsList;
+  ids?: IndexesGetByIdsRequestIdsList | undefined;
 }
 export type IndexesGetByIdsResultItemValuesList = Array<number>;
 export interface IndexesGetByIdsResultItem {
   /** Identifier for a Vector */
-  id?: string | null;
-  metadata?: unknown | null;
-  namespace?: string | null;
-  values?: IndexesGetByIdsResultItemValuesList | null;
+  id?: string | null | undefined;
+  metadata?: unknown | null | undefined;
+  namespace?: string | null | undefined;
+  values?: IndexesGetByIdsResultItemValuesList | null | undefined;
 }
 export type IndexesGetByIdsResultList = Array<IndexesGetByIdsResultItem>;
 export type GetByIdsIndexResponse = IndexesGetByIdsResultList;
@@ -249,18 +249,18 @@ export interface IndexesGetResponseConfig {
   /** Specifies the type of metric to use calculating distance. */
   metric: IndexesGetResponseConfigMetric;
   /** Specifies the preset to use for the index. */
-  preset?: IndexesGetResponseConfigPreset | null;
+  preset?: IndexesGetResponseConfigPreset | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetIndexResponse {
-  config?: IndexesGetResponseConfig | null;
+  config?: IndexesGetResponseConfig | null | undefined;
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Specifies the description of the index. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specifies the timestamp the resource was modified as an ISO8601 string. */
-  modifiedOn?: string | null;
-  name?: string | null;
+  modifiedOn?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export interface GetIndexInfoRequest {
   /** Identifier */
@@ -270,13 +270,13 @@ export interface GetIndexInfoRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetIndexInfoResponse {
   /** Specifies the number of dimensions for the index */
-  dimensions?: number | null;
+  dimensions?: number | null | undefined;
   /** Specifies the timestamp the last mutation batch was processed as an ISO8601 string. */
-  processedUpToDatetime?: string | null;
+  processedUpToDatetime?: string | null | undefined;
   /** The unique identifier for the async mutation operation containing the changeset. */
-  processedUpToMutation?: string | null;
+  processedUpToMutation?: string | null | undefined;
   /** Specifies the number of vectors present in the index */
-  vectorCount?: number | null;
+  vectorCount?: number | null | undefined;
 }
 export type IndexesInsertRequestUnparsableBehavior = "error" | "discard";
 export interface InsertIndexRequest {
@@ -284,14 +284,14 @@ export interface InsertIndexRequest {
   accountId: string;
   indexName: string;
   /** Behavior for ndjson parse failures. */
-  unparsableBehavior?: IndexesInsertRequestUnparsableBehavior | (string & {});
+  unparsableBehavior?: IndexesInsertRequestUnparsableBehavior | (string & {}) | undefined;
   /** Vectors as newline-delimited JSON (application/x-ndjson), one vector object per line. */
   body: Blob | Uint8Array | ArrayBuffer | string;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface InsertIndexResponse {
   /** The unique identifier for the async mutation operation containing the changeset. */
-  mutationId?: string | null;
+  mutationId?: string | null | undefined;
 }
 export interface ListIndexesRequest {
   /** Identifier */
@@ -310,17 +310,17 @@ export interface IndexesListResultItemConfig {
   /** Specifies the type of metric to use calculating distance. */
   metric: IndexesListResultItemConfigMetric;
   /** Specifies the preset to use for the index. */
-  preset?: IndexesListResultItemConfigPreset | null;
+  preset?: IndexesListResultItemConfigPreset | null | undefined;
 }
 export interface IndexesListResultItem {
-  config?: IndexesListResultItemConfig | null;
+  config?: IndexesListResultItemConfig | null | undefined;
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Specifies the description of the index. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specifies the timestamp the resource was modified as an ISO8601 string. */
-  modifiedOn?: string | null;
-  name?: string | null;
+  modifiedOn?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export type IndexesListResultList = Array<IndexesListResultItem>;
 export interface ListIndexesResponse {
@@ -340,25 +340,25 @@ export type IndexesMetadataIndexListResponseMetadataIndexesItemIndexType =
   | "boolean";
 export interface IndexesMetadataIndexListResponseMetadataIndexesItem {
   /** Specifies the type of indexed metadata property. */
-  indexType?: IndexesMetadataIndexListResponseMetadataIndexesItemIndexType | null;
+  indexType?: IndexesMetadataIndexListResponseMetadataIndexesItemIndexType | null | undefined;
   /** Specifies the indexed metadata property. */
-  propertyName?: string | null;
+  propertyName?: string | null | undefined;
 }
 export type IndexesMetadataIndexListResponseMetadataIndexesList =
   Array<IndexesMetadataIndexListResponseMetadataIndexesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListIndexMetadataIndexesResponse {
   /** Array of indexed metadata properties. */
-  metadataIndexes?: IndexesMetadataIndexListResponseMetadataIndexesList | null;
+  metadataIndexes?: IndexesMetadataIndexListResponseMetadataIndexesList | null | undefined;
 }
 export interface ListVectorsIndexRequest {
   /** Identifier */
   accountId: string;
   indexName: string;
   /** Maximum number of vectors to return */
-  count?: number;
+  count?: number | undefined;
   /** Cursor for pagination to get the next page of results */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface IndexesListVectorsResponseVectorsItem {
   /** Identifier for a Vector */
@@ -376,9 +376,9 @@ export interface ListVectorsIndexResponse {
   /** Array of vector items */
   vectors: IndexesListVectorsResponseVectorsList;
   /** When the cursor expires as an ISO8601 string */
-  cursorExpirationTimestamp?: string | null;
+  cursorExpirationTimestamp?: string | null | undefined;
   /** Cursor for the next page of results */
-  nextCursor?: string | null;
+  nextCursor?: string | null | undefined;
 }
 export type IndexesQueryRequestVectorList = Array<number>;
 export type IndexesQueryRequestReturnMetadata = "none" | "indexed" | "all";
@@ -389,31 +389,31 @@ export interface QueryIndexRequest {
   /** The search vector that will be used to find the nearest neighbors. */
   vector: IndexesQueryRequestVectorList;
   /** A metadata filter expression used to limit nearest neighbor results. */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Whether to return no metadata, indexed metadata or all metadata associated with the closest vectors. */
-  returnMetadata?: IndexesQueryRequestReturnMetadata | (string & {});
+  returnMetadata?: IndexesQueryRequestReturnMetadata | (string & {}) | undefined;
   /** Whether to return the values associated with the closest vectors. */
-  returnValues?: boolean;
+  returnValues?: boolean | undefined;
   /** The number of nearest neighbors to find. */
-  topK?: number;
+  topK?: number | undefined;
 }
 export type IndexesQueryResponseMatchesItemValuesList = Array<number>;
 export interface IndexesQueryResponseMatchesItem {
   /** Identifier for a Vector */
-  id?: string | null;
-  metadata?: unknown | null;
-  namespace?: string | null;
+  id?: string | null | undefined;
+  metadata?: unknown | null | undefined;
+  namespace?: string | null | undefined;
   /** The score of the vector according to the index's distance metric */
-  score?: number | null;
-  values?: IndexesQueryResponseMatchesItemValuesList | null;
+  score?: number | null | undefined;
+  values?: IndexesQueryResponseMatchesItemValuesList | null | undefined;
 }
 export type IndexesQueryResponseMatchesList = Array<IndexesQueryResponseMatchesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface QueryIndexResponse {
   /** Specifies the count of vectors returned by the search */
-  count?: number | null;
+  count?: number | null | undefined;
   /** Array of vectors matched by the search */
-  matches?: IndexesQueryResponseMatchesList | null;
+  matches?: IndexesQueryResponseMatchesList | null | undefined;
 }
 export type IndexesUpsertRequestUnparsableBehavior = "error" | "discard";
 export interface UpsertIndexRequest {
@@ -421,14 +421,14 @@ export interface UpsertIndexRequest {
   accountId: string;
   indexName: string;
   /** Behavior for ndjson parse failures. */
-  unparsableBehavior?: IndexesUpsertRequestUnparsableBehavior | (string & {});
+  unparsableBehavior?: IndexesUpsertRequestUnparsableBehavior | (string & {}) | undefined;
   /** Vectors as newline-delimited JSON (application/x-ndjson), one vector object per line. */
   body: Blob | Uint8Array | ArrayBuffer | string;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpsertIndexResponse {
   /** The unique identifier for the async mutation operation containing the changeset. */
-  mutationId?: string | null;
+  mutationId?: string | null | undefined;
 }
 export type CreateIndexError =
   | IndexAlreadyExists

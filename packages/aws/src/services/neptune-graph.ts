@@ -215,8 +215,8 @@ export interface CancelExportTaskOutput {
   format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: ParquetType;
-  statusReason?: string;
+  parquetType?: ParquetType | undefined;
+  statusReason?: string | undefined;
 }
 export type TaskId = string;
 export interface CancelImportTaskInput {
@@ -237,11 +237,11 @@ export type ImportTaskStatus =
   | "DELETED"
   | (string & {});
 export interface CancelImportTaskOutput {
-  graphId?: string;
+  graphId?: string | undefined;
   taskId: string;
   source: string;
-  format?: Format;
-  parquetType?: ParquetType;
+  format?: Format | undefined;
+  parquetType?: ParquetType | undefined;
   roleArn: string;
   status: ImportTaskStatus;
 }
@@ -263,12 +263,12 @@ export type ReplicaCount = number;
 export type ProvisionedMemory = number;
 export interface CreateGraphInput {
   graphName: string;
-  tags?: { [key: string]: string | undefined };
-  publicConnectivity?: boolean;
-  kmsKeyIdentifier?: string;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  deletionProtection?: boolean;
+  tags?: { [key: string]: string | undefined } | undefined;
+  publicConnectivity?: boolean | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  deletionProtection?: boolean | undefined;
   provisionedMemory: number;
 }
 export type GraphStatus =
@@ -289,70 +289,70 @@ export interface CreateGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export type SnapshotName = string;
 export interface CreateGraphSnapshotInput {
   graphIdentifier: string;
   snapshotName: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SnapshotStatus = "CREATING" | "AVAILABLE" | "DELETING" | "FAILED" | (string & {});
 export interface CreateGraphSnapshotOutput {
   id: string;
   name: string;
   arn: string;
-  sourceGraphId?: string;
-  snapshotCreateTime?: Date;
-  status?: SnapshotStatus;
-  kmsKeyIdentifier?: string;
+  sourceGraphId?: string | undefined;
+  snapshotCreateTime?: Date | undefined;
+  status?: SnapshotStatus | undefined;
+  kmsKeyIdentifier?: string | undefined;
 }
 export interface NeptuneImportOptions {
   s3ExportPath: string;
   s3ExportKmsKeyId: string;
-  preserveDefaultVertexLabels?: boolean;
-  preserveEdgeIds?: boolean;
+  preserveDefaultVertexLabels?: boolean | undefined;
+  preserveEdgeIds?: boolean | undefined;
 }
 export type ImportOptions = { neptune: NeptuneImportOptions };
 export type BlankNodeHandling = "convertToIri" | (string & {});
 export interface CreateGraphUsingImportTaskInput {
   graphName: string;
-  tags?: { [key: string]: string | undefined };
-  publicConnectivity?: boolean;
-  kmsKeyIdentifier?: string;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  deletionProtection?: boolean;
-  importOptions?: ImportOptions;
-  maxProvisionedMemory?: number;
-  minProvisionedMemory?: number;
-  failOnError?: boolean;
+  tags?: { [key: string]: string | undefined } | undefined;
+  publicConnectivity?: boolean | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  deletionProtection?: boolean | undefined;
+  importOptions?: ImportOptions | undefined;
+  maxProvisionedMemory?: number | undefined;
+  minProvisionedMemory?: number | undefined;
+  failOnError?: boolean | undefined;
   source: string;
-  format?: Format;
-  parquetType?: ParquetType;
-  blankNodeHandling?: BlankNodeHandling;
+  format?: Format | undefined;
+  parquetType?: ParquetType | undefined;
+  blankNodeHandling?: BlankNodeHandling | undefined;
   roleArn: string;
 }
 export interface CreateGraphUsingImportTaskOutput {
-  graphId?: string;
+  graphId?: string | undefined;
   taskId: string;
   source: string;
-  format?: Format;
-  parquetType?: ParquetType;
+  format?: Format | undefined;
+  parquetType?: ParquetType | undefined;
   roleArn: string;
   status: ImportTaskStatus;
-  importOptions?: ImportOptions;
+  importOptions?: ImportOptions | undefined;
 }
 export type VpcId = string;
 export type SubnetId = string;
@@ -361,9 +361,9 @@ export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export interface CreatePrivateGraphEndpointInput {
   graphIdentifier: string;
-  vpcId?: string;
-  subnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
 }
 export type PrivateGraphEndpointStatus =
   | "CREATING"
@@ -376,7 +376,7 @@ export interface CreatePrivateGraphEndpointOutput {
   vpcId: string;
   subnetIds: string[];
   status: PrivateGraphEndpointStatus;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export interface DeleteGraphInput {
   graphIdentifier: string;
@@ -386,18 +386,18 @@ export interface DeleteGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export type SnapshotIdentifier = string;
 export interface DeleteGraphSnapshotInput {
@@ -407,10 +407,10 @@ export interface DeleteGraphSnapshotOutput {
   id: string;
   name: string;
   arn: string;
-  sourceGraphId?: string;
-  snapshotCreateTime?: Date;
-  status?: SnapshotStatus;
-  kmsKeyIdentifier?: string;
+  sourceGraphId?: string | undefined;
+  snapshotCreateTime?: Date | undefined;
+  status?: SnapshotStatus | undefined;
+  kmsKeyIdentifier?: string | undefined;
 }
 export interface DeletePrivateGraphEndpointInput {
   graphIdentifier: string;
@@ -420,7 +420,7 @@ export interface DeletePrivateGraphEndpointOutput {
   vpcId: string;
   subnetIds: string[];
   status: PrivateGraphEndpointStatus;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export type QueryLanguage = "OPEN_CYPHER" | (string & {});
 export type DocumentValuedMap = { [key: string]: any | undefined };
@@ -430,10 +430,10 @@ export interface ExecuteQueryInput {
   graphIdentifier: string;
   queryString: string;
   language: QueryLanguage;
-  parameters?: { [key: string]: any | undefined };
-  planCache?: PlanCacheType;
-  explainMode?: ExplainMode;
-  queryTimeoutMilliseconds?: number;
+  parameters?: { [key: string]: any | undefined } | undefined;
+  planCache?: PlanCacheType | undefined;
+  explainMode?: ExplainMode | undefined;
+  queryTimeoutMilliseconds?: number | undefined;
 }
 export interface ExecuteQueryOutput {
   payload: T.StreamingOutputBody;
@@ -445,8 +445,8 @@ export interface ExportTaskDetails {
   startTime: Date;
   timeElapsedSeconds: number;
   progressPercentage: number;
-  numVerticesWritten?: number;
-  numEdgesWritten?: number;
+  numVerticesWritten?: number | undefined;
+  numEdgesWritten?: number | undefined;
 }
 export type ExportFilterLabel = string;
 export type ExportFilterOutputPropertyName = string;
@@ -454,18 +454,18 @@ export type ExportFilterOutputDataType = string;
 export type ExportFilterSourcePropertyName = string;
 export type MultiValueHandlingType = "TO_LIST" | "PICK_FIRST" | (string & {});
 export interface ExportFilterPropertyAttributes {
-  outputType?: string;
-  sourcePropertyName?: string;
-  multiValueHandling?: MultiValueHandlingType;
+  outputType?: string | undefined;
+  sourcePropertyName?: string | undefined;
+  multiValueHandling?: MultiValueHandlingType | undefined;
 }
 export type ExportFilterPropertyMap = { [key: string]: ExportFilterPropertyAttributes | undefined };
 export interface ExportFilterElement {
-  properties?: { [key: string]: ExportFilterPropertyAttributes | undefined };
+  properties?: { [key: string]: ExportFilterPropertyAttributes | undefined } | undefined;
 }
 export type ExportFilterPerLabelMap = { [key: string]: ExportFilterElement | undefined };
 export interface ExportFilter {
-  vertexFilter?: { [key: string]: ExportFilterElement | undefined };
-  edgeFilter?: { [key: string]: ExportFilterElement | undefined };
+  vertexFilter?: { [key: string]: ExportFilterElement | undefined } | undefined;
+  edgeFilter?: { [key: string]: ExportFilterElement | undefined } | undefined;
 }
 export interface GetExportTaskOutput {
   graphId: string;
@@ -475,10 +475,10 @@ export interface GetExportTaskOutput {
   format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: ParquetType;
-  statusReason?: string;
-  exportTaskDetails?: ExportTaskDetails;
-  exportFilter?: ExportFilter;
+  parquetType?: ParquetType | undefined;
+  statusReason?: string | undefined;
+  exportTaskDetails?: ExportTaskDetails | undefined;
+  exportFilter?: ExportFilter | undefined;
 }
 export interface GetGraphInput {
   graphIdentifier: string;
@@ -487,18 +487,18 @@ export interface GetGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export interface GetGraphSnapshotInput {
   snapshotIdentifier: string;
@@ -507,15 +507,15 @@ export interface GetGraphSnapshotOutput {
   id: string;
   name: string;
   arn: string;
-  sourceGraphId?: string;
-  snapshotCreateTime?: Date;
-  status?: SnapshotStatus;
-  kmsKeyIdentifier?: string;
+  sourceGraphId?: string | undefined;
+  snapshotCreateTime?: Date | undefined;
+  status?: SnapshotStatus | undefined;
+  kmsKeyIdentifier?: string | undefined;
 }
 export type GraphSummaryMode = "BASIC" | "DETAILED" | (string & {});
 export interface GetGraphSummaryInput {
   graphIdentifier: string;
-  mode?: GraphSummaryMode;
+  mode?: GraphSummaryMode | undefined;
 }
 export type NodeLabels = string[];
 export type EdgeLabels = string[];
@@ -524,37 +524,37 @@ export type LongValuedMapList = { [key: string]: number | undefined }[];
 export type NodeProperties = string[];
 export type OutgoingEdgeLabels = string[];
 export interface NodeStructure {
-  count?: number;
-  nodeProperties?: string[];
-  distinctOutgoingEdgeLabels?: string[];
+  count?: number | undefined;
+  nodeProperties?: string[] | undefined;
+  distinctOutgoingEdgeLabels?: string[] | undefined;
 }
 export type NodeStructures = NodeStructure[];
 export type EdgeProperties = string[];
 export interface EdgeStructure {
-  count?: number;
-  edgeProperties?: string[];
+  count?: number | undefined;
+  edgeProperties?: string[] | undefined;
 }
 export type EdgeStructures = EdgeStructure[];
 export interface GraphDataSummary {
-  numNodes?: number;
-  numEdges?: number;
-  numNodeLabels?: number;
-  numEdgeLabels?: number;
-  nodeLabels?: string[];
-  edgeLabels?: string[];
-  numNodeProperties?: number;
-  numEdgeProperties?: number;
-  nodeProperties?: { [key: string]: number | undefined }[];
-  edgeProperties?: { [key: string]: number | undefined }[];
-  totalNodePropertyValues?: number;
-  totalEdgePropertyValues?: number;
-  nodeStructures?: NodeStructure[];
-  edgeStructures?: EdgeStructure[];
+  numNodes?: number | undefined;
+  numEdges?: number | undefined;
+  numNodeLabels?: number | undefined;
+  numEdgeLabels?: number | undefined;
+  nodeLabels?: string[] | undefined;
+  edgeLabels?: string[] | undefined;
+  numNodeProperties?: number | undefined;
+  numEdgeProperties?: number | undefined;
+  nodeProperties?: { [key: string]: number | undefined }[] | undefined;
+  edgeProperties?: { [key: string]: number | undefined }[] | undefined;
+  totalNodePropertyValues?: number | undefined;
+  totalEdgePropertyValues?: number | undefined;
+  nodeStructures?: NodeStructure[] | undefined;
+  edgeStructures?: EdgeStructure[] | undefined;
 }
 export interface GetGraphSummaryOutput {
-  version?: string;
-  lastStatisticsComputationTime?: Date;
-  graphSummary?: GraphDataSummary;
+  version?: string | undefined;
+  lastStatisticsComputationTime?: Date | undefined;
+  graphSummary?: GraphDataSummary | undefined;
 }
 export interface GetImportTaskInput {
   taskIdentifier: string;
@@ -565,22 +565,22 @@ export interface ImportTaskDetails {
   timeElapsedSeconds: number;
   progressPercentage: number;
   errorCount: number;
-  errorDetails?: string;
+  errorDetails?: string | undefined;
   statementCount: number;
   dictionaryEntryCount: number;
 }
 export interface GetImportTaskOutput {
-  graphId?: string;
+  graphId?: string | undefined;
   taskId: string;
   source: string;
-  format?: Format;
-  parquetType?: ParquetType;
+  format?: Format | undefined;
+  parquetType?: ParquetType | undefined;
   roleArn: string;
   status: ImportTaskStatus;
-  importOptions?: ImportOptions;
-  importTaskDetails?: ImportTaskDetails;
-  attemptNumber?: number;
-  statusReason?: string;
+  importOptions?: ImportOptions | undefined;
+  importTaskDetails?: ImportTaskDetails | undefined;
+  attemptNumber?: number | undefined;
+  statusReason?: string | undefined;
 }
 export interface GetPrivateGraphEndpointInput {
   graphIdentifier: string;
@@ -590,7 +590,7 @@ export interface GetPrivateGraphEndpointOutput {
   vpcId: string;
   subnetIds: string[];
   status: PrivateGraphEndpointStatus;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export interface GetQueryInput {
   graphIdentifier: string;
@@ -598,18 +598,18 @@ export interface GetQueryInput {
 }
 export type QueryState = "RUNNING" | "WAITING" | "CANCELLING" | (string & {});
 export interface GetQueryOutput {
-  id?: string;
-  queryString?: string;
-  waited?: number;
-  elapsed?: number;
-  state?: QueryState;
+  id?: string | undefined;
+  queryString?: string | undefined;
+  waited?: number | undefined;
+  elapsed?: number | undefined;
+  state?: QueryState | undefined;
 }
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListExportTasksInput {
-  graphIdentifier?: string;
-  nextToken?: string;
-  maxResults?: number;
+  graphIdentifier?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ExportTaskSummary {
   graphId: string;
@@ -619,101 +619,101 @@ export interface ExportTaskSummary {
   format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: ParquetType;
-  statusReason?: string;
+  parquetType?: ParquetType | undefined;
+  statusReason?: string | undefined;
 }
 export type ExportTaskSummaryList = ExportTaskSummary[];
 export interface ListExportTasksOutput {
   tasks: ExportTaskSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListGraphsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GraphSummary {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  provisionedMemory?: number;
-  publicConnectivity?: boolean;
-  endpoint?: string;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  deletionProtection?: boolean;
+  status?: GraphStatus | undefined;
+  provisionedMemory?: number | undefined;
+  publicConnectivity?: boolean | undefined;
+  endpoint?: string | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  deletionProtection?: boolean | undefined;
 }
 export type GraphSummaryList = GraphSummary[];
 export interface ListGraphsOutput {
   graphs: GraphSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListGraphSnapshotsInput {
-  graphIdentifier?: string;
-  nextToken?: string;
-  maxResults?: number;
+  graphIdentifier?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GraphSnapshotSummary {
   id: string;
   name: string;
   arn: string;
-  sourceGraphId?: string;
-  snapshotCreateTime?: Date;
-  status?: SnapshotStatus;
-  kmsKeyIdentifier?: string;
+  sourceGraphId?: string | undefined;
+  snapshotCreateTime?: Date | undefined;
+  status?: SnapshotStatus | undefined;
+  kmsKeyIdentifier?: string | undefined;
 }
 export type GraphSnapshotSummaryList = GraphSnapshotSummary[];
 export interface ListGraphSnapshotsOutput {
   graphSnapshots: GraphSnapshotSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListImportTasksInput {
-  graphIdentifier?: string;
-  nextToken?: string;
-  maxResults?: number;
+  graphIdentifier?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ImportTaskSummary {
-  graphId?: string;
+  graphId?: string | undefined;
   taskId: string;
   source: string;
-  format?: Format;
-  parquetType?: ParquetType;
+  format?: Format | undefined;
+  parquetType?: ParquetType | undefined;
   roleArn: string;
   status: ImportTaskStatus;
 }
 export type ImportTaskSummaryList = ImportTaskSummary[];
 export interface ListImportTasksOutput {
   tasks: ImportTaskSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPrivateGraphEndpointsInput {
   graphIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PrivateGraphEndpointSummary {
   vpcId: string;
   subnetIds: string[];
   status: PrivateGraphEndpointStatus;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export type PrivateGraphEndpointSummaryList = PrivateGraphEndpointSummary[];
 export interface ListPrivateGraphEndpointsOutput {
   privateGraphEndpoints: PrivateGraphEndpointSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type QueryStateInput = "ALL" | "RUNNING" | "WAITING" | "CANCELLING" | (string & {});
 export interface ListQueriesInput {
   graphIdentifier: string;
   maxResults: number;
-  state?: QueryStateInput;
+  state?: QueryStateInput | undefined;
 }
 export interface QuerySummary {
-  id?: string;
-  queryString?: string;
-  waited?: number;
-  elapsed?: number;
-  state?: QueryState;
+  id?: string | undefined;
+  queryString?: string | undefined;
+  waited?: number | undefined;
+  elapsed?: number | undefined;
+  state?: QueryState | undefined;
 }
 export type QuerySummaryList = QuerySummary[];
 export interface ListQueriesOutput {
@@ -724,7 +724,7 @@ export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ResetGraphInput {
   graphIdentifier: string;
@@ -734,44 +734,44 @@ export interface ResetGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export interface RestoreGraphFromSnapshotInput {
   snapshotIdentifier: string;
   graphName: string;
-  provisionedMemory?: number;
-  deletionProtection?: boolean;
-  tags?: { [key: string]: string | undefined };
-  replicaCount?: number;
-  publicConnectivity?: boolean;
+  provisionedMemory?: number | undefined;
+  deletionProtection?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  replicaCount?: number | undefined;
+  publicConnectivity?: boolean | undefined;
 }
 export interface RestoreGraphFromSnapshotOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export interface StartExportTaskInput {
   graphIdentifier: string;
@@ -779,9 +779,9 @@ export interface StartExportTaskInput {
   format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: ParquetType;
-  exportFilter?: ExportFilter;
-  tags?: { [key: string]: string | undefined };
+  parquetType?: ParquetType | undefined;
+  exportFilter?: ExportFilter | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartExportTaskOutput {
   graphId: string;
@@ -791,9 +791,9 @@ export interface StartExportTaskOutput {
   format: ExportFormat;
   destination: string;
   kmsKeyIdentifier: string;
-  parquetType?: ParquetType;
-  statusReason?: string;
-  exportFilter?: ExportFilter;
+  parquetType?: ParquetType | undefined;
+  statusReason?: string | undefined;
+  exportFilter?: ExportFilter | undefined;
 }
 export interface StartGraphInput {
   graphIdentifier: string;
@@ -802,38 +802,38 @@ export interface StartGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export interface StartImportTaskInput {
-  importOptions?: ImportOptions;
-  failOnError?: boolean;
+  importOptions?: ImportOptions | undefined;
+  failOnError?: boolean | undefined;
   source: string;
-  format?: Format;
-  parquetType?: ParquetType;
-  blankNodeHandling?: BlankNodeHandling;
+  format?: Format | undefined;
+  parquetType?: ParquetType | undefined;
+  blankNodeHandling?: BlankNodeHandling | undefined;
   graphIdentifier: string;
   roleArn: string;
 }
 export interface StartImportTaskOutput {
-  graphId?: string;
+  graphId?: string | undefined;
   taskId: string;
   source: string;
-  format?: Format;
-  parquetType?: ParquetType;
+  format?: Format | undefined;
+  parquetType?: ParquetType | undefined;
   roleArn: string;
   status: ImportTaskStatus;
-  importOptions?: ImportOptions;
+  importOptions?: ImportOptions | undefined;
 }
 export interface StopGraphInput {
   graphIdentifier: string;
@@ -842,18 +842,18 @@ export interface StopGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -868,26 +868,26 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateGraphInput {
   graphIdentifier: string;
-  publicConnectivity?: boolean;
-  provisionedMemory?: number;
-  deletionProtection?: boolean;
+  publicConnectivity?: boolean | undefined;
+  provisionedMemory?: number | undefined;
+  deletionProtection?: boolean | undefined;
 }
 export interface UpdateGraphOutput {
   id: string;
   name: string;
   arn: string;
-  status?: GraphStatus;
-  statusReason?: string;
-  createTime?: Date;
-  provisionedMemory?: number;
-  endpoint?: string;
-  publicConnectivity?: boolean;
-  vectorSearchConfiguration?: VectorSearchConfiguration;
-  replicaCount?: number;
-  kmsKeyIdentifier?: string;
-  sourceSnapshotId?: string;
-  deletionProtection?: boolean;
-  buildNumber?: string;
+  status?: GraphStatus | undefined;
+  statusReason?: string | undefined;
+  createTime?: Date | undefined;
+  provisionedMemory?: number | undefined;
+  endpoint?: string | undefined;
+  publicConnectivity?: boolean | undefined;
+  vectorSearchConfiguration?: VectorSearchConfiguration | undefined;
+  replicaCount?: number | undefined;
+  kmsKeyIdentifier?: string | undefined;
+  sourceSnapshotId?: string | undefined;
+  deletionProtection?: boolean | undefined;
+  buildNumber?: string | undefined;
 }
 export type ConflictExceptionReason = "CONCURRENT_MODIFICATION" | (string & {});
 export type ValidationExceptionReason =

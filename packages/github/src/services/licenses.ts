@@ -71,11 +71,11 @@ export interface License {
   featured: boolean;
 }
 export interface GetAllCommonlyUsedRequest {
-  featured?: boolean;
+  featured?: boolean | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** License Simple */
 export interface LicenseSimple {
@@ -84,7 +84,7 @@ export interface LicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export type GetAllCommonlyUsedResponseBodyList = Array<LicenseSimple>;
 export type GetAllCommonlyUsedResponse = GetAllCommonlyUsedResponseBodyList;
@@ -94,7 +94,7 @@ export interface GetForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface LicenseContentLinks {
   git: string | null;

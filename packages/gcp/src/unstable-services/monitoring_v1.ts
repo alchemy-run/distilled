@@ -86,106 +86,106 @@ export class NotFound
 /** A project being monitored (https://cloud.google.com/monitoring/settings/multiple-projects#create-multi) by a Metrics Scope. */
 export interface MonitoredProject {
   /** Output only. Set if the project has been tombstoned by the user. */
-  isTombstoned?: boolean;
+  isTombstoned?: boolean | undefined;
   /** Output only. The time when this MonitoredProject was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Immutable. The resource name of the MonitoredProject. On input, the resource name includes the scoping project ID and monitored project ID. On output, it contains the equivalent project numbers. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER}/projects/{MONITORED_PROJECT_ID_OR_NUMBER} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateLocationsGlobalMetricsScopesProjectsRequest {
   /** Required. The resource name of the existing Metrics Scope that will monitor this project. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER} */
   parent: string;
   /** Request body */
-  body?: MonitoredProject;
+  body?: MonitoredProject | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
-  name?: string;
+  name?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type StringList = Array<string>;
 /** An object representing a resource that can be used for monitoring, logging, billing, or other purposes. Examples include virtual machine instances, databases, and storage devices such as disks. The type field identifies a MonitoredResourceDescriptor object that describes the resource's schema. Information in the labels field identifies the actual resource and its attributes according to the schema. For example, a particular Compute Engine VM instance could be represented by the following object, because the MonitoredResourceDescriptor for "gce_instance" has labels "project_id", "instance_id" and "zone": { "type": "gce_instance", "labels": { "project_id": "my-project", "instance_id": "12345678901234", "zone": "us-central1-a" }} */
 export interface MonitoredResource {
   /** Required. The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types (https://cloud.google.com/monitoring/api/resources) and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list). */
-  type?: string;
+  type?: string | undefined;
   /** Required. Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels "project_id", "instance_id", and "zone". */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type MonitoredResourceList = Array<MonitoredResource>;
 /** A widget that displays a list of incidents */
 export interface IncidentList {
   /** Optional. A list of alert policy names to filter the incident list by. Don't include the project ID prefix in the policy name. For example, use alertPolicies/utilization. */
-  policyNames?: StringList;
+  policyNames?: StringList | undefined;
   /** Optional. The monitored resource for which incidents are listed. The resource doesn't need to be fully specified. That is, you can specify the resource type but not the values of the resource labels. The resource type and labels are used for filtering. */
-  monitoredResources?: MonitoredResourceList;
+  monitoredResources?: MonitoredResourceList | undefined;
 }
 /** A widget that displays an input field to change the value of a template variable. */
 export interface FilterControl {
   /** Name of the template variable the widget affects. */
-  templateVariable?: string;
+  templateVariable?: string | undefined;
 }
 export type TemplateVariableConditionComparatorEnum = "COMPARATOR_UNSPECIFIED" | "REGEX_FULL_MATCH";
 /** A condition whose evaluation is based on the value of a template variable. */
 export interface TemplateVariableCondition {
   /** Comparator to use to evaluate whether the value of the template variable matches the template_variable_value. For example, if the comparator is REGEX_FULL_MATCH, template_variable_value would contain a regex that is matched against the value of the template variable. */
-  comparator?: TemplateVariableConditionComparatorEnum | (string & {});
+  comparator?: TemplateVariableConditionComparatorEnum | (string & {}) | undefined;
   /** The template variable whose value is evaluated. */
-  templateVariable?: string;
+  templateVariable?: string | undefined;
   /** The value to compare the template variable to. For example, if the comparator is REGEX_FULL_MATCH, this field should contain a regex. */
-  templateVariableValue?: string;
+  templateVariableValue?: string | undefined;
 }
 /** Condition that determines whether the widget should be displayed. */
 export interface VisibilityCondition {
   /** A condition whose evaluation is based on the value of a template variable. */
-  templateVariableCondition?: TemplateVariableCondition;
+  templateVariableCondition?: TemplateVariableCondition | undefined;
 }
 /** Preview: Parameter value applied to the aggregation function. This is a preview feature and may be subject to change before final release. */
 export interface Parameter {
   /** An integer parameter value. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** A floating-point parameter value. */
-  doubleValue?: number;
+  doubleValue?: number | undefined;
 }
 export type ParameterList = Array<Parameter>;
 /** Preview: An identifier for an aggregation function. Aggregation functions are SQL functions that group or transform data from multiple points to a single point. This is a preview feature and may be subject to change before final release. */
 export interface AggregationFunction {
   /** Required. The type of aggregation function, must be one of the following: "none" - no function. "percentile" - APPROX_QUANTILES() - 1 parameter numeric value "average" - AVG() "count" - COUNT() "count-distinct" - COUNT(DISTINCT) "count-distinct-approx" - APPROX_COUNT_DISTINCT() "max" - MAX() "min" - MIN() "sum" - SUM() */
-  type?: string;
+  type?: string | undefined;
   /** Optional. Parameters applied to the aggregation function. Only used for functions that require them. */
-  parameters?: ParameterList;
+  parameters?: ParameterList | undefined;
 }
 /** A chart measure. Measures represent a measured property in your chart data such as rainfall in inches, number of units sold, revenue gained, etc. */
 export interface Measure {
   /** Required. The column name within in the dataset used for the measure. */
-  column?: string;
+  column?: string | undefined;
   /** Required. The aggregation function applied to the input column. This must not be set to "none" unless binning is disabled on the dimension. The aggregation function is used to group points on the dimension bins. */
-  aggregationFunction?: AggregationFunction;
+  aggregationFunction?: AggregationFunction | undefined;
 }
 export type MeasureList = Array<Measure>;
 /** Preview: A query that produces an aggregated response and supporting data. This is a preview feature and may be subject to change before final release. */
 export interface OpsAnalyticsQuery {
   /** A SQL query to fetch time series, category series, or numeric series data. */
-  sql?: string;
+  sql?: string | undefined;
 }
 export type AggregationPerSeriesAlignerEnum =
   | "ALIGN_NONE"
@@ -225,13 +225,13 @@ export type AggregationCrossSeriesReducerEnum =
 /** Describes how to combine multiple time series to provide a different view of the data. Aggregation of time series is done in two steps. First, each time series in the set is aligned to the same time interval boundaries, then the set of time series is optionally reduced in number.Alignment consists of applying the per_series_aligner operation to each time series after its data has been divided into regular alignment_period time intervals. This process takes all of the data points in an alignment period, applies a mathematical transformation such as averaging, minimum, maximum, delta, etc., and converts them into a single data point per period.Reduction is when the aligned and transformed time series can optionally be combined, reducing the number of time series through similar mathematical transformations. Reduction involves applying a cross_series_reducer to all the time series, optionally sorting the time series into subsets with group_by_fields, and applying the reducer to each subset.The raw time series data can contain a huge amount of information from multiple sources. Alignment and reduction transforms this mass of data into a more manageable and representative collection of data, for example "the 95% latency across the average of all tasks in a cluster". This representative data can be more easily graphed and comprehended, and the individual time series data is still available for later drilldown. For more details, see Filtering and aggregation (https://cloud.google.com/monitoring/api/v3/aggregation). */
 export interface Aggregation {
   /** An Aligner describes how to bring the data points in a single time series into temporal alignment. Except for ALIGN_NONE, all alignments cause all the data points in an alignment_period to be mathematically grouped together, resulting in a single data point for each alignment_period with end timestamp at the end of the period.Not all alignment operations may be applied to all time series. The valid choices depend on the metric_kind and value_type of the original time series. Alignment can change the metric_kind or the value_type of the time series.Time series data must be aligned in order to perform cross-time series reduction. If cross_series_reducer is specified, then per_series_aligner must be specified and not equal to ALIGN_NONE and alignment_period must be specified; otherwise, an error is returned. */
-  perSeriesAligner?: AggregationPerSeriesAlignerEnum | (string & {});
+  perSeriesAligner?: AggregationPerSeriesAlignerEnum | (string & {}) | undefined;
   /** The alignment_period specifies a time interval, in seconds, that is used to divide the data in all the time series into consistent blocks of time. This will be done before the per-series aligner can be applied to the data.The value must be at least 60 seconds. If a per-series aligner other than ALIGN_NONE is specified, this field is required or an error is returned. If no per-series aligner is specified, or the aligner ALIGN_NONE is specified, then this field is ignored.The maximum value of the alignment_period is 2 years, or 104 weeks. */
-  alignmentPeriod?: string;
+  alignmentPeriod?: string | undefined;
   /** The reduction operation to be used to combine time series into a single time series, where the value of each data point in the resulting series is a function of all the already aligned values in the input time series.Not all reducer operations can be applied to all time series. The valid choices depend on the metric_kind and the value_type of the original time series. Reduction can yield a time series with a different metric_kind or value_type than the input time series.Time series data must first be aligned (see per_series_aligner) in order to perform cross-time series reduction. If cross_series_reducer is specified, then per_series_aligner must be specified, and must not be ALIGN_NONE. An alignment_period must also be specified; otherwise, an error is returned. */
-  crossSeriesReducer?: AggregationCrossSeriesReducerEnum | (string & {});
+  crossSeriesReducer?: AggregationCrossSeriesReducerEnum | (string & {}) | undefined;
   /** The set of fields to preserve when cross_series_reducer is specified. The group_by_fields determine how the time series are partitioned into subsets prior to applying the aggregation operation. Each subset contains time series that have the same value for each of the grouping fields. Each individual time series is a member of exactly one subset. The cross_series_reducer is applied to each subset of time series. It is not possible to reduce across different resource types, so this field implicitly contains resource.type. Fields not specified in group_by_fields are aggregated away. If group_by_fields is not specified and all the time series have the same resource type, then the time series are aggregated into a single output time series. If cross_series_reducer is not defined, this field is ignored. */
-  groupByFields?: StringList;
+  groupByFields?: StringList | undefined;
 }
 export type StatisticalTimeSeriesFilterRankingMethodEnum =
   | "METHOD_UNSPECIFIED"
@@ -239,9 +239,9 @@ export type StatisticalTimeSeriesFilterRankingMethodEnum =
 /** A filter that ranks streams based on their statistical relation to other streams in a request. Note: This field is deprecated and completely ignored by the API. */
 export interface StatisticalTimeSeriesFilter {
   /** How many time series to output. */
-  numTimeSeries?: number;
+  numTimeSeries?: number | undefined;
   /** rankingMethod is applied to a set of time series, and then the produced value for each individual time series is used to compare a given time series to others. These are methods that cannot be applied stream-by-stream, but rather require the full context of a request to evaluate time series. */
-  rankingMethod?: StatisticalTimeSeriesFilterRankingMethodEnum | (string & {});
+  rankingMethod?: StatisticalTimeSeriesFilterRankingMethodEnum | (string & {}) | undefined;
 }
 export type PickTimeSeriesFilterRankingMethodEnum =
   | "METHOD_UNSPECIFIED"
@@ -253,67 +253,67 @@ export type PickTimeSeriesFilterRankingMethodEnum =
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive).The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
   /** Optional. Inclusive start of the interval.If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. Exclusive end of the interval.If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type PickTimeSeriesFilterDirectionEnum = "DIRECTION_UNSPECIFIED" | "TOP" | "BOTTOM";
 /** Describes a ranking-based time series filter. Each input time series is ranked with an aligner. The filter will allow up to num_time_series time series to pass through it, selecting them based on the relative ranking.For example, if ranking_method is METHOD_MEAN,direction is BOTTOM, and num_time_series is 3, then the 3 times series with the lowest mean values will pass through the filter. */
 export interface PickTimeSeriesFilter {
   /** ranking_method is applied to each time series independently to produce the value which will be used to compare the time series to other time series. */
-  rankingMethod?: PickTimeSeriesFilterRankingMethodEnum | (string & {});
+  rankingMethod?: PickTimeSeriesFilterRankingMethodEnum | (string & {}) | undefined;
   /** Select the top N streams/time series within this time interval */
-  interval?: Interval;
+  interval?: Interval | undefined;
   /** How many time series to allow to pass through the filter. */
-  numTimeSeries?: number;
+  numTimeSeries?: number | undefined;
   /** How to use the ranking to select time series that pass through the filter. */
-  direction?: PickTimeSeriesFilterDirectionEnum | (string & {});
+  direction?: PickTimeSeriesFilterDirectionEnum | (string & {}) | undefined;
 }
 /** A filter that defines a subset of time series data that is displayed in a widget. Time series data is fetched using the ListTimeSeries (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.timeSeries/list) method. */
 export interface TimeSeriesFilter {
   /** By default, the raw time series data is returned. Use this field to combine multiple time series for different views of the data. */
-  aggregation?: Aggregation;
+  aggregation?: Aggregation | undefined;
   /** Statistics based time series filter. Note: This field is deprecated and completely ignored by the API. */
-  statisticalTimeSeriesFilter?: StatisticalTimeSeriesFilter;
+  statisticalTimeSeriesFilter?: StatisticalTimeSeriesFilter | undefined;
   /** Required. The monitoring filter (https://cloud.google.com/monitoring/api/v3/filters) that identifies the metric types, resources, and projects to query. */
-  filter?: string;
+  filter?: string | undefined;
   /** Ranking based time series filter. */
-  pickTimeSeriesFilter?: PickTimeSeriesFilter;
+  pickTimeSeriesFilter?: PickTimeSeriesFilter | undefined;
   /** Apply a second aggregation after aggregation is applied. */
-  secondaryAggregation?: Aggregation;
+  secondaryAggregation?: Aggregation | undefined;
 }
 /** Span attribute key and list of values to be used for filtering. */
 export interface SpanAttributeFilter {
   /** List of attribute values for given key. Multiple values will be OR'd together. */
-  value?: StringList;
+  value?: StringList | undefined;
   /** Key of the attribute */
-  key?: string;
+  key?: string | undefined;
 }
 export type SpanAttributeFilterList = Array<SpanAttributeFilter>;
 /** First version of span filtering that is supported by the Trace component. */
 export interface SpanFilters {
   /** Optional. Filtering for spans containing one of the span display names in the list. Multiple values will be OR'd together. */
-  displayNames?: StringList;
+  displayNames?: StringList | undefined;
   /** Optional. Filtering for spans containing one of the Apphub Application IDs in the list. Multiple values will be OR'd together. */
-  applicationIds?: StringList;
+  applicationIds?: StringList | undefined;
   /** Optional. Filtering for spans containing one of the Apphub workload IDs in the list. Multiple values will be OR'd together. Example: "workload-id1", "workload-id2" */
-  apphubWorkloads?: StringList;
+  apphubWorkloads?: StringList | undefined;
   /** Optional. Filters for root spans only if set to true. A root span is a span without a defined parent span ID. */
-  isRootSpan?: boolean;
+  isRootSpan?: boolean | undefined;
   /** Optional. Filtering for spans containing one of the services in the list. Multiple values will be OR'd together. */
-  services?: StringList;
+  services?: StringList | undefined;
   /** Optional. Filtering for spans containing one of the kinds in the list. Multiple values will be OR'd together. */
-  kinds?: StringList;
+  kinds?: StringList | undefined;
   /** Optional. Filtering for spans with a maximum duration. */
-  maxDuration?: string;
+  maxDuration?: string | undefined;
   /** Optional. Filtering for spans containing one of the statuses in the list. Multiple values will be OR'd together. */
-  status?: StringList;
+  status?: StringList | undefined;
   /** Optional. Filtering for spans containing one of the Apphub service IDs in the list. Multiple values will be OR'd together. Example: "service-id1", "service-id2" */
-  apphubServices?: StringList;
+  apphubServices?: StringList | undefined;
   /** Optional. Filtering for spans with a minimum duration. */
-  minDuration?: string;
+  minDuration?: string | undefined;
   /** Optional. List of span attribute filters. Each SpanAttributeFilter key must be unique. Multiple attribute filters will be AND'd together. */
-  attributes?: SpanAttributeFilterList;
+  attributes?: SpanAttributeFilterList | undefined;
 }
 export type TraceQuerySpanDataValueEnum =
   | "SPAN_DATA_VALUE_UNSPECIFIED"
@@ -323,50 +323,50 @@ export type TraceQuerySpanDataValueEnum =
 /** LINT.IfChange Preview: Query for traces. This is a preview feature and may be subject to change before final release. */
 export interface TraceQuery {
   /** First version of span filtering that we will support. Required. */
-  spanFilters?: SpanFilters;
+  spanFilters?: SpanFilters | undefined;
   /** The type of span data value to be displayed on the chart. Required. */
-  spanDataValue?: TraceQuerySpanDataValueEnum | (string & {});
+  spanDataValue?: TraceQuerySpanDataValueEnum | (string & {}) | undefined;
   /** Optional. The resource name of the project or Trace scope to fetch data from. If empty, the widget will default to the project's default Trace scope. If scope cannot be determined, then we fallback to the current project. Optional. */
-  resourceContainer?: string;
+  resourceContainer?: string | undefined;
 }
 /** Describes a query to build the numerator or denominator of a TimeSeriesFilterRatio. */
 export interface RatioPart {
   /** Required. The monitoring filter (https://cloud.google.com/monitoring/api/v3/filters) that identifies the metric types, resources, and projects to query. */
-  filter?: string;
+  filter?: string | undefined;
   /** By default, the raw time series data is returned. Use this field to combine multiple time series for different views of the data. */
-  aggregation?: Aggregation;
+  aggregation?: Aggregation | undefined;
 }
 /** A pair of time series filters that define a ratio computation. The output time series is the pair-wise division of each aligned element from the numerator and denominator time series. */
 export interface TimeSeriesFilterRatio {
   /** Ranking based time series filter. */
-  pickTimeSeriesFilter?: PickTimeSeriesFilter;
+  pickTimeSeriesFilter?: PickTimeSeriesFilter | undefined;
   /** Apply a second aggregation after the ratio is computed. */
-  secondaryAggregation?: Aggregation;
+  secondaryAggregation?: Aggregation | undefined;
   /** The denominator of the ratio. */
-  denominator?: RatioPart;
+  denominator?: RatioPart | undefined;
   /** The numerator of the ratio. */
-  numerator?: RatioPart;
+  numerator?: RatioPart | undefined;
   /** Statistics based time series filter. Note: This field is deprecated and completely ignored by the API. */
-  statisticalTimeSeriesFilter?: StatisticalTimeSeriesFilter;
+  statisticalTimeSeriesFilter?: StatisticalTimeSeriesFilter | undefined;
 }
 /** TimeSeriesQuery collects the set of supported methods for querying time series data from the Stackdriver metrics API. */
 export interface TimeSeriesQuery {
   /** A query used to fetch time series with MQL. */
-  timeSeriesQueryLanguage?: string;
+  timeSeriesQueryLanguage?: string | undefined;
   /** A query used to fetch time series with PromQL. */
-  prometheusQuery?: string;
+  prometheusQuery?: string | undefined;
   /** Preview: A query used to fetch a time series, category series, or numeric series with SQL. This is a preview feature and may be subject to change before final release. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery;
+  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
   /** Filter parameters to fetch time series. */
-  timeSeriesFilter?: TimeSeriesFilter;
+  timeSeriesFilter?: TimeSeriesFilter | undefined;
   /** Optional. Preview: Query for traces. This is a preview feature and may be subject to change before final release. */
-  traceQuery?: TraceQuery;
+  traceQuery?: TraceQuery | undefined;
   /** The unit of data contained in fetched time series. If non-empty, this unit will override any unit that accompanies fetched data. The format is the same as the unit (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors) field in MetricDescriptor. */
-  unitOverride?: string;
+  unitOverride?: string | undefined;
   /** Parameters to fetch a ratio between two time series filters. */
-  timeSeriesFilterRatio?: TimeSeriesFilterRatio;
+  timeSeriesFilterRatio?: TimeSeriesFilterRatio | undefined;
   /** Optional. If set, Cloud Monitoring will treat the full query duration as the alignment period so that there will be only 1 output value.*Note: This could override the configured alignment period except for the cases where a series of data points are expected, like - XyChart - Scorecard's spark chart */
-  outputFullDuration?: boolean;
+  outputFullDuration?: boolean | undefined;
 }
 export type BreakdownSortOrderEnum =
   | "SORT_ORDER_UNSPECIFIED"
@@ -376,52 +376,52 @@ export type BreakdownSortOrderEnum =
 /** Preview: A breakdown is an aggregation applied to the measures over a specified column. A breakdown can result in multiple series across a category for the provided measure. This is a preview feature and may be subject to change before final release. */
 export interface Breakdown {
   /** Required. A limit to the number of breakdowns. If set to zero then all possible breakdowns are applied. The list of breakdowns is dependent on the value of the sort_order field. */
-  limit?: number;
+  limit?: number | undefined;
   /** Required. The Aggregation function is applied across all data in each breakdown created. */
-  aggregationFunction?: AggregationFunction;
+  aggregationFunction?: AggregationFunction | undefined;
   /** Required. The sort order is applied to the values of the breakdown column. */
-  sortOrder?: BreakdownSortOrderEnum | (string & {});
+  sortOrder?: BreakdownSortOrderEnum | (string & {}) | undefined;
   /** Required. The name of the column in the dataset containing the breakdown values. */
-  column?: string;
+  column?: string | undefined;
 }
 export type BreakdownList = Array<Breakdown>;
 /** The data represented by the treemap. Needs to include the data itself, plus rules on how to organize it hierarchically. */
 export interface TreemapDataSet {
   /** Optional. A collection of measures. A measure is a measured value of a property in your data. For example, rainfall in inches, number of units sold, revenue gained, etc. */
-  measures?: MeasureList;
+  measures?: MeasureList | undefined;
   /** Required. The query that fetches the relevant data. See google.monitoring.dashboard.v1.TimeSeriesQuery */
-  timeSeriesQuery?: TimeSeriesQuery;
+  timeSeriesQuery?: TimeSeriesQuery | undefined;
   /** Optional. The collection of breakdowns to be applied to the dataset. A breakdown is a way to slice the data. For example, you can break down the data by region. */
-  breakdowns?: BreakdownList;
+  breakdowns?: BreakdownList | undefined;
 }
 export type TreemapDataSetList = Array<TreemapDataSet>;
 /** A widget that displays hierarchical data as a treemap. */
 export interface Treemap {
   /** Required. The collection of datasets used to construct and populate the treemap. For the rendered treemap rectangles: Color is determined by the aggregated value for each grouping. Size is proportional to the count of time series aggregated within that rectangle's segment. */
-  dataSets?: TreemapDataSetList;
+  dataSets?: TreemapDataSetList | undefined;
   /** Required. Ordered labels representing the hierarchical treemap structure. */
-  treemapHierarchy?: StringList;
+  treemapHierarchy?: StringList | undefined;
 }
 /** A widget that displays a stream of log. */
 export interface LogsPanel {
   /** A filter that chooses which log entries to return. See Advanced Logs Queries (https://cloud.google.com/logging/docs/view/advanced-queries). Only log entries that match the filter are returned. An empty filter matches all log entries. */
-  filter?: string;
+  filter?: string | undefined;
   /** The names of logging resources to collect logs for. Currently projects and storage views are supported. If empty, the widget will default to the host project. */
-  resourceNames?: StringList;
+  resourceNames?: StringList | undefined;
 }
 /** A widget that displays a list of error groups. */
 export interface ErrorReportingPanel {
   /** An identifier of the service, such as the name of the executable, job, or Google App Engine service name. This field is expected to have a low number of values that are relatively stable over time, as opposed to version, which can be changed whenever new code is deployed.Contains the service name for error reports extracted from Google App Engine logs or default if the App Engine default service is used. */
-  services?: StringList;
+  services?: StringList | undefined;
   /** The resource name of the Google Cloud Platform project. Written as projects/{projectID} or projects/{projectNumber}, where {projectID} and {projectNumber} can be found in the Google Cloud console (https://support.google.com/cloud/answer/6158840).Examples: projects/my-project-123, projects/5551234. */
-  projectNames?: StringList;
+  projectNames?: StringList | undefined;
   /** Represents the source code version that the developer provided, which could represent a version label or a Git SHA-1 hash, for example. For App Engine standard environment, the version is set to the version of the app. */
-  versions?: StringList;
+  versions?: StringList | undefined;
 }
 /** A chart that displays alert policy data. */
 export interface AlertChart {
   /** Required. The resource name of the alert policy. The format is: projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID] */
-  name?: string;
+  name?: string | undefined;
 }
 export type ThresholdTargetAxisEnum = "TARGET_AXIS_UNSPECIFIED" | "Y1" | "Y2";
 export type ThresholdColorEnum = "COLOR_UNSPECIFIED" | "YELLOW" | "RED";
@@ -429,24 +429,24 @@ export type ThresholdDirectionEnum = "DIRECTION_UNSPECIFIED" | "ABOVE" | "BELOW"
 /** Defines a threshold for categorizing time series values. */
 export interface Threshold {
   /** A label for the threshold. */
-  label?: string;
+  label?: string | undefined;
   /** The target axis to use for plotting the threshold. Target axis is not allowed in a Scorecard. */
-  targetAxis?: ThresholdTargetAxisEnum | (string & {});
+  targetAxis?: ThresholdTargetAxisEnum | (string & {}) | undefined;
   /** The value of the threshold. The value should be defined in the native scale of the metric. */
-  value?: number;
+  value?: number | undefined;
   /** The state color for this threshold. Color is not allowed in a XyChart. */
-  color?: ThresholdColorEnum | (string & {});
+  color?: ThresholdColorEnum | (string & {}) | undefined;
   /** The direction for the current threshold. Direction is not allowed in a XyChart. */
-  direction?: ThresholdDirectionEnum | (string & {});
+  direction?: ThresholdDirectionEnum | (string & {}) | undefined;
 }
 export type ThresholdList = Array<Threshold>;
 export type AxisScaleEnum = "SCALE_UNSPECIFIED" | "LINEAR" | "LOG10";
 /** A chart axis. */
 export interface Axis {
   /** The label of the axis. */
-  label?: string;
+  label?: string | undefined;
   /** The axis scale. By default, a linear scale is used. */
-  scale?: AxisScaleEnum | (string & {});
+  scale?: AxisScaleEnum | (string & {}) | undefined;
 }
 export type DimensionSortOrderEnum =
   | "SORT_ORDER_UNSPECIFIED"
@@ -456,25 +456,25 @@ export type DimensionSortOrderEnum =
 /** A chart dimension. Dimensions are a structured label, class, or category for a set of measurements in your data. */
 export interface Dimension {
   /** Optional. The type of the dimension column. This is relevant only if one of the bin_size fields is set. If it is empty, the type TIMESTAMP or INT64 will be assumed based on which bin_size field is set. If populated, this should be set to one of the following types: DATE, TIME, DATETIME, TIMESTAMP, BIGNUMERIC, INT64, NUMERIC, FLOAT64. */
-  columnType?: string;
+  columnType?: string | undefined;
   /** The column name to sort on for binning. This column can be the same column as this dimension or any other column used as a measure in the results. If sort_order is set to NONE, then this value is not used. */
-  sortColumn?: string;
+  sortColumn?: string | undefined;
   /** The maximum value for the x-axis. */
-  xMax?: number;
+  xMax?: number | undefined;
   /** time_bin_size is used when the data type of the specified dimension is a time type and the bin size is determined by a time duration. If column_type is DATE, this must be a whole value multiple of 1 day. If column_type is TIME, this must be less than or equal to 24 hours. */
-  timeBinSize?: string;
+  timeBinSize?: string | undefined;
   /** The sort order applied to the sort column. */
-  sortOrder?: DimensionSortOrderEnum | (string & {});
+  sortOrder?: DimensionSortOrderEnum | (string & {}) | undefined;
   /** numeric_bin_size is used when the column type used for a dimension is numeric or string. If the column field is set to metric_value, then numericBinSize overrides maxBinCount. */
-  numericBinSize?: number;
+  numericBinSize?: number | undefined;
   /** The minimum value for the x-axis. */
-  xMin?: number;
+  xMin?: number | undefined;
   /** Required. For widgets that use SQL queries, set the value to the name of the column in the results table whose data is charted. For a histogram that uses a time series query, set the value of this field to metric_value. */
-  column?: string;
+  column?: string | undefined;
   /** Optional. float_bin_size is used when the column type used for a dimension is a floating point numeric column. */
-  floatBinSize?: number;
+  floatBinSize?: number | undefined;
   /** For widgets that use SQL queries, the limit to the number of bins to generate. When 0 is specified, the maximum count is not enforced. For a histogram that uses a time series query, the exact number of bins to generate. If not specified or the value is 0, then the histogram determines the number of bins to use. */
-  maxBinCount?: number;
+  maxBinCount?: number | undefined;
 }
 export type DimensionList = Array<Dimension>;
 export type DataSetTargetAxisEnum = "TARGET_AXIS_UNSPECIFIED" | "Y1" | "Y2";
@@ -492,57 +492,57 @@ export type ColumnSortingOptionsDirectionEnum =
 /** Data structure to storing column's sort strategy */
 export interface ColumnSortingOptions {
   /** Optional. Column name to sort data by */
-  column?: string;
+  column?: string | undefined;
   /** Optional. A sorting direction that determines ascending or descending order. This is a legacy field kept for backwards compatibility with table. */
-  direction?: ColumnSortingOptionsDirectionEnum | (string & {});
+  direction?: ColumnSortingOptionsDirectionEnum | (string & {}) | undefined;
 }
 export type ColumnSortingOptionsList = Array<ColumnSortingOptions>;
 /** Groups a time series query definition with charting options. */
 export interface DataSet {
   /** Optional. The lower bound on data point frequency for this data set, implemented by specifying the minimum alignment period to use in a time series query. For example, if the data is published once every 10 minutes, the min_alignment_period should be at least 10 minutes. It would not make sense to fetch and align data at one minute intervals.For PromQL queries, this field is used to set the minimum interval for the query step, controlling data granularity. Larger values can improve performance on long time ranges. See Querying Basics and Range Queries for more details on the PromQL step. */
-  minAlignmentPeriod?: string;
+  minAlignmentPeriod?: string | undefined;
   /** Required. Fields for querying time series data from the Stackdriver metrics API. */
-  timeSeriesQuery?: TimeSeriesQuery;
+  timeSeriesQuery?: TimeSeriesQuery | undefined;
   /** A template string for naming TimeSeries in the resulting data set. This should be a string with interpolations of the form ${label_name}, which will resolve to the label's value. */
-  legendTemplate?: string;
+  legendTemplate?: string | undefined;
   /** Optional. A collection of dimension columns. */
-  dimensions?: DimensionList;
+  dimensions?: DimensionList | undefined;
   /** Optional. The target axis to use for plotting the metric. */
-  targetAxis?: DataSetTargetAxisEnum | (string & {});
+  targetAxis?: DataSetTargetAxisEnum | (string & {}) | undefined;
   /** How this data should be plotted on the chart. */
-  plotType?: DataSetPlotTypeEnum | (string & {});
+  plotType?: DataSetPlotTypeEnum | (string & {}) | undefined;
   /** Optional. The collection of breakdowns to be applied to the dataset. */
-  breakdowns?: BreakdownList;
+  breakdowns?: BreakdownList | undefined;
   /** Optional. A collection of sort options, affects the order of the data and legend. */
-  sort?: ColumnSortingOptionsList;
+  sort?: ColumnSortingOptionsList | undefined;
   /** Optional. A collection of measures. */
-  measures?: MeasureList;
+  measures?: MeasureList | undefined;
 }
 export type DataSetList = Array<DataSet>;
 export type ChartOptionsModeEnum = "MODE_UNSPECIFIED" | "COLOR" | "X_RAY" | "STATS";
 /** Options to control visual rendering of a chart. */
 export interface ChartOptions {
   /** The chart mode. */
-  mode?: ChartOptionsModeEnum | (string & {});
+  mode?: ChartOptionsModeEnum | (string & {}) | undefined;
   /** Preview: Configures whether the charted values are shown on the horizontal or vertical axis. By default, values are represented the vertical axis. This is a preview feature and may be subject to change before final release. */
-  displayHorizontal?: boolean;
+  displayHorizontal?: boolean | undefined;
 }
 /** A chart that displays data on a 2D (X and Y axes) plane. */
 export interface XyChart {
   /** Threshold lines drawn horizontally across the chart. */
-  thresholds?: ThresholdList;
+  thresholds?: ThresholdList | undefined;
   /** The properties applied to the x-axis. */
-  xAxis?: Axis;
+  xAxis?: Axis | undefined;
   /** The properties applied to the y-axis. */
-  yAxis?: Axis;
+  yAxis?: Axis | undefined;
   /** Required. The data displayed in this chart. */
-  dataSets?: DataSetList;
+  dataSets?: DataSetList | undefined;
   /** The properties applied to the y2-axis. */
-  y2Axis?: Axis;
+  y2Axis?: Axis | undefined;
   /** The duration used to display a comparison chart. A comparison chart simultaneously shows values from two similar-length time periods (e.g., week-over-week metrics). The duration must be positive, and it can only be applied to charts with data sets of LINE plot type. */
-  timeshiftDuration?: string;
+  timeshiftDuration?: string | undefined;
   /** Display options for the chart. */
-  chartOptions?: ChartOptions;
+  chartOptions?: ChartOptions | undefined;
 }
 export type TimeSeriesTableMetricVisualizationEnum =
   | "METRIC_VISUALIZATION_UNSPECIFIED"
@@ -551,18 +551,18 @@ export type TimeSeriesTableMetricVisualizationEnum =
 /** Table display options that can be reused. */
 export interface TableDisplayOptions {
   /** Optional. This field is unused and has been replaced by TimeSeriesTable.column_settings */
-  shownColumns?: StringList;
+  shownColumns?: StringList | undefined;
 }
 /** Groups a time series query definition with table options. */
 export interface TableDataSet {
   /** Required. Fields for querying time series data from the Stackdriver metrics API. */
-  timeSeriesQuery?: TimeSeriesQuery;
+  timeSeriesQuery?: TimeSeriesQuery | undefined;
   /** Optional. Table display options for configuring how the table is rendered. */
-  tableDisplayOptions?: TableDisplayOptions;
+  tableDisplayOptions?: TableDisplayOptions | undefined;
   /** Optional. The lower bound on data point frequency for this data set, implemented by specifying the minimum alignment period to use in a time series query For example, if the data is published once every 10 minutes, the min_alignment_period should be at least 10 minutes. It would not make sense to fetch and align data at one minute intervals. */
-  minAlignmentPeriod?: string;
+  minAlignmentPeriod?: string | undefined;
   /** Optional. A template string for naming TimeSeries in the resulting data set. This should be a string with interpolations of the form ${label_name}, which will resolve to the label's value i.e. "${resource.labels.project_id}." */
-  tableTemplate?: string;
+  tableTemplate?: string | undefined;
 }
 export type TableDataSetList = Array<TableDataSet>;
 export type ColumnSettingsAlignmentEnum =
@@ -573,53 +573,53 @@ export type ColumnSettingsAlignmentEnum =
 /** The persistent settings for a table's columns. */
 export interface ColumnSettings {
   /** Optional. The thresholds used to determine how the table cell should be rendered given the time series' current value. */
-  thresholds?: ThresholdList;
+  thresholds?: ThresholdList | undefined;
   /** Optional. Display name of the column */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Whether the column should be left / middle / right aligned */
-  alignment?: ColumnSettingsAlignmentEnum | (string & {});
+  alignment?: ColumnSettingsAlignmentEnum | (string & {}) | undefined;
   /** Required. Whether the column should be visible on page load. */
-  visible?: boolean;
+  visible?: boolean | undefined;
   /** Required. The id of the column. */
-  column?: string;
+  column?: string | undefined;
 }
 export type ColumnSettingsList = Array<ColumnSettings>;
 /** A table that displays time series data. */
 export interface TimeSeriesTable {
   /** Optional. Store rendering strategy */
-  metricVisualization?: TimeSeriesTableMetricVisualizationEnum | (string & {});
+  metricVisualization?: TimeSeriesTableMetricVisualizationEnum | (string & {}) | undefined;
   /** Required. The data displayed in this table. */
-  dataSets?: TableDataSetList;
+  dataSets?: TableDataSetList | undefined;
   /** Optional. The list of the persistent column settings for the table. */
-  columnSettings?: ColumnSettingsList;
+  columnSettings?: ColumnSettingsList | undefined;
 }
 /** A widget that groups the other widgets. All widgets that are within the area spanned by the grouping widget are considered member widgets. */
 export interface CollapsibleGroup {
   /** The collapsed state of the widget on first page load. */
-  collapsed?: boolean;
+  collapsed?: boolean | undefined;
 }
 /** Represents a time range. */
 export interface TimeRange {
   /** Optional. Represents a time range with absolute start and end times. The start time is inclusive, and the end time is exclusive. */
-  absoluteWindow?: Interval;
+  absoluteWindow?: Interval | undefined;
   /** Optional. Specifies the duration used to shift the data relative to current time as the end time. The duration must be positive. */
-  relativeDuration?: string;
+  relativeDuration?: string | undefined;
 }
 /** A widget that defines a new section header. Sections populate a table of contents and allow easier navigation of long-form content. */
 export interface SectionHeader {
   /** The subtitle of the section */
-  subtitle?: string;
+  subtitle?: string | undefined;
   /** Whether to insert a divider below the section in the table of contents */
-  dividerBelow?: boolean;
+  dividerBelow?: boolean | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** A gauge chart shows where the current value sits within a pre-defined range. The upper and lower bounds should define the possible range of values for the scorecard's query (inclusive). */
 export interface GaugeView {
   /** The lower bound for this gauge chart. The value of the chart should always be greater than or equal to this. */
-  lowerBound?: number;
+  lowerBound?: number | undefined;
   /** The upper bound for this gauge chart. The value of the chart should always be less than or equal to this. */
-  upperBound?: number;
+  upperBound?: number | undefined;
 }
 export type SparkChartViewSparkChartTypeEnum =
   | "SPARK_CHART_TYPE_UNSPECIFIED"
@@ -628,52 +628,52 @@ export type SparkChartViewSparkChartTypeEnum =
 /** A sparkChart is a small chart suitable for inclusion in a table-cell or inline in text. This message contains the configuration for a sparkChart to show up on a Scorecard, showing recent trends of the scorecard's timeseries. */
 export interface SparkChartView {
   /** Required. The type of sparkchart to show in this chartView. */
-  sparkChartType?: SparkChartViewSparkChartTypeEnum | (string & {});
+  sparkChartType?: SparkChartViewSparkChartTypeEnum | (string & {}) | undefined;
   /** The lower bound on data point frequency in the chart implemented by specifying the minimum alignment period to use in a time series query. For example, if the data is published once every 10 minutes it would not make sense to fetch and align data at one minute intervals. This field is optional and exists only as a hint.For PromQL queries, this field is used to set the minimum interval for the query step, controlling data granularity. Larger values can improve performance on long time ranges. See Querying Basics and Range Queries for more details on the PromQL step. */
-  minAlignmentPeriod?: string;
+  minAlignmentPeriod?: string | undefined;
 }
 /** A widget showing the latest value of a metric, and how this value relates to one or more thresholds. */
 export interface Scorecard {
   /** Optional. A dimension is a structured label, class, or category for a set of measurements in your data. */
-  dimensions?: DimensionList;
+  dimensions?: DimensionList | undefined;
   /** Required. Fields for querying time series data from the Stackdriver metrics API. */
-  timeSeriesQuery?: TimeSeriesQuery;
+  timeSeriesQuery?: TimeSeriesQuery | undefined;
   /** Will cause the Scorecard to show only the value, with no indicator to its value relative to its thresholds. */
-  blankView?: Empty;
+  blankView?: Empty | undefined;
   /** Will cause the scorecard to show a gauge chart. */
-  gaugeView?: GaugeView;
+  gaugeView?: GaugeView | undefined;
   /** Will cause the scorecard to show a spark chart. */
-  sparkChartView?: SparkChartView;
+  sparkChartView?: SparkChartView | undefined;
   /** Optional. A measure is a measured value of a property in your data. For example, rainfall in inches, number of units sold, revenue gained, etc. */
-  measures?: MeasureList;
+  measures?: MeasureList | undefined;
   /** The thresholds used to determine the state of the scorecard given the time series' current value. For an actual value x, the scorecard is in a danger state if x is less than or equal to a danger threshold that triggers below, or greater than or equal to a danger threshold that triggers above. Similarly, if x is above/below a warning threshold that triggers above/below, then the scorecard is in a warning state - unless x also puts it in a danger state. (Danger trumps warning.)As an example, consider a scorecard with the following four thresholds: { value: 90, category: 'DANGER', trigger: 'ABOVE', }, { value: 70, category: 'WARNING', trigger: 'ABOVE', }, { value: 10, category: 'DANGER', trigger: 'BELOW', }, { value: 20, category: 'WARNING', trigger: 'BELOW', } Then: values less than or equal to 10 would put the scorecard in a DANGER state, values greater than 10 but less than or equal to 20 a WARNING state, values strictly between 20 and 70 an OK state, values greater than or equal to 70 but less than 90 a WARNING state, and values greater than or equal to 90 a DANGER state. */
-  thresholds?: ThresholdList;
+  thresholds?: ThresholdList | undefined;
   /** Optional. The collection of breakdowns to be applied to the dataset. A breakdown is a way to slice the data. For example, you can break down the data by region. */
-  breakdowns?: BreakdownList;
+  breakdowns?: BreakdownList | undefined;
 }
 export type PieChartChartTypeEnum = "PIE_CHART_TYPE_UNSPECIFIED" | "PIE" | "DONUT";
 /** Groups a time series query definition. */
 export interface PieChartDataSet {
   /** Required. The query for the PieChart. See, google.monitoring.dashboard.v1.TimeSeriesQuery. */
-  timeSeriesQuery?: TimeSeriesQuery;
+  timeSeriesQuery?: TimeSeriesQuery | undefined;
   /** A dimension is a structured label, class, or category for a set of measurements in your data. */
-  dimensions?: DimensionList;
+  dimensions?: DimensionList | undefined;
   /** A measure is a measured value of a property in your data. For example, rainfall in inches, number of units sold, revenue gained, etc. */
-  measures?: MeasureList;
+  measures?: MeasureList | undefined;
   /** Optional. The lower bound on data point frequency for this data set, implemented by specifying the minimum alignment period to use in a time series query. For example, if the data is published once every 10 minutes, the min_alignment_period should be at least 10 minutes. It would not make sense to fetch and align data at one minute intervals. */
-  minAlignmentPeriod?: string;
+  minAlignmentPeriod?: string | undefined;
   /** Optional. A template for the name of the slice. This name will be displayed in the legend and the tooltip of the pie chart. It replaces the auto-generated names for the slices. For example, if the template is set to ${resource.labels.zone}, the zone's value will be used for the name instead of the default name. */
-  sliceNameTemplate?: string;
+  sliceNameTemplate?: string | undefined;
 }
 export type PieChartDataSetList = Array<PieChartDataSet>;
 /** A widget that displays timeseries data as a pie or a donut. */
 export interface PieChart {
   /** Optional. Indicates whether or not the pie chart should show slices' labels */
-  showLabels?: boolean;
+  showLabels?: boolean | undefined;
   /** Required. Indicates the visualization type for the PieChart. */
-  chartType?: PieChartChartTypeEnum | (string & {});
+  chartType?: PieChartChartTypeEnum | (string & {}) | undefined;
   /** Required. The queries for the chart's data. */
-  dataSets?: PieChartDataSetList;
+  dataSets?: PieChartDataSetList | undefined;
 }
 export type TextStylePointerLocationEnum =
   | "POINTER_LOCATION_UNSPECIFIED"
@@ -716,131 +716,131 @@ export type TextStyleHorizontalAlignmentEnum =
 /** Properties that determine how the title and content are styled */
 export interface TextStyle {
   /** The pointer location for this widget (also sometimes called a "tail") */
-  pointerLocation?: TextStylePointerLocationEnum | (string & {});
+  pointerLocation?: TextStylePointerLocationEnum | (string & {}) | undefined;
   /** The text color as a hex string. "#RRGGBB" or "#RGB" */
-  textColor?: string;
+  textColor?: string | undefined;
   /** The vertical alignment of both the title and content */
-  verticalAlignment?: TextStyleVerticalAlignmentEnum | (string & {});
+  verticalAlignment?: TextStyleVerticalAlignmentEnum | (string & {}) | undefined;
   /** The amount of padding around the widget */
-  padding?: TextStylePaddingEnum | (string & {});
+  padding?: TextStylePaddingEnum | (string & {}) | undefined;
   /** Font sizes for both the title and content. The title will still be larger relative to the content. */
-  fontSize?: TextStyleFontSizeEnum | (string & {});
+  fontSize?: TextStyleFontSizeEnum | (string & {}) | undefined;
   /** The horizontal alignment of both the title and content */
-  horizontalAlignment?: TextStyleHorizontalAlignmentEnum | (string & {});
+  horizontalAlignment?: TextStyleHorizontalAlignmentEnum | (string & {}) | undefined;
   /** The background color as a hex string. "#RRGGBB" or "#RGB" */
-  backgroundColor?: string;
+  backgroundColor?: string | undefined;
 }
 export type TextFormatEnum = "FORMAT_UNSPECIFIED" | "MARKDOWN" | "RAW";
 /** A widget that displays textual content. */
 export interface Text {
   /** The text content to be displayed. */
-  content?: string;
+  content?: string | undefined;
   /** How the text is styled */
-  style?: TextStyle;
+  style?: TextStyle | undefined;
   /** How the text content is formatted. */
-  format?: TextFormatEnum | (string & {});
+  format?: TextFormatEnum | (string & {}) | undefined;
 }
 export type SingleViewGroupDisplayTypeEnum = "DISPLAY_TYPE_UNSPECIFIED" | "DROPDOWN" | "TAB";
 /** A widget that groups the other widgets by using a dropdown menu. All widgets that are within the area spanned by the grouping widget are considered member widgets. */
 export interface SingleViewGroup {
   /** Optional. Determines how the widget selector will be displayed. */
-  displayType?: SingleViewGroupDisplayTypeEnum | (string & {});
+  displayType?: SingleViewGroupDisplayTypeEnum | (string & {}) | undefined;
 }
 /** Widget contains a single dashboard component and configuration of how to present the component in the dashboard. */
 export interface Widget {
   /** A widget that shows list of incidents. */
-  incidentList?: IncidentList;
+  incidentList?: IncidentList | undefined;
   /** Optional. The widget id. Ids may be made up of alphanumerics, dashes and underscores. Widget ids are optional. */
-  id?: string;
+  id?: string | undefined;
   /** A widget that displays an input field to change the value of a template variable. */
-  filterControl?: FilterControl;
+  filterControl?: FilterControl | undefined;
   /** Optional. If set, this widget is rendered only when the condition is evaluated to true. */
-  visibilityCondition?: VisibilityCondition;
+  visibilityCondition?: VisibilityCondition | undefined;
   /** A widget that displays data as a treemap. */
-  treemap?: Treemap;
+  treemap?: Treemap | undefined;
   /** A widget that shows a stream of logs. */
-  logsPanel?: LogsPanel;
+  logsPanel?: LogsPanel | undefined;
   /** A widget that displays a list of error groups. */
-  errorReportingPanel?: ErrorReportingPanel;
+  errorReportingPanel?: ErrorReportingPanel | undefined;
   /** A chart of alert policy data. */
-  alertChart?: AlertChart;
+  alertChart?: AlertChart | undefined;
   /** A chart of time series data. */
-  xyChart?: XyChart;
+  xyChart?: XyChart | undefined;
   /** A widget that displays time series data in a tabular format. */
-  timeSeriesTable?: TimeSeriesTable;
+  timeSeriesTable?: TimeSeriesTable | undefined;
   /** A widget that groups the other widgets. All widgets that are within the area spanned by the grouping widget are considered member widgets. */
-  collapsibleGroup?: CollapsibleGroup;
+  collapsibleGroup?: CollapsibleGroup | undefined;
   /** Optional. Represents a time range for the widget. When set, this time range will override the dashboard time range. Supported for line, stacked area and stacked bar widgets only. */
-  timeRange?: TimeRange;
+  timeRange?: TimeRange | undefined;
   /** A widget that defines a section header for easier navigation of the dashboard. */
-  sectionHeader?: SectionHeader;
+  sectionHeader?: SectionHeader | undefined;
   /** A scorecard summarizing time series data. */
-  scorecard?: Scorecard;
+  scorecard?: Scorecard | undefined;
   /** A widget that displays timeseries data as a pie chart. */
-  pieChart?: PieChart;
+  pieChart?: PieChart | undefined;
   /** A raw string or markdown displaying textual content. */
-  text?: Text;
+  text?: Text | undefined;
   /** Optional. The title of the widget. */
-  title?: string;
+  title?: string | undefined;
   /** A widget that groups the other widgets by using a dropdown menu. */
-  singleViewGroup?: SingleViewGroup;
+  singleViewGroup?: SingleViewGroup | undefined;
   /** A blank space. */
-  blank?: Empty;
+  blank?: Empty | undefined;
 }
 export type WidgetList = Array<Widget>;
 /** Defines the layout properties and content for a column. */
 export interface Column {
   /** The relative weight of this column. The column weight is used to adjust the width of columns on the screen (relative to peers). Greater the weight, greater the width of the column on the screen. If omitted, a value of 1 is used while rendering. */
-  weight?: string;
+  weight?: string | undefined;
   /** The display widgets arranged vertically in this column. */
-  widgets?: WidgetList;
+  widgets?: WidgetList | undefined;
 }
 export type ColumnList = Array<Column>;
 /** A simplified layout that divides the available space into vertical columns and arranges a set of widgets vertically in each column. */
 export interface ColumnLayout {
   /** The columns of content to display. */
-  columns?: ColumnList;
+  columns?: ColumnList | undefined;
 }
 /** A single tile in the mosaic. The placement and size of the tile are configurable. */
 export interface Tile {
   /** The zero-indexed position of the tile in grid blocks relative to the top edge of the grid. y_pos cannot be negative. */
-  yPos?: number;
+  yPos?: number | undefined;
   /** The height of the tile, measured in grid blocks. Tiles must have a minimum height of 1. */
-  height?: number;
+  height?: number | undefined;
   /** The width of the tile, measured in grid blocks. Tiles must have a minimum width of 1. */
-  width?: number;
+  width?: number | undefined;
   /** The informational widget contained in the tile. For example an XyChart. */
-  widget?: Widget;
+  widget?: Widget | undefined;
   /** The zero-indexed position of the tile in grid blocks relative to the left edge of the grid. Tiles must be contained within the specified number of columns. x_pos cannot be negative. */
-  xPos?: number;
+  xPos?: number | undefined;
 }
 export type TileList = Array<Tile>;
 /** A mosaic layout divides the available space into a grid of blocks, and overlays the grid with tiles. Unlike GridLayout, tiles may span multiple grid blocks and can be placed at arbitrary locations in the grid. */
 export interface MosaicLayout {
   /** The number of columns in the mosaic grid. The number of columns must be between 1 and 48, inclusive. */
-  columns?: number;
+  columns?: number | undefined;
   /** The tiles to display. */
-  tiles?: TileList;
+  tiles?: TileList | undefined;
 }
 /** Defines the layout properties and content for a row. */
 export interface Row {
   /** The display widgets arranged horizontally in this row. */
-  widgets?: WidgetList;
+  widgets?: WidgetList | undefined;
   /** The relative weight of this row. The row weight is used to adjust the height of rows on the screen (relative to peers). Greater the weight, greater the height of the row on the screen. If omitted, a value of 1 is used while rendering. */
-  weight?: string;
+  weight?: string | undefined;
 }
 export type RowList = Array<Row>;
 /** A simplified layout that divides the available space into rows and arranges a set of widgets horizontally in each row. */
 export interface RowLayout {
   /** The rows of content to display. */
-  rows?: RowList;
+  rows?: RowList | undefined;
 }
 /** A basic layout divides the available space into vertical columns of equal width and arranges a list of widgets using a row-first strategy. */
 export interface GridLayout {
   /** The number of columns into which the view's width is divided. If omitted or set to zero, a system default will be used while rendering. */
-  columns?: string;
+  columns?: string | undefined;
   /** The informational elements that are arranged into the columns row-first. */
-  widgets?: WidgetList;
+  widgets?: WidgetList | undefined;
 }
 export type EventAnnotationEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -875,23 +875,23 @@ export type EventAnnotationEventTypeEnum =
 /** Annotation configuration for one event type on a dashboard */
 export interface EventAnnotation {
   /** Whether or not to show the events on the dashboard by default */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** string filtering the events - event dependant. Example values: "resource.labels.pod_name = 'pod-1'" "protoPayload.authenticationInfo.principalEmail='user@example.com'" */
-  filter?: string;
+  filter?: string | undefined;
   /** Solely for UI display. Should not be used programmatically. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Per annotation level override for the names of logging resources to search for events. Currently only projects are supported. If both this field and the per annotation field is empty, it will default to the host project. Limit: 50 projects. For example: "projects/another-project-id" */
-  resourceNames?: StringList;
+  resourceNames?: StringList | undefined;
   /** The type of event to display. */
-  eventType?: EventAnnotationEventTypeEnum | (string & {});
+  eventType?: EventAnnotationEventTypeEnum | (string & {}) | undefined;
 }
 export type EventAnnotationList = Array<EventAnnotation>;
 /** Dashboard-level configuration for annotations */
 export interface DashboardAnnotations {
   /** Dashboard level defaults for names of logging resources to search for events. Currently only projects are supported. Each individual EventAnnotation may have its own overrides. If both this field and the per annotation field is empty, then the scoping project is used. Limit: 50 projects. For example: "projects/some-project-id" */
-  defaultResourceNames?: StringList;
+  defaultResourceNames?: StringList | undefined;
   /** List of annotation configurations for this dashboard. Each entry specifies one event type. */
-  eventAnnotations?: EventAnnotationList;
+  eventAnnotations?: EventAnnotationList | undefined;
 }
 export type DashboardFilterFilterTypeEnum =
   | "FILTER_TYPE_UNSPECIFIED"
@@ -905,58 +905,58 @@ export type DashboardFilterValueTypeEnum = "VALUE_TYPE_UNSPECIFIED" | "STRING" |
 /** An array of strings */
 export interface StringArray {
   /** The values of the array */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 /** A filter to reduce the amount of data charted in relevant widgets. */
 export interface DashboardFilter {
   /** The specified filter type */
-  filterType?: DashboardFilterFilterTypeEnum | (string & {});
+  filterType?: DashboardFilterFilterTypeEnum | (string & {}) | undefined;
   /** Optional. The key for the label. This must be omitted if the filter_type is VALUE_ONLY but is required otherwise. */
-  labelKey?: string;
+  labelKey?: string | undefined;
   /** The type of the filter value. If value_type is not provided, it will be inferred from the default_value. If neither value_type nor default_value is provided, value_type will be set to STRING by default. */
-  valueType?: DashboardFilterValueTypeEnum | (string & {});
+  valueType?: DashboardFilterValueTypeEnum | (string & {}) | undefined;
   /** An array of variable-length string values. If this field is set, value_type must be set to STRING_ARRAY or VALUE_TYPE_UNSPECIFIED */
-  stringArrayValue?: StringArray;
+  stringArrayValue?: StringArray | undefined;
   /** A variable-length string value. If this field is set, value_type must be set to STRING or VALUE_TYPE_UNSPECIFIED */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** A query to run to fetch possible values for the filter. Only OpsAnalyticsQueries are supported */
-  timeSeriesQuery?: TimeSeriesQuery;
+  timeSeriesQuery?: TimeSeriesQuery | undefined;
   /** The placeholder text that can be referenced in a filter string or MQL query. If omitted, the dashboard filter will be applied to all relevant widgets in the dashboard. */
-  templateVariable?: string;
+  templateVariable?: string | undefined;
   /** A list of possible string values for the filter */
-  stringArray?: StringArray;
+  stringArray?: StringArray | undefined;
 }
 export type DashboardFilterList = Array<DashboardFilter>;
 /** A Google Stackdriver dashboard. Dashboards define the content and layout of pages in the Stackdriver web application. */
 export interface Dashboard {
   /** Labels applied to the dashboard */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. An etag is returned in the response to GetDashboard, and users are expected to put that etag in the request to UpdateDashboard to ensure that their change will be applied to the same version of the Dashboard configuration. The field should not be passed during dashboard creation. */
-  etag?: string;
+  etag?: string | undefined;
   /** The content is divided into equally spaced columns and the widgets are arranged vertically. */
-  columnLayout?: ColumnLayout;
+  columnLayout?: ColumnLayout | undefined;
   /** The content is arranged as a grid of tiles, with each content widget occupying one or more grid blocks. */
-  mosaicLayout?: MosaicLayout;
+  mosaicLayout?: MosaicLayout | undefined;
   /** The content is divided into equally spaced rows and the widgets are arranged horizontally. */
-  rowLayout?: RowLayout;
+  rowLayout?: RowLayout | undefined;
   /** Identifier. The resource name of the dashboard. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The mutable, human-readable name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Content is arranged with a basic layout that re-flows a simple list of informational elements like widgets or tiles. */
-  gridLayout?: GridLayout;
+  gridLayout?: GridLayout | undefined;
   /** Configuration for event annotations to display on this dashboard. */
-  annotations?: DashboardAnnotations;
+  annotations?: DashboardAnnotations | undefined;
   /** Filters to reduce the amount of data charted based on the filter criteria. */
-  dashboardFilters?: DashboardFilterList;
+  dashboardFilters?: DashboardFilterList | undefined;
 }
 export interface CreateProjectsDashboardsRequest {
   /** If set, validate the request and preview the review, but do not actually save it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The project on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] The [PROJECT_ID_OR_NUMBER] must match the dashboard resource name. */
   parent: string;
   /** Request body */
-  body?: Dashboard;
+  body?: Dashboard | undefined;
 }
 export interface DeleteLocationsGlobalMetricsScopesProjectsRequest {
   /** Required. The resource name of the MonitoredProject. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER}/projects/{MONITORED_PROJECT_ID_OR_NUMBER}Authorization requires the following Google IAM (https://cloud.google.com/iam) permissions on both the Metrics Scope and on the MonitoredProject: monitoring.metricsScopes.link */
@@ -974,13 +974,13 @@ export type MonitoredProjectList = Array<MonitoredProject>;
 /** Represents a Metrics Scope (https://cloud.google.com/monitoring/settings#concept-scope) in Cloud Monitoring, which specifies one or more Google projects and zero or more AWS accounts to monitor together. */
 export interface MetricsScope {
   /** Output only. The time when this Metrics Scope record was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The list of projects monitored by this Metrics Scope. */
-  monitoredProjects?: MonitoredProjectList;
+  monitoredProjects?: MonitoredProjectList | undefined;
   /** Immutable. The resource name of the Monitoring Metrics Scope. On input, the resource name can be specified with the scoping project ID or number. On output, the resource name is specified with the scoping project number. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time when this Metrics Scope was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -993,11 +993,11 @@ export interface GetProjectsDashboardsRequest {
 /** QueryLabelsRequest holds all parameters of the Prometheus upstream API for returning a list of label names. */
 export interface QueryLabelsRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  end?: string;
+  end?: string | undefined;
   /** A list of matchers encoded in the Prometheus label matcher format to constrain the values to series that satisfy them. */
-  match?: string;
+  match?: string | undefined;
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  start?: string;
+  start?: string | undefined;
 }
 export interface LabelsProjectsLocationPrometheusApiV1Request {
   /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
@@ -1005,69 +1005,69 @@ export interface LabelsProjectsLocationPrometheusApiV1Request {
   /** Location of the resource information. Has to be "global" now. */
   location: string;
   /** Request body */
-  body?: QueryLabelsRequest;
+  body?: QueryLabelsRequest | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page.This message can be used both in streaming and non-streaming API methods in the request as well as the response.It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body.Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
 }
 export interface ListMetricsScopesByMonitoredProjectLocationsGlobalMetricsScopesRequest {
   /** Required. The resource name of the Monitored Project being requested. Example: projects/{MONITORED_PROJECT_ID_OR_NUMBER} */
-  monitoredResourceContainer?: string;
+  monitoredResourceContainer?: string | undefined;
 }
 export type MetricsScopeList = Array<MetricsScope>;
 /** Response for the ListMetricsScopesByMonitoredProject method. */
 export interface ListMetricsScopesByMonitoredProjectResponse {
   /** A set of all metrics scopes that the specified monitored project has been added to. */
-  metricsScopes?: MetricsScopeList;
+  metricsScopes?: MetricsScopeList | undefined;
 }
 export interface ListProjectsDashboardsRequest {
   /** Required. The scope of the dashboards to list. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
   /** Optional. If this field is not empty then it must contain the nextPageToken value returned by a previous call to this method. Using this field causes the method to return additional results from the previous method call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A positive number that is the maximum number of results to return. If unspecified, a default of 1000 is used. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DashboardList = Array<Dashboard>;
 /** The ListDashboards request. */
 export interface ListDashboardsResponse {
   /** If there are more results than have been returned, then this field is set to a non-empty value. To see the additional results, use that value as page_token in the next call to this method. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of requested dashboards. */
-  dashboards?: DashboardList;
+  dashboards?: DashboardList | undefined;
 }
 export interface ListProjectsLocationPrometheusApiV1MetadataRequest {
   /** Location of the resource information. Has to be "global" for now. */
   location: string;
   /** Maximum number of metrics to return. */
-  limit?: string;
+  limit?: string | undefined;
   /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
   name: string;
   /** The metric name for which to query metadata. If unset, all metric metadata is returned. */
-  metric?: string;
+  metric?: string | undefined;
 }
 export interface PatchProjectsDashboardsRequest {
   /** Identifier. The resource name of the dashboard. */
   name: string;
   /** If set, validate the request and preview the review, but do not actually save it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: Dashboard;
+  body?: Dashboard | undefined;
 }
 /** QueryExemplarsRequest holds all parameters of the Prometheus upstream API for querying exemplars. */
 export interface QueryExemplarsRequest {
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  start?: string;
+  start?: string | undefined;
   /** A PromQL query string. Query language documentation: https://prometheus.io/docs/prometheus/latest/querying/basics/. */
-  query?: string;
+  query?: string | undefined;
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  end?: string;
+  end?: string | undefined;
 }
 export interface Query_exemplarsProjectsLocationPrometheusApiV1Request {
   /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
@@ -1075,20 +1075,20 @@ export interface Query_exemplarsProjectsLocationPrometheusApiV1Request {
   /** Location of the resource information. Has to be "global" now. */
   location: string;
   /** Request body */
-  body?: QueryExemplarsRequest;
+  body?: QueryExemplarsRequest | undefined;
 }
 /** QueryRangeRequest holds all parameters of the Prometheus upstream range query API plus GCM specific parameters. */
 export interface QueryRangeRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  end?: string;
+  end?: string | undefined;
   /** A PromQL query string. Query language documentation: https://prometheus.io/docs/prometheus/latest/querying/basics/. */
-  query?: string;
+  query?: string | undefined;
   /** The resolution of query result. Either a Prometheus duration string (https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations) or floating point seconds. This non-standard encoding must be used for compatibility with the open source API. Clients may still implement timeouts at the connection level while ignoring this field. */
-  step?: string;
+  step?: string | undefined;
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  start?: string;
+  start?: string | undefined;
   /** An upper bound timeout for the query. Either a Prometheus duration string (https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations) or floating point seconds. This non-standard encoding must be used for compatibility with the open source API. Clients may still implement timeouts at the connection level while ignoring this field. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 export interface Query_rangeProjectsLocationPrometheusApiV1Request {
   /** Location of the resource information. Has to be "global" now. */
@@ -1096,16 +1096,16 @@ export interface Query_rangeProjectsLocationPrometheusApiV1Request {
   /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
   name: string;
   /** Request body */
-  body?: QueryRangeRequest;
+  body?: QueryRangeRequest | undefined;
 }
 /** QueryInstantRequest holds all parameters of the Prometheus upstream instant query API plus GCM specific parameters. */
 export interface QueryInstantRequest {
   /** A PromQL query string. Query language documentation: https://prometheus.io/docs/prometheus/latest/querying/basics/. */
-  query?: string;
+  query?: string | undefined;
   /** The single point in time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  time?: string;
+  time?: string | undefined;
   /** An upper bound timeout for the query. Either a Prometheus duration string (https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations) or floating point seconds. This non-standard encoding must be used for compatibility with the open source API. Clients may still implement timeouts at the connection level while ignoring this field. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 export interface QueryProjectsLocationPrometheusApiV1Request {
   /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
@@ -1113,14 +1113,14 @@ export interface QueryProjectsLocationPrometheusApiV1Request {
   /** Location of the resource information. Has to be "global" now. */
   location: string;
   /** Request body */
-  body?: QueryInstantRequest;
+  body?: QueryInstantRequest | undefined;
 }
 /** QuerySeries holds all parameters of the Prometheus upstream API for querying series. */
 export interface QuerySeriesRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  end?: string;
+  end?: string | undefined;
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  start?: string;
+  start?: string | undefined;
 }
 export interface SeriesProjectsLocationPrometheusApiV1Request {
   /** Location of the resource information. Has to be "global" for now. */
@@ -1128,19 +1128,19 @@ export interface SeriesProjectsLocationPrometheusApiV1Request {
   /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
   name: string;
   /** Request body */
-  body?: QuerySeriesRequest;
+  body?: QuerySeriesRequest | undefined;
 }
 export interface ValuesProjectsLocationPrometheusApiV1LabelRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  end?: string;
+  end?: string | undefined;
   /** The label name for which values are queried. */
   label: string;
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
-  start?: string;
+  start?: string | undefined;
   /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
   name: string;
   /** A list of matchers encoded in the Prometheus label matcher format to constrain the values to series that satisfy them. */
-  match?: string;
+  match?: string | undefined;
   /** Location of the resource information. Has to be "global" now. */
   location: string;
 }

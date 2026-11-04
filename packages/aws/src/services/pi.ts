@@ -116,12 +116,12 @@ export interface CreatePerformanceAnalysisReportRequest {
   ServiceType: ServiceType;
   Identifier: string;
   StartTime: Date;
-  EndTime?: Date;
-  Tags?: Tag[];
+  EndTime?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AnalysisReportId = string;
 export interface CreatePerformanceAnalysisReportResponse {
-  AnalysisReportId?: string;
+  AnalysisReportId?: string | undefined;
 }
 export interface DeletePerformanceAnalysisReportRequest {
   ServiceType: ServiceType;
@@ -135,8 +135,8 @@ export type SanitizedStringList = string[];
 export type Limit = number;
 export interface DimensionGroup {
   Group: string;
-  Dimensions?: string[];
-  Limit?: number;
+  Dimensions?: string[] | undefined;
+  Limit?: number | undefined;
 }
 export type AdditionalMetricsList = string[];
 export type MetricQueryFilterMap = { [key: string]: string | undefined };
@@ -148,13 +148,13 @@ export interface DescribeDimensionKeysRequest {
   StartTime: Date;
   EndTime: Date;
   Metric: string;
-  PeriodInSeconds?: number;
+  PeriodInSeconds?: number | undefined;
   GroupBy: DimensionGroup;
-  AdditionalMetrics?: string[];
-  PartitionBy?: DimensionGroup;
-  Filter?: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  AdditionalMetrics?: string[] | undefined;
+  PartitionBy?: DimensionGroup | undefined;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DimensionMap = { [key: string]: string | undefined };
 export interface ResponsePartitionKey {
@@ -164,18 +164,18 @@ export type ResponsePartitionKeyList = ResponsePartitionKey[];
 export type AdditionalMetricsMap = { [key: string]: number | undefined };
 export type MetricValuesList = number[];
 export interface DimensionKeyDescription {
-  Dimensions?: { [key: string]: string | undefined };
-  Total?: number;
-  AdditionalMetrics?: { [key: string]: number | undefined };
-  Partitions?: number[];
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  Total?: number | undefined;
+  AdditionalMetrics?: { [key: string]: number | undefined } | undefined;
+  Partitions?: number[] | undefined;
 }
 export type DimensionKeyDescriptionList = DimensionKeyDescription[];
 export interface DescribeDimensionKeysResponse {
-  AlignedStartTime?: Date;
-  AlignedEndTime?: Date;
-  PartitionKeys?: ResponsePartitionKey[];
-  Keys?: DimensionKeyDescription[];
-  NextToken?: string;
+  AlignedStartTime?: Date | undefined;
+  AlignedEndTime?: Date | undefined;
+  PartitionKeys?: ResponsePartitionKey[] | undefined;
+  Keys?: DimensionKeyDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RequestedDimensionList = string[];
 export interface GetDimensionKeyDetailsRequest {
@@ -183,17 +183,17 @@ export interface GetDimensionKeyDetailsRequest {
   Identifier: string;
   Group: string;
   GroupIdentifier: string;
-  RequestedDimensions?: string[];
+  RequestedDimensions?: string[] | undefined;
 }
 export type DetailStatus = "AVAILABLE" | "PROCESSING" | "UNAVAILABLE" | (string & {});
 export interface DimensionKeyDetail {
-  Value?: string;
-  Dimension?: string;
-  Status?: DetailStatus;
+  Value?: string | undefined;
+  Dimension?: string | undefined;
+  Status?: DetailStatus | undefined;
 }
 export type DimensionKeyDetailList = DimensionKeyDetail[];
 export interface GetDimensionKeyDetailsResponse {
-  Dimensions?: DimensionKeyDetail[];
+  Dimensions?: DimensionKeyDetail[] | undefined;
 }
 export type TextFormat = "PLAIN_TEXT" | "MARKDOWN" | (string & {});
 export type AcceptLanguage = "EN_US" | (string & {});
@@ -201,58 +201,58 @@ export interface GetPerformanceAnalysisReportRequest {
   ServiceType: ServiceType;
   Identifier: string;
   AnalysisReportId: string;
-  TextFormat?: TextFormat;
-  AcceptLanguage?: AcceptLanguage;
+  TextFormat?: TextFormat | undefined;
+  AcceptLanguage?: AcceptLanguage | undefined;
 }
 export type AnalysisStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
 export type ContextType = "CAUSAL" | "CONTEXTUAL" | (string & {});
 export type Severity = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export type MarkdownString = string | redacted.Redacted<string>;
 export interface Recommendation {
-  RecommendationId?: string;
-  RecommendationDescription?: string | redacted.Redacted<string>;
-  RecommendationDetails?: string | redacted.Redacted<string>;
+  RecommendationId?: string | undefined;
+  RecommendationDescription?: string | redacted.Redacted<string> | undefined;
+  RecommendationDetails?: string | redacted.Redacted<string> | undefined;
 }
 export type RecommendationList = Recommendation[];
 export type DescriptiveString = string;
 export type DescriptiveMap = { [key: string]: string | undefined };
 export interface PerformanceInsightsMetric {
-  Metric?: string;
-  DisplayName?: string;
-  Dimensions?: { [key: string]: string | undefined };
-  Filter?: { [key: string]: string | undefined };
-  Value?: number;
+  Metric?: string | undefined;
+  DisplayName?: string | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  Value?: number | undefined;
 }
 export interface Data {
-  PerformanceInsightsMetric?: PerformanceInsightsMetric;
+  PerformanceInsightsMetric?: PerformanceInsightsMetric | undefined;
 }
 export type DataList = Data[];
 export interface Insight {
   InsightId: string;
-  InsightType?: string;
-  Context?: ContextType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Severity?: Severity;
-  SupportingInsights?: Insight[];
-  Description?: string | redacted.Redacted<string>;
-  Recommendations?: Recommendation[];
-  InsightData?: Data[];
-  BaselineData?: Data[];
+  InsightType?: string | undefined;
+  Context?: ContextType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Severity?: Severity | undefined;
+  SupportingInsights?: Insight[] | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Recommendations?: Recommendation[] | undefined;
+  InsightData?: Data[] | undefined;
+  BaselineData?: Data[] | undefined;
 }
 export type InsightList = Insight[];
 export interface AnalysisReport {
   AnalysisReportId: string;
-  Identifier?: string;
-  ServiceType?: ServiceType;
-  CreateTime?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  Status?: AnalysisStatus;
-  Insights?: Insight[];
+  Identifier?: string | undefined;
+  ServiceType?: ServiceType | undefined;
+  CreateTime?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Status?: AnalysisStatus | undefined;
+  Insights?: Insight[] | undefined;
 }
 export interface GetPerformanceAnalysisReportResponse {
-  AnalysisReport?: AnalysisReport;
+  AnalysisReport?: AnalysisReport | undefined;
 }
 export interface GetResourceMetadataRequest {
   ServiceType: ServiceType;
@@ -267,17 +267,17 @@ export type FeatureStatus =
   | "UNKNOWN"
   | (string & {});
 export interface FeatureMetadata {
-  Status?: FeatureStatus;
+  Status?: FeatureStatus | undefined;
 }
 export type FeatureMetadataMap = { [key: string]: FeatureMetadata | undefined };
 export interface GetResourceMetadataResponse {
-  Identifier?: string;
-  Features?: { [key: string]: FeatureMetadata | undefined };
+  Identifier?: string | undefined;
+  Features?: { [key: string]: FeatureMetadata | undefined } | undefined;
 }
 export interface MetricQuery {
   Metric: string;
-  GroupBy?: DimensionGroup;
-  Filter?: { [key: string]: string | undefined };
+  GroupBy?: DimensionGroup | undefined;
+  Filter?: { [key: string]: string | undefined } | undefined;
 }
 export type MetricQueryList = MetricQuery[];
 export type PeriodAlignment = "END_TIME" | "START_TIME" | (string & {});
@@ -287,14 +287,14 @@ export interface GetResourceMetricsRequest {
   MetricQueries: MetricQuery[];
   StartTime: Date;
   EndTime: Date;
-  PeriodInSeconds?: number;
-  MaxResults?: number;
-  NextToken?: string;
-  PeriodAlignment?: PeriodAlignment;
+  PeriodInSeconds?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  PeriodAlignment?: PeriodAlignment | undefined;
 }
 export interface ResponseResourceMetricKey {
   Metric: string;
-  Dimensions?: { [key: string]: string | undefined };
+  Dimensions?: { [key: string]: string | undefined } | undefined;
 }
 export interface DataPoint {
   Timestamp: Date;
@@ -302,16 +302,16 @@ export interface DataPoint {
 }
 export type DataPointsList = DataPoint[];
 export interface MetricKeyDataPoints {
-  Key?: ResponseResourceMetricKey;
-  DataPoints?: DataPoint[];
+  Key?: ResponseResourceMetricKey | undefined;
+  DataPoints?: DataPoint[] | undefined;
 }
 export type MetricKeyDataPointsList = MetricKeyDataPoints[];
 export interface GetResourceMetricsResponse {
-  AlignedStartTime?: Date;
-  AlignedEndTime?: Date;
-  Identifier?: string;
-  MetricList?: MetricKeyDataPoints[];
-  NextToken?: string;
+  AlignedStartTime?: Date | undefined;
+  AlignedEndTime?: Date | undefined;
+  Identifier?: string | undefined;
+  MetricList?: MetricKeyDataPoints[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DimensionsMetricList = string[];
 export type FineGrainedAction =
@@ -324,79 +324,79 @@ export interface ListAvailableResourceDimensionsRequest {
   ServiceType: ServiceType;
   Identifier: string;
   Metrics: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  AuthorizedActions?: FineGrainedAction[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AuthorizedActions?: FineGrainedAction[] | undefined;
 }
 export interface DimensionDetail {
-  Identifier?: string;
+  Identifier?: string | undefined;
 }
 export type DimensionDetailList = DimensionDetail[];
 export interface DimensionGroupDetail {
-  Group?: string;
-  Dimensions?: DimensionDetail[];
+  Group?: string | undefined;
+  Dimensions?: DimensionDetail[] | undefined;
 }
 export type DimensionGroupDetailList = DimensionGroupDetail[];
 export interface MetricDimensionGroups {
-  Metric?: string;
-  Groups?: DimensionGroupDetail[];
+  Metric?: string | undefined;
+  Groups?: DimensionGroupDetail[] | undefined;
 }
 export type MetricDimensionsList = MetricDimensionGroups[];
 export interface ListAvailableResourceDimensionsResponse {
-  MetricDimensions?: MetricDimensionGroups[];
-  NextToken?: string;
+  MetricDimensions?: MetricDimensionGroups[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MetricTypeList = string[];
 export interface ListAvailableResourceMetricsRequest {
   ServiceType: ServiceType;
   Identifier: string;
   MetricTypes: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Description = string;
 export interface ResponseResourceMetric {
-  Metric?: string;
-  Description?: string;
-  Unit?: string;
+  Metric?: string | undefined;
+  Description?: string | undefined;
+  Unit?: string | undefined;
 }
 export type ResponseResourceMetricList = ResponseResourceMetric[];
 export interface ListAvailableResourceMetricsResponse {
-  Metrics?: ResponseResourceMetric[];
-  NextToken?: string;
+  Metrics?: ResponseResourceMetric[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RecommendationIdList = string[];
 export interface ListPerformanceAnalysisReportRecommendationsRequest {
   ServiceType: ServiceType;
   Identifier: string;
   AnalysisReportId: string;
-  RecommendationIds?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  RecommendationIds?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPerformanceAnalysisReportRecommendationsResponse {
-  Recommendations?: Recommendation[];
-  NextToken?: string;
+  Recommendations?: Recommendation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPerformanceAnalysisReportsRequest {
   ServiceType: ServiceType;
   Identifier: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ListTags?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ListTags?: boolean | undefined;
 }
 export interface AnalysisReportSummary {
-  AnalysisReportId?: string;
-  CreateTime?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  Status?: AnalysisStatus;
-  Tags?: Tag[];
+  AnalysisReportId?: string | undefined;
+  CreateTime?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Status?: AnalysisStatus | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AnalysisReportSummaryList = AnalysisReportSummary[];
 export interface ListPerformanceAnalysisReportsResponse {
-  AnalysisReports?: AnalysisReportSummary[];
-  NextToken?: string;
+  AnalysisReports?: AnalysisReportSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
@@ -404,7 +404,7 @@ export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   ServiceType: ServiceType;

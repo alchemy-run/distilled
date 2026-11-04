@@ -130,47 +130,47 @@ export type SecretAccessKeyType = string | redacted.Redacted<string>;
 export type SessionTokenType = string | redacted.Redacted<string>;
 export type ExpirationTimestampType = number;
 export interface RoleCredentials {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: number;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  sessionToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: number | undefined;
 }
 export interface GetRoleCredentialsResponse {
-  roleCredentials?: RoleCredentials;
+  roleCredentials?: RoleCredentials | undefined;
 }
 export type NextTokenType = string;
 export type MaxResultType = number;
 export interface ListAccountRolesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   accessToken: string | redacted.Redacted<string>;
   accountId: string;
 }
 export interface RoleInfo {
-  roleName?: string;
-  accountId?: string;
+  roleName?: string | undefined;
+  accountId?: string | undefined;
 }
 export type RoleListType = RoleInfo[];
 export interface ListAccountRolesResponse {
-  nextToken?: string;
-  roleList?: RoleInfo[];
+  nextToken?: string | undefined;
+  roleList?: RoleInfo[] | undefined;
 }
 export interface ListAccountsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   accessToken: string | redacted.Redacted<string>;
 }
 export type AccountNameType = string;
 export type EmailAddressType = string;
 export interface AccountInfo {
-  accountId?: string;
-  accountName?: string;
-  emailAddress?: string;
+  accountId?: string | undefined;
+  accountName?: string | undefined;
+  emailAddress?: string | undefined;
 }
 export type AccountListType = AccountInfo[];
 export interface ListAccountsResponse {
-  nextToken?: string;
-  accountList?: AccountInfo[];
+  nextToken?: string | undefined;
+  accountList?: AccountInfo[] | undefined;
 }
 export interface LogoutRequest {
   accessToken: string | redacted.Redacted<string>;

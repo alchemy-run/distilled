@@ -172,25 +172,25 @@ export interface CloudWatchLoggingOption {
 export type ConditionalToken = string;
 export interface AddApplicationCloudWatchLoggingOptionRequest {
   ApplicationName: string;
-  CurrentApplicationVersionId?: number;
+  CurrentApplicationVersionId?: number | undefined;
   CloudWatchLoggingOption: CloudWatchLoggingOption;
-  ConditionalToken?: string;
+  ConditionalToken?: string | undefined;
 }
 export type ResourceARN = string;
 export type Id = string;
 export type RoleARN = string;
 export interface CloudWatchLoggingOptionDescription {
-  CloudWatchLoggingOptionId?: string;
+  CloudWatchLoggingOptionId?: string | undefined;
   LogStreamARN: string;
-  RoleARN?: string;
+  RoleARN?: string | undefined;
 }
 export type CloudWatchLoggingOptionDescriptions = CloudWatchLoggingOptionDescription[];
 export type OperationId = string;
 export interface AddApplicationCloudWatchLoggingOptionResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[];
-  OperationId?: string;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[] | undefined;
+  OperationId?: string | undefined;
 }
 export type InAppStreamName = string;
 export interface InputLambdaProcessor {
@@ -207,7 +207,7 @@ export interface KinesisFirehoseInput {
 }
 export type InputParallelismCount = number;
 export interface InputParallelism {
-  Count?: number;
+  Count?: number | undefined;
 }
 export type RecordFormatType = "JSON" | "CSV" | (string & {});
 export type RecordRowPath = string;
@@ -221,12 +221,12 @@ export interface CSVMappingParameters {
   RecordColumnDelimiter: string;
 }
 export interface MappingParameters {
-  JSONMappingParameters?: JSONMappingParameters;
-  CSVMappingParameters?: CSVMappingParameters;
+  JSONMappingParameters?: JSONMappingParameters | undefined;
+  CSVMappingParameters?: CSVMappingParameters | undefined;
 }
 export interface RecordFormat {
   RecordFormatType: RecordFormatType;
-  MappingParameters?: MappingParameters;
+  MappingParameters?: MappingParameters | undefined;
 }
 export type RecordEncoding = string;
 export type RecordColumnName = string;
@@ -234,21 +234,21 @@ export type RecordColumnMapping = string;
 export type RecordColumnSqlType = string;
 export interface RecordColumn {
   Name: string;
-  Mapping?: string;
+  Mapping?: string | undefined;
   SqlType: string;
 }
 export type RecordColumns = RecordColumn[];
 export interface SourceSchema {
   RecordFormat: RecordFormat;
-  RecordEncoding?: string;
+  RecordEncoding?: string | undefined;
   RecordColumns: RecordColumn[];
 }
 export interface Input {
   NamePrefix: string;
-  InputProcessingConfiguration?: InputProcessingConfiguration;
-  KinesisStreamsInput?: KinesisStreamsInput;
-  KinesisFirehoseInput?: KinesisFirehoseInput;
-  InputParallelism?: InputParallelism;
+  InputProcessingConfiguration?: InputProcessingConfiguration | undefined;
+  KinesisStreamsInput?: KinesisStreamsInput | undefined;
+  KinesisFirehoseInput?: KinesisFirehoseInput | undefined;
+  InputParallelism?: InputParallelism | undefined;
   InputSchema: SourceSchema;
 }
 export interface AddApplicationInputRequest {
@@ -259,39 +259,39 @@ export interface AddApplicationInputRequest {
 export type InAppStreamNames = string[];
 export interface InputLambdaProcessorDescription {
   ResourceARN: string;
-  RoleARN?: string;
+  RoleARN?: string | undefined;
 }
 export interface InputProcessingConfigurationDescription {
-  InputLambdaProcessorDescription?: InputLambdaProcessorDescription;
+  InputLambdaProcessorDescription?: InputLambdaProcessorDescription | undefined;
 }
 export interface KinesisStreamsInputDescription {
   ResourceARN: string;
-  RoleARN?: string;
+  RoleARN?: string | undefined;
 }
 export interface KinesisFirehoseInputDescription {
   ResourceARN: string;
-  RoleARN?: string;
+  RoleARN?: string | undefined;
 }
 export type InputStartingPosition = "NOW" | "TRIM_HORIZON" | "LAST_STOPPED_POINT" | (string & {});
 export interface InputStartingPositionConfiguration {
-  InputStartingPosition?: InputStartingPosition;
+  InputStartingPosition?: InputStartingPosition | undefined;
 }
 export interface InputDescription {
-  InputId?: string;
-  NamePrefix?: string;
-  InAppStreamNames?: string[];
-  InputProcessingConfigurationDescription?: InputProcessingConfigurationDescription;
-  KinesisStreamsInputDescription?: KinesisStreamsInputDescription;
-  KinesisFirehoseInputDescription?: KinesisFirehoseInputDescription;
-  InputSchema?: SourceSchema;
-  InputParallelism?: InputParallelism;
-  InputStartingPositionConfiguration?: InputStartingPositionConfiguration;
+  InputId?: string | undefined;
+  NamePrefix?: string | undefined;
+  InAppStreamNames?: string[] | undefined;
+  InputProcessingConfigurationDescription?: InputProcessingConfigurationDescription | undefined;
+  KinesisStreamsInputDescription?: KinesisStreamsInputDescription | undefined;
+  KinesisFirehoseInputDescription?: KinesisFirehoseInputDescription | undefined;
+  InputSchema?: SourceSchema | undefined;
+  InputParallelism?: InputParallelism | undefined;
+  InputStartingPositionConfiguration?: InputStartingPositionConfiguration | undefined;
 }
 export type InputDescriptions = InputDescription[];
 export interface AddApplicationInputResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  InputDescriptions?: InputDescription[];
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  InputDescriptions?: InputDescription[] | undefined;
 }
 export interface AddApplicationInputProcessingConfigurationRequest {
   ApplicationName: string;
@@ -300,10 +300,10 @@ export interface AddApplicationInputProcessingConfigurationRequest {
   InputProcessingConfiguration: InputProcessingConfiguration;
 }
 export interface AddApplicationInputProcessingConfigurationResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  InputId?: string;
-  InputProcessingConfigurationDescription?: InputProcessingConfigurationDescription;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  InputId?: string | undefined;
+  InputProcessingConfigurationDescription?: InputProcessingConfigurationDescription | undefined;
 }
 export interface KinesisStreamsOutput {
   ResourceARN: string;
@@ -319,9 +319,9 @@ export interface DestinationSchema {
 }
 export interface Output {
   Name: string;
-  KinesisStreamsOutput?: KinesisStreamsOutput;
-  KinesisFirehoseOutput?: KinesisFirehoseOutput;
-  LambdaOutput?: LambdaOutput;
+  KinesisStreamsOutput?: KinesisStreamsOutput | undefined;
+  KinesisFirehoseOutput?: KinesisFirehoseOutput | undefined;
+  LambdaOutput?: LambdaOutput | undefined;
   DestinationSchema: DestinationSchema;
 }
 export interface AddApplicationOutputRequest {
@@ -331,40 +331,40 @@ export interface AddApplicationOutputRequest {
 }
 export interface KinesisStreamsOutputDescription {
   ResourceARN: string;
-  RoleARN?: string;
+  RoleARN?: string | undefined;
 }
 export interface KinesisFirehoseOutputDescription {
   ResourceARN: string;
-  RoleARN?: string;
+  RoleARN?: string | undefined;
 }
 export interface LambdaOutputDescription {
   ResourceARN: string;
-  RoleARN?: string;
+  RoleARN?: string | undefined;
 }
 export interface OutputDescription {
-  OutputId?: string;
-  Name?: string;
-  KinesisStreamsOutputDescription?: KinesisStreamsOutputDescription;
-  KinesisFirehoseOutputDescription?: KinesisFirehoseOutputDescription;
-  LambdaOutputDescription?: LambdaOutputDescription;
-  DestinationSchema?: DestinationSchema;
+  OutputId?: string | undefined;
+  Name?: string | undefined;
+  KinesisStreamsOutputDescription?: KinesisStreamsOutputDescription | undefined;
+  KinesisFirehoseOutputDescription?: KinesisFirehoseOutputDescription | undefined;
+  LambdaOutputDescription?: LambdaOutputDescription | undefined;
+  DestinationSchema?: DestinationSchema | undefined;
 }
 export type OutputDescriptions = OutputDescription[];
 export interface AddApplicationOutputResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  OutputDescriptions?: OutputDescription[];
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  OutputDescriptions?: OutputDescription[] | undefined;
 }
 export type InAppTableName = string;
 export type BucketARN = string;
 export type FileKey = string;
 export interface S3ReferenceDataSource {
-  BucketARN?: string;
-  FileKey?: string;
+  BucketARN?: string | undefined;
+  FileKey?: string | undefined;
 }
 export interface ReferenceDataSource {
   TableName: string;
-  S3ReferenceDataSource?: S3ReferenceDataSource;
+  S3ReferenceDataSource?: S3ReferenceDataSource | undefined;
   ReferenceSchema: SourceSchema;
 }
 export interface AddApplicationReferenceDataSourceRequest {
@@ -375,19 +375,19 @@ export interface AddApplicationReferenceDataSourceRequest {
 export interface S3ReferenceDataSourceDescription {
   BucketARN: string;
   FileKey: string;
-  ReferenceRoleARN?: string;
+  ReferenceRoleARN?: string | undefined;
 }
 export interface ReferenceDataSourceDescription {
   ReferenceId: string;
   TableName: string;
   S3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription;
-  ReferenceSchema?: SourceSchema;
+  ReferenceSchema?: SourceSchema | undefined;
 }
 export type ReferenceDataSourceDescriptions = ReferenceDataSourceDescription[];
 export interface AddApplicationReferenceDataSourceResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescription[];
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescription[] | undefined;
 }
 export type SubnetId = string;
 export type SubnetIds = string[];
@@ -399,9 +399,9 @@ export interface VpcConfiguration {
 }
 export interface AddApplicationVpcConfigurationRequest {
   ApplicationName: string;
-  CurrentApplicationVersionId?: number;
+  CurrentApplicationVersionId?: number | undefined;
   VpcConfiguration: VpcConfiguration;
-  ConditionalToken?: string;
+  ConditionalToken?: string | undefined;
 }
 export type VpcId = string;
 export interface VpcConfigurationDescription {
@@ -411,10 +411,10 @@ export interface VpcConfigurationDescription {
   SecurityGroupIds: string[];
 }
 export interface AddApplicationVpcConfigurationResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  VpcConfigurationDescription?: VpcConfigurationDescription;
-  OperationId?: string;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  VpcConfigurationDescription?: VpcConfigurationDescription | undefined;
+  OperationId?: string | undefined;
 }
 export type ApplicationDescription = string;
 export type RuntimeEnvironment =
@@ -437,38 +437,38 @@ export type Inputs = Input[];
 export type Outputs = Output[];
 export type ReferenceDataSources = ReferenceDataSource[];
 export interface SqlApplicationConfiguration {
-  Inputs?: Input[];
-  Outputs?: Output[];
-  ReferenceDataSources?: ReferenceDataSource[];
+  Inputs?: Input[] | undefined;
+  Outputs?: Output[] | undefined;
+  ReferenceDataSources?: ReferenceDataSource[] | undefined;
 }
 export type ConfigurationType = "DEFAULT" | "CUSTOM" | (string & {});
 export type CheckpointInterval = number;
 export type MinPauseBetweenCheckpoints = number;
 export interface CheckpointConfiguration {
   ConfigurationType: ConfigurationType;
-  CheckpointingEnabled?: boolean;
-  CheckpointInterval?: number;
-  MinPauseBetweenCheckpoints?: number;
+  CheckpointingEnabled?: boolean | undefined;
+  CheckpointInterval?: number | undefined;
+  MinPauseBetweenCheckpoints?: number | undefined;
 }
 export type MetricsLevel = "APPLICATION" | "TASK" | "OPERATOR" | "PARALLELISM" | (string & {});
 export type LogLevel = "INFO" | "WARN" | "ERROR" | "DEBUG" | (string & {});
 export interface MonitoringConfiguration {
   ConfigurationType: ConfigurationType;
-  MetricsLevel?: MetricsLevel;
-  LogLevel?: LogLevel;
+  MetricsLevel?: MetricsLevel | undefined;
+  LogLevel?: LogLevel | undefined;
 }
 export type Parallelism = number;
 export type ParallelismPerKPU = number;
 export interface ParallelismConfiguration {
   ConfigurationType: ConfigurationType;
-  Parallelism?: number;
-  ParallelismPerKPU?: number;
-  AutoScalingEnabled?: boolean;
+  Parallelism?: number | undefined;
+  ParallelismPerKPU?: number | undefined;
+  AutoScalingEnabled?: boolean | undefined;
 }
 export interface FlinkApplicationConfiguration {
-  CheckpointConfiguration?: CheckpointConfiguration;
-  MonitoringConfiguration?: MonitoringConfiguration;
-  ParallelismConfiguration?: ParallelismConfiguration;
+  CheckpointConfiguration?: CheckpointConfiguration | undefined;
+  MonitoringConfiguration?: MonitoringConfiguration | undefined;
+  ParallelismConfiguration?: ParallelismConfiguration | undefined;
 }
 export type PropertyKey = string;
 export type PropertyValue = string;
@@ -487,16 +487,16 @@ export type ObjectVersion = string;
 export interface S3ContentLocation {
   BucketARN: string;
   FileKey: string;
-  ObjectVersion?: string;
+  ObjectVersion?: string | undefined;
 }
 export interface CodeContent {
-  TextContent?: string;
-  ZipFileContent?: Uint8Array;
-  S3ContentLocation?: S3ContentLocation;
+  TextContent?: string | undefined;
+  ZipFileContent?: Uint8Array | undefined;
+  S3ContentLocation?: S3ContentLocation | undefined;
 }
 export type CodeContentType = "PLAINTEXT" | "ZIPFILE" | (string & {});
 export interface ApplicationCodeConfiguration {
-  CodeContent?: CodeContent;
+  CodeContent?: CodeContent | undefined;
   CodeContentType: CodeContentType;
 }
 export interface ApplicationSnapshotConfiguration {
@@ -519,7 +519,7 @@ export interface CatalogConfiguration {
 export type BasePath = string;
 export interface S3ContentBaseLocation {
   BucketARN: string;
-  BasePath?: string;
+  BasePath?: string | undefined;
 }
 export interface DeployAsApplicationConfiguration {
   S3ContentLocation: S3ContentBaseLocation;
@@ -535,51 +535,51 @@ export interface MavenReference {
 }
 export interface CustomArtifactConfiguration {
   ArtifactType: ArtifactType;
-  S3ContentLocation?: S3ContentLocation;
-  MavenReference?: MavenReference;
+  S3ContentLocation?: S3ContentLocation | undefined;
+  MavenReference?: MavenReference | undefined;
 }
 export type CustomArtifactsConfigurationList = CustomArtifactConfiguration[];
 export interface ZeppelinApplicationConfiguration {
-  MonitoringConfiguration?: ZeppelinMonitoringConfiguration;
-  CatalogConfiguration?: CatalogConfiguration;
-  DeployAsApplicationConfiguration?: DeployAsApplicationConfiguration;
-  CustomArtifactsConfiguration?: CustomArtifactConfiguration[];
+  MonitoringConfiguration?: ZeppelinMonitoringConfiguration | undefined;
+  CatalogConfiguration?: CatalogConfiguration | undefined;
+  DeployAsApplicationConfiguration?: DeployAsApplicationConfiguration | undefined;
+  CustomArtifactsConfiguration?: CustomArtifactConfiguration[] | undefined;
 }
 export type KeyId = string;
 export type KeyType = "AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export interface ApplicationEncryptionConfiguration {
-  KeyId?: string;
+  KeyId?: string | undefined;
   KeyType: KeyType;
 }
 export interface ApplicationConfiguration {
-  SqlApplicationConfiguration?: SqlApplicationConfiguration;
-  FlinkApplicationConfiguration?: FlinkApplicationConfiguration;
-  EnvironmentProperties?: EnvironmentProperties;
-  ApplicationCodeConfiguration?: ApplicationCodeConfiguration;
-  ApplicationSnapshotConfiguration?: ApplicationSnapshotConfiguration;
-  ApplicationSystemRollbackConfiguration?: ApplicationSystemRollbackConfiguration;
-  VpcConfigurations?: VpcConfiguration[];
-  ZeppelinApplicationConfiguration?: ZeppelinApplicationConfiguration;
-  ApplicationEncryptionConfiguration?: ApplicationEncryptionConfiguration;
+  SqlApplicationConfiguration?: SqlApplicationConfiguration | undefined;
+  FlinkApplicationConfiguration?: FlinkApplicationConfiguration | undefined;
+  EnvironmentProperties?: EnvironmentProperties | undefined;
+  ApplicationCodeConfiguration?: ApplicationCodeConfiguration | undefined;
+  ApplicationSnapshotConfiguration?: ApplicationSnapshotConfiguration | undefined;
+  ApplicationSystemRollbackConfiguration?: ApplicationSystemRollbackConfiguration | undefined;
+  VpcConfigurations?: VpcConfiguration[] | undefined;
+  ZeppelinApplicationConfiguration?: ZeppelinApplicationConfiguration | undefined;
+  ApplicationEncryptionConfiguration?: ApplicationEncryptionConfiguration | undefined;
 }
 export type CloudWatchLoggingOptions = CloudWatchLoggingOption[];
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type Tags = Tag[];
 export type ApplicationMode = "STREAMING" | "INTERACTIVE" | (string & {});
 export interface CreateApplicationRequest {
   ApplicationName: string;
-  ApplicationDescription?: string;
+  ApplicationDescription?: string | undefined;
   RuntimeEnvironment: RuntimeEnvironment;
   ServiceExecutionRole: string;
-  ApplicationConfiguration?: ApplicationConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOption[];
-  Tags?: Tag[];
-  ApplicationMode?: ApplicationMode;
+  ApplicationConfiguration?: ApplicationConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOption[] | undefined;
+  Tags?: Tag[] | undefined;
+  ApplicationMode?: ApplicationMode | undefined;
 }
 export type ApplicationStatus =
   | "DELETING"
@@ -595,26 +595,26 @@ export type ApplicationStatus =
   | "ROLLED_BACK"
   | (string & {});
 export interface SqlApplicationConfigurationDescription {
-  InputDescriptions?: InputDescription[];
-  OutputDescriptions?: OutputDescription[];
-  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescription[];
+  InputDescriptions?: InputDescription[] | undefined;
+  OutputDescriptions?: OutputDescription[] | undefined;
+  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescription[] | undefined;
 }
 export type CodeMD5 = string;
 export type CodeSize = number;
 export interface S3ApplicationCodeLocationDescription {
   BucketARN: string;
   FileKey: string;
-  ObjectVersion?: string;
+  ObjectVersion?: string | undefined;
 }
 export interface CodeContentDescription {
-  TextContent?: string;
-  CodeMD5?: string;
-  CodeSize?: number;
-  S3ApplicationCodeLocationDescription?: S3ApplicationCodeLocationDescription;
+  TextContent?: string | undefined;
+  CodeMD5?: string | undefined;
+  CodeSize?: number | undefined;
+  S3ApplicationCodeLocationDescription?: S3ApplicationCodeLocationDescription | undefined;
 }
 export interface ApplicationCodeConfigurationDescription {
   CodeContentType: CodeContentType;
-  CodeContentDescription?: CodeContentDescription;
+  CodeContentDescription?: CodeContentDescription | undefined;
 }
 export type ApplicationRestoreType =
   | "SKIP_RESTORE_FROM_SNAPSHOT"
@@ -624,42 +624,42 @@ export type ApplicationRestoreType =
 export type SnapshotName = string;
 export interface ApplicationRestoreConfiguration {
   ApplicationRestoreType: ApplicationRestoreType;
-  SnapshotName?: string;
+  SnapshotName?: string | undefined;
 }
 export interface FlinkRunConfiguration {
-  AllowNonRestoredState?: boolean;
+  AllowNonRestoredState?: boolean | undefined;
 }
 export interface RunConfigurationDescription {
-  ApplicationRestoreConfigurationDescription?: ApplicationRestoreConfiguration;
-  FlinkRunConfigurationDescription?: FlinkRunConfiguration;
+  ApplicationRestoreConfigurationDescription?: ApplicationRestoreConfiguration | undefined;
+  FlinkRunConfigurationDescription?: FlinkRunConfiguration | undefined;
 }
 export interface CheckpointConfigurationDescription {
-  ConfigurationType?: ConfigurationType;
-  CheckpointingEnabled?: boolean;
-  CheckpointInterval?: number;
-  MinPauseBetweenCheckpoints?: number;
+  ConfigurationType?: ConfigurationType | undefined;
+  CheckpointingEnabled?: boolean | undefined;
+  CheckpointInterval?: number | undefined;
+  MinPauseBetweenCheckpoints?: number | undefined;
 }
 export interface MonitoringConfigurationDescription {
-  ConfigurationType?: ConfigurationType;
-  MetricsLevel?: MetricsLevel;
-  LogLevel?: LogLevel;
+  ConfigurationType?: ConfigurationType | undefined;
+  MetricsLevel?: MetricsLevel | undefined;
+  LogLevel?: LogLevel | undefined;
 }
 export interface ParallelismConfigurationDescription {
-  ConfigurationType?: ConfigurationType;
-  Parallelism?: number;
-  ParallelismPerKPU?: number;
-  CurrentParallelism?: number;
-  AutoScalingEnabled?: boolean;
+  ConfigurationType?: ConfigurationType | undefined;
+  Parallelism?: number | undefined;
+  ParallelismPerKPU?: number | undefined;
+  CurrentParallelism?: number | undefined;
+  AutoScalingEnabled?: boolean | undefined;
 }
 export type JobPlanDescription = string;
 export interface FlinkApplicationConfigurationDescription {
-  CheckpointConfigurationDescription?: CheckpointConfigurationDescription;
-  MonitoringConfigurationDescription?: MonitoringConfigurationDescription;
-  ParallelismConfigurationDescription?: ParallelismConfigurationDescription;
-  JobPlanDescription?: string;
+  CheckpointConfigurationDescription?: CheckpointConfigurationDescription | undefined;
+  MonitoringConfigurationDescription?: MonitoringConfigurationDescription | undefined;
+  ParallelismConfigurationDescription?: ParallelismConfigurationDescription | undefined;
+  JobPlanDescription?: string | undefined;
 }
 export interface EnvironmentPropertyDescriptions {
-  PropertyGroupDescriptions?: PropertyGroup[];
+  PropertyGroupDescriptions?: PropertyGroup[] | undefined;
 }
 export interface ApplicationSnapshotConfigurationDescription {
   SnapshotsEnabled: boolean;
@@ -669,7 +669,7 @@ export interface ApplicationSystemRollbackConfigurationDescription {
 }
 export type VpcConfigurationDescriptions = VpcConfigurationDescription[];
 export interface ZeppelinMonitoringConfigurationDescription {
-  LogLevel?: LogLevel;
+  LogLevel?: LogLevel | undefined;
 }
 export interface GlueDataCatalogConfigurationDescription {
   DatabaseARN: string;
@@ -679,38 +679,48 @@ export interface CatalogConfigurationDescription {
 }
 export interface S3ContentBaseLocationDescription {
   BucketARN: string;
-  BasePath?: string;
+  BasePath?: string | undefined;
 }
 export interface DeployAsApplicationConfigurationDescription {
   S3ContentLocationDescription: S3ContentBaseLocationDescription;
 }
 export interface CustomArtifactConfigurationDescription {
-  ArtifactType?: ArtifactType;
-  S3ContentLocationDescription?: S3ContentLocation;
-  MavenReferenceDescription?: MavenReference;
+  ArtifactType?: ArtifactType | undefined;
+  S3ContentLocationDescription?: S3ContentLocation | undefined;
+  MavenReferenceDescription?: MavenReference | undefined;
 }
 export type CustomArtifactsConfigurationDescriptionList = CustomArtifactConfigurationDescription[];
 export interface ZeppelinApplicationConfigurationDescription {
   MonitoringConfigurationDescription: ZeppelinMonitoringConfigurationDescription;
-  CatalogConfigurationDescription?: CatalogConfigurationDescription;
-  DeployAsApplicationConfigurationDescription?: DeployAsApplicationConfigurationDescription;
-  CustomArtifactsConfigurationDescription?: CustomArtifactConfigurationDescription[];
+  CatalogConfigurationDescription?: CatalogConfigurationDescription | undefined;
+  DeployAsApplicationConfigurationDescription?:
+    | DeployAsApplicationConfigurationDescription
+    | undefined;
+  CustomArtifactsConfigurationDescription?: CustomArtifactConfigurationDescription[] | undefined;
 }
 export interface ApplicationEncryptionConfigurationDescription {
-  KeyId?: string;
+  KeyId?: string | undefined;
   KeyType: KeyType;
 }
 export interface ApplicationConfigurationDescription {
-  SqlApplicationConfigurationDescription?: SqlApplicationConfigurationDescription;
-  ApplicationCodeConfigurationDescription?: ApplicationCodeConfigurationDescription;
-  RunConfigurationDescription?: RunConfigurationDescription;
-  FlinkApplicationConfigurationDescription?: FlinkApplicationConfigurationDescription;
-  EnvironmentPropertyDescriptions?: EnvironmentPropertyDescriptions;
-  ApplicationSnapshotConfigurationDescription?: ApplicationSnapshotConfigurationDescription;
-  ApplicationSystemRollbackConfigurationDescription?: ApplicationSystemRollbackConfigurationDescription;
-  VpcConfigurationDescriptions?: VpcConfigurationDescription[];
-  ZeppelinApplicationConfigurationDescription?: ZeppelinApplicationConfigurationDescription;
-  ApplicationEncryptionConfigurationDescription?: ApplicationEncryptionConfigurationDescription;
+  SqlApplicationConfigurationDescription?: SqlApplicationConfigurationDescription | undefined;
+  ApplicationCodeConfigurationDescription?: ApplicationCodeConfigurationDescription | undefined;
+  RunConfigurationDescription?: RunConfigurationDescription | undefined;
+  FlinkApplicationConfigurationDescription?: FlinkApplicationConfigurationDescription | undefined;
+  EnvironmentPropertyDescriptions?: EnvironmentPropertyDescriptions | undefined;
+  ApplicationSnapshotConfigurationDescription?:
+    | ApplicationSnapshotConfigurationDescription
+    | undefined;
+  ApplicationSystemRollbackConfigurationDescription?:
+    | ApplicationSystemRollbackConfigurationDescription
+    | undefined;
+  VpcConfigurationDescriptions?: VpcConfigurationDescription[] | undefined;
+  ZeppelinApplicationConfigurationDescription?:
+    | ZeppelinApplicationConfigurationDescription
+    | undefined;
+  ApplicationEncryptionConfigurationDescription?:
+    | ApplicationEncryptionConfigurationDescription
+    | undefined;
 }
 export type ApplicationMaintenanceWindowStartTime = string;
 export type ApplicationMaintenanceWindowEndTime = string;
@@ -720,23 +730,25 @@ export interface ApplicationMaintenanceConfigurationDescription {
 }
 export interface ApplicationDetail {
   ApplicationARN: string;
-  ApplicationDescription?: string;
+  ApplicationDescription?: string | undefined;
   ApplicationName: string;
   RuntimeEnvironment: RuntimeEnvironment;
-  ServiceExecutionRole?: string;
+  ServiceExecutionRole?: string | undefined;
   ApplicationStatus: ApplicationStatus;
   ApplicationVersionId: number;
-  CreateTimestamp?: Date;
-  LastUpdateTimestamp?: Date;
-  ApplicationConfigurationDescription?: ApplicationConfigurationDescription;
-  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[];
-  ApplicationMaintenanceConfigurationDescription?: ApplicationMaintenanceConfigurationDescription;
-  ApplicationVersionUpdatedFrom?: number;
-  ApplicationVersionRolledBackFrom?: number;
-  ApplicationVersionCreateTimestamp?: Date;
-  ConditionalToken?: string;
-  ApplicationVersionRolledBackTo?: number;
-  ApplicationMode?: ApplicationMode;
+  CreateTimestamp?: Date | undefined;
+  LastUpdateTimestamp?: Date | undefined;
+  ApplicationConfigurationDescription?: ApplicationConfigurationDescription | undefined;
+  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[] | undefined;
+  ApplicationMaintenanceConfigurationDescription?:
+    | ApplicationMaintenanceConfigurationDescription
+    | undefined;
+  ApplicationVersionUpdatedFrom?: number | undefined;
+  ApplicationVersionRolledBackFrom?: number | undefined;
+  ApplicationVersionCreateTimestamp?: Date | undefined;
+  ConditionalToken?: string | undefined;
+  ApplicationVersionRolledBackTo?: number | undefined;
+  ApplicationMode?: ApplicationMode | undefined;
 }
 export interface CreateApplicationResponse {
   ApplicationDetail: ApplicationDetail;
@@ -746,11 +758,11 @@ export type SessionExpirationDurationInSeconds = number;
 export interface CreateApplicationPresignedUrlRequest {
   ApplicationName: string;
   UrlType: UrlType;
-  SessionExpirationDurationInSeconds?: number;
+  SessionExpirationDurationInSeconds?: number | undefined;
 }
 export type AuthorizedUrl = string;
 export interface CreateApplicationPresignedUrlResponse {
-  AuthorizedUrl?: string;
+  AuthorizedUrl?: string | undefined;
 }
 export interface CreateApplicationSnapshotRequest {
   ApplicationName: string;
@@ -764,15 +776,15 @@ export interface DeleteApplicationRequest {
 export interface DeleteApplicationResponse {}
 export interface DeleteApplicationCloudWatchLoggingOptionRequest {
   ApplicationName: string;
-  CurrentApplicationVersionId?: number;
+  CurrentApplicationVersionId?: number | undefined;
   CloudWatchLoggingOptionId: string;
-  ConditionalToken?: string;
+  ConditionalToken?: string | undefined;
 }
 export interface DeleteApplicationCloudWatchLoggingOptionResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[];
-  OperationId?: string;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[] | undefined;
+  OperationId?: string | undefined;
 }
 export interface DeleteApplicationInputProcessingConfigurationRequest {
   ApplicationName: string;
@@ -780,8 +792,8 @@ export interface DeleteApplicationInputProcessingConfigurationRequest {
   InputId: string;
 }
 export interface DeleteApplicationInputProcessingConfigurationResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
 }
 export interface DeleteApplicationOutputRequest {
   ApplicationName: string;
@@ -789,8 +801,8 @@ export interface DeleteApplicationOutputRequest {
   OutputId: string;
 }
 export interface DeleteApplicationOutputResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
 }
 export interface DeleteApplicationReferenceDataSourceRequest {
   ApplicationName: string;
@@ -798,8 +810,8 @@ export interface DeleteApplicationReferenceDataSourceRequest {
   ReferenceId: string;
 }
 export interface DeleteApplicationReferenceDataSourceResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
 }
 export interface DeleteApplicationSnapshotRequest {
   ApplicationName: string;
@@ -809,18 +821,18 @@ export interface DeleteApplicationSnapshotRequest {
 export interface DeleteApplicationSnapshotResponse {}
 export interface DeleteApplicationVpcConfigurationRequest {
   ApplicationName: string;
-  CurrentApplicationVersionId?: number;
+  CurrentApplicationVersionId?: number | undefined;
   VpcConfigurationId: string;
-  ConditionalToken?: string;
+  ConditionalToken?: string | undefined;
 }
 export interface DeleteApplicationVpcConfigurationResponse {
-  ApplicationARN?: string;
-  ApplicationVersionId?: number;
-  OperationId?: string;
+  ApplicationARN?: string | undefined;
+  ApplicationVersionId?: number | undefined;
+  OperationId?: string | undefined;
 }
 export interface DescribeApplicationRequest {
   ApplicationName: string;
-  IncludeAdditionalDetails?: boolean;
+  IncludeAdditionalDetails?: boolean | undefined;
 }
 export interface DescribeApplicationResponse {
   ApplicationDetail: ApplicationDetail;
@@ -837,22 +849,22 @@ export interface ApplicationVersionChangeDetails {
 }
 export type ErrorString = string;
 export interface ErrorInfo {
-  ErrorString?: string;
+  ErrorString?: string | undefined;
 }
 export interface OperationFailureDetails {
-  RollbackOperationId?: string;
-  ErrorInfo?: ErrorInfo;
+  RollbackOperationId?: string | undefined;
+  ErrorInfo?: ErrorInfo | undefined;
 }
 export interface ApplicationOperationInfoDetails {
   Operation: string;
   StartTime: Date;
   EndTime: Date;
   OperationStatus: OperationStatus;
-  ApplicationVersionChangeDetails?: ApplicationVersionChangeDetails;
-  OperationFailureDetails?: OperationFailureDetails;
+  ApplicationVersionChangeDetails?: ApplicationVersionChangeDetails | undefined;
+  OperationFailureDetails?: OperationFailureDetails | undefined;
 }
 export interface DescribeApplicationOperationResponse {
-  ApplicationOperationInfoDetails?: ApplicationOperationInfoDetails;
+  ApplicationOperationInfoDetails?: ApplicationOperationInfoDetails | undefined;
 }
 export interface DescribeApplicationSnapshotRequest {
   ApplicationName: string;
@@ -863,9 +875,11 @@ export interface SnapshotDetails {
   SnapshotName: string;
   SnapshotStatus: SnapshotStatus;
   ApplicationVersionId: number;
-  SnapshotCreationTimestamp?: Date;
-  RuntimeEnvironment?: RuntimeEnvironment;
-  ApplicationEncryptionConfigurationDescription?: ApplicationEncryptionConfigurationDescription;
+  SnapshotCreationTimestamp?: Date | undefined;
+  RuntimeEnvironment?: RuntimeEnvironment | undefined;
+  ApplicationEncryptionConfigurationDescription?:
+    | ApplicationEncryptionConfigurationDescription
+    | undefined;
 }
 export interface DescribeApplicationSnapshotResponse {
   SnapshotDetails: SnapshotDetails;
@@ -875,18 +889,18 @@ export interface DescribeApplicationVersionRequest {
   ApplicationVersionId: number;
 }
 export interface DescribeApplicationVersionResponse {
-  ApplicationVersionDetail?: ApplicationDetail;
+  ApplicationVersionDetail?: ApplicationDetail | undefined;
 }
 export interface S3Configuration {
   BucketARN: string;
   FileKey: string;
 }
 export interface DiscoverInputSchemaRequest {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
   ServiceExecutionRole: string;
-  InputStartingPositionConfiguration?: InputStartingPositionConfiguration;
-  S3Configuration?: S3Configuration;
-  InputProcessingConfiguration?: InputProcessingConfiguration;
+  InputStartingPositionConfiguration?: InputStartingPositionConfiguration | undefined;
+  S3Configuration?: S3Configuration | undefined;
+  InputProcessingConfiguration?: InputProcessingConfiguration | undefined;
 }
 export type ParsedInputRecordField = string;
 export type ParsedInputRecord = string[];
@@ -896,36 +910,36 @@ export type ProcessedInputRecords = string[];
 export type RawInputRecord = string;
 export type RawInputRecords = string[];
 export interface DiscoverInputSchemaResponse {
-  InputSchema?: SourceSchema;
-  ParsedInputRecords?: string[][];
-  ProcessedInputRecords?: string[];
-  RawInputRecords?: string[];
+  InputSchema?: SourceSchema | undefined;
+  ParsedInputRecords?: string[][] | undefined;
+  ProcessedInputRecords?: string[] | undefined;
+  RawInputRecords?: string[] | undefined;
 }
 export type ListApplicationOperationsInputLimit = number;
 export type NextToken = string;
 export interface ListApplicationOperationsRequest {
   ApplicationName: string;
-  Limit?: number;
-  NextToken?: string;
-  Operation?: string;
-  OperationStatus?: OperationStatus;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  Operation?: string | undefined;
+  OperationStatus?: OperationStatus | undefined;
 }
 export interface ApplicationOperationInfo {
-  Operation?: string;
-  OperationId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  OperationStatus?: OperationStatus;
+  Operation?: string | undefined;
+  OperationId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  OperationStatus?: OperationStatus | undefined;
 }
 export type ApplicationOperationInfoList = ApplicationOperationInfo[];
 export interface ListApplicationOperationsResponse {
-  ApplicationOperationInfoList?: ApplicationOperationInfo[];
-  NextToken?: string;
+  ApplicationOperationInfoList?: ApplicationOperationInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListApplicationsInputLimit = number;
 export interface ListApplicationsRequest {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApplicationSummary {
   ApplicationName: string;
@@ -933,29 +947,29 @@ export interface ApplicationSummary {
   ApplicationStatus: ApplicationStatus;
   ApplicationVersionId: number;
   RuntimeEnvironment: RuntimeEnvironment;
-  ApplicationMode?: ApplicationMode;
+  ApplicationMode?: ApplicationMode | undefined;
 }
 export type ApplicationSummaries = ApplicationSummary[];
 export interface ListApplicationsResponse {
   ApplicationSummaries: ApplicationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListSnapshotsInputLimit = number;
 export interface ListApplicationSnapshotsRequest {
   ApplicationName: string;
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SnapshotSummaries = SnapshotDetails[];
 export interface ListApplicationSnapshotsResponse {
-  SnapshotSummaries?: SnapshotDetails[];
-  NextToken?: string;
+  SnapshotSummaries?: SnapshotDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListApplicationVersionsInputLimit = number;
 export interface ListApplicationVersionsRequest {
   ApplicationName: string;
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApplicationVersionSummary {
   ApplicationVersionId: number;
@@ -963,15 +977,15 @@ export interface ApplicationVersionSummary {
 }
 export type ApplicationVersionSummaries = ApplicationVersionSummary[];
 export interface ListApplicationVersionsResponse {
-  ApplicationVersionSummaries?: ApplicationVersionSummary[];
-  NextToken?: string;
+  ApplicationVersionSummaries?: ApplicationVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type KinesisAnalyticsARN = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface RollbackApplicationRequest {
   ApplicationName: string;
@@ -979,7 +993,7 @@ export interface RollbackApplicationRequest {
 }
 export interface RollbackApplicationResponse {
   ApplicationDetail: ApplicationDetail;
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface SqlRunConfiguration {
   InputId: string;
@@ -987,23 +1001,23 @@ export interface SqlRunConfiguration {
 }
 export type SqlRunConfigurations = SqlRunConfiguration[];
 export interface RunConfiguration {
-  FlinkRunConfiguration?: FlinkRunConfiguration;
-  SqlRunConfigurations?: SqlRunConfiguration[];
-  ApplicationRestoreConfiguration?: ApplicationRestoreConfiguration;
+  FlinkRunConfiguration?: FlinkRunConfiguration | undefined;
+  SqlRunConfigurations?: SqlRunConfiguration[] | undefined;
+  ApplicationRestoreConfiguration?: ApplicationRestoreConfiguration | undefined;
 }
 export interface StartApplicationRequest {
   ApplicationName: string;
-  RunConfiguration?: RunConfiguration;
+  RunConfiguration?: RunConfiguration | undefined;
 }
 export interface StartApplicationResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface StopApplicationRequest {
   ApplicationName: string;
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export interface StopApplicationResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -1029,21 +1043,21 @@ export interface KinesisFirehoseInputUpdate {
   ResourceARNUpdate: string;
 }
 export interface InputSchemaUpdate {
-  RecordFormatUpdate?: RecordFormat;
-  RecordEncodingUpdate?: string;
-  RecordColumnUpdates?: RecordColumn[];
+  RecordFormatUpdate?: RecordFormat | undefined;
+  RecordEncodingUpdate?: string | undefined;
+  RecordColumnUpdates?: RecordColumn[] | undefined;
 }
 export interface InputParallelismUpdate {
   CountUpdate: number;
 }
 export interface InputUpdate {
   InputId: string;
-  NamePrefixUpdate?: string;
-  InputProcessingConfigurationUpdate?: InputProcessingConfigurationUpdate;
-  KinesisStreamsInputUpdate?: KinesisStreamsInputUpdate;
-  KinesisFirehoseInputUpdate?: KinesisFirehoseInputUpdate;
-  InputSchemaUpdate?: InputSchemaUpdate;
-  InputParallelismUpdate?: InputParallelismUpdate;
+  NamePrefixUpdate?: string | undefined;
+  InputProcessingConfigurationUpdate?: InputProcessingConfigurationUpdate | undefined;
+  KinesisStreamsInputUpdate?: KinesisStreamsInputUpdate | undefined;
+  KinesisFirehoseInputUpdate?: KinesisFirehoseInputUpdate | undefined;
+  InputSchemaUpdate?: InputSchemaUpdate | undefined;
+  InputParallelismUpdate?: InputParallelismUpdate | undefined;
 }
 export type InputUpdates = InputUpdate[];
 export interface KinesisStreamsOutputUpdate {
@@ -1057,64 +1071,64 @@ export interface LambdaOutputUpdate {
 }
 export interface OutputUpdate {
   OutputId: string;
-  NameUpdate?: string;
-  KinesisStreamsOutputUpdate?: KinesisStreamsOutputUpdate;
-  KinesisFirehoseOutputUpdate?: KinesisFirehoseOutputUpdate;
-  LambdaOutputUpdate?: LambdaOutputUpdate;
-  DestinationSchemaUpdate?: DestinationSchema;
+  NameUpdate?: string | undefined;
+  KinesisStreamsOutputUpdate?: KinesisStreamsOutputUpdate | undefined;
+  KinesisFirehoseOutputUpdate?: KinesisFirehoseOutputUpdate | undefined;
+  LambdaOutputUpdate?: LambdaOutputUpdate | undefined;
+  DestinationSchemaUpdate?: DestinationSchema | undefined;
 }
 export type OutputUpdates = OutputUpdate[];
 export interface S3ReferenceDataSourceUpdate {
-  BucketARNUpdate?: string;
-  FileKeyUpdate?: string;
+  BucketARNUpdate?: string | undefined;
+  FileKeyUpdate?: string | undefined;
 }
 export interface ReferenceDataSourceUpdate {
   ReferenceId: string;
-  TableNameUpdate?: string;
-  S3ReferenceDataSourceUpdate?: S3ReferenceDataSourceUpdate;
-  ReferenceSchemaUpdate?: SourceSchema;
+  TableNameUpdate?: string | undefined;
+  S3ReferenceDataSourceUpdate?: S3ReferenceDataSourceUpdate | undefined;
+  ReferenceSchemaUpdate?: SourceSchema | undefined;
 }
 export type ReferenceDataSourceUpdates = ReferenceDataSourceUpdate[];
 export interface SqlApplicationConfigurationUpdate {
-  InputUpdates?: InputUpdate[];
-  OutputUpdates?: OutputUpdate[];
-  ReferenceDataSourceUpdates?: ReferenceDataSourceUpdate[];
+  InputUpdates?: InputUpdate[] | undefined;
+  OutputUpdates?: OutputUpdate[] | undefined;
+  ReferenceDataSourceUpdates?: ReferenceDataSourceUpdate[] | undefined;
 }
 export interface S3ContentLocationUpdate {
-  BucketARNUpdate?: string;
-  FileKeyUpdate?: string;
-  ObjectVersionUpdate?: string;
+  BucketARNUpdate?: string | undefined;
+  FileKeyUpdate?: string | undefined;
+  ObjectVersionUpdate?: string | undefined;
 }
 export interface CodeContentUpdate {
-  TextContentUpdate?: string;
-  ZipFileContentUpdate?: Uint8Array;
-  S3ContentLocationUpdate?: S3ContentLocationUpdate;
+  TextContentUpdate?: string | undefined;
+  ZipFileContentUpdate?: Uint8Array | undefined;
+  S3ContentLocationUpdate?: S3ContentLocationUpdate | undefined;
 }
 export interface ApplicationCodeConfigurationUpdate {
-  CodeContentTypeUpdate?: CodeContentType;
-  CodeContentUpdate?: CodeContentUpdate;
+  CodeContentTypeUpdate?: CodeContentType | undefined;
+  CodeContentUpdate?: CodeContentUpdate | undefined;
 }
 export interface CheckpointConfigurationUpdate {
-  ConfigurationTypeUpdate?: ConfigurationType;
-  CheckpointingEnabledUpdate?: boolean;
-  CheckpointIntervalUpdate?: number;
-  MinPauseBetweenCheckpointsUpdate?: number;
+  ConfigurationTypeUpdate?: ConfigurationType | undefined;
+  CheckpointingEnabledUpdate?: boolean | undefined;
+  CheckpointIntervalUpdate?: number | undefined;
+  MinPauseBetweenCheckpointsUpdate?: number | undefined;
 }
 export interface MonitoringConfigurationUpdate {
-  ConfigurationTypeUpdate?: ConfigurationType;
-  MetricsLevelUpdate?: MetricsLevel;
-  LogLevelUpdate?: LogLevel;
+  ConfigurationTypeUpdate?: ConfigurationType | undefined;
+  MetricsLevelUpdate?: MetricsLevel | undefined;
+  LogLevelUpdate?: LogLevel | undefined;
 }
 export interface ParallelismConfigurationUpdate {
-  ConfigurationTypeUpdate?: ConfigurationType;
-  ParallelismUpdate?: number;
-  ParallelismPerKPUUpdate?: number;
-  AutoScalingEnabledUpdate?: boolean;
+  ConfigurationTypeUpdate?: ConfigurationType | undefined;
+  ParallelismUpdate?: number | undefined;
+  ParallelismPerKPUUpdate?: number | undefined;
+  AutoScalingEnabledUpdate?: boolean | undefined;
 }
 export interface FlinkApplicationConfigurationUpdate {
-  CheckpointConfigurationUpdate?: CheckpointConfigurationUpdate;
-  MonitoringConfigurationUpdate?: MonitoringConfigurationUpdate;
-  ParallelismConfigurationUpdate?: ParallelismConfigurationUpdate;
+  CheckpointConfigurationUpdate?: CheckpointConfigurationUpdate | undefined;
+  MonitoringConfigurationUpdate?: MonitoringConfigurationUpdate | undefined;
+  ParallelismConfigurationUpdate?: ParallelismConfigurationUpdate | undefined;
 }
 export interface EnvironmentPropertyUpdates {
   PropertyGroups: PropertyGroup[];
@@ -1127,8 +1141,8 @@ export interface ApplicationSystemRollbackConfigurationUpdate {
 }
 export interface VpcConfigurationUpdate {
   VpcConfigurationId: string;
-  SubnetIdUpdates?: string[];
-  SecurityGroupIdUpdates?: string[];
+  SubnetIdUpdates?: string[] | undefined;
+  SecurityGroupIdUpdates?: string[] | undefined;
 }
 export type VpcConfigurationUpdates = VpcConfigurationUpdate[];
 export interface ZeppelinMonitoringConfigurationUpdate {
@@ -1141,55 +1155,57 @@ export interface CatalogConfigurationUpdate {
   GlueDataCatalogConfigurationUpdate: GlueDataCatalogConfigurationUpdate;
 }
 export interface S3ContentBaseLocationUpdate {
-  BucketARNUpdate?: string;
-  BasePathUpdate?: string;
+  BucketARNUpdate?: string | undefined;
+  BasePathUpdate?: string | undefined;
 }
 export interface DeployAsApplicationConfigurationUpdate {
-  S3ContentLocationUpdate?: S3ContentBaseLocationUpdate;
+  S3ContentLocationUpdate?: S3ContentBaseLocationUpdate | undefined;
 }
 export interface ZeppelinApplicationConfigurationUpdate {
-  MonitoringConfigurationUpdate?: ZeppelinMonitoringConfigurationUpdate;
-  CatalogConfigurationUpdate?: CatalogConfigurationUpdate;
-  DeployAsApplicationConfigurationUpdate?: DeployAsApplicationConfigurationUpdate;
-  CustomArtifactsConfigurationUpdate?: CustomArtifactConfiguration[];
+  MonitoringConfigurationUpdate?: ZeppelinMonitoringConfigurationUpdate | undefined;
+  CatalogConfigurationUpdate?: CatalogConfigurationUpdate | undefined;
+  DeployAsApplicationConfigurationUpdate?: DeployAsApplicationConfigurationUpdate | undefined;
+  CustomArtifactsConfigurationUpdate?: CustomArtifactConfiguration[] | undefined;
 }
 export interface ApplicationEncryptionConfigurationUpdate {
-  KeyIdUpdate?: string;
+  KeyIdUpdate?: string | undefined;
   KeyTypeUpdate: KeyType;
 }
 export interface ApplicationConfigurationUpdate {
-  SqlApplicationConfigurationUpdate?: SqlApplicationConfigurationUpdate;
-  ApplicationCodeConfigurationUpdate?: ApplicationCodeConfigurationUpdate;
-  FlinkApplicationConfigurationUpdate?: FlinkApplicationConfigurationUpdate;
-  EnvironmentPropertyUpdates?: EnvironmentPropertyUpdates;
-  ApplicationSnapshotConfigurationUpdate?: ApplicationSnapshotConfigurationUpdate;
-  ApplicationSystemRollbackConfigurationUpdate?: ApplicationSystemRollbackConfigurationUpdate;
-  VpcConfigurationUpdates?: VpcConfigurationUpdate[];
-  ZeppelinApplicationConfigurationUpdate?: ZeppelinApplicationConfigurationUpdate;
-  ApplicationEncryptionConfigurationUpdate?: ApplicationEncryptionConfigurationUpdate;
+  SqlApplicationConfigurationUpdate?: SqlApplicationConfigurationUpdate | undefined;
+  ApplicationCodeConfigurationUpdate?: ApplicationCodeConfigurationUpdate | undefined;
+  FlinkApplicationConfigurationUpdate?: FlinkApplicationConfigurationUpdate | undefined;
+  EnvironmentPropertyUpdates?: EnvironmentPropertyUpdates | undefined;
+  ApplicationSnapshotConfigurationUpdate?: ApplicationSnapshotConfigurationUpdate | undefined;
+  ApplicationSystemRollbackConfigurationUpdate?:
+    | ApplicationSystemRollbackConfigurationUpdate
+    | undefined;
+  VpcConfigurationUpdates?: VpcConfigurationUpdate[] | undefined;
+  ZeppelinApplicationConfigurationUpdate?: ZeppelinApplicationConfigurationUpdate | undefined;
+  ApplicationEncryptionConfigurationUpdate?: ApplicationEncryptionConfigurationUpdate | undefined;
 }
 export interface RunConfigurationUpdate {
-  FlinkRunConfiguration?: FlinkRunConfiguration;
-  ApplicationRestoreConfiguration?: ApplicationRestoreConfiguration;
+  FlinkRunConfiguration?: FlinkRunConfiguration | undefined;
+  ApplicationRestoreConfiguration?: ApplicationRestoreConfiguration | undefined;
 }
 export interface CloudWatchLoggingOptionUpdate {
   CloudWatchLoggingOptionId: string;
-  LogStreamARNUpdate?: string;
+  LogStreamARNUpdate?: string | undefined;
 }
 export type CloudWatchLoggingOptionUpdates = CloudWatchLoggingOptionUpdate[];
 export interface UpdateApplicationRequest {
   ApplicationName: string;
-  CurrentApplicationVersionId?: number;
-  ApplicationConfigurationUpdate?: ApplicationConfigurationUpdate;
-  ServiceExecutionRoleUpdate?: string;
-  RunConfigurationUpdate?: RunConfigurationUpdate;
-  CloudWatchLoggingOptionUpdates?: CloudWatchLoggingOptionUpdate[];
-  ConditionalToken?: string;
-  RuntimeEnvironmentUpdate?: RuntimeEnvironment;
+  CurrentApplicationVersionId?: number | undefined;
+  ApplicationConfigurationUpdate?: ApplicationConfigurationUpdate | undefined;
+  ServiceExecutionRoleUpdate?: string | undefined;
+  RunConfigurationUpdate?: RunConfigurationUpdate | undefined;
+  CloudWatchLoggingOptionUpdates?: CloudWatchLoggingOptionUpdate[] | undefined;
+  ConditionalToken?: string | undefined;
+  RuntimeEnvironmentUpdate?: RuntimeEnvironment | undefined;
 }
 export interface UpdateApplicationResponse {
   ApplicationDetail: ApplicationDetail;
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface ApplicationMaintenanceConfigurationUpdate {
   ApplicationMaintenanceWindowStartTimeUpdate: string;
@@ -1199,8 +1215,10 @@ export interface UpdateApplicationMaintenanceConfigurationRequest {
   ApplicationMaintenanceConfigurationUpdate: ApplicationMaintenanceConfigurationUpdate;
 }
 export interface UpdateApplicationMaintenanceConfigurationResponse {
-  ApplicationARN?: string;
-  ApplicationMaintenanceConfigurationDescription?: ApplicationMaintenanceConfigurationDescription;
+  ApplicationARN?: string | undefined;
+  ApplicationMaintenanceConfigurationDescription?:
+    | ApplicationMaintenanceConfigurationDescription
+    | undefined;
 }
 export type ErrorMessage = string;
 export type AddApplicationCloudWatchLoggingOptionError =

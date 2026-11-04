@@ -140,7 +140,7 @@ export type DomainName = string;
 export interface AssociateCustomDomainRequest {
   ServiceArn: string;
   DomainName: string;
-  EnableWWWSubdomain?: boolean;
+  EnableWWWSubdomain?: boolean | undefined;
 }
 export type CertificateValidationRecordStatus =
   | "PENDING_VALIDATION"
@@ -148,10 +148,10 @@ export type CertificateValidationRecordStatus =
   | "FAILED"
   | (string & {});
 export interface CertificateValidationRecord {
-  Name?: string;
-  Type?: string;
-  Value?: string;
-  Status?: CertificateValidationRecordStatus;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Value?: string | undefined;
+  Status?: CertificateValidationRecordStatus | undefined;
 }
 export type CertificateValidationRecordList = CertificateValidationRecord[];
 export type CustomDomainAssociationStatus =
@@ -166,13 +166,13 @@ export type CustomDomainAssociationStatus =
 export interface CustomDomain {
   DomainName: string;
   EnableWWWSubdomain: boolean;
-  CertificateValidationRecords?: CertificateValidationRecord[];
+  CertificateValidationRecords?: CertificateValidationRecord[] | undefined;
   Status: CustomDomainAssociationStatus;
 }
 export interface VpcDNSTarget {
-  VpcIngressConnectionArn?: string;
-  VpcId?: string;
-  DomainName?: string;
+  VpcIngressConnectionArn?: string | undefined;
+  VpcId?: string | undefined;
+  DomainName?: string | undefined;
 }
 export type VpcDNSTargetList = VpcDNSTarget[];
 export interface AssociateCustomDomainResponse {
@@ -188,16 +188,16 @@ export type ASConfigMaxSize = number;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateAutoScalingConfigurationRequest {
   AutoScalingConfigurationName: string;
-  MaxConcurrency?: number;
-  MinSize?: number;
-  MaxSize?: number;
-  Tags?: Tag[];
+  MaxConcurrency?: number | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AutoScalingConfigurationRevision = number;
 export type Latest = boolean;
@@ -213,18 +213,18 @@ export type MaxSize = number;
 export type HasAssociatedService = boolean;
 export type IsDefault = boolean;
 export interface AutoScalingConfiguration {
-  AutoScalingConfigurationArn?: string;
-  AutoScalingConfigurationName?: string;
-  AutoScalingConfigurationRevision?: number;
-  Latest?: boolean;
-  Status?: AutoScalingConfigurationStatus;
-  MaxConcurrency?: number;
-  MinSize?: number;
-  MaxSize?: number;
-  CreatedAt?: Date;
-  DeletedAt?: Date;
-  HasAssociatedService?: boolean;
-  IsDefault?: boolean;
+  AutoScalingConfigurationArn?: string | undefined;
+  AutoScalingConfigurationName?: string | undefined;
+  AutoScalingConfigurationRevision?: number | undefined;
+  Latest?: boolean | undefined;
+  Status?: AutoScalingConfigurationStatus | undefined;
+  MaxConcurrency?: number | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  CreatedAt?: Date | undefined;
+  DeletedAt?: Date | undefined;
+  HasAssociatedService?: boolean | undefined;
+  IsDefault?: boolean | undefined;
 }
 export interface CreateAutoScalingConfigurationResponse {
   AutoScalingConfiguration: AutoScalingConfiguration;
@@ -234,7 +234,7 @@ export type ProviderType = "GITHUB" | "BITBUCKET" | (string & {});
 export interface CreateConnectionRequest {
   ConnectionName: string;
   ProviderType: ProviderType;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ConnectionStatus =
   | "PENDING_HANDSHAKE"
@@ -243,11 +243,11 @@ export type ConnectionStatus =
   | "DELETED"
   | (string & {});
 export interface Connection {
-  ConnectionName?: string;
-  ConnectionArn?: string;
-  ProviderType?: ProviderType;
-  Status?: ConnectionStatus;
-  CreatedAt?: Date;
+  ConnectionName?: string | undefined;
+  ConnectionArn?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  Status?: ConnectionStatus | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface CreateConnectionResponse {
   Connection: Connection;
@@ -259,19 +259,19 @@ export interface TraceConfiguration {
 }
 export interface CreateObservabilityConfigurationRequest {
   ObservabilityConfigurationName: string;
-  TraceConfiguration?: TraceConfiguration;
-  Tags?: Tag[];
+  TraceConfiguration?: TraceConfiguration | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ObservabilityConfigurationStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface ObservabilityConfiguration {
-  ObservabilityConfigurationArn?: string;
-  ObservabilityConfigurationName?: string;
-  TraceConfiguration?: TraceConfiguration;
-  ObservabilityConfigurationRevision?: number;
-  Latest?: boolean;
-  Status?: ObservabilityConfigurationStatus;
-  CreatedAt?: Date;
-  DeletedAt?: Date;
+  ObservabilityConfigurationArn?: string | undefined;
+  ObservabilityConfigurationName?: string | undefined;
+  TraceConfiguration?: TraceConfiguration | undefined;
+  ObservabilityConfigurationRevision?: number | undefined;
+  Latest?: boolean | undefined;
+  Status?: ObservabilityConfigurationStatus | undefined;
+  CreatedAt?: Date | undefined;
+  DeletedAt?: Date | undefined;
 }
 export interface CreateObservabilityConfigurationResponse {
   ObservabilityConfiguration: ObservabilityConfiguration;
@@ -312,53 +312,61 @@ export type RuntimeEnvironmentSecrets = {
 };
 export interface CodeConfigurationValues {
   Runtime: Runtime;
-  BuildCommand?: string | redacted.Redacted<string>;
-  StartCommand?: string | redacted.Redacted<string>;
-  Port?: string;
-  RuntimeEnvironmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  RuntimeEnvironmentSecrets?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  BuildCommand?: string | redacted.Redacted<string> | undefined;
+  StartCommand?: string | redacted.Redacted<string> | undefined;
+  Port?: string | undefined;
+  RuntimeEnvironmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  RuntimeEnvironmentSecrets?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export interface CodeConfiguration {
   ConfigurationSource: ConfigurationSource;
-  CodeConfigurationValues?: CodeConfigurationValues;
+  CodeConfigurationValues?: CodeConfigurationValues | undefined;
 }
 export type SourceDirectory = string;
 export interface CodeRepository {
   RepositoryUrl: string;
   SourceCodeVersion: SourceCodeVersion;
-  CodeConfiguration?: CodeConfiguration;
-  SourceDirectory?: string;
+  CodeConfiguration?: CodeConfiguration | undefined;
+  SourceDirectory?: string | undefined;
 }
 export type ImageIdentifier = string;
 export interface ImageConfiguration {
-  RuntimeEnvironmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  StartCommand?: string | redacted.Redacted<string>;
-  Port?: string;
-  RuntimeEnvironmentSecrets?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  RuntimeEnvironmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  StartCommand?: string | redacted.Redacted<string> | undefined;
+  Port?: string | undefined;
+  RuntimeEnvironmentSecrets?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export type ImageRepositoryType = "ECR" | "ECR_PUBLIC" | (string & {});
 export interface ImageRepository {
   ImageIdentifier: string;
-  ImageConfiguration?: ImageConfiguration;
+  ImageConfiguration?: ImageConfiguration | undefined;
   ImageRepositoryType: ImageRepositoryType;
 }
 export type RoleArn = string;
 export interface AuthenticationConfiguration {
-  ConnectionArn?: string;
-  AccessRoleArn?: string;
+  ConnectionArn?: string | undefined;
+  AccessRoleArn?: string | undefined;
 }
 export interface SourceConfiguration {
-  CodeRepository?: CodeRepository;
-  ImageRepository?: ImageRepository;
-  AutoDeploymentsEnabled?: boolean;
-  AuthenticationConfiguration?: AuthenticationConfiguration;
+  CodeRepository?: CodeRepository | undefined;
+  ImageRepository?: ImageRepository | undefined;
+  AutoDeploymentsEnabled?: boolean | undefined;
+  AuthenticationConfiguration?: AuthenticationConfiguration | undefined;
 }
 export type Cpu = string;
 export type Memory = string;
 export interface InstanceConfiguration {
-  Cpu?: string;
-  Memory?: string;
-  InstanceRoleArn?: string;
+  Cpu?: string | undefined;
+  Memory?: string | undefined;
+  InstanceRoleArn?: string | undefined;
 }
 export type KmsKeyArn = string;
 export interface EncryptionConfiguration {
@@ -371,41 +379,41 @@ export type HealthCheckTimeout = number;
 export type HealthCheckHealthyThreshold = number;
 export type HealthCheckUnhealthyThreshold = number;
 export interface HealthCheckConfiguration {
-  Protocol?: HealthCheckProtocol;
-  Path?: string;
-  Interval?: number;
-  Timeout?: number;
-  HealthyThreshold?: number;
-  UnhealthyThreshold?: number;
+  Protocol?: HealthCheckProtocol | undefined;
+  Path?: string | undefined;
+  Interval?: number | undefined;
+  Timeout?: number | undefined;
+  HealthyThreshold?: number | undefined;
+  UnhealthyThreshold?: number | undefined;
 }
 export type EgressType = "DEFAULT" | "VPC" | (string & {});
 export interface EgressConfiguration {
-  EgressType?: EgressType;
-  VpcConnectorArn?: string;
+  EgressType?: EgressType | undefined;
+  VpcConnectorArn?: string | undefined;
 }
 export interface IngressConfiguration {
-  IsPubliclyAccessible?: boolean;
+  IsPubliclyAccessible?: boolean | undefined;
 }
 export type IpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
 export interface NetworkConfiguration {
-  EgressConfiguration?: EgressConfiguration;
-  IngressConfiguration?: IngressConfiguration;
-  IpAddressType?: IpAddressType;
+  EgressConfiguration?: EgressConfiguration | undefined;
+  IngressConfiguration?: IngressConfiguration | undefined;
+  IpAddressType?: IpAddressType | undefined;
 }
 export interface ServiceObservabilityConfiguration {
   ObservabilityEnabled: boolean;
-  ObservabilityConfigurationArn?: string;
+  ObservabilityConfigurationArn?: string | undefined;
 }
 export interface CreateServiceRequest {
   ServiceName: string;
   SourceConfiguration: SourceConfiguration;
-  InstanceConfiguration?: InstanceConfiguration;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
-  HealthCheckConfiguration?: HealthCheckConfiguration;
-  AutoScalingConfigurationArn?: string;
-  NetworkConfiguration?: NetworkConfiguration;
-  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
+  InstanceConfiguration?: InstanceConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  HealthCheckConfiguration?: HealthCheckConfiguration | undefined;
+  AutoScalingConfigurationArn?: string | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  ObservabilityConfiguration?: ServiceObservabilityConfiguration | undefined;
 }
 export type ServiceId = string;
 export type ServiceStatus =
@@ -417,30 +425,30 @@ export type ServiceStatus =
   | "OPERATION_IN_PROGRESS"
   | (string & {});
 export interface AutoScalingConfigurationSummary {
-  AutoScalingConfigurationArn?: string;
-  AutoScalingConfigurationName?: string;
-  AutoScalingConfigurationRevision?: number;
-  Status?: AutoScalingConfigurationStatus;
-  CreatedAt?: Date;
-  HasAssociatedService?: boolean;
-  IsDefault?: boolean;
+  AutoScalingConfigurationArn?: string | undefined;
+  AutoScalingConfigurationName?: string | undefined;
+  AutoScalingConfigurationRevision?: number | undefined;
+  Status?: AutoScalingConfigurationStatus | undefined;
+  CreatedAt?: Date | undefined;
+  HasAssociatedService?: boolean | undefined;
+  IsDefault?: boolean | undefined;
 }
 export interface Service {
   ServiceName: string;
   ServiceId: string;
   ServiceArn: string;
-  ServiceUrl?: string;
+  ServiceUrl?: string | undefined;
   CreatedAt: Date;
   UpdatedAt: Date;
-  DeletedAt?: Date;
+  DeletedAt?: Date | undefined;
   Status: ServiceStatus;
   SourceConfiguration: SourceConfiguration;
   InstanceConfiguration: InstanceConfiguration;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  HealthCheckConfiguration?: HealthCheckConfiguration;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  HealthCheckConfiguration?: HealthCheckConfiguration | undefined;
   AutoScalingConfigurationSummary: AutoScalingConfigurationSummary;
   NetworkConfiguration: NetworkConfiguration;
-  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
+  ObservabilityConfiguration?: ServiceObservabilityConfiguration | undefined;
 }
 export type UUID = string;
 export interface CreateServiceResponse {
@@ -452,33 +460,33 @@ export type StringList = string[];
 export interface CreateVpcConnectorRequest {
   VpcConnectorName: string;
   Subnets: string[];
-  SecurityGroups?: string[];
-  Tags?: Tag[];
+  SecurityGroups?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type VpcConnectorStatus = "ACTIVE" | "INACTIVE" | "active" | "inactive" | (string & {});
 export interface VpcConnector {
-  VpcConnectorName?: string;
-  VpcConnectorArn?: string;
-  VpcConnectorRevision?: number;
-  Subnets?: string[];
-  SecurityGroups?: string[];
-  Status?: VpcConnectorStatus;
-  CreatedAt?: Date;
-  DeletedAt?: Date;
+  VpcConnectorName?: string | undefined;
+  VpcConnectorArn?: string | undefined;
+  VpcConnectorRevision?: number | undefined;
+  Subnets?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  Status?: VpcConnectorStatus | undefined;
+  CreatedAt?: Date | undefined;
+  DeletedAt?: Date | undefined;
 }
 export interface CreateVpcConnectorResponse {
   VpcConnector: VpcConnector;
 }
 export type VpcIngressConnectionName = string;
 export interface IngressVpcConfiguration {
-  VpcId?: string;
-  VpcEndpointId?: string;
+  VpcId?: string | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export interface CreateVpcIngressConnectionRequest {
   ServiceArn: string;
   VpcIngressConnectionName: string;
   IngressVpcConfiguration: IngressVpcConfiguration;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type VpcIngressConnectionStatus =
   | "AVAILABLE"
@@ -492,22 +500,22 @@ export type VpcIngressConnectionStatus =
   | (string & {});
 export type CustomerAccountId = string;
 export interface VpcIngressConnection {
-  VpcIngressConnectionArn?: string;
-  VpcIngressConnectionName?: string;
-  ServiceArn?: string;
-  Status?: VpcIngressConnectionStatus;
-  AccountId?: string;
-  DomainName?: string;
-  IngressVpcConfiguration?: IngressVpcConfiguration;
-  CreatedAt?: Date;
-  DeletedAt?: Date;
+  VpcIngressConnectionArn?: string | undefined;
+  VpcIngressConnectionName?: string | undefined;
+  ServiceArn?: string | undefined;
+  Status?: VpcIngressConnectionStatus | undefined;
+  AccountId?: string | undefined;
+  DomainName?: string | undefined;
+  IngressVpcConfiguration?: IngressVpcConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  DeletedAt?: Date | undefined;
 }
 export interface CreateVpcIngressConnectionResponse {
   VpcIngressConnection: VpcIngressConnection;
 }
 export interface DeleteAutoScalingConfigurationRequest {
   AutoScalingConfigurationArn: string;
-  DeleteAllRevisions?: boolean;
+  DeleteAllRevisions?: boolean | undefined;
 }
 export interface DeleteAutoScalingConfigurationResponse {
   AutoScalingConfiguration: AutoScalingConfiguration;
@@ -516,7 +524,7 @@ export interface DeleteConnectionRequest {
   ConnectionArn: string;
 }
 export interface DeleteConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface DeleteObservabilityConfigurationRequest {
   ObservabilityConfigurationArn: string;
@@ -552,8 +560,8 @@ export interface DescribeAutoScalingConfigurationResponse {
 export type DescribeCustomDomainsMaxResults = number;
 export interface DescribeCustomDomainsRequest {
   ServiceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CustomDomainList = CustomDomain[];
 export interface DescribeCustomDomainsResponse {
@@ -561,7 +569,7 @@ export interface DescribeCustomDomainsResponse {
   ServiceArn: string;
   CustomDomains: CustomDomain[];
   VpcDNSTargets: VpcDNSTarget[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeObservabilityConfigurationRequest {
   ObservabilityConfigurationArn: string;
@@ -600,54 +608,54 @@ export interface DisassociateCustomDomainResponse {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAutoScalingConfigurationsRequest {
-  AutoScalingConfigurationName?: string;
-  LatestOnly?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  AutoScalingConfigurationName?: string | undefined;
+  LatestOnly?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AutoScalingConfigurationSummaryList = AutoScalingConfigurationSummary[];
 export interface ListAutoScalingConfigurationsResponse {
   AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListConnectionsRequest {
-  ConnectionName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ConnectionName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConnectionSummary {
-  ConnectionName?: string;
-  ConnectionArn?: string;
-  ProviderType?: ProviderType;
-  Status?: ConnectionStatus;
-  CreatedAt?: Date;
+  ConnectionName?: string | undefined;
+  ConnectionArn?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  Status?: ConnectionStatus | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type ConnectionSummaryList = ConnectionSummary[];
 export interface ListConnectionsResponse {
   ConnectionSummaryList: ConnectionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListObservabilityConfigurationsRequest {
-  ObservabilityConfigurationName?: string;
-  LatestOnly?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  ObservabilityConfigurationName?: string | undefined;
+  LatestOnly?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ObservabilityConfigurationSummary {
-  ObservabilityConfigurationArn?: string;
-  ObservabilityConfigurationName?: string;
-  ObservabilityConfigurationRevision?: number;
+  ObservabilityConfigurationArn?: string | undefined;
+  ObservabilityConfigurationName?: string | undefined;
+  ObservabilityConfigurationRevision?: number | undefined;
 }
 export type ObservabilityConfigurationSummaryList = ObservabilityConfigurationSummary[];
 export interface ListObservabilityConfigurationsResponse {
   ObservabilityConfigurationSummaryList: ObservabilityConfigurationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListOperationsMaxResults = number;
 export interface ListOperationsRequest {
   ServiceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type OperationType =
   | "START_DEPLOYMENT"
@@ -667,94 +675,94 @@ export type OperationStatus =
   | "ROLLBACK_SUCCEEDED"
   | (string & {});
 export interface OperationSummary {
-  Id?: string;
-  Type?: OperationType;
-  Status?: OperationStatus;
-  TargetArn?: string;
-  StartedAt?: Date;
-  EndedAt?: Date;
-  UpdatedAt?: Date;
+  Id?: string | undefined;
+  Type?: OperationType | undefined;
+  Status?: OperationStatus | undefined;
+  TargetArn?: string | undefined;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type OperationSummaryList = OperationSummary[];
 export interface ListOperationsResponse {
-  OperationSummaryList?: OperationSummary[];
-  NextToken?: string;
+  OperationSummaryList?: OperationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceMaxResults = number;
 export interface ListServicesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ServiceSummary {
-  ServiceName?: string;
-  ServiceId?: string;
-  ServiceArn?: string;
-  ServiceUrl?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Status?: ServiceStatus;
+  ServiceName?: string | undefined;
+  ServiceId?: string | undefined;
+  ServiceArn?: string | undefined;
+  ServiceUrl?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Status?: ServiceStatus | undefined;
 }
 export type ServiceSummaryList = ServiceSummary[];
 export interface ListServicesResponse {
   ServiceSummaryList: ServiceSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListServicesForAutoScalingConfigurationRequest {
   AutoScalingConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceArnList = string[];
 export interface ListServicesForAutoScalingConfigurationResponse {
   ServiceArnList: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListVpcConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type VpcConnectors = VpcConnector[];
 export interface ListVpcConnectorsResponse {
   VpcConnectors: VpcConnector[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListVpcIngressConnectionsFilter {
-  ServiceArn?: string;
-  VpcEndpointId?: string;
+  ServiceArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export interface ListVpcIngressConnectionsRequest {
-  Filter?: ListVpcIngressConnectionsFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  Filter?: ListVpcIngressConnectionsFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface VpcIngressConnectionSummary {
-  VpcIngressConnectionArn?: string;
-  ServiceArn?: string;
+  VpcIngressConnectionArn?: string | undefined;
+  ServiceArn?: string | undefined;
 }
 export type VpcIngressConnectionSummaryList = VpcIngressConnectionSummary[];
 export interface ListVpcIngressConnectionsResponse {
   VpcIngressConnectionSummaryList: VpcIngressConnectionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PauseServiceRequest {
   ServiceArn: string;
 }
 export interface PauseServiceResponse {
   Service: Service;
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface ResumeServiceRequest {
   ServiceArn: string;
 }
 export interface ResumeServiceResponse {
   Service: Service;
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface StartDeploymentRequest {
   ServiceArn: string;
@@ -781,12 +789,12 @@ export interface UpdateDefaultAutoScalingConfigurationResponse {
 }
 export interface UpdateServiceRequest {
   ServiceArn: string;
-  SourceConfiguration?: SourceConfiguration;
-  InstanceConfiguration?: InstanceConfiguration;
-  AutoScalingConfigurationArn?: string;
-  HealthCheckConfiguration?: HealthCheckConfiguration;
-  NetworkConfiguration?: NetworkConfiguration;
-  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
+  SourceConfiguration?: SourceConfiguration | undefined;
+  InstanceConfiguration?: InstanceConfiguration | undefined;
+  AutoScalingConfigurationArn?: string | undefined;
+  HealthCheckConfiguration?: HealthCheckConfiguration | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  ObservabilityConfiguration?: ServiceObservabilityConfiguration | undefined;
 }
 export interface UpdateServiceResponse {
   Service: Service;

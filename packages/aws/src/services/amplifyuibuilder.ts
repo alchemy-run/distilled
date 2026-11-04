@@ -139,7 +139,7 @@ export type ComponentName = string;
 export type ComponentType = string;
 export interface ComponentPropertyBindingProperties {
   property: string;
-  field?: string;
+  field?: string | undefined;
 }
 export interface FormBindingElement {
   element: string;
@@ -148,30 +148,30 @@ export interface FormBindingElement {
 export type FormBindings = { [key: string]: FormBindingElement | undefined };
 export type ComponentPropertyList = ComponentProperty[];
 export interface ComponentConditionProperty {
-  property?: string;
-  field?: string;
-  operator?: string;
-  operand?: string;
-  then?: ComponentProperty;
-  else?: ComponentProperty;
-  operandType?: string;
+  property?: string | undefined;
+  field?: string | undefined;
+  operator?: string | undefined;
+  operand?: string | undefined;
+  then?: ComponentProperty | undefined;
+  else?: ComponentProperty | undefined;
+  operandType?: string | undefined;
 }
 export interface ComponentProperty {
-  value?: string;
-  bindingProperties?: ComponentPropertyBindingProperties;
-  collectionBindingProperties?: ComponentPropertyBindingProperties;
-  defaultValue?: string;
-  model?: string;
-  bindings?: { [key: string]: FormBindingElement | undefined };
-  event?: string;
-  userAttribute?: string;
-  concat?: ComponentProperty[];
-  condition?: ComponentConditionProperty;
-  configured?: boolean;
-  type?: string;
-  importedValue?: string;
-  componentName?: string;
-  property?: string;
+  value?: string | undefined;
+  bindingProperties?: ComponentPropertyBindingProperties | undefined;
+  collectionBindingProperties?: ComponentPropertyBindingProperties | undefined;
+  defaultValue?: string | undefined;
+  model?: string | undefined;
+  bindings?: { [key: string]: FormBindingElement | undefined } | undefined;
+  event?: string | undefined;
+  userAttribute?: string | undefined;
+  concat?: ComponentProperty[] | undefined;
+  condition?: ComponentConditionProperty | undefined;
+  configured?: boolean | undefined;
+  type?: string | undefined;
+  importedValue?: string | undefined;
+  componentName?: string | undefined;
+  property?: string | undefined;
 }
 export type ComponentProperties = { [key: string]: ComponentProperty | undefined };
 export interface MutationActionSetStateParameter {
@@ -180,29 +180,29 @@ export interface MutationActionSetStateParameter {
   set: ComponentProperty;
 }
 export interface ActionParameters {
-  type?: ComponentProperty;
-  url?: ComponentProperty;
-  anchor?: ComponentProperty;
-  target?: ComponentProperty;
-  global?: ComponentProperty;
-  model?: string;
-  id?: ComponentProperty;
-  fields?: { [key: string]: ComponentProperty | undefined };
-  state?: MutationActionSetStateParameter;
+  type?: ComponentProperty | undefined;
+  url?: ComponentProperty | undefined;
+  anchor?: ComponentProperty | undefined;
+  target?: ComponentProperty | undefined;
+  global?: ComponentProperty | undefined;
+  model?: string | undefined;
+  id?: ComponentProperty | undefined;
+  fields?: { [key: string]: ComponentProperty | undefined } | undefined;
+  state?: MutationActionSetStateParameter | undefined;
 }
 export interface ComponentEvent {
-  action?: string;
-  parameters?: ActionParameters;
-  bindingEvent?: string;
+  action?: string | undefined;
+  parameters?: ActionParameters | undefined;
+  bindingEvent?: string | undefined;
 }
 export type ComponentEvents = { [key: string]: ComponentEvent | undefined };
 export interface ComponentChild {
   componentType: string;
   name: string;
   properties: { [key: string]: ComponentProperty | undefined };
-  children?: ComponentChild[];
-  events?: { [key: string]: ComponentEvent | undefined };
-  sourceId?: string;
+  children?: ComponentChild[] | undefined;
+  events?: { [key: string]: ComponentEvent | undefined } | undefined;
+  sourceId?: string | undefined;
 }
 export type ComponentChildList = ComponentChild[];
 export type ComponentVariantValues = { [key: string]: string | undefined };
@@ -211,34 +211,34 @@ export type ComponentOverrides = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export interface ComponentVariant {
-  variantValues?: { [key: string]: string | undefined };
-  overrides?: { [key: string]: { [key: string]: string | undefined } | undefined };
+  variantValues?: { [key: string]: string | undefined } | undefined;
+  overrides?: { [key: string]: { [key: string]: string | undefined } | undefined } | undefined;
 }
 export type ComponentVariants = ComponentVariant[];
 export type OperandType = string;
 export interface Predicate {
-  or?: Predicate[];
-  and?: Predicate[];
-  field?: string;
-  operator?: string;
-  operand?: string;
-  operandType?: string;
+  or?: Predicate[] | undefined;
+  and?: Predicate[] | undefined;
+  field?: string | undefined;
+  operator?: string | undefined;
+  operand?: string | undefined;
+  operandType?: string | undefined;
 }
 export type PredicateList = Predicate[];
 export interface ComponentBindingPropertiesValueProperties {
-  model?: string;
-  field?: string;
-  predicates?: Predicate[];
-  userAttribute?: string;
-  bucket?: string;
-  key?: string;
-  defaultValue?: string;
-  slotName?: string;
+  model?: string | undefined;
+  field?: string | undefined;
+  predicates?: Predicate[] | undefined;
+  userAttribute?: string | undefined;
+  bucket?: string | undefined;
+  key?: string | undefined;
+  defaultValue?: string | undefined;
+  slotName?: string | undefined;
 }
 export interface ComponentBindingPropertiesValue {
-  type?: string;
-  bindingProperties?: ComponentBindingPropertiesValueProperties;
-  defaultValue?: string;
+  type?: string | undefined;
+  bindingProperties?: ComponentBindingPropertiesValueProperties | undefined;
+  defaultValue?: string | undefined;
 }
 export type ComponentBindingProperties = {
   [key: string]: ComponentBindingPropertiesValue | undefined;
@@ -252,9 +252,9 @@ export type SortPropertyList = SortProperty[];
 export type IdentifierList = string[];
 export interface ComponentDataConfiguration {
   model: string;
-  sort?: SortProperty[];
-  predicate?: Predicate;
-  identifiers?: string[];
+  sort?: SortProperty[] | undefined;
+  predicate?: Predicate | undefined;
+  identifiers?: string[] | undefined;
 }
 export type ComponentCollectionProperties = {
   [key: string]: ComponentDataConfiguration | undefined;
@@ -264,46 +264,46 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateComponentData {
   name: string;
-  sourceId?: string;
+  sourceId?: string | undefined;
   componentType: string;
   properties: { [key: string]: ComponentProperty | undefined };
-  children?: ComponentChild[];
+  children?: ComponentChild[] | undefined;
   variants: ComponentVariant[];
   overrides: { [key: string]: { [key: string]: string | undefined } | undefined };
   bindingProperties: { [key: string]: ComponentBindingPropertiesValue | undefined };
-  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined };
-  tags?: { [key: string]: string | undefined };
-  events?: { [key: string]: ComponentEvent | undefined };
-  schemaVersion?: string;
+  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  events?: { [key: string]: ComponentEvent | undefined } | undefined;
+  schemaVersion?: string | undefined;
 }
 export interface CreateComponentRequest {
   appId: string;
   environmentName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   componentToCreate: CreateComponentData;
 }
 export type Uuid = string;
 export interface Component {
   appId: string;
   environmentName: string;
-  sourceId?: string;
+  sourceId?: string | undefined;
   id: string;
   name: string;
   componentType: string;
   properties: { [key: string]: ComponentProperty | undefined };
-  children?: ComponentChild[];
+  children?: ComponentChild[] | undefined;
   variants: ComponentVariant[];
   overrides: { [key: string]: { [key: string]: string | undefined } | undefined };
   bindingProperties: { [key: string]: ComponentBindingPropertiesValue | undefined };
-  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined };
+  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined } | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  events?: { [key: string]: ComponentEvent | undefined };
-  schemaVersion?: string;
+  modifiedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  events?: { [key: string]: ComponentEvent | undefined } | undefined;
+  schemaVersion?: string | undefined;
 }
 export interface CreateComponentResponse {
-  entity?: Component;
+  entity?: Component | undefined;
 }
 export type FormName = string;
 export type FormDataSourceType = string;
@@ -319,105 +319,105 @@ export type FieldPosition =
   | { fixed?: never; rightOf?: never; below: string };
 export interface FormInputValuePropertyBindingProperties {
   property: string;
-  field?: string;
+  field?: string | undefined;
 }
 export type FormInputValuePropertyList = FormInputValueProperty[];
 export interface FormInputValueProperty {
-  value?: string;
-  bindingProperties?: FormInputValuePropertyBindingProperties;
-  concat?: FormInputValueProperty[];
+  value?: string | undefined;
+  bindingProperties?: FormInputValuePropertyBindingProperties | undefined;
+  concat?: FormInputValueProperty[] | undefined;
 }
 export interface ValueMapping {
-  displayValue?: FormInputValueProperty;
+  displayValue?: FormInputValueProperty | undefined;
   value: FormInputValueProperty;
 }
 export type ValueMappingList = ValueMapping[];
 export interface FormInputBindingPropertiesValueProperties {
-  model?: string;
+  model?: string | undefined;
 }
 export interface FormInputBindingPropertiesValue {
-  type?: string;
-  bindingProperties?: FormInputBindingPropertiesValueProperties;
+  type?: string | undefined;
+  bindingProperties?: FormInputBindingPropertiesValueProperties | undefined;
 }
 export type FormInputBindingProperties = {
   [key: string]: FormInputBindingPropertiesValue | undefined;
 };
 export interface ValueMappings {
   values: ValueMapping[];
-  bindingProperties?: { [key: string]: FormInputBindingPropertiesValue | undefined };
+  bindingProperties?: { [key: string]: FormInputBindingPropertiesValue | undefined } | undefined;
 }
 export type StorageAccessLevel = "public" | "protected" | "private" | (string & {});
 export type StrValues = string[];
 export interface FileUploaderFieldConfig {
   accessLevel: StorageAccessLevel;
   acceptedFileTypes: string[];
-  showThumbnails?: boolean;
-  isResumable?: boolean;
-  maxFileCount?: number;
-  maxSize?: number;
+  showThumbnails?: boolean | undefined;
+  isResumable?: boolean | undefined;
+  maxFileCount?: number | undefined;
+  maxSize?: number | undefined;
 }
 export interface FieldInputConfig {
   type: string;
-  required?: boolean;
-  readOnly?: boolean;
-  placeholder?: string;
-  defaultValue?: string;
-  descriptiveText?: string;
-  defaultChecked?: boolean;
-  defaultCountryCode?: string;
-  valueMappings?: ValueMappings;
-  name?: string;
-  minValue?: number;
-  maxValue?: number;
-  step?: number;
-  value?: string;
-  isArray?: boolean;
-  fileUploaderConfig?: FileUploaderFieldConfig;
+  required?: boolean | undefined;
+  readOnly?: boolean | undefined;
+  placeholder?: string | undefined;
+  defaultValue?: string | undefined;
+  descriptiveText?: string | undefined;
+  defaultChecked?: boolean | undefined;
+  defaultCountryCode?: string | undefined;
+  valueMappings?: ValueMappings | undefined;
+  name?: string | undefined;
+  minValue?: number | undefined;
+  maxValue?: number | undefined;
+  step?: number | undefined;
+  value?: string | undefined;
+  isArray?: boolean | undefined;
+  fileUploaderConfig?: FileUploaderFieldConfig | undefined;
 }
 export type NumValues = number[];
 export interface FieldValidationConfiguration {
   type: string;
-  strValues?: string[];
-  numValues?: number[];
-  validationMessage?: string;
+  strValues?: string[] | undefined;
+  numValues?: number[] | undefined;
+  validationMessage?: string | undefined;
 }
 export type ValidationsList = FieldValidationConfiguration[];
 export interface FieldConfig {
-  label?: string;
-  position?: FieldPosition;
-  excluded?: boolean;
-  inputType?: FieldInputConfig;
-  validations?: FieldValidationConfiguration[];
+  label?: string | undefined;
+  position?: FieldPosition | undefined;
+  excluded?: boolean | undefined;
+  inputType?: FieldInputConfig | undefined;
+  validations?: FieldValidationConfiguration[] | undefined;
 }
 export type FieldsMap = { [key: string]: FieldConfig | undefined };
 export type FormStyleConfig =
   | { tokenReference: string; value?: never }
   | { tokenReference?: never; value: string };
 export interface FormStyle {
-  horizontalGap?: FormStyleConfig;
-  verticalGap?: FormStyleConfig;
-  outerPadding?: FormStyleConfig;
+  horizontalGap?: FormStyleConfig | undefined;
+  verticalGap?: FormStyleConfig | undefined;
+  outerPadding?: FormStyleConfig | undefined;
 }
 export interface SectionalElement {
   type: string;
-  position?: FieldPosition;
-  text?: string;
-  level?: number;
-  orientation?: string;
-  excluded?: boolean;
+  position?: FieldPosition | undefined;
+  text?: string | undefined;
+  level?: number | undefined;
+  orientation?: string | undefined;
+  excluded?: boolean | undefined;
 }
 export type SectionalElementMap = { [key: string]: SectionalElement | undefined };
 export type FormButtonsPosition = "top" | "bottom" | "top_and_bottom" | (string & {});
 export interface FormButton {
-  excluded?: boolean;
-  children?: string;
-  position?: FieldPosition;
+  excluded?: boolean | undefined;
+  children?: string | undefined;
+  position?: FieldPosition | undefined;
 }
 export interface FormCTA {
-  position?: FormButtonsPosition;
-  clear?: FormButton;
-  cancel?: FormButton;
-  submit?: FormButton;
+  position?: FormButtonsPosition | undefined;
+  clear?: FormButton | undefined;
+  cancel?: FormButton | undefined;
+  submit?: FormButton | undefined;
 }
 export type LabelDecorator = string;
 export interface CreateFormData {
@@ -428,14 +428,14 @@ export interface CreateFormData {
   style: FormStyle;
   sectionalElements: { [key: string]: SectionalElement | undefined };
   schemaVersion: string;
-  cta?: FormCTA;
-  tags?: { [key: string]: string | undefined };
-  labelDecorator?: string;
+  cta?: FormCTA | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  labelDecorator?: string | undefined;
 }
 export interface CreateFormRequest {
   appId: string;
   environmentName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   formToCreate: CreateFormData;
 }
 export interface Form {
@@ -449,33 +449,33 @@ export interface Form {
   fields: { [key: string]: FieldConfig | undefined };
   sectionalElements: { [key: string]: SectionalElement | undefined };
   schemaVersion: string;
-  tags?: { [key: string]: string | undefined };
-  cta?: FormCTA;
-  labelDecorator?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  cta?: FormCTA | undefined;
+  labelDecorator?: string | undefined;
 }
 export interface CreateFormResponse {
-  entity?: Form;
+  entity?: Form | undefined;
 }
 export type ThemeName = string;
 export interface ThemeValue {
-  value?: string;
-  children?: ThemeValues[];
+  value?: string | undefined;
+  children?: ThemeValues[] | undefined;
 }
 export interface ThemeValues {
-  key?: string;
-  value?: ThemeValue;
+  key?: string | undefined;
+  value?: ThemeValue | undefined;
 }
 export type ThemeValuesList = ThemeValues[];
 export interface CreateThemeData {
   name: string;
   values: ThemeValues[];
-  overrides?: ThemeValues[];
-  tags?: { [key: string]: string | undefined };
+  overrides?: ThemeValues[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateThemeRequest {
   appId: string;
   environmentName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   themeToCreate: CreateThemeData;
 }
 export interface Theme {
@@ -484,13 +484,13 @@ export interface Theme {
   id: string;
   name: string;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
   values: ThemeValues[];
-  overrides?: ThemeValues[];
-  tags?: { [key: string]: string | undefined };
+  overrides?: ThemeValues[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateThemeResponse {
-  entity?: Theme;
+  entity?: Theme | undefined;
 }
 export interface DeleteComponentRequest {
   appId: string;
@@ -515,7 +515,7 @@ export type SensitiveString = string | redacted.Redacted<string>;
 export interface ExchangeCodeForTokenRequestBody {
   code: string | redacted.Redacted<string>;
   redirectUri: string;
-  clientId?: string | redacted.Redacted<string>;
+  clientId?: string | redacted.Redacted<string> | undefined;
 }
 export interface ExchangeCodeForTokenRequest {
   provider: string;
@@ -529,32 +529,32 @@ export interface ExchangeCodeForTokenResponse {
 export interface ExportComponentsRequest {
   appId: string;
   environmentName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ComponentList = Component[];
 export interface ExportComponentsResponse {
   entities: Component[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ExportFormsRequest {
   appId: string;
   environmentName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type FormList = Form[];
 export interface ExportFormsResponse {
   entities: Form[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ExportThemesRequest {
   appId: string;
   environmentName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ThemeList = Theme[];
 export interface ExportThemesResponse {
   entities: Theme[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AppId = string;
 export interface GetCodegenJobRequest {
@@ -580,13 +580,13 @@ export type ApiConfiguration =
   | { graphQLConfig?: never; dataStoreConfig?: never; noApiConfig: NoApiRenderConfig };
 export type ReactCodegenDependencies = { [key: string]: string | undefined };
 export interface ReactStartCodegenJobData {
-  module?: JSModule;
-  target?: JSTarget;
-  script?: JSScript;
-  renderTypeDeclarations?: boolean;
-  inlineSourceMap?: boolean;
-  apiConfiguration?: ApiConfiguration;
-  dependencies?: { [key: string]: string | undefined };
+  module?: JSModule | undefined;
+  target?: JSTarget | undefined;
+  script?: JSScript | undefined;
+  renderTypeDeclarations?: boolean | undefined;
+  inlineSourceMap?: boolean | undefined;
+  apiConfiguration?: ApiConfiguration | undefined;
+  dependencies?: { [key: string]: string | undefined } | undefined;
 }
 export type CodegenJobRenderConfig = { react: ReactStartCodegenJobData };
 export type CodegenJobGenericDataSourceType = "DataStore" | (string & {});
@@ -615,13 +615,13 @@ export type AssociatedFieldsList = string[];
 export interface CodegenGenericDataRelationshipType {
   type: GenericDataRelationshipType;
   relatedModelName: string;
-  relatedModelFields?: string[];
-  canUnlinkAssociatedModel?: boolean;
-  relatedJoinFieldName?: string;
-  relatedJoinTableName?: string;
-  belongsToFieldOnRelatedModel?: string;
-  associatedFields?: string[];
-  isHasManyIndex?: boolean;
+  relatedModelFields?: string[] | undefined;
+  canUnlinkAssociatedModel?: boolean | undefined;
+  relatedJoinFieldName?: string | undefined;
+  relatedJoinTableName?: string | undefined;
+  belongsToFieldOnRelatedModel?: string | undefined;
+  associatedFields?: string[] | undefined;
+  isHasManyIndex?: boolean | undefined;
 }
 export interface CodegenGenericDataField {
   dataType: CodegenGenericDataFieldDataType;
@@ -629,13 +629,13 @@ export interface CodegenGenericDataField {
   required: boolean;
   readOnly: boolean;
   isArray: boolean;
-  relationship?: CodegenGenericDataRelationshipType;
+  relationship?: CodegenGenericDataRelationshipType | undefined;
 }
 export type CodegenGenericDataFields = { [key: string]: CodegenGenericDataField | undefined };
 export type CodegenPrimaryKeysList = string[];
 export interface CodegenGenericDataModel {
   fields: { [key: string]: CodegenGenericDataField | undefined };
-  isJoinTable?: boolean;
+  isJoinTable?: boolean | undefined;
   primaryKeys: string[];
 }
 export type CodegenGenericDataModels = { [key: string]: CodegenGenericDataModel | undefined };
@@ -658,38 +658,38 @@ export interface CodegenJobGenericDataSchema {
   nonModels: { [key: string]: CodegenGenericDataNonModel | undefined };
 }
 export interface CodegenFeatureFlags {
-  isRelationshipSupported?: boolean;
-  isNonModelSupported?: boolean;
+  isRelationshipSupported?: boolean | undefined;
+  isNonModelSupported?: boolean | undefined;
 }
 export type CodegenJobStatus = "in_progress" | "failed" | "succeeded" | (string & {});
 export interface CodegenJobAsset {
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
 }
 export interface CodegenDependency {
-  name?: string;
-  supportedVersion?: string;
-  isSemVer?: boolean;
-  reason?: string;
+  name?: string | undefined;
+  supportedVersion?: string | undefined;
+  isSemVer?: boolean | undefined;
+  reason?: string | undefined;
 }
 export type CodegenDependencies = CodegenDependency[];
 export interface CodegenJob {
   id: string;
   appId: string;
   environmentName: string;
-  renderConfig?: CodegenJobRenderConfig;
-  genericDataSchema?: CodegenJobGenericDataSchema;
-  autoGenerateForms?: boolean;
-  features?: CodegenFeatureFlags;
-  status?: CodegenJobStatus;
-  statusMessage?: string;
-  asset?: CodegenJobAsset;
-  tags?: { [key: string]: string | undefined };
-  createdAt?: Date;
-  modifiedAt?: Date;
-  dependencies?: CodegenDependency[];
+  renderConfig?: CodegenJobRenderConfig | undefined;
+  genericDataSchema?: CodegenJobGenericDataSchema | undefined;
+  autoGenerateForms?: boolean | undefined;
+  features?: CodegenFeatureFlags | undefined;
+  status?: CodegenJobStatus | undefined;
+  statusMessage?: string | undefined;
+  asset?: CodegenJobAsset | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  dependencies?: CodegenDependency[] | undefined;
 }
 export interface GetCodegenJobResponse {
-  job?: CodegenJob;
+  job?: CodegenJob | undefined;
 }
 export interface GetComponentRequest {
   appId: string;
@@ -697,7 +697,7 @@ export interface GetComponentRequest {
   id: string;
 }
 export interface GetComponentResponse {
-  component?: Component;
+  component?: Component | undefined;
 }
 export interface GetFormRequest {
   appId: string;
@@ -705,7 +705,7 @@ export interface GetFormRequest {
   id: string;
 }
 export interface GetFormResponse {
-  form?: Form;
+  form?: Form | undefined;
 }
 export interface GetMetadataRequest {
   appId: string;
@@ -721,33 +721,33 @@ export interface GetThemeRequest {
   id: string;
 }
 export interface GetThemeResponse {
-  theme?: Theme;
+  theme?: Theme | undefined;
 }
 export type ListCodegenJobsLimit = number;
 export interface ListCodegenJobsRequest {
   appId: string;
   environmentName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CodegenJobSummary {
   appId: string;
   environmentName: string;
   id: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
 }
 export type CodegenJobSummaryList = CodegenJobSummary[];
 export interface ListCodegenJobsResponse {
   entities: CodegenJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListEntityLimit = number;
 export interface ListComponentsRequest {
   appId: string;
   environmentName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ComponentSummary {
   appId: string;
@@ -759,13 +759,13 @@ export interface ComponentSummary {
 export type ComponentSummaryList = ComponentSummary[];
 export interface ListComponentsResponse {
   entities: ComponentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFormsRequest {
   appId: string;
   environmentName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FormSummary {
   appId: string;
@@ -778,7 +778,7 @@ export interface FormSummary {
 export type FormSummaryList = FormSummary[];
 export interface ListFormsResponse {
   entities: FormSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -789,8 +789,8 @@ export interface ListTagsForResourceResponse {
 export interface ListThemesRequest {
   appId: string;
   environmentName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ThemeSummary {
   appId: string;
@@ -801,7 +801,7 @@ export interface ThemeSummary {
 export type ThemeSummaryList = ThemeSummary[];
 export interface ListThemesResponse {
   entities: ThemeSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutMetadataFlagBody {
   newValue: string;
@@ -815,7 +815,7 @@ export interface PutMetadataFlagRequest {
 export interface PutMetadataFlagResponse {}
 export interface RefreshTokenRequestBody {
   token: string | redacted.Redacted<string>;
-  clientId?: string | redacted.Redacted<string>;
+  clientId?: string | redacted.Redacted<string> | undefined;
 }
 export interface RefreshTokenRequest {
   provider: string;
@@ -827,19 +827,19 @@ export interface RefreshTokenResponse {
 }
 export interface StartCodegenJobData {
   renderConfig: CodegenJobRenderConfig;
-  genericDataSchema?: CodegenJobGenericDataSchema;
-  autoGenerateForms?: boolean;
-  features?: CodegenFeatureFlags;
-  tags?: { [key: string]: string | undefined };
+  genericDataSchema?: CodegenJobGenericDataSchema | undefined;
+  autoGenerateForms?: boolean | undefined;
+  features?: CodegenFeatureFlags | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartCodegenJobRequest {
   appId: string;
   environmentName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   codegenJobToCreate: StartCodegenJobData;
 }
 export interface StartCodegenJobResponse {
-  entity?: CodegenJob;
+  entity?: CodegenJob | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -853,65 +853,65 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateComponentData {
-  id?: string;
-  name?: string;
-  sourceId?: string;
-  componentType?: string;
-  properties?: { [key: string]: ComponentProperty | undefined };
-  children?: ComponentChild[];
-  variants?: ComponentVariant[];
-  overrides?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  bindingProperties?: { [key: string]: ComponentBindingPropertiesValue | undefined };
-  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined };
-  events?: { [key: string]: ComponentEvent | undefined };
-  schemaVersion?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  sourceId?: string | undefined;
+  componentType?: string | undefined;
+  properties?: { [key: string]: ComponentProperty | undefined } | undefined;
+  children?: ComponentChild[] | undefined;
+  variants?: ComponentVariant[] | undefined;
+  overrides?: { [key: string]: { [key: string]: string | undefined } | undefined } | undefined;
+  bindingProperties?: { [key: string]: ComponentBindingPropertiesValue | undefined } | undefined;
+  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined } | undefined;
+  events?: { [key: string]: ComponentEvent | undefined } | undefined;
+  schemaVersion?: string | undefined;
 }
 export interface UpdateComponentRequest {
   appId: string;
   environmentName: string;
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   updatedComponent: UpdateComponentData;
 }
 export interface UpdateComponentResponse {
-  entity?: Component;
+  entity?: Component | undefined;
 }
 export interface UpdateFormData {
-  name?: string;
-  dataType?: FormDataTypeConfig;
-  formActionType?: FormActionType;
-  fields?: { [key: string]: FieldConfig | undefined };
-  style?: FormStyle;
-  sectionalElements?: { [key: string]: SectionalElement | undefined };
-  schemaVersion?: string;
-  cta?: FormCTA;
-  labelDecorator?: string;
+  name?: string | undefined;
+  dataType?: FormDataTypeConfig | undefined;
+  formActionType?: FormActionType | undefined;
+  fields?: { [key: string]: FieldConfig | undefined } | undefined;
+  style?: FormStyle | undefined;
+  sectionalElements?: { [key: string]: SectionalElement | undefined } | undefined;
+  schemaVersion?: string | undefined;
+  cta?: FormCTA | undefined;
+  labelDecorator?: string | undefined;
 }
 export interface UpdateFormRequest {
   appId: string;
   environmentName: string;
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   updatedForm: UpdateFormData;
 }
 export interface UpdateFormResponse {
-  entity?: Form;
+  entity?: Form | undefined;
 }
 export interface UpdateThemeData {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   values: ThemeValues[];
-  overrides?: ThemeValues[];
+  overrides?: ThemeValues[] | undefined;
 }
 export interface UpdateThemeRequest {
   appId: string;
   environmentName: string;
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   updatedTheme: UpdateThemeData;
 }
 export interface UpdateThemeResponse {
-  entity?: Theme;
+  entity?: Theme | undefined;
 }
 export type CreateComponentError =
   | InternalServerException

@@ -204,13 +204,13 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateAppInstanceRequest {
   Name: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ClientRequestToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ChimeArn = string;
 export interface CreateAppInstanceResponse {
-  AppInstanceArn?: string;
+  AppInstanceArn?: string | undefined;
 }
 export interface CreateAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
@@ -218,12 +218,12 @@ export interface CreateAppInstanceAdminRequest {
 }
 export type ResourceName = string | redacted.Redacted<string>;
 export interface Identity {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateAppInstanceAdminResponse {
-  AppInstanceAdmin?: Identity;
-  AppInstanceArn?: string;
+  AppInstanceAdmin?: Identity | undefined;
+  AppInstanceArn?: string | undefined;
 }
 export type RespondsTo = "STANDARD_MESSAGES" | (string & {});
 export type StandardMessages = "AUTO" | "ALL" | "MENTIONS" | "NONE" | (string & {});
@@ -235,25 +235,25 @@ export interface InvokedBy {
 export type LexBotAliasArn = string;
 export type LexIntentName = string;
 export interface LexConfiguration {
-  RespondsTo?: RespondsTo;
-  InvokedBy?: InvokedBy;
+  RespondsTo?: RespondsTo | undefined;
+  InvokedBy?: InvokedBy | undefined;
   LexBotAliasArn: string;
   LocaleId: string;
-  WelcomeIntent?: string;
+  WelcomeIntent?: string | undefined;
 }
 export interface Configuration {
   Lex: LexConfiguration;
 }
 export interface CreateAppInstanceBotRequest {
   AppInstanceArn: string;
-  Name?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ClientRequestToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   Configuration: Configuration;
 }
 export interface CreateAppInstanceBotResponse {
-  AppInstanceBotArn?: string;
+  AppInstanceBotArn?: string | undefined;
 }
 export type UserId = string | redacted.Redacted<string>;
 export type UserName = string | redacted.Redacted<string>;
@@ -267,13 +267,13 @@ export interface CreateAppInstanceUserRequest {
   AppInstanceArn: string;
   AppInstanceUserId: string | redacted.Redacted<string>;
   Name: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ClientRequestToken: string;
-  Tags?: Tag[];
-  ExpirationSettings?: ExpirationSettings;
+  Tags?: Tag[] | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface CreateAppInstanceUserResponse {
-  AppInstanceUserArn?: string;
+  AppInstanceUserArn?: string | undefined;
 }
 export interface DeleteAppInstanceRequest {
   AppInstanceArn: string;
@@ -302,54 +302,54 @@ export interface DescribeAppInstanceRequest {
   AppInstanceArn: string;
 }
 export interface AppInstance {
-  AppInstanceArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  Metadata?: string | redacted.Redacted<string>;
+  AppInstanceArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
 }
 export interface DescribeAppInstanceResponse {
-  AppInstance?: AppInstance;
+  AppInstance?: AppInstance | undefined;
 }
 export interface DescribeAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
 }
 export interface AppInstanceAdmin {
-  Admin?: Identity;
-  AppInstanceArn?: string;
-  CreatedTimestamp?: Date;
+  Admin?: Identity | undefined;
+  AppInstanceArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface DescribeAppInstanceAdminResponse {
-  AppInstanceAdmin?: AppInstanceAdmin;
+  AppInstanceAdmin?: AppInstanceAdmin | undefined;
 }
 export interface DescribeAppInstanceBotRequest {
   AppInstanceBotArn: string;
 }
 export interface AppInstanceBot {
-  AppInstanceBotArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Configuration?: Configuration;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  Metadata?: string | redacted.Redacted<string>;
+  AppInstanceBotArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Configuration?: Configuration | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
 }
 export interface DescribeAppInstanceBotResponse {
-  AppInstanceBot?: AppInstanceBot;
+  AppInstanceBot?: AppInstanceBot | undefined;
 }
 export interface DescribeAppInstanceUserRequest {
   AppInstanceUserArn: string;
 }
 export interface AppInstanceUser {
-  AppInstanceUserArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  ExpirationSettings?: ExpirationSettings;
+  AppInstanceUserArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface DescribeAppInstanceUserResponse {
-  AppInstanceUser?: AppInstanceUser;
+  AppInstanceUser?: AppInstanceUser | undefined;
 }
 export type String1600 = string;
 export interface DescribeAppInstanceUserEndpointRequest {
@@ -361,159 +361,159 @@ export type AppInstanceUserEndpointType = "APNS" | "APNS_SANDBOX" | "GCM" | (str
 export type NonEmptySensitiveString1600 = string | redacted.Redacted<string>;
 export interface EndpointAttributes {
   DeviceToken: string | redacted.Redacted<string>;
-  VoipDeviceToken?: string | redacted.Redacted<string>;
+  VoipDeviceToken?: string | redacted.Redacted<string> | undefined;
 }
 export type AllowMessages = "ALL" | "NONE" | (string & {});
 export type EndpointStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export type EndpointStatusReason = "INVALID_DEVICE_TOKEN" | "INVALID_PINPOINT_ARN" | (string & {});
 export interface EndpointState {
   Status: EndpointStatus;
-  StatusReason?: EndpointStatusReason;
+  StatusReason?: EndpointStatusReason | undefined;
 }
 export interface AppInstanceUserEndpoint {
-  AppInstanceUserArn?: string;
-  EndpointId?: string;
-  Name?: string | redacted.Redacted<string>;
-  Type?: AppInstanceUserEndpointType;
-  ResourceArn?: string;
-  EndpointAttributes?: EndpointAttributes;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  AllowMessages?: AllowMessages;
-  EndpointState?: EndpointState;
+  AppInstanceUserArn?: string | undefined;
+  EndpointId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Type?: AppInstanceUserEndpointType | undefined;
+  ResourceArn?: string | undefined;
+  EndpointAttributes?: EndpointAttributes | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  AllowMessages?: AllowMessages | undefined;
+  EndpointState?: EndpointState | undefined;
 }
 export interface DescribeAppInstanceUserEndpointResponse {
-  AppInstanceUserEndpoint?: AppInstanceUserEndpoint;
+  AppInstanceUserEndpoint?: AppInstanceUserEndpoint | undefined;
 }
 export interface GetAppInstanceRetentionSettingsRequest {
   AppInstanceArn: string;
 }
 export type RetentionDays = number;
 export interface ChannelRetentionSettings {
-  RetentionDays?: number;
+  RetentionDays?: number | undefined;
 }
 export interface AppInstanceRetentionSettings {
-  ChannelRetentionSettings?: ChannelRetentionSettings;
+  ChannelRetentionSettings?: ChannelRetentionSettings | undefined;
 }
 export interface GetAppInstanceRetentionSettingsResponse {
-  AppInstanceRetentionSettings?: AppInstanceRetentionSettings;
-  InitiateDeletionTimestamp?: Date;
+  AppInstanceRetentionSettings?: AppInstanceRetentionSettings | undefined;
+  InitiateDeletionTimestamp?: Date | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string | redacted.Redacted<string>;
 export interface ListAppInstanceAdminsRequest {
   AppInstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface AppInstanceAdminSummary {
-  Admin?: Identity;
+  Admin?: Identity | undefined;
 }
 export type AppInstanceAdminList = AppInstanceAdminSummary[];
 export interface ListAppInstanceAdminsResponse {
-  AppInstanceArn?: string;
-  AppInstanceAdmins?: AppInstanceAdminSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceArn?: string | undefined;
+  AppInstanceAdmins?: AppInstanceAdminSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListAppInstanceBotsRequest {
   AppInstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface AppInstanceBotSummary {
-  AppInstanceBotArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  AppInstanceBotArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
 }
 export type AppInstanceBotList = AppInstanceBotSummary[];
 export interface ListAppInstanceBotsResponse {
-  AppInstanceArn?: string;
-  AppInstanceBots?: AppInstanceBotSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceArn?: string | undefined;
+  AppInstanceBots?: AppInstanceBotSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListAppInstancesRequest {
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface AppInstanceSummary {
-  AppInstanceArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  AppInstanceArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
 }
 export type AppInstanceList = AppInstanceSummary[];
 export interface ListAppInstancesResponse {
-  AppInstances?: AppInstanceSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstances?: AppInstanceSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type SensitiveChimeArn = string | redacted.Redacted<string>;
 export interface ListAppInstanceUserEndpointsRequest {
   AppInstanceUserArn: string | redacted.Redacted<string>;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface AppInstanceUserEndpointSummary {
-  AppInstanceUserArn?: string;
-  EndpointId?: string;
-  Name?: string | redacted.Redacted<string>;
-  Type?: AppInstanceUserEndpointType;
-  AllowMessages?: AllowMessages;
-  EndpointState?: EndpointState;
+  AppInstanceUserArn?: string | undefined;
+  EndpointId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Type?: AppInstanceUserEndpointType | undefined;
+  AllowMessages?: AllowMessages | undefined;
+  EndpointState?: EndpointState | undefined;
 }
 export type AppInstanceUserEndpointSummaryList = AppInstanceUserEndpointSummary[];
 export interface ListAppInstanceUserEndpointsResponse {
-  AppInstanceUserEndpoints?: AppInstanceUserEndpointSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceUserEndpoints?: AppInstanceUserEndpointSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListAppInstanceUsersRequest {
   AppInstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface AppInstanceUserSummary {
-  AppInstanceUserArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  AppInstanceUserArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
 }
 export type AppInstanceUserList = AppInstanceUserSummary[];
 export interface ListAppInstanceUsersResponse {
-  AppInstanceArn?: string;
-  AppInstanceUsers?: AppInstanceUserSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceArn?: string | undefined;
+  AppInstanceUsers?: AppInstanceUserSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutAppInstanceRetentionSettingsRequest {
   AppInstanceArn: string;
   AppInstanceRetentionSettings: AppInstanceRetentionSettings;
 }
 export interface PutAppInstanceRetentionSettingsResponse {
-  AppInstanceRetentionSettings?: AppInstanceRetentionSettings;
-  InitiateDeletionTimestamp?: Date;
+  AppInstanceRetentionSettings?: AppInstanceRetentionSettings | undefined;
+  InitiateDeletionTimestamp?: Date | undefined;
 }
 export interface PutAppInstanceUserExpirationSettingsRequest {
   AppInstanceUserArn: string;
-  ExpirationSettings?: ExpirationSettings;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface PutAppInstanceUserExpirationSettingsResponse {
-  AppInstanceUserArn?: string;
-  ExpirationSettings?: ExpirationSettings;
+  AppInstanceUserArn?: string | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface RegisterAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
   Type: AppInstanceUserEndpointType;
   ResourceArn: string;
   EndpointAttributes: EndpointAttributes;
   ClientRequestToken: string;
-  AllowMessages?: AllowMessages;
+  AllowMessages?: AllowMessages | undefined;
 }
 export interface RegisterAppInstanceUserEndpointResponse {
-  AppInstanceUserArn?: string;
-  EndpointId?: string;
+  AppInstanceUserArn?: string | undefined;
+  EndpointId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -532,16 +532,16 @@ export interface UpdateAppInstanceRequest {
   Metadata: string | redacted.Redacted<string>;
 }
 export interface UpdateAppInstanceResponse {
-  AppInstanceArn?: string;
+  AppInstanceArn?: string | undefined;
 }
 export interface UpdateAppInstanceBotRequest {
   AppInstanceBotArn: string;
   Name: string | redacted.Redacted<string>;
   Metadata: string | redacted.Redacted<string>;
-  Configuration?: Configuration;
+  Configuration?: Configuration | undefined;
 }
 export interface UpdateAppInstanceBotResponse {
-  AppInstanceBotArn?: string;
+  AppInstanceBotArn?: string | undefined;
 }
 export interface UpdateAppInstanceUserRequest {
   AppInstanceUserArn: string;
@@ -549,17 +549,17 @@ export interface UpdateAppInstanceUserRequest {
   Metadata: string | redacted.Redacted<string>;
 }
 export interface UpdateAppInstanceUserResponse {
-  AppInstanceUserArn?: string;
+  AppInstanceUserArn?: string | undefined;
 }
 export interface UpdateAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
-  Name?: string | redacted.Redacted<string>;
-  AllowMessages?: AllowMessages;
+  Name?: string | redacted.Redacted<string> | undefined;
+  AllowMessages?: AllowMessages | undefined;
 }
 export interface UpdateAppInstanceUserEndpointResponse {
-  AppInstanceUserArn?: string;
-  EndpointId?: string;
+  AppInstanceUserArn?: string | undefined;
+  EndpointId?: string | undefined;
 }
 export type ErrorCode =
   | "BadRequest"

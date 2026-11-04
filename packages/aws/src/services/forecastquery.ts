@@ -129,34 +129,34 @@ export type Filters = { [key: string]: string | undefined };
 export type NextToken = string;
 export interface QueryForecastRequest {
   ForecastArn: string;
-  StartDate?: string;
-  EndDate?: string;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
   Filters: { [key: string]: string | undefined };
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Statistic = string;
 export interface DataPoint {
-  Timestamp?: string;
-  Value?: number;
+  Timestamp?: string | undefined;
+  Value?: number | undefined;
 }
 export type TimeSeries = DataPoint[];
 export type Predictions = { [key: string]: DataPoint[] | undefined };
 export interface Forecast {
-  Predictions?: { [key: string]: DataPoint[] | undefined };
+  Predictions?: { [key: string]: DataPoint[] | undefined } | undefined;
 }
 export interface QueryForecastResponse {
-  Forecast?: Forecast;
+  Forecast?: Forecast | undefined;
 }
 export type LongArn = string;
 export interface QueryWhatIfForecastRequest {
   WhatIfForecastArn: string;
-  StartDate?: string;
-  EndDate?: string;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
   Filters: { [key: string]: string | undefined };
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface QueryWhatIfForecastResponse {
-  Forecast?: Forecast;
+  Forecast?: Forecast | undefined;
 }
 export type ErrorMessage = string;
 export type QueryForecastError =

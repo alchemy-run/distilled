@@ -159,33 +159,33 @@ export type TransformationToolName = string;
 export type TranformationToolDescription = string;
 export type TranformationToolInstallationLink = string;
 export interface TransformationTool {
-  name?: string;
-  description?: string;
-  tranformationToolInstallationLink?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  tranformationToolInstallationLink?: string | undefined;
 }
 export type TargetDestination = string;
 export type Strategy = string;
 export interface RecommendationSet {
-  transformationTool?: TransformationTool;
-  targetDestination?: string;
-  strategy?: string;
+  transformationTool?: TransformationTool | undefined;
+  targetDestination?: string | undefined;
+  strategy?: string | undefined;
 }
 export type SrcCodeOrDbAnalysisStatus = string;
 export type StatusMessage = string;
 export type Severity = string;
 export interface AntipatternSeveritySummary {
-  severity?: string;
-  count?: number;
+  severity?: string | undefined;
+  count?: number | undefined;
 }
 export type ListAntipatternSeveritySummary = AntipatternSeveritySummary[];
 export interface DatabaseConfigDetail {
-  secretName?: string;
+  secretName?: string | undefined;
 }
 export interface SourceCodeRepository {
-  repository?: string;
-  branch?: string;
-  versionControlType?: string;
-  projectName?: string;
+  repository?: string | undefined;
+  branch?: string | undefined;
+  versionControlType?: string | undefined;
+  projectName?: string | undefined;
 }
 export type SourceCodeRepositories = SourceCodeRepository[];
 export type AppType = string;
@@ -194,15 +194,15 @@ export type InclusionStatus = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export interface S3Object {
-  s3Bucket?: string;
-  s3key?: string;
+  s3Bucket?: string | undefined;
+  s3key?: string | undefined;
 }
 export type AntipatternReportStatus = string;
 export type ServerId = string;
 export type RuntimeAnalysisStatus = string;
 export type AppUnitErrorCategory = string;
 export interface AppUnitError {
-  appUnitErrorCategory?: string;
+  appUnitErrorCategory?: string | undefined;
 }
 export type AnalysisType = string;
 export type AnalysisStatusUnion =
@@ -216,68 +216,68 @@ export type AnalyzerNameUnion =
   | { binaryAnalyzerName?: never; runTimeAnalyzerName: string; sourceCodeAnalyzerName?: never }
   | { binaryAnalyzerName?: never; runTimeAnalyzerName?: never; sourceCodeAnalyzerName: string };
 export interface AntipatternReportResult {
-  analyzerName?: AnalyzerNameUnion;
-  antiPatternReportS3Object?: S3Object;
-  antipatternReportStatus?: string;
-  antipatternReportStatusMessage?: string;
+  analyzerName?: AnalyzerNameUnion | undefined;
+  antiPatternReportS3Object?: S3Object | undefined;
+  antipatternReportStatus?: string | undefined;
+  antipatternReportStatusMessage?: string | undefined;
 }
 export type AntipatternReportResultList = AntipatternReportResult[];
 export interface Result {
-  analysisType?: string;
-  analysisStatus?: AnalysisStatusUnion;
-  statusMessage?: string;
-  antipatternReportResultList?: AntipatternReportResult[];
+  analysisType?: string | undefined;
+  analysisStatus?: AnalysisStatusUnion | undefined;
+  statusMessage?: string | undefined;
+  antipatternReportResultList?: AntipatternReportResult[] | undefined;
 }
 export type ResultList = Result[];
 export interface ApplicationComponentDetail {
-  id?: string;
-  name?: string;
-  recommendationSet?: RecommendationSet;
-  analysisStatus?: string;
-  statusMessage?: string;
-  listAntipatternSeveritySummary?: AntipatternSeveritySummary[];
-  databaseConfigDetail?: DatabaseConfigDetail;
-  sourceCodeRepositories?: SourceCodeRepository[];
-  appType?: string;
-  resourceSubType?: string;
-  inclusionStatus?: string;
-  antipatternReportS3Object?: S3Object;
-  antipatternReportStatus?: string;
-  antipatternReportStatusMessage?: string;
-  osVersion?: string;
-  osDriver?: string;
-  lastAnalyzedTimestamp?: Date;
-  associatedServerId?: string;
-  moreServerAssociationExists?: boolean;
-  runtimeStatus?: string;
-  runtimeStatusMessage?: string;
-  appUnitError?: AppUnitError;
-  resultList?: Result[];
+  id?: string | undefined;
+  name?: string | undefined;
+  recommendationSet?: RecommendationSet | undefined;
+  analysisStatus?: string | undefined;
+  statusMessage?: string | undefined;
+  listAntipatternSeveritySummary?: AntipatternSeveritySummary[] | undefined;
+  databaseConfigDetail?: DatabaseConfigDetail | undefined;
+  sourceCodeRepositories?: SourceCodeRepository[] | undefined;
+  appType?: string | undefined;
+  resourceSubType?: string | undefined;
+  inclusionStatus?: string | undefined;
+  antipatternReportS3Object?: S3Object | undefined;
+  antipatternReportStatus?: string | undefined;
+  antipatternReportStatusMessage?: string | undefined;
+  osVersion?: string | undefined;
+  osDriver?: string | undefined;
+  lastAnalyzedTimestamp?: Date | undefined;
+  associatedServerId?: string | undefined;
+  moreServerAssociationExists?: boolean | undefined;
+  runtimeStatus?: string | undefined;
+  runtimeStatusMessage?: string | undefined;
+  appUnitError?: AppUnitError | undefined;
+  resultList?: Result[] | undefined;
 }
 export interface AssociatedApplication {
-  name?: string;
-  id?: string;
+  name?: string | undefined;
+  id?: string | undefined;
 }
 export type AssociatedApplications = AssociatedApplication[];
 export type AssociatedServerIDs = string[];
 export interface GetApplicationComponentDetailsResponse {
-  applicationComponentDetail?: ApplicationComponentDetail;
-  associatedApplications?: AssociatedApplication[];
-  moreApplicationResource?: boolean;
-  associatedServerIds?: string[];
+  applicationComponentDetail?: ApplicationComponentDetail | undefined;
+  associatedApplications?: AssociatedApplication[] | undefined;
+  moreApplicationResource?: boolean | undefined;
+  associatedServerIds?: string[] | undefined;
 }
 export interface GetApplicationComponentStrategiesRequest {
   applicationComponentId: string;
 }
 export type StrategyRecommendation = string;
 export interface ApplicationComponentStrategy {
-  recommendation?: RecommendationSet;
-  status?: string;
-  isPreferred?: boolean;
+  recommendation?: RecommendationSet | undefined;
+  status?: string | undefined;
+  isPreferred?: boolean | undefined;
 }
 export type ApplicationComponentStrategies = ApplicationComponentStrategy[];
 export interface GetApplicationComponentStrategiesResponse {
-  applicationComponentStrategies?: ApplicationComponentStrategy[];
+  applicationComponentStrategies?: ApplicationComponentStrategy[] | undefined;
 }
 export type AsyncTaskId = string;
 export interface GetAssessmentRequest {
@@ -286,14 +286,14 @@ export interface GetAssessmentRequest {
 export type AssessmentStatus = string;
 export type AssessmentStatusMessage = string;
 export interface DataCollectionDetails {
-  status?: string;
-  servers?: number;
-  failed?: number;
-  success?: number;
-  inProgress?: number;
-  startTime?: Date;
-  completionTime?: Date;
-  statusMessage?: string;
+  status?: string | undefined;
+  servers?: number | undefined;
+  failed?: number | undefined;
+  success?: number | undefined;
+  inProgress?: number | undefined;
+  startTime?: Date | undefined;
+  completionTime?: Date | undefined;
+  statusMessage?: string | undefined;
 }
 export type Condition = string;
 export type AssessmentTargetValues = string[];
@@ -304,9 +304,9 @@ export interface AssessmentTarget {
 }
 export type AssessmentTargets = AssessmentTarget[];
 export interface GetAssessmentResponse {
-  id?: string;
-  dataCollectionDetails?: DataCollectionDetails;
-  assessmentTargets?: AssessmentTarget[];
+  id?: string | undefined;
+  dataCollectionDetails?: DataCollectionDetails | undefined;
+  assessmentTargets?: AssessmentTarget[] | undefined;
 }
 export interface GetImportFileTaskRequest {
   id: string;
@@ -315,32 +315,32 @@ export type ImportFileTaskStatus = string;
 export type ImportS3Bucket = string;
 export type ImportS3Key = string;
 export interface GetImportFileTaskResponse {
-  id?: string;
-  status?: string;
-  startTime?: Date;
-  inputS3Bucket?: string;
-  inputS3Key?: string;
-  statusReportS3Bucket?: string;
-  statusReportS3Key?: string;
-  completionTime?: Date;
-  numberOfRecordsSuccess?: number;
-  numberOfRecordsFailed?: number;
-  importName?: string;
+  id?: string | undefined;
+  status?: string | undefined;
+  startTime?: Date | undefined;
+  inputS3Bucket?: string | undefined;
+  inputS3Key?: string | undefined;
+  statusReportS3Bucket?: string | undefined;
+  statusReportS3Key?: string | undefined;
+  completionTime?: Date | undefined;
+  numberOfRecordsSuccess?: number | undefined;
+  numberOfRecordsFailed?: number | undefined;
+  importName?: string | undefined;
 }
 export interface GetLatestAssessmentIdRequest {}
 export interface GetLatestAssessmentIdResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetPortfolioPreferencesRequest {}
 export type BusinessGoalsInteger = number;
 export interface BusinessGoals {
-  speedOfMigration?: number;
-  reduceOperationalOverheadWithManagedServices?: number;
-  modernizeInfrastructureWithCloudNativeTechnologies?: number;
-  licenseCostReduction?: number;
+  speedOfMigration?: number | undefined;
+  reduceOperationalOverheadWithManagedServices?: number | undefined;
+  modernizeInfrastructureWithCloudNativeTechnologies?: number | undefined;
+  licenseCostReduction?: number | undefined;
 }
 export interface PrioritizeBusinessGoals {
-  businessGoals?: BusinessGoals;
+  businessGoals?: BusinessGoals | undefined;
 }
 export type AwsManagedTargetDestination = string;
 export type AwsManagedTargetDestinations = string[];
@@ -366,7 +366,7 @@ export type ManagementPreference =
       noPreference: NoManagementPreference;
     };
 export interface ApplicationPreferences {
-  managementPreference?: ManagementPreference;
+  managementPreference?: ManagementPreference | undefined;
 }
 export type DatabaseManagementPreference = string;
 export type HeterogeneousTargetDatabaseEngine = string;
@@ -377,7 +377,7 @@ export interface Heterogeneous {
 export type HomogeneousTargetDatabaseEngine = string;
 export type HomogeneousTargetDatabaseEngines = string[];
 export interface Homogeneous {
-  targetDatabaseEngine?: string[];
+  targetDatabaseEngine?: string[] | undefined;
 }
 export type TargetDatabaseEngine = string;
 export type TargetDatabaseEngines = string[];
@@ -389,59 +389,59 @@ export type DatabaseMigrationPreference =
   | { heterogeneous?: never; homogeneous: Homogeneous; noPreference?: never }
   | { heterogeneous?: never; homogeneous?: never; noPreference: NoDatabaseMigrationPreference };
 export interface DatabasePreferences {
-  databaseManagementPreference?: string;
-  databaseMigrationPreference?: DatabaseMigrationPreference;
+  databaseManagementPreference?: string | undefined;
+  databaseMigrationPreference?: DatabaseMigrationPreference | undefined;
 }
 export type ApplicationMode = string;
 export interface GetPortfolioPreferencesResponse {
-  prioritizeBusinessGoals?: PrioritizeBusinessGoals;
-  applicationPreferences?: ApplicationPreferences;
-  databasePreferences?: DatabasePreferences;
-  applicationMode?: string;
+  prioritizeBusinessGoals?: PrioritizeBusinessGoals | undefined;
+  applicationPreferences?: ApplicationPreferences | undefined;
+  databasePreferences?: DatabasePreferences | undefined;
+  applicationMode?: string | undefined;
 }
 export interface GetPortfolioSummaryRequest {}
 export interface StrategySummary {
-  strategy?: string;
-  count?: number;
+  strategy?: string | undefined;
+  count?: number | undefined;
 }
 export type ListStrategySummary = StrategySummary[];
 export interface ApplicationComponentSummary {
-  appType?: string;
-  count?: number;
+  appType?: string | undefined;
+  count?: number | undefined;
 }
 export type ListApplicationComponentSummary = ApplicationComponentSummary[];
 export type ServerOsType = string;
 export interface ServerSummary {
-  ServerOsType?: string;
-  count?: number;
+  ServerOsType?: string | undefined;
+  count?: number | undefined;
 }
 export type ListServerSummary = ServerSummary[];
 export interface ApplicationComponentStatusSummary {
-  srcCodeOrDbAnalysisStatus?: string;
-  count?: number;
+  srcCodeOrDbAnalysisStatus?: string | undefined;
+  count?: number | undefined;
 }
 export type ListApplicationComponentStatusSummary = ApplicationComponentStatusSummary[];
 export type RunTimeAssessmentStatus = string;
 export interface ServerStatusSummary {
-  runTimeAssessmentStatus?: string;
-  count?: number;
+  runTimeAssessmentStatus?: string | undefined;
+  count?: number | undefined;
 }
 export type ListServerStatusSummary = ServerStatusSummary[];
 export interface AssessmentSummary {
-  listServerStrategySummary?: StrategySummary[];
-  listApplicationComponentStrategySummary?: StrategySummary[];
-  listAntipatternSeveritySummary?: AntipatternSeveritySummary[];
-  listApplicationComponentSummary?: ApplicationComponentSummary[];
-  listServerSummary?: ServerSummary[];
-  antipatternReportS3Object?: S3Object;
-  antipatternReportStatus?: string;
-  antipatternReportStatusMessage?: string;
-  lastAnalyzedTimestamp?: Date;
-  listApplicationComponentStatusSummary?: ApplicationComponentStatusSummary[];
-  listServerStatusSummary?: ServerStatusSummary[];
+  listServerStrategySummary?: StrategySummary[] | undefined;
+  listApplicationComponentStrategySummary?: StrategySummary[] | undefined;
+  listAntipatternSeveritySummary?: AntipatternSeveritySummary[] | undefined;
+  listApplicationComponentSummary?: ApplicationComponentSummary[] | undefined;
+  listServerSummary?: ServerSummary[] | undefined;
+  antipatternReportS3Object?: S3Object | undefined;
+  antipatternReportStatus?: string | undefined;
+  antipatternReportStatusMessage?: string | undefined;
+  lastAnalyzedTimestamp?: Date | undefined;
+  listApplicationComponentStatusSummary?: ApplicationComponentStatusSummary[] | undefined;
+  listServerStatusSummary?: ServerStatusSummary[] | undefined;
 }
 export interface GetPortfolioSummaryResponse {
-  assessmentSummary?: AssessmentSummary;
+  assessmentSummary?: AssessmentSummary | undefined;
 }
 export type RecommendationTaskId = string;
 export interface GetRecommendationReportDetailsRequest {
@@ -452,29 +452,29 @@ export type RecommendationReportStatusMessage = string;
 export type RecommendationReportTimeStamp = Date;
 export type S3Keys = string[];
 export interface RecommendationReportDetails {
-  status?: string;
-  statusMessage?: string;
-  startTime?: Date;
-  completionTime?: Date;
-  s3Bucket?: string;
-  s3Keys?: string[];
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  startTime?: Date | undefined;
+  completionTime?: Date | undefined;
+  s3Bucket?: string | undefined;
+  s3Keys?: string[] | undefined;
 }
 export interface GetRecommendationReportDetailsResponse {
-  id?: string;
-  recommendationReportDetails?: RecommendationReportDetails;
+  id?: string | undefined;
+  recommendationReportDetails?: RecommendationReportDetails | undefined;
 }
 export type NextToken = string;
 export type MaxResult = number;
 export interface GetServerDetailsRequest {
   serverId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type OSType = string;
 export type OSVersion = string;
 export interface OSInfo {
-  type?: string;
-  version?: string;
+  type?: string | undefined;
+  version?: string | undefined;
 }
 export type InterfaceName = string;
 export type IPAddress = string;
@@ -488,248 +488,248 @@ export interface NetworkInfo {
 }
 export type NetworkInfoList = NetworkInfo[];
 export interface SystemInfo {
-  osInfo?: OSInfo;
-  fileSystemType?: string;
-  networkInfoList?: NetworkInfo[];
-  cpuArchitecture?: string;
+  osInfo?: OSInfo | undefined;
+  fileSystemType?: string | undefined;
+  networkInfoList?: NetworkInfo[] | undefined;
+  cpuArchitecture?: string | undefined;
 }
 export type ServerErrorCategory = string;
 export interface ServerError {
-  serverErrorCategory?: string;
+  serverErrorCategory?: string | undefined;
 }
 export interface ServerDetail {
-  id?: string;
-  name?: string;
-  recommendationSet?: RecommendationSet;
-  dataCollectionStatus?: string;
-  statusMessage?: string;
-  listAntipatternSeveritySummary?: AntipatternSeveritySummary[];
-  systemInfo?: SystemInfo;
-  applicationComponentStrategySummary?: StrategySummary[];
-  antipatternReportS3Object?: S3Object;
-  antipatternReportStatus?: string;
-  antipatternReportStatusMessage?: string;
-  serverType?: string;
-  lastAnalyzedTimestamp?: Date;
-  serverError?: ServerError;
+  id?: string | undefined;
+  name?: string | undefined;
+  recommendationSet?: RecommendationSet | undefined;
+  dataCollectionStatus?: string | undefined;
+  statusMessage?: string | undefined;
+  listAntipatternSeveritySummary?: AntipatternSeveritySummary[] | undefined;
+  systemInfo?: SystemInfo | undefined;
+  applicationComponentStrategySummary?: StrategySummary[] | undefined;
+  antipatternReportS3Object?: S3Object | undefined;
+  antipatternReportStatus?: string | undefined;
+  antipatternReportStatusMessage?: string | undefined;
+  serverType?: string | undefined;
+  lastAnalyzedTimestamp?: Date | undefined;
+  serverError?: ServerError | undefined;
 }
 export interface GetServerDetailsResponse {
-  nextToken?: string;
-  serverDetail?: ServerDetail;
-  associatedApplications?: AssociatedApplication[];
+  nextToken?: string | undefined;
+  serverDetail?: ServerDetail | undefined;
+  associatedApplications?: AssociatedApplication[] | undefined;
 }
 export interface GetServerStrategiesRequest {
   serverId: string;
 }
 export interface ServerStrategy {
-  recommendation?: RecommendationSet;
-  status?: string;
-  numberOfApplicationComponents?: number;
-  isPreferred?: boolean;
+  recommendation?: RecommendationSet | undefined;
+  status?: string | undefined;
+  numberOfApplicationComponents?: number | undefined;
+  isPreferred?: boolean | undefined;
 }
 export type ServerStrategies = ServerStrategy[];
 export interface GetServerStrategiesResponse {
-  serverStrategies?: ServerStrategy[];
+  serverStrategies?: ServerStrategy[] | undefined;
 }
 export type SortOrder = string;
 export interface ListAnalyzableServersRequest {
-  sort?: string;
-  nextToken?: string;
-  maxResults?: number;
+  sort?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AnalyzableServerSummary {
-  hostname?: string;
-  ipAddress?: string;
-  source?: string;
-  vmId?: string;
+  hostname?: string | undefined;
+  ipAddress?: string | undefined;
+  source?: string | undefined;
+  vmId?: string | undefined;
 }
 export type AnalyzableServerSummaryList = AnalyzableServerSummary[];
 export interface ListAnalyzableServersResponse {
-  analyzableServers?: AnalyzableServerSummary[];
-  nextToken?: string;
+  analyzableServers?: AnalyzableServerSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ApplicationComponentCriteria = string;
 export type GroupName = string;
 export interface Group {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type GroupIds = Group[];
 export interface ListApplicationComponentsRequest {
-  applicationComponentCriteria?: string;
-  filterValue?: string;
-  sort?: string;
-  groupIdFilter?: Group[];
-  nextToken?: string;
-  maxResults?: number;
+  applicationComponentCriteria?: string | undefined;
+  filterValue?: string | undefined;
+  sort?: string | undefined;
+  groupIdFilter?: Group[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ApplicationComponentDetails = ApplicationComponentDetail[];
 export interface ListApplicationComponentsResponse {
-  applicationComponentInfos?: ApplicationComponentDetail[];
-  nextToken?: string;
+  applicationComponentInfos?: ApplicationComponentDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCollectorsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type CollectorHealth = string;
 export interface VcenterBasedRemoteInfo {
-  vcenterConfigurationTimeStamp?: string;
-  osType?: string;
+  vcenterConfigurationTimeStamp?: string | undefined;
+  osType?: string | undefined;
 }
 export type VcenterBasedRemoteInfoList = VcenterBasedRemoteInfo[];
 export type AuthType = string;
 export interface IPAddressBasedRemoteInfo {
-  ipAddressConfigurationTimeStamp?: string;
-  authType?: string;
-  osType?: string;
+  ipAddressConfigurationTimeStamp?: string | undefined;
+  authType?: string | undefined;
+  osType?: string | undefined;
 }
 export type IPAddressBasedRemoteInfoList = IPAddressBasedRemoteInfo[];
 export type VersionControlType = string;
 export interface VersionControlInfo {
-  versionControlType?: string;
-  versionControlConfigurationTimeStamp?: string;
+  versionControlType?: string | undefined;
+  versionControlConfigurationTimeStamp?: string | undefined;
 }
 export type VersionControlInfoList = VersionControlInfo[];
 export type PipelineType = string;
 export interface PipelineInfo {
-  pipelineType?: string;
-  pipelineConfigurationTimeStamp?: string;
+  pipelineType?: string | undefined;
+  pipelineConfigurationTimeStamp?: string | undefined;
 }
 export type PipelineInfoList = PipelineInfo[];
 export interface RemoteSourceCodeAnalysisServerInfo {
-  remoteSourceCodeAnalysisServerConfigurationTimestamp?: string;
+  remoteSourceCodeAnalysisServerConfigurationTimestamp?: string | undefined;
 }
 export interface ConfigurationSummary {
-  vcenterBasedRemoteInfoList?: VcenterBasedRemoteInfo[];
-  ipAddressBasedRemoteInfoList?: IPAddressBasedRemoteInfo[];
-  versionControlInfoList?: VersionControlInfo[];
-  pipelineInfoList?: PipelineInfo[];
-  remoteSourceCodeAnalysisServerInfo?: RemoteSourceCodeAnalysisServerInfo;
+  vcenterBasedRemoteInfoList?: VcenterBasedRemoteInfo[] | undefined;
+  ipAddressBasedRemoteInfoList?: IPAddressBasedRemoteInfo[] | undefined;
+  versionControlInfoList?: VersionControlInfo[] | undefined;
+  pipelineInfoList?: PipelineInfo[] | undefined;
+  remoteSourceCodeAnalysisServerInfo?: RemoteSourceCodeAnalysisServerInfo | undefined;
 }
 export interface Collector {
-  collectorId?: string;
-  ipAddress?: string;
-  hostName?: string;
-  collectorHealth?: string;
-  collectorVersion?: string;
-  registeredTimeStamp?: string;
-  lastActivityTimeStamp?: string;
-  configurationSummary?: ConfigurationSummary;
+  collectorId?: string | undefined;
+  ipAddress?: string | undefined;
+  hostName?: string | undefined;
+  collectorHealth?: string | undefined;
+  collectorVersion?: string | undefined;
+  registeredTimeStamp?: string | undefined;
+  lastActivityTimeStamp?: string | undefined;
+  configurationSummary?: ConfigurationSummary | undefined;
 }
 export type Collectors = Collector[];
 export interface ListCollectorsResponse {
-  Collectors?: Collector[];
-  nextToken?: string;
+  Collectors?: Collector[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImportFileTaskRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ImportFileTaskInformation {
-  id?: string;
-  status?: string;
-  startTime?: Date;
-  inputS3Bucket?: string;
-  inputS3Key?: string;
-  statusReportS3Bucket?: string;
-  statusReportS3Key?: string;
-  completionTime?: Date;
-  numberOfRecordsSuccess?: number;
-  numberOfRecordsFailed?: number;
-  importName?: string;
+  id?: string | undefined;
+  status?: string | undefined;
+  startTime?: Date | undefined;
+  inputS3Bucket?: string | undefined;
+  inputS3Key?: string | undefined;
+  statusReportS3Bucket?: string | undefined;
+  statusReportS3Key?: string | undefined;
+  completionTime?: Date | undefined;
+  numberOfRecordsSuccess?: number | undefined;
+  numberOfRecordsFailed?: number | undefined;
+  importName?: string | undefined;
 }
 export type ListImportFileTaskInformation = ImportFileTaskInformation[];
 export interface ListImportFileTaskResponse {
-  taskInfos?: ImportFileTaskInformation[];
-  nextToken?: string;
+  taskInfos?: ImportFileTaskInformation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ServerCriteria = string;
 export interface ListServersRequest {
-  serverCriteria?: string;
-  filterValue?: string;
-  sort?: string;
-  groupIdFilter?: Group[];
-  nextToken?: string;
-  maxResults?: number;
+  serverCriteria?: string | undefined;
+  filterValue?: string | undefined;
+  sort?: string | undefined;
+  groupIdFilter?: Group[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ServerDetails = ServerDetail[];
 export interface ListServersResponse {
-  serverInfos?: ServerDetail[];
-  nextToken?: string;
+  serverInfos?: ServerDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutPortfolioPreferencesRequest {
-  prioritizeBusinessGoals?: PrioritizeBusinessGoals;
-  applicationPreferences?: ApplicationPreferences;
-  databasePreferences?: DatabasePreferences;
-  applicationMode?: string;
+  prioritizeBusinessGoals?: PrioritizeBusinessGoals | undefined;
+  applicationPreferences?: ApplicationPreferences | undefined;
+  databasePreferences?: DatabasePreferences | undefined;
+  applicationMode?: string | undefined;
 }
 export interface PutPortfolioPreferencesResponse {}
 export type AssessmentDataSourceType = string;
 export interface StartAssessmentRequest {
-  s3bucketForAnalysisData?: string;
-  s3bucketForReportData?: string;
-  assessmentTargets?: AssessmentTarget[];
-  assessmentDataSourceType?: string;
+  s3bucketForAnalysisData?: string | undefined;
+  s3bucketForReportData?: string | undefined;
+  assessmentTargets?: AssessmentTarget[] | undefined;
+  assessmentDataSourceType?: string | undefined;
 }
 export interface StartAssessmentResponse {
-  assessmentId?: string;
+  assessmentId?: string | undefined;
 }
 export type DataSourceType = string;
 export interface StartImportFileTaskRequest {
   name: string;
   S3Bucket: string;
   s3key: string;
-  dataSourceType?: string;
-  groupId?: Group[];
-  s3bucketForReportData?: string;
+  dataSourceType?: string | undefined;
+  groupId?: Group[] | undefined;
+  s3bucketForReportData?: string | undefined;
 }
 export interface StartImportFileTaskResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export type OutputFormat = string;
 export interface StartRecommendationReportGenerationRequest {
-  outputFormat?: string;
-  groupIdFilter?: Group[];
+  outputFormat?: string | undefined;
+  groupIdFilter?: Group[] | undefined;
 }
 export interface StartRecommendationReportGenerationResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface StopAssessmentRequest {
   assessmentId: string;
 }
 export interface StopAssessmentResponse {}
 export interface StrategyOption {
-  strategy?: string;
-  toolName?: string;
-  targetDestination?: string;
-  isPreferred?: boolean;
+  strategy?: string | undefined;
+  toolName?: string | undefined;
+  targetDestination?: string | undefined;
+  isPreferred?: boolean | undefined;
 }
 export type VersionControl = string;
 export type SourceVersion = string;
 export type Location = string;
 export type ProjectName = string;
 export interface SourceCode {
-  versionControl?: string;
-  sourceVersion?: string;
-  location?: string;
-  projectName?: string;
+  versionControl?: string | undefined;
+  sourceVersion?: string | undefined;
+  location?: string | undefined;
+  projectName?: string | undefined;
 }
 export type SourceCodeList = SourceCode[];
 export type SecretsManagerKey = string | redacted.Redacted<string>;
 export interface UpdateApplicationComponentConfigRequest {
   applicationComponentId: string;
-  inclusionStatus?: string;
-  strategyOption?: StrategyOption;
-  sourceCodeList?: SourceCode[];
-  secretsManagerKey?: string | redacted.Redacted<string>;
-  configureOnly?: boolean;
-  appType?: string;
+  inclusionStatus?: string | undefined;
+  strategyOption?: StrategyOption | undefined;
+  sourceCodeList?: SourceCode[] | undefined;
+  secretsManagerKey?: string | redacted.Redacted<string> | undefined;
+  configureOnly?: boolean | undefined;
+  appType?: string | undefined;
 }
 export interface UpdateApplicationComponentConfigResponse {}
 export interface UpdateServerConfigRequest {
   serverId: string;
-  strategyOption?: StrategyOption;
+  strategyOption?: StrategyOption | undefined;
 }
 export interface UpdateServerConfigResponse {}
 export type ErrorMessage = string;

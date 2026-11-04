@@ -200,12 +200,12 @@ export type OwnerId = string;
 export type DomainName = string;
 export type Region = string;
 export interface AWSDomainInformation {
-  OwnerId?: string;
+  OwnerId?: string | undefined;
   DomainName: string;
-  Region?: string;
+  Region?: string | undefined;
 }
 export interface DomainInformationContainer {
-  AWSDomainInformation?: AWSDomainInformation;
+  AWSDomainInformation?: AWSDomainInformation | undefined;
 }
 export type InboundConnectionStatusCode =
   | "PENDING_ACCEPTANCE"
@@ -219,24 +219,24 @@ export type InboundConnectionStatusCode =
   | (string & {});
 export type ConnectionStatusMessage = string;
 export interface InboundConnectionStatus {
-  StatusCode?: InboundConnectionStatusCode;
-  Message?: string;
+  StatusCode?: InboundConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
 export type ConnectionMode = "DIRECT" | "VPC_ENDPOINT" | (string & {});
 export interface InboundConnection {
-  LocalDomainInfo?: DomainInformationContainer;
-  RemoteDomainInfo?: DomainInformationContainer;
-  ConnectionId?: string;
-  ConnectionStatus?: InboundConnectionStatus;
-  ConnectionMode?: ConnectionMode;
+  LocalDomainInfo?: DomainInformationContainer | undefined;
+  RemoteDomainInfo?: DomainInformationContainer | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionStatus?: InboundConnectionStatus | undefined;
+  ConnectionMode?: ConnectionMode | undefined;
 }
 export interface AcceptInboundConnectionResponse {
-  Connection?: InboundConnection;
+  Connection?: InboundConnection | undefined;
 }
 export type DataSourceName = string;
 export type RoleArn = string;
 export interface S3GlueDataCatalog {
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export type DataSourceType = { S3GlueDataCatalog: S3GlueDataCatalog };
 export type DataSourceDescription = string;
@@ -244,10 +244,10 @@ export interface AddDataSourceRequest {
   DomainName: string;
   Name: string;
   DataSourceType: DataSourceType;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface AddDataSourceResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export type DirectQueryDataSourceName = string;
 export type DirectQueryDataSourceRoleArn = string;
@@ -280,13 +280,13 @@ export type TagList = Tag[];
 export interface AddDirectQueryDataSourceRequest {
   DataSourceName: string;
   DataSourceType: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceAccessPolicy?: string;
-  TagList?: Tag[];
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceAccessPolicy?: string | undefined;
+  TagList?: Tag[] | undefined;
 }
 export interface AddDirectQueryDataSourceResponse {
-  DataSourceArn?: string;
+  DataSourceArn?: string | undefined;
 }
 export interface AddTagsRequest {
   ARN: string;
@@ -296,17 +296,17 @@ export interface AddTagsResponse {}
 export type PackageID = string;
 export type PackageIDList = string[];
 export interface KeyStoreAccessOption {
-  KeyAccessRoleArn?: string;
+  KeyAccessRoleArn?: string | undefined;
   KeyStoreAccessEnabled: boolean;
 }
 export interface PackageAssociationConfiguration {
-  KeyStoreAccessOption?: KeyStoreAccessOption;
+  KeyStoreAccessOption?: KeyStoreAccessOption | undefined;
 }
 export interface AssociatePackageRequest {
   PackageID: string;
   DomainName: string;
-  PrerequisitePackageIDList?: string[];
-  AssociationConfiguration?: PackageAssociationConfiguration;
+  PrerequisitePackageIDList?: string[] | undefined;
+  AssociationConfiguration?: PackageAssociationConfiguration | undefined;
 }
 export type PackageName = string;
 export type PackageType =
@@ -328,29 +328,29 @@ export type ReferencePath = string;
 export type ErrorType = string;
 export type ErrorMessage = string;
 export interface ErrorDetails {
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface DomainPackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  LastUpdated?: Date;
-  DomainName?: string;
-  DomainPackageStatus?: DomainPackageStatus;
-  PackageVersion?: string;
-  PrerequisitePackageIDList?: string[];
-  ReferencePath?: string;
-  ErrorDetails?: ErrorDetails;
-  AssociationConfiguration?: PackageAssociationConfiguration;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  LastUpdated?: Date | undefined;
+  DomainName?: string | undefined;
+  DomainPackageStatus?: DomainPackageStatus | undefined;
+  PackageVersion?: string | undefined;
+  PrerequisitePackageIDList?: string[] | undefined;
+  ReferencePath?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
+  AssociationConfiguration?: PackageAssociationConfiguration | undefined;
 }
 export interface AssociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
 export interface PackageDetailsForAssociation {
   PackageID: string;
-  PrerequisitePackageIDList?: string[];
-  AssociationConfiguration?: PackageAssociationConfiguration;
+  PrerequisitePackageIDList?: string[] | undefined;
+  AssociationConfiguration?: PackageAssociationConfiguration | undefined;
 }
 export type PackageDetailsForAssociationList = PackageDetailsForAssociation[];
 export interface AssociatePackagesRequest {
@@ -359,7 +359,7 @@ export interface AssociatePackagesRequest {
 }
 export type DomainPackageDetailsList = DomainPackageDetails[];
 export interface AssociatePackagesResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
 }
 export type Id = string;
 export interface WorkspaceConfigurationInput {
@@ -370,35 +370,35 @@ export type ClientToken = string;
 export interface AttachDataSourceRequest {
   id: string;
   dataSourceArn: string;
-  workspaceId?: string;
-  workspaceConfiguration?: WorkspaceConfigurationInput;
-  clientToken?: string;
+  workspaceId?: string | undefined;
+  workspaceConfiguration?: WorkspaceConfigurationInput | undefined;
+  clientToken?: string | undefined;
 }
 export type DataSourceAttachmentStatus = "PENDING" | "ATTACHED" | "FAILED" | (string & {});
 export interface AttachDataSourceResponse {
-  attachmentId?: string;
-  id?: string;
-  arn?: string;
-  dataSourceArn?: string;
-  status?: DataSourceAttachmentStatus;
+  attachmentId?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  dataSourceArn?: string | undefined;
+  status?: DataSourceAttachmentStatus | undefined;
 }
 export type AWSAccount = string;
 export type AWSServicePrincipal = "application.opensearchservice.amazonaws.com" | (string & {});
 export type RegionsList = string[];
 export interface ServiceOptions {
-  SupportedRegions?: string[];
+  SupportedRegions?: string[] | undefined;
 }
 export interface AuthorizeVpcEndpointAccessRequest {
   DomainName: string;
-  Account?: string;
-  Service?: AWSServicePrincipal;
-  ServiceOptions?: ServiceOptions;
+  Account?: string | undefined;
+  Service?: AWSServicePrincipal | undefined;
+  ServiceOptions?: ServiceOptions | undefined;
 }
 export type PrincipalType = "AWS_ACCOUNT" | "AWS_SERVICE" | (string & {});
 export interface AuthorizedPrincipal {
-  PrincipalType?: PrincipalType;
-  Principal?: string;
-  ServiceOptions?: ServiceOptions;
+  PrincipalType?: PrincipalType | undefined;
+  Principal?: string | undefined;
+  ServiceOptions?: ServiceOptions | undefined;
 }
 export interface AuthorizeVpcEndpointAccessResponse {
   AuthorizedPrincipal: AuthorizedPrincipal;
@@ -406,20 +406,20 @@ export interface AuthorizeVpcEndpointAccessResponse {
 export type DryRun = boolean;
 export interface CancelDomainConfigChangeRequest {
   DomainName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export type GUID = string;
 export type GUIDList = string[];
 export interface CancelledChangeProperty {
-  PropertyName?: string;
-  CancelledValue?: string;
-  ActiveValue?: string;
+  PropertyName?: string | undefined;
+  CancelledValue?: string | undefined;
+  ActiveValue?: string | undefined;
 }
 export type CancelledChangePropertyList = CancelledChangeProperty[];
 export interface CancelDomainConfigChangeResponse {
-  CancelledChangeIds?: string[];
-  CancelledChangeProperties?: CancelledChangeProperty[];
-  DryRun?: boolean;
+  CancelledChangeIds?: string[] | undefined;
+  CancelledChangeProperties?: CancelledChangeProperty[] | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface CancelServiceSoftwareUpdateRequest {
   DomainName: string;
@@ -433,29 +433,29 @@ export type DeploymentStatus =
   | (string & {});
 export type DeploymentCloseDateTimeStamp = Date;
 export interface ServiceSoftwareOptions {
-  CurrentVersion?: string;
-  NewVersion?: string;
-  UpdateAvailable?: boolean;
-  Cancellable?: boolean;
-  UpdateStatus?: DeploymentStatus;
-  Description?: string;
-  AutomatedUpdateDate?: Date;
-  OptionalDeployment?: boolean;
+  CurrentVersion?: string | undefined;
+  NewVersion?: string | undefined;
+  UpdateAvailable?: boolean | undefined;
+  Cancellable?: boolean | undefined;
+  UpdateStatus?: DeploymentStatus | undefined;
+  Description?: string | undefined;
+  AutomatedUpdateDate?: Date | undefined;
+  OptionalDeployment?: boolean | undefined;
 }
 export interface CancelServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
 }
 export type ApplicationName = string;
 export interface DataSource {
-  dataSourceArn?: string;
-  dataSourceDescription?: string;
-  iamRoleForDataSourceArn?: string;
+  dataSourceArn?: string | undefined;
+  dataSourceDescription?: string | undefined;
+  iamRoleForDataSourceArn?: string | undefined;
 }
 export type DataSources = DataSource[];
 export interface IamIdentityCenterOptionsInput {
-  enabled?: boolean;
-  iamIdentityCenterInstanceArn?: string;
-  iamRoleForIdentityCenterApplicationArn?: string;
+  enabled?: boolean | undefined;
+  iamIdentityCenterInstanceArn?: string | undefined;
+  iamRoleForIdentityCenterApplicationArn?: string | undefined;
 }
 export type AppConfigType =
   | "opensearchDashboards.dashboardAdmin.users"
@@ -463,36 +463,36 @@ export type AppConfigType =
   | (string & {});
 export type AppConfigValue = string;
 export interface AppConfig {
-  key?: AppConfigType;
-  value?: string;
+  key?: AppConfigType | undefined;
+  value?: string | undefined;
 }
 export type AppConfigs = AppConfig[];
 export type KmsKeyArn = string;
 export interface CreateApplicationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  dataSources?: DataSource[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput;
-  appConfigs?: AppConfig[];
-  tagList?: Tag[];
-  kmsKeyArn?: string;
+  dataSources?: DataSource[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  tagList?: Tag[] | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface IamIdentityCenterOptions {
-  enabled?: boolean;
-  iamIdentityCenterInstanceArn?: string;
-  iamRoleForIdentityCenterApplicationArn?: string;
-  iamIdentityCenterApplicationArn?: string;
+  enabled?: boolean | undefined;
+  iamIdentityCenterInstanceArn?: string | undefined;
+  iamRoleForIdentityCenterApplicationArn?: string | undefined;
+  iamIdentityCenterApplicationArn?: string | undefined;
 }
 export interface CreateApplicationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  dataSources?: DataSource[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptions;
-  appConfigs?: AppConfig[];
-  tagList?: Tag[];
-  createdAt?: Date;
-  kmsKeyArn?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  dataSources?: DataSource[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptions | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  tagList?: Tag[] | undefined;
+  createdAt?: Date | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type VersionString = string;
 export type OpenSearchPartitionInstanceType =
@@ -602,7 +602,7 @@ export type OpenSearchPartitionInstanceType =
   | (string & {});
 export type IntegerClass = number;
 export interface ZoneAwarenessConfig {
-  AvailabilityZoneCount?: number;
+  AvailabilityZoneCount?: number | undefined;
 }
 export type OpenSearchWarmPartitionInstanceType =
   | "ultrawarm1.medium.search"
@@ -614,63 +614,65 @@ export interface ColdStorageOptions {
 }
 export type NodeOptionsNodeType = "coordinator" | (string & {});
 export interface NodeConfig {
-  Enabled?: boolean;
-  Type?: OpenSearchPartitionInstanceType;
-  Count?: number;
+  Enabled?: boolean | undefined;
+  Type?: OpenSearchPartitionInstanceType | undefined;
+  Count?: number | undefined;
 }
 export interface NodeOption {
-  NodeType?: NodeOptionsNodeType;
-  NodeConfig?: NodeConfig;
+  NodeType?: NodeOptionsNodeType | undefined;
+  NodeConfig?: NodeConfig | undefined;
 }
 export type NodeOptionsList = NodeOption[];
 export interface ClusterConfig {
-  InstanceType?: OpenSearchPartitionInstanceType;
-  InstanceCount?: number;
-  DedicatedMasterEnabled?: boolean;
-  ZoneAwarenessEnabled?: boolean;
-  ZoneAwarenessConfig?: ZoneAwarenessConfig;
-  DedicatedMasterType?: OpenSearchPartitionInstanceType;
-  DedicatedMasterCount?: number;
-  WarmEnabled?: boolean;
-  WarmType?: OpenSearchWarmPartitionInstanceType;
-  WarmCount?: number;
-  ColdStorageOptions?: ColdStorageOptions;
-  MultiAZWithStandbyEnabled?: boolean;
-  NodeOptions?: NodeOption[];
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  InstanceCount?: number | undefined;
+  DedicatedMasterEnabled?: boolean | undefined;
+  ZoneAwarenessEnabled?: boolean | undefined;
+  ZoneAwarenessConfig?: ZoneAwarenessConfig | undefined;
+  DedicatedMasterType?: OpenSearchPartitionInstanceType | undefined;
+  DedicatedMasterCount?: number | undefined;
+  WarmEnabled?: boolean | undefined;
+  WarmType?: OpenSearchWarmPartitionInstanceType | undefined;
+  WarmCount?: number | undefined;
+  ColdStorageOptions?: ColdStorageOptions | undefined;
+  MultiAZWithStandbyEnabled?: boolean | undefined;
+  NodeOptions?: NodeOption[] | undefined;
 }
 export type VolumeType = "standard" | "gp2" | "io1" | "gp3" | (string & {});
 export interface EBSOptions {
-  EBSEnabled?: boolean;
-  VolumeType?: VolumeType;
-  VolumeSize?: number;
-  Iops?: number;
-  Throughput?: number;
+  EBSEnabled?: boolean | undefined;
+  VolumeType?: VolumeType | undefined;
+  VolumeSize?: number | undefined;
+  Iops?: number | undefined;
+  Throughput?: number | undefined;
 }
 export type IPAddressType = "ipv4" | "dualstack" | (string & {});
 export interface SnapshotOptions {
-  AutomatedSnapshotStartHour?: number;
+  AutomatedSnapshotStartHour?: number | undefined;
 }
 export type StringList = string[];
 export interface VPCOptions {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  EgressEnabled?: boolean;
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  EgressEnabled?: boolean | undefined;
 }
 export type UserPoolId = string;
 export type IdentityPoolId = string;
 export interface CognitoOptions {
-  Enabled?: boolean;
-  UserPoolId?: string;
-  IdentityPoolId?: string;
-  RoleArn?: string;
+  Enabled?: boolean | undefined;
+  UserPoolId?: string | undefined;
+  IdentityPoolId?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type KmsKeyId = string;
+export type EncryptionMode = "DISK" | "NATIVE" | (string & {});
 export interface EncryptionAtRestOptions {
-  Enabled?: boolean;
-  KmsKeyId?: string;
+  Enabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
 }
 export interface NodeToNodeEncryptionOptions {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type AdvancedOptions = { [key: string]: string | undefined };
 export type LogType =
@@ -681,10 +683,10 @@ export type LogType =
   | (string & {});
 export type CloudWatchLogsLogGroupArn = string;
 export interface LogPublishingOption {
-  CloudWatchLogsLogGroupArn?: string;
-  Enabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  Enabled?: boolean | undefined;
 }
-export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption };
+export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption | undefined };
 export type TLSSecurityPolicy =
   | "Policy-Min-TLS-1-0-2019-07"
   | "Policy-Min-TLS-1-2-2019-07"
@@ -693,18 +695,18 @@ export type TLSSecurityPolicy =
   | (string & {});
 export type DomainNameFqdn = string;
 export interface DomainEndpointOptions {
-  EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: TLSSecurityPolicy;
-  CustomEndpointEnabled?: boolean;
-  CustomEndpoint?: string;
-  CustomEndpointCertificateArn?: string;
+  EnforceHTTPS?: boolean | undefined;
+  TLSSecurityPolicy?: TLSSecurityPolicy | undefined;
+  CustomEndpointEnabled?: boolean | undefined;
+  CustomEndpoint?: string | undefined;
+  CustomEndpointCertificateArn?: string | undefined;
 }
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export interface MasterUserOptions {
-  MasterUserARN?: string;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterUserPassword?: string | redacted.Redacted<string>;
+  MasterUserARN?: string | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type SAMLMetadata = string;
 export type SAMLEntityId = string;
@@ -714,68 +716,68 @@ export interface SAMLIdp {
 }
 export type BackendRole = string;
 export interface SAMLOptionsInput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterBackendRole?: string;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterBackendRole?: string | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
 export type SubjectKey = string;
 export type RolesKey = string;
 export type JwksUrl = string;
 export interface JWTOptionsInput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
-  JwksUrl?: string;
-  PublicKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  JwksUrl?: string | undefined;
+  PublicKey?: string | undefined;
 }
 export type IAMFederationSubjectKey = string;
 export type IAMFederationRolesKey = string;
 export interface IAMFederationOptionsInput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
 }
 export interface AdvancedSecurityOptionsInput {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  MasterUserOptions?: MasterUserOptions;
-  SAMLOptions?: SAMLOptionsInput;
-  JWTOptions?: JWTOptionsInput;
-  IAMFederationOptions?: IAMFederationOptionsInput;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  MasterUserOptions?: MasterUserOptions | undefined;
+  SAMLOptions?: SAMLOptionsInput | undefined;
+  JWTOptions?: JWTOptionsInput | undefined;
+  IAMFederationOptions?: IAMFederationOptionsInput | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
 export type IdentityCenterInstanceARN = string;
 export type SubjectKeyIdCOption = "UserName" | "UserId" | "Email" | (string & {});
 export type RolesKeyIdCOption = "GroupName" | "GroupId" | (string & {});
 export interface IdentityCenterOptionsInput {
-  EnabledAPIAccess?: boolean;
-  IdentityCenterInstanceARN?: string;
-  IdentityCenterInstanceRegion?: string;
-  SubjectKey?: SubjectKeyIdCOption;
-  RolesKey?: RolesKeyIdCOption;
+  EnabledAPIAccess?: boolean | undefined;
+  IdentityCenterInstanceARN?: string | undefined;
+  IdentityCenterInstanceRegion?: string | undefined;
+  SubjectKey?: SubjectKeyIdCOption | undefined;
+  RolesKey?: RolesKeyIdCOption | undefined;
 }
 export type AutoTuneDesiredState = "ENABLED" | "DISABLED" | (string & {});
 export type StartAt = Date;
 export type DurationValue = number;
 export type TimeUnit = "HOURS" | (string & {});
 export interface Duration {
-  Value?: number;
-  Unit?: TimeUnit;
+  Value?: number | undefined;
+  Unit?: TimeUnit | undefined;
 }
 export interface AutoTuneMaintenanceSchedule {
-  StartAt?: Date;
-  Duration?: Duration;
-  CronExpressionForRecurrence?: string;
+  StartAt?: Date | undefined;
+  Duration?: Duration | undefined;
+  CronExpressionForRecurrence?: string | undefined;
 }
 export type AutoTuneMaintenanceScheduleList = AutoTuneMaintenanceSchedule[];
 export interface AutoTuneOptionsInput {
-  DesiredState?: AutoTuneDesiredState;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
-  UseOffPeakWindow?: boolean;
+  DesiredState?: AutoTuneDesiredState | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
+  UseOffPeakWindow?: boolean | undefined;
 }
 export type StartTimeHours = number;
 export type StartTimeMinutes = number;
@@ -784,30 +786,30 @@ export interface WindowStartTime {
   Minutes: number;
 }
 export interface OffPeakWindow {
-  WindowStartTime?: WindowStartTime;
+  WindowStartTime?: WindowStartTime | undefined;
 }
 export interface OffPeakWindowOptions {
-  Enabled?: boolean;
-  OffPeakWindow?: OffPeakWindow;
+  Enabled?: boolean | undefined;
+  OffPeakWindow?: OffPeakWindow | undefined;
 }
 export interface SoftwareUpdateOptions {
-  AutoSoftwareUpdateEnabled?: boolean;
-  UseLatestServiceSoftwareForBlueGreen?: boolean;
+  AutoSoftwareUpdateEnabled?: boolean | undefined;
+  UseLatestServiceSoftwareForBlueGreen?: boolean | undefined;
 }
 export type NaturalLanguageQueryGenerationDesiredState = "ENABLED" | "DISABLED" | (string & {});
 export interface NaturalLanguageQueryGenerationOptionsInput {
-  DesiredState?: NaturalLanguageQueryGenerationDesiredState;
+  DesiredState?: NaturalLanguageQueryGenerationDesiredState | undefined;
 }
 export interface S3VectorsEngine {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface ServerlessVectorAcceleration {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AIMLOptionsInput {
-  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsInput;
-  S3VectorsEngine?: S3VectorsEngine;
-  ServerlessVectorAcceleration?: ServerlessVectorAcceleration;
+  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsInput | undefined;
+  S3VectorsEngine?: S3VectorsEngine | undefined;
+  ServerlessVectorAcceleration?: ServerlessVectorAcceleration | undefined;
 }
 export type DeploymentStrategy = "Default" | "CapacityOptimized" | (string & {});
 export interface DeploymentStrategyOptions {
@@ -815,88 +817,88 @@ export interface DeploymentStrategyOptions {
 }
 export interface AutomatedSnapshotPauseRequestOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type DomainUseCase = "SEARCH" | "VECTOR" | "OBSERVABILITY" | "MIXED" | (string & {});
 export type EngineMode = "GENERAL" | "OPTIMIZED" | (string & {});
 export interface CreateDomainRequest {
   DomainName: string;
-  EngineVersion?: string;
-  ClusterConfig?: ClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  IPAddressType?: IPAddressType;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  IdentityCenterOptions?: IdentityCenterOptionsInput;
-  TagList?: Tag[];
-  AutoTuneOptions?: AutoTuneOptionsInput;
-  OffPeakWindowOptions?: OffPeakWindowOptions;
-  SoftwareUpdateOptions?: SoftwareUpdateOptions;
-  AIMLOptions?: AIMLOptionsInput;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: EngineMode;
+  EngineVersion?: string | undefined;
+  ClusterConfig?: ClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  IPAddressType?: IPAddressType | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  IdentityCenterOptions?: IdentityCenterOptionsInput | undefined;
+  TagList?: Tag[] | undefined;
+  AutoTuneOptions?: AutoTuneOptionsInput | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptions | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptions | undefined;
+  AIMLOptions?: AIMLOptionsInput | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: EngineMode | undefined;
 }
 export type DomainId = string;
 export type ServiceUrl = string;
 export type EndpointsMap = { [key: string]: string | undefined };
 export type HostedZoneId = string;
 export interface VPCDerivedInfo {
-  VPCId?: string;
-  SubnetIds?: string[];
-  AvailabilityZones?: string[];
-  SecurityGroupIds?: string[];
-  EgressEnabled?: boolean;
+  VPCId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  AvailabilityZones?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  EgressEnabled?: boolean | undefined;
 }
 export interface SAMLOptionsOutput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
 export interface JWTOptionsOutput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
-  JwksUrl?: string;
-  PublicKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  JwksUrl?: string | undefined;
+  PublicKey?: string | undefined;
 }
 export interface IAMFederationOptionsOutput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
 }
 export type DisableTimestamp = Date;
 export interface AdvancedSecurityOptions {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  SAMLOptions?: SAMLOptionsOutput;
-  JWTOptions?: JWTOptionsOutput;
-  IAMFederationOptions?: IAMFederationOptionsOutput;
-  AnonymousAuthDisableDate?: Date;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  SAMLOptions?: SAMLOptionsOutput | undefined;
+  JWTOptions?: JWTOptionsOutput | undefined;
+  IAMFederationOptions?: IAMFederationOptionsOutput | undefined;
+  AnonymousAuthDisableDate?: Date | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
 export type IdentityCenterApplicationARN = string;
 export type IdentityStoreId = string;
 export interface IdentityCenterOptions {
-  EnabledAPIAccess?: boolean;
-  IdentityCenterInstanceARN?: string;
-  IdentityCenterInstanceRegion?: string;
-  SubjectKey?: SubjectKeyIdCOption;
-  RolesKey?: RolesKeyIdCOption;
-  IdentityCenterApplicationARN?: string;
-  IdentityStoreId?: string;
+  EnabledAPIAccess?: boolean | undefined;
+  IdentityCenterInstanceARN?: string | undefined;
+  IdentityCenterInstanceRegion?: string | undefined;
+  SubjectKey?: SubjectKeyIdCOption | undefined;
+  RolesKey?: RolesKeyIdCOption | undefined;
+  IdentityCenterApplicationARN?: string | undefined;
+  IdentityStoreId?: string | undefined;
 }
 export type AutoTuneState =
   | "ENABLED"
@@ -910,9 +912,9 @@ export type AutoTuneState =
   | "ERROR"
   | (string & {});
 export interface AutoTuneOptionsOutput {
-  State?: AutoTuneState;
-  ErrorMessage?: string;
-  UseOffPeakWindow?: boolean;
+  State?: AutoTuneState | undefined;
+  ErrorMessage?: string | undefined;
+  UseOffPeakWindow?: boolean | undefined;
 }
 export type Message = string;
 export type ConfigChangeStatus =
@@ -928,12 +930,12 @@ export type ConfigChangeStatus =
 export type InitiatedBy = "CUSTOMER" | "SERVICE" | (string & {});
 export type UpdateTimestamp = Date;
 export interface ChangeProgressDetails {
-  ChangeId?: string;
-  Message?: string;
-  ConfigChangeStatus?: ConfigChangeStatus;
-  InitiatedBy?: InitiatedBy;
-  StartTime?: Date;
-  LastUpdatedTime?: Date;
+  ChangeId?: string | undefined;
+  Message?: string | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
+  StartTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type DomainProcessingStatusType =
   | "Creating"
@@ -946,10 +948,10 @@ export type DomainProcessingStatusType =
   | (string & {});
 export type PropertyValueType = "PLAIN_TEXT" | "STRINGIFIED_JSON" | (string & {});
 export interface ModifyingProperties {
-  Name?: string;
-  ActiveValue?: string;
-  PendingValue?: string;
-  ValueType?: PropertyValueType;
+  Name?: string | undefined;
+  ActiveValue?: string | undefined;
+  PendingValue?: string | undefined;
+  ValueType?: PropertyValueType | undefined;
 }
 export type ModifyingPropertiesList = ModifyingProperties[];
 export type NaturalLanguageQueryGenerationCurrentState =
@@ -962,63 +964,63 @@ export type NaturalLanguageQueryGenerationCurrentState =
   | "DISABLE_FAILED"
   | (string & {});
 export interface NaturalLanguageQueryGenerationOptionsOutput {
-  DesiredState?: NaturalLanguageQueryGenerationDesiredState;
-  CurrentState?: NaturalLanguageQueryGenerationCurrentState;
+  DesiredState?: NaturalLanguageQueryGenerationDesiredState | undefined;
+  CurrentState?: NaturalLanguageQueryGenerationCurrentState | undefined;
 }
 export interface AIMLOptionsOutput {
-  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsOutput;
-  S3VectorsEngine?: S3VectorsEngine;
-  ServerlessVectorAcceleration?: ServerlessVectorAcceleration;
+  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsOutput | undefined;
+  S3VectorsEngine?: S3VectorsEngine | undefined;
+  ServerlessVectorAcceleration?: ServerlessVectorAcceleration | undefined;
 }
 export type PauseState = "Active" | "Completed" | "Scheduled" | "Disabled" | (string & {});
 export interface AutomatedSnapshotPauseOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
-  State?: PauseState;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  State?: PauseState | undefined;
 }
 export interface DomainStatus {
   DomainId: string;
   DomainName: string;
   ARN: string;
-  Created?: boolean;
-  Deleted?: boolean;
-  Endpoint?: string;
-  EndpointV2?: string;
-  Endpoints?: { [key: string]: string | undefined };
-  DomainEndpointV2HostedZoneId?: string;
-  Processing?: boolean;
-  UpgradeProcessing?: boolean;
-  EngineVersion?: string;
+  Created?: boolean | undefined;
+  Deleted?: boolean | undefined;
+  Endpoint?: string | undefined;
+  EndpointV2?: string | undefined;
+  Endpoints?: { [key: string]: string | undefined } | undefined;
+  DomainEndpointV2HostedZoneId?: string | undefined;
+  Processing?: boolean | undefined;
+  UpgradeProcessing?: boolean | undefined;
+  EngineVersion?: string | undefined;
   ClusterConfig: ClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  IPAddressType?: IPAddressType;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCDerivedInfo;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptions;
-  IdentityCenterOptions?: IdentityCenterOptions;
-  AutoTuneOptions?: AutoTuneOptionsOutput;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  OffPeakWindowOptions?: OffPeakWindowOptions;
-  SoftwareUpdateOptions?: SoftwareUpdateOptions;
-  DomainProcessingStatus?: DomainProcessingStatusType;
-  ModifyingProperties?: ModifyingProperties[];
-  AIMLOptions?: AIMLOptionsOutput;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: EngineMode;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  IPAddressType?: IPAddressType | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCDerivedInfo | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptions | undefined;
+  IdentityCenterOptions?: IdentityCenterOptions | undefined;
+  AutoTuneOptions?: AutoTuneOptionsOutput | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptions | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptions | undefined;
+  DomainProcessingStatus?: DomainProcessingStatusType | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  AIMLOptions?: AIMLOptionsOutput | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: EngineMode | undefined;
 }
 export interface CreateDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
 export type IndexName = string;
 export type IndexSchema = unknown;
@@ -1035,18 +1037,18 @@ export type ConnectionAlias = string;
 export type Endpoint = string;
 export type SkipUnavailableStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface CrossClusterSearchConnectionProperties {
-  SkipUnavailable?: SkipUnavailableStatus;
+  SkipUnavailable?: SkipUnavailableStatus | undefined;
 }
 export interface ConnectionProperties {
-  Endpoint?: string;
-  CrossClusterSearch?: CrossClusterSearchConnectionProperties;
+  Endpoint?: string | undefined;
+  CrossClusterSearch?: CrossClusterSearchConnectionProperties | undefined;
 }
 export interface CreateOutboundConnectionRequest {
   LocalDomainInfo: DomainInformationContainer;
   RemoteDomainInfo: DomainInformationContainer;
   ConnectionAlias: string;
-  ConnectionMode?: ConnectionMode;
-  ConnectionProperties?: ConnectionProperties;
+  ConnectionMode?: ConnectionMode | undefined;
+  ConnectionProperties?: ConnectionProperties | undefined;
 }
 export type OutboundConnectionStatusCode =
   | "VALIDATING"
@@ -1061,50 +1063,50 @@ export type OutboundConnectionStatusCode =
   | "DELETED"
   | (string & {});
 export interface OutboundConnectionStatus {
-  StatusCode?: OutboundConnectionStatusCode;
-  Message?: string;
+  StatusCode?: OutboundConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
 export interface CreateOutboundConnectionResponse {
-  LocalDomainInfo?: DomainInformationContainer;
-  RemoteDomainInfo?: DomainInformationContainer;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundConnectionStatus;
-  ConnectionId?: string;
-  ConnectionMode?: ConnectionMode;
-  ConnectionProperties?: ConnectionProperties;
+  LocalDomainInfo?: DomainInformationContainer | undefined;
+  RemoteDomainInfo?: DomainInformationContainer | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundConnectionStatus | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionMode?: ConnectionMode | undefined;
+  ConnectionProperties?: ConnectionProperties | undefined;
 }
 export type PackageDescription = string;
 export type S3BucketName = string;
 export type S3Key = string;
 export interface PackageSource {
-  S3BucketName?: string;
-  S3Key?: string;
+  S3BucketName?: string | undefined;
+  S3Key?: string | undefined;
 }
 export type RequirementLevel = "REQUIRED" | "OPTIONAL" | "NONE" | (string & {});
 export type LicenseFilepath = string;
 export interface PackageConfiguration {
   LicenseRequirement: RequirementLevel;
-  LicenseFilepath?: string;
+  LicenseFilepath?: string | undefined;
   ConfigurationRequirement: RequirementLevel;
-  RequiresRestartForConfigurationUpdate?: boolean;
+  RequiresRestartForConfigurationUpdate?: boolean | undefined;
 }
 export type EngineVersion = string;
 export interface PackageVendingOptions {
   VendingEnabled: boolean;
 }
 export interface PackageEncryptionOptions {
-  KmsKeyIdentifier?: string;
+  KmsKeyIdentifier?: string | undefined;
   EncryptionEnabled: boolean;
 }
 export interface CreatePackageRequest {
   PackageName: string;
   PackageType: PackageType;
-  PackageDescription?: string;
+  PackageDescription?: string | undefined;
   PackageSource: PackageSource;
-  PackageConfiguration?: PackageConfiguration;
-  EngineVersion?: string;
-  PackageVendingOptions?: PackageVendingOptions;
-  PackageEncryptionOptions?: PackageEncryptionOptions;
+  PackageConfiguration?: PackageConfiguration | undefined;
+  EngineVersion?: string | undefined;
+  PackageVendingOptions?: PackageVendingOptions | undefined;
+  PackageEncryptionOptions?: PackageEncryptionOptions | undefined;
 }
 export type PackageStatus =
   | "COPYING"
@@ -1123,41 +1125,41 @@ export type PluginVersion = string;
 export type PluginClassName = string;
 export type UncompressedPluginSizeInBytes = number;
 export interface PluginProperties {
-  Name?: string;
-  Description?: string;
-  Version?: string;
-  ClassName?: string;
-  UncompressedSizeInBytes?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Version?: string | undefined;
+  ClassName?: string | undefined;
+  UncompressedSizeInBytes?: number | undefined;
 }
 export type PackageUser = string;
 export type PackageUserList = string[];
 export type PackageOwner = string;
 export interface PackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  PackageDescription?: string;
-  PackageStatus?: PackageStatus;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  AvailablePackageVersion?: string;
-  ErrorDetails?: ErrorDetails;
-  EngineVersion?: string;
-  AvailablePluginProperties?: PluginProperties;
-  AvailablePackageConfiguration?: PackageConfiguration;
-  AllowListedUserList?: string[];
-  PackageOwner?: string;
-  PackageVendingOptions?: PackageVendingOptions;
-  PackageEncryptionOptions?: PackageEncryptionOptions;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  PackageDescription?: string | undefined;
+  PackageStatus?: PackageStatus | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  AvailablePackageVersion?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
+  EngineVersion?: string | undefined;
+  AvailablePluginProperties?: PluginProperties | undefined;
+  AvailablePackageConfiguration?: PackageConfiguration | undefined;
+  AllowListedUserList?: string[] | undefined;
+  PackageOwner?: string | undefined;
+  PackageVendingOptions?: PackageVendingOptions | undefined;
+  PackageEncryptionOptions?: PackageEncryptionOptions | undefined;
 }
 export interface CreatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export type DomainArn = string;
 export interface CreateVpcEndpointRequest {
   DomainArn: string;
   VpcOptions: VPCOptions;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type VpcEndpointId = string;
 export type VpcEndpointStatus =
@@ -1170,12 +1172,12 @@ export type VpcEndpointStatus =
   | "DELETE_FAILED"
   | (string & {});
 export interface VpcEndpoint {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  VpcOptions?: VPCDerivedInfo;
-  Status?: VpcEndpointStatus;
-  Endpoint?: string;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  VpcOptions?: VPCDerivedInfo | undefined;
+  Status?: VpcEndpointStatus | undefined;
+  Endpoint?: string | undefined;
 }
 export interface CreateVpcEndpointResponse {
   VpcEndpoint: VpcEndpoint;
@@ -1189,7 +1191,7 @@ export interface DeleteDataSourceRequest {
   Name: string;
 }
 export interface DeleteDataSourceResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface DeleteDirectQueryDataSourceRequest {
   DataSourceName: string;
@@ -1199,13 +1201,13 @@ export interface DeleteDomainRequest {
   DomainName: string;
 }
 export interface DeleteDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
 export interface DeleteInboundConnectionRequest {
   ConnectionId: string;
 }
 export interface DeleteInboundConnectionResponse {
-  Connection?: InboundConnection;
+  Connection?: InboundConnection | undefined;
 }
 export interface DeleteIndexRequest {
   DomainName: string;
@@ -1218,31 +1220,31 @@ export interface DeleteOutboundConnectionRequest {
   ConnectionId: string;
 }
 export interface OutboundConnection {
-  LocalDomainInfo?: DomainInformationContainer;
-  RemoteDomainInfo?: DomainInformationContainer;
-  ConnectionId?: string;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundConnectionStatus;
-  ConnectionMode?: ConnectionMode;
-  ConnectionProperties?: ConnectionProperties;
+  LocalDomainInfo?: DomainInformationContainer | undefined;
+  RemoteDomainInfo?: DomainInformationContainer | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundConnectionStatus | undefined;
+  ConnectionMode?: ConnectionMode | undefined;
+  ConnectionProperties?: ConnectionProperties | undefined;
 }
 export interface DeleteOutboundConnectionResponse {
-  Connection?: OutboundConnection;
+  Connection?: OutboundConnection | undefined;
 }
 export interface DeletePackageRequest {
   PackageID: string;
 }
 export interface DeletePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export interface DeleteVpcEndpointRequest {
   VpcEndpointId: string;
 }
 export interface VpcEndpointSummary {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  Status?: VpcEndpointStatus;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  Status?: VpcEndpointStatus | undefined;
 }
 export interface DeleteVpcEndpointResponse {
   VpcEndpointSummary: VpcEndpointSummary;
@@ -1263,18 +1265,18 @@ export type CapabilityStatus =
   | "delete_failed"
   | (string & {});
 export interface DeregisterCapabilityResponse {
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
 }
 export interface DescribeDataSourceAttachmentRequest {
   id: string;
   dataSourceArn: string;
 }
 export interface DescribeDataSourceAttachmentResponse {
-  attachmentId?: string;
-  id?: string;
-  arn?: string;
-  dataSourceArn?: string;
-  status?: DataSourceAttachmentStatus;
+  attachmentId?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  dataSourceArn?: string | undefined;
+  status?: DataSourceAttachmentStatus | undefined;
 }
 export interface DescribeDomainRequest {
   DomainName: string;
@@ -1286,8 +1288,8 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface DescribeDomainAutoTunesRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AutoTuneType = "SCHEDULED_ACTION" | (string & {});
 export type AutoTuneDate = Date;
@@ -1298,26 +1300,26 @@ export type ScheduledAutoTuneActionType =
 export type ScheduledAutoTuneDescription = string;
 export type ScheduledAutoTuneSeverityType = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface ScheduledAutoTuneDetails {
-  Date?: Date;
-  ActionType?: ScheduledAutoTuneActionType;
-  Action?: string;
-  Severity?: ScheduledAutoTuneSeverityType;
+  Date?: Date | undefined;
+  ActionType?: ScheduledAutoTuneActionType | undefined;
+  Action?: string | undefined;
+  Severity?: ScheduledAutoTuneSeverityType | undefined;
 }
 export interface AutoTuneDetails {
-  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails;
+  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails | undefined;
 }
 export interface AutoTune {
-  AutoTuneType?: AutoTuneType;
-  AutoTuneDetails?: AutoTuneDetails;
+  AutoTuneType?: AutoTuneType | undefined;
+  AutoTuneDetails?: AutoTuneDetails | undefined;
 }
 export type AutoTuneList = AutoTune[];
 export interface DescribeDomainAutoTunesResponse {
-  AutoTunes?: AutoTune[];
-  NextToken?: string;
+  AutoTunes?: AutoTune[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeDomainChangeProgressRequest {
   DomainName: string;
-  ChangeId?: string;
+  ChangeId?: string | undefined;
 }
 export type OverallChangeStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED" | (string & {});
 export type TotalNumberOfStages = number;
@@ -1325,36 +1327,36 @@ export type ChangeProgressStageName = string;
 export type ChangeProgressStageStatus = string;
 export type Description = string;
 export interface ChangeProgressStage {
-  Name?: string;
-  Status?: string;
-  Description?: string;
-  LastUpdated?: Date;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Description?: string | undefined;
+  LastUpdated?: Date | undefined;
 }
 export type ChangeProgressStageList = ChangeProgressStage[];
 export type ValidationFailureSeverity = "Critical" | "Warning" | (string & {});
 export interface ValidationFailure {
-  Code?: string;
-  Message?: string;
-  Severity?: ValidationFailureSeverity;
+  Code?: string | undefined;
+  Message?: string | undefined;
+  Severity?: ValidationFailureSeverity | undefined;
 }
 export type ValidationFailures = ValidationFailure[];
 export type AcceptedWarningsList = string[];
 export interface ChangeProgressStatusDetails {
-  ChangeId?: string;
-  StartTime?: Date;
-  Status?: OverallChangeStatus;
-  PendingProperties?: string[];
-  CompletedProperties?: string[];
-  TotalNumberOfStages?: number;
-  ChangeProgressStages?: ChangeProgressStage[];
-  LastUpdatedTime?: Date;
-  ConfigChangeStatus?: ConfigChangeStatus;
-  InitiatedBy?: InitiatedBy;
-  ValidationFailures?: ValidationFailure[];
-  AcceptedWarnings?: string[];
+  ChangeId?: string | undefined;
+  StartTime?: Date | undefined;
+  Status?: OverallChangeStatus | undefined;
+  PendingProperties?: string[] | undefined;
+  CompletedProperties?: string[] | undefined;
+  TotalNumberOfStages?: number | undefined;
+  ChangeProgressStages?: ChangeProgressStage[] | undefined;
+  LastUpdatedTime?: Date | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
+  ValidationFailures?: ValidationFailure[] | undefined;
+  AcceptedWarnings?: string[] | undefined;
 }
 export interface DescribeDomainChangeProgressResponse {
-  ChangeProgressStatus?: ChangeProgressStatusDetails;
+  ChangeProgressStatus?: ChangeProgressStatusDetails | undefined;
 }
 export interface DescribeDomainConfigRequest {
   DomainName: string;
@@ -1364,9 +1366,9 @@ export type OptionState = "RequiresIndexDocuments" | "Processing" | "Active" | (
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: OptionState;
-  PendingDeletion?: boolean;
+  PendingDeletion?: boolean | undefined;
 }
 export interface VersionStatus {
   Options: string;
@@ -1413,8 +1415,8 @@ export interface AdvancedOptionsStatus {
   Status: OptionStatus;
 }
 export interface LogPublishingOptionsStatus {
-  Options?: { [key: string]: LogPublishingOption | undefined };
-  Status?: OptionStatus;
+  Options?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  Status?: OptionStatus | undefined;
 }
 export interface DomainEndpointOptionsStatus {
   Options: DomainEndpointOptions;
@@ -1430,34 +1432,34 @@ export interface IdentityCenterOptionsStatus {
 }
 export type RollbackOnDisable = "NO_ROLLBACK" | "DEFAULT_ROLLBACK" | (string & {});
 export interface AutoTuneOptions {
-  DesiredState?: AutoTuneDesiredState;
-  RollbackOnDisable?: RollbackOnDisable;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
-  UseOffPeakWindow?: boolean;
+  DesiredState?: AutoTuneDesiredState | undefined;
+  RollbackOnDisable?: RollbackOnDisable | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
+  UseOffPeakWindow?: boolean | undefined;
 }
 export interface AutoTuneStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: AutoTuneState;
-  ErrorMessage?: string;
-  PendingDeletion?: boolean;
+  ErrorMessage?: string | undefined;
+  PendingDeletion?: boolean | undefined;
 }
 export interface AutoTuneOptionsStatus {
-  Options?: AutoTuneOptions;
-  Status?: AutoTuneStatus;
+  Options?: AutoTuneOptions | undefined;
+  Status?: AutoTuneStatus | undefined;
 }
 export interface OffPeakWindowOptionsStatus {
-  Options?: OffPeakWindowOptions;
-  Status?: OptionStatus;
+  Options?: OffPeakWindowOptions | undefined;
+  Status?: OptionStatus | undefined;
 }
 export interface SoftwareUpdateOptionsStatus {
-  Options?: SoftwareUpdateOptions;
-  Status?: OptionStatus;
+  Options?: SoftwareUpdateOptions | undefined;
+  Status?: OptionStatus | undefined;
 }
 export interface AIMLOptionsStatus {
-  Options?: AIMLOptionsOutput;
-  Status?: OptionStatus;
+  Options?: AIMLOptionsOutput | undefined;
+  Status?: OptionStatus | undefined;
 }
 export interface DeploymentStrategyOptionsStatus {
   Options: DeploymentStrategyOptions;
@@ -1476,31 +1478,31 @@ export interface EngineModeStatus {
   Status: OptionStatus;
 }
 export interface DomainConfig {
-  EngineVersion?: VersionStatus;
-  ClusterConfig?: ClusterConfigStatus;
-  EBSOptions?: EBSOptionsStatus;
-  AccessPolicies?: AccessPoliciesStatus;
-  IPAddressType?: IPAddressTypeStatus;
-  SnapshotOptions?: SnapshotOptionsStatus;
-  VPCOptions?: VPCDerivedInfoStatus;
-  CognitoOptions?: CognitoOptionsStatus;
-  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus;
-  AdvancedOptions?: AdvancedOptionsStatus;
-  LogPublishingOptions?: LogPublishingOptionsStatus;
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus;
-  IdentityCenterOptions?: IdentityCenterOptionsStatus;
-  AutoTuneOptions?: AutoTuneOptionsStatus;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  OffPeakWindowOptions?: OffPeakWindowOptionsStatus;
-  SoftwareUpdateOptions?: SoftwareUpdateOptionsStatus;
-  ModifyingProperties?: ModifyingProperties[];
-  AIMLOptions?: AIMLOptionsStatus;
-  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus;
-  UseCase?: UseCaseStatus;
-  EngineMode?: EngineModeStatus;
+  EngineVersion?: VersionStatus | undefined;
+  ClusterConfig?: ClusterConfigStatus | undefined;
+  EBSOptions?: EBSOptionsStatus | undefined;
+  AccessPolicies?: AccessPoliciesStatus | undefined;
+  IPAddressType?: IPAddressTypeStatus | undefined;
+  SnapshotOptions?: SnapshotOptionsStatus | undefined;
+  VPCOptions?: VPCDerivedInfoStatus | undefined;
+  CognitoOptions?: CognitoOptionsStatus | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus | undefined;
+  AdvancedOptions?: AdvancedOptionsStatus | undefined;
+  LogPublishingOptions?: LogPublishingOptionsStatus | undefined;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus | undefined;
+  IdentityCenterOptions?: IdentityCenterOptionsStatus | undefined;
+  AutoTuneOptions?: AutoTuneOptionsStatus | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptionsStatus | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptionsStatus | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  AIMLOptions?: AIMLOptionsStatus | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus | undefined;
+  UseCase?: UseCaseStatus | undefined;
+  EngineMode?: EngineModeStatus | undefined;
 }
 export interface DescribeDomainConfigResponse {
   DomainConfig: DomainConfig;
@@ -1517,32 +1519,32 @@ export type NumberOfShards = string;
 export type AvailabilityZone = string;
 export type ZoneStatus = "Active" | "StandBy" | "NotAvailable" | (string & {});
 export interface AvailabilityZoneInfo {
-  AvailabilityZoneName?: string;
-  ZoneStatus?: ZoneStatus;
-  ConfiguredDataNodeCount?: string;
-  AvailableDataNodeCount?: string;
-  TotalShards?: string;
-  TotalUnAssignedShards?: string;
+  AvailabilityZoneName?: string | undefined;
+  ZoneStatus?: ZoneStatus | undefined;
+  ConfiguredDataNodeCount?: string | undefined;
+  AvailableDataNodeCount?: string | undefined;
+  TotalShards?: string | undefined;
+  TotalUnAssignedShards?: string | undefined;
 }
 export type AvailabilityZoneInfoList = AvailabilityZoneInfo[];
 export interface EnvironmentInfo {
-  AvailabilityZoneInformation?: AvailabilityZoneInfo[];
+  AvailabilityZoneInformation?: AvailabilityZoneInfo[] | undefined;
 }
 export type EnvironmentInfoList = EnvironmentInfo[];
 export interface DescribeDomainHealthResponse {
-  DomainState?: DomainState;
-  AvailabilityZoneCount?: string;
-  ActiveAvailabilityZoneCount?: string;
-  StandByAvailabilityZoneCount?: string;
-  DataNodeCount?: string;
-  DedicatedMaster?: boolean;
-  MasterEligibleNodeCount?: string;
-  WarmNodeCount?: string;
-  MasterNode?: MasterNodeStatus;
-  ClusterHealth?: DomainHealth;
-  TotalShards?: string;
-  TotalUnAssignedShards?: string;
-  EnvironmentInformation?: EnvironmentInfo[];
+  DomainState?: DomainState | undefined;
+  AvailabilityZoneCount?: string | undefined;
+  ActiveAvailabilityZoneCount?: string | undefined;
+  StandByAvailabilityZoneCount?: string | undefined;
+  DataNodeCount?: string | undefined;
+  DedicatedMaster?: boolean | undefined;
+  MasterEligibleNodeCount?: string | undefined;
+  WarmNodeCount?: string | undefined;
+  MasterNode?: MasterNodeStatus | undefined;
+  ClusterHealth?: DomainHealth | undefined;
+  TotalShards?: string | undefined;
+  TotalUnAssignedShards?: string | undefined;
+  EnvironmentInformation?: EnvironmentInfo[] | undefined;
 }
 export interface DescribeDomainNodesRequest {
   DomainName: string;
@@ -1553,18 +1555,18 @@ export type NodeStatus = "Active" | "StandBy" | "NotAvailable" | (string & {});
 export type StorageTypeName = string;
 export type VolumeSize = string;
 export interface DomainNodesStatus {
-  NodeId?: string;
-  NodeType?: NodeType;
-  AvailabilityZone?: string;
-  InstanceType?: OpenSearchPartitionInstanceType;
-  NodeStatus?: NodeStatus;
-  StorageType?: string;
-  StorageVolumeType?: VolumeType;
-  StorageSize?: string;
+  NodeId?: string | undefined;
+  NodeType?: NodeType | undefined;
+  AvailabilityZone?: string | undefined;
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  NodeStatus?: NodeStatus | undefined;
+  StorageType?: string | undefined;
+  StorageVolumeType?: VolumeType | undefined;
+  StorageSize?: string | undefined;
 }
 export type DomainNodesStatusList = DomainNodesStatus[];
 export interface DescribeDomainNodesResponse {
-  DomainNodesStatusList?: DomainNodesStatus[];
+  DomainNodesStatusList?: DomainNodesStatus[] | undefined;
 }
 export type DomainNameList = string[];
 export interface DescribeDomainsRequest {
@@ -1576,54 +1578,54 @@ export interface DescribeDomainsResponse {
 }
 export interface DescribeDryRunProgressRequest {
   DomainName: string;
-  DryRunId?: string;
-  LoadDryRunConfig?: boolean;
+  DryRunId?: string | undefined;
+  LoadDryRunConfig?: boolean | undefined;
 }
 export interface DryRunProgressStatus {
   DryRunId: string;
   DryRunStatus: string;
   CreationDate: string;
   UpdateDate: string;
-  ValidationFailures?: ValidationFailure[];
-  AcceptedWarnings?: string[];
+  ValidationFailures?: ValidationFailure[] | undefined;
+  AcceptedWarnings?: string[] | undefined;
 }
 export type DeploymentType = string;
 export interface DryRunResults {
-  DeploymentType?: string;
-  Message?: string;
+  DeploymentType?: string | undefined;
+  Message?: string | undefined;
 }
 export interface DescribeDryRunProgressResponse {
-  DryRunProgressStatus?: DryRunProgressStatus;
-  DryRunConfig?: DomainStatus;
-  DryRunResults?: DryRunResults;
+  DryRunProgressStatus?: DryRunProgressStatus | undefined;
+  DryRunConfig?: DomainStatus | undefined;
+  DryRunResults?: DryRunResults | undefined;
 }
 export type NonEmptyString = string;
 export type ValueStringList = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export interface DescribeInboundConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InboundConnections = InboundConnection[];
 export interface DescribeInboundConnectionsResponse {
-  Connections?: InboundConnection[];
-  NextToken?: string;
+  Connections?: InboundConnection[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InsightEntityType = "Account" | "DomainName" | (string & {});
 export type InsightEntityValue = string;
 export interface InsightEntity {
   Type: InsightEntityType;
-  Value?: string;
+  Value?: string | undefined;
 }
 export interface DescribeInsightDetailsRequest {
   Entity: InsightEntity;
   InsightId: string;
-  ShowHtmlContent?: boolean;
+  ShowHtmlContent?: boolean | undefined;
 }
 export type InsightFieldType = "text" | "metric" | (string & {});
 export interface InsightField {
@@ -1636,7 +1638,7 @@ export interface DescribeInsightDetailsResponse {
   Fields: InsightField[];
 }
 export interface DescribeInstanceTypeLimitsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
   InstanceType: OpenSearchPartitionInstanceType;
   EngineVersion: string;
 }
@@ -1646,48 +1648,48 @@ export type LimitName = string;
 export type LimitValue = string;
 export type LimitValueList = string[];
 export interface StorageTypeLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
 export type StorageTypeLimitList = StorageTypeLimit[];
 export interface StorageType {
-  StorageTypeName?: string;
-  StorageSubTypeName?: string;
-  StorageTypeLimits?: StorageTypeLimit[];
+  StorageTypeName?: string | undefined;
+  StorageSubTypeName?: string | undefined;
+  StorageTypeLimits?: StorageTypeLimit[] | undefined;
 }
 export type StorageTypeList = StorageType[];
 export type MinimumInstanceCount = number;
 export type MaximumInstanceCount = number;
 export interface InstanceCountLimits {
-  MinimumInstanceCount?: number;
-  MaximumInstanceCount?: number;
+  MinimumInstanceCount?: number | undefined;
+  MaximumInstanceCount?: number | undefined;
 }
 export interface InstanceLimits {
-  InstanceCountLimits?: InstanceCountLimits;
+  InstanceCountLimits?: InstanceCountLimits | undefined;
 }
 export interface AdditionalLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
 export type AdditionalLimitList = AdditionalLimit[];
 export interface Limits {
-  StorageTypes?: StorageType[];
-  InstanceLimits?: InstanceLimits;
-  AdditionalLimits?: AdditionalLimit[];
+  StorageTypes?: StorageType[] | undefined;
+  InstanceLimits?: InstanceLimits | undefined;
+  AdditionalLimits?: AdditionalLimit[] | undefined;
 }
 export type LimitsByRole = { [key: string]: Limits | undefined };
 export interface DescribeInstanceTypeLimitsResponse {
-  LimitsByRole?: { [key: string]: Limits | undefined };
+  LimitsByRole?: { [key: string]: Limits | undefined } | undefined;
 }
 export interface DescribeOutboundConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OutboundConnections = OutboundConnection[];
 export interface DescribeOutboundConnectionsResponse {
-  Connections?: OutboundConnection[];
-  NextToken?: string;
+  Connections?: OutboundConnection[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DescribePackagesFilterName =
   | "PackageID"
@@ -1700,24 +1702,24 @@ export type DescribePackagesFilterName =
 export type DescribePackagesFilterValue = string;
 export type DescribePackagesFilterValues = string[];
 export interface DescribePackagesFilter {
-  Name?: DescribePackagesFilterName;
-  Value?: string[];
+  Name?: DescribePackagesFilterName | undefined;
+  Value?: string[] | undefined;
 }
 export type DescribePackagesFilterList = DescribePackagesFilter[];
 export interface DescribePackagesRequest {
-  Filters?: DescribePackagesFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: DescribePackagesFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PackageDetailsList = PackageDetails[];
 export interface DescribePackagesResponse {
-  PackageDetailsList?: PackageDetails[];
-  NextToken?: string;
+  PackageDetailsList?: PackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeReservedInstanceOfferingsRequest {
-  ReservedInstanceOfferingId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedInstanceOfferingId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReservedInstancePaymentOption =
   | "ALL_UPFRONT"
@@ -1725,51 +1727,51 @@ export type ReservedInstancePaymentOption =
   | "NO_UPFRONT"
   | (string & {});
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
 export type RecurringChargeList = RecurringCharge[];
 export interface ReservedInstanceOffering {
-  ReservedInstanceOfferingId?: string;
-  InstanceType?: OpenSearchPartitionInstanceType;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  PaymentOption?: ReservedInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservedInstanceOfferingId?: string | undefined;
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  PaymentOption?: ReservedInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedInstanceOfferingList = ReservedInstanceOffering[];
 export interface DescribeReservedInstanceOfferingsResponse {
-  NextToken?: string;
-  ReservedInstanceOfferings?: ReservedInstanceOffering[];
+  NextToken?: string | undefined;
+  ReservedInstanceOfferings?: ReservedInstanceOffering[] | undefined;
 }
 export interface DescribeReservedInstancesRequest {
-  ReservedInstanceId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedInstanceId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReservationToken = string;
 export interface ReservedInstance {
-  ReservationName?: string;
-  ReservedInstanceId?: string;
-  BillingSubscriptionId?: number;
-  ReservedInstanceOfferingId?: string;
-  InstanceType?: OpenSearchPartitionInstanceType;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  InstanceCount?: number;
-  State?: string;
-  PaymentOption?: ReservedInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservationName?: string | undefined;
+  ReservedInstanceId?: string | undefined;
+  BillingSubscriptionId?: number | undefined;
+  ReservedInstanceOfferingId?: string | undefined;
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  InstanceCount?: number | undefined;
+  State?: string | undefined;
+  PaymentOption?: ReservedInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedInstanceList = ReservedInstance[];
 export interface DescribeReservedInstancesResponse {
-  NextToken?: string;
-  ReservedInstances?: ReservedInstance[];
+  NextToken?: string | undefined;
+  ReservedInstances?: ReservedInstance[] | undefined;
 }
 export type VpcEndpointIdList = string[];
 export interface DescribeVpcEndpointsRequest {
@@ -1778,9 +1780,9 @@ export interface DescribeVpcEndpointsRequest {
 export type VpcEndpoints = VpcEndpoint[];
 export type VpcEndpointErrorCode = "ENDPOINT_NOT_FOUND" | "SERVER_ERROR" | (string & {});
 export interface VpcEndpointError {
-  VpcEndpointId?: string;
-  ErrorCode?: VpcEndpointErrorCode;
-  ErrorMessage?: string;
+  VpcEndpointId?: string | undefined;
+  ErrorCode?: VpcEndpointErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type VpcEndpointErrorList = VpcEndpointError[];
 export interface DescribeVpcEndpointsResponse {
@@ -1792,23 +1794,23 @@ export interface DetachDataSourceRequest {
   dataSourceArn: string;
 }
 export interface DetachDataSourceResponse {
-  id?: string;
-  arn?: string;
-  dataSourceArn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  dataSourceArn?: string | undefined;
 }
 export interface DissociatePackageRequest {
   PackageID: string;
   DomainName: string;
 }
 export interface DissociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
 export interface DissociatePackagesRequest {
   PackageList: string[];
   DomainName: string;
 }
 export interface DissociatePackagesResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
 }
 export interface GetApplicationRequest {
   id: string;
@@ -1821,17 +1823,17 @@ export type ApplicationStatus =
   | "FAILED"
   | (string & {});
 export interface GetApplicationResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  endpoint?: string;
-  status?: ApplicationStatus;
-  iamIdentityCenterOptions?: IamIdentityCenterOptions;
-  dataSources?: DataSource[];
-  appConfigs?: AppConfig[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  kmsKeyArn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  endpoint?: string | undefined;
+  status?: ApplicationStatus | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptions | undefined;
+  dataSources?: DataSource[] | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface GetCapabilityRequest {
   applicationId: string;
@@ -1842,28 +1844,28 @@ export type CapabilityExtendedResponseConfig = { aiConfig: AIConfig };
 export type CapabilityFailureReason = "KMS_KEY_INSUFFICIENT_PERMISSION" | (string & {});
 export type CapabilityFailureDetails = string;
 export interface CapabilityFailure {
-  reason?: CapabilityFailureReason;
-  details?: string;
+  reason?: CapabilityFailureReason | undefined;
+  details?: string | undefined;
 }
 export type CapabilityFailures = CapabilityFailure[];
 export interface GetCapabilityResponse {
-  capabilityName?: string;
-  applicationId?: string;
-  status?: CapabilityStatus;
-  capabilityConfig?: CapabilityExtendedResponseConfig;
-  failures?: CapabilityFailure[];
+  capabilityName?: string | undefined;
+  applicationId?: string | undefined;
+  status?: CapabilityStatus | undefined;
+  capabilityConfig?: CapabilityExtendedResponseConfig | undefined;
+  failures?: CapabilityFailure[] | undefined;
 }
 export interface GetCompatibleVersionsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
 }
 export type VersionList = string[];
 export interface CompatibleVersionsMap {
-  SourceVersion?: string;
-  TargetVersions?: string[];
+  SourceVersion?: string | undefined;
+  TargetVersions?: string[] | undefined;
 }
 export type CompatibleVersionsList = CompatibleVersionsMap[];
 export interface GetCompatibleVersionsResponse {
-  CompatibleVersions?: CompatibleVersionsMap[];
+  CompatibleVersions?: CompatibleVersionsMap[] | undefined;
 }
 export interface GetDataSourceRequest {
   DomainName: string;
@@ -1871,25 +1873,25 @@ export interface GetDataSourceRequest {
 }
 export type DataSourceStatus = "ACTIVE" | "DISABLED" | (string & {});
 export interface GetDataSourceResponse {
-  DataSourceType?: DataSourceType;
-  Name?: string;
-  Description?: string;
-  Status?: DataSourceStatus;
+  DataSourceType?: DataSourceType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: DataSourceStatus | undefined;
 }
 export interface GetDefaultApplicationSettingRequest {}
 export interface GetDefaultApplicationSettingResponse {
-  applicationArn?: string;
+  applicationArn?: string | undefined;
 }
 export interface GetDirectQueryDataSourceRequest {
   DataSourceName: string;
 }
 export interface GetDirectQueryDataSourceResponse {
-  DataSourceName?: string;
-  DataSourceType?: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceAccessPolicy?: string;
-  DataSourceArn?: string;
+  DataSourceName?: string | undefined;
+  DataSourceType?: DirectQueryDataSourceType | undefined;
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceAccessPolicy?: string | undefined;
+  DataSourceArn?: string | undefined;
 }
 export type RequestId = string;
 export interface GetDomainMaintenanceStatusRequest {
@@ -1910,12 +1912,12 @@ export type MaintenanceType =
   | "RESTART_DASHBOARD"
   | (string & {});
 export interface GetDomainMaintenanceStatusResponse {
-  Status?: MaintenanceStatus;
-  StatusMessage?: string;
-  NodeId?: string;
-  Action?: MaintenanceType;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Status?: MaintenanceStatus | undefined;
+  StatusMessage?: string | undefined;
+  NodeId?: string | undefined;
+  Action?: MaintenanceType | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetIndexRequest {
   DomainName: string;
@@ -1931,43 +1933,43 @@ export interface MigrationSource {
   datasourceArn: string;
 }
 export interface MigrationError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface GetMigrationResponse {
-  migrationId?: string;
-  status?: string;
-  applicationId?: string;
-  source?: MigrationSource;
-  exportedCount?: number;
-  importedCount?: number;
-  error?: MigrationError;
-  createdAt?: Date;
-  updatedAt?: Date;
+  migrationId?: string | undefined;
+  status?: string | undefined;
+  applicationId?: string | undefined;
+  source?: MigrationSource | undefined;
+  exportedCount?: number | undefined;
+  importedCount?: number | undefined;
+  error?: MigrationError | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetPackageVersionHistoryRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CommitMessage = string;
 export interface PackageVersionHistory {
-  PackageVersion?: string;
-  CommitMessage?: string;
-  CreatedAt?: Date;
-  PluginProperties?: PluginProperties;
-  PackageConfiguration?: PackageConfiguration;
+  PackageVersion?: string | undefined;
+  CommitMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  PluginProperties?: PluginProperties | undefined;
+  PackageConfiguration?: PackageConfiguration | undefined;
 }
 export type PackageVersionHistoryList = PackageVersionHistory[];
 export interface GetPackageVersionHistoryResponse {
-  PackageID?: string;
-  PackageVersionHistoryList?: PackageVersionHistory[];
-  NextToken?: string;
+  PackageID?: string | undefined;
+  PackageVersionHistoryList?: PackageVersionHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetUpgradeHistoryRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type UpgradeName = string;
 export type StartTimestamp = Date;
@@ -1981,30 +1983,30 @@ export type UpgradeStep = "PRE_UPGRADE_CHECK" | "SNAPSHOT" | "UPGRADE" | (string
 export type Issue = string;
 export type Issues = string[];
 export interface UpgradeStepItem {
-  UpgradeStep?: UpgradeStep;
-  UpgradeStepStatus?: UpgradeStatus;
-  Issues?: string[];
-  ProgressPercent?: number;
+  UpgradeStep?: UpgradeStep | undefined;
+  UpgradeStepStatus?: UpgradeStatus | undefined;
+  Issues?: string[] | undefined;
+  ProgressPercent?: number | undefined;
 }
 export type UpgradeStepsList = UpgradeStepItem[];
 export interface UpgradeHistory {
-  UpgradeName?: string;
-  StartTimestamp?: Date;
-  UpgradeStatus?: UpgradeStatus;
-  StepsList?: UpgradeStepItem[];
+  UpgradeName?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  UpgradeStatus?: UpgradeStatus | undefined;
+  StepsList?: UpgradeStepItem[] | undefined;
 }
 export type UpgradeHistoryList = UpgradeHistory[];
 export interface GetUpgradeHistoryResponse {
-  UpgradeHistories?: UpgradeHistory[];
-  NextToken?: string;
+  UpgradeHistories?: UpgradeHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetUpgradeStatusRequest {
   DomainName: string;
 }
 export interface GetUpgradeStatusResponse {
-  UpgradeStep?: UpgradeStep;
-  StepStatus?: UpgradeStatus;
-  UpgradeName?: string;
+  UpgradeStep?: UpgradeStep | undefined;
+  StepStatus?: UpgradeStatus | undefined;
+  UpgradeName?: string | undefined;
 }
 export type InsightFeedbackEntityType = "DomainName" | (string & {});
 export interface InsightFeedbackEntity {
@@ -2017,118 +2019,118 @@ export interface InsightFeedbackRequest {
   Entity: InsightFeedbackEntity;
   InsightId: string;
   Thumbs: InsightFeedbackThumbs;
-  FeedbackText?: string;
+  FeedbackText?: string | undefined;
 }
 export type InsightResponseStatus = "SUCCESS" | "ERROR" | (string & {});
 export interface InsightFeedbackResponse {
-  Status?: InsightResponseStatus;
+  Status?: InsightResponseStatus | undefined;
 }
 export type ApplicationStatuses = ApplicationStatus[];
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  statuses?: ApplicationStatus[];
-  maxResults?: number;
+  nextToken?: string | undefined;
+  statuses?: ApplicationStatus[] | undefined;
+  maxResults?: number | undefined;
 }
 export interface ApplicationSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  endpoint?: string;
-  status?: ApplicationStatus;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  endpoint?: string | undefined;
+  status?: ApplicationStatus | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type ApplicationSummaries = ApplicationSummary[];
 export interface ListApplicationsResponse {
-  ApplicationSummaries?: ApplicationSummary[];
-  nextToken?: string;
+  ApplicationSummaries?: ApplicationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourceAttachmentsRequest {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataSourceAttachmentSummary {
-  attachmentId?: string;
-  dataSourceArn?: string;
-  status?: DataSourceAttachmentStatus;
+  attachmentId?: string | undefined;
+  dataSourceArn?: string | undefined;
+  status?: DataSourceAttachmentStatus | undefined;
 }
 export type DataSourceAttachmentSummaryList = DataSourceAttachmentSummary[];
 export interface ListDataSourceAttachmentsResponse {
-  attachments?: DataSourceAttachmentSummary[];
-  nextToken?: string;
+  attachments?: DataSourceAttachmentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourcesRequest {
   DomainName: string;
 }
 export interface DataSourceDetails {
-  DataSourceType?: DataSourceType;
-  Name?: string;
-  Description?: string;
-  Status?: DataSourceStatus;
+  DataSourceType?: DataSourceType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: DataSourceStatus | undefined;
 }
 export type DataSourceList = DataSourceDetails[];
 export interface ListDataSourcesResponse {
-  DataSources?: DataSourceDetails[];
+  DataSources?: DataSourceDetails[] | undefined;
 }
 export interface ListDirectQueryDataSourcesRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DirectQueryDataSource {
-  DataSourceName?: string;
-  DataSourceType?: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceArn?: string;
-  TagList?: Tag[];
+  DataSourceName?: string | undefined;
+  DataSourceType?: DirectQueryDataSourceType | undefined;
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceArn?: string | undefined;
+  TagList?: Tag[] | undefined;
 }
 export type DirectQueryDataSourceList = DirectQueryDataSource[];
 export interface ListDirectQueryDataSourcesResponse {
-  NextToken?: string;
-  DirectQueryDataSources?: DirectQueryDataSource[];
+  NextToken?: string | undefined;
+  DirectQueryDataSources?: DirectQueryDataSource[] | undefined;
 }
 export interface ListDomainMaintenancesRequest {
   DomainName: string;
-  Action?: MaintenanceType;
-  Status?: MaintenanceStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  Action?: MaintenanceType | undefined;
+  Status?: MaintenanceStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DomainMaintenanceDetails {
-  MaintenanceId?: string;
-  DomainName?: string;
-  Action?: MaintenanceType;
-  NodeId?: string;
-  Status?: MaintenanceStatus;
-  StatusMessage?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  MaintenanceId?: string | undefined;
+  DomainName?: string | undefined;
+  Action?: MaintenanceType | undefined;
+  NodeId?: string | undefined;
+  Status?: MaintenanceStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type DomainMaintenanceList = DomainMaintenanceDetails[];
 export interface ListDomainMaintenancesResponse {
-  DomainMaintenances?: DomainMaintenanceDetails[];
-  NextToken?: string;
+  DomainMaintenances?: DomainMaintenanceDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EngineType = "OpenSearch" | "Elasticsearch" | (string & {});
 export interface ListDomainNamesRequest {
-  EngineType?: EngineType;
+  EngineType?: EngineType | undefined;
 }
 export interface DomainInfo {
-  DomainName?: string;
-  EngineType?: EngineType;
+  DomainName?: string | undefined;
+  EngineType?: EngineType | undefined;
 }
 export type DomainInfoList = DomainInfo[];
 export interface ListDomainNamesResponse {
-  DomainNames?: DomainInfo[];
+  DomainNames?: DomainInfo[] | undefined;
 }
 export interface ListDomainsForPackageRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDomainsForPackageResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface InsightTimeRange {
   From: number;
@@ -2138,90 +2140,90 @@ export type InsightSortOrder = "ASC" | "DESC" | (string & {});
 export type InsightPageSize = number;
 export interface ListInsightsRequest {
   Entity: InsightEntity;
-  TimeRange?: InsightTimeRange;
-  SortOrder?: InsightSortOrder;
-  MaxResults?: number;
-  NextToken?: string;
+  TimeRange?: InsightTimeRange | undefined;
+  SortOrder?: InsightSortOrder | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InsightType = "EVENT" | "RECOMMENDATION" | (string & {});
 export type InsightPriorityLevel = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export type InsightStatus = "ACTIVE" | "RESOLVED" | "DISMISSED" | (string & {});
 export interface Insight {
-  InsightId?: string;
-  DisplayName?: string;
-  Type?: InsightType;
-  Priority?: InsightPriorityLevel;
-  Status?: InsightStatus;
-  CreationTime?: Date;
-  UpdateTime?: Date;
-  IsExperimental?: boolean;
+  InsightId?: string | undefined;
+  DisplayName?: string | undefined;
+  Type?: InsightType | undefined;
+  Priority?: InsightPriorityLevel | undefined;
+  Status?: InsightStatus | undefined;
+  CreationTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  IsExperimental?: boolean | undefined;
 }
 export type InsightList = Insight[];
 export interface ListInsightsResponse {
-  Insights?: Insight[];
-  NextToken?: string;
+  Insights?: Insight[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InstanceTypeString = string;
 export interface ListInstanceTypeDetailsRequest {
   EngineVersion: string;
-  DomainName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  RetrieveAZs?: boolean;
-  InstanceType?: string;
+  DomainName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RetrieveAZs?: boolean | undefined;
+  InstanceType?: string | undefined;
 }
 export type InstanceRoleList = string[];
 export type AvailabilityZoneList = string[];
 export interface InstanceTypeDetails {
-  InstanceType?: OpenSearchPartitionInstanceType;
-  EncryptionEnabled?: boolean;
-  CognitoEnabled?: boolean;
-  AppLogsEnabled?: boolean;
-  AdvancedSecurityEnabled?: boolean;
-  WarmEnabled?: boolean;
-  InstanceRole?: string[];
-  AvailabilityZones?: string[];
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  EncryptionEnabled?: boolean | undefined;
+  CognitoEnabled?: boolean | undefined;
+  AppLogsEnabled?: boolean | undefined;
+  AdvancedSecurityEnabled?: boolean | undefined;
+  WarmEnabled?: boolean | undefined;
+  InstanceRole?: string[] | undefined;
+  AvailabilityZones?: string[] | undefined;
 }
 export type InstanceTypeDetailsList = InstanceTypeDetails[];
 export interface ListInstanceTypeDetailsResponse {
-  InstanceTypeDetails?: InstanceTypeDetails[];
-  NextToken?: string;
+  InstanceTypeDetails?: InstanceTypeDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMigrationsRequest {
   applicationId: string;
-  status?: string;
-  maxResults?: number;
-  nextToken?: string;
+  status?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MigrationSummary {
-  migrationId?: string;
-  status?: string;
-  applicationId?: string;
-  source?: MigrationSource;
-  exportedCount?: number;
-  importedCount?: number;
-  error?: MigrationError;
-  createdAt?: Date;
-  updatedAt?: Date;
+  migrationId?: string | undefined;
+  status?: string | undefined;
+  applicationId?: string | undefined;
+  source?: MigrationSource | undefined;
+  exportedCount?: number | undefined;
+  importedCount?: number | undefined;
+  error?: MigrationError | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type MigrationSummaryList = MigrationSummary[];
 export interface ListMigrationsResponse {
-  migrations?: MigrationSummary[];
-  nextToken?: string;
+  migrations?: MigrationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPackagesForDomainRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPackagesForDomainResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListScheduledActionsRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ActionType =
   | "SERVICE_SOFTWARE_UPDATE"
@@ -2243,34 +2245,34 @@ export interface ScheduledAction {
   Type: ActionType;
   Severity: ActionSeverity;
   ScheduledTime: number;
-  Description?: string;
-  ScheduledBy?: ScheduledBy;
-  Status?: ActionStatus;
-  Mandatory?: boolean;
-  Cancellable?: boolean;
+  Description?: string | undefined;
+  ScheduledBy?: ScheduledBy | undefined;
+  Status?: ActionStatus | undefined;
+  Mandatory?: boolean | undefined;
+  Cancellable?: boolean | undefined;
 }
 export type ScheduledActionsList = ScheduledAction[];
 export interface ListScheduledActionsResponse {
-  ScheduledActions?: ScheduledAction[];
-  NextToken?: string;
+  ScheduledActions?: ScheduledAction[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsRequest {
   ARN: string;
 }
 export interface ListTagsResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface ListVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListVersionsResponse {
-  Versions?: string[];
-  NextToken?: string;
+  Versions?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListVpcEndpointAccessRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AuthorizedPrincipalList = AuthorizedPrincipal[];
 export interface ListVpcEndpointAccessResponse {
@@ -2278,7 +2280,7 @@ export interface ListVpcEndpointAccessResponse {
   NextToken: string;
 }
 export interface ListVpcEndpointsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type VpcEndpointSummaryList = VpcEndpointSummary[];
 export interface ListVpcEndpointsResponse {
@@ -2287,7 +2289,7 @@ export interface ListVpcEndpointsResponse {
 }
 export interface ListVpcEndpointsForDomainRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListVpcEndpointsForDomainResponse {
   VpcEndpointSummaryList: VpcEndpointSummary[];
@@ -2297,18 +2299,18 @@ export type InstanceCount = number;
 export interface PurchaseReservedInstanceOfferingRequest {
   ReservedInstanceOfferingId: string;
   ReservationName: string;
-  InstanceCount?: number;
+  InstanceCount?: number | undefined;
 }
 export interface PurchaseReservedInstanceOfferingResponse {
-  ReservedInstanceId?: string;
-  ReservationName?: string;
+  ReservedInstanceId?: string | undefined;
+  ReservationName?: string | undefined;
 }
 export interface PutDefaultApplicationSettingRequest {
   applicationArn: string;
   setAsDefault: boolean;
 }
 export interface PutDefaultApplicationSettingResponse {
-  applicationArn?: string;
+  applicationArn?: string | undefined;
 }
 export type CapabilityBaseRequestConfig = { aiConfig: AIConfig };
 export interface RegisterCapabilityRequest {
@@ -2318,16 +2320,16 @@ export interface RegisterCapabilityRequest {
 }
 export type CapabilityBaseResponseConfig = { aiConfig: AIConfig };
 export interface RegisterCapabilityResponse {
-  capabilityName?: string;
-  applicationId?: string;
-  status?: CapabilityStatus;
-  capabilityConfig?: CapabilityBaseResponseConfig;
+  capabilityName?: string | undefined;
+  applicationId?: string | undefined;
+  status?: CapabilityStatus | undefined;
+  capabilityConfig?: CapabilityBaseResponseConfig | undefined;
 }
 export interface RejectInboundConnectionRequest {
   ConnectionId: string;
 }
 export interface RejectInboundConnectionResponse {
-  Connection?: InboundConnection;
+  Connection?: InboundConnection | undefined;
 }
 export interface RemoveTagsRequest {
   ARN: string;
@@ -2336,36 +2338,36 @@ export interface RemoveTagsRequest {
 export interface RemoveTagsResponse {}
 export interface RevokeVpcEndpointAccessRequest {
   DomainName: string;
-  Account?: string;
-  Service?: AWSServicePrincipal;
-  ServiceOptions?: ServiceOptions;
+  Account?: string | undefined;
+  Service?: AWSServicePrincipal | undefined;
+  ServiceOptions?: ServiceOptions | undefined;
 }
 export interface RevokeVpcEndpointAccessResponse {}
 export interface RollbackServiceSoftwareUpdateRequest {
   DomainName: string;
 }
 export interface RollbackServiceSoftwareOptions {
-  CurrentVersion?: string;
-  NewVersion?: string;
-  RollbackAvailable?: boolean;
-  Description?: string;
+  CurrentVersion?: string | undefined;
+  NewVersion?: string | undefined;
+  RollbackAvailable?: boolean | undefined;
+  Description?: string | undefined;
 }
 export interface RollbackServiceSoftwareUpdateResponse {
-  RollbackServiceSoftwareOptions?: RollbackServiceSoftwareOptions;
+  RollbackServiceSoftwareOptions?: RollbackServiceSoftwareOptions | undefined;
 }
 export interface StartDomainMaintenanceRequest {
   DomainName: string;
   Action: MaintenanceType;
-  NodeId?: string;
+  NodeId?: string | undefined;
 }
 export interface StartDomainMaintenanceResponse {
-  MaintenanceId?: string;
+  MaintenanceId?: string | undefined;
 }
 export interface MigrationWorkspace {
-  workspaceId?: string;
-  createWorkspace?: boolean;
-  name?: string;
-  type?: string;
+  workspaceId?: string | undefined;
+  createWorkspace?: boolean | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export interface SavedObjectIdentifier {
   type: string;
@@ -2373,103 +2375,103 @@ export interface SavedObjectIdentifier {
 }
 export type SavedObjectIdentifierList = SavedObjectIdentifier[];
 export interface ExportOptions {
-  types?: string[];
-  objects?: SavedObjectIdentifier[];
-  includeReferencesDeep?: boolean;
+  types?: string[] | undefined;
+  objects?: SavedObjectIdentifier[] | undefined;
+  includeReferencesDeep?: boolean | undefined;
 }
 export interface MigrationOptions {
   source: MigrationSource;
   workspace: MigrationWorkspace;
-  exportOptions?: ExportOptions;
-  conflictResolution?: string;
+  exportOptions?: ExportOptions | undefined;
+  conflictResolution?: string | undefined;
 }
 export interface StartMigrationRequest {
   applicationId: string;
   migrationOptions: MigrationOptions;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartMigrationResponse {
-  migrationId?: string;
-  status?: string;
+  migrationId?: string | undefined;
+  status?: string | undefined;
 }
 export type ScheduleAt = "NOW" | "TIMESTAMP" | "OFF_PEAK_WINDOW" | (string & {});
 export interface StartServiceSoftwareUpdateRequest {
   DomainName: string;
-  ScheduleAt?: ScheduleAt;
-  DesiredStartTime?: number;
+  ScheduleAt?: ScheduleAt | undefined;
+  DesiredStartTime?: number | undefined;
 }
 export interface StartServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
 }
 export interface UpdateApplicationRequest {
   id: string;
-  dataSources?: DataSource[];
-  appConfigs?: AppConfig[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput;
+  dataSources?: DataSource[] | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput | undefined;
 }
 export interface UpdateApplicationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  dataSources?: DataSource[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptions;
-  appConfigs?: AppConfig[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  dataSources?: DataSource[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptions | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface UpdateDataSourceRequest {
   DomainName: string;
   Name: string;
   DataSourceType: DataSourceType;
-  Description?: string;
-  Status?: DataSourceStatus;
+  Description?: string | undefined;
+  Status?: DataSourceStatus | undefined;
 }
 export interface UpdateDataSourceResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface UpdateDirectQueryDataSourceRequest {
   DataSourceName: string;
   DataSourceType: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceAccessPolicy?: string;
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceAccessPolicy?: string | undefined;
 }
 export interface UpdateDirectQueryDataSourceResponse {
-  DataSourceArn?: string;
+  DataSourceArn?: string | undefined;
 }
 export type DryRunMode = "Basic" | "Verbose" | (string & {});
 export interface UpdateDomainConfigRequest {
   DomainName: string;
-  ClusterConfig?: ClusterConfig;
-  EBSOptions?: EBSOptions;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  AccessPolicies?: string;
-  IPAddressType?: IPAddressType;
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  DomainEndpointOptions?: DomainEndpointOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  IdentityCenterOptions?: IdentityCenterOptionsInput;
-  AutoTuneOptions?: AutoTuneOptions;
-  DryRun?: boolean;
-  DryRunMode?: DryRunMode;
-  OffPeakWindowOptions?: OffPeakWindowOptions;
-  SoftwareUpdateOptions?: SoftwareUpdateOptions;
-  AIMLOptions?: AIMLOptionsInput;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: EngineMode;
-  AcceptedWarnings?: string[];
+  ClusterConfig?: ClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  AccessPolicies?: string | undefined;
+  IPAddressType?: IPAddressType | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  IdentityCenterOptions?: IdentityCenterOptionsInput | undefined;
+  AutoTuneOptions?: AutoTuneOptions | undefined;
+  DryRun?: boolean | undefined;
+  DryRunMode?: DryRunMode | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptions | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptions | undefined;
+  AIMLOptions?: AIMLOptionsInput | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: EngineMode | undefined;
+  AcceptedWarnings?: string[] | undefined;
 }
 export interface UpdateDomainConfigResponse {
   DomainConfig: DomainConfig;
-  DryRunResults?: DryRunResults;
-  DryRunProgressStatus?: DryRunProgressStatus;
+  DryRunResults?: DryRunResults | undefined;
+  DryRunProgressStatus?: DryRunProgressStatus | undefined;
 }
 export interface UpdateIndexRequest {
   DomainName: string;
@@ -2482,13 +2484,13 @@ export interface UpdateIndexResponse {
 export interface UpdatePackageRequest {
   PackageID: string;
   PackageSource: PackageSource;
-  PackageDescription?: string;
-  CommitMessage?: string;
-  PackageConfiguration?: PackageConfiguration;
-  PackageEncryptionOptions?: PackageEncryptionOptions;
+  PackageDescription?: string | undefined;
+  CommitMessage?: string | undefined;
+  PackageConfiguration?: PackageConfiguration | undefined;
+  PackageEncryptionOptions?: PackageEncryptionOptions | undefined;
 }
 export interface UpdatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export type PackageScopeOperationEnum = "ADD" | "OVERRIDE" | "REMOVE" | (string & {});
 export interface UpdatePackageScopeRequest {
@@ -2497,19 +2499,19 @@ export interface UpdatePackageScopeRequest {
   PackageUserList: string[];
 }
 export interface UpdatePackageScopeResponse {
-  PackageID?: string;
-  Operation?: PackageScopeOperationEnum;
-  PackageUserList?: string[];
+  PackageID?: string | undefined;
+  Operation?: PackageScopeOperationEnum | undefined;
+  PackageUserList?: string[] | undefined;
 }
 export interface UpdateScheduledActionRequest {
   DomainName: string;
   ActionID: string;
   ActionType: ActionType;
   ScheduleAt: ScheduleAt;
-  DesiredStartTime?: number;
+  DesiredStartTime?: number | undefined;
 }
 export interface UpdateScheduledActionResponse {
-  ScheduledAction?: ScheduledAction;
+  ScheduledAction?: ScheduledAction | undefined;
 }
 export interface UpdateVpcEndpointRequest {
   VpcEndpointId: string;
@@ -2521,16 +2523,16 @@ export interface UpdateVpcEndpointResponse {
 export interface UpgradeDomainRequest {
   DomainName: string;
   TargetVersion: string;
-  PerformCheckOnly?: boolean;
-  AdvancedOptions?: { [key: string]: string | undefined };
+  PerformCheckOnly?: boolean | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpgradeDomainResponse {
-  UpgradeId?: string;
-  DomainName?: string;
-  TargetVersion?: string;
-  PerformCheckOnly?: boolean;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  ChangeProgressDetails?: ChangeProgressDetails;
+  UpgradeId?: string | undefined;
+  DomainName?: string | undefined;
+  TargetVersion?: string | undefined;
+  PerformCheckOnly?: boolean | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
 }
 export type SlotList = number[];
 export type AcceptInboundConnectionError =
@@ -6826,7 +6828,11 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CognitoOptions" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ Enabled: S.optional(S.Boolean), KmsKeyId: S.optional(S.String) }),
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          KmsKeyId: S.optional(S.String),
+          EncryptionMode: S.optional(S.String),
+        }),
       ).annotate({ identifier: "EncryptionAtRestOptions" });
     case 10:
       return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({

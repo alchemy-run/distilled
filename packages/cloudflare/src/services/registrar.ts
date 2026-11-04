@@ -110,11 +110,11 @@ export interface CheckResponseDomainsItem {
   /** Indicates programmatic registration eligibility according to a real-time registry check. */
   registrable: boolean;
   /** Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision. */
-  pricing?: CheckResponseDomainsItemPricing | null;
+  pricing?: CheckResponseDomainsItemPricing | null | undefined;
   /** Appears only when `registrable` is `false` and explains the result. */
-  reason?: CheckResponseDomainsItemReason | null;
+  reason?: CheckResponseDomainsItemReason | null | undefined;
   /** The pricing tier for this domain. A `registrable` value of `true` always includes this field, which defaults to `standard` for most domains. A `registrable` value of `false` may omit it. */
-  tier?: CheckResponseDomainsItemTier | null;
+  tier?: CheckResponseDomainsItemTier | null | undefined;
 }
 export type CheckResponseDomainsList = Array<CheckResponseDomainsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -142,7 +142,7 @@ export interface CreateRegistrationRequestContactsAdministratorPostalInfo {
   /** Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example `Ada Lovelace`; do not send separate first-name or last-name fields. */
   name: string;
   /** Organization or company name. Optional for individual registrants. */
-  organization?: string;
+  organization?: string | undefined;
 }
 export interface CreateRegistrationRequestContactsAdministrator {
   /** Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices. */
@@ -152,7 +152,7 @@ export interface CreateRegistrationRequestContactsAdministrator {
   /** Postal/mailing information for the contact. The `name` field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts. */
   postalInfo: CreateRegistrationRequestContactsAdministratorPostalInfo;
   /** Fax number in E.164 format (e.g., `+1.5555555555`). Optional. Most registrations do not require a fax number. */
-  fax?: string;
+  fax?: string | undefined;
 }
 export type CreateRegistrationRequestContactsBillingPostalInfoAddress =
   CreateRegistrationRequestContactsAdministratorPostalInfoAddress;
@@ -174,39 +174,39 @@ export type CreateRegistrationRequestContactsTechnical =
   CreateRegistrationRequestContactsAdministrator;
 export interface CreateRegistrationRequestContacts {
   /** Optional administrator contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`. */
-  administrator?: CreateRegistrationRequestContactsAdministrator;
+  administrator?: CreateRegistrationRequestContactsAdministrator | undefined;
   /** Optional billing contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`. */
-  billing?: CreateRegistrationRequestContactsAdministrator;
+  billing?: CreateRegistrationRequestContactsAdministrator | undefined;
   /** Optional registrant contact. If omitted, the account's default address book entry is used instead. */
-  registrant?: CreateRegistrationRequestContactsAdministrator;
+  registrant?: CreateRegistrationRequestContactsAdministrator | undefined;
   /** Optional technical contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`. */
-  technical?: CreateRegistrationRequestContactsAdministrator;
+  technical?: CreateRegistrationRequestContactsAdministrator | undefined;
 }
 export type CreateRegistrationRequestPrivacyMode = "off" | "redaction";
 export interface CreateRegistrationRequest {
   /** Identifier. */
   accountId: string;
-  prefer?: string;
+  prefer?: string | undefined;
   /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
   /** Provides user acknowledgements for a specific extension or premium registration flow. The extension registration schema from the extension discovery endpoint identifies the required keys. */
-  acknowledgements?: CreateRegistrationRequestAcknowledgementsMap;
+  acknowledgements?: CreateRegistrationRequestAcknowledgementsMap | undefined;
   /** Enable or disable automatic renewal. Defaults to `false` if omitted. Setting this field to `true` is an explicit opt-in authorizing Cloudflare to charge the account's default payment method up to 30 days before domain expiry to renew the domain automatically. Renewal pricing may change over time based on registry pricing. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Provides registry-specific contact extension values for the registrant. `GET /accounts/{account_id}/registrar/extensions/{extension}` identifies the required keys and allowed values for each extension in the `registration_schema.properties.contact_extensions` object. */
-  contactExtensions?: CreateRegistrationRequestContactExtensionsMap;
+  contactExtensions?: CreateRegistrationRequestContactExtensionsMap | undefined;
   /** Provides contact data for the registration request. */
-  contacts?: CreateRegistrationRequestContacts;
+  contacts?: CreateRegistrationRequestContacts | undefined;
   /** Sets the WHOIS privacy mode for the registration. Defaults to `redaction`. */
-  privacyMode?: CreateRegistrationRequestPrivacyMode | (string & {});
+  privacyMode?: CreateRegistrationRequestPrivacyMode | (string & {}) | undefined;
   /** Sets the registration term from 1 to 10 years. When omitted, this field defaults to the registry's minimum registration period for the extension. Most extensions require 1 year, while some require longer minimum terms (e.g., `.ai` requires 2 years). */
-  years?: number;
+  years?: number | undefined;
 }
 export interface CreateRegistrationResponseLinks {
   /** URL to this status resource. */
   self: string;
   /** URL to the domain resource. */
-  resource?: string | null;
+  resource?: string | null | undefined;
 }
 export type CreateRegistrationResponseState =
   | "pending"
@@ -232,9 +232,9 @@ export interface CreateRegistrationResponse {
   state: CreateRegistrationResponseState;
   updatedAt: string;
   /** Provides workflow-specific data. */
-  context?: CreateRegistrationResponseContextMap | null;
+  context?: CreateRegistrationResponseContextMap | null | undefined;
   /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
-  error?: CreateRegistrationResponseError | null;
+  error?: CreateRegistrationResponseError | null | undefined;
 }
 export type CreateTransferInRequestContactExtensionsMap = { [key: string]: unknown | undefined };
 export type CreateTransferInRequestContactsAdministratorPostalInfoAddress =
@@ -267,17 +267,17 @@ export interface CreateTransferInRequest {
   accountId: string;
   /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
-  prefer?: string;
+  prefer?: string | undefined;
   /** The EPP/authorization code from your current registrar, base64-encoded per RFC 4648 §4. Obtain this from your current registrar's control panel. Required for all extensions, except for UK. */
-  authCode?: string;
+  authCode?: string | undefined;
   /** Enable or disable automatic renewal after transfer. Defaults to `false` if omitted. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Registry-specific contact extension values for the registrant. `GET /accounts/{account_id}/registrar/extensions/{extension}` documents the required keys and allowed values for each extension in the `transfer_schema.properties.contact_extensions` object. */
-  contactExtensions?: CreateTransferInRequestContactExtensionsMap;
+  contactExtensions?: CreateTransferInRequestContactExtensionsMap | undefined;
   /** Provides contact data for the registration request. */
-  contacts?: CreateRegistrationRequestContacts;
+  contacts?: CreateRegistrationRequestContacts | undefined;
   /** WHOIS privacy mode to apply after transfer completes. Defaults to the extension's default privacy mode (typically `redaction`). */
-  privacyMode?: CreateTransferInRequestPrivacyMode | (string & {});
+  privacyMode?: CreateTransferInRequestPrivacyMode | (string & {}) | undefined;
 }
 export type CreateTransferInResponseLinks = CreateRegistrationResponseLinks;
 export type CreateTransferInResponseState =
@@ -299,9 +299,9 @@ export interface CreateTransferInResponse {
   state: CreateTransferInResponseState;
   updatedAt: string;
   /** Provides workflow-specific data. */
-  context?: CreateTransferInResponseContextMap | null;
+  context?: CreateTransferInResponseContextMap | null | undefined;
   /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
-  error?: CreateRegistrationResponseError | null;
+  error?: CreateRegistrationResponseError | null | undefined;
 }
 export type EditRegistrationRequestPrefer = "respond-async";
 export interface EditRegistrationRequest {
@@ -309,9 +309,9 @@ export interface EditRegistrationRequest {
   accountId: string;
   /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
-  prefer?: EditRegistrationRequestPrefer | (string & {});
+  prefer?: EditRegistrationRequestPrefer | (string & {}) | undefined;
   /** Enable or disable automatic renewal. Setting this field to `true` authorizes Cloudflare to charge the account's default payment method up to 30 days before domain expiry to renew the domain automatically. Renewal pricing may change over time based on registry pricing. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
 }
 export type EditRegistrationResponseLinks = CreateRegistrationResponseLinks;
 export type EditRegistrationResponseState =
@@ -333,9 +333,9 @@ export interface EditRegistrationResponse {
   state: EditRegistrationResponseState;
   updatedAt: string;
   /** Provides workflow-specific data. */
-  context?: EditRegistrationResponseContextMap | null;
+  context?: EditRegistrationResponseContextMap | null | undefined;
   /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
-  error?: CreateRegistrationResponseError | null;
+  error?: CreateRegistrationResponseError | null | undefined;
 }
 export interface GetDomainRequest {
   /** Identifier. */
@@ -422,9 +422,9 @@ export interface GetRegistrationStatusResponse {
   state: RegistrationStatusGetResponseState;
   updatedAt: string;
   /** Provides workflow-specific data. */
-  context?: RegistrationStatusGetResponseContextMap | null;
+  context?: RegistrationStatusGetResponseContextMap | null | undefined;
   /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
-  error?: CreateRegistrationResponseError | null;
+  error?: CreateRegistrationResponseError | null | undefined;
 }
 export interface GetTransferInStatusRequest {
   /** Identifier. */
@@ -452,9 +452,9 @@ export interface GetTransferInStatusResponse {
   state: GetTransferInStatusResponseState;
   updatedAt: string;
   /** Provides workflow-specific data. */
-  context?: GetTransferInStatusResponseContextMap | null;
+  context?: GetTransferInStatusResponseContextMap | null | undefined;
   /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
-  error?: CreateRegistrationResponseError | null;
+  error?: CreateRegistrationResponseError | null | undefined;
 }
 export interface GetUpdateStatusRequest {
   /** Identifier. */
@@ -482,9 +482,9 @@ export interface GetUpdateStatusResponse {
   state: UpdateStatusGetResponseState;
   updatedAt: string;
   /** Provides workflow-specific data. */
-  context?: UpdateStatusGetResponseContextMap | null;
+  context?: UpdateStatusGetResponseContextMap | null | undefined;
   /** Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context. */
-  error?: CreateRegistrationResponseError | null;
+  error?: CreateRegistrationResponseError | null | undefined;
 }
 export interface ListDomainsRequest {
   /** Identifier. */
@@ -510,13 +510,13 @@ export interface DomainsListResultItemRegistrantContact {
   /** The zipcode or postal code where the user lives. */
   zip: string;
   /** Contact Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional address line for unit, floor, suite, etc. */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Contact fax number. */
-  fax?: string | null;
+  fax?: string | null | undefined;
 }
 export type DomainsListResultItemTransferInAcceptFoa = "needed" | "ok";
 export type DomainsListResultItemTransferInApproveTransfer =
@@ -541,49 +541,49 @@ export type DomainsListResultItemTransferInUnlockDomain =
   | "unknown";
 export interface DomainsListResultItemTransferIn {
   /** Status of the registrant authorization step. */
-  acceptFoa?: DomainsListResultItemTransferInAcceptFoa | null;
+  acceptFoa?: DomainsListResultItemTransferInAcceptFoa | null | undefined;
   /** Status of the registry transfer-approval step. */
-  approveTransfer?: DomainsListResultItemTransferInApproveTransfer | null;
+  approveTransfer?: DomainsListResultItemTransferInApproveTransfer | null | undefined;
   /** Indicates if cancellation is still possible. */
-  canCancelTransfer?: boolean | null;
+  canCancelTransfer?: boolean | null | undefined;
   /** Status of the privacy-guard disabling step at the foreign registrar. */
-  disablePrivacy?: DomainsListResultItemTransferInDisablePrivacy | null;
+  disablePrivacy?: DomainsListResultItemTransferInDisablePrivacy | null | undefined;
   /** Status of the auth-code entry and verification step. */
-  enterAuthCode?: DomainsListResultItemTransferInEnterAuthCode | null;
+  enterAuthCode?: DomainsListResultItemTransferInEnterAuthCode | null | undefined;
   /** Status of the domain-unlock step at the foreign registrar. */
-  unlockDomain?: DomainsListResultItemTransferInUnlockDomain | null;
+  unlockDomain?: DomainsListResultItemTransferInUnlockDomain | null | undefined;
 }
 export interface DomainsListResultItem {
   /** Domain identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Shows if a domain is available for transferring into Cloudflare Registrar. */
-  available?: boolean | null;
+  available?: boolean | null | undefined;
   /** Indicates eligibility to register the domain as a new domain. */
-  canRegister?: boolean | null;
+  canRegister?: boolean | null | undefined;
   /** Shows time of creation. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Shows name of current registrar. */
-  currentRegistrar?: string | null;
+  currentRegistrar?: string | null | undefined;
   /** Shows when domain name registration expires. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Shows whether a registrar lock is in place for a domain. */
-  locked?: boolean | null;
+  locked?: boolean | null | undefined;
   /** Shows contact information for domain registrant. */
-  registrantContact?: DomainsListResultItemRegistrantContact | null;
+  registrantContact?: DomainsListResultItemRegistrantContact | null | undefined;
   /** A comma-separated list of registry status codes. Refer to [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en) for the full list. */
-  registryStatuses?: string | null;
+  registryStatuses?: string | null | undefined;
   /** Indicates whether Cloudflare Registrar currently supports a particular TLD. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs. */
-  supportedTld?: boolean | null;
+  supportedTld?: boolean | null | undefined;
   /** Statuses for domain transfers into Cloudflare Registrar. */
-  transferIn?: DomainsListResultItemTransferIn | null;
+  transferIn?: DomainsListResultItemTransferIn | null | undefined;
   /** Last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Domain name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the domain auto-renews. */
-  autoRenew?: boolean | null;
+  autoRenew?: boolean | null | undefined;
   /** Whether WHOIS privacy is enabled. */
-  privacy?: boolean | null;
+  privacy?: boolean | null | undefined;
 }
 export type DomainsListResultList = Array<DomainsListResultItem>;
 export interface ListDomainsResponse {
@@ -598,15 +598,15 @@ export interface ListExtensionsRequest {
   /** Identifier. */
   accountId: string;
   /** Opaque token from a previous response's `result_info.cursor`. Pass this value to fetch the next page of results. Omit (or pass an empty string) for the first page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for results. Defaults to ascending order. */
-  direction?: ListExtensionsRequestDirection | (string & {});
+  direction?: ListExtensionsRequestDirection | (string & {}) | undefined;
   /** Filter extensions by exact name match. For example, `name=com` returns only the `com` extension. */
-  name?: string;
+  name?: string | undefined;
   /** Number of items to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Column to sort results by. Defaults to `name` when omitted. */
-  sortBy?: ListExtensionsRequestSortBy | (string & {});
+  sortBy?: ListExtensionsRequestSortBy | (string & {}) | undefined;
 }
 export type ListExtensionsResultItemMetadata = GetExtensionResponseMetadata;
 export interface ListExtensionsResultItem {
@@ -625,13 +625,13 @@ export interface ListRegistrationsRequest {
   /** Identifier. */
   accountId: string;
   /** Opaque token from a previous response's `result_info.cursor`. Pass this value to fetch the next page of results. Omit (or pass an empty string) for the first page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for results. Defaults to ascending order. */
-  direction?: ListRegistrationsRequestDirection | (string & {});
+  direction?: ListRegistrationsRequestDirection | (string & {}) | undefined;
   /** Number of items to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Column to sort results by. Defaults to registration date (`registry_created_at`) when omitted. */
-  sortBy?: ListRegistrationsRequestSortBy | (string & {});
+  sortBy?: ListRegistrationsRequestSortBy | (string & {}) | undefined;
 }
 export type ListRegistrationsResultItemPrivacyMode = "off" | "redaction";
 export type ListRegistrationsResultItemStatus =
@@ -666,11 +666,11 @@ export interface PutDomainRequest {
   /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
   /** Auto-renew controls whether subscription is automatically renewed upon domain expiration. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Shows whether a registrar lock is in place for a domain. */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** Privacy option controls redacting WHOIS information. */
-  privacy?: boolean;
+  privacy?: boolean | undefined;
 }
 export type PutDomainResponse = unknown;
 export type SearchRequestExtensionsList = Array<string>;
@@ -680,9 +680,9 @@ export interface SearchRegistrarRequest {
   /** The search term to find domain suggestions. Accepts keywords, phrases, or full domain names. */
   q: string;
   /** Limits results to specific domain extensions from the supported set. If not specified, returns results across all supported extensions. Extensions not in the supported set are silently ignored. */
-  extensions?: SearchRequestExtensionsList;
+  extensions?: SearchRequestExtensionsList | undefined;
   /** Maximum number of domain suggestions to return. Defaults to 20 if not specified. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SearchResponseDomainsItemPricing = CheckResponseDomainsItemPricing;
 export type SearchResponseDomainsItemReason =
@@ -698,11 +698,11 @@ export interface SearchResponseDomainsItem {
   /** Indicates domain availability according to potentially stale, non-authoritative search data. */
   registrable: boolean;
   /** Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision. */
-  pricing?: CheckResponseDomainsItemPricing | null;
+  pricing?: CheckResponseDomainsItemPricing | null | undefined;
   /** Appears only when `registrable` is `false` and explains the advisory search result. Use POST /domain-check for authoritative status. */
-  reason?: SearchResponseDomainsItemReason | null;
+  reason?: SearchResponseDomainsItemReason | null | undefined;
   /** The pricing tier for this domain. A `registrable` value of `true` always includes this field, which defaults to `standard` for most domains. A `registrable` value of `false` may omit it. */
-  tier?: SearchResponseDomainsItemTier | null;
+  tier?: SearchResponseDomainsItemTier | null | undefined;
 }
 export type SearchResponseDomainsList = Array<SearchResponseDomainsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -714,7 +714,7 @@ export interface TransferCheckRequestDomainsItem {
   /** Fully qualified domain name (FQDN) to check for transfer eligibility. */
   domainName: string;
   /** Base64-encoded auth/EPP code from the current registrar. Required for most TLDs. `.uk` namespaces do not use auth codes. */
-  authCode?: string;
+  authCode?: string | undefined;
 }
 export type TransferCheckRequestDomainsList = Array<TransferCheckRequestDomainsItem>;
 export interface TransferCheckRequest {
@@ -760,8 +760,8 @@ export interface TransferCheckResponseDomainsValueTransferableResult {
   pricing: TransferCheckResponseDomainsValueTransferableResultPricing;
   transferable: boolean;
   /** The check evaluates this domain name. */
-  name?: string | null;
-  reasons?: TransferCheckResponseDomainsValueTransferableResultReasonsList | null;
+  name?: string | null | undefined;
+  reasons?: TransferCheckResponseDomainsValueTransferableResultReasonsList | null | undefined;
 }
 export type TransferCheckResponseDomainsValueNonTransferableResultPricing =
   TransferCheckResponseDomainsValueTransferableResultPricing;
@@ -792,10 +792,10 @@ export type TransferCheckResponseDomainsValueNonTransferableResultReasonsList =
 export interface TransferCheckResponseDomainsValueNonTransferableResult {
   transferable: boolean;
   /** The check evaluates this domain name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision. */
-  pricing?: TransferCheckResponseDomainsValueTransferableResultPricing | null;
-  reasons?: TransferCheckResponseDomainsValueNonTransferableResultReasonsList | null;
+  pricing?: TransferCheckResponseDomainsValueTransferableResultPricing | null | undefined;
+  reasons?: TransferCheckResponseDomainsValueNonTransferableResultReasonsList | null | undefined;
 }
 export type TransferCheckResponseDomainsValue =
   | TransferCheckResponseDomainsValueTransferableResult

@@ -100,7 +100,7 @@ export interface GetProjectsGroupsRequest {
 /** Information related to tracking the progress on resolving the error. */
 export interface TrackingIssue {
   /** A URL pointing to a related entry in an issue tracking system. Example: `https://github.com/user/project/issues/4` */
-  url?: string;
+  url?: string | undefined;
 }
 export type TrackingIssueList = Array<TrackingIssue>;
 export type ErrorGroupResolutionStatusEnum =
@@ -112,13 +112,13 @@ export type ErrorGroupResolutionStatusEnum =
 /** Description of a group of similar error events. */
 export interface ErrorGroup {
   /** An opaque identifier of the group. This field is assigned by the Error Reporting system and always populated. In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
-  name?: string;
+  name?: string | undefined;
   /** Associated tracking issues. */
-  trackingIssues?: TrackingIssueList;
+  trackingIssues?: TrackingIssueList | undefined;
   /** Error group's resolution status. An unspecified resolution status will be interpreted as OPEN */
-  resolutionStatus?: ErrorGroupResolutionStatusEnum | (string & {});
+  resolutionStatus?: ErrorGroupResolutionStatusEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsGroupsRequest {
   /** Required. The group resource name. Written as either `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}`. Call groupStats.list to return a list of groups belonging to this project. Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/global/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
@@ -133,94 +133,94 @@ export type ListProjectsEventsTimeRange_periodEnum =
   | "PERIOD_30_DAYS";
 export interface ListProjectsEventsRequest {
   /** Optional. A `next_page_token` provided by a previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectID}/locations/{location}`, where `{projectID}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840) and `{location}` is a Cloud region. Examples: `projects/my-project-123`, `projects/my-project-123/locations/global`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   projectName: string;
   /** Optional. The exact value to match against [`ServiceContext.service`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.service). */
-  "serviceFilter.service"?: string;
+  "serviceFilter.service"?: string | undefined;
   /** Optional. The maximum number of results to return per response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The exact value to match against [`ServiceContext.version`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.version). */
-  "serviceFilter.version"?: string;
+  "serviceFilter.version"?: string | undefined;
   /** Required. The group for which events shall be returned. The `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
-  "serviceFilter.resourceType"?: string;
+  "serviceFilter.resourceType"?: string | undefined;
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: ListProjectsEventsTimeRange_periodEnum | (string & {});
+  "timeRange.period"?: ListProjectsEventsTimeRange_periodEnum | (string & {}) | undefined;
 }
 /** Describes a running service that sends errors. Its version changes over time and multiple versions can run in parallel. */
 export interface ServiceContext {
   /** Represents the source code version that the developer provided, which could represent a version label or a Git SHA-1 hash, for example. For App Engine standard environment, the version is set to the version of the app. */
-  version?: string;
+  version?: string | undefined;
   /** Type of the MonitoredResource. List of possible values: https://cloud.google.com/monitoring/api/resources Value is set automatically for incoming errors and must not be set when reporting errors. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** An identifier of the service, such as the name of the executable, job, or Google App Engine service name. This field is expected to have a low number of values that are relatively stable over time, as opposed to `version`, which can be changed whenever new code is deployed. Contains the service name for error reports extracted from Google App Engine logs or `default` if the App Engine default service is used. */
-  service?: string;
+  service?: string | undefined;
 }
 /** A reference to a particular snapshot of the source tree used to build and deploy an application. */
 export interface SourceReference {
   /** Optional. A URI string identifying the repository. Example: "https://github.com/GoogleCloudPlatform/kubernetes.git" */
-  repository?: string;
+  repository?: string | undefined;
   /** The canonical and persistent identifier of the deployed revision. Example (git): "0035781c50ec7aa23385dc841529ce8a4b70db1b" */
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export type SourceReferenceList = Array<SourceReference>;
 /** HTTP request data that is related to a reported error. This data should be provided by the application when reporting an error, unless the error report has been generated automatically from Google App Engine logs. */
 export interface HttpRequestContext {
   /** The referrer information that is provided with the request. */
-  referrer?: string;
+  referrer?: string | undefined;
   /** The user agent information that is provided with the request. */
-  userAgent?: string;
+  userAgent?: string | undefined;
   /** The URL of the request. */
-  url?: string;
+  url?: string | undefined;
   /** The HTTP response status code for the request. */
-  responseStatusCode?: number;
+  responseStatusCode?: number | undefined;
   /** The type of HTTP request, such as `GET`, `POST`, etc. */
-  method?: string;
+  method?: string | undefined;
   /** The IP address from which the request originated. This can be IPv4, IPv6, or a token which is derived from the IP address, depending on the data that has been provided in the error report. */
-  remoteIp?: string;
+  remoteIp?: string | undefined;
 }
 /** Indicates a location in the source code of the service for which errors are reported. `functionName` must be provided by the application when reporting an error, unless the error report contains a `message` with a supported exception stack trace. All fields are optional for the later case. */
 export interface SourceLocation {
   /** 1-based. 0 indicates that the line number is unknown. */
-  lineNumber?: number;
+  lineNumber?: number | undefined;
   /** Human-readable name of a function or method. The value can include optional context like the class or package name. For example, `my.package.MyClass.method` in case of Java. */
-  functionName?: string;
+  functionName?: string | undefined;
   /** The source code filename, which can include a truncated relative path, or a full path from a production machine. */
-  filePath?: string;
+  filePath?: string | undefined;
 }
 /** A description of the context in which an error occurred. This data should be provided by the application when reporting an error, unless the error report has been generated automatically from Google App Engine logs. */
 export interface ErrorContext {
   /** Source code that was used to build the executable which has caused the given error message. */
-  sourceReferences?: SourceReferenceList;
+  sourceReferences?: SourceReferenceList | undefined;
   /** The user who caused or was affected by the crash. This can be a user ID, an email address, or an arbitrary token that uniquely identifies the user. When sending an error report, leave this field empty if the user was not logged in. In this case the Error Reporting system will use other data, such as remote IP address, to distinguish affected users. See `affected_users_count` in `ErrorGroupStats`. */
-  user?: string;
+  user?: string | undefined;
   /** The HTTP request which was processed when the error was triggered. */
-  httpRequest?: HttpRequestContext;
+  httpRequest?: HttpRequestContext | undefined;
   /** The location in the source code where the decision was made to report the error, usually the place where it was logged. For a logged exception this would be the source line where the exception is logged, usually close to the place where it was caught. */
-  reportLocation?: SourceLocation;
+  reportLocation?: SourceLocation | undefined;
 }
 /** An error event which is returned by the Error Reporting system. */
 export interface ErrorEvent {
   /** The `ServiceContext` for which this error was reported. */
-  serviceContext?: ServiceContext;
+  serviceContext?: ServiceContext | undefined;
   /** Data about the context in which the error occurred. */
-  context?: ErrorContext;
+  context?: ErrorContext | undefined;
   /** Time when the event occurred as provided in the error report. If the report did not contain a timestamp, the time the error was received by the Error Reporting system is used. */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The stack trace that was reported or logged by the service. */
-  message?: string;
+  message?: string | undefined;
 }
 export type ErrorEventList = Array<ErrorEvent>;
 /** Contains a set of requested error events. */
 export interface ListEventsResponse {
   /** The error events which match the given request. */
-  errorEvents?: ErrorEventList;
+  errorEvents?: ErrorEventList | undefined;
   /** The timestamp specifies the start time to which the request was restricted. */
-  timeRangeBegin?: string;
+  timeRangeBegin?: string | undefined;
   /** If non-empty, more results are available. Pass this token, along with the same query parameters as the first request, to view the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsGroupStatsTimeRange_periodEnum =
   | "PERIOD_UNSPECIFIED"
@@ -242,71 +242,71 @@ export type ListProjectsGroupStatsAlignmentEnum =
 export type StringList = Array<string>;
 export interface ListProjectsGroupStatsRequest {
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: ListProjectsGroupStatsTimeRange_periodEnum | (string & {});
+  "timeRange.period"?: ListProjectsGroupStatsTimeRange_periodEnum | (string & {}) | undefined;
   /** Optional. A next_page_token provided by a previous response. To view additional results, pass this token along with the identical query parameters as the first request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The preferred duration for a single returned TimedCount. If not set, no timed counts are returned. */
-  timedCountDuration?: string;
+  timedCountDuration?: string | undefined;
   /** Optional. The sort order in which the results are returned. Default is `COUNT_DESC`. */
-  order?: ListProjectsGroupStatsOrderEnum | (string & {});
+  order?: ListProjectsGroupStatsOrderEnum | (string & {}) | undefined;
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectNumber}`, where `{projectID}` and `{projectNumber}` can be found in the [Google Cloud console](https://support.google.com/cloud/answer/6158840). It may also include a location, such as `projects/{projectID}/locations/{location}` where `{location}` is a cloud region. Examples: `projects/my-project-123`, `projects/5551234`, `projects/my-project-123/locations/us-central1`, `projects/5551234/locations/us-central1`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. Use `-` as a wildcard to request group stats from all regions. */
   projectName: string;
   /** Optional. The exact value to match against [`ServiceContext.version`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.version). */
-  "serviceFilter.version"?: string;
+  "serviceFilter.version"?: string | undefined;
   /** Optional. The alignment of the timed counts to be returned. Default is `ALIGNMENT_EQUAL_AT_END`. */
-  alignment?: ListProjectsGroupStatsAlignmentEnum | (string & {});
+  alignment?: ListProjectsGroupStatsAlignmentEnum | (string & {}) | undefined;
   /** Optional. Time where the timed counts shall be aligned if rounded alignment is chosen. Default is 00:00 UTC. */
-  alignmentTime?: string;
+  alignmentTime?: string | undefined;
   /** Optional. The maximum number of results to return per response. Default is 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The exact value to match against [`ServiceContext.service`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.service). */
-  "serviceFilter.service"?: string;
+  "serviceFilter.service"?: string | undefined;
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
-  "serviceFilter.resourceType"?: string;
+  "serviceFilter.resourceType"?: string | undefined;
   /** Optional. List all ErrorGroupStats with these IDs. The `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice] (https://cloud.google.com/terms/cloud-privacy-notice). */
-  groupId?: StringList;
+  groupId?: StringList | undefined;
 }
 export type ServiceContextList = Array<ServiceContext>;
 /** The number of errors in a given time period. All numbers are approximate since the error events are sampled before counting them. */
 export interface TimedCount {
   /** Start of the time period to which `count` refers (included). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Approximate number of occurrences in the given time period. */
-  count?: string;
+  count?: string | undefined;
   /** End of the time period to which `count` refers (excluded). */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type TimedCountList = Array<TimedCount>;
 /** Data extracted for a specific group based on certain filter criteria, such as a given time period and/or service filter. */
 export interface ErrorGroupStats {
   /** Approximate last occurrence that was ever seen for this group and which matches the given filter criteria, ignoring the time_range that was specified in the request. */
-  lastSeenTime?: string;
+  lastSeenTime?: string | undefined;
   /** The total number of services with a non-zero error count for the given filter criteria. */
-  numAffectedServices?: number;
+  numAffectedServices?: number | undefined;
   /** Approximate first occurrence that was ever seen for this group and which matches the given filter criteria, ignoring the time_range that was specified in the request. */
-  firstSeenTime?: string;
+  firstSeenTime?: string | undefined;
   /** An arbitrary event that is chosen as representative for the whole group. The representative event is intended to be used as a quick preview for the whole group. Events in the group are usually sufficiently similar to each other such that showing an arbitrary representative provides insight into the characteristics of the group as a whole. */
-  representative?: ErrorEvent;
+  representative?: ErrorEvent | undefined;
   /** Approximate total number of events in the given group that match the filter criteria. */
-  count?: string;
+  count?: string | undefined;
   /** Group data that is independent of the filter criteria. */
-  group?: ErrorGroup;
+  group?: ErrorGroup | undefined;
   /** Approximate number of affected users in the given group that match the filter criteria. Users are distinguished by data in the ErrorContext of the individual error events, such as their login name or their remote IP address in case of HTTP requests. The number of affected users can be zero even if the number of errors is non-zero if no data was provided from which the affected user could be deduced. Users are counted based on data in the request context that was provided in the error report. If more users are implicitly affected, such as due to a crash of the whole service, this is not reflected here. */
-  affectedUsersCount?: string;
+  affectedUsersCount?: string | undefined;
   /** Service contexts with a non-zero error count for the given filter criteria. This list can be truncated if multiple services are affected. Refer to `num_affected_services` for the total count. */
-  affectedServices?: ServiceContextList;
+  affectedServices?: ServiceContextList | undefined;
   /** Approximate number of occurrences over time. Timed counts returned by ListGroups are guaranteed to be: - Inside the requested time interval - Non-overlapping, and - Ordered by ascending time. */
-  timedCounts?: TimedCountList;
+  timedCounts?: TimedCountList | undefined;
 }
 export type ErrorGroupStatsList = Array<ErrorGroupStats>;
 /** Contains a set of requested error group stats. */
 export interface ListGroupStatsResponse {
   /** The error group stats which match the given request. */
-  errorGroupStats?: ErrorGroupStatsList;
+  errorGroupStats?: ErrorGroupStatsList | undefined;
   /** If non-empty, more results are available. Pass this token, along with the same query parameters as the first request, to view the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The timestamp specifies the start time to which the request was restricted. The start time is set based on the requested time range. It may be adjusted to a later time if a project has exceeded the storage quota and older data has been deleted. */
-  timeRangeBegin?: string;
+  timeRangeBegin?: string | undefined;
 }
 export type ListProjectsLocationsEventsTimeRange_periodEnum =
   | "PERIOD_UNSPECIFIED"
@@ -317,21 +317,21 @@ export type ListProjectsLocationsEventsTimeRange_periodEnum =
   | "PERIOD_30_DAYS";
 export interface ListProjectsLocationsEventsRequest {
   /** Optional. The maximum number of results to return per response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The exact value to match against [`ServiceContext.version`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.version). */
-  "serviceFilter.version"?: string;
+  "serviceFilter.version"?: string | undefined;
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: ListProjectsLocationsEventsTimeRange_periodEnum | (string & {});
+  "timeRange.period"?: ListProjectsLocationsEventsTimeRange_periodEnum | (string & {}) | undefined;
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectID}/locations/{location}`, where `{projectID}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840) and `{location}` is a Cloud region. Examples: `projects/my-project-123`, `projects/my-project-123/locations/global`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   projectName: string;
   /** Required. The group for which events shall be returned. The `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Optional. The exact value to match against [`ServiceContext.service`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.service). */
-  "serviceFilter.service"?: string;
+  "serviceFilter.service"?: string | undefined;
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
-  "serviceFilter.resourceType"?: string;
+  "serviceFilter.resourceType"?: string | undefined;
   /** Optional. A `next_page_token` provided by a previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListProjectsLocationsGroupStatsOrderEnum =
   | "GROUP_ORDER_UNSPECIFIED"
@@ -352,46 +352,49 @@ export type ListProjectsLocationsGroupStatsTimeRange_periodEnum =
   | "PERIOD_30_DAYS";
 export interface ListProjectsLocationsGroupStatsRequest {
   /** Optional. The sort order in which the results are returned. Default is `COUNT_DESC`. */
-  order?: ListProjectsLocationsGroupStatsOrderEnum | (string & {});
+  order?: ListProjectsLocationsGroupStatsOrderEnum | (string & {}) | undefined;
   /** Optional. The exact value to match against [`ServiceContext.service`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.service). */
-  "serviceFilter.service"?: string;
+  "serviceFilter.service"?: string | undefined;
   /** Optional. The preferred duration for a single returned TimedCount. If not set, no timed counts are returned. */
-  timedCountDuration?: string;
+  timedCountDuration?: string | undefined;
   /** Optional. The alignment of the timed counts to be returned. Default is `ALIGNMENT_EQUAL_AT_END`. */
-  alignment?: ListProjectsLocationsGroupStatsAlignmentEnum | (string & {});
+  alignment?: ListProjectsLocationsGroupStatsAlignmentEnum | (string & {}) | undefined;
   /** Optional. The exact value to match against [`ServiceContext.version`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.version). */
-  "serviceFilter.version"?: string;
+  "serviceFilter.version"?: string | undefined;
   /** Optional. Time where the timed counts shall be aligned if rounded alignment is chosen. Default is 00:00 UTC. */
-  alignmentTime?: string;
+  alignmentTime?: string | undefined;
   /** Optional. The maximum number of results to return per response. Default is 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectNumber}`, where `{projectID}` and `{projectNumber}` can be found in the [Google Cloud console](https://support.google.com/cloud/answer/6158840). It may also include a location, such as `projects/{projectID}/locations/{location}` where `{location}` is a cloud region. Examples: `projects/my-project-123`, `projects/5551234`, `projects/my-project-123/locations/us-central1`, `projects/5551234/locations/us-central1`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. Use `-` as a wildcard to request group stats from all regions. */
   projectName: string;
   /** Optional. The exact value to match against [`ServiceContext.resource_type`](/error-reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type). */
-  "serviceFilter.resourceType"?: string;
+  "serviceFilter.resourceType"?: string | undefined;
   /** Optional. A next_page_token provided by a previous response. To view additional results, pass this token along with the identical query parameters as the first request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. List all ErrorGroupStats with these IDs. The `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice] (https://cloud.google.com/terms/cloud-privacy-notice). */
-  groupId?: StringList;
+  groupId?: StringList | undefined;
   /** Restricts the query to the specified time range. */
-  "timeRange.period"?: ListProjectsLocationsGroupStatsTimeRange_periodEnum | (string & {});
+  "timeRange.period"?:
+    | ListProjectsLocationsGroupStatsTimeRange_periodEnum
+    | (string & {})
+    | undefined;
 }
 /** An error event which is reported to the Error Reporting system. */
 export interface ReportedErrorEvent {
   /** Required. The service context in which this error has occurred. */
-  serviceContext?: ServiceContext;
+  serviceContext?: ServiceContext | undefined;
   /** Required. The error message. If no `context.reportLocation` is provided, the message must contain a header (typically consisting of the exception type name and an error message) and an exception stack trace in one of the supported programming languages and formats. Supported languages are Java, Python, JavaScript, Ruby, C#, PHP, Go, and Rust. Supported stack trace formats are: * **Java**: Must be the return value of [`Throwable.printStackTrace()`](https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#printStackTrace%28%29). * **Python**: Must be the return value of [`traceback.format_exc()`](https://docs.python.org/2/library/traceback.html#traceback.format_exc). * **JavaScript**: Must be the value of [`error.stack`](https://github.com/v8/v8/wiki/Stack-Trace-API) as returned by V8. * **Ruby**: Must contain frames returned by [`Exception.backtrace`](https://ruby-doc.org/core-2.2.0/Exception.html#method-i-backtrace). * **C#**: Must be the return value of [`Exception.ToString()`](https://msdn.microsoft.com/en-us/library/system.exception.tostring.aspx). * **PHP**: Must be prefixed with `"PHP (Notice|Parse error|Fatal error|Warning): "` and contain the result of [`(string)$exception`](https://php.net/manual/en/exception.tostring.php). * **Go**: Must be the return value of [`debug.Stack()`](https://pkg.go.dev/runtime/debug#Stack). * **Rust**: Must contain standard [`std::backtrace`](https://doc.rust-lang.org/std/backtrace/index.html) frames. Requires `RUST_BACKTRACE=1` and debug symbols enabled. */
-  message?: string;
+  message?: string | undefined;
   /** Optional. A description of the context in which the error occurred. */
-  context?: ErrorContext;
+  context?: ErrorContext | undefined;
   /** Optional. Time when the event occurred. If not provided, the time when the event was received by the Error Reporting system is used. If provided, the time must not exceed the [logs retention period](https://cloud.google.com/logging/quotas#logs_retention_periods) in the past, or be more than 24 hours in the future. If an invalid time is provided, then an error is returned. */
-  eventTime?: string;
+  eventTime?: string | undefined;
 }
 export interface ReportProjectsEventsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectId}`, where `{projectId}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840). Example: // `projects/my-project-123`. */
   projectName: string;
   /** Request body */
-  body?: ReportedErrorEvent;
+  body?: ReportedErrorEvent | undefined;
 }
 /** Response for reporting an individual error event. Data may be added to this message in the future. */
 export interface ReportErrorEventResponse {}
@@ -399,13 +402,13 @@ export interface UpdateProjectsGroupsRequest {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   name: string;
   /** Request body */
-  body?: ErrorGroup;
+  body?: ErrorGroup | undefined;
 }
 export interface UpdateProjectsLocationsGroupsRequest {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   name: string;
   /** Request body */
-  body?: ErrorGroup;
+  body?: ErrorGroup | undefined;
 }
 export type DeleteEventsProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Deletes all error events of a given project. */

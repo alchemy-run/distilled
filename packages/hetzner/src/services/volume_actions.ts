@@ -31,7 +31,7 @@ export interface AttachVolumeRequest {
   /** ID of the Server the Volume will be attached to. */
   server: number;
   /** Auto-mount the Volume after attaching it. */
-  automount?: boolean;
+  automount?: boolean | undefined;
 }
 /** Status of the Action. */
 export type AttachVolumeResponseActionStatus = "running" | "success" | "error";
@@ -76,7 +76,7 @@ export interface ChangeVolumeProtectionRequest {
   /** ID of the Volume. */
   id: number;
   /** If true, prevents the Volume from being deleted. */
-  delete?: boolean;
+  delete?: boolean | undefined;
 }
 /** Status of the Action. */
 export type ChangeVolumeProtectionResponseActionStatus = "running" | "success" | "error";
@@ -202,13 +202,13 @@ export interface ListVolumeActionsRequest {
   /** ID of the Volume. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListVolumeActionsRequestSortList;
+  sort?: ListVolumeActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListVolumeActionsRequestStatusList;
+  status?: ListVolumeActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListVolumeActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -288,15 +288,15 @@ export type ListVolumesActionsRequestStatusList = Array<
 >;
 export interface ListVolumesActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListVolumesActionsRequestIdList;
+  id?: ListVolumesActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListVolumesActionsRequestSortList;
+  sort?: ListVolumesActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListVolumesActionsRequestStatusList;
+  status?: ListVolumesActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListVolumesActionsResponseActionsItemStatus = "running" | "success" | "error";

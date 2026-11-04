@@ -174,15 +174,15 @@ export type ChatTokenAttributes = { [key: string]: string | undefined };
 export interface CreateChatTokenRequest {
   roomIdentifier: string;
   userId: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  sessionDurationInMinutes?: number;
-  attributes?: { [key: string]: string | undefined };
+  capabilities?: string[] | undefined;
+  sessionDurationInMinutes?: number | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ChatToken = string | redacted.Redacted<string>;
 export interface CreateChatTokenResponse {
-  token?: string | redacted.Redacted<string>;
-  tokenExpirationTime?: Date;
-  sessionExpirationTime?: Date;
+  token?: string | redacted.Redacted<string> | undefined;
+  tokenExpirationTime?: Date | undefined;
+  sessionExpirationTime?: Date | undefined;
 }
 export type LoggingConfigurationName = string;
 export type BucketName = string;
@@ -205,22 +205,22 @@ export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateLoggingConfigurationRequest {
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LoggingConfigurationArn = string;
 export type LoggingConfigurationID = string;
 export type CreateLoggingConfigurationState = string;
 export interface CreateLoggingConfigurationResponse {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RoomName = string;
 export type RoomMaxMessageRatePerSecond = number;
@@ -228,32 +228,32 @@ export type RoomMaxMessageLength = number;
 export type LambdaArn = string;
 export type FallbackResult = string;
 export interface MessageReviewHandler {
-  uri?: string;
-  fallbackResult?: string;
+  uri?: string | undefined;
+  fallbackResult?: string | undefined;
 }
 export type LoggingConfigurationIdentifier = string;
 export type LoggingConfigurationIdentifierList = string[];
 export interface CreateRoomRequest {
-  name?: string;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  name?: string | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type RoomArn = string;
 export type RoomID = string;
 export interface CreateRoomResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export interface DeleteLoggingConfigurationRequest {
   identifier: string;
@@ -264,11 +264,11 @@ export type Reason = string;
 export interface DeleteMessageRequest {
   roomIdentifier: string;
   id: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export type ID = string;
 export interface DeleteMessageResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DeleteRoomRequest {
   identifier: string;
@@ -277,7 +277,7 @@ export interface DeleteRoomResponse {}
 export interface DisconnectUserRequest {
   roomIdentifier: string;
   userId: string | redacted.Redacted<string>;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface DisconnectUserResponse {}
 export interface GetLoggingConfigurationRequest {
@@ -285,73 +285,73 @@ export interface GetLoggingConfigurationRequest {
 }
 export type LoggingConfigurationState = string;
 export interface GetLoggingConfigurationResponse {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRoomRequest {
   identifier: string;
 }
 export interface GetRoomResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type PaginationToken = string;
 export type MaxLoggingConfigurationResults = number;
 export interface ListLoggingConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LoggingConfigurationSummary {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LoggingConfigurationList = LoggingConfigurationSummary[];
 export interface ListLoggingConfigurationsResponse {
   loggingConfigurations: LoggingConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxRoomResults = number;
 export interface ListRoomsRequest {
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
-  messageReviewHandlerUri?: string;
-  loggingConfigurationIdentifier?: string;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  messageReviewHandlerUri?: string | undefined;
+  loggingConfigurationIdentifier?: string | undefined;
 }
 export interface RoomSummary {
-  arn?: string;
-  id?: string;
-  name?: string;
-  messageReviewHandler?: MessageReviewHandler;
-  createTime?: Date;
-  updateTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type RoomList = RoomSummary[];
 export interface ListRoomsResponse {
   rooms: RoomSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -365,10 +365,10 @@ export type EventAttributes = { [key: string]: string | undefined };
 export interface SendEventRequest {
   roomIdentifier: string;
   eventName: string;
-  attributes?: { [key: string]: string | undefined };
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface SendEventResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -383,39 +383,39 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateLoggingConfigurationRequest {
   identifier: string;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
 }
 export type UpdateLoggingConfigurationState = string;
 export interface UpdateLoggingConfigurationResponse {
-  arn?: string;
-  id?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  name?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  name?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateRoomRequest {
   identifier: string;
-  name?: string;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  loggingConfigurationIdentifiers?: string[];
+  name?: string | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export interface UpdateRoomResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  maximumMessageRatePerSecond?: number;
-  maximumMessageLength?: number;
-  messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string | undefined };
-  loggingConfigurationIdentifiers?: string[];
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  createTime?: Date | undefined;
+  updateTime?: Date | undefined;
+  maximumMessageRatePerSecond?: number | undefined;
+  maximumMessageLength?: number | undefined;
+  messageReviewHandler?: MessageReviewHandler | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  loggingConfigurationIdentifiers?: string[] | undefined;
 }
 export type ErrorMessage = string;
 export type ResourceId = string;

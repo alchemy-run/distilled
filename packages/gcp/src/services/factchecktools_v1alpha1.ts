@@ -86,76 +86,76 @@ export class NotFound
 /** Information about the claim rating. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating {
   /** Corresponds to `ClaimReview.reviewRating.image`. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** The truthfulness rating as a human-readible short word or phrase. Corresponds to `ClaimReview.reviewRating.alternateName`. */
-  textualRating?: string;
+  textualRating?: string | undefined;
   /** A numeric rating of this claim, in the range worstRating -- bestRating inclusive. Corresponds to `ClaimReview.reviewRating.ratingValue`. */
-  ratingValue?: number;
+  ratingValue?: number | undefined;
   /** For numeric ratings, the worst value possible in the scale from worst to best. Corresponds to `ClaimReview.reviewRating.worstRating`. */
-  worstRating?: number;
+  worstRating?: number | undefined;
   /** For numeric ratings, the best value possible in the scale from worst to best. Corresponds to `ClaimReview.reviewRating.bestRating`. */
-  bestRating?: number;
+  bestRating?: number | undefined;
   /** Corresponds to `ClaimReview.reviewRating.ratingExplanation`. */
-  ratingExplanation?: string;
+  ratingExplanation?: string | undefined;
 }
 /** Information about the claim author. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor {
   /** A person or organization stating the claim. For instance, "John Doe". Corresponds to `ClaimReview.itemReviewed.author.name`. */
-  name?: string;
+  name?: string | undefined;
   /** Corresponds to `ClaimReview.itemReviewed.author.sameAs`. */
-  sameAs?: string;
+  sameAs?: string | undefined;
   /** Corresponds to `ClaimReview.itemReviewed.author.image`. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Corresponds to `ClaimReview.itemReviewed.author.jobTitle`. */
-  jobTitle?: string;
+  jobTitle?: string | undefined;
 }
 export type StringList = Array<string>;
 /** Fields for an individual `ClaimReview` element. Except for sub-messages that group fields together, each of these fields correspond those in https://schema.org/ClaimReview. We list the precise mapping for each field. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup {
   /** Info about the rating of this claim review. */
-  rating?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating;
+  rating?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimRating | undefined;
   /** A link to a work in which this claim first appears. Corresponds to `ClaimReview.itemReviewed[@type=Claim].firstAppearance.url`. */
-  claimFirstAppearance?: string;
+  claimFirstAppearance?: string | undefined;
   /** This field is optional, and will default to the page URL. We provide this field to allow you the override the default value, but the only permitted override is the page URL plus an optional anchor link ("page jump"). Corresponds to `ClaimReview.url` */
-  url?: string;
+  url?: string | undefined;
   /** A short summary of the claim being evaluated. Corresponds to `ClaimReview.claimReviewed`. */
-  claimReviewed?: string;
+  claimReviewed?: string | undefined;
   /** The location where this claim was made. Corresponds to `ClaimReview.itemReviewed.name`. */
-  claimLocation?: string;
+  claimLocation?: string | undefined;
   /** The date when the claim was made or entered public discourse. Corresponds to `ClaimReview.itemReviewed.datePublished`. */
-  claimDate?: string;
+  claimDate?: string | undefined;
   /** Info about the author of this claim. */
-  claimAuthor?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor;
+  claimAuthor?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimAuthor | undefined;
   /** A list of links to works in which this claim appears, aside from the one specified in `claim_first_appearance`. Corresponds to `ClaimReview.itemReviewed[@type=Claim].appearance.url`. */
-  claimAppearances?: StringList;
+  claimAppearances?: StringList | undefined;
 }
 export type GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupList =
   Array<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup>;
 /** Information about the claim review author. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor {
   /** Corresponds to `ClaimReview.author.image`. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Name of the organization that is publishing the fact check. Corresponds to `ClaimReview.author.name`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Holds one or more instances of `ClaimReview` markup for a webpage. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {
   /** A list of individual claim reviews for this page. Each item in the list corresponds to one `ClaimReview` element. */
-  claimReviewMarkups?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupList;
+  claimReviewMarkups?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupList | undefined;
   /** The version ID for this markup. Except for update requests, this field is output-only and should not be set by the user. */
-  versionId?: string;
+  versionId?: string | undefined;
   /** The URL of the page associated with this `ClaimReview` markup. While every individual `ClaimReview` has its own URL field, semantically this is a page-level field, and each `ClaimReview` on this page will use this value unless individually overridden. Corresponds to `ClaimReview.url` */
-  pageUrl?: string;
+  pageUrl?: string | undefined;
   /** The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
-  name?: string;
+  name?: string | undefined;
   /** Info about the author of this claim review. Similar to the above, semantically these are page-level fields, and each `ClaimReview` on this page will contain the same values. */
-  claimReviewAuthor?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor;
+  claimReviewAuthor?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor | undefined;
   /** The date when the fact check was published. Similar to the URL, semantically this is a page-level field, and each `ClaimReview` on this page will contain the same value. Corresponds to `ClaimReview.datePublished` */
-  publishDate?: string;
+  publishDate?: string | undefined;
 }
 export interface CreatePagesRequest {
   /** Request body */
-  body?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+  body?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage | undefined;
 }
 export interface DeletePagesRequest {
   /** The name of the resource to delete, in the form of `pages/{page_id}`. */
@@ -169,116 +169,120 @@ export interface GetPagesRequest {
 }
 export interface ImageSearchClaimsRequest {
   /** Optional. The pagination token. You may provide the `next_page_token` returned from a previous List request, if any, in order to get the next page. All other fields must have the same values as in the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. An integer that specifies the current offset (that is, starting result location) in search results. This field is only considered if `page_token` is unset. For example, 0 means to return results starting from the first matching result, and 10 means to return from the 11th result. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional. The pagination size. We will return up to that many results. Defaults to 10 if not set. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". Can be used to restrict results by language, though we do not currently consider the region. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Required. The URI of the source image. This must be a publicly-accessible image HTTP/HTTPS URL. When fetching images from HTTP/HTTPS URLs, Google cannot guarantee that the request will be completed. Your request may fail if the specified host denies the request (e.g. due to request throttling or DOS prevention), or if Google throttles requests to the site for abuse prevention. You should not depend on externally-hosted images for production applications. */
-  imageUri?: string;
+  imageUri?: string | undefined;
 }
 /** Information about the publisher. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1Publisher {
   /** The name of this publisher. For instance, "Awesome Fact Checks". */
-  name?: string;
+  name?: string | undefined;
   /** Host-level site name, without the protocol or "www" prefix. For instance, "awesomefactchecks.com". This value of this field is based purely on the claim review URL. */
-  site?: string;
+  site?: string | undefined;
 }
 /** Information about a claim review. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview {
   /** The date the claim was reviewed. */
-  reviewDate?: string;
+  reviewDate?: string | undefined;
   /** The title of this claim review, if it can be determined. */
-  title?: string;
+  title?: string | undefined;
   /** The publisher of this claim review. */
-  publisher?: GoogleFactcheckingFactchecktoolsV1alpha1Publisher;
+  publisher?: GoogleFactcheckingFactchecktoolsV1alpha1Publisher | undefined;
   /** Textual rating. For instance, "Mostly false". */
-  textualRating?: string;
+  textualRating?: string | undefined;
   /** The URL of this claim review. */
-  url?: string;
+  url?: string | undefined;
   /** The language this review was written in. For instance, "en" or "de". */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewList =
   Array<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview>;
 /** Information about the claim. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1Claim {
   /** The date that the claim was made. */
-  claimDate?: string;
+  claimDate?: string | undefined;
   /** A person or organization stating the claim. For instance, "John Doe". */
-  claimant?: string;
+  claimant?: string | undefined;
   /** One or more reviews of this claim (namely, a fact-checking article). */
-  claimReview?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewList;
+  claimReview?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewList | undefined;
   /** The claim text. For instance, "Crime has doubled in the last 2 years." */
-  text?: string;
+  text?: string | undefined;
 }
 /** A claim and its associated information. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult {
   /** A claim which matched the query. */
-  claim?: GoogleFactcheckingFactchecktoolsV1alpha1Claim;
+  claim?: GoogleFactcheckingFactchecktoolsV1alpha1Claim | undefined;
 }
 export type GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResultList =
   Array<GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResult>;
 /** Response from searching fact-checked claims by image. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponse {
   /** The next pagination token in the Search response. It should be used as the `page_token` for the following request. An empty value means no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of claims and all of their associated information. */
-  results?: GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResultList;
+  results?:
+    | GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimImageSearchResponseResultList
+    | undefined;
 }
 export interface ListPagesRequest {
   /** The pagination token. You may provide the `next_page_token` returned from a previous List request, if any, in order to get the next page. All other fields must have the same values as in the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The URL from which to get `ClaimReview` markup. There will be at most one result. If markup is associated with a more canonical version of the URL provided, we will return that URL instead. Cannot be specified along with an organization. */
-  url?: string;
+  url?: string | undefined;
   /** The organization for which we want to fetch markups for. For instance, "site.com". Cannot be specified along with an URL. */
-  organization?: string;
+  organization?: string | undefined;
   /** The pagination size. We will return up to that many results. Defaults to 10 if not set. Has no effect if a URL is requested. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** An integer that specifies the current offset (that is, starting result location) in search results. This field is only considered if `page_token` is unset, and if the request is not for a specific URL. For example, 0 means to return results starting from the first matching result, and 10 means to return from the 11th result. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPageList =
   Array<GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage>;
 /** Response from listing `ClaimReview` markup. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse {
   /** The result list of pages of `ClaimReview` markup. */
-  claimReviewMarkupPages?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPageList;
+  claimReviewMarkupPages?:
+    | GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPageList
+    | undefined;
   /** The next pagination token in the Search response. It should be used as the `page_token` for the following request. An empty value means no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchClaimsRequest {
   /** Textual query string. Required unless `review_publisher_site_filter` is specified. */
-  query?: string;
+  query?: string | undefined;
   /** The maximum age of the returned search results, in days. Age is determined by either claim date or review date, whichever is newer. */
-  maxAgeDays?: number;
+  maxAgeDays?: number | undefined;
   /** The BCP-47 language code, such as "en-US" or "sr-Latn". Can be used to restrict results by language, though we do not currently consider the region. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** An integer that specifies the current offset (that is, starting result location) in search results. This field is only considered if `page_token` is unset. For example, 0 means to return results starting from the first matching result, and 10 means to return from the 11th result. */
-  offset?: number;
+  offset?: number | undefined;
   /** The review publisher site to filter results by, e.g. nytimes.com. */
-  reviewPublisherSiteFilter?: string;
+  reviewPublisherSiteFilter?: string | undefined;
   /** The pagination token. You may provide the `next_page_token` returned from a previous List request, if any, in order to get the next page. All other fields must have the same values as in the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The pagination size. We will return up to that many results. Defaults to 10 if not set. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleFactcheckingFactchecktoolsV1alpha1ClaimList =
   Array<GoogleFactcheckingFactchecktoolsV1alpha1Claim>;
 /** Response from searching fact-checked claims. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse {
   /** The next pagination token in the Search response. It should be used as the `page_token` for the following request. An empty value means no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of claims and all of their associated information. */
-  claims?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimList;
+  claims?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimList | undefined;
 }
 export interface UpdatePagesRequest {
   /** The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
   name: string;
   /** Request body */
-  body?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
+  body?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage | undefined;
 }
 export type CreatePagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Create `ClaimReview` markup on a page. */

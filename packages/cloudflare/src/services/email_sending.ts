@@ -85,17 +85,17 @@ export interface CreateSubdomainResponse {
   /** Sending subdomain identifier. */
   tag: string;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`. */
-  dkimSelector?: string | null;
+  dkimSelector?: string | null | undefined;
   /** Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request. */
-  dropSuppressedRecipients?: boolean | null;
+  dropSuppressedRecipients?: boolean | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Whether sent messages from this subdomain can be previewed in the activity log. */
-  previewEnabled?: boolean | null;
+  previewEnabled?: boolean | null | undefined;
   /** The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`. */
-  returnPathDomain?: string | null;
+  returnPathDomain?: string | null | undefined;
 }
 export type CreateSuppressionRequestScopeTypeType = "account";
 export interface CreateSuppressionRequestScopeType {
@@ -118,11 +118,11 @@ export interface CreateSuppressionRequest {
   /** The email address to suppress. */
   email: string;
   /** Expiration timestamp for the suppression. Omit or set to null for a permanent suppression that never expires. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Advisory note for this suppression. Not enforced or validated beyond length. */
-  note?: string;
+  note?: string | undefined;
   /** Where the suppression applies. Omit for `{ "type": "account" }`, which blocks the recipient for every sending domain of the account. */
-  scope?: CreateSuppressionRequestScope;
+  scope?: CreateSuppressionRequestScope | undefined;
 }
 export type CreateSuppressionResponseScopeTypeType = "account";
 export interface CreateSuppressionResponseScopeType {
@@ -144,7 +144,7 @@ export interface CreateSuppressionResponse {
   /** The suppression's identifier. */
   id: string;
   /** Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain. */
-  scope?: CreateSuppressionResponseScope | null;
+  scope?: CreateSuppressionResponseScope | null | undefined;
 }
 export interface DeleteSubdomainRequest {
   /** Identifier. */
@@ -179,7 +179,7 @@ export interface DeleteSuppressionResponse {
   /** The suppression's identifier. */
   id: string;
   /** Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain. */
-  scope?: DeleteSuppressionResponseScope | null;
+  scope?: DeleteSuppressionResponseScope | null | undefined;
 }
 export interface EditSubdomainRequest {
   /** Identifier. */
@@ -187,9 +187,9 @@ export interface EditSubdomainRequest {
   /** Sending subdomain identifier. */
   subdomainId: string;
   /** Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request. */
-  dropSuppressedRecipients?: boolean;
+  dropSuppressedRecipients?: boolean | undefined;
   /** Whether sent messages from this subdomain can be previewed in the activity log. */
-  previewEnabled?: boolean;
+  previewEnabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditSubdomainResponse {
@@ -200,17 +200,17 @@ export interface EditSubdomainResponse {
   /** Sending subdomain identifier. */
   tag: string;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`. */
-  dkimSelector?: string | null;
+  dkimSelector?: string | null | undefined;
   /** Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request. */
-  dropSuppressedRecipients?: boolean | null;
+  dropSuppressedRecipients?: boolean | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Whether sent messages from this subdomain can be previewed in the activity log. */
-  previewEnabled?: boolean | null;
+  previewEnabled?: boolean | null | undefined;
   /** The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`. */
-  returnPathDomain?: string | null;
+  returnPathDomain?: string | null | undefined;
 }
 export interface EditSuppressionRequest {
   /** Cloudflare account ID. */
@@ -218,11 +218,11 @@ export interface EditSuppressionRequest {
   /** The suppression's identifier. */
   suppressionId: string;
   /** New expiry. Send `null` to make the suppression permanent; omit to leave it unchanged. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Replacement advisory note. Send an empty string to clear it; omit to leave it unchanged. */
-  note?: string;
+  note?: string | undefined;
   /** Not editable. Scope is fixed when the suppression is created; any value returns 400 with code `scope_immutable`. Delete and recreate the suppression to change it. */
-  scope?: unknown;
+  scope?: unknown | undefined;
 }
 export type EditSuppressionResponseScopeTypeType = "account";
 export interface EditSuppressionResponseScopeType {
@@ -254,9 +254,9 @@ export interface EditSuppressionResponse {
   /** Why the address is suppressed: `manual`, `complaint`, `hard_bounce`, `soft_bounce`, or `policy`. */
   reason: string;
   /** Advisory note for this suppression, if any. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain. */
-  scope?: EditSuppressionResponseScope | null;
+  scope?: EditSuppressionResponseScope | null | undefined;
 }
 export interface GetSubdomainRequest {
   /** Identifier. */
@@ -273,17 +273,17 @@ export interface GetSubdomainResponse {
   /** Sending subdomain identifier. */
   tag: string;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`. */
-  dkimSelector?: string | null;
+  dkimSelector?: string | null | undefined;
   /** Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request. */
-  dropSuppressedRecipients?: boolean | null;
+  dropSuppressedRecipients?: boolean | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Whether sent messages from this subdomain can be previewed in the activity log. */
-  previewEnabled?: boolean | null;
+  previewEnabled?: boolean | null | undefined;
   /** The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`. */
-  returnPathDomain?: string | null;
+  returnPathDomain?: string | null | undefined;
 }
 export interface GetSubdomainDnsRequest {
   /** Identifier. */
@@ -312,15 +312,15 @@ export type SubdomainsDnsGetResultItemType =
   | "URI";
 export interface SubdomainsDnsGetResultItem {
   /** DNS record content. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** DNS record name (or @ for the zone apex). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** DNS record type. */
-  type?: SubdomainsDnsGetResultItemType | null;
+  type?: SubdomainsDnsGetResultItemType | null | undefined;
 }
 export type SubdomainsDnsGetResultList = Array<SubdomainsDnsGetResultItem>;
 export interface GetSubdomainDnsResponse {
@@ -365,9 +365,9 @@ export interface GetSuppressionResponse {
   /** Why the address is suppressed: `manual`, `complaint`, `hard_bounce`, `soft_bounce`, or `policy`. */
   reason: string;
   /** Advisory note for this suppression, if any. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain. */
-  scope?: GetSuppressionResponseScope | null;
+  scope?: GetSuppressionResponseScope | null | undefined;
 }
 export type ImportSuppressionRequestItemsItemScopeTypeType = "account";
 export interface ImportSuppressionRequestItemsItemScopeType {
@@ -388,11 +388,11 @@ export interface ImportSuppressionRequestItemsItem {
   /** The email address to suppress. */
   email: string;
   /** Expiration timestamp for the suppression. Omit or set to null for a permanent suppression that never expires. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Advisory note for this suppression. Not enforced or validated beyond length. */
-  note?: string;
+  note?: string | undefined;
   /** Where the suppression applies. Omit for `{ "type": "account" }`, which blocks the recipient for every sending domain of the account. */
-  scope?: ImportSuppressionRequestItemsItemScope;
+  scope?: ImportSuppressionRequestItemsItemScope | undefined;
 }
 export type ImportSuppressionRequestItemsList = Array<ImportSuppressionRequestItemsItem>;
 export interface ImportSuppressionRequest {
@@ -427,13 +427,13 @@ export interface ImportSuppressionResponseItemsItem {
   /** Outcome for this item. */
   status: ImportSuppressionResponseItemsItemStatus;
   /** The created or promoted suppression's identifier. Present when `status` is `processed`. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The submitted email address for this item. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Human-readable error message. Present when `status` is `invalid`, `error`, or `skipped`. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain. */
-  scope?: ImportSuppressionResponseItemsItemScope | null;
+  scope?: ImportSuppressionResponseItemsItemScope | null | undefined;
 }
 export type ImportSuppressionResponseItemsList = Array<ImportSuppressionResponseItemsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -465,17 +465,17 @@ export interface SubdomainsListResultItem {
   /** Sending subdomain identifier. */
   tag: string;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The DKIM selector used for email signing. Wildcard rows publish the selector and sign with `d=&lt;base&gt;`. */
-  dkimSelector?: string | null;
+  dkimSelector?: string | null | undefined;
   /** Whether a send request that includes a recipient suppressed on this subdomain drops that recipient and still delivers to the rest, instead of failing the entire request. */
-  dropSuppressedRecipients?: boolean | null;
+  dropSuppressedRecipients?: boolean | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Whether sent messages from this subdomain can be previewed in the activity log. */
-  previewEnabled?: boolean | null;
+  previewEnabled?: boolean | null | undefined;
   /** The return-path domain used for bounce handling. Wildcard rows use `cf-bounce.&lt;base&gt;`. */
-  returnPathDomain?: string | null;
+  returnPathDomain?: string | null | undefined;
 }
 export type SubdomainsListResultList = Array<SubdomainsListResultItem>;
 export interface ListSubdomainsResponse {
@@ -495,19 +495,19 @@ export interface ListSuppressionsRequest {
   /** Cloudflare account ID. */
   accountId: string;
   /** Opaque pagination cursor returned as `result_info.next_cursor`. It carries the filters that produced it. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Exact email-address filter. */
-  email?: string;
+  email?: string | undefined;
   /** Maximum number of suppressions to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter to suppressions with this reason. */
-  reason?: ListSuppressionsRequestReason | (string & {});
+  reason?: ListSuppressionsRequestReason | (string & {}) | undefined;
   /** Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both, sending-domain suppressions first. */
-  scopeType?: ListSuppressionsRequestScopeType | (string & {});
+  scopeType?: ListSuppressionsRequestScopeType | (string & {}) | undefined;
   /** Exact sending-domain filter. Requires `scope_type=sending_domain`. */
-  scopeValue?: string;
+  scopeValue?: string | undefined;
   /** A complete address is an exact match; a value ending in `@` matches that username across every domain. Prefix searches may return short intermediate pages while the bounded account scan advances. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListSuppressionsResultItemScopeTypeType = "account";
 export interface ListSuppressionsResultItemScopeType {
@@ -538,9 +538,9 @@ export interface ListSuppressionsResultItem {
   /** Why the address is suppressed: `manual`, `complaint`, `hard_bounce`, `soft_bounce`, or `policy`. */
   reason: string;
   /** Advisory note for this suppression, if any. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain. */
-  scope?: ListSuppressionsResultItemScope | null;
+  scope?: ListSuppressionsResultItemScope | null | undefined;
 }
 export type ListSuppressionsResultList = Array<ListSuppressionsResultItem>;
 export type ListSuppressionsResponse = ListSuppressionsResultList;

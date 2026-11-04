@@ -170,8 +170,8 @@ export type ExecutionNumber = number;
 export interface DescribeJobExecutionRequest {
   jobId: string;
   thingName: string;
-  includeJobDocument?: boolean;
-  executionNumber?: number;
+  includeJobDocument?: boolean | undefined;
+  executionNumber?: number | undefined;
 }
 export type JobId = string;
 export type JobExecutionStatus =
@@ -194,36 +194,36 @@ export type ApproximateSecondsBeforeTimedOut = number;
 export type VersionNumber = number;
 export type JobDocument = string;
 export interface JobExecution {
-  jobId?: string;
-  thingName?: string;
-  status?: JobExecutionStatus;
-  statusDetails?: { [key: string]: string | undefined };
-  queuedAt?: number;
-  startedAt?: number;
-  lastUpdatedAt?: number;
-  approximateSecondsBeforeTimedOut?: number;
-  versionNumber?: number;
-  executionNumber?: number;
-  jobDocument?: string;
+  jobId?: string | undefined;
+  thingName?: string | undefined;
+  status?: JobExecutionStatus | undefined;
+  statusDetails?: { [key: string]: string | undefined } | undefined;
+  queuedAt?: number | undefined;
+  startedAt?: number | undefined;
+  lastUpdatedAt?: number | undefined;
+  approximateSecondsBeforeTimedOut?: number | undefined;
+  versionNumber?: number | undefined;
+  executionNumber?: number | undefined;
+  jobDocument?: string | undefined;
 }
 export interface DescribeJobExecutionResponse {
-  execution?: JobExecution;
+  execution?: JobExecution | undefined;
 }
 export interface GetPendingJobExecutionsRequest {
   thingName: string;
 }
 export interface JobExecutionSummary {
-  jobId?: string;
-  queuedAt?: number;
-  startedAt?: number;
-  lastUpdatedAt?: number;
-  versionNumber?: number;
-  executionNumber?: number;
+  jobId?: string | undefined;
+  queuedAt?: number | undefined;
+  startedAt?: number | undefined;
+  lastUpdatedAt?: number | undefined;
+  versionNumber?: number | undefined;
+  executionNumber?: number | undefined;
 }
 export type JobExecutionSummaryList = JobExecutionSummary[];
 export interface GetPendingJobExecutionsResponse {
-  inProgressJobs?: JobExecutionSummary[];
-  queuedJobs?: JobExecutionSummary[];
+  inProgressJobs?: JobExecutionSummary[] | undefined;
+  queuedJobs?: JobExecutionSummary[] | undefined;
 }
 export type TargetArn = string;
 export type CommandArn = string;
@@ -236,13 +236,13 @@ export type DoubleParameterValue = number;
 export type BinaryParameterValue = Uint8Array;
 export type UnsignedLongParameterValue = string;
 export interface CommandParameterValue {
-  S?: string;
-  B?: boolean;
-  I?: number;
-  L?: number;
-  D?: number;
-  BIN?: Uint8Array;
-  UL?: string;
+  S?: string | undefined;
+  B?: boolean | undefined;
+  I?: number | undefined;
+  L?: number | undefined;
+  D?: number | undefined;
+  BIN?: Uint8Array | undefined;
+  UL?: string | undefined;
 }
 export type CommandExecutionParameterMap = { [key: string]: CommandParameterValue | undefined };
 export type CommandExecutionTimeoutInSeconds = number;
@@ -250,22 +250,22 @@ export type ClientRequestTokenV2 = string;
 export interface StartCommandExecutionRequest {
   targetArn: string;
   commandArn: string;
-  parameters?: { [key: string]: CommandParameterValue | undefined };
-  executionTimeoutSeconds?: number;
-  clientToken?: string;
+  parameters?: { [key: string]: CommandParameterValue | undefined } | undefined;
+  executionTimeoutSeconds?: number | undefined;
+  clientToken?: string | undefined;
 }
 export type CommandExecutionId = string;
 export interface StartCommandExecutionResponse {
-  executionId?: string;
+  executionId?: string | undefined;
 }
 export type StepTimeoutInMinutes = number;
 export interface StartNextPendingJobExecutionRequest {
   thingName: string;
-  statusDetails?: { [key: string]: string | undefined };
-  stepTimeoutInMinutes?: number;
+  statusDetails?: { [key: string]: string | undefined } | undefined;
+  stepTimeoutInMinutes?: number | undefined;
 }
 export interface StartNextPendingJobExecutionResponse {
-  execution?: JobExecution;
+  execution?: JobExecution | undefined;
 }
 export type ExpectedVersion = number;
 export type IncludeExecutionState = boolean;
@@ -273,21 +273,21 @@ export interface UpdateJobExecutionRequest {
   jobId: string;
   thingName: string;
   status: JobExecutionStatus;
-  statusDetails?: { [key: string]: string | undefined };
-  stepTimeoutInMinutes?: number;
-  expectedVersion?: number;
-  includeJobExecutionState?: boolean;
-  includeJobDocument?: boolean;
-  executionNumber?: number;
+  statusDetails?: { [key: string]: string | undefined } | undefined;
+  stepTimeoutInMinutes?: number | undefined;
+  expectedVersion?: number | undefined;
+  includeJobExecutionState?: boolean | undefined;
+  includeJobDocument?: boolean | undefined;
+  executionNumber?: number | undefined;
 }
 export interface JobExecutionState {
-  status?: JobExecutionStatus;
-  statusDetails?: { [key: string]: string | undefined };
-  versionNumber?: number;
+  status?: JobExecutionStatus | undefined;
+  statusDetails?: { [key: string]: string | undefined } | undefined;
+  versionNumber?: number | undefined;
 }
 export interface UpdateJobExecutionResponse {
-  executionState?: JobExecutionState;
-  jobDocument?: string;
+  executionState?: JobExecutionState | undefined;
+  jobDocument?: string | undefined;
 }
 export type ErrorMessage = string;
 export type BinaryBlob = Uint8Array;

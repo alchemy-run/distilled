@@ -146,8 +146,8 @@ export type CompletionStatus = "ready" | "failed" | (string & {});
 export interface CompleteRolloutRequest {
   JobArn: string;
   TrajectoryId: string;
-  Status?: CompletionStatus;
-  ClientToken?: string;
+  Status?: CompletionStatus | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CompleteRolloutResponse {}
 export interface SampleRequest {
@@ -156,7 +156,7 @@ export interface SampleRequest {
   Body: T.StreamingInputBody;
 }
 export interface SampleResponse {
-  ContentType?: string;
+  ContentType?: string | undefined;
   Body: T.StreamingOutputBody;
 }
 export interface SampleWithResponseStreamRequest {
@@ -165,7 +165,7 @@ export interface SampleWithResponseStreamRequest {
   Body: T.StreamingInputBody;
 }
 export interface SampleWithResponseStreamResponse {
-  ContentType?: string;
+  ContentType?: string | undefined;
   Body: T.StreamingOutputBody;
 }
 export type DoubleList = number[];
@@ -173,7 +173,7 @@ export interface UpdateRewardRequest {
   JobArn: string;
   TrajectoryId: string;
   Rewards: number[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateRewardResponse {}
 export type FailureReason = string;

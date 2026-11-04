@@ -151,18 +151,18 @@ export interface CancelHarvestJobRequest {
   ChannelName: string;
   OriginEndpointName: string;
   HarvestJobName: string;
-  ETag?: string;
+  ETag?: string | undefined;
 }
 export interface CancelHarvestJobResponse {}
 export type IdempotencyToken = string;
 export type InputType = "HLS" | "CMAF" | "MULTIVIEW" | (string & {});
 export type ResourceDescription = string;
 export interface InputSwitchConfiguration {
-  MQCSInputSwitching?: boolean;
-  PreferredInput?: number;
+  MQCSInputSwitching?: boolean | undefined;
+  PreferredInput?: number | undefined;
 }
 export interface OutputHeaderConfiguration {
-  PublishMQCS?: boolean;
+  PublishMQCS?: boolean | undefined;
 }
 export type MultiviewSourceList = string[];
 export type MultiviewLayoutType =
@@ -185,43 +185,43 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateChannelRequest {
   ChannelGroupName: string;
   ChannelName: string;
-  ClientToken?: string;
-  InputType?: InputType;
-  Description?: string;
-  InputSwitchConfiguration?: InputSwitchConfiguration;
-  OutputHeaderConfiguration?: OutputHeaderConfiguration;
-  MultiviewConfiguration?: MultiviewConfiguration;
-  OutputLockingMode?: OutputLockingMode;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  InputType?: InputType | undefined;
+  Description?: string | undefined;
+  InputSwitchConfiguration?: InputSwitchConfiguration | undefined;
+  OutputHeaderConfiguration?: OutputHeaderConfiguration | undefined;
+  MultiviewConfiguration?: MultiviewConfiguration | undefined;
+  OutputLockingMode?: OutputLockingMode | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AttachedMultiviewChannelList = string[];
 export interface IngestEndpoint {
-  Id?: string;
-  Url?: string;
+  Id?: string | undefined;
+  Url?: string | undefined;
 }
 export type IngestEndpointList = IngestEndpoint[];
 export interface CreateChannelResponse {
-  MultiviewConfiguration?: MultiviewConfiguration;
-  AttachedMultiviewChannels?: string[];
+  MultiviewConfiguration?: MultiviewConfiguration | undefined;
+  AttachedMultiviewChannels?: string[] | undefined;
   Arn: string;
   ChannelName: string;
   ChannelGroupName: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
-  IngestEndpoints?: IngestEndpoint[];
-  InputType?: InputType;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
-  InputSwitchConfiguration?: InputSwitchConfiguration;
-  OutputHeaderConfiguration?: OutputHeaderConfiguration;
-  OutputLockingMode?: OutputLockingMode;
+  Description?: string | undefined;
+  IngestEndpoints?: IngestEndpoint[] | undefined;
+  InputType?: InputType | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  InputSwitchConfiguration?: InputSwitchConfiguration | undefined;
+  OutputHeaderConfiguration?: OutputHeaderConfiguration | undefined;
+  OutputLockingMode?: OutputLockingMode | undefined;
 }
 export interface CreateChannelGroupRequest {
   ChannelGroupName: string;
-  ClientToken?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateChannelGroupResponse {
   ChannelGroupName: string;
@@ -229,9 +229,9 @@ export interface CreateChannelGroupResponse {
   EgressDomain: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  ETag?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  ETag?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface HarvestedHlsManifest {
   ManifestName: string;
@@ -246,9 +246,9 @@ export interface HarvestedLowLatencyHlsManifest {
 }
 export type HarvestedLowLatencyHlsManifestsList = HarvestedLowLatencyHlsManifest[];
 export interface HarvestedManifests {
-  HlsManifests?: HarvestedHlsManifest[];
-  DashManifests?: HarvestedDashManifest[];
-  LowLatencyHlsManifests?: HarvestedLowLatencyHlsManifest[];
+  HlsManifests?: HarvestedHlsManifest[] | undefined;
+  DashManifests?: HarvestedDashManifest[] | undefined;
+  LowLatencyHlsManifests?: HarvestedLowLatencyHlsManifest[] | undefined;
 }
 export interface HarvesterScheduleConfiguration {
   StartTime: Date;
@@ -267,13 +267,13 @@ export interface CreateHarvestJobRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
-  Description?: string;
+  Description?: string | undefined;
   HarvestedManifests: HarvestedManifests;
   ScheduleConfiguration: HarvesterScheduleConfiguration;
   Destination: Destination;
-  ClientToken?: string;
-  HarvestJobName?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  HarvestJobName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type HarvestJobStatus =
   | "QUEUED"
@@ -289,15 +289,15 @@ export interface CreateHarvestJobResponse {
   Destination: Destination;
   HarvestJobName: string;
   HarvestedManifests: HarvestedManifests;
-  Description?: string;
+  Description?: string | undefined;
   ScheduleConfiguration: HarvesterScheduleConfiguration;
   Arn: string;
   CreatedAt: Date;
   ModifiedAt: Date;
   Status: HarvestJobStatus;
-  ErrorMessage?: string;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
+  ErrorMessage?: string | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ContainerType = "TS" | "CMAF" | "ISM" | (string & {});
 export type ScteFilter =
@@ -332,17 +332,17 @@ export type CustomAdType =
   | (string & {});
 export type CustomAdTypeList = CustomAdType[];
 export interface Scte {
-  ScteFilter?: ScteFilter[];
-  ScteInSegments?: ScteInSegments;
-  CustomAdTypes?: CustomAdType[];
+  ScteFilter?: ScteFilter[] | undefined;
+  ScteInSegments?: ScteInSegments | undefined;
+  CustomAdTypes?: CustomAdType[] | undefined;
 }
 export type TsEncryptionMethod = "AES_128" | "SAMPLE_AES" | (string & {});
 export type CmafEncryptionMethod = "CENC" | "CBCS" | (string & {});
 export type IsmEncryptionMethod = "CENC" | (string & {});
 export interface EncryptionMethod {
-  TsEncryptionMethod?: TsEncryptionMethod;
-  CmafEncryptionMethod?: CmafEncryptionMethod;
-  IsmEncryptionMethod?: IsmEncryptionMethod;
+  TsEncryptionMethod?: TsEncryptionMethod | undefined;
+  CmafEncryptionMethod?: CmafEncryptionMethod | undefined;
+  IsmEncryptionMethod?: IsmEncryptionMethod | undefined;
 }
 export type PresetSpeke20Audio =
   | "PRESET_AUDIO_1"
@@ -382,7 +382,7 @@ export type ContentKeyPeriodTiming =
   | "INDEX_WITH_START_END"
   | (string & {});
 export interface ContentKeyPeriodConfiguration {
-  ContentKeyPeriodTiming?: ContentKeyPeriodTiming;
+  ContentKeyPeriodTiming?: ContentKeyPeriodTiming | undefined;
 }
 export interface SpekeKeyProvider {
   EncryptionContractConfiguration: EncryptionContractConfiguration;
@@ -390,75 +390,75 @@ export interface SpekeKeyProvider {
   DrmSystems: DrmSystem[];
   RoleArn: string;
   Url: string;
-  CertificateArn?: string;
-  SpekeVersion?: SpekeVersion;
-  ContentKeyPeriodConfiguration?: ContentKeyPeriodConfiguration;
+  CertificateArn?: string | undefined;
+  SpekeVersion?: SpekeVersion | undefined;
+  ContentKeyPeriodConfiguration?: ContentKeyPeriodConfiguration | undefined;
 }
 export interface Encryption {
-  ConstantInitializationVector?: string;
+  ConstantInitializationVector?: string | undefined;
   EncryptionMethod: EncryptionMethod;
-  KeyRotationIntervalSeconds?: number;
-  CmafExcludeSegmentDrmMetadata?: boolean;
+  KeyRotationIntervalSeconds?: number | undefined;
+  CmafExcludeSegmentDrmMetadata?: boolean | undefined;
   SpekeKeyProvider: SpekeKeyProvider;
 }
 export type OutputTimestampMode = "PASSTHROUGH" | "REBASED_TO_CHANNEL_START" | (string & {});
 export interface Segment {
-  SegmentDurationSeconds?: number;
-  SegmentName?: string;
-  TsUseAudioRenditionGroup?: boolean;
-  IncludeIframeOnlyStreams?: boolean;
-  TsIncludeDvbSubtitles?: boolean;
-  Scte?: Scte;
-  Encryption?: Encryption;
-  OutputTimestampMode?: OutputTimestampMode;
+  SegmentDurationSeconds?: number | undefined;
+  SegmentName?: string | undefined;
+  TsUseAudioRenditionGroup?: boolean | undefined;
+  IncludeIframeOnlyStreams?: boolean | undefined;
+  TsIncludeDvbSubtitles?: boolean | undefined;
+  Scte?: Scte | undefined;
+  Encryption?: Encryption | undefined;
+  OutputTimestampMode?: OutputTimestampMode | undefined;
 }
 export type ManifestName = string;
 export type AdMarkerHls = "DATERANGE" | "SCTE35_ENHANCED" | (string & {});
 export type ScteInManifests = "ALL" | "MATCHES_FILTER" | (string & {});
 export interface ScteHls {
-  AdMarkerHls?: AdMarkerHls;
-  ScteInManifests?: ScteInManifests;
+  AdMarkerHls?: AdMarkerHls | undefined;
+  ScteInManifests?: ScteInManifests | undefined;
 }
 export interface StartTag {
   TimeOffset: number;
-  Precise?: boolean;
+  Precise?: boolean | undefined;
 }
 export interface MultiviewFilterConfiguration {
   Layout: MultiviewLayoutType;
   Sources: string[];
 }
 export interface FilterConfiguration {
-  ManifestFilter?: string;
-  DrmSettings?: string;
-  Start?: Date;
-  End?: Date;
-  TimeDelaySeconds?: number;
-  ClipStartTime?: Date;
-  Multiview?: MultiviewFilterConfiguration;
+  ManifestFilter?: string | undefined;
+  DrmSettings?: string | undefined;
+  Start?: Date | undefined;
+  End?: Date | undefined;
+  TimeDelaySeconds?: number | undefined;
+  ClipStartTime?: Date | undefined;
+  Multiview?: MultiviewFilterConfiguration | undefined;
 }
 export type UriPathType = "LEAF" | "ROOT" | (string & {});
 export interface CreateHlsManifestConfiguration {
   ManifestName: string;
-  ChildManifestName?: string;
-  ScteHls?: ScteHls;
-  StartTag?: StartTag;
-  ManifestWindowSeconds?: number;
-  ProgramDateTimeIntervalSeconds?: number;
-  FilterConfiguration?: FilterConfiguration;
-  UrlEncodeChildManifest?: boolean;
-  UriPathType?: UriPathType;
+  ChildManifestName?: string | undefined;
+  ScteHls?: ScteHls | undefined;
+  StartTag?: StartTag | undefined;
+  ManifestWindowSeconds?: number | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  UrlEncodeChildManifest?: boolean | undefined;
+  UriPathType?: UriPathType | undefined;
 }
 export type CreateHlsManifests = CreateHlsManifestConfiguration[];
 export interface CreateLowLatencyHlsManifestConfiguration {
   ManifestName: string;
-  ChildManifestName?: string;
-  ScteHls?: ScteHls;
-  StartTag?: StartTag;
-  ManifestWindowSeconds?: number;
-  ProgramDateTimeIntervalSeconds?: number;
-  FilterConfiguration?: FilterConfiguration;
-  UrlEncodeChildManifest?: boolean;
-  UriPathType?: UriPathType;
+  ChildManifestName?: string | undefined;
+  ScteHls?: ScteHls | undefined;
+  StartTag?: StartTag | undefined;
+  ManifestWindowSeconds?: number | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  UrlEncodeChildManifest?: boolean | undefined;
+  UriPathType?: UriPathType | undefined;
 }
 export type CreateLowLatencyHlsManifests = CreateLowLatencyHlsManifestConfiguration[];
 export type DashSegmentTemplateFormat = "NUMBER_WITH_TIMELINE" | (string & {});
@@ -472,8 +472,8 @@ export type DashPeriodTrigger =
 export type DashPeriodTriggers = DashPeriodTrigger[];
 export type AdMarkerDash = "BINARY" | "XML" | (string & {});
 export interface ScteDash {
-  AdMarkerDash?: AdMarkerDash;
-  ScteInManifests?: ScteInManifests;
+  AdMarkerDash?: AdMarkerDash | undefined;
+  ScteInManifests?: ScteInManifests | undefined;
 }
 export type DashDrmSignaling = "INDIVIDUAL" | "REFERENCED" | (string & {});
 export type DashUtcTimingMode =
@@ -483,38 +483,38 @@ export type DashUtcTimingMode =
   | "UTC_DIRECT"
   | (string & {});
 export interface DashUtcTiming {
-  TimingMode?: DashUtcTimingMode;
-  TimingSource?: string;
+  TimingMode?: DashUtcTimingMode | undefined;
+  TimingSource?: string | undefined;
 }
 export type DashProfile = "DVB_DASH" | (string & {});
 export type DashProfiles = DashProfile[];
 export interface DashBaseUrl {
   Url: string;
-  ServiceLocation?: string;
-  DvbPriority?: number;
-  DvbWeight?: number;
+  ServiceLocation?: string | undefined;
+  DvbPriority?: number | undefined;
+  DvbWeight?: number | undefined;
 }
 export type DashBaseUrls = DashBaseUrl[];
 export interface DashProgramInformation {
-  Title?: string;
-  Source?: string;
-  Copyright?: string;
-  LanguageCode?: string;
-  MoreInformationUrl?: string;
+  Title?: string | undefined;
+  Source?: string | undefined;
+  Copyright?: string | undefined;
+  LanguageCode?: string | undefined;
+  MoreInformationUrl?: string | undefined;
 }
 export interface DashDvbFontDownload {
-  Url?: string;
-  MimeType?: string;
-  FontFamily?: string;
+  Url?: string | undefined;
+  MimeType?: string | undefined;
+  FontFamily?: string | undefined;
 }
 export interface DashDvbMetricsReporting {
   ReportingUrl: string;
-  Probability?: number;
+  Probability?: number | undefined;
 }
 export type DashDvbErrorMetrics = DashDvbMetricsReporting[];
 export interface DashDvbSettings {
-  FontDownload?: DashDvbFontDownload;
-  ErrorMetrics?: DashDvbMetricsReporting[];
+  FontDownload?: DashDvbFontDownload | undefined;
+  ErrorMetrics?: DashDvbMetricsReporting[] | undefined;
 }
 export type DashCompactness = "STANDARD" | "NONE" | (string & {});
 export type DashAudioTimelinePattern = "NONE" | "PATTERNED" | (string & {});
@@ -523,38 +523,38 @@ export interface DashTtmlConfiguration {
   TtmlProfile: DashTtmlProfile;
 }
 export interface DashSubtitleConfiguration {
-  TtmlConfiguration?: DashTtmlConfiguration;
+  TtmlConfiguration?: DashTtmlConfiguration | undefined;
 }
 export type DashAvailabilityStartTimeConfiguration = { FixedAvailabilityStartTime: Date };
 export interface CreateDashManifestConfiguration {
   ManifestName: string;
-  ManifestWindowSeconds?: number;
-  FilterConfiguration?: FilterConfiguration;
-  MinUpdatePeriodSeconds?: number;
-  MinBufferTimeSeconds?: number;
-  SuggestedPresentationDelaySeconds?: number;
-  SegmentTemplateFormat?: DashSegmentTemplateFormat;
-  PeriodTriggers?: DashPeriodTrigger[];
-  ScteDash?: ScteDash;
-  DrmSignaling?: DashDrmSignaling;
-  UtcTiming?: DashUtcTiming;
-  Profiles?: DashProfile[];
-  BaseUrls?: DashBaseUrl[];
-  ProgramInformation?: DashProgramInformation;
-  DvbSettings?: DashDvbSettings;
-  Compactness?: DashCompactness;
-  AudioTimelinePattern?: DashAudioTimelinePattern;
-  SubtitleConfiguration?: DashSubtitleConfiguration;
-  UriPathType?: UriPathType;
-  AvailabilityStartTimeConfiguration?: DashAvailabilityStartTimeConfiguration;
+  ManifestWindowSeconds?: number | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  MinUpdatePeriodSeconds?: number | undefined;
+  MinBufferTimeSeconds?: number | undefined;
+  SuggestedPresentationDelaySeconds?: number | undefined;
+  SegmentTemplateFormat?: DashSegmentTemplateFormat | undefined;
+  PeriodTriggers?: DashPeriodTrigger[] | undefined;
+  ScteDash?: ScteDash | undefined;
+  DrmSignaling?: DashDrmSignaling | undefined;
+  UtcTiming?: DashUtcTiming | undefined;
+  Profiles?: DashProfile[] | undefined;
+  BaseUrls?: DashBaseUrl[] | undefined;
+  ProgramInformation?: DashProgramInformation | undefined;
+  DvbSettings?: DashDvbSettings | undefined;
+  Compactness?: DashCompactness | undefined;
+  AudioTimelinePattern?: DashAudioTimelinePattern | undefined;
+  SubtitleConfiguration?: DashSubtitleConfiguration | undefined;
+  UriPathType?: UriPathType | undefined;
+  AvailabilityStartTimeConfiguration?: DashAvailabilityStartTimeConfiguration | undefined;
 }
 export type CreateDashManifests = CreateDashManifestConfiguration[];
 export type MssManifestLayout = "FULL" | "COMPACT" | (string & {});
 export interface CreateMssManifestConfiguration {
   ManifestName: string;
-  ManifestWindowSeconds?: number;
-  FilterConfiguration?: FilterConfiguration;
-  ManifestLayout?: MssManifestLayout;
+  ManifestWindowSeconds?: number | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  ManifestLayout?: MssManifestLayout | undefined;
 }
 export type CreateMssManifests = CreateMssManifestConfiguration[];
 export type EndpointErrorCondition =
@@ -565,7 +565,7 @@ export type EndpointErrorCondition =
   | (string & {});
 export type EndpointErrorConditions = EndpointErrorCondition[];
 export interface ForceEndpointErrorConfiguration {
-  EndpointErrorConditions?: EndpointErrorCondition[];
+  EndpointErrorConditions?: EndpointErrorCondition[] | undefined;
 }
 export type UriSeparator = "UNDERSCORE" | "HYPHEN" | (string & {});
 export type StreamNameOutputMode = "INDEX" | "PASSTHROUGH_NAME" | (string & {});
@@ -574,75 +574,75 @@ export interface CreateOriginEndpointRequest {
   ChannelName: string;
   OriginEndpointName: string;
   ContainerType: ContainerType;
-  Segment?: Segment;
-  ClientToken?: string;
-  Description?: string;
-  StartoverWindowSeconds?: number;
-  HlsManifests?: CreateHlsManifestConfiguration[];
-  LowLatencyHlsManifests?: CreateLowLatencyHlsManifestConfiguration[];
-  DashManifests?: CreateDashManifestConfiguration[];
-  MssManifests?: CreateMssManifestConfiguration[];
-  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
-  UriSeparator?: UriSeparator;
-  StreamNameOutputMode?: StreamNameOutputMode;
-  Tags?: { [key: string]: string | undefined };
+  Segment?: Segment | undefined;
+  ClientToken?: string | undefined;
+  Description?: string | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  HlsManifests?: CreateHlsManifestConfiguration[] | undefined;
+  LowLatencyHlsManifests?: CreateLowLatencyHlsManifestConfiguration[] | undefined;
+  DashManifests?: CreateDashManifestConfiguration[] | undefined;
+  MssManifests?: CreateMssManifestConfiguration[] | undefined;
+  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration | undefined;
+  UriSeparator?: UriSeparator | undefined;
+  StreamNameOutputMode?: StreamNameOutputMode | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetHlsManifestConfiguration {
   ManifestName: string;
   Url: string;
-  ChildManifestName?: string;
-  ManifestWindowSeconds?: number;
-  ProgramDateTimeIntervalSeconds?: number;
-  ScteHls?: ScteHls;
-  FilterConfiguration?: FilterConfiguration;
-  StartTag?: StartTag;
-  UrlEncodeChildManifest?: boolean;
-  UriPathType?: UriPathType;
+  ChildManifestName?: string | undefined;
+  ManifestWindowSeconds?: number | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
+  ScteHls?: ScteHls | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  StartTag?: StartTag | undefined;
+  UrlEncodeChildManifest?: boolean | undefined;
+  UriPathType?: UriPathType | undefined;
 }
 export type GetHlsManifests = GetHlsManifestConfiguration[];
 export interface GetLowLatencyHlsManifestConfiguration {
   ManifestName: string;
   Url: string;
-  ChildManifestName?: string;
-  ManifestWindowSeconds?: number;
-  ProgramDateTimeIntervalSeconds?: number;
-  ScteHls?: ScteHls;
-  FilterConfiguration?: FilterConfiguration;
-  StartTag?: StartTag;
-  UrlEncodeChildManifest?: boolean;
-  UriPathType?: UriPathType;
+  ChildManifestName?: string | undefined;
+  ManifestWindowSeconds?: number | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
+  ScteHls?: ScteHls | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  StartTag?: StartTag | undefined;
+  UrlEncodeChildManifest?: boolean | undefined;
+  UriPathType?: UriPathType | undefined;
 }
 export type GetLowLatencyHlsManifests = GetLowLatencyHlsManifestConfiguration[];
 export interface GetDashManifestConfiguration {
   ManifestName: string;
   Url: string;
-  ManifestWindowSeconds?: number;
-  FilterConfiguration?: FilterConfiguration;
-  MinUpdatePeriodSeconds?: number;
-  MinBufferTimeSeconds?: number;
-  SuggestedPresentationDelaySeconds?: number;
-  SegmentTemplateFormat?: DashSegmentTemplateFormat;
-  PeriodTriggers?: DashPeriodTrigger[];
-  ScteDash?: ScteDash;
-  DrmSignaling?: DashDrmSignaling;
-  UtcTiming?: DashUtcTiming;
-  Profiles?: DashProfile[];
-  BaseUrls?: DashBaseUrl[];
-  ProgramInformation?: DashProgramInformation;
-  DvbSettings?: DashDvbSettings;
-  Compactness?: DashCompactness;
-  AudioTimelinePattern?: DashAudioTimelinePattern;
-  SubtitleConfiguration?: DashSubtitleConfiguration;
-  UriPathType?: UriPathType;
-  AvailabilityStartTimeConfiguration?: DashAvailabilityStartTimeConfiguration;
+  ManifestWindowSeconds?: number | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  MinUpdatePeriodSeconds?: number | undefined;
+  MinBufferTimeSeconds?: number | undefined;
+  SuggestedPresentationDelaySeconds?: number | undefined;
+  SegmentTemplateFormat?: DashSegmentTemplateFormat | undefined;
+  PeriodTriggers?: DashPeriodTrigger[] | undefined;
+  ScteDash?: ScteDash | undefined;
+  DrmSignaling?: DashDrmSignaling | undefined;
+  UtcTiming?: DashUtcTiming | undefined;
+  Profiles?: DashProfile[] | undefined;
+  BaseUrls?: DashBaseUrl[] | undefined;
+  ProgramInformation?: DashProgramInformation | undefined;
+  DvbSettings?: DashDvbSettings | undefined;
+  Compactness?: DashCompactness | undefined;
+  AudioTimelinePattern?: DashAudioTimelinePattern | undefined;
+  SubtitleConfiguration?: DashSubtitleConfiguration | undefined;
+  UriPathType?: UriPathType | undefined;
+  AvailabilityStartTimeConfiguration?: DashAvailabilityStartTimeConfiguration | undefined;
 }
 export type GetDashManifests = GetDashManifestConfiguration[];
 export interface GetMssManifestConfiguration {
   ManifestName: string;
   Url: string;
-  FilterConfiguration?: FilterConfiguration;
-  ManifestWindowSeconds?: number;
-  ManifestLayout?: MssManifestLayout;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  ManifestWindowSeconds?: number | undefined;
+  ManifestLayout?: MssManifestLayout | undefined;
 }
 export type GetMssManifests = GetMssManifestConfiguration[];
 export interface CreateOriginEndpointResponse {
@@ -654,17 +654,17 @@ export interface CreateOriginEndpointResponse {
   Segment: Segment;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
-  StartoverWindowSeconds?: number;
-  HlsManifests?: GetHlsManifestConfiguration[];
-  LowLatencyHlsManifests?: GetLowLatencyHlsManifestConfiguration[];
-  DashManifests?: GetDashManifestConfiguration[];
-  MssManifests?: GetMssManifestConfiguration[];
-  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
-  UriSeparator?: UriSeparator;
-  StreamNameOutputMode?: StreamNameOutputMode;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  HlsManifests?: GetHlsManifestConfiguration[] | undefined;
+  LowLatencyHlsManifests?: GetLowLatencyHlsManifestConfiguration[] | undefined;
+  DashManifests?: GetDashManifestConfiguration[] | undefined;
+  MssManifests?: GetMssManifestConfiguration[] | undefined;
+  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration | undefined;
+  UriSeparator?: UriSeparator | undefined;
+  StreamNameOutputMode?: StreamNameOutputMode | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteChannelRequest {
   ChannelGroupName: string;
@@ -697,22 +697,22 @@ export interface GetChannelRequest {
   ChannelName: string;
 }
 export interface GetChannelResponse {
-  MultiviewConfiguration?: MultiviewConfiguration;
-  AttachedMultiviewChannels?: string[];
+  MultiviewConfiguration?: MultiviewConfiguration | undefined;
+  AttachedMultiviewChannels?: string[] | undefined;
   Arn: string;
   ChannelName: string;
   ChannelGroupName: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  ResetAt?: Date;
-  Description?: string;
-  IngestEndpoints?: IngestEndpoint[];
-  InputType?: InputType;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
-  InputSwitchConfiguration?: InputSwitchConfiguration;
-  OutputHeaderConfiguration?: OutputHeaderConfiguration;
-  OutputLockingMode?: OutputLockingMode;
+  ResetAt?: Date | undefined;
+  Description?: string | undefined;
+  IngestEndpoints?: IngestEndpoint[] | undefined;
+  InputType?: InputType | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  InputSwitchConfiguration?: InputSwitchConfiguration | undefined;
+  OutputHeaderConfiguration?: OutputHeaderConfiguration | undefined;
+  OutputLockingMode?: OutputLockingMode | undefined;
 }
 export interface GetChannelGroupRequest {
   ChannelGroupName: string;
@@ -723,9 +723,9 @@ export interface GetChannelGroupResponse {
   EgressDomain: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetChannelPolicyRequest {
   ChannelGroupName: string;
@@ -750,15 +750,15 @@ export interface GetHarvestJobResponse {
   Destination: Destination;
   HarvestJobName: string;
   HarvestedManifests: HarvestedManifests;
-  Description?: string;
+  Description?: string | undefined;
   ScheduleConfiguration: HarvesterScheduleConfiguration;
   Arn: string;
   CreatedAt: Date;
   ModifiedAt: Date;
   Status: HarvestJobStatus;
-  ErrorMessage?: string;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
+  ErrorMessage?: string | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOriginEndpointRequest {
   ChannelGroupName: string;
@@ -774,18 +774,18 @@ export interface GetOriginEndpointResponse {
   Segment: Segment;
   CreatedAt: Date;
   ModifiedAt: Date;
-  ResetAt?: Date;
-  Description?: string;
-  StartoverWindowSeconds?: number;
-  HlsManifests?: GetHlsManifestConfiguration[];
-  LowLatencyHlsManifests?: GetLowLatencyHlsManifestConfiguration[];
-  DashManifests?: GetDashManifestConfiguration[];
-  MssManifests?: GetMssManifestConfiguration[];
-  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
-  UriSeparator?: UriSeparator;
-  StreamNameOutputMode?: StreamNameOutputMode;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
+  ResetAt?: Date | undefined;
+  Description?: string | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  HlsManifests?: GetHlsManifestConfiguration[] | undefined;
+  LowLatencyHlsManifests?: GetLowLatencyHlsManifestConfiguration[] | undefined;
+  DashManifests?: GetDashManifestConfiguration[] | undefined;
+  MssManifests?: GetMssManifestConfiguration[] | undefined;
+  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration | undefined;
+  UriSeparator?: UriSeparator | undefined;
+  StreamNameOutputMode?: StreamNameOutputMode | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOriginEndpointPolicyRequest {
   ChannelGroupName: string;
@@ -803,29 +803,29 @@ export interface GetOriginEndpointPolicyResponse {
   ChannelName: string;
   OriginEndpointName: string;
   Policy: string;
-  CdnAuthConfiguration?: CdnAuthConfiguration;
+  CdnAuthConfiguration?: CdnAuthConfiguration | undefined;
 }
 export type ListResourceMaxResults = number;
 export interface ListChannelGroupsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ChannelGroupListConfiguration {
   ChannelGroupName: string;
   Arn: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type ChannelGroupsList = ChannelGroupListConfiguration[];
 export interface ListChannelGroupsResponse {
-  Items?: ChannelGroupListConfiguration[];
-  NextToken?: string;
+  Items?: ChannelGroupListConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListChannelsRequest {
   ChannelGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ChannelListConfiguration {
   Arn: string;
@@ -833,24 +833,24 @@ export interface ChannelListConfiguration {
   ChannelGroupName: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
-  InputType?: InputType;
-  OutputLockingMode?: OutputLockingMode;
-  MultiviewConfiguration?: MultiviewConfiguration;
-  AttachedMultiviewChannels?: string[];
+  Description?: string | undefined;
+  InputType?: InputType | undefined;
+  OutputLockingMode?: OutputLockingMode | undefined;
+  MultiviewConfiguration?: MultiviewConfiguration | undefined;
+  AttachedMultiviewChannels?: string[] | undefined;
 }
 export type ChannelList = ChannelListConfiguration[];
 export interface ListChannelsResponse {
-  Items?: ChannelListConfiguration[];
-  NextToken?: string;
+  Items?: ChannelListConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHarvestJobsRequest {
   ChannelGroupName: string;
-  ChannelName?: string;
-  OriginEndpointName?: string;
-  Status?: HarvestJobStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  ChannelName?: string | undefined;
+  OriginEndpointName?: string | undefined;
+  Status?: HarvestJobStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface HarvestJob {
   ChannelGroupName: string;
@@ -859,46 +859,46 @@ export interface HarvestJob {
   Destination: Destination;
   HarvestJobName: string;
   HarvestedManifests: HarvestedManifests;
-  Description?: string;
+  Description?: string | undefined;
   ScheduleConfiguration: HarvesterScheduleConfiguration;
   Arn: string;
   CreatedAt: Date;
   ModifiedAt: Date;
   Status: HarvestJobStatus;
-  ErrorMessage?: string;
-  ETag?: string;
+  ErrorMessage?: string | undefined;
+  ETag?: string | undefined;
 }
 export type HarvestJobsList = HarvestJob[];
 export interface ListHarvestJobsResponse {
-  Items?: HarvestJob[];
-  NextToken?: string;
+  Items?: HarvestJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOriginEndpointsRequest {
   ChannelGroupName: string;
   ChannelName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHlsManifestConfiguration {
   ManifestName: string;
-  ChildManifestName?: string;
-  Url?: string;
+  ChildManifestName?: string | undefined;
+  Url?: string | undefined;
 }
 export type ListHlsManifests = ListHlsManifestConfiguration[];
 export interface ListLowLatencyHlsManifestConfiguration {
   ManifestName: string;
-  ChildManifestName?: string;
-  Url?: string;
+  ChildManifestName?: string | undefined;
+  Url?: string | undefined;
 }
 export type ListLowLatencyHlsManifests = ListLowLatencyHlsManifestConfiguration[];
 export interface ListDashManifestConfiguration {
   ManifestName: string;
-  Url?: string;
+  Url?: string | undefined;
 }
 export type ListDashManifests = ListDashManifestConfiguration[];
 export interface ListMssManifestConfiguration {
   ManifestName: string;
-  Url?: string;
+  Url?: string | undefined;
 }
 export type ListMssManifests = ListMssManifestConfiguration[];
 export interface OriginEndpointListConfiguration {
@@ -907,28 +907,28 @@ export interface OriginEndpointListConfiguration {
   ChannelName: string;
   OriginEndpointName: string;
   ContainerType: ContainerType;
-  Description?: string;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  HlsManifests?: ListHlsManifestConfiguration[];
-  LowLatencyHlsManifests?: ListLowLatencyHlsManifestConfiguration[];
-  DashManifests?: ListDashManifestConfiguration[];
-  MssManifests?: ListMssManifestConfiguration[];
-  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
-  UriSeparator?: UriSeparator;
-  StreamNameOutputMode?: StreamNameOutputMode;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  HlsManifests?: ListHlsManifestConfiguration[] | undefined;
+  LowLatencyHlsManifests?: ListLowLatencyHlsManifestConfiguration[] | undefined;
+  DashManifests?: ListDashManifestConfiguration[] | undefined;
+  MssManifests?: ListMssManifestConfiguration[] | undefined;
+  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration | undefined;
+  UriSeparator?: UriSeparator | undefined;
+  StreamNameOutputMode?: StreamNameOutputMode | undefined;
 }
 export type OriginEndpointsList = OriginEndpointListConfiguration[];
 export interface ListOriginEndpointsResponse {
-  Items?: OriginEndpointListConfiguration[];
-  NextToken?: string;
+  Items?: OriginEndpointListConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TagArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutChannelPolicyRequest {
   ChannelGroupName: string;
@@ -941,7 +941,7 @@ export interface PutOriginEndpointPolicyRequest {
   ChannelName: string;
   OriginEndpointName: string;
   Policy: string;
-  CdnAuthConfiguration?: CdnAuthConfiguration;
+  CdnAuthConfiguration?: CdnAuthConfiguration | undefined;
 }
 export interface PutOriginEndpointPolicyResponse {}
 export interface ResetChannelStateRequest {
@@ -980,33 +980,33 @@ export interface UntagResourceResponse {}
 export interface UpdateChannelRequest {
   ChannelGroupName: string;
   ChannelName: string;
-  ETag?: string;
-  Description?: string;
-  InputSwitchConfiguration?: InputSwitchConfiguration;
-  OutputHeaderConfiguration?: OutputHeaderConfiguration;
-  MultiviewConfiguration?: MultiviewConfiguration;
+  ETag?: string | undefined;
+  Description?: string | undefined;
+  InputSwitchConfiguration?: InputSwitchConfiguration | undefined;
+  OutputHeaderConfiguration?: OutputHeaderConfiguration | undefined;
+  MultiviewConfiguration?: MultiviewConfiguration | undefined;
 }
 export interface UpdateChannelResponse {
-  MultiviewConfiguration?: MultiviewConfiguration;
-  AttachedMultiviewChannels?: string[];
+  MultiviewConfiguration?: MultiviewConfiguration | undefined;
+  AttachedMultiviewChannels?: string[] | undefined;
   Arn: string;
   ChannelName: string;
   ChannelGroupName: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
-  IngestEndpoints?: IngestEndpoint[];
-  InputType?: InputType;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
-  InputSwitchConfiguration?: InputSwitchConfiguration;
-  OutputHeaderConfiguration?: OutputHeaderConfiguration;
-  OutputLockingMode?: OutputLockingMode;
+  Description?: string | undefined;
+  IngestEndpoints?: IngestEndpoint[] | undefined;
+  InputType?: InputType | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  InputSwitchConfiguration?: InputSwitchConfiguration | undefined;
+  OutputHeaderConfiguration?: OutputHeaderConfiguration | undefined;
+  OutputLockingMode?: OutputLockingMode | undefined;
 }
 export interface UpdateChannelGroupRequest {
   ChannelGroupName: string;
-  ETag?: string;
-  Description?: string;
+  ETag?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateChannelGroupResponse {
   ChannelGroupName: string;
@@ -1014,26 +1014,26 @@ export interface UpdateChannelGroupResponse {
   EgressDomain: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateOriginEndpointRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
   ContainerType: ContainerType;
-  Segment?: Segment;
-  Description?: string;
-  StartoverWindowSeconds?: number;
-  HlsManifests?: CreateHlsManifestConfiguration[];
-  LowLatencyHlsManifests?: CreateLowLatencyHlsManifestConfiguration[];
-  DashManifests?: CreateDashManifestConfiguration[];
-  MssManifests?: CreateMssManifestConfiguration[];
-  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
-  UriSeparator?: UriSeparator;
-  StreamNameOutputMode?: StreamNameOutputMode;
-  ETag?: string;
+  Segment?: Segment | undefined;
+  Description?: string | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  HlsManifests?: CreateHlsManifestConfiguration[] | undefined;
+  LowLatencyHlsManifests?: CreateLowLatencyHlsManifestConfiguration[] | undefined;
+  DashManifests?: CreateDashManifestConfiguration[] | undefined;
+  MssManifests?: CreateMssManifestConfiguration[] | undefined;
+  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration | undefined;
+  UriSeparator?: UriSeparator | undefined;
+  StreamNameOutputMode?: StreamNameOutputMode | undefined;
+  ETag?: string | undefined;
 }
 export interface UpdateOriginEndpointResponse {
   Arn: string;
@@ -1044,17 +1044,17 @@ export interface UpdateOriginEndpointResponse {
   Segment: Segment;
   CreatedAt: Date;
   ModifiedAt: Date;
-  Description?: string;
-  StartoverWindowSeconds?: number;
-  HlsManifests?: GetHlsManifestConfiguration[];
-  LowLatencyHlsManifests?: GetLowLatencyHlsManifestConfiguration[];
-  MssManifests?: GetMssManifestConfiguration[];
-  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
-  UriSeparator?: UriSeparator;
-  StreamNameOutputMode?: StreamNameOutputMode;
-  ETag?: string;
-  Tags?: { [key: string]: string | undefined };
-  DashManifests?: GetDashManifestConfiguration[];
+  Description?: string | undefined;
+  StartoverWindowSeconds?: number | undefined;
+  HlsManifests?: GetHlsManifestConfiguration[] | undefined;
+  LowLatencyHlsManifests?: GetLowLatencyHlsManifestConfiguration[] | undefined;
+  MssManifests?: GetMssManifestConfiguration[] | undefined;
+  ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration | undefined;
+  UriSeparator?: UriSeparator | undefined;
+  StreamNameOutputMode?: StreamNameOutputMode | undefined;
+  ETag?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  DashManifests?: GetDashManifestConfiguration[] | undefined;
 }
 export type ConflictExceptionType =
   | "RESOURCE_IN_USE"

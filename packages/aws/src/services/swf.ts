@@ -155,7 +155,7 @@ export class WorkflowExecutionAlreadyStartedFault
 export type DomainName = string;
 export interface ExecutionTimeFilter {
   oldestDate: Date;
-  latestDate?: Date;
+  latestDate?: Date | undefined;
 }
 export type WorkflowId = string;
 export interface WorkflowExecutionFilter {
@@ -165,7 +165,7 @@ export type Name = string;
 export type VersionOptional = string;
 export interface WorkflowTypeFilter {
   name: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type Tag = string;
 export interface TagFilter {
@@ -184,25 +184,25 @@ export interface CloseStatusFilter {
 }
 export interface CountClosedWorkflowExecutionsInput {
   domain: string;
-  startTimeFilter?: ExecutionTimeFilter;
-  closeTimeFilter?: ExecutionTimeFilter;
-  executionFilter?: WorkflowExecutionFilter;
-  typeFilter?: WorkflowTypeFilter;
-  tagFilter?: TagFilter;
-  closeStatusFilter?: CloseStatusFilter;
+  startTimeFilter?: ExecutionTimeFilter | undefined;
+  closeTimeFilter?: ExecutionTimeFilter | undefined;
+  executionFilter?: WorkflowExecutionFilter | undefined;
+  typeFilter?: WorkflowTypeFilter | undefined;
+  tagFilter?: TagFilter | undefined;
+  closeStatusFilter?: CloseStatusFilter | undefined;
 }
 export type Count = number;
 export type Truncated = boolean;
 export interface WorkflowExecutionCount {
   count: number;
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export interface CountOpenWorkflowExecutionsInput {
   domain: string;
   startTimeFilter: ExecutionTimeFilter;
-  typeFilter?: WorkflowTypeFilter;
-  tagFilter?: TagFilter;
-  executionFilter?: WorkflowExecutionFilter;
+  typeFilter?: WorkflowTypeFilter | undefined;
+  tagFilter?: TagFilter | undefined;
+  executionFilter?: WorkflowExecutionFilter | undefined;
 }
 export interface TaskList {
   name: string;
@@ -213,7 +213,7 @@ export interface CountPendingActivityTasksInput {
 }
 export interface PendingTaskCount {
   count: number;
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export interface CountPendingDecisionTasksInput {
   domain: string;
@@ -261,19 +261,19 @@ export type Description = string;
 export interface ActivityTypeInfo {
   activityType: ActivityType;
   status: RegistrationStatus;
-  description?: string;
+  description?: string | undefined;
   creationDate: Date;
-  deprecationDate?: Date;
+  deprecationDate?: Date | undefined;
 }
 export type DurationInSecondsOptional = string;
 export type TaskPriority = string;
 export interface ActivityTypeConfiguration {
-  defaultTaskStartToCloseTimeout?: string;
-  defaultTaskHeartbeatTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultTaskScheduleToStartTimeout?: string;
-  defaultTaskScheduleToCloseTimeout?: string;
+  defaultTaskStartToCloseTimeout?: string | undefined;
+  defaultTaskHeartbeatTimeout?: string | undefined;
+  defaultTaskList?: TaskList | undefined;
+  defaultTaskPriority?: string | undefined;
+  defaultTaskScheduleToStartTimeout?: string | undefined;
+  defaultTaskScheduleToCloseTimeout?: string | undefined;
 }
 export interface ActivityTypeDetail {
   typeInfo: ActivityTypeInfo;
@@ -286,8 +286,8 @@ export type Arn = string;
 export interface DomainInfo {
   name: string;
   status: RegistrationStatus;
-  description?: string;
-  arn?: string;
+  description?: string | undefined;
+  arn?: string | undefined;
 }
 export type DurationInDays = string;
 export interface DomainConfiguration {
@@ -313,12 +313,12 @@ export interface WorkflowExecutionInfo {
   execution: WorkflowExecution;
   workflowType: WorkflowType;
   startTimestamp: Date;
-  closeTimestamp?: Date;
+  closeTimestamp?: Date | undefined;
   executionStatus: ExecutionStatus;
-  closeStatus?: CloseStatus;
-  parent?: WorkflowExecution;
-  tagList?: string[];
-  cancelRequested?: boolean;
+  closeStatus?: CloseStatus | undefined;
+  parent?: WorkflowExecution | undefined;
+  tagList?: string[] | undefined;
+  cancelRequested?: boolean | undefined;
 }
 export type DurationInSeconds = string;
 export type ChildPolicy = "TERMINATE" | "REQUEST_CANCEL" | "ABANDON" | (string & {});
@@ -326,9 +326,9 @@ export interface WorkflowExecutionConfiguration {
   taskStartToCloseTimeout: string;
   executionStartToCloseTimeout: string;
   taskList: TaskList;
-  taskPriority?: string;
+  taskPriority?: string | undefined;
   childPolicy: ChildPolicy;
-  lambdaRole?: string;
+  lambdaRole?: string | undefined;
 }
 export type OpenDecisionTasksCount = number;
 export interface WorkflowExecutionOpenCounts {
@@ -336,15 +336,15 @@ export interface WorkflowExecutionOpenCounts {
   openDecisionTasks: number;
   openTimers: number;
   openChildWorkflowExecutions: number;
-  openLambdaFunctions?: number;
+  openLambdaFunctions?: number | undefined;
 }
 export type Data = string;
 export interface WorkflowExecutionDetail {
   executionInfo: WorkflowExecutionInfo;
   executionConfiguration: WorkflowExecutionConfiguration;
   openCounts: WorkflowExecutionOpenCounts;
-  latestActivityTaskTimestamp?: Date;
-  latestExecutionContext?: string;
+  latestActivityTaskTimestamp?: Date | undefined;
+  latestExecutionContext?: string | undefined;
 }
 export interface DescribeWorkflowTypeInput {
   domain: string;
@@ -353,17 +353,17 @@ export interface DescribeWorkflowTypeInput {
 export interface WorkflowTypeInfo {
   workflowType: WorkflowType;
   status: RegistrationStatus;
-  description?: string;
+  description?: string | undefined;
   creationDate: Date;
-  deprecationDate?: Date;
+  deprecationDate?: Date | undefined;
 }
 export interface WorkflowTypeConfiguration {
-  defaultTaskStartToCloseTimeout?: string;
-  defaultExecutionStartToCloseTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultChildPolicy?: ChildPolicy;
-  defaultLambdaRole?: string;
+  defaultTaskStartToCloseTimeout?: string | undefined;
+  defaultExecutionStartToCloseTimeout?: string | undefined;
+  defaultTaskList?: TaskList | undefined;
+  defaultTaskPriority?: string | undefined;
+  defaultChildPolicy?: ChildPolicy | undefined;
+  defaultLambdaRole?: string | undefined;
 }
 export interface WorkflowTypeDetail {
   typeInfo: WorkflowTypeInfo;
@@ -375,9 +375,9 @@ export type ReverseOrder = boolean;
 export interface GetWorkflowExecutionHistoryInput {
   domain: string;
   execution: WorkflowExecution;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
+  nextPageToken?: string | undefined;
+  maximumPageSize?: number | undefined;
+  reverseOrder?: boolean | undefined;
 }
 export type EventType =
   | "WorkflowExecutionStarted"
@@ -438,21 +438,21 @@ export type EventType =
 export type EventId = number;
 export type WorkflowRunIdOptional = string;
 export interface WorkflowExecutionStartedEventAttributes {
-  input?: string;
-  executionStartToCloseTimeout?: string;
-  taskStartToCloseTimeout?: string;
+  input?: string | undefined;
+  executionStartToCloseTimeout?: string | undefined;
+  taskStartToCloseTimeout?: string | undefined;
   childPolicy: ChildPolicy;
   taskList: TaskList;
-  taskPriority?: string;
+  taskPriority?: string | undefined;
   workflowType: WorkflowType;
-  tagList?: string[];
-  continuedExecutionRunId?: string;
-  parentWorkflowExecution?: WorkflowExecution;
-  parentInitiatedEventId?: number;
-  lambdaRole?: string;
+  tagList?: string[] | undefined;
+  continuedExecutionRunId?: string | undefined;
+  parentWorkflowExecution?: WorkflowExecution | undefined;
+  parentInitiatedEventId?: number | undefined;
+  lambdaRole?: string | undefined;
 }
 export interface WorkflowExecutionCompletedEventAttributes {
-  result?: string;
+  result?: string | undefined;
   decisionTaskCompletedEventId: number;
 }
 export type CompleteWorkflowExecutionFailedCause =
@@ -465,8 +465,8 @@ export interface CompleteWorkflowExecutionFailedEventAttributes {
 }
 export type FailureReason = string;
 export interface WorkflowExecutionFailedEventAttributes {
-  reason?: string;
-  details?: string;
+  reason?: string | undefined;
+  details?: string | undefined;
   decisionTaskCompletedEventId: number;
 }
 export type FailWorkflowExecutionFailedCause =
@@ -483,7 +483,7 @@ export interface WorkflowExecutionTimedOutEventAttributes {
   childPolicy: ChildPolicy;
 }
 export interface WorkflowExecutionCanceledEventAttributes {
-  details?: string;
+  details?: string | undefined;
   decisionTaskCompletedEventId: number;
 }
 export type CancelWorkflowExecutionFailedCause =
@@ -495,17 +495,17 @@ export interface CancelWorkflowExecutionFailedEventAttributes {
   decisionTaskCompletedEventId: number;
 }
 export interface WorkflowExecutionContinuedAsNewEventAttributes {
-  input?: string;
+  input?: string | undefined;
   decisionTaskCompletedEventId: number;
   newExecutionRunId: string;
-  executionStartToCloseTimeout?: string;
+  executionStartToCloseTimeout?: string | undefined;
   taskList: TaskList;
-  taskPriority?: string;
-  taskStartToCloseTimeout?: string;
+  taskPriority?: string | undefined;
+  taskStartToCloseTimeout?: string | undefined;
   childPolicy: ChildPolicy;
-  tagList?: string[];
+  tagList?: string[] | undefined;
   workflowType: WorkflowType;
-  lambdaRole?: string;
+  lambdaRole?: string | undefined;
 }
 export type ContinueAsNewWorkflowExecutionFailedCause =
   | "UNHANDLED_DECISION"
@@ -529,34 +529,34 @@ export type WorkflowExecutionTerminatedCause =
   | "OPERATOR_INITIATED"
   | (string & {});
 export interface WorkflowExecutionTerminatedEventAttributes {
-  reason?: string;
-  details?: string;
+  reason?: string | undefined;
+  details?: string | undefined;
   childPolicy: ChildPolicy;
-  cause?: WorkflowExecutionTerminatedCause;
+  cause?: WorkflowExecutionTerminatedCause | undefined;
 }
 export type WorkflowExecutionCancelRequestedCause = "CHILD_POLICY_APPLIED" | (string & {});
 export interface WorkflowExecutionCancelRequestedEventAttributes {
-  externalWorkflowExecution?: WorkflowExecution;
-  externalInitiatedEventId?: number;
-  cause?: WorkflowExecutionCancelRequestedCause;
+  externalWorkflowExecution?: WorkflowExecution | undefined;
+  externalInitiatedEventId?: number | undefined;
+  cause?: WorkflowExecutionCancelRequestedCause | undefined;
 }
 export interface DecisionTaskScheduledEventAttributes {
   taskList: TaskList;
-  taskPriority?: string;
-  startToCloseTimeout?: string;
-  scheduleToStartTimeout?: string;
+  taskPriority?: string | undefined;
+  startToCloseTimeout?: string | undefined;
+  scheduleToStartTimeout?: string | undefined;
 }
 export type Identity = string;
 export interface DecisionTaskStartedEventAttributes {
-  identity?: string;
+  identity?: string | undefined;
   scheduledEventId: number;
 }
 export interface DecisionTaskCompletedEventAttributes {
-  executionContext?: string;
+  executionContext?: string | undefined;
   scheduledEventId: number;
   startedEventId: number;
-  taskList?: TaskList;
-  taskListScheduleToStartTimeout?: string;
+  taskList?: TaskList | undefined;
+  taskListScheduleToStartTimeout?: string | undefined;
 }
 export type DecisionTaskTimeoutType = "START_TO_CLOSE" | "SCHEDULE_TO_START" | (string & {});
 export interface DecisionTaskTimedOutEventAttributes {
@@ -568,28 +568,28 @@ export type ActivityId = string;
 export interface ActivityTaskScheduledEventAttributes {
   activityType: ActivityType;
   activityId: string;
-  input?: string;
-  control?: string;
-  scheduleToStartTimeout?: string;
-  scheduleToCloseTimeout?: string;
-  startToCloseTimeout?: string;
+  input?: string | undefined;
+  control?: string | undefined;
+  scheduleToStartTimeout?: string | undefined;
+  scheduleToCloseTimeout?: string | undefined;
+  startToCloseTimeout?: string | undefined;
   taskList: TaskList;
-  taskPriority?: string;
+  taskPriority?: string | undefined;
   decisionTaskCompletedEventId: number;
-  heartbeatTimeout?: string;
+  heartbeatTimeout?: string | undefined;
 }
 export interface ActivityTaskStartedEventAttributes {
-  identity?: string;
+  identity?: string | undefined;
   scheduledEventId: number;
 }
 export interface ActivityTaskCompletedEventAttributes {
-  result?: string;
+  result?: string | undefined;
   scheduledEventId: number;
   startedEventId: number;
 }
 export interface ActivityTaskFailedEventAttributes {
-  reason?: string;
-  details?: string;
+  reason?: string | undefined;
+  details?: string | undefined;
   scheduledEventId: number;
   startedEventId: number;
 }
@@ -604,13 +604,13 @@ export interface ActivityTaskTimedOutEventAttributes {
   timeoutType: ActivityTaskTimeoutType;
   scheduledEventId: number;
   startedEventId: number;
-  details?: string;
+  details?: string | undefined;
 }
 export interface ActivityTaskCanceledEventAttributes {
-  details?: string;
+  details?: string | undefined;
   scheduledEventId: number;
   startedEventId: number;
-  latestCancelRequestedEventId?: number;
+  latestCancelRequestedEventId?: number | undefined;
 }
 export interface ActivityTaskCancelRequestedEventAttributes {
   decisionTaskCompletedEventId: number;
@@ -619,14 +619,14 @@ export interface ActivityTaskCancelRequestedEventAttributes {
 export type SignalName = string;
 export interface WorkflowExecutionSignaledEventAttributes {
   signalName: string;
-  input?: string;
-  externalWorkflowExecution?: WorkflowExecution;
-  externalInitiatedEventId?: number;
+  input?: string | undefined;
+  externalWorkflowExecution?: WorkflowExecution | undefined;
+  externalInitiatedEventId?: number | undefined;
 }
 export type MarkerName = string;
 export interface MarkerRecordedEventAttributes {
   markerName: string;
-  details?: string;
+  details?: string | undefined;
   decisionTaskCompletedEventId: number;
 }
 export type RecordMarkerFailedCause = "OPERATION_NOT_PERMITTED" | (string & {});
@@ -638,7 +638,7 @@ export interface RecordMarkerFailedEventAttributes {
 export type TimerId = string;
 export interface TimerStartedEventAttributes {
   timerId: string;
-  control?: string;
+  control?: string | undefined;
   startToFireTimeout: string;
   decisionTaskCompletedEventId: number;
 }
@@ -654,16 +654,16 @@ export interface TimerCanceledEventAttributes {
 export interface StartChildWorkflowExecutionInitiatedEventAttributes {
   workflowId: string;
   workflowType: WorkflowType;
-  control?: string;
-  input?: string;
-  executionStartToCloseTimeout?: string;
+  control?: string | undefined;
+  input?: string | undefined;
+  executionStartToCloseTimeout?: string | undefined;
   taskList: TaskList;
-  taskPriority?: string;
+  taskPriority?: string | undefined;
   decisionTaskCompletedEventId: number;
   childPolicy: ChildPolicy;
-  taskStartToCloseTimeout?: string;
-  tagList?: string[];
-  lambdaRole?: string;
+  taskStartToCloseTimeout?: string | undefined;
+  tagList?: string[] | undefined;
+  lambdaRole?: string | undefined;
 }
 export interface ChildWorkflowExecutionStartedEventAttributes {
   workflowExecution: WorkflowExecution;
@@ -673,15 +673,15 @@ export interface ChildWorkflowExecutionStartedEventAttributes {
 export interface ChildWorkflowExecutionCompletedEventAttributes {
   workflowExecution: WorkflowExecution;
   workflowType: WorkflowType;
-  result?: string;
+  result?: string | undefined;
   initiatedEventId: number;
   startedEventId: number;
 }
 export interface ChildWorkflowExecutionFailedEventAttributes {
   workflowExecution: WorkflowExecution;
   workflowType: WorkflowType;
-  reason?: string;
-  details?: string;
+  reason?: string | undefined;
+  details?: string | undefined;
   initiatedEventId: number;
   startedEventId: number;
 }
@@ -695,7 +695,7 @@ export interface ChildWorkflowExecutionTimedOutEventAttributes {
 export interface ChildWorkflowExecutionCanceledEventAttributes {
   workflowExecution: WorkflowExecution;
   workflowType: WorkflowType;
-  details?: string;
+  details?: string | undefined;
   initiatedEventId: number;
   startedEventId: number;
 }
@@ -707,11 +707,11 @@ export interface ChildWorkflowExecutionTerminatedEventAttributes {
 }
 export interface SignalExternalWorkflowExecutionInitiatedEventAttributes {
   workflowId: string;
-  runId?: string;
+  runId?: string | undefined;
   signalName: string;
-  input?: string;
+  input?: string | undefined;
   decisionTaskCompletedEventId: number;
-  control?: string;
+  control?: string | undefined;
 }
 export interface ExternalWorkflowExecutionSignaledEventAttributes {
   workflowExecution: WorkflowExecution;
@@ -724,11 +724,11 @@ export type SignalExternalWorkflowExecutionFailedCause =
   | (string & {});
 export interface SignalExternalWorkflowExecutionFailedEventAttributes {
   workflowId: string;
-  runId?: string;
+  runId?: string | undefined;
   cause: SignalExternalWorkflowExecutionFailedCause;
   initiatedEventId: number;
   decisionTaskCompletedEventId: number;
-  control?: string;
+  control?: string | undefined;
 }
 export interface ExternalWorkflowExecutionCancelRequestedEventAttributes {
   workflowExecution: WorkflowExecution;
@@ -736,9 +736,9 @@ export interface ExternalWorkflowExecutionCancelRequestedEventAttributes {
 }
 export interface RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
   workflowId: string;
-  runId?: string;
+  runId?: string | undefined;
   decisionTaskCompletedEventId: number;
-  control?: string;
+  control?: string | undefined;
 }
 export type RequestCancelExternalWorkflowExecutionFailedCause =
   | "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
@@ -747,11 +747,11 @@ export type RequestCancelExternalWorkflowExecutionFailedCause =
   | (string & {});
 export interface RequestCancelExternalWorkflowExecutionFailedEventAttributes {
   workflowId: string;
-  runId?: string;
+  runId?: string | undefined;
   cause: RequestCancelExternalWorkflowExecutionFailedCause;
   initiatedEventId: number;
   decisionTaskCompletedEventId: number;
-  control?: string;
+  control?: string | undefined;
 }
 export type ScheduleActivityTaskFailedCause =
   | "ACTIVITY_TYPE_DEPRECATED"
@@ -817,7 +817,7 @@ export interface StartChildWorkflowExecutionFailedEventAttributes {
   workflowId: string;
   initiatedEventId: number;
   decisionTaskCompletedEventId: number;
-  control?: string;
+  control?: string | undefined;
 }
 export type FunctionId = string;
 export type FunctionName = string;
@@ -825,9 +825,9 @@ export type FunctionInput = string;
 export interface LambdaFunctionScheduledEventAttributes {
   id: string;
   name: string;
-  control?: string;
-  input?: string;
-  startToCloseTimeout?: string;
+  control?: string | undefined;
+  input?: string | undefined;
+  startToCloseTimeout?: string | undefined;
   decisionTaskCompletedEventId: number;
 }
 export interface LambdaFunctionStartedEventAttributes {
@@ -836,19 +836,19 @@ export interface LambdaFunctionStartedEventAttributes {
 export interface LambdaFunctionCompletedEventAttributes {
   scheduledEventId: number;
   startedEventId: number;
-  result?: string;
+  result?: string | undefined;
 }
 export interface LambdaFunctionFailedEventAttributes {
   scheduledEventId: number;
   startedEventId: number;
-  reason?: string;
-  details?: string;
+  reason?: string | undefined;
+  details?: string | undefined;
 }
 export type LambdaFunctionTimeoutType = "START_TO_CLOSE" | (string & {});
 export interface LambdaFunctionTimedOutEventAttributes {
   scheduledEventId: number;
   startedEventId: number;
-  timeoutType?: LambdaFunctionTimeoutType;
+  timeoutType?: LambdaFunctionTimeoutType | undefined;
 }
 export type ScheduleLambdaFunctionFailedCause =
   | "ID_ALREADY_IN_USE"
@@ -865,124 +865,172 @@ export interface ScheduleLambdaFunctionFailedEventAttributes {
 export type StartLambdaFunctionFailedCause = "ASSUME_ROLE_FAILED" | (string & {});
 export type CauseMessage = string;
 export interface StartLambdaFunctionFailedEventAttributes {
-  scheduledEventId?: number;
-  cause?: StartLambdaFunctionFailedCause;
-  message?: string;
+  scheduledEventId?: number | undefined;
+  cause?: StartLambdaFunctionFailedCause | undefined;
+  message?: string | undefined;
 }
 export interface HistoryEvent {
   eventTimestamp: Date;
   eventType: EventType;
   eventId: number;
-  workflowExecutionStartedEventAttributes?: WorkflowExecutionStartedEventAttributes;
-  workflowExecutionCompletedEventAttributes?: WorkflowExecutionCompletedEventAttributes;
-  completeWorkflowExecutionFailedEventAttributes?: CompleteWorkflowExecutionFailedEventAttributes;
-  workflowExecutionFailedEventAttributes?: WorkflowExecutionFailedEventAttributes;
-  failWorkflowExecutionFailedEventAttributes?: FailWorkflowExecutionFailedEventAttributes;
-  workflowExecutionTimedOutEventAttributes?: WorkflowExecutionTimedOutEventAttributes;
-  workflowExecutionCanceledEventAttributes?: WorkflowExecutionCanceledEventAttributes;
-  cancelWorkflowExecutionFailedEventAttributes?: CancelWorkflowExecutionFailedEventAttributes;
-  workflowExecutionContinuedAsNewEventAttributes?: WorkflowExecutionContinuedAsNewEventAttributes;
-  continueAsNewWorkflowExecutionFailedEventAttributes?: ContinueAsNewWorkflowExecutionFailedEventAttributes;
-  workflowExecutionTerminatedEventAttributes?: WorkflowExecutionTerminatedEventAttributes;
-  workflowExecutionCancelRequestedEventAttributes?: WorkflowExecutionCancelRequestedEventAttributes;
-  decisionTaskScheduledEventAttributes?: DecisionTaskScheduledEventAttributes;
-  decisionTaskStartedEventAttributes?: DecisionTaskStartedEventAttributes;
-  decisionTaskCompletedEventAttributes?: DecisionTaskCompletedEventAttributes;
-  decisionTaskTimedOutEventAttributes?: DecisionTaskTimedOutEventAttributes;
-  activityTaskScheduledEventAttributes?: ActivityTaskScheduledEventAttributes;
-  activityTaskStartedEventAttributes?: ActivityTaskStartedEventAttributes;
-  activityTaskCompletedEventAttributes?: ActivityTaskCompletedEventAttributes;
-  activityTaskFailedEventAttributes?: ActivityTaskFailedEventAttributes;
-  activityTaskTimedOutEventAttributes?: ActivityTaskTimedOutEventAttributes;
-  activityTaskCanceledEventAttributes?: ActivityTaskCanceledEventAttributes;
-  activityTaskCancelRequestedEventAttributes?: ActivityTaskCancelRequestedEventAttributes;
-  workflowExecutionSignaledEventAttributes?: WorkflowExecutionSignaledEventAttributes;
-  markerRecordedEventAttributes?: MarkerRecordedEventAttributes;
-  recordMarkerFailedEventAttributes?: RecordMarkerFailedEventAttributes;
-  timerStartedEventAttributes?: TimerStartedEventAttributes;
-  timerFiredEventAttributes?: TimerFiredEventAttributes;
-  timerCanceledEventAttributes?: TimerCanceledEventAttributes;
-  startChildWorkflowExecutionInitiatedEventAttributes?: StartChildWorkflowExecutionInitiatedEventAttributes;
-  childWorkflowExecutionStartedEventAttributes?: ChildWorkflowExecutionStartedEventAttributes;
-  childWorkflowExecutionCompletedEventAttributes?: ChildWorkflowExecutionCompletedEventAttributes;
-  childWorkflowExecutionFailedEventAttributes?: ChildWorkflowExecutionFailedEventAttributes;
-  childWorkflowExecutionTimedOutEventAttributes?: ChildWorkflowExecutionTimedOutEventAttributes;
-  childWorkflowExecutionCanceledEventAttributes?: ChildWorkflowExecutionCanceledEventAttributes;
-  childWorkflowExecutionTerminatedEventAttributes?: ChildWorkflowExecutionTerminatedEventAttributes;
-  signalExternalWorkflowExecutionInitiatedEventAttributes?: SignalExternalWorkflowExecutionInitiatedEventAttributes;
-  externalWorkflowExecutionSignaledEventAttributes?: ExternalWorkflowExecutionSignaledEventAttributes;
-  signalExternalWorkflowExecutionFailedEventAttributes?: SignalExternalWorkflowExecutionFailedEventAttributes;
-  externalWorkflowExecutionCancelRequestedEventAttributes?: ExternalWorkflowExecutionCancelRequestedEventAttributes;
-  requestCancelExternalWorkflowExecutionInitiatedEventAttributes?: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes;
-  requestCancelExternalWorkflowExecutionFailedEventAttributes?: RequestCancelExternalWorkflowExecutionFailedEventAttributes;
-  scheduleActivityTaskFailedEventAttributes?: ScheduleActivityTaskFailedEventAttributes;
-  requestCancelActivityTaskFailedEventAttributes?: RequestCancelActivityTaskFailedEventAttributes;
-  startTimerFailedEventAttributes?: StartTimerFailedEventAttributes;
-  cancelTimerFailedEventAttributes?: CancelTimerFailedEventAttributes;
-  startChildWorkflowExecutionFailedEventAttributes?: StartChildWorkflowExecutionFailedEventAttributes;
-  lambdaFunctionScheduledEventAttributes?: LambdaFunctionScheduledEventAttributes;
-  lambdaFunctionStartedEventAttributes?: LambdaFunctionStartedEventAttributes;
-  lambdaFunctionCompletedEventAttributes?: LambdaFunctionCompletedEventAttributes;
-  lambdaFunctionFailedEventAttributes?: LambdaFunctionFailedEventAttributes;
-  lambdaFunctionTimedOutEventAttributes?: LambdaFunctionTimedOutEventAttributes;
-  scheduleLambdaFunctionFailedEventAttributes?: ScheduleLambdaFunctionFailedEventAttributes;
-  startLambdaFunctionFailedEventAttributes?: StartLambdaFunctionFailedEventAttributes;
+  workflowExecutionStartedEventAttributes?: WorkflowExecutionStartedEventAttributes | undefined;
+  workflowExecutionCompletedEventAttributes?: WorkflowExecutionCompletedEventAttributes | undefined;
+  completeWorkflowExecutionFailedEventAttributes?:
+    | CompleteWorkflowExecutionFailedEventAttributes
+    | undefined;
+  workflowExecutionFailedEventAttributes?: WorkflowExecutionFailedEventAttributes | undefined;
+  failWorkflowExecutionFailedEventAttributes?:
+    | FailWorkflowExecutionFailedEventAttributes
+    | undefined;
+  workflowExecutionTimedOutEventAttributes?: WorkflowExecutionTimedOutEventAttributes | undefined;
+  workflowExecutionCanceledEventAttributes?: WorkflowExecutionCanceledEventAttributes | undefined;
+  cancelWorkflowExecutionFailedEventAttributes?:
+    | CancelWorkflowExecutionFailedEventAttributes
+    | undefined;
+  workflowExecutionContinuedAsNewEventAttributes?:
+    | WorkflowExecutionContinuedAsNewEventAttributes
+    | undefined;
+  continueAsNewWorkflowExecutionFailedEventAttributes?:
+    | ContinueAsNewWorkflowExecutionFailedEventAttributes
+    | undefined;
+  workflowExecutionTerminatedEventAttributes?:
+    | WorkflowExecutionTerminatedEventAttributes
+    | undefined;
+  workflowExecutionCancelRequestedEventAttributes?:
+    | WorkflowExecutionCancelRequestedEventAttributes
+    | undefined;
+  decisionTaskScheduledEventAttributes?: DecisionTaskScheduledEventAttributes | undefined;
+  decisionTaskStartedEventAttributes?: DecisionTaskStartedEventAttributes | undefined;
+  decisionTaskCompletedEventAttributes?: DecisionTaskCompletedEventAttributes | undefined;
+  decisionTaskTimedOutEventAttributes?: DecisionTaskTimedOutEventAttributes | undefined;
+  activityTaskScheduledEventAttributes?: ActivityTaskScheduledEventAttributes | undefined;
+  activityTaskStartedEventAttributes?: ActivityTaskStartedEventAttributes | undefined;
+  activityTaskCompletedEventAttributes?: ActivityTaskCompletedEventAttributes | undefined;
+  activityTaskFailedEventAttributes?: ActivityTaskFailedEventAttributes | undefined;
+  activityTaskTimedOutEventAttributes?: ActivityTaskTimedOutEventAttributes | undefined;
+  activityTaskCanceledEventAttributes?: ActivityTaskCanceledEventAttributes | undefined;
+  activityTaskCancelRequestedEventAttributes?:
+    | ActivityTaskCancelRequestedEventAttributes
+    | undefined;
+  workflowExecutionSignaledEventAttributes?: WorkflowExecutionSignaledEventAttributes | undefined;
+  markerRecordedEventAttributes?: MarkerRecordedEventAttributes | undefined;
+  recordMarkerFailedEventAttributes?: RecordMarkerFailedEventAttributes | undefined;
+  timerStartedEventAttributes?: TimerStartedEventAttributes | undefined;
+  timerFiredEventAttributes?: TimerFiredEventAttributes | undefined;
+  timerCanceledEventAttributes?: TimerCanceledEventAttributes | undefined;
+  startChildWorkflowExecutionInitiatedEventAttributes?:
+    | StartChildWorkflowExecutionInitiatedEventAttributes
+    | undefined;
+  childWorkflowExecutionStartedEventAttributes?:
+    | ChildWorkflowExecutionStartedEventAttributes
+    | undefined;
+  childWorkflowExecutionCompletedEventAttributes?:
+    | ChildWorkflowExecutionCompletedEventAttributes
+    | undefined;
+  childWorkflowExecutionFailedEventAttributes?:
+    | ChildWorkflowExecutionFailedEventAttributes
+    | undefined;
+  childWorkflowExecutionTimedOutEventAttributes?:
+    | ChildWorkflowExecutionTimedOutEventAttributes
+    | undefined;
+  childWorkflowExecutionCanceledEventAttributes?:
+    | ChildWorkflowExecutionCanceledEventAttributes
+    | undefined;
+  childWorkflowExecutionTerminatedEventAttributes?:
+    | ChildWorkflowExecutionTerminatedEventAttributes
+    | undefined;
+  signalExternalWorkflowExecutionInitiatedEventAttributes?:
+    | SignalExternalWorkflowExecutionInitiatedEventAttributes
+    | undefined;
+  externalWorkflowExecutionSignaledEventAttributes?:
+    | ExternalWorkflowExecutionSignaledEventAttributes
+    | undefined;
+  signalExternalWorkflowExecutionFailedEventAttributes?:
+    | SignalExternalWorkflowExecutionFailedEventAttributes
+    | undefined;
+  externalWorkflowExecutionCancelRequestedEventAttributes?:
+    | ExternalWorkflowExecutionCancelRequestedEventAttributes
+    | undefined;
+  requestCancelExternalWorkflowExecutionInitiatedEventAttributes?:
+    | RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
+    | undefined;
+  requestCancelExternalWorkflowExecutionFailedEventAttributes?:
+    | RequestCancelExternalWorkflowExecutionFailedEventAttributes
+    | undefined;
+  scheduleActivityTaskFailedEventAttributes?: ScheduleActivityTaskFailedEventAttributes | undefined;
+  requestCancelActivityTaskFailedEventAttributes?:
+    | RequestCancelActivityTaskFailedEventAttributes
+    | undefined;
+  startTimerFailedEventAttributes?: StartTimerFailedEventAttributes | undefined;
+  cancelTimerFailedEventAttributes?: CancelTimerFailedEventAttributes | undefined;
+  startChildWorkflowExecutionFailedEventAttributes?:
+    | StartChildWorkflowExecutionFailedEventAttributes
+    | undefined;
+  lambdaFunctionScheduledEventAttributes?: LambdaFunctionScheduledEventAttributes | undefined;
+  lambdaFunctionStartedEventAttributes?: LambdaFunctionStartedEventAttributes | undefined;
+  lambdaFunctionCompletedEventAttributes?: LambdaFunctionCompletedEventAttributes | undefined;
+  lambdaFunctionFailedEventAttributes?: LambdaFunctionFailedEventAttributes | undefined;
+  lambdaFunctionTimedOutEventAttributes?: LambdaFunctionTimedOutEventAttributes | undefined;
+  scheduleLambdaFunctionFailedEventAttributes?:
+    | ScheduleLambdaFunctionFailedEventAttributes
+    | undefined;
+  startLambdaFunctionFailedEventAttributes?: StartLambdaFunctionFailedEventAttributes | undefined;
 }
 export type HistoryEventList = HistoryEvent[];
 export interface History {
   events: HistoryEvent[];
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListActivityTypesInput {
   domain: string;
-  name?: string;
+  name?: string | undefined;
   registrationStatus: RegistrationStatus;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
+  nextPageToken?: string | undefined;
+  maximumPageSize?: number | undefined;
+  reverseOrder?: boolean | undefined;
 }
 export type ActivityTypeInfoList = ActivityTypeInfo[];
 export interface ActivityTypeInfos {
   typeInfos: ActivityTypeInfo[];
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListClosedWorkflowExecutionsInput {
   domain: string;
-  startTimeFilter?: ExecutionTimeFilter;
-  closeTimeFilter?: ExecutionTimeFilter;
-  executionFilter?: WorkflowExecutionFilter;
-  closeStatusFilter?: CloseStatusFilter;
-  typeFilter?: WorkflowTypeFilter;
-  tagFilter?: TagFilter;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
+  startTimeFilter?: ExecutionTimeFilter | undefined;
+  closeTimeFilter?: ExecutionTimeFilter | undefined;
+  executionFilter?: WorkflowExecutionFilter | undefined;
+  closeStatusFilter?: CloseStatusFilter | undefined;
+  typeFilter?: WorkflowTypeFilter | undefined;
+  tagFilter?: TagFilter | undefined;
+  nextPageToken?: string | undefined;
+  maximumPageSize?: number | undefined;
+  reverseOrder?: boolean | undefined;
 }
 export type WorkflowExecutionInfoList = WorkflowExecutionInfo[];
 export interface WorkflowExecutionInfos {
   executionInfos: WorkflowExecutionInfo[];
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListDomainsInput {
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   registrationStatus: RegistrationStatus;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
+  maximumPageSize?: number | undefined;
+  reverseOrder?: boolean | undefined;
 }
 export type DomainInfoList = DomainInfo[];
 export interface DomainInfos {
   domainInfos: DomainInfo[];
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOpenWorkflowExecutionsInput {
   domain: string;
   startTimeFilter: ExecutionTimeFilter;
-  typeFilter?: WorkflowTypeFilter;
-  tagFilter?: TagFilter;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-  executionFilter?: WorkflowExecutionFilter;
+  typeFilter?: WorkflowTypeFilter | undefined;
+  tagFilter?: TagFilter | undefined;
+  nextPageToken?: string | undefined;
+  maximumPageSize?: number | undefined;
+  reverseOrder?: boolean | undefined;
+  executionFilter?: WorkflowExecutionFilter | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
@@ -991,29 +1039,29 @@ export type ResourceTagKey = string;
 export type ResourceTagValue = string;
 export interface ResourceTag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type ResourceTagList = ResourceTag[];
 export interface ListTagsForResourceOutput {
-  tags?: ResourceTag[];
+  tags?: ResourceTag[] | undefined;
 }
 export interface ListWorkflowTypesInput {
   domain: string;
-  name?: string;
+  name?: string | undefined;
   registrationStatus: RegistrationStatus;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
+  nextPageToken?: string | undefined;
+  maximumPageSize?: number | undefined;
+  reverseOrder?: boolean | undefined;
 }
 export type WorkflowTypeInfoList = WorkflowTypeInfo[];
 export interface WorkflowTypeInfos {
   typeInfos: WorkflowTypeInfo[];
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PollForActivityTaskInput {
   domain: string;
   taskList: TaskList;
-  identity?: string;
+  identity?: string | undefined;
 }
 export type TaskToken = string;
 export interface ActivityTask {
@@ -1022,17 +1070,17 @@ export interface ActivityTask {
   startedEventId: number;
   workflowExecution: WorkflowExecution;
   activityType: ActivityType;
-  input?: string;
+  input?: string | undefined;
 }
 export type StartAtPreviousStartedEvent = boolean;
 export interface PollForDecisionTaskInput {
   domain: string;
   taskList: TaskList;
-  identity?: string;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-  startAtPreviousStartedEvent?: boolean;
+  identity?: string | undefined;
+  nextPageToken?: string | undefined;
+  maximumPageSize?: number | undefined;
+  reverseOrder?: boolean | undefined;
+  startAtPreviousStartedEvent?: boolean | undefined;
 }
 export interface DecisionTask {
   taskToken: string;
@@ -1040,12 +1088,12 @@ export interface DecisionTask {
   workflowExecution: WorkflowExecution;
   workflowType: WorkflowType;
   events: HistoryEvent[];
-  nextPageToken?: string;
-  previousStartedEventId?: number;
+  nextPageToken?: string | undefined;
+  previousStartedEventId?: number | undefined;
 }
 export interface RecordActivityTaskHeartbeatInput {
   taskToken: string;
-  details?: string;
+  details?: string | undefined;
 }
 export interface ActivityTaskStatus {
   cancelRequested: boolean;
@@ -1054,55 +1102,55 @@ export interface RegisterActivityTypeInput {
   domain: string;
   name: string;
   version: string;
-  description?: string;
-  defaultTaskStartToCloseTimeout?: string;
-  defaultTaskHeartbeatTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultTaskScheduleToStartTimeout?: string;
-  defaultTaskScheduleToCloseTimeout?: string;
+  description?: string | undefined;
+  defaultTaskStartToCloseTimeout?: string | undefined;
+  defaultTaskHeartbeatTimeout?: string | undefined;
+  defaultTaskList?: TaskList | undefined;
+  defaultTaskPriority?: string | undefined;
+  defaultTaskScheduleToStartTimeout?: string | undefined;
+  defaultTaskScheduleToCloseTimeout?: string | undefined;
 }
 export interface RegisterActivityTypeResponse {}
 export interface RegisterDomainInput {
   name: string;
-  description?: string;
+  description?: string | undefined;
   workflowExecutionRetentionPeriodInDays: string;
-  tags?: ResourceTag[];
+  tags?: ResourceTag[] | undefined;
 }
 export interface RegisterDomainResponse {}
 export interface RegisterWorkflowTypeInput {
   domain: string;
   name: string;
   version: string;
-  description?: string;
-  defaultTaskStartToCloseTimeout?: string;
-  defaultExecutionStartToCloseTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultChildPolicy?: ChildPolicy;
-  defaultLambdaRole?: string;
+  description?: string | undefined;
+  defaultTaskStartToCloseTimeout?: string | undefined;
+  defaultExecutionStartToCloseTimeout?: string | undefined;
+  defaultTaskList?: TaskList | undefined;
+  defaultTaskPriority?: string | undefined;
+  defaultChildPolicy?: ChildPolicy | undefined;
+  defaultLambdaRole?: string | undefined;
 }
 export interface RegisterWorkflowTypeResponse {}
 export interface RequestCancelWorkflowExecutionInput {
   domain: string;
   workflowId: string;
-  runId?: string;
+  runId?: string | undefined;
 }
 export interface RequestCancelWorkflowExecutionResponse {}
 export interface RespondActivityTaskCanceledInput {
   taskToken: string;
-  details?: string;
+  details?: string | undefined;
 }
 export interface RespondActivityTaskCanceledResponse {}
 export interface RespondActivityTaskCompletedInput {
   taskToken: string;
-  result?: string;
+  result?: string | undefined;
 }
 export interface RespondActivityTaskCompletedResponse {}
 export interface RespondActivityTaskFailedInput {
   taskToken: string;
-  reason?: string;
-  details?: string;
+  reason?: string | undefined;
+  details?: string | undefined;
 }
 export interface RespondActivityTaskFailedResponse {}
 export type DecisionType =
@@ -1123,46 +1171,46 @@ export type DecisionType =
 export interface ScheduleActivityTaskDecisionAttributes {
   activityType: ActivityType;
   activityId: string;
-  control?: string;
-  input?: string;
-  scheduleToCloseTimeout?: string;
-  taskList?: TaskList;
-  taskPriority?: string;
-  scheduleToStartTimeout?: string;
-  startToCloseTimeout?: string;
-  heartbeatTimeout?: string;
+  control?: string | undefined;
+  input?: string | undefined;
+  scheduleToCloseTimeout?: string | undefined;
+  taskList?: TaskList | undefined;
+  taskPriority?: string | undefined;
+  scheduleToStartTimeout?: string | undefined;
+  startToCloseTimeout?: string | undefined;
+  heartbeatTimeout?: string | undefined;
 }
 export interface RequestCancelActivityTaskDecisionAttributes {
   activityId: string;
 }
 export interface CompleteWorkflowExecutionDecisionAttributes {
-  result?: string;
+  result?: string | undefined;
 }
 export interface FailWorkflowExecutionDecisionAttributes {
-  reason?: string;
-  details?: string;
+  reason?: string | undefined;
+  details?: string | undefined;
 }
 export interface CancelWorkflowExecutionDecisionAttributes {
-  details?: string;
+  details?: string | undefined;
 }
 export interface ContinueAsNewWorkflowExecutionDecisionAttributes {
-  input?: string;
-  executionStartToCloseTimeout?: string;
-  taskList?: TaskList;
-  taskPriority?: string;
-  taskStartToCloseTimeout?: string;
-  childPolicy?: ChildPolicy;
-  tagList?: string[];
-  workflowTypeVersion?: string;
-  lambdaRole?: string;
+  input?: string | undefined;
+  executionStartToCloseTimeout?: string | undefined;
+  taskList?: TaskList | undefined;
+  taskPriority?: string | undefined;
+  taskStartToCloseTimeout?: string | undefined;
+  childPolicy?: ChildPolicy | undefined;
+  tagList?: string[] | undefined;
+  workflowTypeVersion?: string | undefined;
+  lambdaRole?: string | undefined;
 }
 export interface RecordMarkerDecisionAttributes {
   markerName: string;
-  details?: string;
+  details?: string | undefined;
 }
 export interface StartTimerDecisionAttributes {
   timerId: string;
-  control?: string;
+  control?: string | undefined;
   startToFireTimeout: string;
 }
 export interface CancelTimerDecisionAttributes {
@@ -1170,84 +1218,96 @@ export interface CancelTimerDecisionAttributes {
 }
 export interface SignalExternalWorkflowExecutionDecisionAttributes {
   workflowId: string;
-  runId?: string;
+  runId?: string | undefined;
   signalName: string;
-  input?: string;
-  control?: string;
+  input?: string | undefined;
+  control?: string | undefined;
 }
 export interface RequestCancelExternalWorkflowExecutionDecisionAttributes {
   workflowId: string;
-  runId?: string;
-  control?: string;
+  runId?: string | undefined;
+  control?: string | undefined;
 }
 export interface StartChildWorkflowExecutionDecisionAttributes {
   workflowType: WorkflowType;
   workflowId: string;
-  control?: string;
-  input?: string;
-  executionStartToCloseTimeout?: string;
-  taskList?: TaskList;
-  taskPriority?: string;
-  taskStartToCloseTimeout?: string;
-  childPolicy?: ChildPolicy;
-  tagList?: string[];
-  lambdaRole?: string;
+  control?: string | undefined;
+  input?: string | undefined;
+  executionStartToCloseTimeout?: string | undefined;
+  taskList?: TaskList | undefined;
+  taskPriority?: string | undefined;
+  taskStartToCloseTimeout?: string | undefined;
+  childPolicy?: ChildPolicy | undefined;
+  tagList?: string[] | undefined;
+  lambdaRole?: string | undefined;
 }
 export interface ScheduleLambdaFunctionDecisionAttributes {
   id: string;
   name: string;
-  control?: string;
-  input?: string;
-  startToCloseTimeout?: string;
+  control?: string | undefined;
+  input?: string | undefined;
+  startToCloseTimeout?: string | undefined;
 }
 export interface Decision {
   decisionType: DecisionType;
-  scheduleActivityTaskDecisionAttributes?: ScheduleActivityTaskDecisionAttributes;
-  requestCancelActivityTaskDecisionAttributes?: RequestCancelActivityTaskDecisionAttributes;
-  completeWorkflowExecutionDecisionAttributes?: CompleteWorkflowExecutionDecisionAttributes;
-  failWorkflowExecutionDecisionAttributes?: FailWorkflowExecutionDecisionAttributes;
-  cancelWorkflowExecutionDecisionAttributes?: CancelWorkflowExecutionDecisionAttributes;
-  continueAsNewWorkflowExecutionDecisionAttributes?: ContinueAsNewWorkflowExecutionDecisionAttributes;
-  recordMarkerDecisionAttributes?: RecordMarkerDecisionAttributes;
-  startTimerDecisionAttributes?: StartTimerDecisionAttributes;
-  cancelTimerDecisionAttributes?: CancelTimerDecisionAttributes;
-  signalExternalWorkflowExecutionDecisionAttributes?: SignalExternalWorkflowExecutionDecisionAttributes;
-  requestCancelExternalWorkflowExecutionDecisionAttributes?: RequestCancelExternalWorkflowExecutionDecisionAttributes;
-  startChildWorkflowExecutionDecisionAttributes?: StartChildWorkflowExecutionDecisionAttributes;
-  scheduleLambdaFunctionDecisionAttributes?: ScheduleLambdaFunctionDecisionAttributes;
+  scheduleActivityTaskDecisionAttributes?: ScheduleActivityTaskDecisionAttributes | undefined;
+  requestCancelActivityTaskDecisionAttributes?:
+    | RequestCancelActivityTaskDecisionAttributes
+    | undefined;
+  completeWorkflowExecutionDecisionAttributes?:
+    | CompleteWorkflowExecutionDecisionAttributes
+    | undefined;
+  failWorkflowExecutionDecisionAttributes?: FailWorkflowExecutionDecisionAttributes | undefined;
+  cancelWorkflowExecutionDecisionAttributes?: CancelWorkflowExecutionDecisionAttributes | undefined;
+  continueAsNewWorkflowExecutionDecisionAttributes?:
+    | ContinueAsNewWorkflowExecutionDecisionAttributes
+    | undefined;
+  recordMarkerDecisionAttributes?: RecordMarkerDecisionAttributes | undefined;
+  startTimerDecisionAttributes?: StartTimerDecisionAttributes | undefined;
+  cancelTimerDecisionAttributes?: CancelTimerDecisionAttributes | undefined;
+  signalExternalWorkflowExecutionDecisionAttributes?:
+    | SignalExternalWorkflowExecutionDecisionAttributes
+    | undefined;
+  requestCancelExternalWorkflowExecutionDecisionAttributes?:
+    | RequestCancelExternalWorkflowExecutionDecisionAttributes
+    | undefined;
+  startChildWorkflowExecutionDecisionAttributes?:
+    | StartChildWorkflowExecutionDecisionAttributes
+    | undefined;
+  scheduleLambdaFunctionDecisionAttributes?: ScheduleLambdaFunctionDecisionAttributes | undefined;
 }
 export type DecisionList = Decision[];
 export interface RespondDecisionTaskCompletedInput {
   taskToken: string;
-  decisions?: Decision[];
-  executionContext?: string;
-  taskList?: TaskList;
-  taskListScheduleToStartTimeout?: string;
+  decisions?: Decision[] | undefined;
+  executionContext?: string | undefined;
+  taskList?: TaskList | undefined;
+  taskListScheduleToStartTimeout?: string | undefined;
 }
 export interface RespondDecisionTaskCompletedResponse {}
 export interface SignalWorkflowExecutionInput {
   domain: string;
   workflowId: string;
-  runId?: string;
+  runId?: string | undefined;
   signalName: string;
-  input?: string;
+  input?: string | undefined;
 }
 export interface SignalWorkflowExecutionResponse {}
 export interface StartWorkflowExecutionInput {
   domain: string;
   workflowId: string;
   workflowType: WorkflowType;
-  taskList?: TaskList;
-  taskPriority?: string;
-  input?: string;
-  executionStartToCloseTimeout?: string;
-  tagList?: string[];
-  taskStartToCloseTimeout?: string;
-  childPolicy?: ChildPolicy;
-  lambdaRole?: string;
+  taskList?: TaskList | undefined;
+  taskPriority?: string | undefined;
+  input?: string | undefined;
+  executionStartToCloseTimeout?: string | undefined;
+  tagList?: string[] | undefined;
+  taskStartToCloseTimeout?: string | undefined;
+  childPolicy?: ChildPolicy | undefined;
+  lambdaRole?: string | undefined;
 }
 export interface Run {
-  runId?: string;
+  runId?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -1257,10 +1317,10 @@ export interface TagResourceResponse {}
 export interface TerminateWorkflowExecutionInput {
   domain: string;
   workflowId: string;
-  runId?: string;
-  reason?: string;
-  details?: string;
-  childPolicy?: ChildPolicy;
+  runId?: string | undefined;
+  reason?: string | undefined;
+  details?: string | undefined;
+  childPolicy?: ChildPolicy | undefined;
 }
 export interface TerminateWorkflowExecutionResponse {}
 export interface UndeprecateActivityTypeInput {

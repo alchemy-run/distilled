@@ -109,11 +109,11 @@ export interface BulkReviewPatGrantRequestsInRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Unique identifiers of the requests for access via fine-grained personal access token. Must be formed of between 1 and 100 `pat_request_id` values. */
-  pat_request_ids?: BulkReviewPatGrantRequestsInRequestPatRequestIdsList;
+  pat_request_ids?: BulkReviewPatGrantRequestsInRequestPatRequestIdsList | undefined;
   /** Action to apply to the requests. */
   action: BulkReviewPatGrantRequestsInRequestAction | (string & {});
   /** Reason for approving or denying the requests. Max 1024 characters. */
-  reason?: string | null;
+  reason?: string | null | undefined;
 }
 export interface BulkReviewPatGrantRequestsInResponse {}
 export interface CancelInvitationRequest {
@@ -150,7 +150,7 @@ export interface ConvertMemberToOutsideCollaboratorRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** When set to `true`, the request will be performed asynchronously. Returns a 202 status code when the job is successfully queued. */
-  async?: boolean;
+  async?: boolean | undefined;
 }
 export interface ConvertMemberToOutsideCollaboratorResponse {}
 /** The status of the artifact. Can be either deployed or decommissioned. */
@@ -174,25 +174,25 @@ export interface CreateArtifactDeploymentRecordRequest {
   /** The hex encoded digest of the artifact. */
   digest: string;
   /** The artifact version. */
-  version?: string;
+  version?: string | undefined;
   /** The status of the artifact. Can be either deployed or decommissioned. */
   status: CreateArtifactDeploymentRecordRequestStatus | (string & {});
   /** The stage of the deployment. */
   logical_environment: string;
   /** The physical region of the deployment. */
-  physical_environment?: string;
+  physical_environment?: string | undefined;
   /** The deployment cluster. */
-  cluster?: string;
+  cluster?: string | undefined;
   /** The unique identifier for the deployment represented by the new record. To accommodate differing containers and namespaces within a cluster, the following format is recommended: {namespaceName}-{deploymentName}-{containerName}. */
   deployment_name: string;
   /** The tags associated with the deployment. */
-  tags?: CreateArtifactDeploymentRecordRequestTagsMap;
+  tags?: CreateArtifactDeploymentRecordRequestTagsMap | undefined;
   /** A list of runtime risks associated with the deployment. */
-  runtime_risks?: CreateArtifactDeploymentRecordRequestRuntimeRisksList;
+  runtime_risks?: CreateArtifactDeploymentRecordRequestRuntimeRisksList | undefined;
   /** The name of the GitHub repository associated with the artifact. This should be used when there are no provenance attestations available for the artifact. The repository must belong to the organization specified in the path parameter. If a provenance attestation is available for the artifact, the API will use the repository information from the attestation instead of this parameter. */
-  github_repository?: string;
+  github_repository?: string | undefined;
   /** If true, the endpoint will return the created or updated record in the response body. */
-  return_records?: boolean;
+  return_records?: boolean | undefined;
 }
 export type ArtifactDeploymentRecordTagsMap = { [key: string]: string | undefined };
 export type ArtifactDeploymentRecordRuntimeRisksItem =
@@ -205,26 +205,26 @@ export type ArtifactDeploymentRecordRuntimeRisksList =
   Array<ArtifactDeploymentRecordRuntimeRisksItem>;
 /** Artifact Metadata Deployment Record */
 export interface ArtifactDeploymentRecord {
-  id?: number;
-  digest?: string;
-  logical_environment?: string;
-  physical_environment?: string;
-  cluster?: string;
-  deployment_name?: string;
-  tags?: ArtifactDeploymentRecordTagsMap;
+  id?: number | undefined;
+  digest?: string | undefined;
+  logical_environment?: string | undefined;
+  physical_environment?: string | undefined;
+  cluster?: string | undefined;
+  deployment_name?: string | undefined;
+  tags?: ArtifactDeploymentRecordTagsMap | undefined;
   /** A list of runtime risks associated with the deployment. */
-  runtime_risks?: ArtifactDeploymentRecordRuntimeRisksList;
-  created_at?: string;
-  updated_at?: string;
+  runtime_risks?: ArtifactDeploymentRecordRuntimeRisksList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** The ID of the provenance attestation associated with the deployment record. */
-  attestation_id?: number | null;
+  attestation_id?: number | null | undefined;
 }
 export type CreateArtifactDeploymentRecordResponseDeploymentRecordsList =
   Array<ArtifactDeploymentRecord>;
 export interface CreateArtifactDeploymentRecordResponse {
   /** The number of deployment records created */
   total_count: number;
-  deployment_records?: CreateArtifactDeploymentRecordResponseDeploymentRecordsList;
+  deployment_records?: CreateArtifactDeploymentRecordResponseDeploymentRecordsList | undefined;
 }
 /** The status of the artifact (e.g., active, inactive). */
 export type CreateArtifactStorageRecordRequestStatus = "active" | "eol" | "deleted";
@@ -236,38 +236,38 @@ export interface CreateArtifactStorageRecordRequest {
   /** The digest of the artifact (algorithm:hex-encoded-digest). */
   digest: string;
   /** The artifact version. */
-  version?: string;
+  version?: string | undefined;
   /** The URL where the artifact is stored. */
-  artifact_url?: string;
+  artifact_url?: string | undefined;
   /** The path of the artifact. */
-  path?: string;
+  path?: string | undefined;
   /** The base URL of the artifact registry. */
   registry_url: string;
   /** The repository name within the registry. */
-  repository?: string;
+  repository?: string | undefined;
   /** The status of the artifact (e.g., active, inactive). */
-  status?: CreateArtifactStorageRecordRequestStatus | (string & {});
+  status?: CreateArtifactStorageRecordRequestStatus | (string & {}) | undefined;
   /** The name of the GitHub repository associated with the artifact. This should be used when there are no provenance attestations available for the artifact. The repository must belong to the organization specified in the path parameter. If a provenance attestation is available for the artifact, the API will use the repository information from the attestation instead of this parameter. */
-  github_repository?: string;
+  github_repository?: string | undefined;
   /** If true, the endpoint will return the created record in the response body. */
-  return_records?: boolean;
+  return_records?: boolean | undefined;
 }
 export interface CreateArtifactStorageRecordResponseStorageRecordsItem {
-  id?: number;
-  name?: string;
-  digest?: string;
-  artifact_url?: string | null;
-  registry_url?: string;
-  repository?: string | null;
-  status?: string;
-  created_at?: string;
-  updated_at?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  digest?: string | undefined;
+  artifact_url?: string | null | undefined;
+  registry_url?: string | undefined;
+  repository?: string | null | undefined;
+  status?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type CreateArtifactStorageRecordResponseStorageRecordsList =
   Array<CreateArtifactStorageRecordResponseStorageRecordsItem>;
 export interface CreateArtifactStorageRecordResponse {
   total_count: number;
-  storage_records?: CreateArtifactStorageRecordResponseStorageRecordsList;
+  storage_records?: CreateArtifactStorageRecordResponseStorageRecordsList | undefined;
 }
 /** The deployment status of the artifact. */
 export type CreateClusterDeploymentRecordsJobRequestDeploymentsItemStatus =
@@ -292,17 +292,22 @@ export interface CreateClusterDeploymentRecordsJobRequestDeploymentsItem {
   /** The hex encoded digest of the artifact. */
   digest: string;
   /** The artifact version. */
-  version?: string;
+  version?: string | undefined;
   /** The deployment status of the artifact. */
-  status?: CreateClusterDeploymentRecordsJobRequestDeploymentsItemStatus | (string & {});
+  status?:
+    | CreateClusterDeploymentRecordsJobRequestDeploymentsItemStatus
+    | (string & {})
+    | undefined;
   /** The unique identifier for the deployment represented by the new record. */
   deployment_name: string;
   /** The name of the GitHub repository associated with the artifact. */
-  github_repository?: string;
+  github_repository?: string | undefined;
   /** Key-value pairs to tag the deployment record. */
-  tags?: CreateClusterDeploymentRecordsJobRequestDeploymentsItemTagsMap;
+  tags?: CreateClusterDeploymentRecordsJobRequestDeploymentsItemTagsMap | undefined;
   /** A list of runtime risks associated with the deployment. */
-  runtime_risks?: CreateClusterDeploymentRecordsJobRequestDeploymentsItemRuntimeRisksList;
+  runtime_risks?:
+    | CreateClusterDeploymentRecordsJobRequestDeploymentsItemRuntimeRisksList
+    | undefined;
 }
 /** The list of deployments to record. */
 export type CreateClusterDeploymentRecordsJobRequestDeploymentsList =
@@ -315,7 +320,7 @@ export interface CreateClusterDeploymentRecordsJobRequest {
   /** The stage of the deployment. */
   logical_environment: string;
   /** The physical region of the deployment. */
-  physical_environment?: string;
+  physical_environment?: string | undefined;
   /** The list of deployments to record. */
   deployments: CreateClusterDeploymentRecordsJobRequestDeploymentsList;
 }
@@ -332,18 +337,18 @@ export interface CreateInvitationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** **Required unless you provide `email`**. GitHub user ID for the person you are inviting. */
-  invitee_id?: number;
+  invitee_id?: number | undefined;
   /** **Required unless you provide `invitee_id`**. Email address of the person you are inviting, which can be an existing GitHub user. */
-  email?: string;
+  email?: string | undefined;
   /** The role for the new member. * `admin` - Organization owners with full administrative rights to the organization and complete access to all repositories and teams. * `direct_member` - Non-owner organization members with ability to see other members and join teams by invitation. * `billing_manager` - Non-owner organization members with ability to manage the billing settings of your organization. * `reinstate` - The previous role assigned to the invitee before they were removed from your organization. Can be one of the roles listed above. Only works if the invitee was previously part of your organization. */
-  role?: CreateInvitationRequestRole | (string & {});
+  role?: CreateInvitationRequestRole | (string & {}) | undefined;
   /** Specify IDs for the teams you want to invite new members to. */
-  team_ids?: CreateInvitationRequestTeamIdsList;
+  team_ids?: CreateInvitationRequestTeamIdsList | undefined;
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -362,8 +367,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** Organization Invitation */
 export interface OrganizationInvitation {
@@ -372,13 +377,13 @@ export interface OrganizationInvitation {
   email: string | null;
   role: string;
   created_at: string;
-  failed_at?: string | null;
-  failed_reason?: string | null;
+  failed_at?: string | null | undefined;
+  failed_reason?: string | null | undefined;
   inviter: SimpleUser;
   team_count: number;
   node_id: string;
   invitation_teams_url: string;
-  invitation_source?: string;
+  invitation_source?: string | undefined;
 }
 /** The data type of the issue field. */
 export type CreateIssueFieldRequestDataType =
@@ -403,7 +408,7 @@ export interface CreateIssueFieldRequestOptionsItem {
   /** Name of the option. */
   name: string;
   /** Description of the option. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Color for the option. */
   color: CreateIssueFieldRequestOptionsItemColor | (string & {});
   /** Priority of the option for ordering. */
@@ -417,13 +422,13 @@ export interface CreateIssueFieldRequest {
   /** Name of the issue field. */
   name: string;
   /** Description of the issue field. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The data type of the issue field. */
   data_type: CreateIssueFieldRequestDataType | (string & {});
   /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
-  visibility?: CreateIssueFieldRequestVisibility | (string & {});
+  visibility?: CreateIssueFieldRequestVisibility | (string & {}) | undefined;
   /** Options for select fields. Required when data_type is 'single_select' or 'multi_select'. */
-  options?: CreateIssueFieldRequestOptionsList | null;
+  options?: CreateIssueFieldRequestOptionsList | null | undefined;
 }
 /** The data type of the issue field. */
 export type IssueFieldDataType = "text" | "date" | "single_select" | "multi_select" | "number";
@@ -445,15 +450,15 @@ export interface IssueFieldOptionsItem {
   /** The name of the option. */
   name: string;
   /** The description of the option. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The color of the option. */
-  color?: IssueFieldOptionsItemColor | null;
+  color?: IssueFieldOptionsItemColor | null | undefined;
   /** The priority of the option for ordering. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The time the option was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the option was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Available options for single select and multi select fields. */
 export type IssueFieldOptionsList = Array<IssueFieldOptionsItem>;
@@ -466,17 +471,17 @@ export interface IssueField {
   /** The name of the issue field. */
   name: string;
   /** The description of the issue field. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The data type of the issue field. */
   data_type: IssueFieldDataType;
   /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). */
-  visibility?: IssueFieldVisibility;
+  visibility?: IssueFieldVisibility | undefined;
   /** Available options for single select and multi select fields. */
-  options?: IssueFieldOptionsList | null;
+  options?: IssueFieldOptionsList | null | undefined;
   /** The time the issue field was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the issue field was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Color for the issue type. */
 export type CreateIssueTypeRequestColor =
@@ -496,9 +501,9 @@ export interface CreateIssueTypeRequest {
   /** Whether or not the issue type is enabled at the organization level. */
   is_enabled: boolean;
   /** Description of the issue type. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Color for the issue type. */
-  color?: CreateIssueTypeRequestColor | (string & {}) | null;
+  color?: CreateIssueTypeRequestColor | (string & {}) | null | undefined;
 }
 /** The color of the issue type. */
 export type IssueTypeColor =
@@ -521,23 +526,23 @@ export interface IssueType {
   /** The description of the issue type. */
   description: string | null;
   /** The color of the issue type. */
-  color?: IssueTypeColor | null;
+  color?: IssueTypeColor | null | undefined;
   /** The time the issue type created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the issue type last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The enabled state of the issue type. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 export type WebhookConfigInsecureSsl = string | number;
 /** Key/value pairs to provide settings for this webhook. */
 export interface CreateWebhookRequestConfig {
   url: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
-  username?: string;
-  password?: string | Redacted.Redacted<string>;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
+  username?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. Set to `["*"]` to receive all possible events. */
 export type CreateWebhookRequestEventsList = Array<string>;
@@ -549,23 +554,23 @@ export interface CreateWebhookRequest {
   /** Key/value pairs to provide settings for this webhook. */
   config: CreateWebhookRequestConfig;
   /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. Set to `["*"]` to receive all possible events. */
-  events?: CreateWebhookRequestEventsList;
+  events?: CreateWebhookRequestEventsList | undefined;
   /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export type OrgHookEventsList = Array<string>;
 export interface OrgHookConfig {
-  url?: string;
-  insecure_ssl?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
+  url?: string | undefined;
+  insecure_ssl?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Org Hook */
 export interface OrgHook {
   id: number;
   url: string;
   ping_url: string;
-  deliveries_url?: string;
+  deliveries_url?: string | undefined;
   name: string;
   events: OrgHookEventsList;
   active: boolean;
@@ -604,20 +609,27 @@ export interface CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionReq
     | CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestValueType
     | (string & {});
   /** Whether the property is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Default value of the property */
-  default_value?: CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValue | null;
+  default_value?:
+    | CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValue
+    | null
+    | undefined;
   /** Short description of the property */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An ordered list of the allowed values of the property. The property can have up to 200 allowed values. */
-  allowed_values?: CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestAllowedValuesList | null;
+  allowed_values?:
+    | CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestAllowedValuesList
+    | null
+    | undefined;
   /** Who can edit the values of the property */
   values_editable_by?:
     | CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestValuesEditableBy
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** Whether setting properties values is mandatory */
-  require_explicit_values?: boolean;
+  require_explicit_values?: boolean | undefined;
 }
 /** The source type of the property */
 export type CustomPropertySourceType = "organization" | "enterprise";
@@ -640,23 +652,23 @@ export interface CustomProperty {
   /** The name of the property */
   property_name: string;
   /** The URL that can be used to fetch, update, or delete info about this property via the API. */
-  url?: string;
+  url?: string | undefined;
   /** The source type of the property */
-  source_type?: CustomPropertySourceType | (string & {});
+  source_type?: CustomPropertySourceType | (string & {}) | undefined;
   /** The type of the value for the property */
   value_type: CustomPropertyValueType | (string & {});
   /** Whether the property is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Default value of the property */
-  default_value?: CustomPropertyDefaultValue | null;
+  default_value?: CustomPropertyDefaultValue | null | undefined;
   /** Short description of the property */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An ordered list of the allowed values of the property. The property can have up to 200 allowed values. */
-  allowed_values?: CustomPropertyAllowedValuesList | null;
+  allowed_values?: CustomPropertyAllowedValuesList | null | undefined;
   /** Who can edit the values of the property */
-  values_editable_by?: CustomPropertyValuesEditableBy | (string & {}) | null;
+  values_editable_by?: CustomPropertyValuesEditableBy | (string & {}) | null | undefined;
   /** Whether setting properties values is mandatory */
-  require_explicit_values?: boolean;
+  require_explicit_values?: boolean | undefined;
 }
 /** The array of custom properties to create or update. */
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequestPropertiesList =
@@ -721,11 +733,11 @@ export interface CustomPropertiesForReposGetOrganizationValuesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Finds repositories in the organization with a query containing one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching for repositories](https://docs.github.com/articles/searching-for-repositories/)" for a detailed list of qualifiers. */
-  repository_query?: string;
+  repository_query?: string | undefined;
 }
 /** List of custom property names and associated values */
 export type OrgRepoCustomPropertyValuesPropertiesList = Array<CustomPropertyValue>;
@@ -895,7 +907,7 @@ export interface ExternalPropertiesForReposRegisterOrganizationAppInstallationRe
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The unique identifier of the GitHub App installation to register for managing external custom properties. When authenticating as a GitHub App installation, this defaults to the authenticated installation and can be omitted. It is required for all other callers (users and fine-grained personal access tokens). */
-  installation_id?: number;
+  installation_id?: number | undefined;
   /** The display name for this app installation's external custom properties in the organization. Must be 1 to 15 characters and contain only letters and numbers. Capitalization is preserved as entered. This can't be changed after the app installation is registered. */
   display_name: string;
 }
@@ -907,8 +919,8 @@ export interface OrganizationFullPlan {
   name: string;
   space: number;
   private_repos: number;
-  filled_seats?: number;
-  seats?: number;
+  filled_seats?: number | undefined;
+  seats?: number | undefined;
 }
 /** Organization Full */
 export interface OrganizationFull {
@@ -924,13 +936,13 @@ export interface OrganizationFull {
   public_members_url: string;
   avatar_url: string;
   description: string | null;
-  name?: string;
-  company?: string | null;
-  blog?: string | null;
-  location?: string | null;
-  email?: string | null;
-  twitter_username?: string | null;
-  is_verified?: boolean;
+  name?: string | undefined;
+  company?: string | null | undefined;
+  blog?: string | null | undefined;
+  location?: string | null | undefined;
+  email?: string | null | undefined;
+  twitter_username?: string | null | undefined;
+  is_verified?: boolean | undefined;
   has_organization_projects: boolean;
   has_repository_projects: boolean;
   public_repos: number;
@@ -939,57 +951,57 @@ export interface OrganizationFull {
   following: number;
   html_url: string;
   type: string;
-  total_private_repos?: number;
-  owned_private_repos?: number;
-  private_gists?: number | null;
-  disk_usage?: number | null;
+  total_private_repos?: number | undefined;
+  owned_private_repos?: number | undefined;
+  private_gists?: number | null | undefined;
+  disk_usage?: number | null | undefined;
   /** The number of collaborators on private repositories. This field may be null if the number of private repositories is over 50,000. */
-  collaborators?: number | null;
-  billing_email?: string | null;
-  plan?: OrganizationFullPlan;
-  default_repository_permission?: string | null;
+  collaborators?: number | null | undefined;
+  billing_email?: string | null | undefined;
+  plan?: OrganizationFullPlan | undefined;
+  default_repository_permission?: string | null | undefined;
   /** The default branch for repositories created in this organization. */
-  default_repository_branch?: string | null;
-  members_can_create_repositories?: boolean | null;
-  two_factor_requirement_enabled?: boolean | null;
-  members_allowed_repository_creation_type?: string;
-  members_can_create_public_repositories?: boolean;
-  members_can_create_private_repositories?: boolean;
-  members_can_create_internal_repositories?: boolean;
-  members_can_create_pages?: boolean;
-  members_can_create_public_pages?: boolean;
-  members_can_create_private_pages?: boolean;
-  members_can_delete_repositories?: boolean;
-  members_can_change_repo_visibility?: boolean;
-  members_can_invite_outside_collaborators?: boolean;
-  members_can_delete_issues?: boolean;
-  display_commenter_full_name_setting_enabled?: boolean;
-  readers_can_create_discussions?: boolean;
-  members_can_create_teams?: boolean;
-  members_can_view_dependency_insights?: boolean;
-  members_can_fork_private_repositories?: boolean | null;
-  web_commit_signoff_required?: boolean;
+  default_repository_branch?: string | null | undefined;
+  members_can_create_repositories?: boolean | null | undefined;
+  two_factor_requirement_enabled?: boolean | null | undefined;
+  members_allowed_repository_creation_type?: string | undefined;
+  members_can_create_public_repositories?: boolean | undefined;
+  members_can_create_private_repositories?: boolean | undefined;
+  members_can_create_internal_repositories?: boolean | undefined;
+  members_can_create_pages?: boolean | undefined;
+  members_can_create_public_pages?: boolean | undefined;
+  members_can_create_private_pages?: boolean | undefined;
+  members_can_delete_repositories?: boolean | undefined;
+  members_can_change_repo_visibility?: boolean | undefined;
+  members_can_invite_outside_collaborators?: boolean | undefined;
+  members_can_delete_issues?: boolean | undefined;
+  display_commenter_full_name_setting_enabled?: boolean | undefined;
+  readers_can_create_discussions?: boolean | undefined;
+  members_can_create_teams?: boolean | undefined;
+  members_can_view_dependency_insights?: boolean | undefined;
+  members_can_fork_private_repositories?: boolean | null | undefined;
+  web_commit_signoff_required?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether GitHub Advanced Security is enabled for new repositories and repositories transferred to this organization. This field is only visible to organization owners or members of a team with the security manager role. */
-  advanced_security_enabled_for_new_repositories?: boolean;
+  advanced_security_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether Dependabot alerts are automatically enabled for new repositories and repositories transferred to this organization. This field is only visible to organization owners or members of a team with the security manager role. */
-  dependabot_alerts_enabled_for_new_repositories?: boolean;
+  dependabot_alerts_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether Dependabot security updates are automatically enabled for new repositories and repositories transferred to this organization. This field is only visible to organization owners or members of a team with the security manager role. */
-  dependabot_security_updates_enabled_for_new_repositories?: boolean;
+  dependabot_security_updates_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether dependency graph is automatically enabled for new repositories and repositories transferred to this organization. This field is only visible to organization owners or members of a team with the security manager role. */
-  dependency_graph_enabled_for_new_repositories?: boolean;
+  dependency_graph_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether secret scanning is automatically enabled for new repositories and repositories transferred to this organization. This field is only visible to organization owners or members of a team with the security manager role. */
-  secret_scanning_enabled_for_new_repositories?: boolean;
+  secret_scanning_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization. This field is only visible to organization owners or members of a team with the security manager role. */
-  secret_scanning_push_protection_enabled_for_new_repositories?: boolean;
+  secret_scanning_push_protection_enabled_for_new_repositories?: boolean | undefined;
   /** Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection. */
-  secret_scanning_push_protection_custom_link_enabled?: boolean;
+  secret_scanning_push_protection_custom_link_enabled?: boolean | undefined;
   /** An optional URL string to display to contributors who are blocked from pushing a secret. */
-  secret_scanning_push_protection_custom_link?: string | null;
+  secret_scanning_push_protection_custom_link?: string | null | undefined;
   created_at: string;
   updated_at: string;
   archived_at: string | null;
   /** Controls whether or not deploy keys may be added and used for repositories in the organization. */
-  deploy_keys_enabled_for_repositories?: boolean;
+  deploy_keys_enabled_for_repositories?: boolean | undefined;
 }
 export type GetApiInsightRouteStatsByActorRequestActorType =
   | "installation"
@@ -1018,29 +1030,29 @@ export interface GetApiInsightRouteStatsByActorRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The direction to sort the results by. */
-  direction?: GetApiInsightRouteStatsByActorRequestDirection | (string & {});
+  direction?: GetApiInsightRouteStatsByActorRequestDirection | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: GetApiInsightRouteStatsByActorRequestSortList;
+  sort?: GetApiInsightRouteStatsByActorRequestSortList | undefined;
   /** Providing a substring will filter results where the API route contains the substring. This is a case-insensitive search. */
-  api_route_substring?: string;
+  api_route_substring?: string | undefined;
 }
 export interface ApiInsightsRouteStatsItem {
   /** The HTTP method */
-  http_method?: string;
+  http_method?: string | undefined;
   /** The API path's route template */
-  api_route?: string;
+  api_route?: string | undefined;
   /** The total number of requests within the queried time period */
-  total_request_count?: number;
+  total_request_count?: number | undefined;
   /** The total number of requests that were rate limited within the queried time period */
-  rate_limited_request_count?: number;
-  last_rate_limited_timestamp?: string | null;
-  last_request_timestamp?: string;
+  rate_limited_request_count?: number | undefined;
+  last_rate_limited_timestamp?: string | null | undefined;
+  last_request_timestamp?: string | undefined;
 }
 /** API Insights usage route stats for an actor */
 export type ApiInsightsRouteStats = Array<ApiInsightsRouteStatsItem>;
@@ -1061,26 +1073,26 @@ export interface GetApiInsightSubjectStatsRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The direction to sort the results by. */
-  direction?: GetApiInsightSubjectStatsRequestDirection | (string & {});
+  direction?: GetApiInsightSubjectStatsRequestDirection | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: GetApiInsightSubjectStatsRequestSortList;
+  sort?: GetApiInsightSubjectStatsRequestSortList | undefined;
   /** Providing a substring will filter results where the subject name contains the substring. This is a case-insensitive search. */
-  subject_name_substring?: string;
+  subject_name_substring?: string | undefined;
 }
 export interface ApiInsightsSubjectStatsItem {
-  subject_type?: string;
-  subject_name?: string;
-  subject_id?: number;
-  total_request_count?: number;
-  rate_limited_request_count?: number;
-  last_rate_limited_timestamp?: string | null;
-  last_request_timestamp?: string;
+  subject_type?: string | undefined;
+  subject_name?: string | undefined;
+  subject_id?: number | undefined;
+  total_request_count?: number | undefined;
+  rate_limited_request_count?: number | undefined;
+  last_rate_limited_timestamp?: string | null | undefined;
+  last_request_timestamp?: string | undefined;
 }
 /** API Insights usage subject stats for an organization */
 export type ApiInsightsSubjectStats = Array<ApiInsightsSubjectStatsItem>;
@@ -1091,14 +1103,14 @@ export interface GetApiInsightSummaryStatsRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
 }
 /** API Insights usage summary stats for an organization */
 export interface ApiInsightsSummaryStats {
   /** The total number of requests within the queried time period */
-  total_request_count?: number;
+  total_request_count?: number | undefined;
   /** The total number of requests that were rate limited within the queried time period */
-  rate_limited_request_count?: number;
+  rate_limited_request_count?: number | undefined;
 }
 export type GetApiInsightSummaryStatsByActorRequestActorType =
   | "installation"
@@ -1116,7 +1128,7 @@ export interface GetApiInsightSummaryStatsByActorRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
 }
 export interface GetApiInsightSummaryStatsByUserRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1126,7 +1138,7 @@ export interface GetApiInsightSummaryStatsByUserRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
 }
 export interface GetApiInsightTimeStatsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1134,14 +1146,14 @@ export interface GetApiInsightTimeStatsRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
   /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
   timestamp_increment: string;
 }
 export interface ApiInsightsTimeStatsItem {
-  timestamp?: string;
-  total_request_count?: number;
-  rate_limited_request_count?: number;
+  timestamp?: string | undefined;
+  total_request_count?: number | undefined;
+  rate_limited_request_count?: number | undefined;
 }
 /** API Insights usage time stats for an organization */
 export type ApiInsightsTimeStats = Array<ApiInsightsTimeStatsItem>;
@@ -1162,7 +1174,7 @@ export interface GetApiInsightTimeStatsByActorRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
   /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
   timestamp_increment: string;
 }
@@ -1175,7 +1187,7 @@ export interface GetApiInsightTimeStatsByUserRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
   /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
   timestamp_increment: string;
 }
@@ -1198,28 +1210,28 @@ export interface GetApiInsightUserStatsRequest {
   /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   min_timestamp: string;
   /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The direction to sort the results by. */
-  direction?: GetApiInsightUserStatsRequestDirection | (string & {});
+  direction?: GetApiInsightUserStatsRequestDirection | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: GetApiInsightUserStatsRequestSortList;
+  sort?: GetApiInsightUserStatsRequestSortList | undefined;
   /** Providing a substring will filter results where the actor name contains the substring. This is a case-insensitive search. */
-  actor_name_substring?: string;
+  actor_name_substring?: string | undefined;
 }
 export interface ApiInsightsUserStatsItem {
-  actor_type?: string;
-  actor_name?: string;
-  actor_id?: number;
-  integration_id?: number | null;
-  oauth_application_id?: number | null;
-  total_request_count?: number;
-  rate_limited_request_count?: number;
-  last_rate_limited_timestamp?: string | null;
-  last_request_timestamp?: string;
+  actor_type?: string | undefined;
+  actor_name?: string | undefined;
+  actor_id?: number | undefined;
+  integration_id?: number | null | undefined;
+  oauth_application_id?: number | null | undefined;
+  total_request_count?: number | undefined;
+  rate_limited_request_count?: number | undefined;
+  last_rate_limited_timestamp?: string | null | undefined;
+  last_request_timestamp?: string | undefined;
 }
 /** API Insights usage stats for a user */
 export type ApiInsightsUserStats = Array<ApiInsightsUserStatsItem>;
@@ -1246,11 +1258,11 @@ export interface GetClusterDeploymentRecordsJobResponse {
   /** The current status of the job. */
   status: GetClusterDeploymentRecordsJobResponseStatus;
   /** When the job started processing (only present when processing, completed, or failed). */
-  started_at?: string;
+  started_at?: string | undefined;
   /** The number of records successfully mutated (only present when completed). */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Processing errors (only present when completed or failed). */
-  errors?: GetClusterDeploymentRecordsJobResponseErrorsList;
+  errors?: GetClusterDeploymentRecordsJobResponseErrorsList | undefined;
 }
 export interface GetImmutableReleasesSettingsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1263,80 +1275,80 @@ export interface ImmutableReleasesOrganizationSettings {
   /** The policy that controls how immutable releases are enforced in the organization. */
   enforced_repositories: ImmutableReleasesOrganizationSettingsEnforcedRepositories;
   /** The API URL to use to get or set the selected repositories for immutable releases enforcement, when `enforced_repositories` is set to `selected`. */
-  selected_repositories_url?: string;
+  selected_repositories_url?: string | undefined;
 }
 export interface GetImmutableReleasesSettingsRepositoriesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -1352,28 +1364,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -1406,7 +1424,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -1418,7 +1436,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -1426,52 +1444,52 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 export type GetImmutableReleasesSettingsRepositoriesResponseRepositoriesList =
   Array<MinimalRepository>;
@@ -1517,13 +1535,15 @@ export interface OrgMembership {
   /** The user's membership type in the organization. */
   role: OrgMembershipRole;
   /** Whether the user has direct membership in the organization. */
-  direct_membership?: boolean;
+  direct_membership?: boolean | undefined;
   /** The slugs of the enterprise teams providing the user with indirect membership in the organization. A limit of 100 enterprise team slugs is returned. */
-  enterprise_teams_providing_indirect_membership?: OrgMembershipEnterpriseTeamsProvidingIndirectMembershipList;
+  enterprise_teams_providing_indirect_membership?:
+    | OrgMembershipEnterpriseTeamsProvidingIndirectMembershipList
+    | undefined;
   organization_url: string;
   organization: OrganizationSimple;
   user: SimpleUser | null;
-  permissions?: OrgMembershipPermissions;
+  permissions?: OrgMembershipPermissions | undefined;
 }
 export interface GetMembershipForUserRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1550,11 +1570,11 @@ export interface OrganizationRole {
   /** The name of the role. */
   name: string;
   /** A short description about who this role is for or what permissions it grants. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The system role from which this role inherits permissions. */
-  base_role?: OrganizationRoleBaseRole | null;
+  base_role?: OrganizationRoleBaseRole | null | undefined;
   /** Source answers the question, "where did this role come from?" */
-  source?: OrganizationRoleSource | null;
+  source?: OrganizationRoleSource | null | undefined;
   /** A list of permissions included in this role. */
   permissions: OrganizationRolePermissionsList;
   organization: SimpleUser | null;
@@ -1569,14 +1589,14 @@ export interface GetOrgRulesetHistoryRequest {
   /** The ID of the ruleset. */
   ruleset_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** The actor who updated the ruleset */
 export interface RulesetVersionActor {
-  id?: number;
-  type?: string;
+  id?: number | undefined;
+  type?: string | undefined;
 }
 /** The historical version of a ruleset */
 export interface RulesetVersion {
@@ -1621,10 +1641,10 @@ export interface GetWebhookConfigForOrgRequest {
 }
 /** Configuration object of the webhook */
 export interface WebhookConfig {
-  url?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  url?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 export interface GetWebhookDeliveryRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1678,17 +1698,17 @@ export interface HookDelivery {
   /** The id of the repository associated with this event. */
   repository_id: number | null;
   /** Time when the webhook delivery was throttled. */
-  throttled_at?: string | null;
+  throttled_at?: string | null | undefined;
   /** The URL target of the delivery. */
-  url?: string;
+  url?: string | undefined;
   request: HookDeliveryRequest;
   response: HookDeliveryResponse;
 }
 export interface ListRequest {
   /** An organization ID. Only return organizations with an ID greater than this ID. */
-  since?: number;
+  since?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListResponseBodyList = Array<OrganizationSimple>;
 export type ListResponse = ListResponseBodyList;
@@ -1696,17 +1716,17 @@ export interface ListAppInstallationsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -1836,117 +1856,125 @@ export type AppPermissionsEnterpriseCustomPropertiesForOrganizations = "read" | 
 /** The permissions granted to the fine-grained access token. */
 export interface AppPermissions {
   /** The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. */
-  actions?: AppPermissionsActions;
+  actions?: AppPermissionsActions | undefined;
   /** The level of permission to grant the access token for repository creation, deletion, settings, teams, and collaborators creation. */
-  administration?: AppPermissionsAdministration;
+  administration?: AppPermissionsAdministration | undefined;
   /** The level of permission to grant the access token to create and retrieve build artifact metadata records. */
-  artifact_metadata?: AppPermissionsArtifactMetadata;
+  artifact_metadata?: AppPermissionsArtifactMetadata | undefined;
   /** The level of permission to create and retrieve the access token for repository attestations. */
-  attestations?: AppPermissionsAttestations;
+  attestations?: AppPermissionsAttestations | undefined;
   /** The level of permission to grant the access token for checks on code. */
-  checks?: AppPermissionsChecks;
+  checks?: AppPermissionsChecks | undefined;
   /** The level of permission to grant the access token to view and manage code quality data. */
-  code_quality?: AppPermissionsCodeQuality;
+  code_quality?: AppPermissionsCodeQuality | undefined;
   /** The level of permission to grant the access token to create, edit, delete, and list Codespaces. */
-  codespaces?: AppPermissionsCodespaces;
+  codespaces?: AppPermissionsCodespaces | undefined;
   /** The level of permission to grant the access token for repository contents, commits, branches, downloads, releases, and merges. */
-  contents?: AppPermissionsContents;
+  contents?: AppPermissionsContents | undefined;
   /** The level of permission to grant the access token to manage Dependabot secrets. */
-  dependabot_secrets?: AppPermissionsDependabotSecrets;
+  dependabot_secrets?: AppPermissionsDependabotSecrets | undefined;
   /** The level of permission to grant the access token for deployments and deployment statuses. */
-  deployments?: AppPermissionsDeployments;
+  deployments?: AppPermissionsDeployments | undefined;
   /** The level of permission to grant the access token for discussions and related comments and labels. */
-  discussions?: AppPermissionsDiscussions;
+  discussions?: AppPermissionsDiscussions | undefined;
   /** The level of permission to grant the access token for managing repository environments. */
-  environments?: AppPermissionsEnvironments;
+  environments?: AppPermissionsEnvironments | undefined;
   /** The level of permission to grant the access token for issues and related comments, assignees, labels, and milestones. */
-  issues?: AppPermissionsIssues;
+  issues?: AppPermissionsIssues | undefined;
   /** The level of permission to grant the access token to manage the merge queues for a repository. */
-  merge_queues?: AppPermissionsMergeQueues;
+  merge_queues?: AppPermissionsMergeQueues | undefined;
   /** The level of permission to grant the access token to search repositories, list collaborators, and access repository metadata. */
-  metadata?: AppPermissionsMetadata;
+  metadata?: AppPermissionsMetadata | undefined;
   /** The level of permission to grant the access token for packages published to GitHub Packages. */
-  packages?: AppPermissionsPackages;
+  packages?: AppPermissionsPackages | undefined;
   /** The level of permission to grant the access token to retrieve Pages statuses, configuration, and builds, as well as create new builds. */
-  pages?: AppPermissionsPages;
+  pages?: AppPermissionsPages | undefined;
   /** The level of permission to grant the access token for pull requests and related comments, assignees, labels, milestones, and merges. */
-  pull_requests?: AppPermissionsPullRequests;
+  pull_requests?: AppPermissionsPullRequests | undefined;
   /** The level of permission to grant the access token to view and edit custom properties for a repository, when allowed by the property. */
-  repository_custom_properties?: AppPermissionsRepositoryCustomProperties;
+  repository_custom_properties?: AppPermissionsRepositoryCustomProperties | undefined;
   /** The level of permission to grant the access token to manage the post-receive hooks for a repository. */
-  repository_hooks?: AppPermissionsRepositoryHooks;
+  repository_hooks?: AppPermissionsRepositoryHooks | undefined;
   /** The level of permission to grant the access token to manage repository projects, columns, and cards. */
-  repository_projects?: AppPermissionsRepositoryProjects;
+  repository_projects?: AppPermissionsRepositoryProjects | undefined;
   /** The level of permission to grant the access token to view and manage secret scanning alerts. */
-  secret_scanning_alerts?: AppPermissionsSecretScanningAlerts;
+  secret_scanning_alerts?: AppPermissionsSecretScanningAlerts | undefined;
   /** The level of permission to grant the access token to manage repository secrets. */
-  secrets?: AppPermissionsSecrets;
+  secrets?: AppPermissionsSecrets | undefined;
   /** The level of permission to grant the access token to view and manage security events like code scanning alerts. */
-  security_events?: AppPermissionsSecurityEvents;
+  security_events?: AppPermissionsSecurityEvents | undefined;
   /** The level of permission to grant the access token to manage just a single file. */
-  single_file?: AppPermissionsSingleFile;
+  single_file?: AppPermissionsSingleFile | undefined;
   /** The level of permission to grant the access token for commit statuses. */
-  statuses?: AppPermissionsStatuses;
+  statuses?: AppPermissionsStatuses | undefined;
   /** The level of permission to grant the access token to manage Dependabot alerts. */
-  vulnerability_alerts?: AppPermissionsVulnerabilityAlerts;
+  vulnerability_alerts?: AppPermissionsVulnerabilityAlerts | undefined;
   /** The level of permission to grant the access token to update GitHub Actions workflow files. */
-  workflows?: AppPermissionsWorkflows;
+  workflows?: AppPermissionsWorkflows | undefined;
   /** The level of permission to grant the access token to view and edit custom properties for an organization, when allowed by the property. */
-  custom_properties_for_organizations?: AppPermissionsCustomPropertiesForOrganizations;
+  custom_properties_for_organizations?: AppPermissionsCustomPropertiesForOrganizations | undefined;
   /** The level of permission to grant the access token for organization teams and members. */
-  members?: AppPermissionsMembers;
+  members?: AppPermissionsMembers | undefined;
   /** The level of permission to grant the access token to manage access to an organization. */
-  organization_administration?: AppPermissionsOrganizationAdministration;
+  organization_administration?: AppPermissionsOrganizationAdministration | undefined;
   /** The level of permission to grant the access token for custom repository roles management. */
-  organization_custom_roles?: AppPermissionsOrganizationCustomRoles;
+  organization_custom_roles?: AppPermissionsOrganizationCustomRoles | undefined;
   /** The level of permission to grant the access token for custom organization roles management. */
-  organization_custom_org_roles?: AppPermissionsOrganizationCustomOrgRoles;
+  organization_custom_org_roles?: AppPermissionsOrganizationCustomOrgRoles | undefined;
   /** The level of permission to grant the access token for repository custom properties management at the organization level. */
-  organization_custom_properties?: AppPermissionsOrganizationCustomProperties;
+  organization_custom_properties?: AppPermissionsOrganizationCustomProperties | undefined;
   /** The level of permission to grant the access token for managing access to GitHub Copilot for members of an organization with a Copilot Business subscription. This property is in public preview and is subject to change. */
-  organization_copilot_seat_management?: AppPermissionsOrganizationCopilotSeatManagement;
+  organization_copilot_seat_management?:
+    | AppPermissionsOrganizationCopilotSeatManagement
+    | undefined;
   /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
-  organization_copilot_agent_settings?: AppPermissionsOrganizationCopilotAgentSettings;
+  organization_copilot_agent_settings?: AppPermissionsOrganizationCopilotAgentSettings | undefined;
   /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
-  organization_external_properties_for_repos?: AppPermissionsOrganizationExternalPropertiesForRepos;
+  organization_external_properties_for_repos?:
+    | AppPermissionsOrganizationExternalPropertiesForRepos
+    | undefined;
   /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
-  organization_announcement_banners?: AppPermissionsOrganizationAnnouncementBanners;
+  organization_announcement_banners?: AppPermissionsOrganizationAnnouncementBanners | undefined;
   /** The level of permission to grant the access token to view events triggered by an activity in an organization. */
-  organization_events?: AppPermissionsOrganizationEvents;
+  organization_events?: AppPermissionsOrganizationEvents | undefined;
   /** The level of permission to grant the access token to manage the post-receive hooks for an organization. */
-  organization_hooks?: AppPermissionsOrganizationHooks;
+  organization_hooks?: AppPermissionsOrganizationHooks | undefined;
   /** The level of permission to grant the access token for viewing and managing fine-grained personal access token requests to an organization. */
-  organization_personal_access_tokens?: AppPermissionsOrganizationPersonalAccessTokens;
+  organization_personal_access_tokens?: AppPermissionsOrganizationPersonalAccessTokens | undefined;
   /** The level of permission to grant the access token for viewing and managing fine-grained personal access tokens that have been approved by an organization. */
-  organization_personal_access_token_requests?: AppPermissionsOrganizationPersonalAccessTokenRequests;
+  organization_personal_access_token_requests?:
+    | AppPermissionsOrganizationPersonalAccessTokenRequests
+    | undefined;
   /** The level of permission to grant the access token for viewing an organization's plan. */
-  organization_plan?: AppPermissionsOrganizationPlan;
+  organization_plan?: AppPermissionsOrganizationPlan | undefined;
   /** The level of permission to grant the access token to manage organization projects and projects public preview (where available). */
-  organization_projects?: AppPermissionsOrganizationProjects;
+  organization_projects?: AppPermissionsOrganizationProjects | undefined;
   /** The level of permission to grant the access token for organization packages published to GitHub Packages. */
-  organization_packages?: AppPermissionsOrganizationPackages;
+  organization_packages?: AppPermissionsOrganizationPackages | undefined;
   /** The level of permission to grant the access token to manage organization secrets. */
-  organization_secrets?: AppPermissionsOrganizationSecrets;
+  organization_secrets?: AppPermissionsOrganizationSecrets | undefined;
   /** The level of permission to grant the access token to view and manage GitHub Actions self-hosted runners available to an organization. */
-  organization_self_hosted_runners?: AppPermissionsOrganizationSelfHostedRunners;
+  organization_self_hosted_runners?: AppPermissionsOrganizationSelfHostedRunners | undefined;
   /** The level of permission to grant the access token to view and manage users blocked by the organization. */
-  organization_user_blocking?: AppPermissionsOrganizationUserBlocking;
+  organization_user_blocking?: AppPermissionsOrganizationUserBlocking | undefined;
   /** The level of permission to grant the access token to manage the email addresses belonging to a user. */
-  email_addresses?: AppPermissionsEmailAddresses;
+  email_addresses?: AppPermissionsEmailAddresses | undefined;
   /** The level of permission to grant the access token to manage the followers belonging to a user. */
-  followers?: AppPermissionsFollowers;
+  followers?: AppPermissionsFollowers | undefined;
   /** The level of permission to grant the access token to manage git SSH keys. */
-  git_ssh_keys?: AppPermissionsGitSshKeys;
+  git_ssh_keys?: AppPermissionsGitSshKeys | undefined;
   /** The level of permission to grant the access token to view and manage GPG keys belonging to a user. */
-  gpg_keys?: AppPermissionsGpgKeys;
+  gpg_keys?: AppPermissionsGpgKeys | undefined;
   /** The level of permission to grant the access token to view and manage interaction limits on a repository. */
-  interaction_limits?: AppPermissionsInteractionLimits;
+  interaction_limits?: AppPermissionsInteractionLimits | undefined;
   /** The level of permission to grant the access token to manage the profile settings belonging to a user. */
-  profile?: AppPermissionsProfile;
+  profile?: AppPermissionsProfile | undefined;
   /** The level of permission to grant the access token to list and manage repositories a user is starring. */
-  starring?: AppPermissionsStarring;
+  starring?: AppPermissionsStarring | undefined;
   /** The level of permission to grant the access token for organization custom properties management at the enterprise level. */
-  enterprise_custom_properties_for_organizations?: AppPermissionsEnterpriseCustomPropertiesForOrganizations;
+  enterprise_custom_properties_for_organizations?:
+    | AppPermissionsEnterpriseCustomPropertiesForOrganizations
+    | undefined;
 }
 export type InstallationEventsList = Array<string>;
 export type InstallationSingleFilePathsList = Array<string>;
@@ -1961,7 +1989,7 @@ export interface Installation {
   repositories_url: string;
   html_url: string;
   app_id: number;
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ID of the user or organization this token is being scoped to. */
   target_id: number;
   target_type: string;
@@ -1970,12 +1998,12 @@ export interface Installation {
   created_at: string;
   updated_at: string;
   single_file_name: string | null;
-  has_multiple_single_files?: boolean;
-  single_file_paths?: InstallationSingleFilePathsList;
+  has_multiple_single_files?: boolean | undefined;
+  single_file_paths?: InstallationSingleFilePathsList | undefined;
   app_slug: string;
   suspended_by: SimpleUser | null;
   suspended_at: string | null;
-  contact_email?: string | null;
+  contact_email?: string | null | undefined;
 }
 export type ListAppInstallationsResponseInstallationsList = Array<Installation>;
 export interface ListAppInstallationsResponse {
@@ -1992,8 +2020,8 @@ export type ListArtifactDeploymentRecordsResponseDeploymentRecordsList =
   Array<ArtifactDeploymentRecord>;
 export interface ListArtifactDeploymentRecordsResponse {
   /** The number of deployment records for this digest and organization */
-  total_count?: number;
-  deployment_records?: ListArtifactDeploymentRecordsResponseDeploymentRecordsList;
+  total_count?: number | undefined;
+  deployment_records?: ListArtifactDeploymentRecordsResponseDeploymentRecordsList | undefined;
 }
 export interface ListArtifactStorageRecordsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2002,38 +2030,38 @@ export interface ListArtifactStorageRecordsRequest {
   subject_digest: string;
 }
 export interface ListArtifactStorageRecordsResponseStorageRecordsItem {
-  id?: number;
-  name?: string;
-  digest?: string;
-  artifact_url?: string;
-  registry_url?: string;
-  repository?: string;
-  status?: string;
-  created_at?: string;
-  updated_at?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  digest?: string | undefined;
+  artifact_url?: string | undefined;
+  registry_url?: string | undefined;
+  repository?: string | undefined;
+  status?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ListArtifactStorageRecordsResponseStorageRecordsList =
   Array<ListArtifactStorageRecordsResponseStorageRecordsItem>;
 export interface ListArtifactStorageRecordsResponse {
   /** The number of storage records for this digest and organization */
-  total_count?: number;
-  storage_records?: ListArtifactStorageRecordsResponseStorageRecordsList;
+  total_count?: number | undefined;
+  storage_records?: ListArtifactStorageRecordsResponseStorageRecordsList | undefined;
 }
 export interface ListAttestationRepositoriesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, `release`, or freeform text for custom predicate types. */
-  predicate_type?: string;
+  predicate_type?: string | undefined;
 }
 export interface ListAttestationRepositoriesResponseBodyItem {
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export type ListAttestationRepositoriesResponseBodyList =
   Array<ListAttestationRepositoriesResponseBodyItem>;
@@ -2044,13 +2072,13 @@ export interface ListAttestationsRequest {
   /** The parameter should be set to the attestation's subject's SHA256 digest, in the form `sha256:HEX_DIGEST`. */
   subject_digest: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, `release`, or freeform text for custom predicate types. */
-  predicate_type?: string;
+  predicate_type?: string | undefined;
 }
 export type ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap = {
   [key: string]: unknown | undefined;
@@ -2060,21 +2088,23 @@ export type ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap = {
 };
 /** The attestation's Sigstore Bundle. Refer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information. */
 export interface ListAttestationsResponseAttestationsItemBundle {
-  mediaType?: string;
-  verificationMaterial?: ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap;
-  dsseEnvelope?: ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap;
+  mediaType?: string | undefined;
+  verificationMaterial?:
+    | ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap
+    | undefined;
+  dsseEnvelope?: ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap | undefined;
 }
 export interface ListAttestationsResponseAttestationsItem {
   /** The attestation's Sigstore Bundle. Refer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information. */
-  bundle?: ListAttestationsResponseAttestationsItemBundle | null;
-  repository_id?: number;
-  bundle_url?: string;
-  initiator?: string;
+  bundle?: ListAttestationsResponseAttestationsItemBundle | null | undefined;
+  repository_id?: number | undefined;
+  bundle_url?: string | undefined;
+  initiator?: string | undefined;
 }
 export type ListAttestationsResponseAttestationsList =
   Array<ListAttestationsResponseAttestationsItem>;
 export interface ListAttestationsResponse {
-  attestations?: ListAttestationsResponseAttestationsList;
+  attestations?: ListAttestationsResponseAttestationsList | undefined;
 }
 /** List of subject digests to fetch attestations for. */
 export type ListAttestationsBulkRequestSubjectDigestsList = Array<string>;
@@ -2082,15 +2112,15 @@ export interface ListAttestationsBulkRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** List of subject digests to fetch attestations for. */
   subject_digests: ListAttestationsBulkRequestSubjectDigestsList;
   /** Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, `release`, or freeform text for custom predicate types. */
-  predicate_type?: string;
+  predicate_type?: string | undefined;
 }
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleVerificationMaterialMap =
   { [key: string]: unknown | undefined };
@@ -2099,15 +2129,19 @@ export type ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundl
 };
 /** The bundle of the attestation. */
 export interface ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundle {
-  mediaType?: string;
-  verificationMaterial?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleVerificationMaterialMap;
-  dsseEnvelope?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleDsseEnvelopeMap;
+  mediaType?: string | undefined;
+  verificationMaterial?:
+    | ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleVerificationMaterialMap
+    | undefined;
+  dsseEnvelope?:
+    | ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleDsseEnvelopeMap
+    | undefined;
 }
 export interface ListAttestationsBulkResponseAttestationsSubjectDigestsValueItem {
   /** The bundle of the attestation. */
-  bundle?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundle;
-  repository_id?: number;
-  bundle_url?: string;
+  bundle?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundle | undefined;
+  repository_id?: number | undefined;
+  bundle_url?: string | undefined;
 }
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsValueList =
   Array<ListAttestationsBulkResponseAttestationsSubjectDigestsValueItem>;
@@ -2118,27 +2152,29 @@ export type ListAttestationsBulkResponseAttestationsSubjectDigestsMap = {
 /** Information about the current page. */
 export interface ListAttestationsBulkResponsePageInfo {
   /** Indicates whether there is a next page. */
-  has_next?: boolean;
+  has_next?: boolean | undefined;
   /** Indicates whether there is a previous page. */
-  has_previous?: boolean;
+  has_previous?: boolean | undefined;
   /** The cursor to the next page. */
-  next?: string;
+  next?: string | undefined;
   /** The cursor to the previous page. */
-  previous?: string;
+  previous?: string | undefined;
 }
 export interface ListAttestationsBulkResponse {
   /** Mapping of subject digest to bundles. */
-  attestations_subject_digests?: ListAttestationsBulkResponseAttestationsSubjectDigestsMap;
+  attestations_subject_digests?:
+    | ListAttestationsBulkResponseAttestationsSubjectDigestsMap
+    | undefined;
   /** Information about the current page. */
-  page_info?: ListAttestationsBulkResponsePageInfo;
+  page_info?: ListAttestationsBulkResponsePageInfo | undefined;
 }
 export interface ListBlockedUsersRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListBlockedUsersResponseBodyList = Array<SimpleUser>;
 export type ListBlockedUsersResponse = ListBlockedUsersResponseBodyList;
@@ -2146,17 +2182,17 @@ export interface ListFailedInvitationsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListFailedInvitationsResponseBodyList = Array<OrganizationInvitation>;
 export type ListFailedInvitationsResponse = ListFailedInvitationsResponseBodyList;
 export interface ListForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<OrganizationSimple>;
 export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
@@ -2164,9 +2200,9 @@ export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForUserResponseBodyList = Array<OrganizationSimple>;
 export type ListForUserResponse = ListForUserResponseBodyList;
@@ -2176,9 +2212,9 @@ export interface ListInvitationTeamsRequest {
   /** The unique identifier of the invitation. */
   invitation_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface TeamPermissions {
   pull: boolean;
@@ -2208,20 +2244,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -2230,10 +2266,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -2241,11 +2277,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export type ListInvitationTeamsResponseBodyList = Array<Team>;
@@ -2268,24 +2304,24 @@ export interface ListMembersRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only members with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned. These options are only available for organization owners. */
-  filter?: ListMembersRequestFilter | (string & {});
+  filter?: ListMembersRequestFilter | (string & {}) | undefined;
   /** Filter members returned by their role. */
-  role?: ListMembersRequestRole | (string & {});
+  role?: ListMembersRequestRole | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListMembersResponseBodyList = Array<SimpleUser>;
 export type ListMembersResponse = ListMembersResponseBodyList;
 export type ListMembershipsForAuthenticatedUserRequestState = "active" | "pending";
 export interface ListMembershipsForAuthenticatedUserRequest {
   /** Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships. */
-  state?: ListMembershipsForAuthenticatedUserRequestState | (string & {});
+  state?: ListMembershipsForAuthenticatedUserRequestState | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListMembershipsForAuthenticatedUserResponseBodyList = Array<OrgMembership>;
 export type ListMembershipsForAuthenticatedUserResponse =
@@ -2298,9 +2334,9 @@ export interface ListOrgRolesRequest {
 export type ListOrgRolesResponseRolesList = Array<OrganizationRole>;
 export interface ListOrgRolesResponse {
   /** The total number of organization roles available to the organization. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The list of organization roles available to the organization. */
-  roles?: ListOrgRolesResponseRolesList;
+  roles?: ListOrgRolesResponseRolesList | undefined;
 }
 export interface ListOrgRoleTeamsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2308,9 +2344,9 @@ export interface ListOrgRoleTeamsRequest {
   /** The unique identifier of the role. */
   role_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Determines if the team has a direct, indirect, or mixed relationship to a role */
 export type TeamRoleAssignmentAssignment = "direct" | "indirect" | "mixed";
@@ -2320,16 +2356,16 @@ export type TeamRoleAssignmentType = "enterprise" | "organization";
 /** The Relationship a Team has with a role. */
 export interface TeamRoleAssignment {
   /** Determines if the team has a direct, indirect, or mixed relationship to a role */
-  assignment?: TeamRoleAssignmentAssignment;
+  assignment?: TeamRoleAssignmentAssignment | undefined;
   id: number;
   node_id: string;
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -2338,9 +2374,9 @@ export interface TeamRoleAssignment {
   /** The ownership type of the team */
   type: TeamRoleAssignmentType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** List of teams assigned to the organization role */
 export type ListOrgRoleTeamsResponseBodyList = Array<TeamRoleAssignment>;
@@ -2351,9 +2387,9 @@ export interface ListOrgRoleUsersRequest {
   /** The unique identifier of the role. */
   role_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Determines if the user has a direct, indirect, or mixed relationship to a role */
 export type UserRoleAssignmentAssignment = "direct" | "indirect" | "mixed";
@@ -2374,31 +2410,31 @@ export interface TeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: TeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Team the user has gotten the role through */
 export type UserRoleAssignmentInheritedFromList = Array<TeamSimple>;
 /** The Relationship a User has with a role. */
 export interface UserRoleAssignment {
   /** Determines if the user has a direct, indirect, or mixed relationship to a role */
-  assignment?: UserRoleAssignmentAssignment;
+  assignment?: UserRoleAssignmentAssignment | undefined;
   /** Team the user has gotten the role through */
-  inherited_from?: UserRoleAssignmentInheritedFromList;
-  name?: string | null;
-  email?: string | null;
+  inherited_from?: UserRoleAssignmentInheritedFromList | undefined;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -2417,8 +2453,8 @@ export interface UserRoleAssignment {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** List of users assigned to the organization role */
 export type ListOrgRoleUsersResponseBodyList = Array<UserRoleAssignment>;
@@ -2428,11 +2464,11 @@ export interface ListOutsideCollaboratorsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only outside collaborators with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned. */
-  filter?: ListOutsideCollaboratorsRequestFilter | (string & {});
+  filter?: ListOutsideCollaboratorsRequestFilter | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListOutsideCollaboratorsResponseBodyList = Array<SimpleUser>;
 export type ListOutsideCollaboratorsResponse = ListOutsideCollaboratorsResponseBodyList;
@@ -2442,9 +2478,9 @@ export interface ListPatGrantRepositoriesRequest {
   /** Unique identifier of the fine-grained personal access token. */
   pat_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPatGrantRepositoriesResponseBodyList = Array<MinimalRepository>;
 export type ListPatGrantRepositoriesResponse = ListPatGrantRepositoriesResponseBodyList;
@@ -2454,9 +2490,9 @@ export interface ListPatGrantRequestRepositoriesRequest {
   /** Unique identifier of the request for access via fine-grained personal access token. */
   pat_request_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPatGrantRequestRepositoriesResponseBodyList = Array<MinimalRepository>;
 export type ListPatGrantRequestRepositoriesResponse =
@@ -2469,25 +2505,25 @@ export interface ListPatGrantRequestsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The property by which to sort the results. */
-  sort?: ListPatGrantRequestsRequestSort | (string & {});
+  sort?: ListPatGrantRequestsRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListPatGrantRequestsRequestDirection | (string & {});
+  direction?: ListPatGrantRequestsRequestDirection | (string & {}) | undefined;
   /** A list of owner usernames to use to filter the results. */
-  owner?: ListPatGrantRequestsRequestOwnerList;
+  owner?: ListPatGrantRequestsRequestOwnerList | undefined;
   /** The name of the repository to use to filter the results. */
-  repository?: string;
+  repository?: string | undefined;
   /** The permission to use to filter the results. */
-  permission?: string;
+  permission?: string | undefined;
   /** Only show fine-grained personal access tokens used before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  last_used_before?: string;
+  last_used_before?: string | undefined;
   /** Only show fine-grained personal access tokens used after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  last_used_after?: string;
+  last_used_after?: string | undefined;
   /** The ID of the token */
-  token_id?: ListPatGrantRequestsRequestTokenIdList;
+  token_id?: ListPatGrantRequestsRequestTokenIdList | undefined;
 }
 /** Type of repository selection requested. */
 export type OrganizationProgrammaticAccessGrantRequestRepositorySelection =
@@ -2505,9 +2541,9 @@ export type OrganizationProgrammaticAccessGrantRequestPermissionsOtherMap = {
 };
 /** Permissions requested, categorized by type of permission. */
 export interface OrganizationProgrammaticAccessGrantRequestPermissions {
-  organization?: OrganizationProgrammaticAccessGrantRequestPermissionsOrganizationMap;
-  repository?: OrganizationProgrammaticAccessGrantRequestPermissionsRepositoryMap;
-  other?: OrganizationProgrammaticAccessGrantRequestPermissionsOtherMap;
+  organization?: OrganizationProgrammaticAccessGrantRequestPermissionsOrganizationMap | undefined;
+  repository?: OrganizationProgrammaticAccessGrantRequestPermissionsRepositoryMap | undefined;
+  other?: OrganizationProgrammaticAccessGrantRequestPermissionsOtherMap | undefined;
 }
 /** Minimal representation of an organization programmatic access grant request for enumerations */
 export interface OrganizationProgrammaticAccessGrantRequest {
@@ -2546,25 +2582,25 @@ export interface ListPatGrantsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The property by which to sort the results. */
-  sort?: ListPatGrantsRequestSort | (string & {});
+  sort?: ListPatGrantsRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListPatGrantsRequestDirection | (string & {});
+  direction?: ListPatGrantsRequestDirection | (string & {}) | undefined;
   /** A list of owner usernames to use to filter the results. */
-  owner?: ListPatGrantsRequestOwnerList;
+  owner?: ListPatGrantsRequestOwnerList | undefined;
   /** The name of the repository to use to filter the results. */
-  repository?: string;
+  repository?: string | undefined;
   /** The permission to use to filter the results. */
-  permission?: string;
+  permission?: string | undefined;
   /** Only show fine-grained personal access tokens used before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  last_used_before?: string;
+  last_used_before?: string | undefined;
   /** Only show fine-grained personal access tokens used after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  last_used_after?: string;
+  last_used_after?: string | undefined;
   /** The ID of the token */
-  token_id?: ListPatGrantsRequestTokenIdList;
+  token_id?: ListPatGrantsRequestTokenIdList | undefined;
 }
 /** Type of repository selection requested. */
 export type OrganizationProgrammaticAccessGrantRepositorySelection = "none" | "all" | "subset";
@@ -2579,9 +2615,9 @@ export type OrganizationProgrammaticAccessGrantPermissionsOtherMap = {
 };
 /** Permissions requested, categorized by type of permission. */
 export interface OrganizationProgrammaticAccessGrantPermissions {
-  organization?: OrganizationProgrammaticAccessGrantPermissionsOrganizationMap;
-  repository?: OrganizationProgrammaticAccessGrantPermissionsRepositoryMap;
-  other?: OrganizationProgrammaticAccessGrantPermissionsOtherMap;
+  organization?: OrganizationProgrammaticAccessGrantPermissionsOrganizationMap | undefined;
+  repository?: OrganizationProgrammaticAccessGrantPermissionsRepositoryMap | undefined;
+  other?: OrganizationProgrammaticAccessGrantPermissionsOtherMap | undefined;
 }
 /** Minimal representation of an organization programmatic access grant for enumerations */
 export interface OrganizationProgrammaticAccessGrant {
@@ -2620,13 +2656,13 @@ export interface ListPendingInvitationsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Filter invitations by their member role. */
-  role?: ListPendingInvitationsRequestRole | (string & {});
+  role?: ListPendingInvitationsRequestRole | (string & {}) | undefined;
   /** Filter invitations by their invitation source. */
-  invitation_source?: ListPendingInvitationsRequestInvitationSource | (string & {});
+  invitation_source?: ListPendingInvitationsRequestInvitationSource | (string & {}) | undefined;
 }
 export type ListPendingInvitationsResponseBodyList = Array<OrganizationInvitation>;
 export type ListPendingInvitationsResponse = ListPendingInvitationsResponseBodyList;
@@ -2634,9 +2670,9 @@ export interface ListPublicMembersRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicMembersResponseBodyList = Array<SimpleUser>;
 export type ListPublicMembersResponse = ListPublicMembersResponseBodyList;
@@ -2647,11 +2683,11 @@ export interface ListWebhookDeliveriesRequest {
   /** The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
   hook_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Returns webhook deliveries filtered by delivery outcome classification based on `status_code` range. A `status` of `success` returns deliveries with a `status_code` in the 200-399 range (inclusive). A `status` of `failure` returns deliveries with a `status_code` in the 400-599 range (inclusive). */
-  status?: ListWebhookDeliveriesRequestStatus | (string & {});
+  status?: ListWebhookDeliveriesRequestStatus | (string & {}) | undefined;
 }
 /** Delivery made by a webhook, without request and response information. */
 export interface HookDeliveryItem {
@@ -2678,7 +2714,7 @@ export interface HookDeliveryItem {
   /** The id of the repository associated with this event. */
   repository_id: number | null;
   /** Time when the webhook delivery was throttled. */
-  throttled_at?: string | null;
+  throttled_at?: string | null | undefined;
 }
 export type ListWebhookDeliveriesResponseBodyList = Array<HookDeliveryItem>;
 export type ListWebhookDeliveriesResponse = ListWebhookDeliveriesResponseBodyList;
@@ -2686,9 +2722,9 @@ export interface ListWebhooksRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListWebhooksResponseBodyList = Array<OrgHook>;
 export type ListWebhooksResponse = ListWebhooksResponseBodyList;
@@ -2745,7 +2781,7 @@ export interface ReviewPatGrantRequestRequest {
   /** Action to apply to the request. */
   action: ReviewPatGrantRequestRequestAction | (string & {});
   /** Reason for approving or denying the request. Max 1024 characters. */
-  reason?: string | null;
+  reason?: string | null | undefined;
 }
 export interface ReviewPatGrantRequestResponse {}
 export interface RevokeAllOrgRolesTeamRequest {
@@ -2801,17 +2837,17 @@ export interface SetClusterDeploymentRecordsRequestDeploymentsItem {
   /** The hex encoded digest of the artifact. */
   digest: string;
   /** The artifact version. */
-  version?: string;
+  version?: string | undefined;
   /** The deployment status of the artifact. */
-  status?: SetClusterDeploymentRecordsRequestDeploymentsItemStatus | (string & {});
+  status?: SetClusterDeploymentRecordsRequestDeploymentsItemStatus | (string & {}) | undefined;
   /** The unique identifier for the deployment represented by the new record. To accommodate differing containers and namespaces within a record set, the following format is recommended: {namespaceName}-{deploymentName}-{containerName}. The deployment_name must be unique across all entries in the deployments array. */
   deployment_name: string;
   /** The name of the GitHub repository associated with the artifact. This should be used when there are no provenance attestations available for the artifact. The repository must belong to the organization specified in the path parameter. If a provenance attestation is available for the artifact, the API will use the repository information from the attestation instead of this parameter. */
-  github_repository?: string;
+  github_repository?: string | undefined;
   /** Key-value pairs to tag the deployment record. */
-  tags?: SetClusterDeploymentRecordsRequestDeploymentsItemTagsMap;
+  tags?: SetClusterDeploymentRecordsRequestDeploymentsItemTagsMap | undefined;
   /** A list of runtime risks associated with the deployment. */
-  runtime_risks?: SetClusterDeploymentRecordsRequestDeploymentsItemRuntimeRisksList;
+  runtime_risks?: SetClusterDeploymentRecordsRequestDeploymentsItemRuntimeRisksList | undefined;
 }
 /** The list of deployments to record. */
 export type SetClusterDeploymentRecordsRequestDeploymentsList =
@@ -2824,20 +2860,20 @@ export interface SetClusterDeploymentRecordsRequest {
   /** The stage of the deployment. */
   logical_environment: string;
   /** The physical region of the deployment. */
-  physical_environment?: string;
+  physical_environment?: string | undefined;
   /** The list of deployments to record. */
   deployments: SetClusterDeploymentRecordsRequestDeploymentsList;
   /** When enabled, deployments associated with repositories the actor can write to are processed while deployments associated with repositories that cannot be resolved or written to by the actor are skipped and reported in the `errors` array. When false (the default), the endpoint returns an error if any targeted repository cannot be resolved, the actor lacks write access, or no matching attestation can be found. */
-  partial_success?: boolean;
+  partial_success?: boolean | undefined;
   /** If true, the endpoint will return the set records in the response body */
-  return_records?: boolean;
+  return_records?: boolean | undefined;
 }
 export type SetClusterDeploymentRecordsResponseDeploymentRecordsList =
   Array<ArtifactDeploymentRecord>;
 export interface SetClusterDeploymentRecordsResponse {
   /** The number of deployment records created */
   total_count: number;
-  deployment_records?: SetClusterDeploymentRecordsResponseDeploymentRecordsList;
+  deployment_records?: SetClusterDeploymentRecordsResponseDeploymentRecordsList | undefined;
 }
 /** The policy that controls how immutable releases are enforced in the organization. */
 export type SetImmutableReleasesSettingsRequestEnforcedRepositories = "all" | "none" | "selected";
@@ -2849,7 +2885,9 @@ export interface SetImmutableReleasesSettingsRequest {
   /** The policy that controls how immutable releases are enforced in the organization. */
   enforced_repositories: SetImmutableReleasesSettingsRequestEnforcedRepositories | (string & {});
   /** An array of repository ids for which immutable releases enforcement should be applied. You can only provide a list of repository ids when the `enforced_repositories` is set to `selected`. You can add and remove individual repositories using the [Enable a selected repository for immutable releases in an organization](https://docs.github.com/rest/orgs/orgs#enable-a-selected-repository-for-immutable-releases-in-an-organization) and [Disable a selected repository for immutable releases in an organization](https://docs.github.com/rest/orgs/orgs#disable-a-selected-repository-for-immutable-releases-in-an-organization) endpoints. */
-  selected_repository_ids?: SetImmutableReleasesSettingsRequestSelectedRepositoryIdsList;
+  selected_repository_ids?:
+    | SetImmutableReleasesSettingsRequestSelectedRepositoryIdsList
+    | undefined;
 }
 export interface SetImmutableReleasesSettingsResponse {}
 /** An array of repository ids for which immutable releases enforcement should be applied. You can only provide a list of repository ids when the `enforced_repositories` is set to `selected`. You can add and remove individual repositories using the [Enable a selected repository for immutable releases in an organization](https://docs.github.com/rest/orgs/orgs#enable-a-selected-repository-for-immutable-releases-in-an-organization) and [Disable a selected repository for immutable releases in an organization](https://docs.github.com/rest/orgs/orgs#disable-a-selected-repository-for-immutable-releases-in-an-organization) endpoints. */
@@ -2870,7 +2908,7 @@ export interface SetMembershipForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The role to give the user in the organization. Can be one of: * `admin` - The user will become an owner of the organization. * `member` - The user will become a non-owner member of the organization. */
-  role?: SetMembershipForUserRequestRole | (string & {});
+  role?: SetMembershipForUserRequestRole | (string & {}) | undefined;
 }
 export interface SetPublicMembershipForAuthenticatedUserRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2894,66 +2932,70 @@ export interface UpdateRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Billing email address. This address is not publicized. */
-  billing_email?: string;
+  billing_email?: string | undefined;
   /** The company name. */
-  company?: string;
+  company?: string | undefined;
   /** The publicly visible email address. */
-  email?: string;
+  email?: string | undefined;
   /** The Twitter username of the company. */
-  twitter_username?: string;
+  twitter_username?: string | undefined;
   /** The location. */
-  location?: string;
+  location?: string | undefined;
   /** The shorthand name of the company. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the company. The maximum size is 160 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Whether an organization can use organization projects. */
-  has_organization_projects?: boolean;
+  has_organization_projects?: boolean | undefined;
   /** Whether repositories that belong to the organization can use repository projects. */
-  has_repository_projects?: boolean;
+  has_repository_projects?: boolean | undefined;
   /** Default permission level members have for organization repositories. */
-  default_repository_permission?: UpdateRequestDefaultRepositoryPermission | (string & {});
+  default_repository_permission?:
+    | UpdateRequestDefaultRepositoryPermission
+    | (string & {})
+    | undefined;
   /** Whether of non-admin organization members can create repositories. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details. */
-  members_can_create_repositories?: boolean;
+  members_can_create_repositories?: boolean | undefined;
   /** Whether organization members can create internal repositories, which are visible to all enterprise members. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see "[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation. */
-  members_can_create_internal_repositories?: boolean;
+  members_can_create_internal_repositories?: boolean | undefined;
   /** Whether organization members can create private repositories, which are visible to organization members with permission. For more information, see "[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation. */
-  members_can_create_private_repositories?: boolean;
+  members_can_create_private_repositories?: boolean | undefined;
   /** Whether organization members can create public repositories, which are visible to anyone. For more information, see "[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation. */
-  members_can_create_public_repositories?: boolean;
+  members_can_create_public_repositories?: boolean | undefined;
   /** Specifies which types of repositories non-admin organization members can create. `private` is only available to repositories that are part of an organization on GitHub Enterprise Cloud. **Note:** This parameter is closing down and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See the parameter deprecation notice in the operation description for details. */
   members_allowed_repository_creation_type?:
     | UpdateRequestMembersAllowedRepositoryCreationType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether organization members can create GitHub Pages sites. Existing published sites will not be impacted. */
-  members_can_create_pages?: boolean;
+  members_can_create_pages?: boolean | undefined;
   /** Whether organization members can create public GitHub Pages sites. Existing published sites will not be impacted. */
-  members_can_create_public_pages?: boolean;
+  members_can_create_public_pages?: boolean | undefined;
   /** Whether organization members can create private GitHub Pages sites. Existing published sites will not be impacted. */
-  members_can_create_private_pages?: boolean;
+  members_can_create_private_pages?: boolean | undefined;
   /** Whether organization members can fork private organization repositories. */
-  members_can_fork_private_repositories?: boolean;
+  members_can_fork_private_repositories?: boolean | undefined;
   /** Whether contributors to organization repositories are required to sign off on commits they make through GitHub's web interface. */
-  web_commit_signoff_required?: boolean;
-  blog?: string;
+  web_commit_signoff_required?: boolean | undefined;
+  blog?: string | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether GitHub Advanced Security is automatically enabled for new repositories and repositories transferred to this organization. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request. */
-  advanced_security_enabled_for_new_repositories?: boolean;
+  advanced_security_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether Dependabot alerts are automatically enabled for new repositories and repositories transferred to this organization. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request. */
-  dependabot_alerts_enabled_for_new_repositories?: boolean;
+  dependabot_alerts_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether Dependabot security updates are automatically enabled for new repositories and repositories transferred to this organization. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request. */
-  dependabot_security_updates_enabled_for_new_repositories?: boolean;
+  dependabot_security_updates_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether dependency graph is automatically enabled for new repositories and repositories transferred to this organization. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request. */
-  dependency_graph_enabled_for_new_repositories?: boolean;
+  dependency_graph_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether secret scanning is automatically enabled for new repositories and repositories transferred to this organization. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request. */
-  secret_scanning_enabled_for_new_repositories?: boolean;
+  secret_scanning_enabled_for_new_repositories?: boolean | undefined;
   /** **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. Whether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request. */
-  secret_scanning_push_protection_enabled_for_new_repositories?: boolean;
+  secret_scanning_push_protection_enabled_for_new_repositories?: boolean | undefined;
   /** Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection. */
-  secret_scanning_push_protection_custom_link_enabled?: boolean;
+  secret_scanning_push_protection_custom_link_enabled?: boolean | undefined;
   /** If `secret_scanning_push_protection_custom_link_enabled` is true, the URL that will be displayed to contributors who are blocked from pushing a secret. */
-  secret_scanning_push_protection_custom_link?: string;
+  secret_scanning_push_protection_custom_link?: string | undefined;
   /** Controls whether or not deploy keys may be added and used for repositories in the organization. */
-  deploy_keys_enabled_for_repositories?: boolean;
+  deploy_keys_enabled_for_repositories?: boolean | undefined;
 }
 /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. */
 export type UpdateIssueFieldRequestVisibility = "organization_members_only" | "all";
@@ -2969,11 +3011,11 @@ export type UpdateIssueFieldRequestOptionsItemColor =
   | "purple";
 export interface UpdateIssueFieldRequestOptionsItem {
   /** The id of an existing option to retain or update. Omit this when creating a new option. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the option. */
   name: string;
   /** Description of the option. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Color for the option. */
   color: UpdateIssueFieldRequestOptionsItemColor | (string & {});
   /** Priority of the option for ordering. */
@@ -2987,13 +3029,13 @@ export interface UpdateIssueFieldRequest {
   /** The unique identifier of the issue field. */
   issue_field_id: number;
   /** Name of the issue field. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the issue field. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. */
-  visibility?: UpdateIssueFieldRequestVisibility | (string & {});
+  visibility?: UpdateIssueFieldRequestVisibility | (string & {}) | undefined;
   /** Options for select fields. Only applicable when updating single_select or multi_select fields. When provided, this array **replaces** the entire existing set of options rather than adding to or updating individual options. To retain or update an existing option, include it in the array with its `id`. Options sent without an `id` are treated as new options and may cause existing options to be deleted and recreated. */
-  options?: UpdateIssueFieldRequestOptionsList;
+  options?: UpdateIssueFieldRequestOptionsList | undefined;
 }
 /** Color for the issue type. */
 export type UpdateIssueTypeRequestColor =
@@ -3015,9 +3057,9 @@ export interface UpdateIssueTypeRequest {
   /** Whether or not the issue type is enabled at the organization level. */
   is_enabled: boolean;
   /** Description of the issue type. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Color for the issue type. */
-  color?: UpdateIssueTypeRequestColor | (string & {}) | null;
+  color?: UpdateIssueTypeRequestColor | (string & {}) | null | undefined;
 }
 /** The state that the membership should be in. Only `"active"` will be accepted. */
 export type UpdateMembershipForAuthenticatedUserRequestState = "active";
@@ -3054,9 +3096,9 @@ export interface UpdatePatAccessesResponse {}
 /** Key/value pairs to provide settings for this webhook. */
 export interface UpdateWebhookRequestConfig {
   url: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. */
 export type UpdateWebhookRequestEventsList = Array<string>;
@@ -3066,22 +3108,22 @@ export interface UpdateWebhookRequest {
   /** The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
   hook_id: number;
   /** Key/value pairs to provide settings for this webhook. */
-  config?: UpdateWebhookRequestConfig;
+  config?: UpdateWebhookRequestConfig | undefined;
   /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
-  active?: boolean;
-  name?: string;
+  active?: boolean | undefined;
+  name?: string | undefined;
 }
 export interface UpdateWebhookConfigForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
   hook_id: number;
-  url?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  url?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 export type AssignTeamToOrgRoleError = NotFound | UnprocessableEntity | GithubOpError;
 /** Assign an organization role to a team Assigns an organization role to a team in an organization. For more information on organization roles, see "[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles)." The authenticated user must be an administrator for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */

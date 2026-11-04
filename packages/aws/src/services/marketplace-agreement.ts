@@ -211,20 +211,20 @@ export type AgreementCancellationRequestReasonCode =
   | (string & {});
 export type AgreementCancellationRequestDescription = string | redacted.Redacted<string>;
 export interface AcceptAgreementCancellationRequestOutput {
-  agreementId?: string;
-  agreementCancellationRequestId?: string;
-  status?: AgreementCancellationRequestStatus;
-  reasonCode?: AgreementCancellationRequestReasonCode;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agreementId?: string | undefined;
+  agreementCancellationRequestId?: string | undefined;
+  status?: AgreementCancellationRequestStatus | undefined;
+  reasonCode?: AgreementCancellationRequestReasonCode | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PaymentRequestId = string;
 export type PurchaseOrderReference = string;
 export interface AcceptAgreementPaymentRequestInput {
   paymentRequestId: string;
   agreementId: string;
-  purchaseOrderReference?: string;
+  purchaseOrderReference?: string | undefined;
 }
 export type PaymentRequestStatus =
   | "VALIDATING"
@@ -239,32 +239,32 @@ export type PaymentRequestDescription = string | redacted.Redacted<string>;
 export type PositiveAmountUpto8Decimals = string;
 export type CurrencyCode = string;
 export interface AcceptAgreementPaymentRequestOutput {
-  paymentRequestId?: string;
-  agreementId?: string;
-  status?: PaymentRequestStatus;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  chargeAmount?: string;
-  currencyCode?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  paymentRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  status?: PaymentRequestStatus | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  chargeAmount?: string | undefined;
+  currencyCode?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type AgreementRequestId = string;
 export type ResourceId = string;
 export type ChargeRevision = number;
 export interface PurchaseOrder {
   chargeId: string;
-  chargeRevision?: number;
-  agreementId?: string;
-  purchaseOrderReference?: string;
+  chargeRevision?: number | undefined;
+  agreementId?: string | undefined;
+  purchaseOrderReference?: string | undefined;
 }
 export type PurchaseOrders = PurchaseOrder[];
 export interface AcceptAgreementRequestInput {
   agreementRequestId: string;
-  purchaseOrders?: PurchaseOrder[];
+  purchaseOrders?: PurchaseOrder[] | undefined;
 }
 export interface AcceptAgreementRequestOutput {
-  agreementId?: string;
+  agreementId?: string | undefined;
 }
 export type InvoiceId = string;
 export type BillingAdjustmentReasonCode =
@@ -284,7 +284,7 @@ export interface BatchCreateBillingAdjustmentRequestEntry {
   adjustmentAmount: string;
   currencyCode: string;
   adjustmentReasonCode: BillingAdjustmentReasonCode;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   clientToken: string;
 }
 export type BatchCreateBillingAdjustmentRequestEntryList =
@@ -326,29 +326,29 @@ export interface CancelAgreementCancellationRequestInput {
 }
 export type AgreementCancellationRequestStatusMessage = string;
 export interface CancelAgreementCancellationRequestOutput {
-  agreementCancellationRequestId?: string;
-  agreementId?: string;
-  reasonCode?: AgreementCancellationRequestReasonCode;
-  description?: string | redacted.Redacted<string>;
-  status?: AgreementCancellationRequestStatus;
-  statusMessage?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agreementCancellationRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  reasonCode?: AgreementCancellationRequestReasonCode | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: AgreementCancellationRequestStatus | undefined;
+  statusMessage?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CancelAgreementPaymentRequestInput {
   paymentRequestId: string;
   agreementId: string;
 }
 export interface CancelAgreementPaymentRequestOutput {
-  paymentRequestId?: string;
-  agreementId?: string;
-  status?: PaymentRequestStatus;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  chargeAmount?: string;
-  currencyCode?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  paymentRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  status?: PaymentRequestStatus | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  chargeAmount?: string | undefined;
+  currencyCode?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type Intent = "NEW" | "AMEND" | "REPLACE" | (string & {});
 export type TermId = string;
@@ -373,7 +373,7 @@ export type PaymentRequestApprovalStrategy =
 export type ISO8601Duration = string;
 export interface VariablePaymentTermConfiguration {
   paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy;
-  expirationDuration?: string;
+  expirationDuration?: string | undefined;
 }
 export type RequestedTermConfiguration =
   | {
@@ -393,94 +393,94 @@ export type RequestedTermConfiguration =
     };
 export interface RequestedTerm {
   id: string;
-  configuration?: RequestedTermConfiguration;
+  configuration?: RequestedTermConfiguration | undefined;
 }
 export type RequestedTermList = RequestedTerm[];
 export type AgreementProposalId = string;
 export type TaxEstimation = "DISABLED" | "ENABLED" | (string & {});
 export interface TaxConfiguration {
-  taxEstimation?: TaxEstimation;
+  taxEstimation?: TaxEstimation | undefined;
 }
 export interface CreateAgreementRequestInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   intent: Intent;
   requestedTerms: RequestedTerm[];
-  sourceAgreementIdentifier?: string;
-  agreementProposalIdentifier?: string;
-  taxConfiguration?: TaxConfiguration;
+  sourceAgreementIdentifier?: string | undefined;
+  agreementProposalIdentifier?: string | undefined;
+  taxConfiguration?: TaxConfiguration | undefined;
 }
 export type Timing = "ON_ACCEPTANCE" | "SCHEDULED" | "BILLING_PERIOD" | (string & {});
 export interface TaxBreakdownItem {
-  amount?: string;
-  rate?: string;
-  type?: string;
+  amount?: string | undefined;
+  rate?: string | undefined;
+  type?: string | undefined;
 }
 export type TaxBreakdown = TaxBreakdownItem[];
 export interface EstimatedTaxes {
-  breakdown?: TaxBreakdownItem[];
-  totalAmount?: string;
+  breakdown?: TaxBreakdownItem[] | undefined;
+  totalAmount?: string | undefined;
 }
 export interface ExpectedCharge {
-  id?: string;
-  time?: Date;
-  amount?: string;
-  amountAfterTax?: string;
-  timing?: Timing;
-  estimatedTaxes?: EstimatedTaxes;
+  id?: string | undefined;
+  time?: Date | undefined;
+  amount?: string | undefined;
+  amountAfterTax?: string | undefined;
+  timing?: Timing | undefined;
+  estimatedTaxes?: EstimatedTaxes | undefined;
 }
 export type ExpectedChargeList = ExpectedCharge[];
 export interface ItemizedCharge {
-  dimensionKey?: string;
-  newQuantity?: number;
-  oldQuantity?: number;
-  chargeReference?: string;
-  incrementalChargeAmount?: string;
+  dimensionKey?: string | undefined;
+  newQuantity?: number | undefined;
+  oldQuantity?: number | undefined;
+  chargeReference?: string | undefined;
+  incrementalChargeAmount?: string | undefined;
 }
 export type ItemizedChargeList = ItemizedCharge[];
 export interface InvoicingEntity {
-  legalName?: string;
-  branchName?: string;
+  legalName?: string | undefined;
+  branchName?: string | undefined;
 }
 export interface ChargeSummary {
-  currencyCode?: string;
-  newAgreementValue?: string;
-  newAgreementValueAfterTax?: string;
-  expectedCharges?: ExpectedCharge[];
-  estimatedTaxes?: EstimatedTaxes;
-  itemizedCharges?: ItemizedCharge[];
-  invoicingEntity?: InvoicingEntity;
+  currencyCode?: string | undefined;
+  newAgreementValue?: string | undefined;
+  newAgreementValueAfterTax?: string | undefined;
+  expectedCharges?: ExpectedCharge[] | undefined;
+  estimatedTaxes?: EstimatedTaxes | undefined;
+  itemizedCharges?: ItemizedCharge[] | undefined;
+  invoicingEntity?: InvoicingEntity | undefined;
 }
 export interface CreateAgreementRequestOutput {
-  agreementRequestId?: string;
-  chargeSummary?: ChargeSummary;
+  agreementRequestId?: string | undefined;
+  chargeSummary?: ChargeSummary | undefined;
 }
 export interface DescribeAgreementInput {
   agreementId: string;
 }
 export type AWSAccountId = string;
 export interface Acceptor {
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface Proposer {
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export type AgreementType = string;
 export interface EstimatedCharges {
-  currencyCode?: string;
-  agreementValue?: string;
+  currencyCode?: string | undefined;
+  agreementValue?: string | undefined;
 }
 export type AgreementResourceType = string;
 export interface Resource {
-  id?: string;
-  type?: string;
+  id?: string | undefined;
+  type?: string | undefined;
 }
 export type Resources = Resource[];
 export type OfferId = string;
 export type OfferSetId = string;
 export interface ProposalSummary {
-  resources?: Resource[];
-  offerId?: string;
-  offerSetId?: string;
+  resources?: Resource[] | undefined;
+  offerId?: string | undefined;
+  offerSetId?: string | undefined;
 }
 export type AgreementStatus =
   | "ACTIVE"
@@ -501,47 +501,47 @@ export type EndTimeBehaviorReasonCode =
   | "RENEWAL_LIMIT_EXHAUSTED"
   | (string & {});
 export interface RenewalSummary {
-  offerId?: string;
+  offerId?: string | undefined;
 }
 export interface EndTimeBehavior {
   type: EndTimeBehaviorType;
-  reasonCode?: EndTimeBehaviorReasonCode;
-  renewalSummary?: RenewalSummary;
+  reasonCode?: EndTimeBehaviorReasonCode | undefined;
+  renewalSummary?: RenewalSummary | undefined;
 }
 export interface DescribeAgreementOutput {
-  agreementId?: string;
-  acceptor?: Acceptor;
-  proposer?: Proposer;
-  startTime?: Date;
-  endTime?: Date;
-  acceptanceTime?: Date;
-  agreementType?: string;
-  estimatedCharges?: EstimatedCharges;
-  proposalSummary?: ProposalSummary;
-  status?: AgreementStatus;
-  initialAgreementId?: string;
-  endTimeBehavior?: EndTimeBehavior;
+  agreementId?: string | undefined;
+  acceptor?: Acceptor | undefined;
+  proposer?: Proposer | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  acceptanceTime?: Date | undefined;
+  agreementType?: string | undefined;
+  estimatedCharges?: EstimatedCharges | undefined;
+  proposalSummary?: ProposalSummary | undefined;
+  status?: AgreementStatus | undefined;
+  initialAgreementId?: string | undefined;
+  endTimeBehavior?: EndTimeBehavior | undefined;
 }
 export interface GetAgreementCancellationRequestInput {
   agreementCancellationRequestId: string;
   agreementId: string;
 }
 export interface GetAgreementCancellationRequestOutput {
-  agreementCancellationRequestId?: string;
-  agreementId?: string;
-  reasonCode?: AgreementCancellationRequestReasonCode;
-  description?: string | redacted.Redacted<string>;
-  status?: AgreementCancellationRequestStatus;
-  statusMessage?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agreementCancellationRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  reasonCode?: AgreementCancellationRequestReasonCode | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: AgreementCancellationRequestStatus | undefined;
+  statusMessage?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetAgreementEntitlementsInput {
   agreementId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EntitlementType = string;
 export type RegistrationToken = string;
@@ -565,17 +565,17 @@ export type AgreementEntitlementStatusReasonCode =
   | (string & {});
 export type AwsArn = string;
 export interface AgreementEntitlement {
-  resource?: Resource;
-  type?: string;
-  registrationToken?: string;
-  status?: AgreementEntitlementStatus;
-  statusReasonCode?: AgreementEntitlementStatusReasonCode;
-  licenseArn?: string;
+  resource?: Resource | undefined;
+  type?: string | undefined;
+  registrationToken?: string | undefined;
+  status?: AgreementEntitlementStatus | undefined;
+  statusReasonCode?: AgreementEntitlementStatusReasonCode | undefined;
+  licenseArn?: string | undefined;
 }
 export type AgreementEntitlementList = AgreementEntitlement[];
 export interface GetAgreementEntitlementsOutput {
-  agreementEntitlements?: AgreementEntitlement[];
-  nextToken?: string;
+  agreementEntitlements?: AgreementEntitlement[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetAgreementPaymentRequestInput {
   paymentRequestId: string;
@@ -584,49 +584,49 @@ export interface GetAgreementPaymentRequestInput {
 export type PaymentRequestStatusMessage = string;
 export type ChargeId = string;
 export interface GetAgreementPaymentRequestOutput {
-  paymentRequestId?: string;
-  agreementId?: string;
-  status?: PaymentRequestStatus;
-  statusMessage?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  chargeId?: string;
-  chargeAmount?: string;
-  currencyCode?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  paymentRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  status?: PaymentRequestStatus | undefined;
+  statusMessage?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  chargeId?: string | undefined;
+  chargeAmount?: string | undefined;
+  currencyCode?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetAgreementTermsInput {
   agreementId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type UnversionedTermType = string;
 export interface DocumentItem {
-  type?: string;
-  url?: string;
-  version?: string;
+  type?: string | undefined;
+  url?: string | undefined;
+  version?: string | undefined;
 }
 export type DocumentList = DocumentItem[];
 export interface LegalTerm {
-  type?: string;
-  id?: string;
-  documents?: DocumentItem[];
+  type?: string | undefined;
+  id?: string | undefined;
+  documents?: DocumentItem[] | undefined;
 }
 export interface SupportTerm {
-  type?: string;
-  id?: string;
-  refundPolicy?: string;
+  type?: string | undefined;
+  id?: string | undefined;
+  refundPolicy?: string | undefined;
 }
 export type DayDuration = string;
 export type PriceIncreasePercentage = string;
 export interface FixedPercentage {
-  value?: string;
+  value?: string | undefined;
 }
 export interface PercentageRange {
-  minValue?: string;
-  maxValue?: string;
-  defaultValue?: string;
+  minValue?: string | undefined;
+  maxValue?: string | undefined;
+  defaultValue?: string | undefined;
 }
 export type PriceIncrease =
   | { fixedPercentage: FixedPercentage; percentageRange?: never }
@@ -634,122 +634,122 @@ export type PriceIncrease =
 export type OffsetDuration = string;
 export type ChargePercentage = string;
 export interface PaymentScheduleEntry {
-  chargeDateOffset?: string;
-  chargePercentage?: string;
-  dayOfMonth?: number;
+  chargeDateOffset?: string | undefined;
+  chargePercentage?: string | undefined;
+  dayOfMonth?: number | undefined;
 }
 export type PaymentScheduleEntryList = PaymentScheduleEntry[];
 export interface PaymentScheduleTermTemplate {
-  schedule?: PaymentScheduleEntry[];
+  schedule?: PaymentScheduleEntry[] | undefined;
 }
 export type TermTemplate = { paymentScheduleTermTemplate: PaymentScheduleTermTemplate };
 export type TermTemplateList = TermTemplate[];
 export interface RenewalTerm {
-  type?: string;
-  id?: string;
-  configuration?: RenewalTermConfiguration;
-  lockoutPeriod?: string;
-  maxRenewals?: number;
-  adjustmentDeadline?: string;
-  priceIncrease?: PriceIncrease;
-  termTemplates?: TermTemplate[];
+  type?: string | undefined;
+  id?: string | undefined;
+  configuration?: RenewalTermConfiguration | undefined;
+  lockoutPeriod?: string | undefined;
+  maxRenewals?: number | undefined;
+  adjustmentDeadline?: string | undefined;
+  priceIncrease?: PriceIncrease | undefined;
+  termTemplates?: TermTemplate[] | undefined;
 }
 export interface RateCardItem {
-  dimensionKey?: string;
-  price?: string;
+  dimensionKey?: string | undefined;
+  price?: string | undefined;
 }
 export type RateCardList = RateCardItem[];
 export interface UsageBasedRateCardItem {
-  rateCard?: RateCardItem[];
+  rateCard?: RateCardItem[] | undefined;
 }
 export type UsageBasedRateCardList = UsageBasedRateCardItem[];
 export interface UsageBasedPricingTerm {
-  type?: string;
-  id?: string;
-  currencyCode?: string;
-  rateCards?: UsageBasedRateCardItem[];
+  type?: string | undefined;
+  id?: string | undefined;
+  currencyCode?: string | undefined;
+  rateCards?: UsageBasedRateCardItem[] | undefined;
 }
 export interface Selector {
-  type?: string;
-  value?: string;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export interface Constraints {
-  multipleDimensionSelection?: string;
-  quantityConfiguration?: string;
+  multipleDimensionSelection?: string | undefined;
+  quantityConfiguration?: string | undefined;
 }
 export interface ConfigurableUpfrontRateCardItem {
-  selector?: Selector;
-  constraints?: Constraints;
-  rateCard?: RateCardItem[];
+  selector?: Selector | undefined;
+  constraints?: Constraints | undefined;
+  rateCard?: RateCardItem[] | undefined;
 }
 export type ConfigurableUpfrontRateCardList = ConfigurableUpfrontRateCardItem[];
 export interface ConfigurableUpfrontPricingTerm {
-  type?: string;
-  id?: string;
-  currencyCode?: string;
-  rateCards?: ConfigurableUpfrontRateCardItem[];
-  configuration?: ConfigurableUpfrontPricingTermConfiguration;
+  type?: string | undefined;
+  id?: string | undefined;
+  currencyCode?: string | undefined;
+  rateCards?: ConfigurableUpfrontRateCardItem[] | undefined;
+  configuration?: ConfigurableUpfrontPricingTermConfiguration | undefined;
 }
 export interface ByolPricingTerm {
-  type?: string;
-  id?: string;
+  type?: string | undefined;
+  id?: string | undefined;
 }
 export interface RecurringPaymentTerm {
-  type?: string;
-  id?: string;
-  currencyCode?: string;
-  billingPeriod?: string;
-  price?: string;
+  type?: string | undefined;
+  id?: string | undefined;
+  currencyCode?: string | undefined;
+  billingPeriod?: string | undefined;
+  price?: string | undefined;
 }
 export interface ValidityTerm {
-  type?: string;
-  id?: string;
-  agreementDuration?: string;
-  agreementStartDate?: Date;
-  agreementEndDate?: Date;
+  type?: string | undefined;
+  id?: string | undefined;
+  agreementDuration?: string | undefined;
+  agreementStartDate?: Date | undefined;
+  agreementEndDate?: Date | undefined;
 }
 export interface ScheduleItem {
-  chargeDate?: Date;
-  chargeAmount?: string;
+  chargeDate?: Date | undefined;
+  chargeAmount?: string | undefined;
 }
 export type ScheduleList = ScheduleItem[];
 export interface PaymentScheduleTerm {
-  type?: string;
-  id?: string;
-  currencyCode?: string;
-  schedule?: ScheduleItem[];
+  type?: string | undefined;
+  id?: string | undefined;
+  currencyCode?: string | undefined;
+  schedule?: ScheduleItem[] | undefined;
 }
 export type PositiveIntegerWithDefaultValueOne = number;
 export interface GrantItem {
-  dimensionKey?: string;
-  maxQuantity?: number;
+  dimensionKey?: string | undefined;
+  maxQuantity?: number | undefined;
 }
 export type GrantList = GrantItem[];
 export interface FreeTrialPricingTerm {
-  type?: string;
-  id?: string;
-  duration?: string;
-  grants?: GrantItem[];
+  type?: string | undefined;
+  id?: string | undefined;
+  duration?: string | undefined;
+  grants?: GrantItem[] | undefined;
 }
 export interface FixedUpfrontPricingTerm {
-  type?: string;
-  id?: string;
-  currencyCode?: string;
-  duration?: string;
-  price?: string;
-  grants?: GrantItem[];
+  type?: string | undefined;
+  id?: string | undefined;
+  currencyCode?: string | undefined;
+  duration?: string | undefined;
+  price?: string | undefined;
+  grants?: GrantItem[] | undefined;
 }
 export interface VariablePaymentTerm {
-  type?: string;
-  id?: string;
-  currencyCode?: string;
-  maxTotalChargeAmount?: string;
-  configuration?: VariablePaymentTermConfiguration;
+  type?: string | undefined;
+  id?: string | undefined;
+  currencyCode?: string | undefined;
+  maxTotalChargeAmount?: string | undefined;
+  configuration?: VariablePaymentTermConfiguration | undefined;
 }
 export interface NetPaymentTerm {
-  type?: string;
-  id?: string;
-  paymentDuePeriod?: string;
+  type?: string | undefined;
+  id?: string | undefined;
+  paymentDuePeriod?: string | undefined;
 }
 export type AcceptedTerm =
   | {
@@ -949,8 +949,8 @@ export type AcceptedTerm =
     };
 export type AcceptedTermList = AcceptedTerm[];
 export interface GetAgreementTermsOutput {
-  acceptedTerms?: AcceptedTerm[];
-  nextToken?: string;
+  acceptedTerms?: AcceptedTerm[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetBillingAdjustmentRequestInput {
   agreementId: string;
@@ -962,12 +962,12 @@ export interface GetBillingAdjustmentRequestOutput {
   billingAdjustmentRequestId: string;
   agreementId: string;
   adjustmentReasonCode: BillingAdjustmentReasonCode;
-  description?: string;
+  description?: string | undefined;
   originalInvoiceId: string;
   adjustmentAmount: string;
   currencyCode: string;
   status: BillingAdjustmentStatus;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -975,49 +975,49 @@ export type PartyType = string;
 export type Catalog = string;
 export interface ListAgreementCancellationRequestsInput {
   partyType: string;
-  agreementId?: string;
-  status?: AgreementCancellationRequestStatus;
-  agreementType?: string;
-  catalog?: string;
-  maxResults?: number;
-  nextToken?: string;
+  agreementId?: string | undefined;
+  status?: AgreementCancellationRequestStatus | undefined;
+  agreementType?: string | undefined;
+  catalog?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgreementCancellationRequestSummary {
-  agreementCancellationRequestId?: string;
-  agreementId?: string;
-  status?: AgreementCancellationRequestStatus;
-  reasonCode?: AgreementCancellationRequestReasonCode;
-  agreementType?: string;
-  catalog?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agreementCancellationRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  status?: AgreementCancellationRequestStatus | undefined;
+  reasonCode?: AgreementCancellationRequestReasonCode | undefined;
+  agreementType?: string | undefined;
+  catalog?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type AgreementCancellationRequestSummaryList = AgreementCancellationRequestSummary[];
 export interface ListAgreementCancellationRequestsOutput {
-  nextToken?: string;
-  items?: AgreementCancellationRequestSummary[];
+  nextToken?: string | undefined;
+  items?: AgreementCancellationRequestSummary[] | undefined;
 }
 export interface ListAgreementChargesInput {
-  catalog?: string;
-  agreementId?: string;
-  agreementType?: string;
-  maxResults?: number;
-  nextToken?: string;
+  catalog?: string | undefined;
+  agreementId?: string | undefined;
+  agreementType?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Charge {
-  id?: string;
-  revision?: number;
-  agreementId?: string;
-  agreementType?: string;
-  purchaseOrderReference?: string;
-  currencyCode?: string;
-  amount?: string;
-  time?: Date;
+  id?: string | undefined;
+  revision?: number | undefined;
+  agreementId?: string | undefined;
+  agreementType?: string | undefined;
+  purchaseOrderReference?: string | undefined;
+  currencyCode?: string | undefined;
+  amount?: string | undefined;
+  time?: Date | undefined;
 }
 export type Charges = Charge[];
 export interface ListAgreementChargesOutput {
-  items?: Charge[];
-  nextToken?: string;
+  items?: Charge[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LineItemGroupBy = "INVOICE_ID" | (string & {});
 export type InvoiceType = "INVOICE" | "CREDIT_MEMO" | (string & {});
@@ -1028,67 +1028,67 @@ export interface InvoiceBillingPeriod {
 export interface ListAgreementInvoiceLineItemsInput {
   agreementId: string;
   groupBy: LineItemGroupBy;
-  invoiceId?: string;
-  invoiceType?: InvoiceType;
-  invoiceBillingPeriod?: InvoiceBillingPeriod;
-  beforeIssuedTime?: Date;
-  afterIssuedTime?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  invoiceId?: string | undefined;
+  invoiceType?: InvoiceType | undefined;
+  invoiceBillingPeriod?: InvoiceBillingPeriod | undefined;
+  beforeIssuedTime?: Date | undefined;
+  afterIssuedTime?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PricingCurrencyAmount {
-  amount?: string;
-  maxAdjustmentAmount?: string;
-  currencyCode?: string;
+  amount?: string | undefined;
+  maxAdjustmentAmount?: string | undefined;
+  currencyCode?: string | undefined;
 }
 export interface AgreementInvoiceLineItemGroupSummary {
-  agreementId?: string;
-  invoiceId?: string;
-  pricingCurrencyAmount?: PricingCurrencyAmount;
-  invoiceBillingPeriod?: InvoiceBillingPeriod;
-  issuedTime?: Date;
-  invoiceType?: InvoiceType;
-  invoicingEntity?: InvoicingEntity;
+  agreementId?: string | undefined;
+  invoiceId?: string | undefined;
+  pricingCurrencyAmount?: PricingCurrencyAmount | undefined;
+  invoiceBillingPeriod?: InvoiceBillingPeriod | undefined;
+  issuedTime?: Date | undefined;
+  invoiceType?: InvoiceType | undefined;
+  invoicingEntity?: InvoicingEntity | undefined;
 }
 export type AgreementInvoiceLineItemGroupSummaries = AgreementInvoiceLineItemGroupSummary[];
 export interface ListAgreementInvoiceLineItemsOutput {
-  agreementInvoiceLineItemGroupSummaries?: AgreementInvoiceLineItemGroupSummary[];
-  nextToken?: string;
+  agreementInvoiceLineItemGroupSummaries?: AgreementInvoiceLineItemGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAgreementPaymentRequestsInput {
   partyType: string;
-  agreementType?: string;
-  catalog?: string;
-  agreementId?: string;
-  status?: PaymentRequestStatus;
-  maxResults?: number;
-  nextToken?: string;
+  agreementType?: string | undefined;
+  catalog?: string | undefined;
+  agreementId?: string | undefined;
+  status?: PaymentRequestStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PaymentRequestSummary {
-  paymentRequestId?: string;
-  agreementId?: string;
-  status?: PaymentRequestStatus;
-  name?: string;
-  chargeId?: string;
-  chargeAmount?: string;
-  currencyCode?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  paymentRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  status?: PaymentRequestStatus | undefined;
+  name?: string | undefined;
+  chargeId?: string | undefined;
+  chargeAmount?: string | undefined;
+  currencyCode?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PaymentRequestSummaryList = PaymentRequestSummary[];
 export interface ListAgreementPaymentRequestsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: PaymentRequestSummary[];
 }
 export interface ListBillingAdjustmentRequestsInput {
-  agreementId?: string;
-  status?: BillingAdjustmentStatus;
-  createdAfter?: Date;
-  createdBefore?: Date;
-  maxResults?: number;
-  catalog?: string;
-  agreementType?: string;
-  nextToken?: string;
+  agreementId?: string | undefined;
+  status?: BillingAdjustmentStatus | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
+  maxResults?: number | undefined;
+  catalog?: string | undefined;
+  agreementType?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface BillingAdjustmentSummary {
   billingAdjustmentRequestId: string;
@@ -1104,7 +1104,7 @@ export interface BillingAdjustmentSummary {
 }
 export type BillingAdjustmentSummaryList = BillingAdjustmentSummary[];
 export interface ListBillingAdjustmentRequestsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: BillingAdjustmentSummary[];
 }
 export type AgreementCancellationRequestRejectionReason = string | redacted.Redacted<string>;
@@ -1114,111 +1114,111 @@ export interface RejectAgreementCancellationRequestInput {
   rejectionReason: string | redacted.Redacted<string>;
 }
 export interface RejectAgreementCancellationRequestOutput {
-  agreementId?: string;
-  agreementCancellationRequestId?: string;
-  status?: AgreementCancellationRequestStatus;
-  statusMessage?: string;
-  reasonCode?: AgreementCancellationRequestReasonCode;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agreementId?: string | undefined;
+  agreementCancellationRequestId?: string | undefined;
+  status?: AgreementCancellationRequestStatus | undefined;
+  statusMessage?: string | undefined;
+  reasonCode?: AgreementCancellationRequestReasonCode | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PaymentRequestRejectionReason = string;
 export interface RejectAgreementPaymentRequestInput {
   paymentRequestId: string;
   agreementId: string;
-  rejectionReason?: string;
+  rejectionReason?: string | undefined;
 }
 export interface RejectAgreementPaymentRequestOutput {
-  paymentRequestId?: string;
-  agreementId?: string;
-  status?: PaymentRequestStatus;
-  statusMessage?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  chargeAmount?: string;
-  currencyCode?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  paymentRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  status?: PaymentRequestStatus | undefined;
+  statusMessage?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  chargeAmount?: string | undefined;
+  currencyCode?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValueList = string[];
 export interface Filter {
-  name?: string;
-  values?: string[];
+  name?: string | undefined;
+  values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export type SortBy = string;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface Sort {
-  sortBy?: string;
-  sortOrder?: SortOrder;
+  sortBy?: string | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface SearchAgreementsInput {
-  catalog?: string;
-  filters?: Filter[];
-  sort?: Sort;
-  maxResults?: number;
-  nextToken?: string;
+  catalog?: string | undefined;
+  filters?: Filter[] | undefined;
+  sort?: Sort | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Entitlement {
-  licenseArn?: string;
+  licenseArn?: string | undefined;
 }
 export type EntitlementList = Entitlement[];
 export interface AgreementViewSummary {
-  agreementId?: string;
-  acceptanceTime?: Date;
-  startTime?: Date;
-  endTime?: Date;
-  lastUpdateTime?: Date;
-  agreementType?: string;
-  acceptor?: Acceptor;
-  proposer?: Proposer;
-  proposalSummary?: ProposalSummary;
-  status?: AgreementStatus;
-  entitlements?: Entitlement[];
-  initialAgreementId?: string;
-  endTimeBehaviorType?: EndTimeBehaviorType;
-  endTimeBehaviorReasonCode?: EndTimeBehaviorReasonCode;
+  agreementId?: string | undefined;
+  acceptanceTime?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  agreementType?: string | undefined;
+  acceptor?: Acceptor | undefined;
+  proposer?: Proposer | undefined;
+  proposalSummary?: ProposalSummary | undefined;
+  status?: AgreementStatus | undefined;
+  entitlements?: Entitlement[] | undefined;
+  initialAgreementId?: string | undefined;
+  endTimeBehaviorType?: EndTimeBehaviorType | undefined;
+  endTimeBehaviorReasonCode?: EndTimeBehaviorReasonCode | undefined;
 }
 export type AgreementViewSummaryList = AgreementViewSummary[];
 export interface SearchAgreementsOutput {
-  agreementViewSummaries?: AgreementViewSummary[];
-  nextToken?: string;
+  agreementViewSummaries?: AgreementViewSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface SendAgreementCancellationRequestInput {
   agreementId: string;
   reasonCode: AgreementCancellationRequestReasonCode;
-  clientToken?: string;
-  description?: string | redacted.Redacted<string>;
+  clientToken?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface SendAgreementCancellationRequestOutput {
-  agreementId?: string;
-  agreementCancellationRequestId?: string;
-  status?: AgreementCancellationRequestStatus;
-  reasonCode?: AgreementCancellationRequestReasonCode;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agreementId?: string | undefined;
+  agreementCancellationRequestId?: string | undefined;
+  status?: AgreementCancellationRequestStatus | undefined;
+  reasonCode?: AgreementCancellationRequestReasonCode | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface SendAgreementPaymentRequestInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   agreementId: string;
   termId: string;
   name: string;
   chargeAmount: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface SendAgreementPaymentRequestOutput {
-  paymentRequestId?: string;
-  agreementId?: string;
-  status?: PaymentRequestStatus;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  chargeAmount?: string;
-  currencyCode?: string;
-  createdAt?: Date;
+  paymentRequestId?: string | undefined;
+  agreementId?: string | undefined;
+  status?: PaymentRequestStatus | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  chargeAmount?: string | undefined;
+  currencyCode?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export interface UpdatePurchaseOrdersInput {
   purchaseOrders: PurchaseOrder[];

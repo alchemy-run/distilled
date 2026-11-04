@@ -163,14 +163,14 @@ export interface ActionFilter {
 }
 export type ActionFilterList = ActionFilter[];
 export interface RequestFilter {
-  actions?: ActionFilter[];
+  actions?: ActionFilter[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListRecommendedActionsRequest {
-  filter?: RequestFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: RequestFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ActionType =
   | "ADD_ALTERNATE_BILLING_CONTACT"
@@ -212,19 +212,19 @@ export type Context = { [key: string]: string | undefined };
 export type NextStep = string;
 export type NextSteps = string[];
 export interface RecommendedAction {
-  id?: string;
-  type?: ActionType;
-  accountId?: string;
-  severity?: Severity;
-  feature?: Feature;
-  context?: { [key: string]: string | undefined };
-  nextSteps?: string[];
-  lastUpdatedTimeStamp?: string;
+  id?: string | undefined;
+  type?: ActionType | undefined;
+  accountId?: string | undefined;
+  severity?: Severity | undefined;
+  feature?: Feature | undefined;
+  context?: { [key: string]: string | undefined } | undefined;
+  nextSteps?: string[] | undefined;
+  lastUpdatedTimeStamp?: string | undefined;
 }
 export type RecommendedActions = RecommendedAction[];
 export interface ListRecommendedActionsResponse {
   recommendedActions: RecommendedAction[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ValidationExceptionReason =
   | "unknownOperation"

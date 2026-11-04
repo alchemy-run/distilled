@@ -119,14 +119,14 @@ export type ActionImpression = (string | redacted.Redacted<string>)[];
 export type SynthesizedJsonActionInteractionProperties = string | redacted.Redacted<string>;
 export interface ActionInteraction {
   actionId: string | redacted.Redacted<string>;
-  userId?: string | redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string> | undefined;
   sessionId: string;
   timestamp: Date;
   eventType: string;
-  eventId?: string;
-  recommendationId?: string;
-  impression?: (string | redacted.Redacted<string>)[];
-  properties?: string | redacted.Redacted<string>;
+  eventId?: string | undefined;
+  recommendationId?: string | undefined;
+  impression?: (string | redacted.Redacted<string>)[] | undefined;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
 export type ActionInteractionsList = ActionInteraction[];
 export interface PutActionInteractionsRequest {
@@ -138,7 +138,7 @@ export type Arn = string;
 export type SynthesizedJsonActionProperties = string | redacted.Redacted<string>;
 export interface Action {
   actionId: string;
-  properties?: string | redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
 export type ActionList = Action[];
 export interface PutActionsRequest {
@@ -155,20 +155,20 @@ export interface MetricAttribution {
   eventAttributionSource: string;
 }
 export interface Event {
-  eventId?: string;
+  eventId?: string | undefined;
   eventType: string;
-  eventValue?: number;
-  itemId?: string | redacted.Redacted<string>;
-  properties?: string | redacted.Redacted<string>;
+  eventValue?: number | undefined;
+  itemId?: string | redacted.Redacted<string> | undefined;
+  properties?: string | redacted.Redacted<string> | undefined;
   sentAt: Date;
-  recommendationId?: string;
-  impression?: (string | redacted.Redacted<string>)[];
-  metricAttribution?: MetricAttribution;
+  recommendationId?: string | undefined;
+  impression?: (string | redacted.Redacted<string>)[] | undefined;
+  metricAttribution?: MetricAttribution | undefined;
 }
 export type EventList = Event[];
 export interface PutEventsRequest {
   trackingId: string;
-  userId?: string | redacted.Redacted<string>;
+  userId?: string | redacted.Redacted<string> | undefined;
   sessionId: string;
   eventList: Event[];
 }
@@ -176,7 +176,7 @@ export interface PutEventsResponse {}
 export type SynthesizedJsonItemProperties = string | redacted.Redacted<string>;
 export interface Item {
   itemId: string;
-  properties?: string | redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
 export type ItemList = Item[];
 export interface PutItemsRequest {
@@ -187,7 +187,7 @@ export interface PutItemsResponse {}
 export type SynthesizedJsonUserProperties = string | redacted.Redacted<string>;
 export interface User {
   userId: string;
-  properties?: string | redacted.Redacted<string>;
+  properties?: string | redacted.Redacted<string> | undefined;
 }
 export type UserList = User[];
 export interface PutUsersRequest {

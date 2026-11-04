@@ -57,14 +57,14 @@ export interface CreateAssetForAccountRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAssetResponse {
   /** A short description of the custom asset. */
-  description?: string | null;
-  lastUpdated?: string | null;
+  description?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
   /** The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The size of the asset content in bytes. */
-  sizeBytes?: number | null;
+  sizeBytes?: number | null | undefined;
   /** The URL where the asset content is fetched from. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface CreateAssetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -99,14 +99,14 @@ export interface GetAssetForAccountRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAssetResponse {
   /** A short description of the custom asset. */
-  description?: string | null;
-  lastUpdated?: string | null;
+  description?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
   /** The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The size of the asset content in bytes. */
-  sizeBytes?: number | null;
+  sizeBytes?: number | null | undefined;
   /** The URL where the asset content is fetched from. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GetAssetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -135,16 +135,16 @@ export type GetResponseRequiredTokensList = Array<string>;
 export type GetResponseState = "default" | "customized";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCustomPageResponse {
-  id?: string | null;
-  createdOn?: string | null;
-  description?: string | null;
-  modifiedOn?: string | null;
-  previewTarget?: string | null;
-  requiredTokens?: GetResponseRequiredTokensList | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  description?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
+  previewTarget?: string | null | undefined;
+  requiredTokens?: GetResponseRequiredTokensList | null | undefined;
   /** The custom page state. */
-  state?: GetResponseState | null;
+  state?: GetResponseState | null | undefined;
   /** The URL associated with the custom page. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GetCustomPageForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -156,20 +156,20 @@ export interface ListAssetsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of custom assets per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface AssetsListResultItem {
   /** A short description of the custom asset. */
-  description?: string | null;
-  lastUpdated?: string | null;
+  description?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
   /** The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The size of the asset content in bytes. */
-  sizeBytes?: number | null;
+  sizeBytes?: number | null | undefined;
   /** The URL where the asset content is fetched from. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type AssetsListResultList = Array<AssetsListResultItem>;
 export interface ListAssetsResponse {
@@ -182,9 +182,9 @@ export interface ListAssetsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of custom assets per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface ListCustomPagesForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -193,16 +193,16 @@ export interface ListCustomPagesForAccountRequest {
 export type ListResultItemRequiredTokensList = Array<string>;
 export type ListResultItemState = "default" | "customized";
 export interface ListResultItem {
-  id?: string | null;
-  createdOn?: string | null;
-  description?: string | null;
-  modifiedOn?: string | null;
-  previewTarget?: string | null;
-  requiredTokens?: ListResultItemRequiredTokensList | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  description?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
+  previewTarget?: string | null | undefined;
+  requiredTokens?: ListResultItemRequiredTokensList | null | undefined;
   /** The custom page state. */
-  state?: ListResultItemState | null;
+  state?: ListResultItemState | null | undefined;
   /** The URL associated with the custom page. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListCustomPagesResponse {
@@ -241,16 +241,16 @@ export type UpdateResponseRequiredTokensList = Array<string>;
 export type UpdateResponseState = "default" | "customized";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutCustomPageResponse {
-  id?: string | null;
-  createdOn?: string | null;
-  description?: string | null;
-  modifiedOn?: string | null;
-  previewTarget?: string | null;
-  requiredTokens?: UpdateResponseRequiredTokensList | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  description?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
+  previewTarget?: string | null | undefined;
+  requiredTokens?: UpdateResponseRequiredTokensList | null | undefined;
   /** The custom page state. */
-  state?: UpdateResponseState | null;
+  state?: UpdateResponseState | null | undefined;
   /** The URL associated with the custom page. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface PutCustomPageForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -275,14 +275,14 @@ export interface UpdateAssetForAccountRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateAssetResponse {
   /** A short description of the custom asset. */
-  description?: string | null;
-  lastUpdated?: string | null;
+  description?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
   /** The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The size of the asset content in bytes. */
-  sizeBytes?: number | null;
+  sizeBytes?: number | null | undefined;
   /** The URL where the asset content is fetched from. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface UpdateAssetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */

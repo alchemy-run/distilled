@@ -178,14 +178,14 @@ export type PositiveIntegerObject = number;
 export type ShardId = string;
 export type ShardFilterType = "CHILD_SHARDS" | (string & {});
 export interface ShardFilter {
-  Type?: ShardFilterType;
-  ShardId?: string;
+  Type?: ShardFilterType | undefined;
+  ShardId?: string | undefined;
 }
 export interface DescribeStreamInput {
   StreamArn: string;
-  Limit?: number;
-  ExclusiveStartShardId?: string;
-  ShardFilter?: ShardFilter;
+  Limit?: number | undefined;
+  ExclusiveStartShardId?: string | undefined;
+  ShardFilter?: ShardFilter | undefined;
 }
 export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export type StreamViewType =
@@ -204,33 +204,33 @@ export interface KeySchemaElement {
 export type KeySchema = KeySchemaElement[];
 export type SequenceNumber = string;
 export interface SequenceNumberRange {
-  StartingSequenceNumber?: string;
-  EndingSequenceNumber?: string;
+  StartingSequenceNumber?: string | undefined;
+  EndingSequenceNumber?: string | undefined;
 }
 export interface Shard {
-  ShardId?: string;
-  SequenceNumberRange?: SequenceNumberRange;
-  ParentShardId?: string;
+  ShardId?: string | undefined;
+  SequenceNumberRange?: SequenceNumberRange | undefined;
+  ParentShardId?: string | undefined;
 }
 export type ShardDescriptionList = Shard[];
 export interface StreamDescription {
-  StreamArn?: string;
-  StreamLabel?: string;
-  StreamStatus?: StreamStatus;
-  StreamViewType?: StreamViewType;
-  CreationRequestDateTime?: Date;
-  TableName?: string;
-  KeySchema?: KeySchemaElement[];
-  Shards?: Shard[];
-  LastEvaluatedShardId?: string;
+  StreamArn?: string | undefined;
+  StreamLabel?: string | undefined;
+  StreamStatus?: StreamStatus | undefined;
+  StreamViewType?: StreamViewType | undefined;
+  CreationRequestDateTime?: Date | undefined;
+  TableName?: string | undefined;
+  KeySchema?: KeySchemaElement[] | undefined;
+  Shards?: Shard[] | undefined;
+  LastEvaluatedShardId?: string | undefined;
 }
 export interface DescribeStreamOutput {
-  StreamDescription?: StreamDescription;
+  StreamDescription?: StreamDescription | undefined;
 }
 export type ShardIterator = string;
 export interface GetRecordsInput {
   ShardIterator: string;
-  Limit?: number;
+  Limit?: number | undefined;
 }
 export type OperationType = "INSERT" | "MODIFY" | "REMOVE" | (string & {});
 export type AttributeName = string;
@@ -368,31 +368,31 @@ export type AttributeValue =
 export type AttributeMap = { [key: string]: AttributeValue | undefined };
 export type PositiveLongObject = number;
 export interface StreamRecord {
-  ApproximateCreationDateTime?: Date;
-  Keys?: { [key: string]: AttributeValue | undefined };
-  NewImage?: { [key: string]: AttributeValue | undefined };
-  OldImage?: { [key: string]: AttributeValue | undefined };
-  SequenceNumber?: string;
-  SizeBytes?: number;
-  StreamViewType?: StreamViewType;
+  ApproximateCreationDateTime?: Date | undefined;
+  Keys?: { [key: string]: AttributeValue | undefined } | undefined;
+  NewImage?: { [key: string]: AttributeValue | undefined } | undefined;
+  OldImage?: { [key: string]: AttributeValue | undefined } | undefined;
+  SequenceNumber?: string | undefined;
+  SizeBytes?: number | undefined;
+  StreamViewType?: StreamViewType | undefined;
 }
 export interface Identity {
-  PrincipalId?: string;
-  Type?: string;
+  PrincipalId?: string | undefined;
+  Type?: string | undefined;
 }
 export interface Record {
-  eventID?: string;
-  eventName?: OperationType;
-  eventVersion?: string;
-  eventSource?: string;
-  awsRegion?: string;
-  dynamodb?: StreamRecord;
-  userIdentity?: Identity;
+  eventID?: string | undefined;
+  eventName?: OperationType | undefined;
+  eventVersion?: string | undefined;
+  eventSource?: string | undefined;
+  awsRegion?: string | undefined;
+  dynamodb?: StreamRecord | undefined;
+  userIdentity?: Identity | undefined;
 }
 export type RecordList = Record[];
 export interface GetRecordsOutput {
-  Records?: Record[];
-  NextShardIterator?: string;
+  Records?: Record[] | undefined;
+  NextShardIterator?: string | undefined;
 }
 export type ShardIteratorType =
   | "TRIM_HORIZON"
@@ -404,25 +404,25 @@ export interface GetShardIteratorInput {
   StreamArn: string;
   ShardId: string;
   ShardIteratorType: ShardIteratorType;
-  SequenceNumber?: string;
+  SequenceNumber?: string | undefined;
 }
 export interface GetShardIteratorOutput {
-  ShardIterator?: string;
+  ShardIterator?: string | undefined;
 }
 export interface ListStreamsInput {
-  TableName?: string;
-  Limit?: number;
-  ExclusiveStartStreamArn?: string;
+  TableName?: string | undefined;
+  Limit?: number | undefined;
+  ExclusiveStartStreamArn?: string | undefined;
 }
 export interface Stream {
-  StreamArn?: string;
-  TableName?: string;
-  StreamLabel?: string;
+  StreamArn?: string | undefined;
+  TableName?: string | undefined;
+  StreamLabel?: string | undefined;
 }
 export type StreamList = Stream[];
 export interface ListStreamsOutput {
-  Streams?: Stream[];
-  LastEvaluatedStreamArn?: string;
+  Streams?: Stream[] | undefined;
+  LastEvaluatedStreamArn?: string | undefined;
 }
 export type ErrorMessage = string;
 export type DescribeStreamError = InternalServerError | ResourceNotFoundException | CommonErrors;

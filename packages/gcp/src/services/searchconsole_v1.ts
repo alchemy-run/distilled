@@ -119,11 +119,11 @@ export type WmxSitemapContentTypeEnum =
 /** Information about the various content types in the sitemap. */
 export interface WmxSitemapContent {
   /** The number of URLs in the sitemap (of the content type). */
-  submitted?: string;
+  submitted?: string | undefined;
   /** *Deprecated; do not use.* */
-  indexed?: string;
+  indexed?: string | undefined;
   /** The specific type of content in this sitemap. For example: `web`. */
-  type?: WmxSitemapContentTypeEnum;
+  type?: WmxSitemapContentTypeEnum | undefined;
 }
 export type WmxSitemapContentList = Array<WmxSitemapContent>;
 export type WmxSitemapTypeEnum =
@@ -137,23 +137,23 @@ export type WmxSitemapTypeEnum =
 /** Contains detailed information about a specific URL submitted as a [sitemap](https://support.google.com/webmasters/answer/156184). */
 export interface WmxSitemap {
   /** The url of the sitemap. */
-  path?: string;
+  path?: string | undefined;
   /** Date & time in which this sitemap was submitted. Date format is in RFC 3339 format (yyyy-mm-dd). */
-  lastSubmitted?: string;
+  lastSubmitted?: string | undefined;
   /** Date & time in which this sitemap was last downloaded. Date format is in RFC 3339 format (yyyy-mm-dd). */
-  lastDownloaded?: string;
+  lastDownloaded?: string | undefined;
   /** Number of errors in the sitemap. These are issues with the sitemap itself that need to be fixed before it can be processed correctly. */
-  errors?: string;
+  errors?: string | undefined;
   /** If true, the sitemap has not been processed. */
-  isPending?: boolean;
+  isPending?: boolean | undefined;
   /** If true, the sitemap is a collection of sitemaps. */
-  isSitemapsIndex?: boolean;
+  isSitemapsIndex?: boolean | undefined;
   /** The various content types in the sitemap. */
-  contents?: WmxSitemapContentList;
+  contents?: WmxSitemapContentList | undefined;
   /** The type of the sitemap. For example: `rssFeed`. */
-  type?: WmxSitemapTypeEnum;
+  type?: WmxSitemapTypeEnum | undefined;
   /** Number of warnings for the sitemap. These are generally non-critical issues with URLs in the sitemaps. */
-  warnings?: string;
+  warnings?: string | undefined;
 }
 export interface GetSitesRequest {
   /** The URI of the property as defined in Search Console. **Examples:** `http://www.example.com/` or `sc-domain:example.com`. */
@@ -168,22 +168,22 @@ export type WmxSitePermissionLevelEnum =
 /** Contains permission level information about a Search Console site. For more information, see [Permissions in Search Console](https://support.google.com/webmasters/answer/2451999). */
 export interface WmxSite {
   /** The URL of the site. */
-  siteUrl?: string;
+  siteUrl?: string | undefined;
   /** The user's permission level for the site. */
-  permissionLevel?: WmxSitePermissionLevelEnum;
+  permissionLevel?: WmxSitePermissionLevelEnum | undefined;
 }
 /** Index inspection request. */
 export interface InspectUrlIndexRequest {
   /** Required. URL to inspect. Must be under the property specified in "site_url". */
-  inspectionUrl?: string;
+  inspectionUrl?: string | undefined;
   /** Required. The URL of the property as defined in Search Console. **Examples:** `http://www.example.com/` for a URL-prefix property, or `sc-domain:example.com` for a Domain property. */
-  siteUrl?: string;
+  siteUrl?: string | undefined;
   /** Optional. An [IETF BCP-47](https://en.wikipedia.org/wiki/IETF_language_tag) language code representing the requested language for translated issue messages, e.g. "en-US", "or "de-CH". Default value is "en-US". */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export interface InspectUrlInspectionIndexRequest {
   /** Request body */
-  body?: InspectUrlIndexRequest;
+  body?: InspectUrlIndexRequest | undefined;
 }
 export type StringList = Array<string>;
 export type IndexStatusInspectionResultVerdictEnum =
@@ -222,27 +222,27 @@ export type IndexStatusInspectionResultRobotsTxtStateEnum =
 /** Results of index status inspection for either the live page or the version in Google's index, depending on whether you requested a live inspection or not. For more information, see the [Index coverage report documentation](https://support.google.com/webmasters/answer/7440203). */
 export interface IndexStatusInspectionResult {
   /** The URL that your page or site [declares as canonical](https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls?#define-canonical). If you did not declare a canonical URL, this field is absent. */
-  userCanonical?: string;
+  userCanonical?: string | undefined;
   /** The URL of the page that Google selected as canonical. If the page was not indexed, this field is absent. */
-  googleCanonical?: string;
+  googleCanonical?: string | undefined;
   /** URLs that link to the inspected URL, directly and indirectly. */
-  referringUrls?: StringList;
+  referringUrls?: StringList | undefined;
   /** High level verdict about whether the URL *is* indexed (indexed status), or *can be* indexed (live inspection). */
-  verdict?: IndexStatusInspectionResultVerdictEnum;
+  verdict?: IndexStatusInspectionResultVerdictEnum | undefined;
   /** Primary crawler that was used by Google to crawl your site. */
-  crawledAs?: IndexStatusInspectionResultCrawledAsEnum;
+  crawledAs?: IndexStatusInspectionResultCrawledAsEnum | undefined;
   /** Whether or not the page blocks indexing through a noindex rule. */
-  indexingState?: IndexStatusInspectionResultIndexingStateEnum;
+  indexingState?: IndexStatusInspectionResultIndexingStateEnum | undefined;
   /** Last time this URL was crawled by Google using the [primary crawler](https://support.google.com/webmasters/answer/7440203#primary_crawler). Absent if the URL was never crawled successfully. */
-  lastCrawlTime?: string;
+  lastCrawlTime?: string | undefined;
   /** Any sitemaps that this URL was listed in, as known by Google. Not guaranteed to be an exhaustive list, especially if Google did not discover this URL through a sitemap. Absent if no sitemaps were found. */
-  sitemap?: StringList;
+  sitemap?: StringList | undefined;
   /** Whether or not Google could retrieve the page from your server. Equivalent to ["page fetch"](https://support.google.com/webmasters/answer/9012289#index_coverage) in the URL inspection report. */
-  pageFetchState?: IndexStatusInspectionResultPageFetchStateEnum;
+  pageFetchState?: IndexStatusInspectionResultPageFetchStateEnum | undefined;
   /** Could Google find and index the page. More details about page indexing appear in 'indexing_state'. */
-  coverageState?: string;
+  coverageState?: string | undefined;
   /** Whether or not the page is blocked to Google by a robots.txt rule. */
-  robotsTxtState?: IndexStatusInspectionResultRobotsTxtStateEnum;
+  robotsTxtState?: IndexStatusInspectionResultRobotsTxtStateEnum | undefined;
 }
 export type AmpInspectionResultAmpIndexStatusVerdictEnum =
   | "VERDICT_UNSPECIFIED"
@@ -254,9 +254,9 @@ export type AmpIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
 /** AMP issue. */
 export interface AmpIssue {
   /** Brief description of this issue. */
-  issueMessage?: string;
+  issueMessage?: string | undefined;
   /** Severity of this issue: WARNING or ERROR. */
-  severity?: AmpIssueSeverityEnum;
+  severity?: AmpIssueSeverityEnum | undefined;
 }
 export type AmpIssueList = Array<AmpIssue>;
 export type AmpInspectionResultPageFetchStateEnum =
@@ -290,45 +290,45 @@ export type AmpInspectionResultIndexingStateEnum =
 /** AMP inspection result of the live page or the current information from Google's index, depending on whether you requested a live inspection or not. */
 export interface AmpInspectionResult {
   /** URL of the AMP that was inspected. If the submitted URL is a desktop page that refers to an AMP version, the AMP version will be inspected. */
-  ampUrl?: string;
+  ampUrl?: string | undefined;
   /** Index status of the AMP URL. */
-  ampIndexStatusVerdict?: AmpInspectionResultAmpIndexStatusVerdictEnum;
+  ampIndexStatusVerdict?: AmpInspectionResultAmpIndexStatusVerdictEnum | undefined;
   /** A list of zero or more AMP issues found for the inspected URL. */
-  issues?: AmpIssueList;
+  issues?: AmpIssueList | undefined;
   /** Whether or not Google could fetch the AMP. */
-  pageFetchState?: AmpInspectionResultPageFetchStateEnum;
+  pageFetchState?: AmpInspectionResultPageFetchStateEnum | undefined;
   /** Whether or not the page is blocked to Google by a robots.txt rule. */
-  robotsTxtState?: AmpInspectionResultRobotsTxtStateEnum;
+  robotsTxtState?: AmpInspectionResultRobotsTxtStateEnum | undefined;
   /** The status of the most severe error on the page. If a page has both warnings and errors, the page status is error. Error status means the page cannot be shown in Search results. */
-  verdict?: AmpInspectionResultVerdictEnum;
+  verdict?: AmpInspectionResultVerdictEnum | undefined;
   /** Whether or not the page blocks indexing through a noindex rule. */
-  indexingState?: AmpInspectionResultIndexingStateEnum;
+  indexingState?: AmpInspectionResultIndexingStateEnum | undefined;
   /** Last time this AMP version was crawled by Google. Absent if the URL was never crawled successfully. */
-  lastCrawlTime?: string;
+  lastCrawlTime?: string | undefined;
 }
 export type RichResultsIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
 /** Severity and status of a single issue affecting a single rich result instance on a page. */
 export interface RichResultsIssue {
   /** Rich Results issue type. */
-  issueMessage?: string;
+  issueMessage?: string | undefined;
   /** Severity of this issue: WARNING, or ERROR. Items with an issue of status ERROR cannot appear with rich result features in Google Search results. */
-  severity?: RichResultsIssueSeverityEnum;
+  severity?: RichResultsIssueSeverityEnum | undefined;
 }
 export type RichResultsIssueList = Array<RichResultsIssue>;
 /** A specific rich result found on the page. */
 export interface Item {
   /** A list of zero or more rich result issues found for this instance. */
-  issues?: RichResultsIssueList;
+  issues?: RichResultsIssueList | undefined;
   /** The user-provided name of this item. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ItemList = Array<Item>;
 /** Rich Results items grouped by type. */
 export interface DetectedItems {
   /** List of Rich Results items. */
-  items?: ItemList;
+  items?: ItemList | undefined;
   /** Rich Results type */
-  richResultType?: string;
+  richResultType?: string | undefined;
 }
 export type DetectedItemsList = Array<DetectedItems>;
 export type RichResultsInspectionResultVerdictEnum =
@@ -340,9 +340,9 @@ export type RichResultsInspectionResultVerdictEnum =
 /** Rich-Results inspection result, including any rich results found at this URL. */
 export interface RichResultsInspectionResult {
   /** A list of zero or more rich results detected on this page. Rich results that cannot even be parsed due to syntactic issues will not be listed here. */
-  detectedItems?: DetectedItemsList;
+  detectedItems?: DetectedItemsList | undefined;
   /** High-level rich results inspection result for this URL. */
-  verdict?: RichResultsInspectionResultVerdictEnum;
+  verdict?: RichResultsInspectionResultVerdictEnum | undefined;
 }
 export type MobileUsabilityInspectionResultVerdictEnum =
   | "VERDICT_UNSPECIFIED"
@@ -362,56 +362,56 @@ export type MobileUsabilityIssueIssueTypeEnum =
 /** Mobile-usability issue. */
 export interface MobileUsabilityIssue {
   /** Not returned; reserved for future use. */
-  severity?: MobileUsabilityIssueSeverityEnum;
+  severity?: MobileUsabilityIssueSeverityEnum | undefined;
   /** Additional information regarding the issue. */
-  message?: string;
+  message?: string | undefined;
   /** Mobile-usability issue type. */
-  issueType?: MobileUsabilityIssueIssueTypeEnum;
+  issueType?: MobileUsabilityIssueIssueTypeEnum | undefined;
 }
 export type MobileUsabilityIssueList = Array<MobileUsabilityIssue>;
 /** Mobile-usability inspection results. */
 export interface MobileUsabilityInspectionResult {
   /** High-level mobile-usability inspection result for this URL. */
-  verdict?: MobileUsabilityInspectionResultVerdictEnum;
+  verdict?: MobileUsabilityInspectionResultVerdictEnum | undefined;
   /** A list of zero or more mobile-usability issues detected for this URL. */
-  issues?: MobileUsabilityIssueList;
+  issues?: MobileUsabilityIssueList | undefined;
 }
 /** URL inspection result, including all inspection results. */
 export interface UrlInspectionResult {
   /** Link to Search Console URL inspection. */
-  inspectionResultLink?: string;
+  inspectionResultLink?: string | undefined;
   /** Result of the index status analysis. */
-  indexStatusResult?: IndexStatusInspectionResult;
+  indexStatusResult?: IndexStatusInspectionResult | undefined;
   /** Result of the AMP analysis. Absent if the page is not an AMP page. */
-  ampResult?: AmpInspectionResult;
+  ampResult?: AmpInspectionResult | undefined;
   /** Result of the Rich Results analysis. Absent if there are no rich results found. */
-  richResultsResult?: RichResultsInspectionResult;
+  richResultsResult?: RichResultsInspectionResult | undefined;
   /** Result of the Mobile usability analysis. */
-  mobileUsabilityResult?: MobileUsabilityInspectionResult;
+  mobileUsabilityResult?: MobileUsabilityInspectionResult | undefined;
 }
 /** Index-Status inspection response. */
 export interface InspectUrlIndexResponse {
   /** URL inspection results. */
-  inspectionResult?: UrlInspectionResult;
+  inspectionResult?: UrlInspectionResult | undefined;
 }
 export interface ListSitemapsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
   /** A URL of a site's sitemap index. For example: `http://www.example.com/sitemapindex.xml`. */
-  sitemapIndex?: string;
+  sitemapIndex?: string | undefined;
 }
 export type WmxSitemapList = Array<WmxSitemap>;
 /** List of sitemaps. */
 export interface SitemapsListResponse {
   /** Contains detailed information about a specific URL submitted as a [sitemap](https://support.google.com/webmasters/answer/156184). */
-  sitemap?: WmxSitemapList;
+  sitemap?: WmxSitemapList | undefined;
 }
 export interface ListSitesRequest {}
 export type WmxSiteList = Array<WmxSite>;
 /** List of sites with access level information. */
 export interface SitesListResponse {
   /** Contains permission level information about a Search Console site. For more information, see [Permissions in Search Console](https://support.google.com/webmasters/answer/2451999). */
-  siteEntry?: WmxSiteList;
+  siteEntry?: WmxSiteList | undefined;
 }
 export type ApiDimensionFilterGroupGroupTypeEnum = "AND";
 export type ApiDimensionFilterOperatorEnum =
@@ -429,17 +429,17 @@ export type ApiDimensionFilterDimensionEnum =
   | "SEARCH_APPEARANCE";
 /** A filter test to be applied to each row in the data set, where a match can return the row. Filters are string comparisons, and values and dimension names are not case-sensitive. Individual filters are either AND'ed or OR'ed within their parent filter group, according to the group's group type. You do not need to group by a specified dimension to filter against it. */
 export interface ApiDimensionFilter {
-  operator?: ApiDimensionFilterOperatorEnum | (string & {});
-  dimension?: ApiDimensionFilterDimensionEnum | (string & {});
-  expression?: string;
+  operator?: ApiDimensionFilterOperatorEnum | (string & {}) | undefined;
+  dimension?: ApiDimensionFilterDimensionEnum | (string & {}) | undefined;
+  expression?: string | undefined;
 }
 export type ApiDimensionFilterList = Array<ApiDimensionFilter>;
 /** A set of `dimension` value filters to test against each row. Only rows that pass all filter groups will be returned. All results within a filter group are either AND'ed or OR'ed together, depending on the group type selected. All filter groups are AND'ed together. */
 export interface ApiDimensionFilterGroup {
   /** Optional. The logic operator between filters of the same group. */
-  groupType?: ApiDimensionFilterGroupGroupTypeEnum | (string & {});
+  groupType?: ApiDimensionFilterGroupGroupTypeEnum | (string & {}) | undefined;
   /** Optional. A list of single-value filters in this group. */
-  filters?: ApiDimensionFilterList;
+  filters?: ApiDimensionFilterList | undefined;
 }
 export type ApiDimensionFilterGroupList = Array<ApiDimensionFilterGroup>;
 export type SearchAnalyticsQueryRequestSearchTypeEnum =
@@ -479,31 +479,31 @@ export type SearchAnalyticsQueryRequestDataStateEnum =
   | "HOURLY_ALL";
 export interface SearchAnalyticsQueryRequest {
   /** [Required] End date of the requested date range, in YYYY-MM-DD format, in PST (UTC - 8:00). Must be greater than or equal to the start date. This value is included in the range. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** [Optional; Default is 1000] The maximum number of rows to return. Must be a number from 1 to 25,000 (inclusive). */
-  rowLimit?: number;
+  rowLimit?: number | undefined;
   /** [Required] Start date of the requested date range, in YYYY-MM-DD format, in PST time (UTC - 8:00). Must be less than or equal to the end date. This value is included in the range. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** [Optional] Zero or more filters to apply to the dimension grouping values; for example, 'query contains \"buy\"' to see only data where the query string contains the substring \"buy\" (not case-sensitive). You can filter by a dimension without grouping by it. */
-  dimensionFilterGroups?: ApiDimensionFilterGroupList;
+  dimensionFilterGroups?: ApiDimensionFilterGroupList | undefined;
   /** [Optional; Default is \"web\"] The search type to filter for. */
-  searchType?: SearchAnalyticsQueryRequestSearchTypeEnum | (string & {});
+  searchType?: SearchAnalyticsQueryRequestSearchTypeEnum | (string & {}) | undefined;
   /** [Optional; Default is \"auto\"] How data is aggregated. If aggregated by property, all data for the same property is aggregated; if aggregated by page, all data is aggregated by canonical URI. If you filter or group by page, choose AUTO; otherwise you can aggregate either by property or by page, depending on how you want your data calculated; see the help documentation to learn how data is calculated differently by site versus by page. **Note:** If you group or filter by page, you cannot aggregate by property. If you specify any value other than AUTO, the aggregation type in the result will match the requested type, or if you request an invalid type, you will get an error. The API will never change your aggregation type if the requested type is invalid. */
-  aggregationType?: SearchAnalyticsQueryRequestAggregationTypeEnum | (string & {});
+  aggregationType?: SearchAnalyticsQueryRequestAggregationTypeEnum | (string & {}) | undefined;
   /** [Optional] Zero or more dimensions to group results by. Dimensions are the group-by values in the Search Analytics page. Dimensions are combined to create a unique row key for each row. Results are grouped in the order that you supply these dimensions. */
-  dimensions?: SearchAnalyticsQueryRequestDimensionsItemEnumList;
+  dimensions?: SearchAnalyticsQueryRequestDimensionsItemEnumList | undefined;
   /** [Optional; Default is 0] Zero-based index of the first row in the response. Must be a non-negative number. */
-  startRow?: number;
+  startRow?: number | undefined;
   /** Optional. [Optional; Default is \"web\"] Type of report: search type, or either Discover or Gnews. */
-  type?: SearchAnalyticsQueryRequestTypeEnum | (string & {});
+  type?: SearchAnalyticsQueryRequestTypeEnum | (string & {}) | undefined;
   /** The data state to be fetched, can be full or all, the latter including full and partial data. */
-  dataState?: SearchAnalyticsQueryRequestDataStateEnum | (string & {});
+  dataState?: SearchAnalyticsQueryRequestDataStateEnum | (string & {}) | undefined;
 }
 export interface QuerySearchanalyticsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
   /** Request body */
-  body?: SearchAnalyticsQueryRequest;
+  body?: SearchAnalyticsQueryRequest | undefined;
 }
 export type SearchAnalyticsQueryResponseResponseAggregationTypeEnum =
   | "AUTO"
@@ -513,54 +513,54 @@ export type SearchAnalyticsQueryResponseResponseAggregationTypeEnum =
 /** An object that may be returned with your query results, providing context about the state of the data. When you request recent data (using `all` or `hourly_all` for `dataState`), some of the rows returned may represent data that is incomplete, which means that the data is still being collected and processed. This metadata object helps you identify exactly when this starts and ends. All dates and times provided in this object are in the `America/Los_Angeles` time zone. The specific field returned within this object depends on how you've grouped your data in the request. See details in inner fields. */
 export interface Metadata {
   /** The first date for which the data is still being collected and processed, presented in `YYYY-MM-DD` format (ISO-8601 extended local date format). This field is populated only when the request's `dataState` is "`all`", data is grouped by "`DATE`", and the requested date range contains incomplete data points. All values after the `first_incomplete_date` may still change noticeably. */
-  firstIncompleteDate?: string;
+  firstIncompleteDate?: string | undefined;
   /** The first hour for which the data is still being collected and processed, presented in `YYYY-MM-DDThh:mm:ss[+|-]hh:mm` format (ISO-8601 extended offset date-time format). This field is populated only when the request's `dataState` is "`hourly_all`", data is grouped by "`HOUR`" and the requested date range contains incomplete data points. All values after the `first_incomplete_hour` may still change noticeably. */
-  firstIncompleteHour?: string;
+  firstIncompleteHour?: string | undefined;
 }
 export interface ApiDataRow {
-  impressions?: number;
-  ctr?: number;
-  clicks?: number;
-  position?: number;
-  keys?: StringList;
+  impressions?: number | undefined;
+  ctr?: number | undefined;
+  clicks?: number | undefined;
+  position?: number | undefined;
+  keys?: StringList | undefined;
 }
 export type ApiDataRowList = Array<ApiDataRow>;
 /** A list of rows, one per result, grouped by key. Metrics in each row are aggregated for all data grouped by that key either by page or property, as specified by the aggregation type parameter. */
 export interface SearchAnalyticsQueryResponse {
   /** How the results were aggregated. */
-  responseAggregationType?: SearchAnalyticsQueryResponseResponseAggregationTypeEnum;
+  responseAggregationType?: SearchAnalyticsQueryResponseResponseAggregationTypeEnum | undefined;
   /** An object that may be returned with your query results, providing context about the state of the data. See details in Metadata object documentation. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** A list of rows grouped by the key values in the order given in the query. */
-  rows?: ApiDataRowList;
+  rows?: ApiDataRowList | undefined;
 }
 /** Mobile-friendly test request. */
 export interface RunMobileFriendlyTestRequest {
   /** Whether or not screenshot is requested. Default is false. */
-  requestScreenshot?: boolean;
+  requestScreenshot?: boolean | undefined;
   /** URL for inspection. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface RunUrlTestingToolsMobileFriendlyTestRequest {
   /** Request body */
-  body?: RunMobileFriendlyTestRequest;
+  body?: RunMobileFriendlyTestRequest | undefined;
 }
 /** Describe image data. */
 export interface Image {
   /** The mime-type of the image data. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Image data in format determined by the mime type. Currently, the format will always be "image/png", but this might change in the future. */
-  data?: string;
+  data?: string | undefined;
 }
 /** Blocked resource. */
 export interface BlockedResource {
   /** URL of the blocked resource. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Information about a resource with issue. */
 export interface ResourceIssue {
   /** Describes a blocked resource issue. */
-  blockedResource?: BlockedResource;
+  blockedResource?: BlockedResource | undefined;
 }
 export type ResourceIssueList = Array<ResourceIssue>;
 export type MobileFriendlyIssueRuleEnum =
@@ -574,7 +574,7 @@ export type MobileFriendlyIssueRuleEnum =
 /** Mobile-friendly issue. */
 export interface MobileFriendlyIssue {
   /** Rule violated. */
-  rule?: MobileFriendlyIssueRuleEnum;
+  rule?: MobileFriendlyIssueRuleEnum | undefined;
 }
 export type MobileFriendlyIssueList = Array<MobileFriendlyIssue>;
 export type RunMobileFriendlyTestResponseMobileFriendlinessEnum =
@@ -589,22 +589,22 @@ export type TestStatusStatusEnum =
 /** Final state of the test, including error details if necessary. */
 export interface TestStatus {
   /** Status of the test. */
-  status?: TestStatusStatusEnum;
+  status?: TestStatusStatusEnum | undefined;
   /** Error details if applicable. */
-  details?: string;
+  details?: string | undefined;
 }
 /** Mobile-friendly test response, including mobile-friendly issues and resource issues. */
 export interface RunMobileFriendlyTestResponse {
   /** Screenshot of the requested URL. */
-  screenshot?: Image;
+  screenshot?: Image | undefined;
   /** Information about embedded resources issues. */
-  resourceIssues?: ResourceIssueList;
+  resourceIssues?: ResourceIssueList | undefined;
   /** List of mobile-usability issues. */
-  mobileFriendlyIssues?: MobileFriendlyIssueList;
+  mobileFriendlyIssues?: MobileFriendlyIssueList | undefined;
   /** Test verdict, whether the page is mobile friendly or not. */
-  mobileFriendliness?: RunMobileFriendlyTestResponseMobileFriendlinessEnum;
+  mobileFriendliness?: RunMobileFriendlyTestResponseMobileFriendlinessEnum | undefined;
   /** Final state of the test, can be either complete or an error. */
-  testStatus?: TestStatus;
+  testStatus?: TestStatus | undefined;
 }
 export interface SubmitSitemapsRequest {
   /** The URL of the actual sitemap. For example: `http://www.example.com/sitemap.xml`. */

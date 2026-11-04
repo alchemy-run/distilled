@@ -230,8 +230,8 @@ export type RegionName =
   | "sa-east-1"
   | (string & {});
 export interface ResourceLocation {
-  availabilityZone?: string;
-  regionName?: RegionName;
+  availabilityZone?: string | undefined;
+  regionName?: RegionName | undefined;
 }
 export type OperationType =
   | "DeleteKnownHostKeys"
@@ -327,38 +327,38 @@ export type OperationStatus =
   | "Succeeded"
   | (string & {});
 export interface Operation {
-  id?: string;
-  resourceName?: string;
-  resourceType?: ResourceType;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  isTerminal?: boolean;
-  operationDetails?: string;
-  operationType?: OperationType;
-  status?: OperationStatus;
-  statusChangedAt?: Date;
-  errorCode?: string;
-  errorDetails?: string;
+  id?: string | undefined;
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  isTerminal?: boolean | undefined;
+  operationDetails?: string | undefined;
+  operationType?: OperationType | undefined;
+  status?: OperationStatus | undefined;
+  statusChangedAt?: Date | undefined;
+  errorCode?: string | undefined;
+  errorDetails?: string | undefined;
 }
 export type OperationList = Operation[];
 export interface AllocateStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachCertificateToDistributionRequest {
   distributionName: string;
   certificateName: string;
 }
 export interface AttachCertificateToDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface AttachDiskRequest {
   diskName: string;
   instanceName: string;
   diskPath: string;
-  autoMounting?: boolean;
+  autoMounting?: boolean | undefined;
 }
 export interface AttachDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ResourceNameList = string[];
 export interface AttachInstancesToLoadBalancerRequest {
@@ -366,85 +366,85 @@ export interface AttachInstancesToLoadBalancerRequest {
   instanceNames: string[];
 }
 export interface AttachInstancesToLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
 }
 export interface AttachLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface AttachStaticIpRequest {
   staticIpName: string;
   instanceName: string;
 }
 export interface AttachStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type Port = number;
 export type NetworkProtocol = "tcp" | "all" | "udp" | "icmp" | "icmpv6" | (string & {});
 export type StringList = string[];
 export interface PortInfo {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export interface CloseInstancePublicPortsRequest {
   portInfo: PortInfo;
   instanceName: string;
 }
 export interface CloseInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface CopySnapshotRequest {
-  sourceSnapshotName?: string;
-  sourceResourceName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  sourceSnapshotName?: string | undefined;
+  sourceResourceName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
   targetSnapshotName: string;
   sourceRegion: RegionName;
 }
 export interface CopySnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type BucketName = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateBucketRequest {
   bucketName: string;
   bundleId: string;
-  tags?: Tag[];
-  enableObjectVersioning?: boolean;
+  tags?: Tag[] | undefined;
+  enableObjectVersioning?: boolean | undefined;
 }
 export type AccessType = "public" | "private" | (string & {});
 export interface AccessRules {
-  getObject?: AccessType;
-  allowPublicOverrides?: boolean;
+  getObject?: AccessType | undefined;
+  allowPublicOverrides?: boolean | undefined;
 }
 export type PartnerIdList = string[];
 export interface ResourceReceivingAccess {
-  name?: string;
-  resourceType?: string;
+  name?: string | undefined;
+  resourceType?: string | undefined;
 }
 export type AccessReceiverList = ResourceReceivingAccess[];
 export interface BucketState {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type BucketAccessLogPrefix = string;
 export interface BucketAccessLogConfig {
   enabled: boolean;
-  destination?: string;
-  prefix?: string;
+  destination?: string | undefined;
+  prefix?: string | undefined;
 }
 export type BucketCorsRuleId = string;
 export type BucketCorsAllowedMethod = string;
@@ -453,39 +453,39 @@ export type BucketCorsAllowedOrigins = string[];
 export type BucketCorsAllowedHeaders = string[];
 export type BucketCorsExposeHeaders = string[];
 export interface BucketCorsRule {
-  id?: string;
+  id?: string | undefined;
   allowedMethods: string[];
   allowedOrigins: string[];
-  allowedHeaders?: string[];
-  exposeHeaders?: string[];
-  maxAgeSeconds?: number;
+  allowedHeaders?: string[] | undefined;
+  exposeHeaders?: string[] | undefined;
+  maxAgeSeconds?: number | undefined;
 }
 export type BucketCorsRules = BucketCorsRule[];
 export interface BucketCorsConfig {
-  rules?: BucketCorsRule[];
+  rules?: BucketCorsRule[] | undefined;
 }
 export interface Bucket {
-  resourceType?: string;
-  accessRules?: AccessRules;
-  arn?: string;
-  bundleId?: string;
-  createdAt?: Date;
-  url?: string;
-  location?: ResourceLocation;
-  name?: string;
-  supportCode?: string;
-  tags?: Tag[];
-  objectVersioning?: string;
-  ableToUpdateBundle?: boolean;
-  readonlyAccessAccounts?: string[];
-  resourcesReceivingAccess?: ResourceReceivingAccess[];
-  state?: BucketState;
-  accessLogConfig?: BucketAccessLogConfig;
-  cors?: BucketCorsConfig;
+  resourceType?: string | undefined;
+  accessRules?: AccessRules | undefined;
+  arn?: string | undefined;
+  bundleId?: string | undefined;
+  createdAt?: Date | undefined;
+  url?: string | undefined;
+  location?: ResourceLocation | undefined;
+  name?: string | undefined;
+  supportCode?: string | undefined;
+  tags?: Tag[] | undefined;
+  objectVersioning?: string | undefined;
+  ableToUpdateBundle?: boolean | undefined;
+  readonlyAccessAccounts?: string[] | undefined;
+  resourcesReceivingAccess?: ResourceReceivingAccess[] | undefined;
+  state?: BucketState | undefined;
+  accessLogConfig?: BucketAccessLogConfig | undefined;
+  cors?: BucketCorsConfig | undefined;
 }
 export interface CreateBucketResult {
-  bucket?: Bucket;
-  operations?: Operation[];
+  bucket?: Bucket | undefined;
+  operations?: Operation[] | undefined;
 }
 export interface CreateBucketAccessKeyRequest {
   bucketName: string;
@@ -493,20 +493,20 @@ export interface CreateBucketAccessKeyRequest {
 export type IAMAccessKeyId = string | redacted.Redacted<string>;
 export type StatusType = "Active" | "Inactive" | (string & {});
 export interface AccessKeyLastUsed {
-  lastUsedDate?: Date;
-  region?: string;
-  serviceName?: string;
+  lastUsedDate?: Date | undefined;
+  region?: string | undefined;
+  serviceName?: string | undefined;
 }
 export interface AccessKey {
-  accessKeyId?: string | redacted.Redacted<string>;
-  secretAccessKey?: string;
-  status?: StatusType;
-  createdAt?: Date;
-  lastUsed?: AccessKeyLastUsed;
+  accessKeyId?: string | redacted.Redacted<string> | undefined;
+  secretAccessKey?: string | undefined;
+  status?: StatusType | undefined;
+  createdAt?: Date | undefined;
+  lastUsed?: AccessKeyLastUsed | undefined;
 }
 export interface CreateBucketAccessKeyResult {
-  accessKey?: AccessKey;
-  operations?: Operation[];
+  accessKey?: AccessKey | undefined;
+  operations?: Operation[] | undefined;
 }
 export type CertificateName = string;
 export type DomainName = string;
@@ -514,8 +514,8 @@ export type SubjectAlternativeNameList = string[];
 export interface CreateCertificateRequest {
   certificateName: string;
   domainName: string;
-  subjectAlternativeNames?: string[];
-  tags?: Tag[];
+  subjectAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export type CertificateStatus =
   | "PENDING_VALIDATION"
@@ -528,14 +528,14 @@ export type CertificateStatus =
   | (string & {});
 export type SerialNumber = string;
 export interface ResourceRecord {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type DnsRecordCreationStateCode = "SUCCEEDED" | "STARTED" | "FAILED" | (string & {});
 export interface DnsRecordCreationState {
-  code?: DnsRecordCreationStateCode;
-  message?: string;
+  code?: DnsRecordCreationStateCode | undefined;
+  message?: string | undefined;
 }
 export type CertificateDomainValidationStatus =
   | "PENDING_VALIDATION"
@@ -543,10 +543,10 @@ export type CertificateDomainValidationStatus =
   | "SUCCESS"
   | (string & {});
 export interface DomainValidationRecord {
-  domainName?: string;
-  resourceRecord?: ResourceRecord;
-  dnsRecordCreationState?: DnsRecordCreationState;
-  validationStatus?: CertificateDomainValidationStatus;
+  domainName?: string | undefined;
+  resourceRecord?: ResourceRecord | undefined;
+  dnsRecordCreationState?: DnsRecordCreationState | undefined;
+  validationStatus?: CertificateDomainValidationStatus | undefined;
 }
 export type DomainValidationRecordList = DomainValidationRecord[];
 export type RequestFailureReason = string;
@@ -562,52 +562,52 @@ export type RenewalStatus =
   | (string & {});
 export type RenewalStatusReason = string;
 export interface RenewalSummary {
-  domainValidationRecords?: DomainValidationRecord[];
-  renewalStatus?: RenewalStatus;
-  renewalStatusReason?: string;
-  updatedAt?: Date;
+  domainValidationRecords?: DomainValidationRecord[] | undefined;
+  renewalStatus?: RenewalStatus | undefined;
+  renewalStatusReason?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type RevocationReason = string;
 export interface Certificate {
-  arn?: string;
-  name?: string;
-  domainName?: string;
-  status?: CertificateStatus;
-  serialNumber?: string;
-  subjectAlternativeNames?: string[];
-  domainValidationRecords?: DomainValidationRecord[];
-  requestFailureReason?: string;
-  inUseResourceCount?: number;
-  keyAlgorithm?: string;
-  createdAt?: Date;
-  issuedAt?: Date;
-  issuerCA?: string;
-  notBefore?: Date;
-  notAfter?: Date;
-  eligibleToRenew?: string;
-  renewalSummary?: RenewalSummary;
-  revokedAt?: Date;
-  revocationReason?: string;
-  tags?: Tag[];
-  supportCode?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  domainName?: string | undefined;
+  status?: CertificateStatus | undefined;
+  serialNumber?: string | undefined;
+  subjectAlternativeNames?: string[] | undefined;
+  domainValidationRecords?: DomainValidationRecord[] | undefined;
+  requestFailureReason?: string | undefined;
+  inUseResourceCount?: number | undefined;
+  keyAlgorithm?: string | undefined;
+  createdAt?: Date | undefined;
+  issuedAt?: Date | undefined;
+  issuerCA?: string | undefined;
+  notBefore?: Date | undefined;
+  notAfter?: Date | undefined;
+  eligibleToRenew?: string | undefined;
+  renewalSummary?: RenewalSummary | undefined;
+  revokedAt?: Date | undefined;
+  revocationReason?: string | undefined;
+  tags?: Tag[] | undefined;
+  supportCode?: string | undefined;
 }
 export interface CertificateSummary {
-  certificateArn?: string;
-  certificateName?: string;
-  domainName?: string;
-  certificateDetail?: Certificate;
-  tags?: Tag[];
+  certificateArn?: string | undefined;
+  certificateName?: string | undefined;
+  domainName?: string | undefined;
+  certificateDetail?: Certificate | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateCertificateResult {
-  certificate?: CertificateSummary;
-  operations?: Operation[];
+  certificate?: CertificateSummary | undefined;
+  operations?: Operation[] | undefined;
 }
 export type PortInfoSourceType = "DEFAULT" | "INSTANCE" | "NONE" | "CLOSED" | (string & {});
 export interface InstanceEntry {
   sourceName: string;
   instanceType: string;
   portInfoSource: PortInfoSourceType;
-  userData?: string;
+  userData?: string | undefined;
   availabilityZone: string;
 }
 export type InstanceEntryList = InstanceEntry[];
@@ -615,17 +615,17 @@ export interface CreateCloudFormationStackRequest {
   instances: InstanceEntry[];
 }
 export interface CreateCloudFormationStackResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContactProtocol = "Email" | "SMS" | (string & {});
 export type StringMax256 = string;
 export interface CreateContactMethodRequest {
   protocol: ContactProtocol;
   contactEndpoint: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateContactMethodResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContainerServiceName = string;
 export type ContainerServicePowerName =
@@ -644,43 +644,43 @@ export type Environment = { [key: string]: string | undefined };
 export type ContainerServiceProtocol = "HTTP" | "HTTPS" | "TCP" | "UDP" | (string & {});
 export type PortMap = { [key: string]: ContainerServiceProtocol | undefined };
 export interface Container {
-  image?: string;
-  command?: string[];
-  environment?: { [key: string]: string | undefined };
-  ports?: { [key: string]: ContainerServiceProtocol | undefined };
+  image?: string | undefined;
+  command?: string[] | undefined;
+  environment?: { [key: string]: string | undefined } | undefined;
+  ports?: { [key: string]: ContainerServiceProtocol | undefined } | undefined;
 }
 export type ContainerMap = { [key: string]: Container | undefined };
 export interface ContainerServiceHealthCheckConfig {
-  healthyThreshold?: number;
-  unhealthyThreshold?: number;
-  timeoutSeconds?: number;
-  intervalSeconds?: number;
-  path?: string;
-  successCodes?: string;
+  healthyThreshold?: number | undefined;
+  unhealthyThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
+  intervalSeconds?: number | undefined;
+  path?: string | undefined;
+  successCodes?: string | undefined;
 }
 export interface EndpointRequest {
   containerName: string;
   containerPort: number;
-  healthCheck?: ContainerServiceHealthCheckConfig;
+  healthCheck?: ContainerServiceHealthCheckConfig | undefined;
 }
 export interface ContainerServiceDeploymentRequest {
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: EndpointRequest;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: EndpointRequest | undefined;
 }
 export interface ContainerServiceECRImagePullerRoleRequest {
-  isActive?: boolean;
+  isActive?: boolean | undefined;
 }
 export interface PrivateRegistryAccessRequest {
-  ecrImagePullerRole?: ContainerServiceECRImagePullerRoleRequest;
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRoleRequest | undefined;
 }
 export interface CreateContainerServiceRequest {
   serviceName: string;
   power: ContainerServicePowerName;
   scale: number;
-  tags?: Tag[];
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  deployment?: ContainerServiceDeploymentRequest;
-  privateRegistryAccess?: PrivateRegistryAccessRequest;
+  tags?: Tag[] | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  deployment?: ContainerServiceDeploymentRequest | undefined;
+  privateRegistryAccess?: PrivateRegistryAccessRequest | undefined;
 }
 export type ContainerServiceState =
   | "PENDING"
@@ -703,8 +703,8 @@ export type ContainerServiceStateDetailCode =
   | "UNKNOWN_ERROR"
   | (string & {});
 export interface ContainerServiceStateDetail {
-  code?: ContainerServiceStateDetailCode;
-  message?: string;
+  code?: ContainerServiceStateDetailCode | undefined;
+  message?: string | undefined;
 }
 export type ContainerServiceDeploymentState =
   | "ACTIVATING"
@@ -713,131 +713,131 @@ export type ContainerServiceDeploymentState =
   | "FAILED"
   | (string & {});
 export interface ContainerServiceEndpoint {
-  containerName?: string;
-  containerPort?: number;
-  healthCheck?: ContainerServiceHealthCheckConfig;
+  containerName?: string | undefined;
+  containerPort?: number | undefined;
+  healthCheck?: ContainerServiceHealthCheckConfig | undefined;
 }
 export interface ContainerServiceDeployment {
-  version?: number;
-  state?: ContainerServiceDeploymentState;
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: ContainerServiceEndpoint;
-  createdAt?: Date;
+  version?: number | undefined;
+  state?: ContainerServiceDeploymentState | undefined;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: ContainerServiceEndpoint | undefined;
+  createdAt?: Date | undefined;
 }
 export interface ContainerServiceECRImagePullerRole {
-  isActive?: boolean;
-  principalArn?: string;
+  isActive?: boolean | undefined;
+  principalArn?: string | undefined;
 }
 export interface PrivateRegistryAccess {
-  ecrImagePullerRole?: ContainerServiceECRImagePullerRole;
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRole | undefined;
 }
 export interface ContainerService {
-  containerServiceName?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  power?: ContainerServicePowerName;
-  powerId?: string;
-  state?: ContainerServiceState;
-  stateDetail?: ContainerServiceStateDetail;
-  scale?: number;
-  currentDeployment?: ContainerServiceDeployment;
-  nextDeployment?: ContainerServiceDeployment;
-  isDisabled?: boolean;
-  principalArn?: string;
-  privateDomainName?: string;
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  url?: string;
-  privateRegistryAccess?: PrivateRegistryAccess;
+  containerServiceName?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  power?: ContainerServicePowerName | undefined;
+  powerId?: string | undefined;
+  state?: ContainerServiceState | undefined;
+  stateDetail?: ContainerServiceStateDetail | undefined;
+  scale?: number | undefined;
+  currentDeployment?: ContainerServiceDeployment | undefined;
+  nextDeployment?: ContainerServiceDeployment | undefined;
+  isDisabled?: boolean | undefined;
+  principalArn?: string | undefined;
+  privateDomainName?: string | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  url?: string | undefined;
+  privateRegistryAccess?: PrivateRegistryAccess | undefined;
 }
 export interface CreateContainerServiceResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface CreateContainerServiceDeploymentRequest {
   serviceName: string;
-  containers?: { [key: string]: Container | undefined };
-  publicEndpoint?: EndpointRequest;
+  containers?: { [key: string]: Container | undefined } | undefined;
+  publicEndpoint?: EndpointRequest | undefined;
 }
 export interface CreateContainerServiceDeploymentResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface CreateContainerServiceRegistryLoginRequest {}
 export interface ContainerServiceRegistryLogin {
-  username?: string;
-  password?: string;
-  expiresAt?: Date;
-  registry?: string;
+  username?: string | undefined;
+  password?: string | undefined;
+  expiresAt?: Date | undefined;
+  registry?: string | undefined;
 }
 export interface CreateContainerServiceRegistryLoginResult {
-  registryLogin?: ContainerServiceRegistryLogin;
+  registryLogin?: ContainerServiceRegistryLogin | undefined;
 }
 export type AddOnType = "AutoSnapshot" | "StopInstanceOnIdle" | (string & {});
 export type TimeOfDay = string;
 export interface AutoSnapshotAddOnRequest {
-  snapshotTimeOfDay?: string;
+  snapshotTimeOfDay?: string | undefined;
 }
 export interface StopInstanceOnIdleRequest {
-  threshold?: string;
-  duration?: string;
+  threshold?: string | undefined;
+  duration?: string | undefined;
 }
 export interface AddOnRequest {
   addOnType: AddOnType;
-  autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest;
-  stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest;
+  autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest | undefined;
+  stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest | undefined;
 }
 export type AddOnRequestList = AddOnRequest[];
 export interface CreateDiskRequest {
   diskName: string;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
 }
 export interface CreateDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateDiskFromSnapshotRequest {
   diskName: string;
-  diskSnapshotName?: string;
+  diskSnapshotName?: string | undefined;
   availabilityZone: string;
   sizeInGb: number;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  sourceDiskName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  sourceDiskName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
 }
 export interface CreateDiskFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateDiskSnapshotRequest {
-  diskName?: string;
+  diskName?: string | undefined;
   diskSnapshotName: string;
-  instanceName?: string;
-  tags?: Tag[];
+  instanceName?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateDiskSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type OriginProtocolPolicyEnum = "http-only" | "https-only" | (string & {});
 export type OriginIpAddressTypeEnum = "ipv4" | "ipv6" | "dualstack" | (string & {});
 export interface InputOrigin {
-  name?: string;
-  regionName?: RegionName;
-  protocolPolicy?: OriginProtocolPolicyEnum;
-  responseTimeout?: number;
-  ipAddressType?: OriginIpAddressTypeEnum;
+  name?: string | undefined;
+  regionName?: RegionName | undefined;
+  protocolPolicy?: OriginProtocolPolicyEnum | undefined;
+  responseTimeout?: number | undefined;
+  ipAddressType?: OriginIpAddressTypeEnum | undefined;
 }
 export type BehaviorEnum = "dont-cache" | "cache" | (string & {});
 export interface CacheBehavior {
-  behavior?: BehaviorEnum;
+  behavior?: BehaviorEnum | undefined;
 }
 export type ForwardValues = "none" | "allow-list" | "all" | (string & {});
 export interface CookieObject {
-  option?: ForwardValues;
-  cookiesAllowList?: string[];
+  option?: ForwardValues | undefined;
+  cookiesAllowList?: string[] | undefined;
 }
 export type HeaderEnum =
   | "Accept"
@@ -858,26 +858,26 @@ export type HeaderEnum =
   | (string & {});
 export type HeaderForwardList = HeaderEnum[];
 export interface HeaderObject {
-  option?: ForwardValues;
-  headersAllowList?: HeaderEnum[];
+  option?: ForwardValues | undefined;
+  headersAllowList?: HeaderEnum[] | undefined;
 }
 export interface QueryStringObject {
-  option?: boolean;
-  queryStringsAllowList?: string[];
+  option?: boolean | undefined;
+  queryStringsAllowList?: string[] | undefined;
 }
 export interface CacheSettings {
-  defaultTTL?: number;
-  minimumTTL?: number;
-  maximumTTL?: number;
-  allowedHTTPMethods?: string;
-  cachedHTTPMethods?: string;
-  forwardedCookies?: CookieObject;
-  forwardedHeaders?: HeaderObject;
-  forwardedQueryStrings?: QueryStringObject;
+  defaultTTL?: number | undefined;
+  minimumTTL?: number | undefined;
+  maximumTTL?: number | undefined;
+  allowedHTTPMethods?: string | undefined;
+  cachedHTTPMethods?: string | undefined;
+  forwardedCookies?: CookieObject | undefined;
+  forwardedHeaders?: HeaderObject | undefined;
+  forwardedQueryStrings?: QueryStringObject | undefined;
 }
 export interface CacheBehaviorPerPath {
-  path?: string;
-  behavior?: BehaviorEnum;
+  path?: string | undefined;
+  behavior?: BehaviorEnum | undefined;
 }
 export type CacheBehaviorList = CacheBehaviorPerPath[];
 export type IpAddressType = "dualstack" | "ipv4" | "ipv6" | (string & {});
@@ -888,89 +888,89 @@ export type ViewerMinimumTlsProtocolVersionEnum =
   | "TLSv1.2_2021"
   | (string & {});
 export interface DistributionCustomErrorResponse {
-  errorCode?: number;
-  responseCode?: string;
-  responsePagePath?: string;
-  errorCachingMinTTL?: number;
+  errorCode?: number | undefined;
+  responseCode?: string | undefined;
+  responsePagePath?: string | undefined;
+  errorCachingMinTTL?: number | undefined;
 }
 export type DistributionCustomErrorResponseList = DistributionCustomErrorResponse[];
 export interface CreateDistributionRequest {
   distributionName: string;
   origin: InputOrigin;
   defaultCacheBehavior: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
   bundleId: string;
-  ipAddressType?: IpAddressType;
-  tags?: Tag[];
-  certificateName?: string;
-  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
-  enablePrivateOriginAccess?: boolean;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
+  ipAddressType?: IpAddressType | undefined;
+  tags?: Tag[] | undefined;
+  certificateName?: string | undefined;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum | undefined;
+  enablePrivateOriginAccess?: boolean | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
 }
 export interface Origin {
-  name?: string;
-  resourceType?: ResourceType;
-  regionName?: RegionName;
-  protocolPolicy?: OriginProtocolPolicyEnum;
-  responseTimeout?: number;
-  ipAddressType?: OriginIpAddressTypeEnum;
-  isPrivateOriginAccessEnabled?: boolean;
+  name?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  regionName?: RegionName | undefined;
+  protocolPolicy?: OriginProtocolPolicyEnum | undefined;
+  responseTimeout?: number | undefined;
+  ipAddressType?: OriginIpAddressTypeEnum | undefined;
+  isPrivateOriginAccessEnabled?: boolean | undefined;
 }
 export interface LightsailDistribution {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  alternativeDomainNames?: string[];
-  status?: string;
-  isEnabled?: boolean;
-  domainName?: string;
-  bundleId?: string;
-  certificateName?: string;
-  origin?: Origin;
-  originPublicDNS?: string;
-  defaultCacheBehavior?: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
-  ableToUpdateBundle?: boolean;
-  ipAddressType?: IpAddressType;
-  tags?: Tag[];
-  viewerMinimumTlsProtocolVersion?: string;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  alternativeDomainNames?: string[] | undefined;
+  status?: string | undefined;
+  isEnabled?: boolean | undefined;
+  domainName?: string | undefined;
+  bundleId?: string | undefined;
+  certificateName?: string | undefined;
+  origin?: Origin | undefined;
+  originPublicDNS?: string | undefined;
+  defaultCacheBehavior?: CacheBehavior | undefined;
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
+  ableToUpdateBundle?: boolean | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  tags?: Tag[] | undefined;
+  viewerMinimumTlsProtocolVersion?: string | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
 }
 export interface CreateDistributionResult {
-  distribution?: LightsailDistribution;
-  operation?: Operation;
+  distribution?: LightsailDistribution | undefined;
+  operation?: Operation | undefined;
 }
 export interface CreateDomainRequest {
   domainName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateDomainResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export type DomainEntryType = string;
 export type DomainEntryOptionsKeys = string;
 export type DomainEntryOptions = { [key: string]: string | undefined };
 export interface DomainEntry {
-  id?: string;
-  name?: string;
-  target?: string;
-  isAlias?: boolean;
-  type?: string;
-  options?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  target?: string | undefined;
+  isAlias?: boolean | undefined;
+  type?: string | undefined;
+  options?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface CreateDomainEntryResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface CreateGUISessionAccessDetailsRequest {
   resourceName: string;
@@ -989,155 +989,155 @@ export type Status =
   | (string & {});
 export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export interface Session {
-  name?: string;
-  url?: string | redacted.Redacted<string>;
-  isPrimary?: boolean;
+  name?: string | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type Sessions = Session[];
 export interface CreateGUISessionAccessDetailsResult {
-  resourceName?: string;
-  status?: Status;
-  percentageComplete?: number;
-  failureReason?: string;
-  sessions?: Session[];
+  resourceName?: string | undefined;
+  status?: Status | undefined;
+  percentageComplete?: number | undefined;
+  failureReason?: string | undefined;
+  sessions?: Session[] | undefined;
 }
 export interface CreateInstancesRequest {
   instanceNames: string[];
   availabilityZone: string;
-  customImageName?: string;
+  customImageName?: string | undefined;
   blueprintId: string;
   bundleId: string;
-  userData?: string;
-  keyPairName?: string;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  ipAddressType?: IpAddressType;
+  userData?: string | undefined;
+  keyPairName?: string | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
 }
 export interface CreateInstancesResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DiskMap {
-  originalDiskPath?: string;
-  newDiskName?: string;
+  originalDiskPath?: string | undefined;
+  newDiskName?: string | undefined;
 }
 export type DiskMapList = DiskMap[];
 export type AttachedDiskMap = { [key: string]: DiskMap[] | undefined };
 export interface CreateInstancesFromSnapshotRequest {
   instanceNames: string[];
-  attachedDiskMapping?: { [key: string]: DiskMap[] | undefined };
+  attachedDiskMapping?: { [key: string]: DiskMap[] | undefined } | undefined;
   availabilityZone: string;
-  instanceSnapshotName?: string;
+  instanceSnapshotName?: string | undefined;
   bundleId: string;
-  userData?: string;
-  keyPairName?: string;
-  tags?: Tag[];
-  addOns?: AddOnRequest[];
-  ipAddressType?: IpAddressType;
-  sourceInstanceName?: string;
-  restoreDate?: string;
-  useLatestRestorableAutoSnapshot?: boolean;
+  userData?: string | undefined;
+  keyPairName?: string | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOnRequest[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  sourceInstanceName?: string | undefined;
+  restoreDate?: string | undefined;
+  useLatestRestorableAutoSnapshot?: boolean | undefined;
 }
 export interface CreateInstancesFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateInstanceSnapshotRequest {
   instanceSnapshotName: string;
   instanceName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateInstanceSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateKeyPairRequest {
   keyPairName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type Base64 = string;
 export interface KeyPair {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  fingerprint?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  fingerprint?: string | undefined;
 }
 export interface CreateKeyPairResult {
-  keyPair?: KeyPair;
-  publicKeyBase64?: string;
-  privateKeyBase64?: string;
-  operation?: Operation;
+  keyPair?: KeyPair | undefined;
+  publicKeyBase64?: string | undefined;
+  privateKeyBase64?: string | undefined;
+  operation?: Operation | undefined;
 }
 export type DomainNameList = string[];
 export interface CreateLoadBalancerRequest {
   loadBalancerName: string;
   instancePort: number;
-  healthCheckPath?: string;
-  certificateName?: string;
-  certificateDomainName?: string;
-  certificateAlternativeNames?: string[];
-  tags?: Tag[];
-  ipAddressType?: IpAddressType;
-  tlsPolicyName?: string;
+  healthCheckPath?: string | undefined;
+  certificateName?: string | undefined;
+  certificateDomainName?: string | undefined;
+  certificateAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  tlsPolicyName?: string | undefined;
 }
 export interface CreateLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
   certificateDomainName: string;
-  certificateAlternativeNames?: string[];
-  tags?: Tag[];
+  certificateAlternativeNames?: string[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface CreateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   relationalDatabaseBlueprintId: string;
   relationalDatabaseBundleId: string;
   masterDatabaseName: string;
   masterUsername: string;
-  masterUserPassword?: string | redacted.Redacted<string>;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  publiclyAccessible?: boolean;
-  tags?: Tag[];
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateRelationalDatabaseFromSnapshotRequest {
   relationalDatabaseName: string;
-  availabilityZone?: string;
-  publiclyAccessible?: boolean;
-  relationalDatabaseSnapshotName?: string;
-  relationalDatabaseBundleId?: string;
-  sourceRelationalDatabaseName?: string;
-  restoreTime?: Date;
-  useLatestRestorableTime?: boolean;
-  tags?: Tag[];
+  availabilityZone?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  relationalDatabaseSnapshotName?: string | undefined;
+  relationalDatabaseBundleId?: string | undefined;
+  sourceRelationalDatabaseName?: string | undefined;
+  restoreTime?: Date | undefined;
+  useLatestRestorableTime?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseFromSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface CreateRelationalDatabaseSnapshotRequest {
   relationalDatabaseName: string;
   relationalDatabaseSnapshotName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateRelationalDatabaseSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteAlarmRequest {
   alarmName: string;
 }
 export interface DeleteAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type AutoSnapshotDate = string;
 export interface DeleteAutoSnapshotRequest {
@@ -1145,33 +1145,33 @@ export interface DeleteAutoSnapshotRequest {
   date: string;
 }
 export interface DeleteAutoSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteBucketRequest {
   bucketName: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteBucketResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteBucketAccessKeyRequest {
   bucketName: string;
   accessKeyId: string;
 }
 export interface DeleteBucketAccessKeyResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteCertificateRequest {
   certificateName: string;
 }
 export interface DeleteCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteContactMethodRequest {
   protocol: ContactProtocol;
 }
 export interface DeleteContactMethodResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteContainerImageRequest {
   serviceName: string;
@@ -1184,158 +1184,158 @@ export interface DeleteContainerServiceRequest {
 export interface DeleteContainerServiceResult {}
 export interface DeleteDiskRequest {
   diskName: string;
-  forceDeleteAddOns?: boolean;
+  forceDeleteAddOns?: boolean | undefined;
 }
 export interface DeleteDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteDiskSnapshotRequest {
   diskSnapshotName: string;
 }
 export interface DeleteDiskSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteDistributionRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface DeleteDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteDomainRequest {
   domainName: string;
 }
 export interface DeleteDomainResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface DeleteDomainEntryResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteInstanceRequest {
   instanceName: string;
-  forceDeleteAddOns?: boolean;
+  forceDeleteAddOns?: boolean | undefined;
 }
 export interface DeleteInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteInstanceSnapshotRequest {
   instanceSnapshotName: string;
 }
 export interface DeleteInstanceSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteKeyPairRequest {
   keyPairName: string;
-  expectedFingerprint?: string;
+  expectedFingerprint?: string | undefined;
 }
 export interface DeleteKeyPairResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DeleteKnownHostKeysRequest {
   instanceName: string;
 }
 export interface DeleteKnownHostKeysResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteLoadBalancerRequest {
   loadBalancerName: string;
 }
 export interface DeleteLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteLoadBalancerTlsCertificateRequest {
   loadBalancerName: string;
   certificateName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteLoadBalancerTlsCertificateResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  skipFinalSnapshot?: boolean;
-  finalRelationalDatabaseSnapshotName?: string;
+  skipFinalSnapshot?: boolean | undefined;
+  finalRelationalDatabaseSnapshotName?: string | undefined;
 }
 export interface DeleteRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DeleteRelationalDatabaseSnapshotRequest {
   relationalDatabaseSnapshotName: string;
 }
 export interface DeleteRelationalDatabaseSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachCertificateFromDistributionRequest {
   distributionName: string;
 }
 export interface DetachCertificateFromDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface DetachDiskRequest {
   diskName: string;
 }
 export interface DetachDiskResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachInstancesFromLoadBalancerRequest {
   loadBalancerName: string;
   instanceNames: string[];
 }
 export interface DetachInstancesFromLoadBalancerResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DetachStaticIpRequest {
   staticIpName: string;
 }
 export interface DetachStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DisableAddOnRequest {
   addOnType: AddOnType;
   resourceName: string;
 }
 export interface DisableAddOnResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface DownloadDefaultKeyPairRequest {}
 export interface DownloadDefaultKeyPairResult {
-  publicKeyBase64?: string;
-  privateKeyBase64?: string;
-  createdAt?: Date;
+  publicKeyBase64?: string | undefined;
+  privateKeyBase64?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export interface EnableAddOnRequest {
   resourceName: string;
   addOnRequest: AddOnRequest;
 }
 export interface EnableAddOnResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface ExportSnapshotRequest {
   sourceSnapshotName: string;
 }
 export interface ExportSnapshotResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface GetActiveNamesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetActiveNamesResult {
-  activeNames?: string[];
-  nextPageToken?: string;
+  activeNames?: string[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetAlarmsRequest {
-  alarmName?: string;
-  pageToken?: string;
-  monitoredResourceName?: string;
+  alarmName?: string | undefined;
+  pageToken?: string | undefined;
+  monitoredResourceName?: string | undefined;
 }
 export type ResourceArn = string;
 export interface MonitoredResourceInfo {
-  arn?: string;
-  name?: string;
-  resourceType?: ResourceType;
+  arn?: string | undefined;
+  name?: string | undefined;
+  resourceType?: ResourceType | undefined;
 }
 export type ComparisonOperator =
   | "GreaterThanOrEqualToThreshold"
@@ -1414,103 +1414,103 @@ export type MetricUnit =
 export type ContactProtocolsList = ContactProtocol[];
 export type NotificationTriggerList = AlarmState[];
 export interface Alarm {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  supportCode?: string;
-  monitoredResourceInfo?: MonitoredResourceInfo;
-  comparisonOperator?: ComparisonOperator;
-  evaluationPeriods?: number;
-  period?: number;
-  threshold?: number;
-  datapointsToAlarm?: number;
-  treatMissingData?: TreatMissingData;
-  statistic?: MetricStatistic;
-  metricName?: MetricName;
-  state?: AlarmState;
-  unit?: MetricUnit;
-  contactProtocols?: ContactProtocol[];
-  notificationTriggers?: AlarmState[];
-  notificationEnabled?: boolean;
-  tags?: Tag[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  supportCode?: string | undefined;
+  monitoredResourceInfo?: MonitoredResourceInfo | undefined;
+  comparisonOperator?: ComparisonOperator | undefined;
+  evaluationPeriods?: number | undefined;
+  period?: number | undefined;
+  threshold?: number | undefined;
+  datapointsToAlarm?: number | undefined;
+  treatMissingData?: TreatMissingData | undefined;
+  statistic?: MetricStatistic | undefined;
+  metricName?: MetricName | undefined;
+  state?: AlarmState | undefined;
+  unit?: MetricUnit | undefined;
+  contactProtocols?: ContactProtocol[] | undefined;
+  notificationTriggers?: AlarmState[] | undefined;
+  notificationEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export type AlarmsList = Alarm[];
 export interface GetAlarmsResult {
-  alarms?: Alarm[];
-  nextPageToken?: string;
+  alarms?: Alarm[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetAutoSnapshotsRequest {
   resourceName: string;
 }
 export type AutoSnapshotStatus = "Success" | "Failed" | "InProgress" | "NotFound" | (string & {});
 export interface AttachedDisk {
-  path?: string;
-  sizeInGb?: number;
+  path?: string | undefined;
+  sizeInGb?: number | undefined;
 }
 export type AttachedDiskList = AttachedDisk[];
 export interface AutoSnapshotDetails {
-  date?: string;
-  createdAt?: Date;
-  status?: AutoSnapshotStatus;
-  fromAttachedDisks?: AttachedDisk[];
+  date?: string | undefined;
+  createdAt?: Date | undefined;
+  status?: AutoSnapshotStatus | undefined;
+  fromAttachedDisks?: AttachedDisk[] | undefined;
 }
 export type AutoSnapshotDetailsList = AutoSnapshotDetails[];
 export interface GetAutoSnapshotsResult {
-  resourceName?: string;
-  resourceType?: ResourceType;
-  autoSnapshots?: AutoSnapshotDetails[];
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  autoSnapshots?: AutoSnapshotDetails[] | undefined;
 }
 export type AppCategory = "LfR" | (string & {});
 export interface GetBlueprintsRequest {
-  includeInactive?: boolean;
-  pageToken?: string;
-  appCategory?: AppCategory;
+  includeInactive?: boolean | undefined;
+  pageToken?: string | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type BlueprintType = "os" | "app" | (string & {});
 export type InstancePlatform = "LINUX_UNIX" | "WINDOWS" | (string & {});
 export interface Blueprint {
-  blueprintId?: string;
-  name?: string;
-  group?: string;
-  type?: BlueprintType;
-  description?: string;
-  isActive?: boolean;
-  minPower?: number;
-  version?: string;
-  versionCode?: string;
-  productUrl?: string;
-  licenseUrl?: string;
-  platform?: InstancePlatform;
-  appCategory?: AppCategory;
+  blueprintId?: string | undefined;
+  name?: string | undefined;
+  group?: string | undefined;
+  type?: BlueprintType | undefined;
+  description?: string | undefined;
+  isActive?: boolean | undefined;
+  minPower?: number | undefined;
+  version?: string | undefined;
+  versionCode?: string | undefined;
+  productUrl?: string | undefined;
+  licenseUrl?: string | undefined;
+  platform?: InstancePlatform | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type BlueprintList = Blueprint[];
 export interface GetBlueprintsResult {
-  blueprints?: Blueprint[];
-  nextPageToken?: string;
+  blueprints?: Blueprint[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetBucketAccessKeysRequest {
   bucketName: string;
 }
 export type AccessKeyList = AccessKey[];
 export interface GetBucketAccessKeysResult {
-  accessKeys?: AccessKey[];
+  accessKeys?: AccessKey[] | undefined;
 }
 export interface GetBucketBundlesRequest {
-  includeInactive?: boolean;
+  includeInactive?: boolean | undefined;
 }
 export interface BucketBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  storagePerMonthInGb?: number;
-  transferPerMonthInGb?: number;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  storagePerMonthInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  isActive?: boolean | undefined;
 }
 export type BucketBundleList = BucketBundle[];
 export interface GetBucketBundlesResult {
-  bundles?: BucketBundle[];
+  bundles?: BucketBundle[] | undefined;
 }
 export type BucketMetricName = "BucketSizeBytes" | "NumberOfObjects" | (string & {});
 export type MetricStatisticList = MetricStatistic[];
@@ -1524,24 +1524,24 @@ export interface GetBucketMetricDataRequest {
   unit: MetricUnit;
 }
 export interface MetricDatapoint {
-  average?: number;
-  maximum?: number;
-  minimum?: number;
-  sampleCount?: number;
-  sum?: number;
-  timestamp?: Date;
-  unit?: MetricUnit;
+  average?: number | undefined;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
+  sampleCount?: number | undefined;
+  sum?: number | undefined;
+  timestamp?: Date | undefined;
+  unit?: MetricUnit | undefined;
 }
 export type MetricDatapointList = MetricDatapoint[];
 export interface GetBucketMetricDataResult {
-  metricName?: BucketMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: BucketMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetBucketsRequest {
-  bucketName?: string;
-  pageToken?: string;
-  includeConnectedResources?: boolean;
-  includeCors?: boolean;
+  bucketName?: string | undefined;
+  pageToken?: string | undefined;
+  includeConnectedResources?: boolean | undefined;
+  includeCors?: boolean | undefined;
 }
 export type BucketList = Bucket[];
 export type AccountLevelBpaSyncStatus =
@@ -1557,147 +1557,147 @@ export type BPAStatusMessage =
   | "Unknown"
   | (string & {});
 export interface AccountLevelBpaSync {
-  status?: AccountLevelBpaSyncStatus;
-  lastSyncedAt?: Date;
-  message?: BPAStatusMessage;
-  bpaImpactsLightsail?: boolean;
+  status?: AccountLevelBpaSyncStatus | undefined;
+  lastSyncedAt?: Date | undefined;
+  message?: BPAStatusMessage | undefined;
+  bpaImpactsLightsail?: boolean | undefined;
 }
 export interface GetBucketsResult {
-  buckets?: Bucket[];
-  nextPageToken?: string;
-  accountLevelBpaSync?: AccountLevelBpaSync;
+  buckets?: Bucket[] | undefined;
+  nextPageToken?: string | undefined;
+  accountLevelBpaSync?: AccountLevelBpaSync | undefined;
 }
 export interface GetBundlesRequest {
-  includeInactive?: boolean;
-  pageToken?: string;
-  appCategory?: AppCategory;
+  includeInactive?: boolean | undefined;
+  pageToken?: string | undefined;
+  appCategory?: AppCategory | undefined;
 }
 export type InstancePlatformList = InstancePlatform[];
 export type AppCategoryList = AppCategory[];
 export interface Bundle {
-  price?: number;
-  cpuCount?: number;
-  diskSizeInGb?: number;
-  bundleId?: string;
-  instanceType?: string;
-  isActive?: boolean;
-  name?: string;
-  power?: number;
-  ramSizeInGb?: number;
-  transferPerMonthInGb?: number;
-  supportedPlatforms?: InstancePlatform[];
-  supportedAppCategories?: AppCategory[];
-  publicIpv4AddressCount?: number;
+  price?: number | undefined;
+  cpuCount?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  bundleId?: string | undefined;
+  instanceType?: string | undefined;
+  isActive?: boolean | undefined;
+  name?: string | undefined;
+  power?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  supportedPlatforms?: InstancePlatform[] | undefined;
+  supportedAppCategories?: AppCategory[] | undefined;
+  publicIpv4AddressCount?: number | undefined;
 }
 export type BundleList = Bundle[];
 export interface GetBundlesResult {
-  bundles?: Bundle[];
-  nextPageToken?: string;
+  bundles?: Bundle[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export type CertificateStatusList = CertificateStatus[];
 export type IncludeCertificateDetails = boolean;
 export interface GetCertificatesRequest {
-  certificateStatuses?: CertificateStatus[];
-  includeCertificateDetails?: boolean;
-  certificateName?: string;
-  pageToken?: string;
+  certificateStatuses?: CertificateStatus[] | undefined;
+  includeCertificateDetails?: boolean | undefined;
+  certificateName?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type CertificateSummaryList = CertificateSummary[];
 export interface GetCertificatesResult {
-  certificates?: CertificateSummary[];
-  nextPageToken?: string;
+  certificates?: CertificateSummary[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetCloudFormationStackRecordsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RecordState = "Started" | "Succeeded" | "Failed" | (string & {});
 export type CloudFormationStackRecordSourceType = "ExportSnapshotRecord" | (string & {});
 export interface CloudFormationStackRecordSourceInfo {
-  resourceType?: CloudFormationStackRecordSourceType;
-  name?: string;
-  arn?: string;
+  resourceType?: CloudFormationStackRecordSourceType | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export type CloudFormationStackRecordSourceInfoList = CloudFormationStackRecordSourceInfo[];
 export interface DestinationInfo {
-  id?: string;
-  service?: string;
+  id?: string | undefined;
+  service?: string | undefined;
 }
 export interface CloudFormationStackRecord {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  state?: RecordState;
-  sourceInfo?: CloudFormationStackRecordSourceInfo[];
-  destinationInfo?: DestinationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  state?: RecordState | undefined;
+  sourceInfo?: CloudFormationStackRecordSourceInfo[] | undefined;
+  destinationInfo?: DestinationInfo | undefined;
 }
 export type CloudFormationStackRecordList = CloudFormationStackRecord[];
 export interface GetCloudFormationStackRecordsResult {
-  cloudFormationStackRecords?: CloudFormationStackRecord[];
-  nextPageToken?: string;
+  cloudFormationStackRecords?: CloudFormationStackRecord[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetContactMethodsRequest {
-  protocols?: ContactProtocol[];
+  protocols?: ContactProtocol[] | undefined;
 }
 export type ContactMethodStatus = "PendingVerification" | "Valid" | "Invalid" | (string & {});
 export interface ContactMethod {
-  contactEndpoint?: string;
-  status?: ContactMethodStatus;
-  protocol?: ContactProtocol;
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  supportCode?: string;
-  tags?: Tag[];
+  contactEndpoint?: string | undefined;
+  status?: ContactMethodStatus | undefined;
+  protocol?: ContactProtocol | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  supportCode?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ContactMethodsList = ContactMethod[];
 export interface GetContactMethodsResult {
-  contactMethods?: ContactMethod[];
+  contactMethods?: ContactMethod[] | undefined;
 }
 export interface GetContainerAPIMetadataRequest {}
 export type ContainerServiceMetadataEntry = { [key: string]: string | undefined };
 export type ContainerServiceMetadataEntryList = { [key: string]: string | undefined }[];
 export interface GetContainerAPIMetadataResult {
-  metadata?: { [key: string]: string | undefined }[];
+  metadata?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface GetContainerImagesRequest {
   serviceName: string;
 }
 export interface ContainerImage {
-  image?: string;
-  digest?: string;
-  createdAt?: Date;
+  image?: string | undefined;
+  digest?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type ContainerImageList = ContainerImage[];
 export interface GetContainerImagesResult {
-  containerImages?: ContainerImage[];
+  containerImages?: ContainerImage[] | undefined;
 }
 export interface GetContainerLogRequest {
   serviceName: string;
   containerName: string;
-  startTime?: Date;
-  endTime?: Date;
-  filterPattern?: string;
-  pageToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  filterPattern?: string | undefined;
+  pageToken?: string | undefined;
 }
 export interface ContainerServiceLogEvent {
-  createdAt?: Date;
-  message?: string;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type ContainerServiceLogEventList = ContainerServiceLogEvent[];
 export interface GetContainerLogResult {
-  logEvents?: ContainerServiceLogEvent[];
-  nextPageToken?: string;
+  logEvents?: ContainerServiceLogEvent[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetContainerServiceDeploymentsRequest {
   serviceName: string;
 }
 export type ContainerServiceDeploymentList = ContainerServiceDeployment[];
 export interface GetContainerServiceDeploymentsResult {
-  deployments?: ContainerServiceDeployment[];
+  deployments?: ContainerServiceDeployment[] | undefined;
 }
 export type ContainerServiceMetricName = "CPUUtilization" | "MemoryUtilization" | (string & {});
 export interface GetContainerServiceMetricDataRequest {
@@ -1709,28 +1709,28 @@ export interface GetContainerServiceMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetContainerServiceMetricDataResult {
-  metricName?: ContainerServiceMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: ContainerServiceMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetContainerServicePowersRequest {}
 export interface ContainerServicePower {
-  powerId?: string;
-  price?: number;
-  cpuCount?: number;
-  ramSizeInGb?: number;
-  name?: string;
-  isActive?: boolean;
+  powerId?: string | undefined;
+  price?: number | undefined;
+  cpuCount?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
 }
 export type ContainerServicePowerList = ContainerServicePower[];
 export interface GetContainerServicePowersResult {
-  powers?: ContainerServicePower[];
+  powers?: ContainerServicePower[] | undefined;
 }
 export interface GetContainerServicesRequest {
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export type ContainerServiceList = ContainerService[];
 export interface ContainerServicesListResult {
-  containerServices?: ContainerService[];
+  containerServices?: ContainerService[] | undefined;
 }
 export interface GetCostEstimateRequest {
   resourceName: string;
@@ -1740,128 +1740,128 @@ export interface GetCostEstimateRequest {
 export type PricingUnit = "GB" | "Hrs" | "GB-Mo" | "Bundles" | "Queries" | (string & {});
 export type Currency = "USD" | (string & {});
 export interface TimePeriod {
-  start?: Date;
-  end?: Date;
+  start?: Date | undefined;
+  end?: Date | undefined;
 }
 export interface EstimateByTime {
-  usageCost?: number;
-  pricingUnit?: PricingUnit;
-  unit?: number;
-  currency?: Currency;
-  timePeriod?: TimePeriod;
+  usageCost?: number | undefined;
+  pricingUnit?: PricingUnit | undefined;
+  unit?: number | undefined;
+  currency?: Currency | undefined;
+  timePeriod?: TimePeriod | undefined;
 }
 export type EstimatesByTime = EstimateByTime[];
 export interface CostEstimate {
-  usageType?: string;
-  resultsByTime?: EstimateByTime[];
+  usageType?: string | undefined;
+  resultsByTime?: EstimateByTime[] | undefined;
 }
 export type CostEstimates = CostEstimate[];
 export interface ResourceBudgetEstimate {
-  resourceName?: string;
-  resourceType?: ResourceType;
-  costEstimates?: CostEstimate[];
-  startTime?: Date;
-  endTime?: Date;
+  resourceName?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  costEstimates?: CostEstimate[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type ResourcesBudgetEstimate = ResourceBudgetEstimate[];
 export interface GetCostEstimateResult {
-  resourcesBudgetEstimate?: ResourceBudgetEstimate[];
+  resourcesBudgetEstimate?: ResourceBudgetEstimate[] | undefined;
 }
 export interface GetDiskRequest {
   diskName: string;
 }
 export interface AddOn {
-  name?: string;
-  status?: string;
-  snapshotTimeOfDay?: string;
-  nextSnapshotTimeOfDay?: string;
-  threshold?: string;
-  duration?: string;
+  name?: string | undefined;
+  status?: string | undefined;
+  snapshotTimeOfDay?: string | undefined;
+  nextSnapshotTimeOfDay?: string | undefined;
+  threshold?: string | undefined;
+  duration?: string | undefined;
 }
 export type AddOnList = AddOn[];
 export type DiskState = "pending" | "error" | "available" | "in-use" | "unknown" | (string & {});
 export type AutoMountStatus = "Failed" | "Pending" | "Mounted" | "NotMounted" | (string & {});
 export interface Disk {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  addOns?: AddOn[];
-  sizeInGb?: number;
-  isSystemDisk?: boolean;
-  iops?: number;
-  path?: string;
-  state?: DiskState;
-  attachedTo?: string;
-  isAttached?: boolean;
-  attachmentState?: string;
-  gbInUse?: number;
-  autoMountStatus?: AutoMountStatus;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  addOns?: AddOn[] | undefined;
+  sizeInGb?: number | undefined;
+  isSystemDisk?: boolean | undefined;
+  iops?: number | undefined;
+  path?: string | undefined;
+  state?: DiskState | undefined;
+  attachedTo?: string | undefined;
+  isAttached?: boolean | undefined;
+  attachmentState?: string | undefined;
+  gbInUse?: number | undefined;
+  autoMountStatus?: AutoMountStatus | undefined;
 }
 export interface GetDiskResult {
-  disk?: Disk;
+  disk?: Disk | undefined;
 }
 export interface GetDisksRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DiskList = Disk[];
 export interface GetDisksResult {
-  disks?: Disk[];
-  nextPageToken?: string;
+  disks?: Disk[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDiskSnapshotRequest {
   diskSnapshotName: string;
 }
 export type DiskSnapshotState = "pending" | "completed" | "error" | "unknown" | (string & {});
 export interface DiskSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  sizeInGb?: number;
-  state?: DiskSnapshotState;
-  progress?: string;
-  fromDiskName?: string;
-  fromDiskArn?: string;
-  fromInstanceName?: string;
-  fromInstanceArn?: string;
-  isFromAutoSnapshot?: boolean;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  sizeInGb?: number | undefined;
+  state?: DiskSnapshotState | undefined;
+  progress?: string | undefined;
+  fromDiskName?: string | undefined;
+  fromDiskArn?: string | undefined;
+  fromInstanceName?: string | undefined;
+  fromInstanceArn?: string | undefined;
+  isFromAutoSnapshot?: boolean | undefined;
 }
 export interface GetDiskSnapshotResult {
-  diskSnapshot?: DiskSnapshot;
+  diskSnapshot?: DiskSnapshot | undefined;
 }
 export interface GetDiskSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DiskSnapshotList = DiskSnapshot[];
 export interface GetDiskSnapshotsResult {
-  diskSnapshots?: DiskSnapshot[];
-  nextPageToken?: string;
+  diskSnapshots?: DiskSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDistributionBundlesRequest {}
 export interface DistributionBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  transferPerMonthInGb?: number;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  isActive?: boolean | undefined;
 }
 export type DistributionBundleList = DistributionBundle[];
 export interface GetDistributionBundlesResult {
-  bundles?: DistributionBundle[];
+  bundles?: DistributionBundle[] | undefined;
 }
 export interface GetDistributionLatestCacheResetRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface GetDistributionLatestCacheResetResult {
-  status?: string;
-  createTime?: Date;
+  status?: string | undefined;
+  createTime?: Date | undefined;
 }
 export type DistributionMetricName =
   | "Requests"
@@ -1881,17 +1881,17 @@ export interface GetDistributionMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetDistributionMetricDataResult {
-  metricName?: DistributionMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: DistributionMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetDistributionsRequest {
-  distributionName?: string;
-  pageToken?: string;
+  distributionName?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type DistributionList = LightsailDistribution[];
 export interface GetDistributionsResult {
-  distributions?: LightsailDistribution[];
-  nextPageToken?: string;
+  distributions?: LightsailDistribution[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetDomainRequest {
   domainName: string;
@@ -1904,8 +1904,8 @@ export type NameServersUpdateStateCode =
   | "STARTED"
   | (string & {});
 export interface NameServersUpdateState {
-  code?: NameServersUpdateStateCode;
-  message?: string;
+  code?: NameServersUpdateStateCode | undefined;
+  message?: string | undefined;
 }
 export type R53HostedZoneDeletionStateCode =
   | "SUCCEEDED"
@@ -1914,78 +1914,78 @@ export type R53HostedZoneDeletionStateCode =
   | "STARTED"
   | (string & {});
 export interface R53HostedZoneDeletionState {
-  code?: R53HostedZoneDeletionStateCode;
-  message?: string;
+  code?: R53HostedZoneDeletionStateCode | undefined;
+  message?: string | undefined;
 }
 export interface RegisteredDomainDelegationInfo {
-  nameServersUpdateState?: NameServersUpdateState;
-  r53HostedZoneDeletionState?: R53HostedZoneDeletionState;
+  nameServersUpdateState?: NameServersUpdateState | undefined;
+  r53HostedZoneDeletionState?: R53HostedZoneDeletionState | undefined;
 }
 export interface Domain {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  domainEntries?: DomainEntry[];
-  registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  domainEntries?: DomainEntry[] | undefined;
+  registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo | undefined;
 }
 export interface GetDomainResult {
-  domain?: Domain;
+  domain?: Domain | undefined;
 }
 export interface GetDomainsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DomainList = Domain[];
 export interface GetDomainsResult {
-  domains?: Domain[];
-  nextPageToken?: string;
+  domains?: Domain[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetExportSnapshotRecordsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ExportSnapshotRecordSourceType = "InstanceSnapshot" | "DiskSnapshot" | (string & {});
 export interface DiskInfo {
-  name?: string;
-  path?: string;
-  sizeInGb?: number;
-  isSystemDisk?: boolean;
+  name?: string | undefined;
+  path?: string | undefined;
+  sizeInGb?: number | undefined;
+  isSystemDisk?: boolean | undefined;
 }
 export type DiskInfoList = DiskInfo[];
 export interface InstanceSnapshotInfo {
-  fromBundleId?: string;
-  fromBlueprintId?: string;
-  fromDiskInfo?: DiskInfo[];
+  fromBundleId?: string | undefined;
+  fromBlueprintId?: string | undefined;
+  fromDiskInfo?: DiskInfo[] | undefined;
 }
 export interface DiskSnapshotInfo {
-  sizeInGb?: number;
+  sizeInGb?: number | undefined;
 }
 export interface ExportSnapshotRecordSourceInfo {
-  resourceType?: ExportSnapshotRecordSourceType;
-  createdAt?: Date;
-  name?: string;
-  arn?: string;
-  fromResourceName?: string;
-  fromResourceArn?: string;
-  instanceSnapshotInfo?: InstanceSnapshotInfo;
-  diskSnapshotInfo?: DiskSnapshotInfo;
+  resourceType?: ExportSnapshotRecordSourceType | undefined;
+  createdAt?: Date | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  fromResourceName?: string | undefined;
+  fromResourceArn?: string | undefined;
+  instanceSnapshotInfo?: InstanceSnapshotInfo | undefined;
+  diskSnapshotInfo?: DiskSnapshotInfo | undefined;
 }
 export interface ExportSnapshotRecord {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  state?: RecordState;
-  sourceInfo?: ExportSnapshotRecordSourceInfo;
-  destinationInfo?: DestinationInfo;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  state?: RecordState | undefined;
+  sourceInfo?: ExportSnapshotRecordSourceInfo | undefined;
+  destinationInfo?: DestinationInfo | undefined;
 }
 export type ExportSnapshotRecordList = ExportSnapshotRecord[];
 export interface GetExportSnapshotRecordsResult {
-  exportSnapshotRecords?: ExportSnapshotRecord[];
-  nextPageToken?: string;
+  exportSnapshotRecords?: ExportSnapshotRecord[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceRequest {
   instanceName: string;
@@ -1994,108 +1994,108 @@ export type IpAddress = string;
 export type Ipv6Address = string;
 export type Ipv6AddressList = string[];
 export interface InstanceHardware {
-  cpuCount?: number;
-  disks?: Disk[];
-  ramSizeInGb?: number;
+  cpuCount?: number | undefined;
+  disks?: Disk[] | undefined;
+  ramSizeInGb?: number | undefined;
 }
 export interface MonthlyTransfer {
-  gbPerMonthAllocated?: number;
+  gbPerMonthAllocated?: number | undefined;
 }
 export type PortAccessType = "Public" | "Private" | (string & {});
 export type AccessDirection = "inbound" | "outbound" | (string & {});
 export interface InstancePortInfo {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  accessFrom?: string;
-  accessType?: PortAccessType;
-  commonName?: string;
-  accessDirection?: AccessDirection;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  accessFrom?: string | undefined;
+  accessType?: PortAccessType | undefined;
+  commonName?: string | undefined;
+  accessDirection?: AccessDirection | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export type InstancePortInfoList = InstancePortInfo[];
 export interface InstanceNetworking {
-  monthlyTransfer?: MonthlyTransfer;
-  ports?: InstancePortInfo[];
+  monthlyTransfer?: MonthlyTransfer | undefined;
+  ports?: InstancePortInfo[] | undefined;
 }
 export interface InstanceState {
-  code?: number;
-  name?: string;
+  code?: number | undefined;
+  name?: string | undefined;
 }
 export type InstanceMetadataState = "pending" | "applied" | (string & {});
 export type HttpTokens = "optional" | "required" | (string & {});
 export type HttpEndpoint = "disabled" | "enabled" | (string & {});
 export type HttpProtocolIpv6 = "disabled" | "enabled" | (string & {});
 export interface InstanceMetadataOptions {
-  state?: InstanceMetadataState;
-  httpTokens?: HttpTokens;
-  httpEndpoint?: HttpEndpoint;
-  httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: HttpProtocolIpv6;
+  state?: InstanceMetadataState | undefined;
+  httpTokens?: HttpTokens | undefined;
+  httpEndpoint?: HttpEndpoint | undefined;
+  httpPutResponseHopLimit?: number | undefined;
+  httpProtocolIpv6?: HttpProtocolIpv6 | undefined;
 }
 export interface Instance {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  blueprintId?: string;
-  blueprintName?: string;
-  bundleId?: string;
-  addOns?: AddOn[];
-  isStaticIp?: boolean;
-  privateIpAddress?: string;
-  publicIpAddress?: string;
-  ipv6Addresses?: string[];
-  ipAddressType?: IpAddressType;
-  hardware?: InstanceHardware;
-  networking?: InstanceNetworking;
-  state?: InstanceState;
-  username?: string;
-  sshKeyName?: string;
-  metadataOptions?: InstanceMetadataOptions;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  blueprintId?: string | undefined;
+  blueprintName?: string | undefined;
+  bundleId?: string | undefined;
+  addOns?: AddOn[] | undefined;
+  isStaticIp?: boolean | undefined;
+  privateIpAddress?: string | undefined;
+  publicIpAddress?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  hardware?: InstanceHardware | undefined;
+  networking?: InstanceNetworking | undefined;
+  state?: InstanceState | undefined;
+  username?: string | undefined;
+  sshKeyName?: string | undefined;
+  metadataOptions?: InstanceMetadataOptions | undefined;
 }
 export interface GetInstanceResult {
-  instance?: Instance;
+  instance?: Instance | undefined;
 }
 export type InstanceAccessProtocol = "ssh" | "rdp" | (string & {});
 export interface GetInstanceAccessDetailsRequest {
   instanceName: string;
-  protocol?: InstanceAccessProtocol;
+  protocol?: InstanceAccessProtocol | undefined;
 }
 export interface PasswordData {
-  ciphertext?: string;
-  keyPairName?: string;
+  ciphertext?: string | undefined;
+  keyPairName?: string | undefined;
 }
 export interface HostKeyAttributes {
-  algorithm?: string;
-  publicKey?: string;
-  witnessedAt?: Date;
-  fingerprintSHA1?: string;
-  fingerprintSHA256?: string;
-  notValidBefore?: Date;
-  notValidAfter?: Date;
+  algorithm?: string | undefined;
+  publicKey?: string | undefined;
+  witnessedAt?: Date | undefined;
+  fingerprintSHA1?: string | undefined;
+  fingerprintSHA256?: string | undefined;
+  notValidBefore?: Date | undefined;
+  notValidAfter?: Date | undefined;
 }
 export type HostKeysList = HostKeyAttributes[];
 export interface InstanceAccessDetails {
-  certKey?: string;
-  expiresAt?: Date;
-  ipAddress?: string;
-  ipv6Addresses?: string[];
-  password?: string;
-  passwordData?: PasswordData;
-  privateKey?: string;
-  protocol?: InstanceAccessProtocol;
-  instanceName?: string;
-  username?: string;
-  hostKeys?: HostKeyAttributes[];
+  certKey?: string | undefined;
+  expiresAt?: Date | undefined;
+  ipAddress?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  password?: string | undefined;
+  passwordData?: PasswordData | undefined;
+  privateKey?: string | undefined;
+  protocol?: InstanceAccessProtocol | undefined;
+  instanceName?: string | undefined;
+  username?: string | undefined;
+  hostKeys?: HostKeyAttributes[] | undefined;
 }
 export interface GetInstanceAccessDetailsResult {
-  accessDetails?: InstanceAccessDetails;
+  accessDetails?: InstanceAccessDetails | undefined;
 }
 export type InstanceMetricName =
   | "CPUUtilization"
@@ -2118,87 +2118,87 @@ export interface GetInstanceMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetInstanceMetricDataResult {
-  metricName?: InstanceMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: InstanceMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetInstancePortStatesRequest {
   instanceName: string;
 }
 export type PortState = "open" | "closed" | (string & {});
 export interface InstancePortState {
-  fromPort?: number;
-  toPort?: number;
-  protocol?: NetworkProtocol;
-  state?: PortState;
-  cidrs?: string[];
-  ipv6Cidrs?: string[];
-  cidrListAliases?: string[];
+  fromPort?: number | undefined;
+  toPort?: number | undefined;
+  protocol?: NetworkProtocol | undefined;
+  state?: PortState | undefined;
+  cidrs?: string[] | undefined;
+  ipv6Cidrs?: string[] | undefined;
+  cidrListAliases?: string[] | undefined;
 }
 export type InstancePortStateList = InstancePortState[];
 export interface GetInstancePortStatesResult {
-  portStates?: InstancePortState[];
+  portStates?: InstancePortState[] | undefined;
 }
 export interface GetInstancesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type InstanceList = Instance[];
 export interface GetInstancesResult {
-  instances?: Instance[];
-  nextPageToken?: string;
+  instances?: Instance[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceSnapshotRequest {
   instanceSnapshotName: string;
 }
 export type InstanceSnapshotState = "pending" | "error" | "available" | (string & {});
 export interface InstanceSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  state?: InstanceSnapshotState;
-  progress?: string;
-  fromAttachedDisks?: Disk[];
-  fromInstanceName?: string;
-  fromInstanceArn?: string;
-  fromBlueprintId?: string;
-  fromBundleId?: string;
-  isFromAutoSnapshot?: boolean;
-  sizeInGb?: number;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  state?: InstanceSnapshotState | undefined;
+  progress?: string | undefined;
+  fromAttachedDisks?: Disk[] | undefined;
+  fromInstanceName?: string | undefined;
+  fromInstanceArn?: string | undefined;
+  fromBlueprintId?: string | undefined;
+  fromBundleId?: string | undefined;
+  isFromAutoSnapshot?: boolean | undefined;
+  sizeInGb?: number | undefined;
 }
 export interface GetInstanceSnapshotResult {
-  instanceSnapshot?: InstanceSnapshot;
+  instanceSnapshot?: InstanceSnapshot | undefined;
 }
 export interface GetInstanceSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type InstanceSnapshotList = InstanceSnapshot[];
 export interface GetInstanceSnapshotsResult {
-  instanceSnapshots?: InstanceSnapshot[];
-  nextPageToken?: string;
+  instanceSnapshots?: InstanceSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetInstanceStateRequest {
   instanceName: string;
 }
 export interface GetInstanceStateResult {
-  state?: InstanceState;
+  state?: InstanceState | undefined;
 }
 export interface GetKeyPairRequest {
   keyPairName: string;
 }
 export interface GetKeyPairResult {
-  keyPair?: KeyPair;
+  keyPair?: KeyPair | undefined;
 }
 export interface GetKeyPairsRequest {
-  pageToken?: string;
-  includeDefaultKeyPair?: boolean;
+  pageToken?: string | undefined;
+  includeDefaultKeyPair?: boolean | undefined;
 }
 export type KeyPairList = KeyPair[];
 export interface GetKeyPairsResult {
-  keyPairs?: KeyPair[];
-  nextPageToken?: string;
+  keyPairs?: KeyPair[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetLoadBalancerRequest {
   loadBalancerName: string;
@@ -2234,14 +2234,14 @@ export type InstanceHealthReason =
   | "Instance.IpUnusable"
   | (string & {});
 export interface InstanceHealthSummary {
-  instanceName?: string;
-  instanceHealth?: InstanceHealthState;
-  instanceHealthReason?: InstanceHealthReason;
+  instanceName?: string | undefined;
+  instanceHealth?: InstanceHealthState | undefined;
+  instanceHealthReason?: InstanceHealthReason | undefined;
 }
 export type InstanceHealthSummaryList = InstanceHealthSummary[];
 export interface LoadBalancerTlsCertificateSummary {
-  name?: string;
-  isAttached?: boolean;
+  name?: string | undefined;
+  isAttached?: boolean | undefined;
 }
 export type LoadBalancerTlsCertificateSummaryList = LoadBalancerTlsCertificateSummary[];
 export type LoadBalancerAttributeName =
@@ -2251,30 +2251,32 @@ export type LoadBalancerAttributeName =
   | "HttpsRedirectionEnabled"
   | "TlsPolicyName"
   | (string & {});
-export type LoadBalancerConfigurationOptions = { [key in LoadBalancerAttributeName]?: string };
+export type LoadBalancerConfigurationOptions = {
+  [key in LoadBalancerAttributeName]?: string | undefined;
+};
 export interface LoadBalancer {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  dnsName?: string;
-  state?: LoadBalancerState;
-  protocol?: LoadBalancerProtocol;
-  publicPorts?: number[];
-  healthCheckPath?: string;
-  instancePort?: number;
-  instanceHealthSummary?: InstanceHealthSummary[];
-  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[];
-  configurationOptions?: { [key: string]: string | undefined };
-  ipAddressType?: IpAddressType;
-  httpsRedirectionEnabled?: boolean;
-  tlsPolicyName?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  dnsName?: string | undefined;
+  state?: LoadBalancerState | undefined;
+  protocol?: LoadBalancerProtocol | undefined;
+  publicPorts?: number[] | undefined;
+  healthCheckPath?: string | undefined;
+  instancePort?: number | undefined;
+  instanceHealthSummary?: InstanceHealthSummary[] | undefined;
+  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[] | undefined;
+  configurationOptions?: { [key: string]: string | undefined } | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  httpsRedirectionEnabled?: boolean | undefined;
+  tlsPolicyName?: string | undefined;
 }
 export interface GetLoadBalancerResult {
-  loadBalancer?: LoadBalancer;
+  loadBalancer?: LoadBalancer | undefined;
 }
 export type LoadBalancerMetricName =
   | "ClientTLSNegotiationErrorCount"
@@ -2300,16 +2302,16 @@ export interface GetLoadBalancerMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetLoadBalancerMetricDataResult {
-  metricName?: LoadBalancerMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: LoadBalancerMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetLoadBalancersRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LoadBalancerList = LoadBalancer[];
 export interface GetLoadBalancersResult {
-  loadBalancers?: LoadBalancer[];
-  nextPageToken?: string;
+  loadBalancers?: LoadBalancer[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetLoadBalancerTlsCertificatesRequest {
   loadBalancerName: string;
@@ -2335,16 +2337,16 @@ export type LoadBalancerTlsCertificateDnsRecordCreationStateCode =
   | "FAILED"
   | (string & {});
 export interface LoadBalancerTlsCertificateDnsRecordCreationState {
-  code?: LoadBalancerTlsCertificateDnsRecordCreationStateCode;
-  message?: string;
+  code?: LoadBalancerTlsCertificateDnsRecordCreationStateCode | undefined;
+  message?: string | undefined;
 }
 export interface LoadBalancerTlsCertificateDomainValidationRecord {
-  name?: string;
-  type?: string;
-  value?: string;
-  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
-  domainName?: string;
-  dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus | undefined;
+  domainName?: string | undefined;
+  dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState | undefined;
 }
 export type LoadBalancerTlsCertificateDomainValidationRecordList =
   LoadBalancerTlsCertificateDomainValidationRecord[];
@@ -2362,14 +2364,14 @@ export type LoadBalancerTlsCertificateRenewalStatus =
   | "FAILED"
   | (string & {});
 export interface LoadBalancerTlsCertificateDomainValidationOption {
-  domainName?: string;
-  validationStatus?: LoadBalancerTlsCertificateDomainStatus;
+  domainName?: string | undefined;
+  validationStatus?: LoadBalancerTlsCertificateDomainStatus | undefined;
 }
 export type LoadBalancerTlsCertificateDomainValidationOptionList =
   LoadBalancerTlsCertificateDomainValidationOption[];
 export interface LoadBalancerTlsCertificateRenewalSummary {
-  renewalStatus?: LoadBalancerTlsCertificateRenewalStatus;
-  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOption[];
+  renewalStatus?: LoadBalancerTlsCertificateRenewalStatus | undefined;
+  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOption[] | undefined;
 }
 export type LoadBalancerTlsCertificateRevocationReason =
   | "UNSPECIFIED"
@@ -2384,72 +2386,72 @@ export type LoadBalancerTlsCertificateRevocationReason =
   | "A_A_COMPROMISE"
   | (string & {});
 export interface LoadBalancerTlsCertificate {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  loadBalancerName?: string;
-  isAttached?: boolean;
-  status?: LoadBalancerTlsCertificateStatus;
-  domainName?: string;
-  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecord[];
-  failureReason?: LoadBalancerTlsCertificateFailureReason;
-  issuedAt?: Date;
-  issuer?: string;
-  keyAlgorithm?: string;
-  notAfter?: Date;
-  notBefore?: Date;
-  renewalSummary?: LoadBalancerTlsCertificateRenewalSummary;
-  revocationReason?: LoadBalancerTlsCertificateRevocationReason;
-  revokedAt?: Date;
-  serial?: string;
-  signatureAlgorithm?: string;
-  subject?: string;
-  subjectAlternativeNames?: string[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  loadBalancerName?: string | undefined;
+  isAttached?: boolean | undefined;
+  status?: LoadBalancerTlsCertificateStatus | undefined;
+  domainName?: string | undefined;
+  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecord[] | undefined;
+  failureReason?: LoadBalancerTlsCertificateFailureReason | undefined;
+  issuedAt?: Date | undefined;
+  issuer?: string | undefined;
+  keyAlgorithm?: string | undefined;
+  notAfter?: Date | undefined;
+  notBefore?: Date | undefined;
+  renewalSummary?: LoadBalancerTlsCertificateRenewalSummary | undefined;
+  revocationReason?: LoadBalancerTlsCertificateRevocationReason | undefined;
+  revokedAt?: Date | undefined;
+  serial?: string | undefined;
+  signatureAlgorithm?: string | undefined;
+  subject?: string | undefined;
+  subjectAlternativeNames?: string[] | undefined;
 }
 export type LoadBalancerTlsCertificateList = LoadBalancerTlsCertificate[];
 export interface GetLoadBalancerTlsCertificatesResult {
-  tlsCertificates?: LoadBalancerTlsCertificate[];
+  tlsCertificates?: LoadBalancerTlsCertificate[] | undefined;
 }
 export interface GetLoadBalancerTlsPoliciesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface LoadBalancerTlsPolicy {
-  name?: string;
-  isDefault?: boolean;
-  description?: string;
-  protocols?: string[];
-  ciphers?: string[];
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
+  description?: string | undefined;
+  protocols?: string[] | undefined;
+  ciphers?: string[] | undefined;
 }
 export type LoadBalancerTlsPolicyList = LoadBalancerTlsPolicy[];
 export interface GetLoadBalancerTlsPoliciesResult {
-  tlsPolicies?: LoadBalancerTlsPolicy[];
-  nextPageToken?: string;
+  tlsPolicies?: LoadBalancerTlsPolicy[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetOperationRequest {
   operationId: string;
 }
 export interface GetOperationResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface GetOperationsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetOperationsResult {
-  operations?: Operation[];
-  nextPageToken?: string;
+  operations?: Operation[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetOperationsForResourceRequest {
   resourceName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetOperationsForResourceResult {
-  operations?: Operation[];
-  nextPageCount?: string;
-  nextPageToken?: string;
+  operations?: Operation[] | undefined;
+  nextPageCount?: string | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetProfileRequest {}
 export type ProfileType = "Lightsailor" | "LightsailPartner" | (string & {});
@@ -2457,174 +2459,174 @@ export type TierName = "Essential" | "Growth" | "Accelerate" | "Premier" | (stri
 export type PartnerStatus = "Active" | "Suspended" | (string & {});
 export interface PartnerInfo {
   enrolledAt: Date;
-  tierName?: TierName;
+  tierName?: TierName | undefined;
   status: PartnerStatus;
 }
 export interface GetProfileResult {
   profileType: ProfileType;
-  partner?: PartnerInfo;
+  partner?: PartnerInfo | undefined;
 }
 export interface GetRegionsRequest {
-  includeAvailabilityZones?: boolean;
-  includeRelationalDatabaseAvailabilityZones?: boolean;
+  includeAvailabilityZones?: boolean | undefined;
+  includeRelationalDatabaseAvailabilityZones?: boolean | undefined;
 }
 export interface AvailabilityZone {
-  zoneName?: string;
-  state?: string;
+  zoneName?: string | undefined;
+  state?: string | undefined;
 }
 export type AvailabilityZoneList = AvailabilityZone[];
 export interface Region {
-  continentCode?: string;
-  description?: string;
-  displayName?: string;
-  name?: RegionName;
-  availabilityZones?: AvailabilityZone[];
-  relationalDatabaseAvailabilityZones?: AvailabilityZone[];
+  continentCode?: string | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  name?: RegionName | undefined;
+  availabilityZones?: AvailabilityZone[] | undefined;
+  relationalDatabaseAvailabilityZones?: AvailabilityZone[] | undefined;
 }
 const Region = /*@__PURE__*/ __L.at(__c176, 2) as any as S.Schema<Region>;
 export type RegionList = Region[];
 export interface GetRegionsResult {
-  regions?: Region[];
+  regions?: Region[] | undefined;
 }
 export interface GetRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface RelationalDatabaseHardware {
-  cpuCount?: number;
-  diskSizeInGb?: number;
-  ramSizeInGb?: number;
+  cpuCount?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  ramSizeInGb?: number | undefined;
 }
 export interface PendingModifiedRelationalDatabaseValues {
-  masterUserPassword?: string;
-  engineVersion?: string;
-  backupRetentionEnabled?: boolean;
+  masterUserPassword?: string | undefined;
+  engineVersion?: string | undefined;
+  backupRetentionEnabled?: boolean | undefined;
 }
 export interface RelationalDatabaseEndpoint {
-  port?: number;
-  address?: string;
+  port?: number | undefined;
+  address?: string | undefined;
 }
 export interface PendingMaintenanceAction {
-  action?: string;
-  description?: string;
-  currentApplyDate?: Date;
+  action?: string | undefined;
+  description?: string | undefined;
+  currentApplyDate?: Date | undefined;
 }
 export type PendingMaintenanceActionList = PendingMaintenanceAction[];
 export interface RelationalDatabase {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  relationalDatabaseBlueprintId?: string;
-  relationalDatabaseBundleId?: string;
-  masterDatabaseName?: string;
-  hardware?: RelationalDatabaseHardware;
-  state?: string;
-  secondaryAvailabilityZone?: string;
-  backupRetentionEnabled?: boolean;
-  pendingModifiedValues?: PendingModifiedRelationalDatabaseValues;
-  engine?: string;
-  engineVersion?: string;
-  latestRestorableTime?: Date;
-  masterUsername?: string;
-  parameterApplyStatus?: string;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  publiclyAccessible?: boolean;
-  masterEndpoint?: RelationalDatabaseEndpoint;
-  pendingMaintenanceActions?: PendingMaintenanceAction[];
-  caCertificateIdentifier?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  relationalDatabaseBlueprintId?: string | undefined;
+  relationalDatabaseBundleId?: string | undefined;
+  masterDatabaseName?: string | undefined;
+  hardware?: RelationalDatabaseHardware | undefined;
+  state?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  backupRetentionEnabled?: boolean | undefined;
+  pendingModifiedValues?: PendingModifiedRelationalDatabaseValues | undefined;
+  engine?: string | undefined;
+  engineVersion?: string | undefined;
+  latestRestorableTime?: Date | undefined;
+  masterUsername?: string | undefined;
+  parameterApplyStatus?: string | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  publiclyAccessible?: boolean | undefined;
+  masterEndpoint?: RelationalDatabaseEndpoint | undefined;
+  pendingMaintenanceActions?: PendingMaintenanceAction[] | undefined;
+  caCertificateIdentifier?: string | undefined;
 }
 export interface GetRelationalDatabaseResult {
-  relationalDatabase?: RelationalDatabase;
+  relationalDatabase?: RelationalDatabase | undefined;
 }
 export interface GetRelationalDatabaseBlueprintsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseEngine = "mysql" | (string & {});
 export interface RelationalDatabaseBlueprint {
-  blueprintId?: string;
-  engine?: RelationalDatabaseEngine;
-  engineVersion?: string;
-  engineDescription?: string;
-  engineVersionDescription?: string;
-  isEngineDefault?: boolean;
+  blueprintId?: string | undefined;
+  engine?: RelationalDatabaseEngine | undefined;
+  engineVersion?: string | undefined;
+  engineDescription?: string | undefined;
+  engineVersionDescription?: string | undefined;
+  isEngineDefault?: boolean | undefined;
 }
 export type RelationalDatabaseBlueprintList = RelationalDatabaseBlueprint[];
 export interface GetRelationalDatabaseBlueprintsResult {
-  blueprints?: RelationalDatabaseBlueprint[];
-  nextPageToken?: string;
+  blueprints?: RelationalDatabaseBlueprint[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseBundlesRequest {
-  pageToken?: string;
-  includeInactive?: boolean;
+  pageToken?: string | undefined;
+  includeInactive?: boolean | undefined;
 }
 export interface RelationalDatabaseBundle {
-  bundleId?: string;
-  name?: string;
-  price?: number;
-  ramSizeInGb?: number;
-  diskSizeInGb?: number;
-  transferPerMonthInGb?: number;
-  cpuCount?: number;
-  isEncrypted?: boolean;
-  isActive?: boolean;
+  bundleId?: string | undefined;
+  name?: string | undefined;
+  price?: number | undefined;
+  ramSizeInGb?: number | undefined;
+  diskSizeInGb?: number | undefined;
+  transferPerMonthInGb?: number | undefined;
+  cpuCount?: number | undefined;
+  isEncrypted?: boolean | undefined;
+  isActive?: boolean | undefined;
 }
 export type RelationalDatabaseBundleList = RelationalDatabaseBundle[];
 export interface GetRelationalDatabaseBundlesResult {
-  bundles?: RelationalDatabaseBundle[];
-  nextPageToken?: string;
+  bundles?: RelationalDatabaseBundle[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseEventsRequest {
   relationalDatabaseName: string;
-  durationInMinutes?: number;
-  pageToken?: string;
+  durationInMinutes?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface RelationalDatabaseEvent {
-  resource?: string;
-  createdAt?: Date;
-  message?: string;
-  eventCategories?: string[];
+  resource?: string | undefined;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
+  eventCategories?: string[] | undefined;
 }
 export type RelationalDatabaseEventList = RelationalDatabaseEvent[];
 export interface GetRelationalDatabaseEventsResult {
-  relationalDatabaseEvents?: RelationalDatabaseEvent[];
-  nextPageToken?: string;
+  relationalDatabaseEvents?: RelationalDatabaseEvent[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseLogEventsRequest {
   relationalDatabaseName: string;
   logStreamName: string;
-  startTime?: Date;
-  endTime?: Date;
-  startFromHead?: boolean;
-  pageToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  startFromHead?: boolean | undefined;
+  pageToken?: string | undefined;
 }
 export interface LogEvent {
-  createdAt?: Date;
-  message?: string;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type LogEventList = LogEvent[];
 export interface GetRelationalDatabaseLogEventsResult {
-  resourceLogEvents?: LogEvent[];
-  nextBackwardToken?: string;
-  nextForwardToken?: string;
+  resourceLogEvents?: LogEvent[] | undefined;
+  nextBackwardToken?: string | undefined;
+  nextForwardToken?: string | undefined;
 }
 export interface GetRelationalDatabaseLogStreamsRequest {
   relationalDatabaseName: string;
 }
 export interface GetRelationalDatabaseLogStreamsResult {
-  logStreams?: string[];
+  logStreams?: string[] | undefined;
 }
 export type RelationalDatabasePasswordVersion = "CURRENT" | "PREVIOUS" | "PENDING" | (string & {});
 export interface GetRelationalDatabaseMasterUserPasswordRequest {
   relationalDatabaseName: string;
-  passwordVersion?: RelationalDatabasePasswordVersion;
+  passwordVersion?: RelationalDatabasePasswordVersion | undefined;
 }
 export interface GetRelationalDatabaseMasterUserPasswordResult {
-  masterUserPassword?: string | redacted.Redacted<string>;
-  createdAt?: Date;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
 }
 export type RelationalDatabaseMetricName =
   | "CPUUtilization"
@@ -2646,156 +2648,156 @@ export interface GetRelationalDatabaseMetricDataRequest {
   statistics: MetricStatistic[];
 }
 export interface GetRelationalDatabaseMetricDataResult {
-  metricName?: RelationalDatabaseMetricName;
-  metricData?: MetricDatapoint[];
+  metricName?: RelationalDatabaseMetricName | undefined;
+  metricData?: MetricDatapoint[] | undefined;
 }
 export interface GetRelationalDatabaseParametersRequest {
   relationalDatabaseName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface RelationalDatabaseParameter {
-  allowedValues?: string;
-  applyMethod?: string;
-  applyType?: string;
-  dataType?: string;
-  description?: string;
-  isModifiable?: boolean;
-  parameterName?: string;
-  parameterValue?: string;
+  allowedValues?: string | undefined;
+  applyMethod?: string | undefined;
+  applyType?: string | undefined;
+  dataType?: string | undefined;
+  description?: string | undefined;
+  isModifiable?: boolean | undefined;
+  parameterName?: string | undefined;
+  parameterValue?: string | undefined;
 }
 export type RelationalDatabaseParameterList = RelationalDatabaseParameter[];
 export interface GetRelationalDatabaseParametersResult {
-  parameters?: RelationalDatabaseParameter[];
-  nextPageToken?: string;
+  parameters?: RelationalDatabaseParameter[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabasesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseList = RelationalDatabase[];
 export interface GetRelationalDatabasesResult {
-  relationalDatabases?: RelationalDatabase[];
-  nextPageToken?: string;
+  relationalDatabases?: RelationalDatabase[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetRelationalDatabaseSnapshotRequest {
   relationalDatabaseSnapshotName: string;
 }
 export interface RelationalDatabaseSnapshot {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  tags?: Tag[];
-  engine?: string;
-  engineVersion?: string;
-  sizeInGb?: number;
-  state?: string;
-  fromRelationalDatabaseName?: string;
-  fromRelationalDatabaseArn?: string;
-  fromRelationalDatabaseBundleId?: string;
-  fromRelationalDatabaseBlueprintId?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  tags?: Tag[] | undefined;
+  engine?: string | undefined;
+  engineVersion?: string | undefined;
+  sizeInGb?: number | undefined;
+  state?: string | undefined;
+  fromRelationalDatabaseName?: string | undefined;
+  fromRelationalDatabaseArn?: string | undefined;
+  fromRelationalDatabaseBundleId?: string | undefined;
+  fromRelationalDatabaseBlueprintId?: string | undefined;
 }
 export interface GetRelationalDatabaseSnapshotResult {
-  relationalDatabaseSnapshot?: RelationalDatabaseSnapshot;
+  relationalDatabaseSnapshot?: RelationalDatabaseSnapshot | undefined;
 }
 export interface GetRelationalDatabaseSnapshotsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationalDatabaseSnapshotList = RelationalDatabaseSnapshot[];
 export interface GetRelationalDatabaseSnapshotsResult {
-  relationalDatabaseSnapshots?: RelationalDatabaseSnapshot[];
-  nextPageToken?: string;
+  relationalDatabaseSnapshots?: RelationalDatabaseSnapshot[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export type SetupHistoryPageToken = string;
 export interface GetSetupHistoryRequest {
   resourceName: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SetupDomainName = string;
 export type SetupDomainNameList = string[];
 export type CertificateProvider = "LetsEncrypt" | (string & {});
 export interface SetupRequest {
-  instanceName?: string;
-  domainNames?: string[];
-  certificateProvider?: CertificateProvider;
+  instanceName?: string | undefined;
+  domainNames?: string[] | undefined;
+  certificateProvider?: CertificateProvider | undefined;
 }
 export interface SetupHistoryResource {
-  name?: string;
-  arn?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
+  name?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
 }
 export type SetupStatus = "succeeded" | "failed" | "inProgress" | (string & {});
 export interface SetupExecutionDetails {
-  command?: string;
-  dateTime?: Date;
-  name?: string;
-  status?: SetupStatus;
-  standardError?: string;
-  standardOutput?: string;
-  version?: string;
+  command?: string | undefined;
+  dateTime?: Date | undefined;
+  name?: string | undefined;
+  status?: SetupStatus | undefined;
+  standardError?: string | undefined;
+  standardOutput?: string | undefined;
+  version?: string | undefined;
 }
 export type SetupExecutionDetailsList = SetupExecutionDetails[];
 export interface SetupHistory {
-  operationId?: string;
-  request?: SetupRequest;
-  resource?: SetupHistoryResource;
-  executionDetails?: SetupExecutionDetails[];
-  status?: SetupStatus;
+  operationId?: string | undefined;
+  request?: SetupRequest | undefined;
+  resource?: SetupHistoryResource | undefined;
+  executionDetails?: SetupExecutionDetails[] | undefined;
+  status?: SetupStatus | undefined;
 }
 export type SetupHistoryList = SetupHistory[];
 export interface GetSetupHistoryResult {
-  setupHistory?: SetupHistory[];
-  nextPageToken?: string;
+  setupHistory?: SetupHistory[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetStaticIpRequest {
   staticIpName: string;
 }
 export interface StaticIp {
-  name?: string;
-  arn?: string;
-  supportCode?: string;
-  createdAt?: Date;
-  location?: ResourceLocation;
-  resourceType?: ResourceType;
-  ipAddress?: string;
-  attachedTo?: string;
-  isAttached?: boolean;
+  name?: string | undefined;
+  arn?: string | undefined;
+  supportCode?: string | undefined;
+  createdAt?: Date | undefined;
+  location?: ResourceLocation | undefined;
+  resourceType?: ResourceType | undefined;
+  ipAddress?: string | undefined;
+  attachedTo?: string | undefined;
+  isAttached?: boolean | undefined;
 }
 export interface GetStaticIpResult {
-  staticIp?: StaticIp;
+  staticIp?: StaticIp | undefined;
 }
 export interface GetStaticIpsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StaticIpList = StaticIp[];
 export interface GetStaticIpsResult {
-  staticIps?: StaticIp[];
-  nextPageToken?: string;
+  staticIps?: StaticIp[] | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ImportKeyPairRequest {
   keyPairName: string;
   publicKeyBase64: string;
 }
 export interface ImportKeyPairResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface IsVpcPeeredRequest {}
 export interface IsVpcPeeredResult {
-  isPeered?: boolean;
+  isPeered?: boolean | undefined;
 }
 export interface OpenInstancePublicPortsRequest {
   portInfo: PortInfo;
   instanceName: string;
 }
 export interface OpenInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface PeerVpcRequest {}
 export interface PeerVpcResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface PutAlarmRequest {
   alarmName: string;
@@ -2804,15 +2806,15 @@ export interface PutAlarmRequest {
   comparisonOperator: ComparisonOperator;
   threshold: number;
   evaluationPeriods: number;
-  datapointsToAlarm?: number;
-  treatMissingData?: TreatMissingData;
-  contactProtocols?: ContactProtocol[];
-  notificationTriggers?: AlarmState[];
-  notificationEnabled?: boolean;
-  tags?: Tag[];
+  datapointsToAlarm?: number | undefined;
+  treatMissingData?: TreatMissingData | undefined;
+  contactProtocols?: ContactProtocol[] | undefined;
+  notificationTriggers?: AlarmState[] | undefined;
+  notificationEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface PutAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type PortInfoList = PortInfo[];
 export interface PutInstancePublicPortsRequest {
@@ -2820,19 +2822,19 @@ export interface PutInstancePublicPortsRequest {
   instanceName: string;
 }
 export interface PutInstancePublicPortsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface RebootInstanceRequest {
   instanceName: string;
 }
 export interface RebootInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface RebootRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface RebootRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ContainerLabel = string;
 export interface RegisterContainerImageRequest {
@@ -2841,37 +2843,37 @@ export interface RegisterContainerImageRequest {
   digest: string;
 }
 export interface RegisterContainerImageResult {
-  containerImage?: ContainerImage;
+  containerImage?: ContainerImage | undefined;
 }
 export interface ReleaseStaticIpRequest {
   staticIpName: string;
 }
 export interface ReleaseStaticIpResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface ResetDistributionCacheRequest {
-  distributionName?: string;
+  distributionName?: string | undefined;
 }
 export interface ResetDistributionCacheResult {
-  status?: string;
-  createTime?: Date;
-  operation?: Operation;
+  status?: string | undefined;
+  createTime?: Date | undefined;
+  operation?: Operation | undefined;
 }
 export type ContactMethodVerificationProtocol = "Email" | (string & {});
 export interface SendContactMethodVerificationRequest {
   protocol: ContactMethodVerificationProtocol;
 }
 export interface SendContactMethodVerificationResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface SetIpAddressTypeRequest {
   resourceType: ResourceType;
   resourceName: string;
   ipAddressType: IpAddressType;
-  acceptBundleUpdate?: boolean;
+  acceptBundleUpdate?: boolean | undefined;
 }
 export interface SetIpAddressTypeResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type ResourceBucketAccess = "allow" | "deny" | (string & {});
 export interface SetResourceAccessForBucketRequest {
@@ -2880,7 +2882,7 @@ export interface SetResourceAccessForBucketRequest {
   access: ResourceBucketAccess;
 }
 export interface SetResourceAccessForBucketResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type EmailAddress = string | redacted.Redacted<string>;
 export interface SetupInstanceHttpsRequest {
@@ -2890,144 +2892,144 @@ export interface SetupInstanceHttpsRequest {
   certificateProvider: CertificateProvider;
 }
 export interface SetupInstanceHttpsResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StartGUISessionRequest {
   resourceName: string;
 }
 export interface StartGUISessionResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StartInstanceRequest {
   instanceName: string;
 }
 export interface StartInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StartRelationalDatabaseRequest {
   relationalDatabaseName: string;
 }
 export interface StartRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopGUISessionRequest {
   resourceName: string;
 }
 export interface StopGUISessionResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopInstanceRequest {
   instanceName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface StopInstanceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface StopRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  relationalDatabaseSnapshotName?: string;
+  relationalDatabaseSnapshotName?: string | undefined;
 }
 export interface StopRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface TagResourceRequest {
   resourceName: string;
-  resourceArn?: string;
+  resourceArn?: string | undefined;
   tags: Tag[];
 }
 export interface TagResourceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface TestAlarmRequest {
   alarmName: string;
   state: AlarmState;
 }
 export interface TestAlarmResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UnpeerVpcRequest {}
 export interface UnpeerVpcResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   resourceName: string;
-  resourceArn?: string;
+  resourceArn?: string | undefined;
   tagKeys: string[];
 }
 export interface UntagResourceResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateBucketRequest {
   bucketName: string;
-  accessRules?: AccessRules;
-  versioning?: string;
-  readonlyAccessAccounts?: string[];
-  accessLogConfig?: BucketAccessLogConfig;
-  cors?: BucketCorsConfig;
+  accessRules?: AccessRules | undefined;
+  versioning?: string | undefined;
+  readonlyAccessAccounts?: string[] | undefined;
+  accessLogConfig?: BucketAccessLogConfig | undefined;
+  cors?: BucketCorsConfig | undefined;
 }
 export interface UpdateBucketResult {
-  bucket?: Bucket;
-  operations?: Operation[];
+  bucket?: Bucket | undefined;
+  operations?: Operation[] | undefined;
 }
 export interface UpdateBucketBundleRequest {
   bucketName: string;
   bundleId: string;
 }
 export interface UpdateBucketBundleResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateContainerServiceRequest {
   serviceName: string;
-  power?: ContainerServicePowerName;
-  scale?: number;
-  isDisabled?: boolean;
-  publicDomainNames?: { [key: string]: string[] | undefined };
-  privateRegistryAccess?: PrivateRegistryAccessRequest;
+  power?: ContainerServicePowerName | undefined;
+  scale?: number | undefined;
+  isDisabled?: boolean | undefined;
+  publicDomainNames?: { [key: string]: string[] | undefined } | undefined;
+  privateRegistryAccess?: PrivateRegistryAccessRequest | undefined;
 }
 export interface UpdateContainerServiceResult {
-  containerService?: ContainerService;
+  containerService?: ContainerService | undefined;
 }
 export interface UpdateDistributionRequest {
   distributionName: string;
-  origin?: InputOrigin;
-  defaultCacheBehavior?: CacheBehavior;
-  cacheBehaviorSettings?: CacheSettings;
-  cacheBehaviors?: CacheBehaviorPerPath[];
-  isEnabled?: boolean;
-  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum;
-  certificateName?: string;
-  useDefaultCertificate?: boolean;
-  enablePrivateOriginAccess?: boolean;
-  defaultRootObject?: string;
-  customErrorResponses?: DistributionCustomErrorResponse[];
+  origin?: InputOrigin | undefined;
+  defaultCacheBehavior?: CacheBehavior | undefined;
+  cacheBehaviorSettings?: CacheSettings | undefined;
+  cacheBehaviors?: CacheBehaviorPerPath[] | undefined;
+  isEnabled?: boolean | undefined;
+  viewerMinimumTlsProtocolVersion?: ViewerMinimumTlsProtocolVersionEnum | undefined;
+  certificateName?: string | undefined;
+  useDefaultCertificate?: boolean | undefined;
+  enablePrivateOriginAccess?: boolean | undefined;
+  defaultRootObject?: string | undefined;
+  customErrorResponses?: DistributionCustomErrorResponse[] | undefined;
 }
 export interface UpdateDistributionResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateDistributionBundleRequest {
-  distributionName?: string;
-  bundleId?: string;
+  distributionName?: string | undefined;
+  bundleId?: string | undefined;
 }
 export interface UpdateDistributionBundleResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateDomainEntryRequest {
   domainName: string;
   domainEntry: DomainEntry;
 }
 export interface UpdateDomainEntryResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateInstanceMetadataOptionsRequest {
   instanceName: string;
-  httpTokens?: HttpTokens;
-  httpEndpoint?: HttpEndpoint;
-  httpPutResponseHopLimit?: number;
-  httpProtocolIpv6?: HttpProtocolIpv6;
+  httpTokens?: HttpTokens | undefined;
+  httpEndpoint?: HttpEndpoint | undefined;
+  httpPutResponseHopLimit?: number | undefined;
+  httpProtocolIpv6?: HttpProtocolIpv6 | undefined;
 }
 export interface UpdateInstanceMetadataOptionsResult {
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface UpdateLoadBalancerAttributeRequest {
   loadBalancerName: string;
@@ -3035,30 +3037,30 @@ export interface UpdateLoadBalancerAttributeRequest {
   attributeValue: string;
 }
 export interface UpdateLoadBalancerAttributeResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  masterUserPassword?: string | redacted.Redacted<string>;
-  rotateMasterUserPassword?: boolean;
-  preferredBackupWindow?: string;
-  preferredMaintenanceWindow?: string;
-  enableBackupRetention?: boolean;
-  disableBackupRetention?: boolean;
-  publiclyAccessible?: boolean;
-  applyImmediately?: boolean;
-  caCertificateIdentifier?: string;
-  relationalDatabaseBlueprintId?: string;
+  masterUserPassword?: string | redacted.Redacted<string> | undefined;
+  rotateMasterUserPassword?: boolean | undefined;
+  preferredBackupWindow?: string | undefined;
+  preferredMaintenanceWindow?: string | undefined;
+  enableBackupRetention?: boolean | undefined;
+  disableBackupRetention?: boolean | undefined;
+  publiclyAccessible?: boolean | undefined;
+  applyImmediately?: boolean | undefined;
+  caCertificateIdentifier?: string | undefined;
+  relationalDatabaseBlueprintId?: string | undefined;
 }
 export interface UpdateRelationalDatabaseResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export interface UpdateRelationalDatabaseParametersRequest {
   relationalDatabaseName: string;
   parameters: RelationalDatabaseParameter[];
 }
 export interface UpdateRelationalDatabaseParametersResult {
-  operations?: Operation[];
+  operations?: Operation[] | undefined;
 }
 export type AllocateStaticIpError =
   | AccessDeniedException

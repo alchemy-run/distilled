@@ -87,18 +87,18 @@ export interface CancelOperationRequest {}
 export interface CancelOrganizationsOperationsRequest {
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface Empty {}
 export interface Source {
-  name?: string;
-  displayName?: string;
-  description?: string;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface CreateOrganizationsSourcesRequest {
   parent: string;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type GoogleCloudSecuritycenterV1beta1FindingStateEnum =
@@ -107,52 +107,52 @@ export type GoogleCloudSecuritycenterV1beta1FindingStateEnum =
   | "INACTIVE";
 export type StringMap = { [key: string]: string | undefined };
 export interface GoogleCloudSecuritycenterV1beta1SecurityMarks {
-  name?: string;
-  marks?: StringMap;
+  name?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export interface GoogleCloudSecuritycenterV1beta1Finding {
-  parent?: string;
-  createTime?: string;
-  category?: string;
-  name?: string;
-  externalUri?: string;
-  sourceProperties?: DocumentMap;
-  resourceName?: string;
-  state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | (string & {});
-  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
-  eventTime?: string;
+  parent?: string | undefined;
+  createTime?: string | undefined;
+  category?: string | undefined;
+  name?: string | undefined;
+  externalUri?: string | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  resourceName?: string | undefined;
+  state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | (string & {}) | undefined;
+  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
+  eventTime?: string | undefined;
 }
 export interface CreateOrganizationsSourcesFindingsRequest {
   parent: string;
-  findingId?: string;
+  findingId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1Finding;
+  body?: GoogleCloudSecuritycenterV1beta1Finding | undefined;
 }
 export interface DeleteOrganizationsOperationsRequest {
   name: string;
 }
 export interface GetPolicyOptions {
-  requestedPolicyVersion?: number;
+  requestedPolicyVersion?: number | undefined;
 }
 export interface GetIamPolicyRequest {
-  options?: GetPolicyOptions;
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetIamPolicyOrganizationsSourcesRequest {
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface Expr {
-  expression?: string;
-  location?: string;
-  title?: string;
-  description?: string;
+  expression?: string | undefined;
+  location?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface Binding {
-  condition?: Expr;
-  members?: StringList;
-  role?: string;
+  condition?: Expr | undefined;
+  members?: StringList | undefined;
+  role?: string | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -161,20 +161,20 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_WRITE"
   | "DATA_READ";
 export interface AuditLogConfig {
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
-  exemptedMembers?: StringList;
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 export interface AuditConfig {
-  service?: string;
-  auditLogConfigs?: AuditLogConfigList;
+  service?: string | undefined;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 export interface Policy {
-  bindings?: BindingList;
-  etag?: string;
-  version?: number;
-  auditConfigs?: AuditConfigList;
+  bindings?: BindingList | undefined;
+  etag?: string | undefined;
+  version?: number | undefined;
+  auditConfigs?: AuditConfigList | undefined;
 }
 export interface GetOrganizationSettingsOrganizationsRequest {
   name: string;
@@ -184,97 +184,97 @@ export type AssetDiscoveryConfigInclusionModeEnum =
   | "INCLUDE_ONLY"
   | "EXCLUDE";
 export interface AssetDiscoveryConfig {
-  projectIds?: StringList;
-  inclusionMode?: AssetDiscoveryConfigInclusionModeEnum | (string & {});
+  projectIds?: StringList | undefined;
+  inclusionMode?: AssetDiscoveryConfigInclusionModeEnum | (string & {}) | undefined;
 }
 export interface OrganizationSettings {
-  assetDiscoveryConfig?: AssetDiscoveryConfig;
-  name?: string;
-  enableAssetDiscovery?: boolean;
+  assetDiscoveryConfig?: AssetDiscoveryConfig | undefined;
+  name?: string | undefined;
+  enableAssetDiscovery?: boolean | undefined;
 }
 export interface GetOrganizationsOperationsRequest {
   name: string;
 }
 export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
-  details?: DocumentMapList;
-  message?: string;
-  code?: number;
+  details?: DocumentMapList | undefined;
+  message?: string | undefined;
+  code?: number | undefined;
 }
 export interface Operation {
-  response?: DocumentMap;
-  done?: boolean;
-  name?: string;
-  metadata?: DocumentMap;
-  error?: Status;
+  response?: DocumentMap | undefined;
+  done?: boolean | undefined;
+  name?: string | undefined;
+  metadata?: DocumentMap | undefined;
+  error?: Status | undefined;
 }
 export interface GetOrganizationsSourcesRequest {
   name: string;
 }
 export interface GroupAssetsRequest {
-  readTime?: string;
-  pageToken?: string;
-  filter?: string;
-  pageSize?: number;
-  groupBy?: string;
-  compareDuration?: string;
+  readTime?: string | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  groupBy?: string | undefined;
+  compareDuration?: string | undefined;
 }
 export interface GroupOrganizationsAssetsRequest {
   parent: string;
   /** Request body */
-  body?: GroupAssetsRequest;
+  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupResult {
-  count?: string;
-  properties?: DocumentMap;
+  count?: string | undefined;
+  properties?: DocumentMap | undefined;
 }
 export type GroupResultList = Array<GroupResult>;
 export interface GroupAssetsResponse {
-  readTime?: string;
-  groupByResults?: GroupResultList;
-  nextPageToken?: string;
+  readTime?: string | undefined;
+  groupByResults?: GroupResultList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GroupFindingsRequest {
-  pageToken?: string;
-  filter?: string;
-  groupBy?: string;
-  readTime?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  groupBy?: string | undefined;
+  readTime?: string | undefined;
+  pageSize?: number | undefined;
 }
 export interface GroupOrganizationsSourcesFindingsRequest {
   parent: string;
   /** Request body */
-  body?: GroupFindingsRequest;
+  body?: GroupFindingsRequest | undefined;
 }
 export interface GroupFindingsResponse {
-  readTime?: string;
-  nextPageToken?: string;
-  groupByResults?: GroupResultList;
+  readTime?: string | undefined;
+  nextPageToken?: string | undefined;
+  groupByResults?: GroupResultList | undefined;
 }
 export interface ListOrganizationsAssetsRequest {
   parent: string;
-  pageToken?: string;
-  fieldMask?: string;
-  orderBy?: string;
-  readTime?: string;
-  compareDuration?: string;
-  filter?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  fieldMask?: string | undefined;
+  orderBy?: string | undefined;
+  readTime?: string | undefined;
+  compareDuration?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
 }
 export interface SecurityCenterProperties {
-  resourceName?: string;
-  resourceType?: string;
-  resourceParent?: string;
-  resourceOwners?: StringList;
-  resourceProject?: string;
+  resourceName?: string | undefined;
+  resourceType?: string | undefined;
+  resourceParent?: string | undefined;
+  resourceOwners?: StringList | undefined;
+  resourceProject?: string | undefined;
 }
 export interface Asset {
-  name?: string;
-  createTime?: string;
-  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
-  updateTime?: string;
-  resourceProperties?: DocumentMap;
-  securityCenterProperties?: SecurityCenterProperties;
+  name?: string | undefined;
+  createTime?: string | undefined;
+  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
+  updateTime?: string | undefined;
+  resourceProperties?: DocumentMap | undefined;
+  securityCenterProperties?: SecurityCenterProperties | undefined;
 }
 export type ListAssetsResultStateEnum =
   | "STATE_UNSPECIFIED"
@@ -283,123 +283,123 @@ export type ListAssetsResultStateEnum =
   | "REMOVED"
   | "ACTIVE";
 export interface ListAssetsResult {
-  asset?: Asset;
-  state?: ListAssetsResultStateEnum;
+  asset?: Asset | undefined;
+  state?: ListAssetsResultStateEnum | undefined;
 }
 export type ListAssetsResultList = Array<ListAssetsResult>;
 export interface ListAssetsResponse {
-  nextPageToken?: string;
-  totalSize?: number;
-  readTime?: string;
-  listAssetsResults?: ListAssetsResultList;
+  nextPageToken?: string | undefined;
+  totalSize?: number | undefined;
+  readTime?: string | undefined;
+  listAssetsResults?: ListAssetsResultList | undefined;
 }
 export interface ListOrganizationsOperationsRequest {
-  returnPartialSuccess?: boolean;
-  filter?: string;
-  pageSize?: number;
-  pageToken?: string;
+  returnPartialSuccess?: boolean | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   name: string;
 }
 export type OperationList = Array<Operation>;
 export interface ListOperationsResponse {
-  nextPageToken?: string;
-  operations?: OperationList;
-  unreachable?: StringList;
+  nextPageToken?: string | undefined;
+  operations?: OperationList | undefined;
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsSourcesRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SourceList = Array<Source>;
 export interface ListSourcesResponse {
-  nextPageToken?: string;
-  sources?: SourceList;
+  nextPageToken?: string | undefined;
+  sources?: SourceList | undefined;
 }
 export interface ListOrganizationsSourcesFindingsRequest {
-  fieldMask?: string;
-  pageToken?: string;
-  filter?: string;
-  pageSize?: number;
-  orderBy?: string;
+  fieldMask?: string | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  orderBy?: string | undefined;
   parent: string;
-  readTime?: string;
+  readTime?: string | undefined;
 }
 export type GoogleCloudSecuritycenterV1beta1FindingList =
   Array<GoogleCloudSecuritycenterV1beta1Finding>;
 export interface ListFindingsResponse {
-  readTime?: string;
-  totalSize?: number;
-  findings?: GoogleCloudSecuritycenterV1beta1FindingList;
-  nextPageToken?: string;
+  readTime?: string | undefined;
+  totalSize?: number | undefined;
+  findings?: GoogleCloudSecuritycenterV1beta1FindingList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface PatchOrganizationsSourcesRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 export interface PatchOrganizationsSourcesFindingsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1Finding;
+  body?: GoogleCloudSecuritycenterV1beta1Finding | undefined;
 }
 export type RunAssetDiscoveryRequest = CancelOperationRequest;
 export interface RunDiscoveryOrganizationsAssetsRequest {
   parent: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface SetIamPolicyRequest {
-  updateMask?: string;
-  policy?: Policy;
+  updateMask?: string | undefined;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyOrganizationsSourcesRequest {
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export type SetFindingStateRequestStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 export interface SetFindingStateRequest {
-  state?: SetFindingStateRequestStateEnum | (string & {});
-  startTime?: string;
+  state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
+  startTime?: string | undefined;
 }
 export interface SetStateOrganizationsSourcesFindingsRequest {
   name: string;
   /** Request body */
-  body?: SetFindingStateRequest;
+  body?: SetFindingStateRequest | undefined;
 }
 export interface TestIamPermissionsRequest {
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsOrganizationsSourcesRequest {
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsResponse {
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface UpdateOrganizationSettingsOrganizationsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: OrganizationSettings;
+  body?: OrganizationSettings | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsAssetsRequest {
-  updateMask?: string;
-  startTime?: string;
+  updateMask?: string | undefined;
+  startTime?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
+  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
-  startTime?: string;
+  startTime?: string | undefined;
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
+  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
 }
 export type CancelOrganizationsOperationsError =
   | NotFound

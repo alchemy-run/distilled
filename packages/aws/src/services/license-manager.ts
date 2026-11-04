@@ -267,13 +267,13 @@ export type GrantStatus =
   | "WORKFLOW_COMPLETED"
   | (string & {});
 export interface AcceptGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
 export interface CheckInLicenseRequest {
   LicenseConsumptionToken: string;
-  Beneficiary?: string;
+  Beneficiary?: string | undefined;
 }
 export interface CheckInLicenseResponse {}
 export type EntitlementDataUnit =
@@ -307,14 +307,14 @@ export type EntitlementDataUnit =
   | (string & {});
 export interface EntitlementData {
   Name: string;
-  Value?: string;
+  Value?: string | undefined;
   Unit: EntitlementDataUnit;
 }
 export type EntitlementDataList = EntitlementData[];
 export type DigitalSignatureMethod = "JWT_PS384" | (string & {});
 export interface Metadata {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type MetadataList = Metadata[];
 export type ClientToken = string;
@@ -322,21 +322,21 @@ export interface CheckoutBorrowLicenseRequest {
   LicenseArn: string;
   Entitlements: EntitlementData[];
   DigitalSignatureMethod: DigitalSignatureMethod;
-  NodeId?: string;
-  CheckoutMetadata?: Metadata[];
+  NodeId?: string | undefined;
+  CheckoutMetadata?: Metadata[] | undefined;
   ClientToken: string;
 }
 export type SignedToken = string;
 export type ISO8601DateTime = string;
 export interface CheckoutBorrowLicenseResponse {
-  LicenseArn?: string;
-  LicenseConsumptionToken?: string;
-  EntitlementsAllowed?: EntitlementData[];
-  NodeId?: string;
-  SignedToken?: string;
-  IssuedAt?: string;
-  Expiration?: string;
-  CheckoutMetadata?: Metadata[];
+  LicenseArn?: string | undefined;
+  LicenseConsumptionToken?: string | undefined;
+  EntitlementsAllowed?: EntitlementData[] | undefined;
+  NodeId?: string | undefined;
+  SignedToken?: string | undefined;
+  IssuedAt?: string | undefined;
+  Expiration?: string | undefined;
+  CheckoutMetadata?: Metadata[] | undefined;
 }
 export type CheckoutType = "PROVISIONAL" | "PERPETUAL" | (string & {});
 export interface CheckoutLicenseRequest {
@@ -345,18 +345,18 @@ export interface CheckoutLicenseRequest {
   KeyFingerprint: string;
   Entitlements: EntitlementData[];
   ClientToken: string;
-  Beneficiary?: string;
-  NodeId?: string;
+  Beneficiary?: string | undefined;
+  NodeId?: string | undefined;
 }
 export interface CheckoutLicenseResponse {
-  CheckoutType?: CheckoutType;
-  LicenseConsumptionToken?: string;
-  EntitlementsAllowed?: EntitlementData[];
-  SignedToken?: string;
-  NodeId?: string;
-  IssuedAt?: string;
-  Expiration?: string;
-  LicenseArn?: string;
+  CheckoutType?: CheckoutType | undefined;
+  LicenseConsumptionToken?: string | undefined;
+  EntitlementsAllowed?: EntitlementData[] | undefined;
+  SignedToken?: string | undefined;
+  NodeId?: string | undefined;
+  IssuedAt?: string | undefined;
+  Expiration?: string | undefined;
+  LicenseArn?: string | undefined;
 }
 export type PrincipalArnList = string[];
 export type AllowedOperation =
@@ -370,8 +370,8 @@ export type AllowedOperation =
   | (string & {});
 export type AllowedOperationList = AllowedOperation[];
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateGrantRequest {
@@ -381,12 +381,12 @@ export interface CreateGrantRequest {
   Principals: string[];
   HomeRegion: string;
   AllowedOperations: AllowedOperation[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
 export type StatusReasonMessage = string;
 export type ActivationOverrideBehavior =
@@ -394,30 +394,30 @@ export type ActivationOverrideBehavior =
   | "ALL_GRANTS_PERMITTED_BY_ISSUER"
   | (string & {});
 export interface Options {
-  ActivationOverrideBehavior?: ActivationOverrideBehavior;
+  ActivationOverrideBehavior?: ActivationOverrideBehavior | undefined;
 }
 export interface CreateGrantVersionRequest {
   ClientToken: string;
   GrantArn: string;
-  GrantName?: string;
-  AllowedOperations?: AllowedOperation[];
-  Status?: GrantStatus;
-  StatusReason?: string;
-  SourceVersion?: string;
-  Options?: Options;
+  GrantName?: string | undefined;
+  AllowedOperations?: AllowedOperation[] | undefined;
+  Status?: GrantStatus | undefined;
+  StatusReason?: string | undefined;
+  SourceVersion?: string | undefined;
+  Options?: Options | undefined;
 }
 export interface CreateGrantVersionResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
 export interface Issuer {
   Name: string;
-  SignKey?: string;
+  SignKey?: string | undefined;
 }
 export interface DatetimeRange {
   Begin: string;
-  End?: string;
+  End?: string | undefined;
 }
 export type BoxBoolean = boolean;
 export type EntitlementUnit =
@@ -451,11 +451,11 @@ export type EntitlementUnit =
   | (string & {});
 export interface Entitlement {
   Name: string;
-  Value?: string;
-  MaxCount?: number;
-  Overage?: boolean;
+  Value?: string | undefined;
+  MaxCount?: number | undefined;
+  Overage?: boolean | undefined;
   Unit: EntitlementUnit;
-  AllowCheckIn?: boolean;
+  AllowCheckIn?: boolean | undefined;
 }
 export type EntitlementList = Entitlement[];
 export type RenewType = "None" | "Weekly" | "Monthly" | (string & {});
@@ -468,9 +468,9 @@ export interface BorrowConfiguration {
   MaxTimeToLiveInMinutes: number;
 }
 export interface ConsumptionConfiguration {
-  RenewType?: RenewType;
-  ProvisionalConfiguration?: ProvisionalConfiguration;
-  BorrowConfiguration?: BorrowConfiguration;
+  RenewType?: RenewType | undefined;
+  ProvisionalConfiguration?: ProvisionalConfiguration | undefined;
+  BorrowConfiguration?: BorrowConfiguration | undefined;
 }
 export interface CreateLicenseRequest {
   LicenseName: string;
@@ -482,9 +482,9 @@ export interface CreateLicenseRequest {
   Entitlements: Entitlement[];
   Beneficiary: string;
   ConsumptionConfiguration: ConsumptionConfiguration;
-  LicenseMetadata?: Metadata[];
+  LicenseMetadata?: Metadata[] | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type LicenseStatus =
   | "AVAILABLE"
@@ -496,14 +496,14 @@ export type LicenseStatus =
   | "DELETED"
   | (string & {});
 export interface CreateLicenseResponse {
-  LicenseArn?: string;
-  Status?: LicenseStatus;
-  Version?: string;
+  LicenseArn?: string | undefined;
+  Status?: LicenseStatus | undefined;
+  Version?: string | undefined;
 }
 export type LicenseAssetResourceName = string;
 export type LicenseAssetResourceDescription = string;
 export interface LicenseAssetGroupConfiguration {
-  UsageDimension?: string;
+  UsageDimension?: string | undefined;
 }
 export type LicenseAssetGroupConfigurationList = LicenseAssetGroupConfiguration[];
 export type LicenseAssetRulesetArnList = string[];
@@ -514,11 +514,11 @@ export interface LicenseAssetGroupProperty {
 export type LicenseAssetGroupPropertyList = LicenseAssetGroupProperty[];
 export interface CreateLicenseAssetGroupRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   LicenseAssetGroupConfigurations: LicenseAssetGroupConfiguration[];
   AssociatedLicenseAssetRulesetARNs: string[];
-  Properties?: LicenseAssetGroupProperty[];
-  Tags?: Tag[];
+  Properties?: LicenseAssetGroupProperty[] | undefined;
+  Tags?: Tag[] | undefined;
   ClientToken: string;
 }
 export interface CreateLicenseAssetGroupResponse {
@@ -538,33 +538,33 @@ export interface ScriptRuleStatement {
 }
 export type ScriptRuleStatementList = ScriptRuleStatement[];
 export interface AndRuleStatement {
-  MatchingRuleStatements?: MatchingRuleStatement[];
-  ScriptRuleStatements?: ScriptRuleStatement[];
+  MatchingRuleStatements?: MatchingRuleStatement[] | undefined;
+  ScriptRuleStatements?: ScriptRuleStatement[] | undefined;
 }
 export interface OrRuleStatement {
-  MatchingRuleStatements?: MatchingRuleStatement[];
-  ScriptRuleStatements?: ScriptRuleStatement[];
+  MatchingRuleStatements?: MatchingRuleStatement[] | undefined;
+  ScriptRuleStatements?: ScriptRuleStatement[] | undefined;
 }
 export interface LicenseConfigurationRuleStatement {
-  AndRuleStatement?: AndRuleStatement;
-  OrRuleStatement?: OrRuleStatement;
-  MatchingRuleStatement?: MatchingRuleStatement;
+  AndRuleStatement?: AndRuleStatement | undefined;
+  OrRuleStatement?: OrRuleStatement | undefined;
+  MatchingRuleStatement?: MatchingRuleStatement | undefined;
 }
 export interface LicenseRuleStatement {
-  AndRuleStatement?: AndRuleStatement;
-  OrRuleStatement?: OrRuleStatement;
-  MatchingRuleStatement?: MatchingRuleStatement;
+  AndRuleStatement?: AndRuleStatement | undefined;
+  OrRuleStatement?: OrRuleStatement | undefined;
+  MatchingRuleStatement?: MatchingRuleStatement | undefined;
 }
 export interface InstanceRuleStatement {
-  AndRuleStatement?: AndRuleStatement;
-  OrRuleStatement?: OrRuleStatement;
-  MatchingRuleStatement?: MatchingRuleStatement;
-  ScriptRuleStatement?: ScriptRuleStatement;
+  AndRuleStatement?: AndRuleStatement | undefined;
+  OrRuleStatement?: OrRuleStatement | undefined;
+  MatchingRuleStatement?: MatchingRuleStatement | undefined;
+  ScriptRuleStatement?: ScriptRuleStatement | undefined;
 }
 export interface RuleStatement {
-  LicenseConfigurationRuleStatement?: LicenseConfigurationRuleStatement;
-  LicenseRuleStatement?: LicenseRuleStatement;
-  InstanceRuleStatement?: InstanceRuleStatement;
+  LicenseConfigurationRuleStatement?: LicenseConfigurationRuleStatement | undefined;
+  LicenseRuleStatement?: LicenseRuleStatement | undefined;
+  InstanceRuleStatement?: InstanceRuleStatement | undefined;
 }
 export interface LicenseAssetRule {
   RuleStatement: RuleStatement;
@@ -572,9 +572,9 @@ export interface LicenseAssetRule {
 export type LicenseAssetRuleList = LicenseAssetRule[];
 export interface CreateLicenseAssetRulesetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Rules: LicenseAssetRule[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   ClientToken: string;
 }
 export interface CreateLicenseAssetRulesetResponse {
@@ -584,7 +584,7 @@ export type LicenseCountingType = "vCPU" | "Instance" | "Core" | "Socket" | (str
 export type BoxLong = number;
 export interface ProductInformationFilter {
   ProductInformationFilterName: string;
-  ProductInformationFilterValue?: string[];
+  ProductInformationFilterValue?: string[] | undefined;
   ProductInformationFilterComparator: string;
 }
 export type ProductInformationFilterList = ProductInformationFilter[];
@@ -595,18 +595,18 @@ export interface ProductInformation {
 export type ProductInformationList = ProductInformation[];
 export interface CreateLicenseConfigurationRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   LicenseCountingType: LicenseCountingType;
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  LicenseRules?: string[];
-  Tags?: Tag[];
-  DisassociateWhenNotFound?: boolean;
-  ProductInformationList?: ProductInformation[];
-  LicenseExpiry?: number;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  LicenseRules?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  LicenseExpiry?: number | undefined;
 }
 export interface CreateLicenseConfigurationResponse {
-  LicenseConfigurationArn?: string;
+  LicenseConfigurationArn?: string | undefined;
 }
 export type UsageOperation = string;
 export type ProductCodeId = string;
@@ -617,8 +617,8 @@ export interface ProductCodeListItem {
 }
 export type ProductCodeList = ProductCodeListItem[];
 export interface LicenseConversionContext {
-  UsageOperation?: string;
-  ProductCodes?: ProductCodeListItem[];
+  UsageOperation?: string | undefined;
+  ProductCodes?: ProductCodeListItem[] | undefined;
 }
 export interface CreateLicenseConversionTaskForResourceRequest {
   ResourceArn: string;
@@ -627,7 +627,7 @@ export interface CreateLicenseConversionTaskForResourceRequest {
 }
 export type LicenseConversionTaskId = string;
 export interface CreateLicenseConversionTaskForResourceResponse {
-  LicenseConversionTaskId?: string;
+  LicenseConversionTaskId?: string | undefined;
 }
 export type ReportGeneratorName = string;
 export type ReportType =
@@ -638,15 +638,15 @@ export type ReportType =
 export type ReportTypeList = ReportType[];
 export type ArnList = string[];
 export interface ReportContext {
-  licenseConfigurationArns?: string[];
-  licenseAssetGroupArns?: string[];
-  reportStartDate?: Date;
-  reportEndDate?: Date;
+  licenseConfigurationArns?: string[] | undefined;
+  licenseAssetGroupArns?: string[] | undefined;
+  reportStartDate?: Date | undefined;
+  reportEndDate?: Date | undefined;
 }
 export type ReportFrequencyType = "DAY" | "WEEK" | "MONTH" | "ONE_TIME" | (string & {});
 export interface ReportFrequency {
-  value?: number;
-  period?: ReportFrequencyType;
+  value?: number | undefined;
+  period?: ReportFrequencyType | undefined;
 }
 export type ClientRequestToken = string;
 export interface CreateLicenseManagerReportGeneratorRequest {
@@ -655,11 +655,11 @@ export interface CreateLicenseManagerReportGeneratorRequest {
   ReportContext: ReportContext;
   ReportFrequency: ReportFrequency;
   ClientToken: string;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateLicenseManagerReportGeneratorResponse {
-  LicenseManagerReportGeneratorArn?: string;
+  LicenseManagerReportGeneratorArn?: string | undefined;
 }
 export interface CreateLicenseVersionRequest {
   LicenseArn: string;
@@ -668,43 +668,43 @@ export interface CreateLicenseVersionRequest {
   Issuer: Issuer;
   HomeRegion: string;
   Validity: DatetimeRange;
-  LicenseMetadata?: Metadata[];
+  LicenseMetadata?: Metadata[] | undefined;
   Entitlements: Entitlement[];
   ConsumptionConfiguration: ConsumptionConfiguration;
   Status: LicenseStatus;
   ClientToken: string;
-  SourceVersion?: string;
-  ResetUsage?: boolean;
+  SourceVersion?: string | undefined;
+  ResetUsage?: boolean | undefined;
 }
 export interface CreateLicenseVersionResponse {
-  LicenseArn?: string;
-  Version?: string;
-  Status?: LicenseStatus;
+  LicenseArn?: string | undefined;
+  Version?: string | undefined;
+  Status?: LicenseStatus | undefined;
 }
 export type MaxSize3StringList = string[];
 export interface CreateTokenRequest {
   LicenseArn: string;
-  RoleArns?: string[];
-  ExpirationInDays?: number;
-  TokenProperties?: string[];
+  RoleArns?: string[] | undefined;
+  ExpirationInDays?: number | undefined;
+  TokenProperties?: string[] | undefined;
   ClientToken: string;
 }
 export type TokenType = "REFRESH_TOKEN" | (string & {});
 export type TokenString = string;
 export interface CreateTokenResponse {
-  TokenId?: string;
-  TokenType?: TokenType;
-  Token?: string | redacted.Redacted<string>;
+  TokenId?: string | undefined;
+  TokenType?: TokenType | undefined;
+  Token?: string | redacted.Redacted<string> | undefined;
 }
 export interface DeleteGrantRequest {
   GrantArn: string;
-  StatusReason?: string;
+  StatusReason?: string | undefined;
   Version: string;
 }
 export interface DeleteGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
 export interface DeleteLicenseRequest {
   LicenseArn: string;
@@ -712,8 +712,8 @@ export interface DeleteLicenseRequest {
 }
 export type LicenseDeletionStatus = "PENDING_DELETE" | "DELETED" | (string & {});
 export interface DeleteLicenseResponse {
-  Status?: LicenseDeletionStatus;
-  DeletionDate?: string;
+  Status?: LicenseDeletionStatus | undefined;
+  DeletionDate?: string | undefined;
 }
 export interface DeleteLicenseAssetGroupRequest {
   LicenseAssetGroupArn: string;
@@ -740,22 +740,22 @@ export interface DeleteTokenRequest {
 export interface DeleteTokenResponse {}
 export interface ExtendLicenseConsumptionRequest {
   LicenseConsumptionToken: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface ExtendLicenseConsumptionResponse {
-  LicenseConsumptionToken?: string;
-  Expiration?: string;
+  LicenseConsumptionToken?: string | undefined;
+  Expiration?: string | undefined;
 }
 export interface GetAccessTokenRequest {
   Token: string | redacted.Redacted<string>;
-  TokenProperties?: string[];
+  TokenProperties?: string[] | undefined;
 }
 export interface GetAccessTokenResponse {
-  AccessToken?: string | redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetGrantRequest {
   GrantArn: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface Grant {
   GrantArn: string;
@@ -765,56 +765,56 @@ export interface Grant {
   GranteePrincipalArn: string;
   HomeRegion: string;
   GrantStatus: GrantStatus;
-  StatusReason?: string;
+  StatusReason?: string | undefined;
   Version: string;
   GrantedOperations: AllowedOperation[];
-  Options?: Options;
+  Options?: Options | undefined;
 }
 export interface GetGrantResponse {
-  Grant?: Grant;
+  Grant?: Grant | undefined;
 }
 export interface GetLicenseRequest {
   LicenseArn: string;
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface IssuerDetails {
-  Name?: string;
-  SignKey?: string;
-  KeyFingerprint?: string;
+  Name?: string | undefined;
+  SignKey?: string | undefined;
+  KeyFingerprint?: string | undefined;
 }
 export interface License {
-  LicenseArn?: string;
-  LicenseName?: string;
-  ProductName?: string;
-  ProductSKU?: string;
-  Issuer?: IssuerDetails;
-  HomeRegion?: string;
-  Status?: LicenseStatus;
-  Validity?: DatetimeRange;
-  Beneficiary?: string;
-  Entitlements?: Entitlement[];
-  ConsumptionConfiguration?: ConsumptionConfiguration;
-  LicenseMetadata?: Metadata[];
-  CreateTime?: string;
-  Version?: string;
+  LicenseArn?: string | undefined;
+  LicenseName?: string | undefined;
+  ProductName?: string | undefined;
+  ProductSKU?: string | undefined;
+  Issuer?: IssuerDetails | undefined;
+  HomeRegion?: string | undefined;
+  Status?: LicenseStatus | undefined;
+  Validity?: DatetimeRange | undefined;
+  Beneficiary?: string | undefined;
+  Entitlements?: Entitlement[] | undefined;
+  ConsumptionConfiguration?: ConsumptionConfiguration | undefined;
+  LicenseMetadata?: Metadata[] | undefined;
+  CreateTime?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetLicenseResponse {
-  License?: License;
+  License?: License | undefined;
 }
 export interface GetLicenseAssetGroupRequest {
   LicenseAssetGroupArn: string;
 }
 export interface LicenseAssetGroup {
   Name: string;
-  Description?: string;
-  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[];
+  Description?: string | undefined;
+  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[] | undefined;
   AssociatedLicenseAssetRulesetARNs: string[];
-  Properties?: LicenseAssetGroupProperty[];
+  Properties?: LicenseAssetGroupProperty[] | undefined;
   LicenseAssetGroupArn: string;
   Status: LicenseAssetGroupStatus;
-  StatusMessage?: string;
-  LatestUsageAnalysisTime?: Date;
-  LatestResourceDiscoveryTime?: Date;
+  StatusMessage?: string | undefined;
+  LatestUsageAnalysisTime?: Date | undefined;
+  LatestResourceDiscoveryTime?: Date | undefined;
 }
 export interface GetLicenseAssetGroupResponse {
   LicenseAssetGroup: LicenseAssetGroup;
@@ -824,7 +824,7 @@ export interface GetLicenseAssetRulesetRequest {
 }
 export interface LicenseAssetRuleset {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Rules: LicenseAssetRule[];
   LicenseAssetRulesetArn: string;
 }
@@ -842,77 +842,77 @@ export type ResourceType =
   | "SYSTEMS_MANAGER_MANAGED_INSTANCE"
   | (string & {});
 export interface ConsumedLicenseSummary {
-  ResourceType?: ResourceType;
-  ConsumedLicenses?: number;
+  ResourceType?: ResourceType | undefined;
+  ConsumedLicenses?: number | undefined;
 }
 export type ConsumedLicenseSummaryList = ConsumedLicenseSummary[];
 export interface ManagedResourceSummary {
-  ResourceType?: ResourceType;
-  AssociationCount?: number;
+  ResourceType?: ResourceType | undefined;
+  AssociationCount?: number | undefined;
 }
 export type ManagedResourceSummaryList = ManagedResourceSummary[];
 export interface AutomatedDiscoveryInformation {
-  LastRunTime?: Date;
+  LastRunTime?: Date | undefined;
 }
 export interface GetLicenseConfigurationResponse {
-  LicenseConfigurationId?: string;
-  LicenseConfigurationArn?: string;
-  Name?: string;
-  Description?: string;
-  LicenseCountingType?: LicenseCountingType;
-  LicenseRules?: string[];
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  ConsumedLicenses?: number;
-  Status?: string;
-  OwnerAccountId?: string;
-  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[];
-  ManagedResourceSummaryList?: ManagedResourceSummary[];
-  Tags?: Tag[];
-  ProductInformationList?: ProductInformation[];
-  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation;
-  DisassociateWhenNotFound?: boolean;
-  LicenseExpiry?: number;
+  LicenseConfigurationId?: string | undefined;
+  LicenseConfigurationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LicenseCountingType?: LicenseCountingType | undefined;
+  LicenseRules?: string[] | undefined;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  ConsumedLicenses?: number | undefined;
+  Status?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[] | undefined;
+  ManagedResourceSummaryList?: ManagedResourceSummary[] | undefined;
+  Tags?: Tag[] | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  LicenseExpiry?: number | undefined;
 }
 export interface GetLicenseConversionTaskRequest {
   LicenseConversionTaskId: string;
 }
 export type LicenseConversionTaskStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface GetLicenseConversionTaskResponse {
-  LicenseConversionTaskId?: string;
-  ResourceArn?: string;
-  SourceLicenseContext?: LicenseConversionContext;
-  DestinationLicenseContext?: LicenseConversionContext;
-  StatusMessage?: string;
-  Status?: LicenseConversionTaskStatus;
-  StartTime?: Date;
-  LicenseConversionTime?: Date;
-  EndTime?: Date;
+  LicenseConversionTaskId?: string | undefined;
+  ResourceArn?: string | undefined;
+  SourceLicenseContext?: LicenseConversionContext | undefined;
+  DestinationLicenseContext?: LicenseConversionContext | undefined;
+  StatusMessage?: string | undefined;
+  Status?: LicenseConversionTaskStatus | undefined;
+  StartTime?: Date | undefined;
+  LicenseConversionTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface GetLicenseManagerReportGeneratorRequest {
   LicenseManagerReportGeneratorArn: string;
 }
 export interface S3Location {
-  bucket?: string;
-  keyPrefix?: string;
+  bucket?: string | undefined;
+  keyPrefix?: string | undefined;
 }
 export interface ReportGenerator {
-  ReportGeneratorName?: string;
-  ReportType?: ReportType[];
-  ReportContext?: ReportContext;
-  ReportFrequency?: ReportFrequency;
-  LicenseManagerReportGeneratorArn?: string;
-  LastRunStatus?: string;
-  LastRunFailureReason?: string;
-  LastReportGenerationTime?: string;
-  ReportCreatorAccount?: string;
-  Description?: string;
-  S3Location?: S3Location;
-  CreateTime?: string;
-  Tags?: Tag[];
+  ReportGeneratorName?: string | undefined;
+  ReportType?: ReportType[] | undefined;
+  ReportContext?: ReportContext | undefined;
+  ReportFrequency?: ReportFrequency | undefined;
+  LicenseManagerReportGeneratorArn?: string | undefined;
+  LastRunStatus?: string | undefined;
+  LastRunFailureReason?: string | undefined;
+  LastReportGenerationTime?: string | undefined;
+  ReportCreatorAccount?: string | undefined;
+  Description?: string | undefined;
+  S3Location?: S3Location | undefined;
+  CreateTime?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetLicenseManagerReportGeneratorResponse {
-  ReportGenerator?: ReportGenerator;
+  ReportGenerator?: ReportGenerator | undefined;
 }
 export interface GetLicenseUsageRequest {
   LicenseArn: string;
@@ -920,268 +920,268 @@ export interface GetLicenseUsageRequest {
 export interface EntitlementUsage {
   Name: string;
   ConsumedValue: string;
-  MaxCount?: string;
+  MaxCount?: string | undefined;
   Unit: EntitlementDataUnit;
 }
 export type EntitlementUsageList = EntitlementUsage[];
 export interface LicenseUsage {
-  EntitlementUsages?: EntitlementUsage[];
+  EntitlementUsages?: EntitlementUsage[] | undefined;
 }
 export interface GetLicenseUsageResponse {
-  LicenseUsage?: LicenseUsage;
+  LicenseUsage?: LicenseUsage | undefined;
 }
 export interface GetServiceSettingsRequest {}
 export interface OrganizationConfiguration {
   EnableIntegration: boolean;
 }
 export interface CrossAccountDiscoveryServiceStatus {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface RegionStatus {
-  Status?: string;
+  Status?: string | undefined;
 }
 export type RegionStatusMap = { [key: string]: RegionStatus | undefined };
 export interface CrossRegionDiscoveryStatus {
-  Message?: { [key: string]: RegionStatus | undefined };
+  Message?: { [key: string]: RegionStatus | undefined } | undefined;
 }
 export interface ServiceStatus {
-  CrossAccountDiscovery?: CrossAccountDiscoveryServiceStatus;
-  CrossRegionDiscovery?: CrossRegionDiscoveryStatus;
+  CrossAccountDiscovery?: CrossAccountDiscoveryServiceStatus | undefined;
+  CrossRegionDiscovery?: CrossRegionDiscoveryStatus | undefined;
 }
 export interface GetServiceSettingsResponse {
-  S3BucketArn?: string;
-  SnsTopicArn?: string;
-  OrganizationConfiguration?: OrganizationConfiguration;
-  EnableCrossAccountsDiscovery?: boolean;
-  LicenseManagerResourceShareArn?: string;
-  CrossRegionDiscoveryHomeRegion?: string;
-  CrossRegionDiscoverySourceRegions?: string[];
-  ServiceStatus?: ServiceStatus;
+  S3BucketArn?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  OrganizationConfiguration?: OrganizationConfiguration | undefined;
+  EnableCrossAccountsDiscovery?: boolean | undefined;
+  LicenseManagerResourceShareArn?: string | undefined;
+  CrossRegionDiscoveryHomeRegion?: string | undefined;
+  CrossRegionDiscoverySourceRegions?: string[] | undefined;
+  ServiceStatus?: ServiceStatus | undefined;
 }
 export interface ListAssetsForLicenseAssetGroupRequest {
   LicenseAssetGroupArn: string;
   AssetType: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Asset {
-  AssetArn?: string;
-  LatestAssetDiscoveryTime?: Date;
+  AssetArn?: string | undefined;
+  LatestAssetDiscoveryTime?: Date | undefined;
 }
 export type AssetList = Asset[];
 export interface ListAssetsForLicenseAssetGroupResponse {
-  Assets?: Asset[];
-  NextToken?: string;
+  Assets?: Asset[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAssociationsForLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LicenseConfigurationAssociation {
-  ResourceArn?: string;
-  ResourceType?: ResourceType;
-  ResourceOwnerId?: string;
-  AssociationTime?: Date;
-  AmiAssociationScope?: string;
+  ResourceArn?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceOwnerId?: string | undefined;
+  AssociationTime?: Date | undefined;
+  AmiAssociationScope?: string | undefined;
 }
 export type LicenseConfigurationAssociations = LicenseConfigurationAssociation[];
 export interface ListAssociationsForLicenseConfigurationResponse {
-  LicenseConfigurationAssociations?: LicenseConfigurationAssociation[];
-  NextToken?: string;
+  LicenseConfigurationAssociations?: LicenseConfigurationAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export type MaxSize100 = number;
 export interface ListDistributedGrantsRequest {
-  GrantArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  GrantArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type GrantList = Grant[];
 export interface ListDistributedGrantsResponse {
-  Grants?: Grant[];
-  NextToken?: string;
+  Grants?: Grant[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFailuresForLicenseConfigurationOperationsRequest {
   LicenseConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LicenseOperationFailure {
-  ResourceArn?: string;
-  ResourceType?: ResourceType;
-  ErrorMessage?: string;
-  FailureTime?: Date;
-  OperationName?: string;
-  ResourceOwnerId?: string;
-  OperationRequestedBy?: string;
-  MetadataList?: Metadata[];
+  ResourceArn?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ErrorMessage?: string | undefined;
+  FailureTime?: Date | undefined;
+  OperationName?: string | undefined;
+  ResourceOwnerId?: string | undefined;
+  OperationRequestedBy?: string | undefined;
+  MetadataList?: Metadata[] | undefined;
 }
 export type LicenseOperationFailureList = LicenseOperationFailure[];
 export interface ListFailuresForLicenseConfigurationOperationsResponse {
-  LicenseOperationFailureList?: LicenseOperationFailure[];
-  NextToken?: string;
+  LicenseOperationFailureList?: LicenseOperationFailure[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Filters = Filter[];
 export interface ListLicenseAssetGroupsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LicenseAssetGroupList = LicenseAssetGroup[];
 export interface ListLicenseAssetGroupsResponse {
-  LicenseAssetGroups?: LicenseAssetGroup[];
-  NextToken?: string;
+  LicenseAssetGroups?: LicenseAssetGroup[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseAssetRulesetsRequest {
-  Filters?: Filter[];
-  ShowAWSManagedLicenseAssetRulesets?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  ShowAWSManagedLicenseAssetRulesets?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LicenseAssetRulesetList = LicenseAssetRuleset[];
 export interface ListLicenseAssetRulesetsResponse {
-  LicenseAssetRulesets?: LicenseAssetRuleset[];
-  NextToken?: string;
+  LicenseAssetRulesets?: LicenseAssetRuleset[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseConfigurationsRequest {
-  LicenseConfigurationArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  LicenseConfigurationArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface LicenseConfiguration {
-  LicenseConfigurationId?: string;
-  LicenseConfigurationArn?: string;
-  Name?: string;
-  Description?: string;
-  LicenseCountingType?: LicenseCountingType;
-  LicenseRules?: string[];
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  DisassociateWhenNotFound?: boolean;
-  ConsumedLicenses?: number;
-  Status?: string;
-  OwnerAccountId?: string;
-  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[];
-  ManagedResourceSummaryList?: ManagedResourceSummary[];
-  ProductInformationList?: ProductInformation[];
-  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation;
-  LicenseExpiry?: number;
+  LicenseConfigurationId?: string | undefined;
+  LicenseConfigurationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LicenseCountingType?: LicenseCountingType | undefined;
+  LicenseRules?: string[] | undefined;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  ConsumedLicenses?: number | undefined;
+  Status?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[] | undefined;
+  ManagedResourceSummaryList?: ManagedResourceSummary[] | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation | undefined;
+  LicenseExpiry?: number | undefined;
 }
 export type LicenseConfigurations = LicenseConfiguration[];
 export interface ListLicenseConfigurationsResponse {
-  LicenseConfigurations?: LicenseConfiguration[];
-  NextToken?: string;
+  LicenseConfigurations?: LicenseConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseConfigurationsForOrganizationRequest {
-  LicenseConfigurationArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  LicenseConfigurationArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ListLicenseConfigurationsForOrganizationResponse {
-  LicenseConfigurations?: LicenseConfiguration[];
-  NextToken?: string;
+  LicenseConfigurations?: LicenseConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseConversionTasksRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface LicenseConversionTask {
-  LicenseConversionTaskId?: string;
-  ResourceArn?: string;
-  SourceLicenseContext?: LicenseConversionContext;
-  DestinationLicenseContext?: LicenseConversionContext;
-  Status?: LicenseConversionTaskStatus;
-  StatusMessage?: string;
-  StartTime?: Date;
-  LicenseConversionTime?: Date;
-  EndTime?: Date;
+  LicenseConversionTaskId?: string | undefined;
+  ResourceArn?: string | undefined;
+  SourceLicenseContext?: LicenseConversionContext | undefined;
+  DestinationLicenseContext?: LicenseConversionContext | undefined;
+  Status?: LicenseConversionTaskStatus | undefined;
+  StatusMessage?: string | undefined;
+  StartTime?: Date | undefined;
+  LicenseConversionTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type LicenseConversionTasks = LicenseConversionTask[];
 export interface ListLicenseConversionTasksResponse {
-  LicenseConversionTasks?: LicenseConversionTask[];
-  NextToken?: string;
+  LicenseConversionTasks?: LicenseConversionTask[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseManagerReportGeneratorsRequest {
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReportGeneratorList = ReportGenerator[];
 export interface ListLicenseManagerReportGeneratorsResponse {
-  ReportGenerators?: ReportGenerator[];
-  NextToken?: string;
+  ReportGenerators?: ReportGenerator[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicensesRequest {
-  LicenseArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  LicenseArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type LicenseList = License[];
 export interface ListLicensesResponse {
-  Licenses?: License[];
-  NextToken?: string;
+  Licenses?: License[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseSpecificationsForResourceRequest {
   ResourceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LicenseSpecification {
   LicenseConfigurationArn: string;
-  AmiAssociationScope?: string;
+  AmiAssociationScope?: string | undefined;
 }
 export type LicenseSpecifications = LicenseSpecification[];
 export interface ListLicenseSpecificationsForResourceResponse {
-  LicenseSpecifications?: LicenseSpecification[];
-  NextToken?: string;
+  LicenseSpecifications?: LicenseSpecification[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseVersionsRequest {
   LicenseArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListLicenseVersionsResponse {
-  Licenses?: License[];
-  NextToken?: string;
+  Licenses?: License[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReceivedGrantsRequest {
-  GrantArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  GrantArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListReceivedGrantsResponse {
-  Grants?: Grant[];
-  NextToken?: string;
+  Grants?: Grant[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReceivedGrantsForOrganizationRequest {
   LicenseArn: string;
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListReceivedGrantsForOrganizationResponse {
-  Grants?: Grant[];
-  NextToken?: string;
+  Grants?: Grant[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReceivedLicensesRequest {
-  LicenseArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  LicenseArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReceivedStatus =
   | "PENDING_WORKFLOW"
@@ -1194,40 +1194,40 @@ export type ReceivedStatus =
   | "WORKFLOW_COMPLETED"
   | (string & {});
 export interface ReceivedMetadata {
-  ReceivedStatus?: ReceivedStatus;
-  ReceivedStatusReason?: string;
-  AllowedOperations?: AllowedOperation[];
+  ReceivedStatus?: ReceivedStatus | undefined;
+  ReceivedStatusReason?: string | undefined;
+  AllowedOperations?: AllowedOperation[] | undefined;
 }
 export interface GrantedLicense {
-  LicenseArn?: string;
-  LicenseName?: string;
-  ProductName?: string;
-  ProductSKU?: string;
-  Issuer?: IssuerDetails;
-  HomeRegion?: string;
-  Status?: LicenseStatus;
-  Validity?: DatetimeRange;
-  Beneficiary?: string;
-  Entitlements?: Entitlement[];
-  ConsumptionConfiguration?: ConsumptionConfiguration;
-  LicenseMetadata?: Metadata[];
-  CreateTime?: string;
-  Version?: string;
-  ReceivedMetadata?: ReceivedMetadata;
+  LicenseArn?: string | undefined;
+  LicenseName?: string | undefined;
+  ProductName?: string | undefined;
+  ProductSKU?: string | undefined;
+  Issuer?: IssuerDetails | undefined;
+  HomeRegion?: string | undefined;
+  Status?: LicenseStatus | undefined;
+  Validity?: DatetimeRange | undefined;
+  Beneficiary?: string | undefined;
+  Entitlements?: Entitlement[] | undefined;
+  ConsumptionConfiguration?: ConsumptionConfiguration | undefined;
+  LicenseMetadata?: Metadata[] | undefined;
+  CreateTime?: string | undefined;
+  Version?: string | undefined;
+  ReceivedMetadata?: ReceivedMetadata | undefined;
 }
 export type GrantedLicenseList = GrantedLicense[];
 export interface ListReceivedLicensesResponse {
-  Licenses?: GrantedLicense[];
-  NextToken?: string;
+  Licenses?: GrantedLicense[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReceivedLicensesForOrganizationRequest {
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListReceivedLicensesForOrganizationResponse {
-  Licenses?: GrantedLicense[];
-  NextToken?: string;
+  Licenses?: GrantedLicense[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InventoryFilterCondition =
   | "EQUALS"
@@ -1238,85 +1238,85 @@ export type InventoryFilterCondition =
 export interface InventoryFilter {
   Name: string;
   Condition: InventoryFilterCondition;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type InventoryFilterList = InventoryFilter[];
 export interface ListResourceInventoryRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: InventoryFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: InventoryFilter[] | undefined;
 }
 export interface ResourceInventory {
-  ResourceId?: string;
-  ResourceType?: ResourceType;
-  ResourceArn?: string;
-  Platform?: string;
-  PlatformVersion?: string;
-  ResourceOwningAccountId?: string;
-  MarketplaceProductCodes?: string[];
-  UsageOperation?: string;
-  AmiId?: string;
-  HostId?: string;
-  Region?: string;
-  InstanceType?: string;
+  ResourceId?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceArn?: string | undefined;
+  Platform?: string | undefined;
+  PlatformVersion?: string | undefined;
+  ResourceOwningAccountId?: string | undefined;
+  MarketplaceProductCodes?: string[] | undefined;
+  UsageOperation?: string | undefined;
+  AmiId?: string | undefined;
+  HostId?: string | undefined;
+  Region?: string | undefined;
+  InstanceType?: string | undefined;
 }
 export type ResourceInventoryList = ResourceInventory[];
 export interface ListResourceInventoryResponse {
-  ResourceInventoryList?: ResourceInventory[];
-  NextToken?: string;
+  ResourceInventoryList?: ResourceInventory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListTokensRequest {
-  TokenIds?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  TokenIds?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TokenData {
-  TokenId?: string;
-  TokenType?: string;
-  LicenseArn?: string;
-  ExpirationTime?: string;
-  TokenProperties?: string[];
-  RoleArns?: string[];
-  Status?: string;
+  TokenId?: string | undefined;
+  TokenType?: string | undefined;
+  LicenseArn?: string | undefined;
+  ExpirationTime?: string | undefined;
+  TokenProperties?: string[] | undefined;
+  RoleArns?: string[] | undefined;
+  Status?: string | undefined;
 }
 export type TokenList = TokenData[];
 export interface ListTokensResponse {
-  Tokens?: TokenData[];
-  NextToken?: string;
+  Tokens?: TokenData[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUsageForLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface LicenseConfigurationUsage {
-  ResourceArn?: string;
-  ResourceType?: ResourceType;
-  ResourceStatus?: string;
-  ResourceOwnerId?: string;
-  AssociationTime?: Date;
-  ConsumedLicenses?: number;
+  ResourceArn?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceStatus?: string | undefined;
+  ResourceOwnerId?: string | undefined;
+  AssociationTime?: Date | undefined;
+  ConsumedLicenses?: number | undefined;
 }
 export type LicenseConfigurationUsageList = LicenseConfigurationUsage[];
 export interface ListUsageForLicenseConfigurationResponse {
-  LicenseConfigurationUsageList?: LicenseConfigurationUsage[];
-  NextToken?: string;
+  LicenseConfigurationUsageList?: LicenseConfigurationUsage[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface RejectGrantRequest {
   GrantArn: string;
 }
 export interface RejectGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1330,13 +1330,13 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateLicenseAssetGroupRequest {
-  Name?: string;
-  Description?: string;
-  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[] | undefined;
   AssociatedLicenseAssetRulesetARNs: string[];
-  Properties?: LicenseAssetGroupProperty[];
+  Properties?: LicenseAssetGroupProperty[] | undefined;
   LicenseAssetGroupArn: string;
-  Status?: LicenseAssetGroupStatus;
+  Status?: LicenseAssetGroupStatus | undefined;
   ClientToken: string;
 }
 export interface UpdateLicenseAssetGroupResponse {
@@ -1344,8 +1344,8 @@ export interface UpdateLicenseAssetGroupResponse {
   Status: string;
 }
 export interface UpdateLicenseAssetRulesetRequest {
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   Rules: LicenseAssetRule[];
   LicenseAssetRulesetArn: string;
   ClientToken: string;
@@ -1356,15 +1356,15 @@ export interface UpdateLicenseAssetRulesetResponse {
 export type LicenseConfigurationStatus = "AVAILABLE" | "DISABLED" | (string & {});
 export interface UpdateLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
-  LicenseConfigurationStatus?: LicenseConfigurationStatus;
-  LicenseRules?: string[];
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  Name?: string;
-  Description?: string;
-  ProductInformationList?: ProductInformation[];
-  DisassociateWhenNotFound?: boolean;
-  LicenseExpiry?: number;
+  LicenseConfigurationStatus?: LicenseConfigurationStatus | undefined;
+  LicenseRules?: string[] | undefined;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  LicenseExpiry?: number | undefined;
 }
 export interface UpdateLicenseConfigurationResponse {}
 export interface UpdateLicenseManagerReportGeneratorRequest {
@@ -1374,21 +1374,21 @@ export interface UpdateLicenseManagerReportGeneratorRequest {
   ReportContext: ReportContext;
   ReportFrequency: ReportFrequency;
   ClientToken: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdateLicenseManagerReportGeneratorResponse {}
 export interface UpdateLicenseSpecificationsForResourceRequest {
   ResourceArn: string;
-  AddLicenseSpecifications?: LicenseSpecification[];
-  RemoveLicenseSpecifications?: LicenseSpecification[];
+  AddLicenseSpecifications?: LicenseSpecification[] | undefined;
+  RemoveLicenseSpecifications?: LicenseSpecification[] | undefined;
 }
 export interface UpdateLicenseSpecificationsForResourceResponse {}
 export interface UpdateServiceSettingsRequest {
-  S3BucketArn?: string;
-  SnsTopicArn?: string;
-  OrganizationConfiguration?: OrganizationConfiguration;
-  EnableCrossAccountsDiscovery?: boolean;
-  EnabledDiscoverySourceRegions?: string[];
+  S3BucketArn?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  OrganizationConfiguration?: OrganizationConfiguration | undefined;
+  EnableCrossAccountsDiscovery?: boolean | undefined;
+  EnabledDiscoverySourceRegions?: string[] | undefined;
 }
 export interface UpdateServiceSettingsResponse {}
 export type Message = string;

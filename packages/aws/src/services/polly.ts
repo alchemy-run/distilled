@@ -309,10 +309,10 @@ export type LanguageCode =
 export type IncludeAdditionalLanguageCodes = boolean;
 export type NextToken = string;
 export interface DescribeVoicesInput {
-  Engine?: Engine;
-  LanguageCode?: LanguageCode;
-  IncludeAdditionalLanguageCodes?: boolean;
-  NextToken?: string;
+  Engine?: Engine | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  IncludeAdditionalLanguageCodes?: boolean | undefined;
+  NextToken?: string | undefined;
 }
 export type Gender = "Female" | "Male" | (string & {});
 export type VoiceId =
@@ -428,26 +428,26 @@ export type VoiceName = string;
 export type LanguageCodeList = LanguageCode[];
 export type EngineList = Engine[];
 export interface Voice {
-  Gender?: Gender;
-  Id?: VoiceId;
-  LanguageCode?: LanguageCode;
-  LanguageName?: string;
-  Name?: string;
-  AdditionalLanguageCodes?: LanguageCode[];
-  SupportedEngines?: Engine[];
+  Gender?: Gender | undefined;
+  Id?: VoiceId | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LanguageName?: string | undefined;
+  Name?: string | undefined;
+  AdditionalLanguageCodes?: LanguageCode[] | undefined;
+  SupportedEngines?: Engine[] | undefined;
 }
 export type VoiceList = Voice[];
 export interface DescribeVoicesOutput {
-  Voices?: Voice[];
-  NextToken?: string;
+  Voices?: Voice[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetLexiconInput {
   Name: string;
 }
 export type LexiconContent = string | redacted.Redacted<string>;
 export interface Lexicon {
-  Content?: string | redacted.Redacted<string>;
-  Name?: string;
+  Content?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
 }
 export type Alphabet = string;
 export type LastModified = Date;
@@ -455,16 +455,16 @@ export type LexiconArn = string;
 export type LexemesCount = number;
 export type Size = number;
 export interface LexiconAttributes {
-  Alphabet?: string;
-  LanguageCode?: LanguageCode;
-  LastModified?: Date;
-  LexiconArn?: string;
-  LexemesCount?: number;
-  Size?: number;
+  Alphabet?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModified?: Date | undefined;
+  LexiconArn?: string | undefined;
+  LexemesCount?: number | undefined;
+  Size?: number | undefined;
 }
 export interface GetLexiconOutput {
-  Lexicon?: Lexicon;
-  LexiconAttributes?: LexiconAttributes;
+  Lexicon?: Lexicon | undefined;
+  LexiconAttributes?: LexiconAttributes | undefined;
 }
 export type TaskId = string;
 export interface GetSpeechSynthesisTaskInput {
@@ -490,47 +490,47 @@ export type SpeechMarkType = "sentence" | "ssml" | "viseme" | "word" | (string &
 export type SpeechMarkTypeList = SpeechMarkType[];
 export type TextType = "ssml" | "text" | (string & {});
 export interface SynthesisTask {
-  Engine?: Engine;
-  TaskId?: string;
-  TaskStatus?: TaskStatus;
-  TaskStatusReason?: string;
-  OutputUri?: string;
-  CreationTime?: Date;
-  RequestCharacters?: number;
-  SnsTopicArn?: string;
-  LexiconNames?: string[];
-  OutputFormat?: OutputFormat;
-  SampleRate?: string;
-  SpeechMarkTypes?: SpeechMarkType[];
-  TextType?: TextType;
-  VoiceId?: VoiceId;
-  LanguageCode?: LanguageCode;
+  Engine?: Engine | undefined;
+  TaskId?: string | undefined;
+  TaskStatus?: TaskStatus | undefined;
+  TaskStatusReason?: string | undefined;
+  OutputUri?: string | undefined;
+  CreationTime?: Date | undefined;
+  RequestCharacters?: number | undefined;
+  SnsTopicArn?: string | undefined;
+  LexiconNames?: string[] | undefined;
+  OutputFormat?: OutputFormat | undefined;
+  SampleRate?: string | undefined;
+  SpeechMarkTypes?: SpeechMarkType[] | undefined;
+  TextType?: TextType | undefined;
+  VoiceId?: VoiceId | undefined;
+  LanguageCode?: LanguageCode | undefined;
 }
 export interface GetSpeechSynthesisTaskOutput {
-  SynthesisTask?: SynthesisTask;
+  SynthesisTask?: SynthesisTask | undefined;
 }
 export interface ListLexiconsInput {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface LexiconDescription {
-  Name?: string;
-  Attributes?: LexiconAttributes;
+  Name?: string | undefined;
+  Attributes?: LexiconAttributes | undefined;
 }
 export type LexiconDescriptionList = LexiconDescription[];
 export interface ListLexiconsOutput {
-  Lexicons?: LexiconDescription[];
-  NextToken?: string;
+  Lexicons?: LexiconDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListSpeechSynthesisTasksInput {
-  MaxResults?: number;
-  NextToken?: string;
-  Status?: TaskStatus;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Status?: TaskStatus | undefined;
 }
 export type SynthesisTasks = SynthesisTask[];
 export interface ListSpeechSynthesisTasksOutput {
-  NextToken?: string;
-  SynthesisTasks?: SynthesisTask[];
+  NextToken?: string | undefined;
+  SynthesisTasks?: SynthesisTask[] | undefined;
 }
 export interface PutLexiconInput {
   Name: string;
@@ -540,12 +540,12 @@ export interface PutLexiconOutput {}
 export type Text = string;
 export type Force = boolean;
 export interface FlushStreamConfiguration {
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export interface TextEvent {
   Text: string;
-  TextType?: TextType;
-  FlushStreamConfiguration?: FlushStreamConfiguration;
+  TextType?: TextType | undefined;
+  FlushStreamConfiguration?: FlushStreamConfiguration | undefined;
 }
 export interface CloseStreamEvent {}
 export type StartSpeechSynthesisStreamActionStream =
@@ -553,19 +553,19 @@ export type StartSpeechSynthesisStreamActionStream =
   | { TextEvent?: never; CloseStreamEvent: CloseStreamEvent };
 export interface StartSpeechSynthesisStreamInput {
   Engine: Engine;
-  LanguageCode?: LanguageCode;
-  LexiconNames?: string[];
+  LanguageCode?: LanguageCode | undefined;
+  LexiconNames?: string[] | undefined;
   OutputFormat: OutputFormat;
-  SampleRate?: string;
+  SampleRate?: string | undefined;
   VoiceId: VoiceId;
-  ActionStream?: stream.Stream<StartSpeechSynthesisStreamActionStream, Error, never>;
+  ActionStream?: stream.Stream<StartSpeechSynthesisStreamActionStream, Error, never> | undefined;
 }
 export type AudioChunk = Uint8Array;
 export interface AudioEvent {
-  AudioChunk?: Uint8Array;
+  AudioChunk?: Uint8Array | undefined;
 }
 export interface StreamClosedEvent {
-  RequestCharacters?: number;
+  RequestCharacters?: number | undefined;
 }
 export type ErrorMessage = string;
 export type ValidationExceptionReason =
@@ -590,8 +590,8 @@ export type AvailabilityErrorMessage = string;
 export type CoralAvailabilityThrottlingReason = string;
 export type CoralAvailabilityThrottledResource = string;
 export interface ThrottlingReason {
-  reason?: string;
-  resource?: string;
+  reason?: string | undefined;
+  resource?: string | undefined;
 }
 export type ThrottlingReasonList = ThrottlingReason[];
 export type StartSpeechSynthesisStreamEventStream =
@@ -644,43 +644,43 @@ export type StartSpeechSynthesisStreamEventStream =
       ThrottlingException: ThrottlingException;
     };
 export interface StartSpeechSynthesisStreamOutput {
-  EventStream?: stream.Stream<StartSpeechSynthesisStreamEventStream, Error, never>;
+  EventStream?: stream.Stream<StartSpeechSynthesisStreamEventStream, Error, never> | undefined;
 }
 export type OutputS3BucketName = string;
 export type OutputS3KeyPrefix = string;
 export interface StartSpeechSynthesisTaskInput {
-  Engine?: Engine;
-  LanguageCode?: LanguageCode;
-  LexiconNames?: string[];
+  Engine?: Engine | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LexiconNames?: string[] | undefined;
   OutputFormat: OutputFormat;
   OutputS3BucketName: string;
-  OutputS3KeyPrefix?: string;
-  SampleRate?: string;
-  SnsTopicArn?: string;
-  SpeechMarkTypes?: SpeechMarkType[];
+  OutputS3KeyPrefix?: string | undefined;
+  SampleRate?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SpeechMarkTypes?: SpeechMarkType[] | undefined;
   Text: string;
-  TextType?: TextType;
+  TextType?: TextType | undefined;
   VoiceId: VoiceId;
 }
 export interface StartSpeechSynthesisTaskOutput {
-  SynthesisTask?: SynthesisTask;
+  SynthesisTask?: SynthesisTask | undefined;
 }
 export interface SynthesizeSpeechInput {
-  Engine?: Engine;
-  LanguageCode?: LanguageCode;
-  LexiconNames?: string[];
+  Engine?: Engine | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LexiconNames?: string[] | undefined;
   OutputFormat: OutputFormat;
-  SampleRate?: string;
-  SpeechMarkTypes?: SpeechMarkType[];
+  SampleRate?: string | undefined;
+  SpeechMarkTypes?: SpeechMarkType[] | undefined;
   Text: string;
-  TextType?: TextType;
+  TextType?: TextType | undefined;
   VoiceId: VoiceId;
 }
 export type ContentType = string;
 export interface SynthesizeSpeechOutput {
-  AudioStream?: T.StreamingOutputBody;
-  ContentType?: string;
-  RequestCharacters?: number;
+  AudioStream?: T.StreamingOutputBody | undefined;
+  ContentType?: string | undefined;
+  RequestCharacters?: number | undefined;
 }
 export type DeleteLexiconError = LexiconNotFoundException | ServiceFailureException | CommonErrors;
 /**

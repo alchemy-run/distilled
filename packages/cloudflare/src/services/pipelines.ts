@@ -225,16 +225,16 @@ export class TableNotFound
 
 export interface CreateRequestDestinationBatch {
   /** Specifies rough maximum size of files. */
-  maxBytes?: number;
+  maxBytes?: number | undefined;
   /** Specifies duration to wait to aggregate batches files. */
-  maxDurationS?: number;
+  maxDurationS?: number | undefined;
   /** Specifies rough maximum number of rows per file. */
-  maxRows?: number;
+  maxRows?: number | undefined;
 }
 export type CreateRequestDestinationCompressionType = "none" | "gzip" | "deflate";
 export interface CreateRequestDestinationCompression {
   /** Specifies the desired compression algorithm and format. */
-  type?: CreateRequestDestinationCompressionType | (string & {});
+  type?: CreateRequestDestinationCompressionType | (string & {}) | undefined;
 }
 export interface CreateRequestDestinationCredentials {
   /** Specifies the R2 Bucket Access Key Id. */
@@ -249,11 +249,11 @@ export interface CreateRequestDestinationPath {
   /** Specifies the R2 Bucket to store files. */
   bucket: string;
   /** Specifies the name pattern to for individual data files. */
-  filename?: string;
+  filename?: string | undefined;
   /** Specifies the name pattern for directory. */
-  filepath?: string;
+  filepath?: string | undefined;
   /** Specifies the base directory within the bucket. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type CreateRequestDestinationType = "r2";
 export interface CreateRequestDestination {
@@ -271,15 +271,17 @@ export type CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSource
   Array<string>;
 export interface CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors {
   /** Specifies allowed origins to allow Cross Origin HTTP Requests. */
-  origins?: CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList;
+  origins?:
+    | CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList
+    | undefined;
 }
 export interface CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSource {
   /** Specifies the format of source data. */
   format: CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat;
   type: string;
   /** Specifies whether authentication is required to send to this pipeline via HTTP. */
-  authentication?: boolean;
-  cors?: CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors;
+  authentication?: boolean | undefined;
+  cors?: CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors | undefined;
 }
 export type CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesBindingSourceFormat = "json";
 export interface CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesBindingSource {
@@ -317,11 +319,11 @@ export interface CreateResponseDestinationPath {
   /** Specifies the R2 Bucket to store files. */
   bucket: string;
   /** Specifies the name pattern to for individual data files. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** Specifies the name pattern for directory. */
-  filepath?: string | null;
+  filepath?: string | null | undefined;
   /** Specifies the base directory within the bucket. */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
 }
 export type CreateResponseDestinationType = "r2";
 export interface CreateResponseDestination {
@@ -338,15 +340,21 @@ export type CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourc
   Array<string>;
 export interface CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors {
   /** Specifies allowed origins to allow Cross Origin HTTP Requests. */
-  origins?: CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList | null;
+  origins?:
+    | CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList
+    | null
+    | undefined;
 }
 export interface CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSource {
   /** Specifies the format of source data. */
   format: CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat;
   type: string;
   /** Specifies whether authentication is required to send to this pipeline via HTTP. */
-  authentication?: boolean | null;
-  cors?: CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors | null;
+  authentication?: boolean | null | undefined;
+  cors?:
+    | CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors
+    | null
+    | undefined;
 }
 export type CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesBindingSourceFormat = "json";
 export interface CreateResponseSourceItemCloudflarePipelinesWorkersPipelinesBindingSource {
@@ -385,23 +393,26 @@ export type SinksCreateRequestConfigCloudflarePipelinesR2TableFileNamingStrategy
   | "ulid";
 export interface SinksCreateRequestConfigCloudflarePipelinesR2TableFileNaming {
   /** The prefix to use in file name. i.e prefix-.parquet */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Filename generation strategy. */
-  strategy?: SinksCreateRequestConfigCloudflarePipelinesR2TableFileNamingStrategy | (string & {});
+  strategy?:
+    | SinksCreateRequestConfigCloudflarePipelinesR2TableFileNamingStrategy
+    | (string & {})
+    | undefined;
   /** This will overwrite the default file suffix. i.e .parquet, use with caution */
-  suffix?: string;
+  suffix?: string | undefined;
 }
 export interface SinksCreateRequestConfigCloudflarePipelinesR2TablePartitioning {
   /** The pattern of the date string */
-  timePattern?: string;
+  timePattern?: string | undefined;
 }
 export interface SinksCreateRequestConfigCloudflarePipelinesR2TableRollingPolicy {
   /** Files will be rolled after reaching this number of bytes */
-  fileSizeBytes?: number;
+  fileSizeBytes?: number | undefined;
   /** Number of seconds of inactivity to wait before rolling over to a new file */
-  inactivitySeconds?: number;
+  inactivitySeconds?: number | undefined;
   /** Number of seconds to wait before rolling over to a new file */
-  intervalSeconds?: number;
+  intervalSeconds?: number | undefined;
 }
 export interface SinksCreateRequestConfigCloudflarePipelinesR2Table {
   /** Cloudflare Account ID for the bucket */
@@ -410,15 +421,15 @@ export interface SinksCreateRequestConfigCloudflarePipelinesR2Table {
   bucket: string;
   credentials: SinksCreateRequestConfigCloudflarePipelinesR2TableCredentials;
   /** Controls filename prefix/suffix and strategy. */
-  fileNaming?: SinksCreateRequestConfigCloudflarePipelinesR2TableFileNaming;
+  fileNaming?: SinksCreateRequestConfigCloudflarePipelinesR2TableFileNaming | undefined;
   /** Jurisdiction this bucket is hosted in */
-  jurisdiction?: string;
+  jurisdiction?: string | undefined;
   /** Data-layout partitioning for sinks. */
-  partitioning?: SinksCreateRequestConfigCloudflarePipelinesR2TablePartitioning;
+  partitioning?: SinksCreateRequestConfigCloudflarePipelinesR2TablePartitioning | undefined;
   /** Subpath within the bucket to write to */
-  path?: string;
+  path?: string | undefined;
   /** Rolling policy for file sinks (when &amp; why to close a file and open a new one). */
-  rollingPolicy?: SinksCreateRequestConfigCloudflarePipelinesR2TableRollingPolicy;
+  rollingPolicy?: SinksCreateRequestConfigCloudflarePipelinesR2TableRollingPolicy | undefined;
 }
 export type SinksCreateRequestConfigCloudflarePipelinesR2DataCatalogTableRollingPolicy =
   SinksCreateRequestConfigCloudflarePipelinesR2TableRollingPolicy;
@@ -432,9 +443,9 @@ export interface SinksCreateRequestConfigCloudflarePipelinesR2DataCatalogTable {
   /** Table name */
   tableName: string;
   /** Table namespace */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Rolling policy for file sinks (when &amp; why to close a file and open a new one). */
-  rollingPolicy?: SinksCreateRequestConfigCloudflarePipelinesR2TableRollingPolicy;
+  rollingPolicy?: SinksCreateRequestConfigCloudflarePipelinesR2TableRollingPolicy | undefined;
 }
 export type SinksCreateRequestConfig =
   | SinksCreateRequestConfigCloudflarePipelinesR2Table
@@ -446,10 +457,10 @@ export type SinksCreateRequestFormatJsonTimestampFormat = "rfc3339" | "unix_mill
 export interface SinksCreateRequestFormatJson {
   type: SinksCreateRequestFormatJsonType;
   /** Specifies the compression applied to JSON sink output. */
-  compression?: SinksCreateRequestFormatJsonCompression | (string & {});
-  decimalEncoding?: SinksCreateRequestFormatJsonDecimalEncoding | (string & {});
-  timestampFormat?: SinksCreateRequestFormatJsonTimestampFormat | (string & {});
-  unstructured?: boolean;
+  compression?: SinksCreateRequestFormatJsonCompression | (string & {}) | undefined;
+  decimalEncoding?: SinksCreateRequestFormatJsonDecimalEncoding | (string & {}) | undefined;
+  timestampFormat?: SinksCreateRequestFormatJsonTimestampFormat | (string & {}) | undefined;
+  unstructured?: boolean | undefined;
 }
 export type SinksCreateRequestFormatParquetType = "parquet";
 export type SinksCreateRequestFormatParquetCompression =
@@ -460,8 +471,8 @@ export type SinksCreateRequestFormatParquetCompression =
   | "lz4";
 export interface SinksCreateRequestFormatParquet {
   type: SinksCreateRequestFormatParquetType;
-  compression?: SinksCreateRequestFormatParquetCompression | (string & {});
-  rowGroupBytes?: number;
+  compression?: SinksCreateRequestFormatParquetCompression | (string & {}) | undefined;
+  rowGroupBytes?: number | undefined;
 }
 export type SinksCreateRequestFormat =
   | SinksCreateRequestFormatJson
@@ -469,58 +480,58 @@ export type SinksCreateRequestFormat =
 export type SinksCreateRequestSchemaFieldsItemInt32Type = "int32";
 export interface SinksCreateRequestSchemaFieldsItemInt32 {
   type: SinksCreateRequestSchemaFieldsItemInt32Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemInt64Type = "int64";
 export interface SinksCreateRequestSchemaFieldsItemInt64 {
   type: SinksCreateRequestSchemaFieldsItemInt64Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemFloat32Type = "float32";
 export interface SinksCreateRequestSchemaFieldsItemFloat32 {
   type: SinksCreateRequestSchemaFieldsItemFloat32Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemFloat64Type = "float64";
 export interface SinksCreateRequestSchemaFieldsItemFloat64 {
   type: SinksCreateRequestSchemaFieldsItemFloat64Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemBoolType = "bool";
 export interface SinksCreateRequestSchemaFieldsItemBool {
   type: SinksCreateRequestSchemaFieldsItemBoolType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemStringType = "string";
 export interface SinksCreateRequestSchemaFieldsItemString {
   type: SinksCreateRequestSchemaFieldsItemStringType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemBinaryType = "binary";
 export interface SinksCreateRequestSchemaFieldsItemBinary {
   type: SinksCreateRequestSchemaFieldsItemBinaryType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemTimestampType = "timestamp";
 export type SinksCreateRequestSchemaFieldsItemTimestampUnit =
@@ -530,35 +541,35 @@ export type SinksCreateRequestSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface SinksCreateRequestSchemaFieldsItemTimestamp {
   type: SinksCreateRequestSchemaFieldsItemTimestampType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
-  unit?: SinksCreateRequestSchemaFieldsItemTimestampUnit | (string & {});
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
+  unit?: SinksCreateRequestSchemaFieldsItemTimestampUnit | (string & {}) | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemJsonType = "json";
 export interface SinksCreateRequestSchemaFieldsItemJson {
   type: SinksCreateRequestSchemaFieldsItemJsonType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemStructType = "struct";
 export interface SinksCreateRequestSchemaFieldsItemStruct {
   type: SinksCreateRequestSchemaFieldsItemStructType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItemListType = "list";
 export interface SinksCreateRequestSchemaFieldsItemList {
   type: SinksCreateRequestSchemaFieldsItemListType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type SinksCreateRequestSchemaFieldsItem =
   | SinksCreateRequestSchemaFieldsItemInt32
@@ -574,8 +585,8 @@ export type SinksCreateRequestSchemaFieldsItem =
   | SinksCreateRequestSchemaFieldsItemList;
 export type SinksCreateRequestSchemaFieldsList = Array<SinksCreateRequestSchemaFieldsItem>;
 export interface SinksCreateRequestSchema {
-  fields?: SinksCreateRequestSchemaFieldsList;
-  inferred?: boolean;
+  fields?: SinksCreateRequestSchemaFieldsList | undefined;
+  inferred?: boolean | undefined;
 }
 export interface CreateSinkRequest {
   /** Specifies the public ID of the account. */
@@ -585,11 +596,11 @@ export interface CreateSinkRequest {
   /** Specifies the type of sink. */
   type: SinksCreateRequestType | (string & {});
   /** Defines the configuration of the R2 Sink. */
-  config?: SinksCreateRequestConfig;
+  config?: SinksCreateRequestConfig | undefined;
   /** Defines the output data format of a sink. */
-  format?: SinksCreateRequestFormat;
+  format?: SinksCreateRequestFormat | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: SinksCreateRequestSchema;
+  schema?: SinksCreateRequestSchema | undefined;
 }
 export type SinksCreateResponseType = "r2" | "r2_data_catalog" | "basin_catalog";
 export type SinksCreateResponseConfigCloudflarePipelinesR2TableCredentials =
@@ -601,23 +612,26 @@ export type SinksCreateResponseConfigCloudflarePipelinesR2TableFileNamingStrateg
   | "ulid";
 export interface SinksCreateResponseConfigCloudflarePipelinesR2TableFileNaming {
   /** The prefix to use in file name. i.e prefix-.parquet */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Filename generation strategy. */
-  strategy?: SinksCreateResponseConfigCloudflarePipelinesR2TableFileNamingStrategy | null;
+  strategy?:
+    | SinksCreateResponseConfigCloudflarePipelinesR2TableFileNamingStrategy
+    | null
+    | undefined;
   /** This will overwrite the default file suffix. i.e .parquet, use with caution */
-  suffix?: string | null;
+  suffix?: string | null | undefined;
 }
 export interface SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning {
   /** The pattern of the date string */
-  timePattern?: string | null;
+  timePattern?: string | null | undefined;
 }
 export interface SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy {
   /** Files will be rolled after reaching this number of bytes */
-  fileSizeBytes?: number | null;
+  fileSizeBytes?: number | null | undefined;
   /** Number of seconds of inactivity to wait before rolling over to a new file */
-  inactivitySeconds?: number | null;
+  inactivitySeconds?: number | null | undefined;
   /** Number of seconds to wait before rolling over to a new file */
-  intervalSeconds?: number | null;
+  intervalSeconds?: number | null | undefined;
 }
 export interface SinksCreateResponseConfigCloudflarePipelinesR2Table {
   /** Cloudflare Account ID for the bucket */
@@ -626,15 +640,18 @@ export interface SinksCreateResponseConfigCloudflarePipelinesR2Table {
   bucket: string;
   credentials: SinksCreateRequestConfigCloudflarePipelinesR2TableCredentials;
   /** Controls filename prefix/suffix and strategy. */
-  fileNaming?: SinksCreateResponseConfigCloudflarePipelinesR2TableFileNaming | null;
+  fileNaming?: SinksCreateResponseConfigCloudflarePipelinesR2TableFileNaming | null | undefined;
   /** Jurisdiction this bucket is hosted in */
-  jurisdiction?: string | null;
+  jurisdiction?: string | null | undefined;
   /** Data-layout partitioning for sinks. */
-  partitioning?: SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning | null;
+  partitioning?: SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning | null | undefined;
   /** Subpath within the bucket to write to */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Rolling policy for file sinks (when &amp; why to close a file and open a new one). */
-  rollingPolicy?: SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy | null;
+  rollingPolicy?:
+    | SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy
+    | null
+    | undefined;
 }
 export type SinksCreateResponseConfigCloudflarePipelinesR2DataCatalogTableRollingPolicy =
   SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy;
@@ -648,9 +665,12 @@ export interface SinksCreateResponseConfigCloudflarePipelinesR2DataCatalogTable 
   /** Table name */
   tableName: string;
   /** Table namespace */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
   /** Rolling policy for file sinks (when &amp; why to close a file and open a new one). */
-  rollingPolicy?: SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy | null;
+  rollingPolicy?:
+    | SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy
+    | null
+    | undefined;
 }
 export type SinksCreateResponseConfig =
   | SinksCreateResponseConfigCloudflarePipelinesR2Table
@@ -662,10 +682,10 @@ export type SinksCreateResponseFormatJsonTimestampFormat = "rfc3339" | "unix_mil
 export interface SinksCreateResponseFormatJson {
   type: SinksCreateResponseFormatJsonType;
   /** Specifies the compression applied to JSON sink output. */
-  compression?: SinksCreateResponseFormatJsonCompression | null;
-  decimalEncoding?: SinksCreateResponseFormatJsonDecimalEncoding | null;
-  timestampFormat?: SinksCreateResponseFormatJsonTimestampFormat | null;
-  unstructured?: boolean | null;
+  compression?: SinksCreateResponseFormatJsonCompression | null | undefined;
+  decimalEncoding?: SinksCreateResponseFormatJsonDecimalEncoding | null | undefined;
+  timestampFormat?: SinksCreateResponseFormatJsonTimestampFormat | null | undefined;
+  unstructured?: boolean | null | undefined;
 }
 export type SinksCreateResponseFormatParquetType = "parquet";
 export type SinksCreateResponseFormatParquetCompression =
@@ -676,8 +696,8 @@ export type SinksCreateResponseFormatParquetCompression =
   | "lz4";
 export interface SinksCreateResponseFormatParquet {
   type: SinksCreateResponseFormatParquetType;
-  compression?: SinksCreateResponseFormatParquetCompression | null;
-  rowGroupBytes?: number | null;
+  compression?: SinksCreateResponseFormatParquetCompression | null | undefined;
+  rowGroupBytes?: number | null | undefined;
 }
 export type SinksCreateResponseFormat =
   | SinksCreateResponseFormatJson
@@ -685,58 +705,58 @@ export type SinksCreateResponseFormat =
 export type SinksCreateResponseSchemaFieldsItemInt32Type = "int32";
 export interface SinksCreateResponseSchemaFieldsItemInt32 {
   type: SinksCreateResponseSchemaFieldsItemInt32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemInt64Type = "int64";
 export interface SinksCreateResponseSchemaFieldsItemInt64 {
   type: SinksCreateResponseSchemaFieldsItemInt64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemFloat32Type = "float32";
 export interface SinksCreateResponseSchemaFieldsItemFloat32 {
   type: SinksCreateResponseSchemaFieldsItemFloat32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemFloat64Type = "float64";
 export interface SinksCreateResponseSchemaFieldsItemFloat64 {
   type: SinksCreateResponseSchemaFieldsItemFloat64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemBoolType = "bool";
 export interface SinksCreateResponseSchemaFieldsItemBool {
   type: SinksCreateResponseSchemaFieldsItemBoolType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemStringType = "string";
 export interface SinksCreateResponseSchemaFieldsItemString {
   type: SinksCreateResponseSchemaFieldsItemStringType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemBinaryType = "binary";
 export interface SinksCreateResponseSchemaFieldsItemBinary {
   type: SinksCreateResponseSchemaFieldsItemBinaryType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemTimestampType = "timestamp";
 export type SinksCreateResponseSchemaFieldsItemTimestampUnit =
@@ -746,35 +766,35 @@ export type SinksCreateResponseSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface SinksCreateResponseSchemaFieldsItemTimestamp {
   type: SinksCreateResponseSchemaFieldsItemTimestampType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
-  unit?: SinksCreateResponseSchemaFieldsItemTimestampUnit | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
+  unit?: SinksCreateResponseSchemaFieldsItemTimestampUnit | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemJsonType = "json";
 export interface SinksCreateResponseSchemaFieldsItemJson {
   type: SinksCreateResponseSchemaFieldsItemJsonType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemStructType = "struct";
 export interface SinksCreateResponseSchemaFieldsItemStruct {
   type: SinksCreateResponseSchemaFieldsItemStructType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItemListType = "list";
 export interface SinksCreateResponseSchemaFieldsItemList {
   type: SinksCreateResponseSchemaFieldsItemListType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksCreateResponseSchemaFieldsItem =
   | SinksCreateResponseSchemaFieldsItemInt32
@@ -790,8 +810,8 @@ export type SinksCreateResponseSchemaFieldsItem =
   | SinksCreateResponseSchemaFieldsItemList;
 export type SinksCreateResponseSchemaFieldsList = Array<SinksCreateResponseSchemaFieldsItem>;
 export interface SinksCreateResponseSchema {
-  fields?: SinksCreateResponseSchemaFieldsList | null;
-  inferred?: boolean | null;
+  fields?: SinksCreateResponseSchemaFieldsList | null | undefined;
+  inferred?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSinkResponse {
@@ -804,20 +824,20 @@ export interface CreateSinkResponse {
   /** Specifies the type of sink. */
   type: SinksCreateResponseType;
   /** R2 Data Catalog Sink */
-  config?: SinksCreateResponseConfig | null;
+  config?: SinksCreateResponseConfig | null | undefined;
   /** Defines the output data format of a sink. */
-  format?: SinksCreateResponseFormat | null;
+  format?: SinksCreateResponseFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: SinksCreateResponseSchema | null;
+  schema?: SinksCreateResponseSchema | null | undefined;
 }
 export type StreamsCreateRequestFormatJsonType = "json";
 export type StreamsCreateRequestFormatJsonDecimalEncoding = "number" | "string" | "bytes";
 export type StreamsCreateRequestFormatJsonTimestampFormat = "rfc3339" | "unix_millis";
 export interface StreamsCreateRequestFormatJson {
   type: StreamsCreateRequestFormatJsonType;
-  decimalEncoding?: StreamsCreateRequestFormatJsonDecimalEncoding | (string & {});
-  timestampFormat?: StreamsCreateRequestFormatJsonTimestampFormat | (string & {});
-  unstructured?: boolean;
+  decimalEncoding?: StreamsCreateRequestFormatJsonDecimalEncoding | (string & {}) | undefined;
+  timestampFormat?: StreamsCreateRequestFormatJsonTimestampFormat | (string & {}) | undefined;
+  unstructured?: boolean | undefined;
 }
 export type StreamsCreateRequestFormatParquetType = "parquet";
 export type StreamsCreateRequestFormatParquetCompression =
@@ -828,15 +848,15 @@ export type StreamsCreateRequestFormatParquetCompression =
   | "lz4";
 export interface StreamsCreateRequestFormatParquet {
   type: StreamsCreateRequestFormatParquetType;
-  compression?: StreamsCreateRequestFormatParquetCompression | (string & {});
-  rowGroupBytes?: number;
+  compression?: StreamsCreateRequestFormatParquetCompression | (string & {}) | undefined;
+  rowGroupBytes?: number | undefined;
 }
 export type StreamsCreateRequestFormat =
   | StreamsCreateRequestFormatJson
   | StreamsCreateRequestFormatParquet;
 export type StreamsCreateRequestHttpCorsOriginsList = Array<string>;
 export interface StreamsCreateRequestHttpCors {
-  origins?: StreamsCreateRequestHttpCorsOriginsList;
+  origins?: StreamsCreateRequestHttpCorsOriginsList | undefined;
 }
 export interface StreamsCreateRequestHttp {
   /** Indicates that authentication is required for the HTTP endpoint. */
@@ -844,63 +864,63 @@ export interface StreamsCreateRequestHttp {
   /** Indicates that the HTTP endpoint is enabled. */
   enabled: boolean;
   /** Specifies the CORS options for the HTTP endpoint. */
-  cors?: StreamsCreateRequestHttpCors;
+  cors?: StreamsCreateRequestHttpCors | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemInt32Type = "int32";
 export interface StreamsCreateRequestSchemaFieldsItemInt32 {
   type: StreamsCreateRequestSchemaFieldsItemInt32Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemInt64Type = "int64";
 export interface StreamsCreateRequestSchemaFieldsItemInt64 {
   type: StreamsCreateRequestSchemaFieldsItemInt64Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemFloat32Type = "float32";
 export interface StreamsCreateRequestSchemaFieldsItemFloat32 {
   type: StreamsCreateRequestSchemaFieldsItemFloat32Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemFloat64Type = "float64";
 export interface StreamsCreateRequestSchemaFieldsItemFloat64 {
   type: StreamsCreateRequestSchemaFieldsItemFloat64Type;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemBoolType = "bool";
 export interface StreamsCreateRequestSchemaFieldsItemBool {
   type: StreamsCreateRequestSchemaFieldsItemBoolType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemStringType = "string";
 export interface StreamsCreateRequestSchemaFieldsItemString {
   type: StreamsCreateRequestSchemaFieldsItemStringType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemBinaryType = "binary";
 export interface StreamsCreateRequestSchemaFieldsItemBinary {
   type: StreamsCreateRequestSchemaFieldsItemBinaryType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemTimestampType = "timestamp";
 export type StreamsCreateRequestSchemaFieldsItemTimestampUnit =
@@ -910,35 +930,35 @@ export type StreamsCreateRequestSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface StreamsCreateRequestSchemaFieldsItemTimestamp {
   type: StreamsCreateRequestSchemaFieldsItemTimestampType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
-  unit?: StreamsCreateRequestSchemaFieldsItemTimestampUnit | (string & {});
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
+  unit?: StreamsCreateRequestSchemaFieldsItemTimestampUnit | (string & {}) | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemJsonType = "json";
 export interface StreamsCreateRequestSchemaFieldsItemJson {
   type: StreamsCreateRequestSchemaFieldsItemJsonType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemStructType = "struct";
 export interface StreamsCreateRequestSchemaFieldsItemStruct {
   type: StreamsCreateRequestSchemaFieldsItemStructType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItemListType = "list";
 export interface StreamsCreateRequestSchemaFieldsItemList {
   type: StreamsCreateRequestSchemaFieldsItemListType;
-  metadataKey?: string;
-  name?: string;
-  required?: boolean;
-  sqlName?: string;
+  metadataKey?: string | undefined;
+  name?: string | undefined;
+  required?: boolean | undefined;
+  sqlName?: string | undefined;
 }
 export type StreamsCreateRequestSchemaFieldsItem =
   | StreamsCreateRequestSchemaFieldsItemInt32
@@ -954,8 +974,8 @@ export type StreamsCreateRequestSchemaFieldsItem =
   | StreamsCreateRequestSchemaFieldsItemList;
 export type StreamsCreateRequestSchemaFieldsList = Array<StreamsCreateRequestSchemaFieldsItem>;
 export interface StreamsCreateRequestSchema {
-  fields?: StreamsCreateRequestSchemaFieldsList;
-  inferred?: boolean;
+  fields?: StreamsCreateRequestSchemaFieldsList | undefined;
+  inferred?: boolean | undefined;
 }
 export interface StreamsCreateRequestWorkerBinding {
   /** Indicates that the worker binding is enabled. */
@@ -967,15 +987,15 @@ export interface CreateStreamRequest {
   /** Specifies the name of the Stream. */
   name: string;
   /** Defines the data format of the events. */
-  format?: StreamsCreateRequestFormat;
-  http?: StreamsCreateRequestHttp;
+  format?: StreamsCreateRequestFormat | undefined;
+  http?: StreamsCreateRequestHttp | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: StreamsCreateRequestSchema;
-  workerBinding?: StreamsCreateRequestWorkerBinding;
+  schema?: StreamsCreateRequestSchema | undefined;
+  workerBinding?: StreamsCreateRequestWorkerBinding | undefined;
 }
 export type StreamsCreateResponseHttpCorsOriginsList = Array<string>;
 export interface StreamsCreateResponseHttpCors {
-  origins?: StreamsCreateResponseHttpCorsOriginsList | null;
+  origins?: StreamsCreateResponseHttpCorsOriginsList | null | undefined;
 }
 export interface StreamsCreateResponseHttp {
   /** Indicates that authentication is required for the HTTP endpoint. */
@@ -983,7 +1003,7 @@ export interface StreamsCreateResponseHttp {
   /** Indicates that the HTTP endpoint is enabled. */
   enabled: boolean;
   /** Specifies the CORS options for the HTTP endpoint. */
-  cors?: StreamsCreateResponseHttpCors | null;
+  cors?: StreamsCreateResponseHttpCors | null | undefined;
 }
 export type StreamsCreateResponseWorkerBinding = StreamsCreateRequestWorkerBinding;
 export type StreamsCreateResponseFormatJsonType = "json";
@@ -991,9 +1011,9 @@ export type StreamsCreateResponseFormatJsonDecimalEncoding = "number" | "string"
 export type StreamsCreateResponseFormatJsonTimestampFormat = "rfc3339" | "unix_millis";
 export interface StreamsCreateResponseFormatJson {
   type: StreamsCreateResponseFormatJsonType;
-  decimalEncoding?: StreamsCreateResponseFormatJsonDecimalEncoding | null;
-  timestampFormat?: StreamsCreateResponseFormatJsonTimestampFormat | null;
-  unstructured?: boolean | null;
+  decimalEncoding?: StreamsCreateResponseFormatJsonDecimalEncoding | null | undefined;
+  timestampFormat?: StreamsCreateResponseFormatJsonTimestampFormat | null | undefined;
+  unstructured?: boolean | null | undefined;
 }
 export type StreamsCreateResponseFormatParquetType = "parquet";
 export type StreamsCreateResponseFormatParquetCompression =
@@ -1004,8 +1024,8 @@ export type StreamsCreateResponseFormatParquetCompression =
   | "lz4";
 export interface StreamsCreateResponseFormatParquet {
   type: StreamsCreateResponseFormatParquetType;
-  compression?: StreamsCreateResponseFormatParquetCompression | null;
-  rowGroupBytes?: number | null;
+  compression?: StreamsCreateResponseFormatParquetCompression | null | undefined;
+  rowGroupBytes?: number | null | undefined;
 }
 export type StreamsCreateResponseFormat =
   | StreamsCreateResponseFormatJson
@@ -1013,58 +1033,58 @@ export type StreamsCreateResponseFormat =
 export type StreamsCreateResponseSchemaFieldsItemInt32Type = "int32";
 export interface StreamsCreateResponseSchemaFieldsItemInt32 {
   type: StreamsCreateResponseSchemaFieldsItemInt32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemInt64Type = "int64";
 export interface StreamsCreateResponseSchemaFieldsItemInt64 {
   type: StreamsCreateResponseSchemaFieldsItemInt64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemFloat32Type = "float32";
 export interface StreamsCreateResponseSchemaFieldsItemFloat32 {
   type: StreamsCreateResponseSchemaFieldsItemFloat32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemFloat64Type = "float64";
 export interface StreamsCreateResponseSchemaFieldsItemFloat64 {
   type: StreamsCreateResponseSchemaFieldsItemFloat64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemBoolType = "bool";
 export interface StreamsCreateResponseSchemaFieldsItemBool {
   type: StreamsCreateResponseSchemaFieldsItemBoolType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemStringType = "string";
 export interface StreamsCreateResponseSchemaFieldsItemString {
   type: StreamsCreateResponseSchemaFieldsItemStringType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemBinaryType = "binary";
 export interface StreamsCreateResponseSchemaFieldsItemBinary {
   type: StreamsCreateResponseSchemaFieldsItemBinaryType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemTimestampType = "timestamp";
 export type StreamsCreateResponseSchemaFieldsItemTimestampUnit =
@@ -1074,35 +1094,35 @@ export type StreamsCreateResponseSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface StreamsCreateResponseSchemaFieldsItemTimestamp {
   type: StreamsCreateResponseSchemaFieldsItemTimestampType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
-  unit?: StreamsCreateResponseSchemaFieldsItemTimestampUnit | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
+  unit?: StreamsCreateResponseSchemaFieldsItemTimestampUnit | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemJsonType = "json";
 export interface StreamsCreateResponseSchemaFieldsItemJson {
   type: StreamsCreateResponseSchemaFieldsItemJsonType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemStructType = "struct";
 export interface StreamsCreateResponseSchemaFieldsItemStruct {
   type: StreamsCreateResponseSchemaFieldsItemStructType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItemListType = "list";
 export interface StreamsCreateResponseSchemaFieldsItemList {
   type: StreamsCreateResponseSchemaFieldsItemListType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsCreateResponseSchemaFieldsItem =
   | StreamsCreateResponseSchemaFieldsItemInt32
@@ -1118,8 +1138,8 @@ export type StreamsCreateResponseSchemaFieldsItem =
   | StreamsCreateResponseSchemaFieldsItemList;
 export type StreamsCreateResponseSchemaFieldsList = Array<StreamsCreateResponseSchemaFieldsItem>;
 export interface StreamsCreateResponseSchema {
-  fields?: StreamsCreateResponseSchemaFieldsList | null;
-  inferred?: boolean | null;
+  fields?: StreamsCreateResponseSchemaFieldsList | null | undefined;
+  inferred?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateStreamResponse {
@@ -1134,11 +1154,11 @@ export interface CreateStreamResponse {
   version: number;
   workerBinding: StreamsCreateRequestWorkerBinding;
   /** Indicates the endpoint URL of this stream. */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** Defines the data format of the events. */
-  format?: StreamsCreateResponseFormat | null;
+  format?: StreamsCreateResponseFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: StreamsCreateResponseSchema | null;
+  schema?: StreamsCreateResponseSchema | null | undefined;
 }
 export interface CreateV1PipelineRequest {
   /** Specifies the public ID of the account. */
@@ -1218,15 +1238,18 @@ export type GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCo
   Array<string>;
 export interface GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors {
   /** Specifies allowed origins to allow Cross Origin HTTP Requests. */
-  origins?: GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList | null;
+  origins?:
+    | GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList
+    | null
+    | undefined;
 }
 export interface GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSource {
   /** Specifies the format of source data. */
   format: GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat;
   type: string;
   /** Specifies whether authentication is required to send to this pipeline via HTTP. */
-  authentication?: boolean | null;
-  cors?: GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors | null;
+  authentication?: boolean | null | undefined;
+  cors?: GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors | null | undefined;
 }
 export type GetResponseSourceItemCloudflarePipelinesWorkersPipelinesBindingSourceFormat = "json";
 export interface GetResponseSourceItemCloudflarePipelinesWorkersPipelinesBindingSource {
@@ -1265,11 +1288,14 @@ export type SinksGetResponseConfigCloudflarePipelinesR2TablePublicFileNamingStra
   | "ulid";
 export interface SinksGetResponseConfigCloudflarePipelinesR2TablePublicFileNaming {
   /** The prefix to use in file name. i.e prefix-.parquet */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Filename generation strategy. */
-  strategy?: SinksGetResponseConfigCloudflarePipelinesR2TablePublicFileNamingStrategy | null;
+  strategy?:
+    | SinksGetResponseConfigCloudflarePipelinesR2TablePublicFileNamingStrategy
+    | null
+    | undefined;
   /** This will overwrite the default file suffix. i.e .parquet, use with caution */
-  suffix?: string | null;
+  suffix?: string | null | undefined;
 }
 export type SinksGetResponseConfigCloudflarePipelinesR2TablePublicPartitioning =
   SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning;
@@ -1281,15 +1307,18 @@ export interface SinksGetResponseConfigCloudflarePipelinesR2TablePublic {
   /** R2 Bucket to write to */
   bucket: string;
   /** Controls filename prefix/suffix and strategy. */
-  fileNaming?: SinksGetResponseConfigCloudflarePipelinesR2TablePublicFileNaming | null;
+  fileNaming?: SinksGetResponseConfigCloudflarePipelinesR2TablePublicFileNaming | null | undefined;
   /** Jurisdiction this bucket is hosted in */
-  jurisdiction?: string | null;
+  jurisdiction?: string | null | undefined;
   /** Data-layout partitioning for sinks. */
-  partitioning?: SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning | null;
+  partitioning?: SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning | null | undefined;
   /** Subpath within the bucket to write to */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Rolling policy for file sinks (when &amp; why to close a file and open a new one). */
-  rollingPolicy?: SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy | null;
+  rollingPolicy?:
+    | SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy
+    | null
+    | undefined;
 }
 export type SinksGetResponseConfigCloudflarePipelinesR2DataCatalogTablePublicRollingPolicy =
   SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy;
@@ -1301,9 +1330,12 @@ export interface SinksGetResponseConfigCloudflarePipelinesR2DataCatalogTablePubl
   /** Table name */
   tableName: string;
   /** Table namespace */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
   /** Rolling policy for file sinks (when &amp; why to close a file and open a new one). */
-  rollingPolicy?: SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy | null;
+  rollingPolicy?:
+    | SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy
+    | null
+    | undefined;
 }
 export type SinksGetResponseConfig =
   | SinksGetResponseConfigCloudflarePipelinesR2TablePublic
@@ -1315,10 +1347,10 @@ export type SinksGetResponseFormatJsonTimestampFormat = "rfc3339" | "unix_millis
 export interface SinksGetResponseFormatJson {
   type: SinksGetResponseFormatJsonType;
   /** Specifies the compression applied to JSON sink output. */
-  compression?: SinksGetResponseFormatJsonCompression | null;
-  decimalEncoding?: SinksGetResponseFormatJsonDecimalEncoding | null;
-  timestampFormat?: SinksGetResponseFormatJsonTimestampFormat | null;
-  unstructured?: boolean | null;
+  compression?: SinksGetResponseFormatJsonCompression | null | undefined;
+  decimalEncoding?: SinksGetResponseFormatJsonDecimalEncoding | null | undefined;
+  timestampFormat?: SinksGetResponseFormatJsonTimestampFormat | null | undefined;
+  unstructured?: boolean | null | undefined;
 }
 export type SinksGetResponseFormatParquetType = "parquet";
 export type SinksGetResponseFormatParquetCompression =
@@ -1329,65 +1361,65 @@ export type SinksGetResponseFormatParquetCompression =
   | "lz4";
 export interface SinksGetResponseFormatParquet {
   type: SinksGetResponseFormatParquetType;
-  compression?: SinksGetResponseFormatParquetCompression | null;
-  rowGroupBytes?: number | null;
+  compression?: SinksGetResponseFormatParquetCompression | null | undefined;
+  rowGroupBytes?: number | null | undefined;
 }
 export type SinksGetResponseFormat = SinksGetResponseFormatJson | SinksGetResponseFormatParquet;
 export type SinksGetResponseSchemaFieldsItemInt32Type = "int32";
 export interface SinksGetResponseSchemaFieldsItemInt32 {
   type: SinksGetResponseSchemaFieldsItemInt32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemInt64Type = "int64";
 export interface SinksGetResponseSchemaFieldsItemInt64 {
   type: SinksGetResponseSchemaFieldsItemInt64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemFloat32Type = "float32";
 export interface SinksGetResponseSchemaFieldsItemFloat32 {
   type: SinksGetResponseSchemaFieldsItemFloat32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemFloat64Type = "float64";
 export interface SinksGetResponseSchemaFieldsItemFloat64 {
   type: SinksGetResponseSchemaFieldsItemFloat64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemBoolType = "bool";
 export interface SinksGetResponseSchemaFieldsItemBool {
   type: SinksGetResponseSchemaFieldsItemBoolType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemStringType = "string";
 export interface SinksGetResponseSchemaFieldsItemString {
   type: SinksGetResponseSchemaFieldsItemStringType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemBinaryType = "binary";
 export interface SinksGetResponseSchemaFieldsItemBinary {
   type: SinksGetResponseSchemaFieldsItemBinaryType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemTimestampType = "timestamp";
 export type SinksGetResponseSchemaFieldsItemTimestampUnit =
@@ -1397,35 +1429,35 @@ export type SinksGetResponseSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface SinksGetResponseSchemaFieldsItemTimestamp {
   type: SinksGetResponseSchemaFieldsItemTimestampType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
-  unit?: SinksGetResponseSchemaFieldsItemTimestampUnit | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
+  unit?: SinksGetResponseSchemaFieldsItemTimestampUnit | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemJsonType = "json";
 export interface SinksGetResponseSchemaFieldsItemJson {
   type: SinksGetResponseSchemaFieldsItemJsonType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemStructType = "struct";
 export interface SinksGetResponseSchemaFieldsItemStruct {
   type: SinksGetResponseSchemaFieldsItemStructType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItemListType = "list";
 export interface SinksGetResponseSchemaFieldsItemList {
   type: SinksGetResponseSchemaFieldsItemListType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksGetResponseSchemaFieldsItem =
   | SinksGetResponseSchemaFieldsItemInt32
@@ -1441,8 +1473,8 @@ export type SinksGetResponseSchemaFieldsItem =
   | SinksGetResponseSchemaFieldsItemList;
 export type SinksGetResponseSchemaFieldsList = Array<SinksGetResponseSchemaFieldsItem>;
 export interface SinksGetResponseSchema {
-  fields?: SinksGetResponseSchemaFieldsList | null;
-  inferred?: boolean | null;
+  fields?: SinksGetResponseSchemaFieldsList | null | undefined;
+  inferred?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSinkResponse {
@@ -1455,11 +1487,11 @@ export interface GetSinkResponse {
   /** Specifies the type of sink. */
   type: SinksGetResponseType;
   /** Defines the configuration of the R2 Sink. */
-  config?: SinksGetResponseConfig | null;
+  config?: SinksGetResponseConfig | null | undefined;
   /** Defines the output data format of a sink. */
-  format?: SinksGetResponseFormat | null;
+  format?: SinksGetResponseFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: SinksGetResponseSchema | null;
+  schema?: SinksGetResponseSchema | null | undefined;
 }
 export interface GetStreamRequest {
   /** Specifies the public ID of the account. */
@@ -1469,7 +1501,7 @@ export interface GetStreamRequest {
 }
 export type StreamsGetResponseHttpCorsOriginsList = Array<string>;
 export interface StreamsGetResponseHttpCors {
-  origins?: StreamsGetResponseHttpCorsOriginsList | null;
+  origins?: StreamsGetResponseHttpCorsOriginsList | null | undefined;
 }
 export interface StreamsGetResponseHttp {
   /** Indicates that authentication is required for the HTTP endpoint. */
@@ -1477,7 +1509,7 @@ export interface StreamsGetResponseHttp {
   /** Indicates that the HTTP endpoint is enabled. */
   enabled: boolean;
   /** Specifies the CORS options for the HTTP endpoint. */
-  cors?: StreamsGetResponseHttpCors | null;
+  cors?: StreamsGetResponseHttpCors | null | undefined;
 }
 export type StreamsGetResponseWorkerBinding = StreamsCreateRequestWorkerBinding;
 export type StreamsGetResponseFormatJsonType = "json";
@@ -1485,9 +1517,9 @@ export type StreamsGetResponseFormatJsonDecimalEncoding = "number" | "string" | 
 export type StreamsGetResponseFormatJsonTimestampFormat = "rfc3339" | "unix_millis";
 export interface StreamsGetResponseFormatJson {
   type: StreamsGetResponseFormatJsonType;
-  decimalEncoding?: StreamsGetResponseFormatJsonDecimalEncoding | null;
-  timestampFormat?: StreamsGetResponseFormatJsonTimestampFormat | null;
-  unstructured?: boolean | null;
+  decimalEncoding?: StreamsGetResponseFormatJsonDecimalEncoding | null | undefined;
+  timestampFormat?: StreamsGetResponseFormatJsonTimestampFormat | null | undefined;
+  unstructured?: boolean | null | undefined;
 }
 export type StreamsGetResponseFormatParquetType = "parquet";
 export type StreamsGetResponseFormatParquetCompression =
@@ -1498,8 +1530,8 @@ export type StreamsGetResponseFormatParquetCompression =
   | "lz4";
 export interface StreamsGetResponseFormatParquet {
   type: StreamsGetResponseFormatParquetType;
-  compression?: StreamsGetResponseFormatParquetCompression | null;
-  rowGroupBytes?: number | null;
+  compression?: StreamsGetResponseFormatParquetCompression | null | undefined;
+  rowGroupBytes?: number | null | undefined;
 }
 export type StreamsGetResponseFormat =
   | StreamsGetResponseFormatJson
@@ -1507,58 +1539,58 @@ export type StreamsGetResponseFormat =
 export type StreamsGetResponseSchemaFieldsItemInt32Type = "int32";
 export interface StreamsGetResponseSchemaFieldsItemInt32 {
   type: StreamsGetResponseSchemaFieldsItemInt32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemInt64Type = "int64";
 export interface StreamsGetResponseSchemaFieldsItemInt64 {
   type: StreamsGetResponseSchemaFieldsItemInt64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemFloat32Type = "float32";
 export interface StreamsGetResponseSchemaFieldsItemFloat32 {
   type: StreamsGetResponseSchemaFieldsItemFloat32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemFloat64Type = "float64";
 export interface StreamsGetResponseSchemaFieldsItemFloat64 {
   type: StreamsGetResponseSchemaFieldsItemFloat64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemBoolType = "bool";
 export interface StreamsGetResponseSchemaFieldsItemBool {
   type: StreamsGetResponseSchemaFieldsItemBoolType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemStringType = "string";
 export interface StreamsGetResponseSchemaFieldsItemString {
   type: StreamsGetResponseSchemaFieldsItemStringType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemBinaryType = "binary";
 export interface StreamsGetResponseSchemaFieldsItemBinary {
   type: StreamsGetResponseSchemaFieldsItemBinaryType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemTimestampType = "timestamp";
 export type StreamsGetResponseSchemaFieldsItemTimestampUnit =
@@ -1568,35 +1600,35 @@ export type StreamsGetResponseSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface StreamsGetResponseSchemaFieldsItemTimestamp {
   type: StreamsGetResponseSchemaFieldsItemTimestampType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
-  unit?: StreamsGetResponseSchemaFieldsItemTimestampUnit | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
+  unit?: StreamsGetResponseSchemaFieldsItemTimestampUnit | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemJsonType = "json";
 export interface StreamsGetResponseSchemaFieldsItemJson {
   type: StreamsGetResponseSchemaFieldsItemJsonType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemStructType = "struct";
 export interface StreamsGetResponseSchemaFieldsItemStruct {
   type: StreamsGetResponseSchemaFieldsItemStructType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItemListType = "list";
 export interface StreamsGetResponseSchemaFieldsItemList {
   type: StreamsGetResponseSchemaFieldsItemListType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsGetResponseSchemaFieldsItem =
   | StreamsGetResponseSchemaFieldsItemInt32
@@ -1612,8 +1644,8 @@ export type StreamsGetResponseSchemaFieldsItem =
   | StreamsGetResponseSchemaFieldsItemList;
 export type StreamsGetResponseSchemaFieldsList = Array<StreamsGetResponseSchemaFieldsItem>;
 export interface StreamsGetResponseSchema {
-  fields?: StreamsGetResponseSchemaFieldsList | null;
-  inferred?: boolean | null;
+  fields?: StreamsGetResponseSchemaFieldsList | null | undefined;
+  inferred?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetStreamResponse {
@@ -1628,11 +1660,11 @@ export interface GetStreamResponse {
   version: number;
   workerBinding: StreamsCreateRequestWorkerBinding;
   /** Indicates the endpoint URL of this stream. */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** Defines the data format of the events. */
-  format?: StreamsGetResponseFormat | null;
+  format?: StreamsGetResponseFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: StreamsGetResponseSchema | null;
+  schema?: StreamsGetResponseSchema | null | undefined;
 }
 export interface GetV1PipelineRequest {
   /** Specifies the public ID of the account. */
@@ -1669,17 +1701,17 @@ export interface GetV1PipelineResponse {
   /** List of streams and sinks used by this pipeline. */
   tables: GetV1ResponseTablesList;
   /** Indicates the reason for the failure of the Pipeline. */
-  failureReason?: string | null;
+  failureReason?: string | null | undefined;
 }
 export interface ListPipelinesRequest {
   /** Specifies the public ID of the account. */
   accountId: string;
   /** Specifies which page to retrieve. */
-  page?: string;
+  page?: string | undefined;
   /** Specifies the number of pipelines per page. */
-  perPage?: string;
+  perPage?: string | undefined;
   /** Specifies the prefix of pipeline name to search. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListResponseResultsItemDestinationBatch = CreateResponseDestinationBatch;
 export type ListResponseResultsItemDestinationCompressionType = "none" | "gzip" | "deflate";
@@ -1705,15 +1737,21 @@ export type ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelines
   Array<string>;
 export interface ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors {
   /** Specifies allowed origins to allow Cross Origin HTTP Requests. */
-  origins?: ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList | null;
+  origins?:
+    | ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList
+    | null
+    | undefined;
 }
 export interface ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesHTTPSource {
   /** Specifies the format of source data. */
   format: ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat;
   type: string;
   /** Specifies whether authentication is required to send to this pipeline via HTTP. */
-  authentication?: boolean | null;
-  cors?: ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors | null;
+  authentication?: boolean | null | undefined;
+  cors?:
+    | ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors
+    | null
+    | undefined;
 }
 export type ListResponseResultsItemSourceItemCloudflarePipelinesWorkersPipelinesBindingSourceFormat =
   "json";
@@ -1751,14 +1789,14 @@ export interface ListSinksRequest {
   /** Specifies the public ID of the account. */
   accountId: string;
   /** Sort direction. */
-  direction?: SinksListRequestDirection | (string & {});
+  direction?: SinksListRequestDirection | (string & {}) | undefined;
   /** Filters sinks by name (case-insensitive substring). */
-  name?: string;
+  name?: string | undefined;
   /** Sorts sinks by this field. Defaults to `created_at`. */
-  orderBy?: SinksListRequestOrderBy | (string & {});
-  page?: number;
-  perPage?: number;
-  pipelineId?: string;
+  orderBy?: SinksListRequestOrderBy | (string & {}) | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  pipelineId?: string | undefined;
 }
 export type SinksListResultItemType = "r2" | "r2_data_catalog" | "basin_catalog";
 export type SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNamingStrategy =
@@ -1768,11 +1806,14 @@ export type SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNamingS
   | "ulid";
 export interface SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNaming {
   /** The prefix to use in file name. i.e prefix-.parquet */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Filename generation strategy. */
-  strategy?: SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNamingStrategy | null;
+  strategy?:
+    | SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNamingStrategy
+    | null
+    | undefined;
   /** This will overwrite the default file suffix. i.e .parquet, use with caution */
-  suffix?: string | null;
+  suffix?: string | null | undefined;
 }
 export type SinksListResultItemConfigCloudflarePipelinesR2TablePublicPartitioning =
   SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning;
@@ -1784,15 +1825,21 @@ export interface SinksListResultItemConfigCloudflarePipelinesR2TablePublic {
   /** R2 Bucket to write to */
   bucket: string;
   /** Controls filename prefix/suffix and strategy. */
-  fileNaming?: SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNaming | null;
+  fileNaming?:
+    | SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNaming
+    | null
+    | undefined;
   /** Jurisdiction this bucket is hosted in */
-  jurisdiction?: string | null;
+  jurisdiction?: string | null | undefined;
   /** Data-layout partitioning for sinks. */
-  partitioning?: SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning | null;
+  partitioning?: SinksCreateResponseConfigCloudflarePipelinesR2TablePartitioning | null | undefined;
   /** Subpath within the bucket to write to */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Rolling policy for file sinks (when &amp; why to close a file and open a new one). */
-  rollingPolicy?: SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy | null;
+  rollingPolicy?:
+    | SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy
+    | null
+    | undefined;
 }
 export type SinksListResultItemConfigCloudflarePipelinesR2DataCatalogTablePublicRollingPolicy =
   SinksCreateResponseConfigCloudflarePipelinesR2TableRollingPolicy;
@@ -1808,10 +1855,10 @@ export type SinksListResultItemFormatJsonTimestampFormat = "rfc3339" | "unix_mil
 export interface SinksListResultItemFormatJson {
   type: SinksListResultItemFormatJsonType;
   /** Specifies the compression applied to JSON sink output. */
-  compression?: SinksListResultItemFormatJsonCompression | null;
-  decimalEncoding?: SinksListResultItemFormatJsonDecimalEncoding | null;
-  timestampFormat?: SinksListResultItemFormatJsonTimestampFormat | null;
-  unstructured?: boolean | null;
+  compression?: SinksListResultItemFormatJsonCompression | null | undefined;
+  decimalEncoding?: SinksListResultItemFormatJsonDecimalEncoding | null | undefined;
+  timestampFormat?: SinksListResultItemFormatJsonTimestampFormat | null | undefined;
+  unstructured?: boolean | null | undefined;
 }
 export type SinksListResultItemFormatParquetType = "parquet";
 export type SinksListResultItemFormatParquetCompression =
@@ -1822,8 +1869,8 @@ export type SinksListResultItemFormatParquetCompression =
   | "lz4";
 export interface SinksListResultItemFormatParquet {
   type: SinksListResultItemFormatParquetType;
-  compression?: SinksListResultItemFormatParquetCompression | null;
-  rowGroupBytes?: number | null;
+  compression?: SinksListResultItemFormatParquetCompression | null | undefined;
+  rowGroupBytes?: number | null | undefined;
 }
 export type SinksListResultItemFormat =
   | SinksListResultItemFormatJson
@@ -1831,58 +1878,58 @@ export type SinksListResultItemFormat =
 export type SinksListResultItemSchemaFieldsItemInt32Type = "int32";
 export interface SinksListResultItemSchemaFieldsItemInt32 {
   type: SinksListResultItemSchemaFieldsItemInt32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemInt64Type = "int64";
 export interface SinksListResultItemSchemaFieldsItemInt64 {
   type: SinksListResultItemSchemaFieldsItemInt64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemFloat32Type = "float32";
 export interface SinksListResultItemSchemaFieldsItemFloat32 {
   type: SinksListResultItemSchemaFieldsItemFloat32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemFloat64Type = "float64";
 export interface SinksListResultItemSchemaFieldsItemFloat64 {
   type: SinksListResultItemSchemaFieldsItemFloat64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemBoolType = "bool";
 export interface SinksListResultItemSchemaFieldsItemBool {
   type: SinksListResultItemSchemaFieldsItemBoolType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemStringType = "string";
 export interface SinksListResultItemSchemaFieldsItemString {
   type: SinksListResultItemSchemaFieldsItemStringType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemBinaryType = "binary";
 export interface SinksListResultItemSchemaFieldsItemBinary {
   type: SinksListResultItemSchemaFieldsItemBinaryType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemTimestampType = "timestamp";
 export type SinksListResultItemSchemaFieldsItemTimestampUnit =
@@ -1892,35 +1939,35 @@ export type SinksListResultItemSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface SinksListResultItemSchemaFieldsItemTimestamp {
   type: SinksListResultItemSchemaFieldsItemTimestampType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
-  unit?: SinksListResultItemSchemaFieldsItemTimestampUnit | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
+  unit?: SinksListResultItemSchemaFieldsItemTimestampUnit | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemJsonType = "json";
 export interface SinksListResultItemSchemaFieldsItemJson {
   type: SinksListResultItemSchemaFieldsItemJsonType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemStructType = "struct";
 export interface SinksListResultItemSchemaFieldsItemStruct {
   type: SinksListResultItemSchemaFieldsItemStructType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItemListType = "list";
 export interface SinksListResultItemSchemaFieldsItemList {
   type: SinksListResultItemSchemaFieldsItemListType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type SinksListResultItemSchemaFieldsItem =
   | SinksListResultItemSchemaFieldsItemInt32
@@ -1936,8 +1983,8 @@ export type SinksListResultItemSchemaFieldsItem =
   | SinksListResultItemSchemaFieldsItemList;
 export type SinksListResultItemSchemaFieldsList = Array<SinksListResultItemSchemaFieldsItem>;
 export interface SinksListResultItemSchema {
-  fields?: SinksListResultItemSchemaFieldsList | null;
-  inferred?: boolean | null;
+  fields?: SinksListResultItemSchemaFieldsList | null | undefined;
+  inferred?: boolean | null | undefined;
 }
 export interface SinksListResultItem {
   /** Indicates a unique identifier for this sink. */
@@ -1949,11 +1996,11 @@ export interface SinksListResultItem {
   /** Specifies the type of sink. */
   type: SinksListResultItemType;
   /** Defines the configuration of the R2 Sink. */
-  config?: SinksListResultItemConfig | null;
+  config?: SinksListResultItemConfig | null | undefined;
   /** Defines the output data format of a sink. */
-  format?: SinksListResultItemFormat | null;
+  format?: SinksListResultItemFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: SinksListResultItemSchema | null;
+  schema?: SinksListResultItemSchema | null | undefined;
 }
 export type SinksListResultList = Array<SinksListResultItem>;
 export interface ListSinksResponse {
@@ -1968,19 +2015,19 @@ export interface ListStreamsRequest {
   /** Specifies the public ID of the account. */
   accountId: string;
   /** Sort direction. */
-  direction?: StreamsListRequestDirection | (string & {});
+  direction?: StreamsListRequestDirection | (string & {}) | undefined;
   /** Filters streams by name (case-insensitive substring). */
-  name?: string;
+  name?: string | undefined;
   /** Sorts streams by this field. Defaults to `created_at`. */
-  orderBy?: StreamsListRequestOrderBy | (string & {});
-  page?: number;
-  perPage?: number;
+  orderBy?: StreamsListRequestOrderBy | (string & {}) | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** Specifies the public ID of the pipeline. */
-  pipelineId?: string;
+  pipelineId?: string | undefined;
 }
 export type StreamsListResultItemHttpCorsOriginsList = Array<string>;
 export interface StreamsListResultItemHttpCors {
-  origins?: StreamsListResultItemHttpCorsOriginsList | null;
+  origins?: StreamsListResultItemHttpCorsOriginsList | null | undefined;
 }
 export interface StreamsListResultItemHttp {
   /** Indicates that authentication is required for the HTTP endpoint. */
@@ -1988,7 +2035,7 @@ export interface StreamsListResultItemHttp {
   /** Indicates that the HTTP endpoint is enabled. */
   enabled: boolean;
   /** Specifies the CORS options for the HTTP endpoint. */
-  cors?: StreamsListResultItemHttpCors | null;
+  cors?: StreamsListResultItemHttpCors | null | undefined;
 }
 export type StreamsListResultItemWorkerBinding = StreamsCreateRequestWorkerBinding;
 export type StreamsListResultItemFormatJsonType = "json";
@@ -1996,9 +2043,9 @@ export type StreamsListResultItemFormatJsonDecimalEncoding = "number" | "string"
 export type StreamsListResultItemFormatJsonTimestampFormat = "rfc3339" | "unix_millis";
 export interface StreamsListResultItemFormatJson {
   type: StreamsListResultItemFormatJsonType;
-  decimalEncoding?: StreamsListResultItemFormatJsonDecimalEncoding | null;
-  timestampFormat?: StreamsListResultItemFormatJsonTimestampFormat | null;
-  unstructured?: boolean | null;
+  decimalEncoding?: StreamsListResultItemFormatJsonDecimalEncoding | null | undefined;
+  timestampFormat?: StreamsListResultItemFormatJsonTimestampFormat | null | undefined;
+  unstructured?: boolean | null | undefined;
 }
 export type StreamsListResultItemFormatParquetType = "parquet";
 export type StreamsListResultItemFormatParquetCompression =
@@ -2009,8 +2056,8 @@ export type StreamsListResultItemFormatParquetCompression =
   | "lz4";
 export interface StreamsListResultItemFormatParquet {
   type: StreamsListResultItemFormatParquetType;
-  compression?: StreamsListResultItemFormatParquetCompression | null;
-  rowGroupBytes?: number | null;
+  compression?: StreamsListResultItemFormatParquetCompression | null | undefined;
+  rowGroupBytes?: number | null | undefined;
 }
 export type StreamsListResultItemFormat =
   | StreamsListResultItemFormatJson
@@ -2018,58 +2065,58 @@ export type StreamsListResultItemFormat =
 export type StreamsListResultItemSchemaFieldsItemInt32Type = "int32";
 export interface StreamsListResultItemSchemaFieldsItemInt32 {
   type: StreamsListResultItemSchemaFieldsItemInt32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemInt64Type = "int64";
 export interface StreamsListResultItemSchemaFieldsItemInt64 {
   type: StreamsListResultItemSchemaFieldsItemInt64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemFloat32Type = "float32";
 export interface StreamsListResultItemSchemaFieldsItemFloat32 {
   type: StreamsListResultItemSchemaFieldsItemFloat32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemFloat64Type = "float64";
 export interface StreamsListResultItemSchemaFieldsItemFloat64 {
   type: StreamsListResultItemSchemaFieldsItemFloat64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemBoolType = "bool";
 export interface StreamsListResultItemSchemaFieldsItemBool {
   type: StreamsListResultItemSchemaFieldsItemBoolType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemStringType = "string";
 export interface StreamsListResultItemSchemaFieldsItemString {
   type: StreamsListResultItemSchemaFieldsItemStringType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemBinaryType = "binary";
 export interface StreamsListResultItemSchemaFieldsItemBinary {
   type: StreamsListResultItemSchemaFieldsItemBinaryType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemTimestampType = "timestamp";
 export type StreamsListResultItemSchemaFieldsItemTimestampUnit =
@@ -2079,35 +2126,35 @@ export type StreamsListResultItemSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface StreamsListResultItemSchemaFieldsItemTimestamp {
   type: StreamsListResultItemSchemaFieldsItemTimestampType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
-  unit?: StreamsListResultItemSchemaFieldsItemTimestampUnit | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
+  unit?: StreamsListResultItemSchemaFieldsItemTimestampUnit | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemJsonType = "json";
 export interface StreamsListResultItemSchemaFieldsItemJson {
   type: StreamsListResultItemSchemaFieldsItemJsonType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemStructType = "struct";
 export interface StreamsListResultItemSchemaFieldsItemStruct {
   type: StreamsListResultItemSchemaFieldsItemStructType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItemListType = "list";
 export interface StreamsListResultItemSchemaFieldsItemList {
   type: StreamsListResultItemSchemaFieldsItemListType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsListResultItemSchemaFieldsItem =
   | StreamsListResultItemSchemaFieldsItemInt32
@@ -2123,8 +2170,8 @@ export type StreamsListResultItemSchemaFieldsItem =
   | StreamsListResultItemSchemaFieldsItemList;
 export type StreamsListResultItemSchemaFieldsList = Array<StreamsListResultItemSchemaFieldsItem>;
 export interface StreamsListResultItemSchema {
-  fields?: StreamsListResultItemSchemaFieldsList | null;
-  inferred?: boolean | null;
+  fields?: StreamsListResultItemSchemaFieldsList | null | undefined;
+  inferred?: boolean | null | undefined;
 }
 export interface StreamsListResultItem {
   /** Indicates a unique identifier for this stream. */
@@ -2138,11 +2185,11 @@ export interface StreamsListResultItem {
   version: number;
   workerBinding: StreamsCreateRequestWorkerBinding;
   /** Indicates the endpoint URL of this stream. */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** Defines the data format of the events. */
-  format?: StreamsListResultItemFormat | null;
+  format?: StreamsListResultItemFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: StreamsListResultItemSchema | null;
+  schema?: StreamsListResultItemSchema | null | undefined;
 }
 export type StreamsListResultList = Array<StreamsListResultItem>;
 export interface ListStreamsResponse {
@@ -2155,9 +2202,9 @@ export interface ListV1PipelineRequest {
   /** Specifies the public ID of the account. */
   accountId: string;
   /** Filters pipelines by name (case-insensitive substring). */
-  name?: string;
-  page?: number;
-  perPage?: number;
+  name?: string | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export interface ListV1ResultItem {
   /** Indicates a unique identifier for this pipeline. */
@@ -2180,7 +2227,7 @@ export interface ListV1PipelineResponse {
 }
 export type StreamsUpdateRequestHttpCorsOriginsList = Array<string>;
 export interface StreamsUpdateRequestHttpCors {
-  origins?: StreamsUpdateRequestHttpCorsOriginsList;
+  origins?: StreamsUpdateRequestHttpCorsOriginsList | undefined;
 }
 export interface StreamsUpdateRequestHttp {
   /** Indicates that authentication is required for the HTTP endpoint. */
@@ -2188,7 +2235,7 @@ export interface StreamsUpdateRequestHttp {
   /** Indicates that the HTTP endpoint is enabled. */
   enabled: boolean;
   /** Specifies the CORS options for the HTTP endpoint. */
-  cors?: StreamsUpdateRequestHttpCors;
+  cors?: StreamsUpdateRequestHttpCors | undefined;
 }
 export type StreamsUpdateRequestWorkerBinding = StreamsCreateRequestWorkerBinding;
 export interface PatchStreamRequest {
@@ -2196,12 +2243,12 @@ export interface PatchStreamRequest {
   accountId: string;
   /** Specifies the public ID of the stream. */
   streamId: string;
-  http?: StreamsUpdateRequestHttp;
-  workerBinding?: StreamsCreateRequestWorkerBinding;
+  http?: StreamsUpdateRequestHttp | undefined;
+  workerBinding?: StreamsCreateRequestWorkerBinding | undefined;
 }
 export type StreamsUpdateResponseHttpCorsOriginsList = Array<string>;
 export interface StreamsUpdateResponseHttpCors {
-  origins?: StreamsUpdateResponseHttpCorsOriginsList | null;
+  origins?: StreamsUpdateResponseHttpCorsOriginsList | null | undefined;
 }
 export interface StreamsUpdateResponseHttp {
   /** Indicates that authentication is required for the HTTP endpoint. */
@@ -2209,7 +2256,7 @@ export interface StreamsUpdateResponseHttp {
   /** Indicates that the HTTP endpoint is enabled. */
   enabled: boolean;
   /** Specifies the CORS options for the HTTP endpoint. */
-  cors?: StreamsUpdateResponseHttpCors | null;
+  cors?: StreamsUpdateResponseHttpCors | null | undefined;
 }
 export type StreamsUpdateResponseWorkerBinding = StreamsCreateRequestWorkerBinding;
 export type StreamsUpdateResponseFormatJsonType = "json";
@@ -2217,9 +2264,9 @@ export type StreamsUpdateResponseFormatJsonDecimalEncoding = "number" | "string"
 export type StreamsUpdateResponseFormatJsonTimestampFormat = "rfc3339" | "unix_millis";
 export interface StreamsUpdateResponseFormatJson {
   type: StreamsUpdateResponseFormatJsonType;
-  decimalEncoding?: StreamsUpdateResponseFormatJsonDecimalEncoding | null;
-  timestampFormat?: StreamsUpdateResponseFormatJsonTimestampFormat | null;
-  unstructured?: boolean | null;
+  decimalEncoding?: StreamsUpdateResponseFormatJsonDecimalEncoding | null | undefined;
+  timestampFormat?: StreamsUpdateResponseFormatJsonTimestampFormat | null | undefined;
+  unstructured?: boolean | null | undefined;
 }
 export type StreamsUpdateResponseFormatParquetType = "parquet";
 export type StreamsUpdateResponseFormatParquetCompression =
@@ -2230,8 +2277,8 @@ export type StreamsUpdateResponseFormatParquetCompression =
   | "lz4";
 export interface StreamsUpdateResponseFormatParquet {
   type: StreamsUpdateResponseFormatParquetType;
-  compression?: StreamsUpdateResponseFormatParquetCompression | null;
-  rowGroupBytes?: number | null;
+  compression?: StreamsUpdateResponseFormatParquetCompression | null | undefined;
+  rowGroupBytes?: number | null | undefined;
 }
 export type StreamsUpdateResponseFormat =
   | StreamsUpdateResponseFormatJson
@@ -2239,58 +2286,58 @@ export type StreamsUpdateResponseFormat =
 export type StreamsUpdateResponseSchemaFieldsItemInt32Type = "int32";
 export interface StreamsUpdateResponseSchemaFieldsItemInt32 {
   type: StreamsUpdateResponseSchemaFieldsItemInt32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemInt64Type = "int64";
 export interface StreamsUpdateResponseSchemaFieldsItemInt64 {
   type: StreamsUpdateResponseSchemaFieldsItemInt64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemFloat32Type = "float32";
 export interface StreamsUpdateResponseSchemaFieldsItemFloat32 {
   type: StreamsUpdateResponseSchemaFieldsItemFloat32Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemFloat64Type = "float64";
 export interface StreamsUpdateResponseSchemaFieldsItemFloat64 {
   type: StreamsUpdateResponseSchemaFieldsItemFloat64Type;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemBoolType = "bool";
 export interface StreamsUpdateResponseSchemaFieldsItemBool {
   type: StreamsUpdateResponseSchemaFieldsItemBoolType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemStringType = "string";
 export interface StreamsUpdateResponseSchemaFieldsItemString {
   type: StreamsUpdateResponseSchemaFieldsItemStringType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemBinaryType = "binary";
 export interface StreamsUpdateResponseSchemaFieldsItemBinary {
   type: StreamsUpdateResponseSchemaFieldsItemBinaryType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemTimestampType = "timestamp";
 export type StreamsUpdateResponseSchemaFieldsItemTimestampUnit =
@@ -2300,35 +2347,35 @@ export type StreamsUpdateResponseSchemaFieldsItemTimestampUnit =
   | "nanosecond";
 export interface StreamsUpdateResponseSchemaFieldsItemTimestamp {
   type: StreamsUpdateResponseSchemaFieldsItemTimestampType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
-  unit?: StreamsUpdateResponseSchemaFieldsItemTimestampUnit | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
+  unit?: StreamsUpdateResponseSchemaFieldsItemTimestampUnit | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemJsonType = "json";
 export interface StreamsUpdateResponseSchemaFieldsItemJson {
   type: StreamsUpdateResponseSchemaFieldsItemJsonType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemStructType = "struct";
 export interface StreamsUpdateResponseSchemaFieldsItemStruct {
   type: StreamsUpdateResponseSchemaFieldsItemStructType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItemListType = "list";
 export interface StreamsUpdateResponseSchemaFieldsItemList {
   type: StreamsUpdateResponseSchemaFieldsItemListType;
-  metadataKey?: string | null;
-  name?: string | null;
-  required?: boolean | null;
-  sqlName?: string | null;
+  metadataKey?: string | null | undefined;
+  name?: string | null | undefined;
+  required?: boolean | null | undefined;
+  sqlName?: string | null | undefined;
 }
 export type StreamsUpdateResponseSchemaFieldsItem =
   | StreamsUpdateResponseSchemaFieldsItemInt32
@@ -2344,8 +2391,8 @@ export type StreamsUpdateResponseSchemaFieldsItem =
   | StreamsUpdateResponseSchemaFieldsItemList;
 export type StreamsUpdateResponseSchemaFieldsList = Array<StreamsUpdateResponseSchemaFieldsItem>;
 export interface StreamsUpdateResponseSchema {
-  fields?: StreamsUpdateResponseSchemaFieldsList | null;
-  inferred?: boolean | null;
+  fields?: StreamsUpdateResponseSchemaFieldsList | null | undefined;
+  inferred?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchStreamResponse {
@@ -2360,11 +2407,11 @@ export interface PatchStreamResponse {
   version: number;
   workerBinding: StreamsCreateRequestWorkerBinding;
   /** Indicates the endpoint URL of this stream. */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** Defines the data format of the events. */
-  format?: StreamsUpdateResponseFormat | null;
+  format?: StreamsUpdateResponseFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
-  schema?: StreamsUpdateResponseSchema | null;
+  schema?: StreamsUpdateResponseSchema | null | undefined;
 }
 export type SendStreamRecordsEventList = Array<unknown>;
 export interface SendStreamRecordsRequest {
@@ -2375,13 +2422,13 @@ export interface SendStreamRecordsRequest {
 }
 export interface SendStreamRecordsResponse {
   /** How many events the stream accepted. */
-  committed?: number | null;
+  committed?: number | null | undefined;
 }
 export type UpdateRequestDestinationBatch = CreateRequestDestinationBatch;
 export type UpdateRequestDestinationCompressionType = "none" | "gzip" | "deflate";
 export interface UpdateRequestDestinationCompression {
   /** Specifies the desired compression algorithm and format. */
-  type?: UpdateRequestDestinationCompressionType | (string & {});
+  type?: UpdateRequestDestinationCompressionType | (string & {}) | undefined;
 }
 export type UpdateRequestDestinationFormat = "json";
 export type UpdateRequestDestinationPath = CreateRequestDestinationPath;
@@ -2395,22 +2442,24 @@ export interface UpdateRequestDestination {
   path: CreateRequestDestinationPath;
   /** Specifies the type of destination. */
   type: UpdateRequestDestinationType | (string & {});
-  credentials?: CreateRequestDestinationCredentials;
+  credentials?: CreateRequestDestinationCredentials | undefined;
 }
 export type UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat = "json";
 export type UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList =
   Array<string>;
 export interface UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors {
   /** Specifies allowed origins to allow Cross Origin HTTP Requests. */
-  origins?: UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList;
+  origins?:
+    | UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList
+    | undefined;
 }
 export interface UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSource {
   /** Specifies the format of source data. */
   format: UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat;
   type: string;
   /** Specifies whether authentication is required to send to this pipeline via HTTP. */
-  authentication?: boolean;
-  cors?: UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors;
+  authentication?: boolean | undefined;
+  cors?: UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors | undefined;
 }
 export type UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesBindingSourceFormat = "json";
 export interface UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesBindingSource {
@@ -2455,15 +2504,21 @@ export type UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourc
   Array<string>;
 export interface UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors {
   /** Specifies allowed origins to allow Cross Origin HTTP Requests. */
-  origins?: UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList | null;
+  origins?:
+    | UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCorsOriginsList
+    | null
+    | undefined;
 }
 export interface UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSource {
   /** Specifies the format of source data. */
   format: UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat;
   type: string;
   /** Specifies whether authentication is required to send to this pipeline via HTTP. */
-  authentication?: boolean | null;
-  cors?: UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors | null;
+  authentication?: boolean | null | undefined;
+  cors?:
+    | UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceCors
+    | null
+    | undefined;
 }
 export type UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesBindingSourceFormat = "json";
 export interface UpdateResponseSourceItemCloudflarePipelinesWorkersPipelinesBindingSource {
@@ -2527,7 +2582,7 @@ export interface ValidateSqlPipelineResponse {
   /** Indicates tables involved in the processing. */
   tables: ValidateSqlResponseTablesMap;
   /** Indicates the processing flow to implement the SQL. */
-  graph?: ValidateSqlResponseGraph | null;
+  graph?: ValidateSqlResponseGraph | null | undefined;
 }
 export type CreatePipelineError = CloudflareOpError;
 /** [DEPRECATED] Create a new pipeline. Use the new /pipelines/v1/pipelines endpoint instead. */

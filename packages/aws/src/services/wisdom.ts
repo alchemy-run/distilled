@@ -151,22 +151,22 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export type NonEmptyString = string;
 export interface ServerSideEncryptionConfiguration {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateAssistantRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
   type: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
 }
 export type Uuid = string;
 export type Arn = string;
 export type AssistantStatus = string;
 export type GenericArn = string;
 export interface AssistantIntegrationConfiguration {
-  topicIntegrationArn?: string;
+  topicIntegrationArn?: string | undefined;
 }
 export interface AssistantData {
   assistantId: string;
@@ -174,13 +174,13 @@ export interface AssistantData {
   name: string;
   type: string;
   status: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  integrationConfiguration?: AssistantIntegrationConfiguration;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  integrationConfiguration?: AssistantIntegrationConfiguration | undefined;
 }
 export interface CreateAssistantResponse {
-  assistant?: AssistantData;
+  assistant?: AssistantData | undefined;
 }
 export type UuidOrArn = string;
 export type AssociationType = string;
@@ -189,12 +189,12 @@ export interface CreateAssistantAssociationRequest {
   assistantId: string;
   associationType: string;
   association: AssistantAssociationInputData;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface KnowledgeBaseAssociationData {
-  knowledgeBaseId?: string;
-  knowledgeBaseArn?: string;
+  knowledgeBaseId?: string | undefined;
+  knowledgeBaseArn?: string | undefined;
 }
 export type AssistantAssociationOutputData = {
   knowledgeBaseAssociation: KnowledgeBaseAssociationData;
@@ -206,10 +206,10 @@ export interface AssistantAssociationData {
   assistantArn: string;
   associationType: string;
   associationData: AssistantAssociationOutputData;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAssistantAssociationResponse {
-  assistantAssociation?: AssistantAssociationData;
+  assistantAssociation?: AssistantAssociationData | undefined;
 }
 export type ContentTitle = string;
 export type Uri = string;
@@ -218,12 +218,12 @@ export type UploadId = string;
 export interface CreateContentRequest {
   knowledgeBaseId: string;
   name: string;
-  title?: string;
-  overrideLinkOutUri?: string;
-  metadata?: { [key: string]: string | undefined };
+  title?: string | undefined;
+  overrideLinkOutUri?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
   uploadId: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ContentType = string;
 export type ContentStatus = string;
@@ -239,33 +239,33 @@ export interface ContentData {
   contentType: string;
   status: string;
   metadata: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
-  linkOutUri?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  linkOutUri?: string | undefined;
   url: string | redacted.Redacted<string>;
   urlExpiry: Date;
 }
 export interface CreateContentResponse {
-  content?: ContentData;
+  content?: ContentData | undefined;
 }
 export type KnowledgeBaseType = string;
 export type ObjectFieldsList = string[];
 export interface AppIntegrationsConfiguration {
   appIntegrationArn: string;
-  objectFields?: string[];
+  objectFields?: string[] | undefined;
 }
 export type SourceConfiguration = { appIntegrations: AppIntegrationsConfiguration };
 export interface RenderingConfiguration {
-  templateUri?: string;
+  templateUri?: string | undefined;
 }
 export interface CreateKnowledgeBaseRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
   knowledgeBaseType: string;
-  sourceConfiguration?: SourceConfiguration;
-  renderingConfiguration?: RenderingConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  sourceConfiguration?: SourceConfiguration | undefined;
+  renderingConfiguration?: RenderingConfiguration | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type KnowledgeBaseStatus = string;
 export interface KnowledgeBaseData {
@@ -274,15 +274,15 @@ export interface KnowledgeBaseData {
   name: string;
   knowledgeBaseType: string;
   status: string;
-  lastContentModificationTime?: Date;
-  sourceConfiguration?: SourceConfiguration;
-  renderingConfiguration?: RenderingConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  lastContentModificationTime?: Date | undefined;
+  sourceConfiguration?: SourceConfiguration | undefined;
+  renderingConfiguration?: RenderingConfiguration | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateKnowledgeBaseResponse {
-  knowledgeBase?: KnowledgeBaseData;
+  knowledgeBase?: KnowledgeBaseData | undefined;
 }
 export type QuickResponseName = string;
 export type QuickResponseContent = string | redacted.Redacted<string>;
@@ -292,8 +292,8 @@ export type GroupingCriteria = string | redacted.Redacted<string>;
 export type GroupingValue = string | redacted.Redacted<string>;
 export type GroupingValues = (string | redacted.Redacted<string>)[];
 export interface GroupingConfiguration {
-  criteria?: string | redacted.Redacted<string>;
-  values?: (string | redacted.Redacted<string>)[];
+  criteria?: string | redacted.Redacted<string> | undefined;
+  values?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type QuickResponseDescription = string;
 export type ShortCutKey = string;
@@ -304,21 +304,21 @@ export interface CreateQuickResponseRequest {
   knowledgeBaseId: string;
   name: string;
   content: QuickResponseDataProvider;
-  contentType?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  description?: string;
-  shortcutKey?: string;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  contentType?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  description?: string | undefined;
+  shortcutKey?: string | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QuickResponseStatus = string;
 export type QuickResponseContentProvider = { content: string | redacted.Redacted<string> };
 export interface QuickResponseContents {
-  plainText?: QuickResponseContentProvider;
-  markdown?: QuickResponseContentProvider;
+  plainText?: QuickResponseContentProvider | undefined;
+  markdown?: QuickResponseContentProvider | undefined;
 }
 export interface QuickResponseData {
   quickResponseArn: string;
@@ -330,39 +330,39 @@ export interface QuickResponseData {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  contents?: QuickResponseContents;
-  description?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  shortcutKey?: string;
-  lastModifiedBy?: string;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
-  tags?: { [key: string]: string | undefined };
+  contents?: QuickResponseContents | undefined;
+  description?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  shortcutKey?: string | undefined;
+  lastModifiedBy?: string | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateQuickResponseResponse {
-  quickResponse?: QuickResponseData;
+  quickResponse?: QuickResponseData | undefined;
 }
 export interface CreateSessionRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SessionIntegrationConfiguration {
-  topicIntegrationArn?: string;
+  topicIntegrationArn?: string | undefined;
 }
 export interface SessionData {
   sessionArn: string;
   sessionId: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  integrationConfiguration?: SessionIntegrationConfiguration;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  integrationConfiguration?: SessionIntegrationConfiguration | undefined;
 }
 export interface CreateSessionResponse {
-  session?: SessionData;
+  session?: SessionData | undefined;
 }
 export interface DeleteAssistantRequest {
   assistantId: string;
@@ -396,21 +396,21 @@ export interface GetAssistantRequest {
   assistantId: string;
 }
 export interface GetAssistantResponse {
-  assistant?: AssistantData;
+  assistant?: AssistantData | undefined;
 }
 export interface GetAssistantAssociationRequest {
   assistantAssociationId: string;
   assistantId: string;
 }
 export interface GetAssistantAssociationResponse {
-  assistantAssociation?: AssistantAssociationData;
+  assistantAssociation?: AssistantAssociationData | undefined;
 }
 export interface GetContentRequest {
   contentId: string;
   knowledgeBaseId: string;
 }
 export interface GetContentResponse {
-  content?: ContentData;
+  content?: ContentData | undefined;
 }
 export interface GetContentSummaryRequest {
   contentId: string;
@@ -427,10 +427,10 @@ export interface ContentSummary {
   contentType: string;
   status: string;
   metadata: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetContentSummaryResponse {
-  contentSummary?: ContentSummary;
+  contentSummary?: ContentSummary | undefined;
 }
 export interface GetImportJobRequest {
   importJobId: string;
@@ -440,7 +440,7 @@ export type ImportJobType = string;
 export type ImportJobStatus = string;
 export type ExternalSource = string;
 export interface ConnectConfiguration {
-  instanceId?: string;
+  instanceId?: string | undefined;
 }
 export type Configuration = { connectConfiguration: ConnectConfiguration };
 export interface ExternalSourceConfiguration {
@@ -455,58 +455,58 @@ export interface ImportJobData {
   importJobType: string;
   status: string;
   url: string | redacted.Redacted<string>;
-  failedRecordReport?: string | redacted.Redacted<string>;
+  failedRecordReport?: string | redacted.Redacted<string> | undefined;
   urlExpiry: Date;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: { [key: string]: string | undefined };
-  externalSourceConfiguration?: ExternalSourceConfiguration;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  externalSourceConfiguration?: ExternalSourceConfiguration | undefined;
 }
 export interface GetImportJobResponse {
-  importJob?: ImportJobData;
+  importJob?: ImportJobData | undefined;
 }
 export interface GetKnowledgeBaseRequest {
   knowledgeBaseId: string;
 }
 export interface GetKnowledgeBaseResponse {
-  knowledgeBase?: KnowledgeBaseData;
+  knowledgeBase?: KnowledgeBaseData | undefined;
 }
 export interface GetQuickResponseRequest {
   quickResponseId: string;
   knowledgeBaseId: string;
 }
 export interface GetQuickResponseResponse {
-  quickResponse?: QuickResponseData;
+  quickResponse?: QuickResponseData | undefined;
 }
 export type MaxResults = number;
 export type WaitTimeSeconds = number;
 export interface GetRecommendationsRequest {
   assistantId: string;
   sessionId: string;
-  maxResults?: number;
-  waitTimeSeconds?: number;
+  maxResults?: number | undefined;
+  waitTimeSeconds?: number | undefined;
 }
 export interface ContentReference {
-  knowledgeBaseArn?: string;
-  knowledgeBaseId?: string;
-  contentArn?: string;
-  contentId?: string;
+  knowledgeBaseArn?: string | undefined;
+  knowledgeBaseId?: string | undefined;
+  contentArn?: string | undefined;
+  contentId?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export type HighlightOffset = number;
 export interface Highlight {
-  beginOffsetInclusive?: number;
-  endOffsetExclusive?: number;
+  beginOffsetInclusive?: number | undefined;
+  endOffsetExclusive?: number | undefined;
 }
 export type Highlights = Highlight[];
 export interface DocumentText {
-  text?: string | redacted.Redacted<string>;
-  highlights?: Highlight[];
+  text?: string | redacted.Redacted<string> | undefined;
+  highlights?: Highlight[] | undefined;
 }
 export interface Document {
   contentReference: ContentReference;
-  title?: DocumentText;
-  excerpt?: DocumentText;
+  title?: DocumentText | undefined;
+  excerpt?: DocumentText | undefined;
 }
 export type RelevanceScore = number;
 export type RelevanceLevel = string;
@@ -514,16 +514,16 @@ export type RecommendationType = string;
 export interface RecommendationData {
   recommendationId: string;
   document: Document;
-  relevanceScore?: number;
-  relevanceLevel?: string;
-  type?: string;
+  relevanceScore?: number | undefined;
+  relevanceLevel?: string | undefined;
+  type?: string | undefined;
 }
 export type RecommendationList = RecommendationData[];
 export type RecommendationTriggerType = string;
 export type RecommendationSourceType = string;
 export type QueryText = string | redacted.Redacted<string>;
 export interface QueryRecommendationTriggerData {
-  text?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export type RecommendationTriggerData = { query: QueryRecommendationTriggerData };
 export type RecommendationIdList = string[];
@@ -537,19 +537,19 @@ export interface RecommendationTrigger {
 export type RecommendationTriggerList = RecommendationTrigger[];
 export interface GetRecommendationsResponse {
   recommendations: RecommendationData[];
-  triggers?: RecommendationTrigger[];
+  triggers?: RecommendationTrigger[] | undefined;
 }
 export interface GetSessionRequest {
   assistantId: string;
   sessionId: string;
 }
 export interface GetSessionResponse {
-  session?: SessionData;
+  session?: SessionData | undefined;
 }
 export type NextToken = string;
 export interface ListAssistantAssociationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   assistantId: string;
 }
 export interface AssistantAssociationSummary {
@@ -559,16 +559,16 @@ export interface AssistantAssociationSummary {
   assistantArn: string;
   associationType: string;
   associationData: AssistantAssociationOutputData;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssistantAssociationSummaryList = AssistantAssociationSummary[];
 export interface ListAssistantAssociationsResponse {
   assistantAssociationSummaries: AssistantAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssistantsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssistantSummary {
   assistantId: string;
@@ -576,29 +576,29 @@ export interface AssistantSummary {
   name: string;
   type: string;
   status: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  integrationConfiguration?: AssistantIntegrationConfiguration;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  integrationConfiguration?: AssistantIntegrationConfiguration | undefined;
 }
 export type AssistantList = AssistantSummary[];
 export interface ListAssistantsResponse {
   assistantSummaries: AssistantSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListContentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
 }
 export type ContentSummaryList = ContentSummary[];
 export interface ListContentsResponse {
   contentSummaries: ContentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListImportJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
 }
 export interface ImportJobSummary {
@@ -610,17 +610,17 @@ export interface ImportJobSummary {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: { [key: string]: string | undefined };
-  externalSourceConfiguration?: ExternalSourceConfiguration;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  externalSourceConfiguration?: ExternalSourceConfiguration | undefined;
 }
 export type ImportJobList = ImportJobSummary[];
 export interface ListImportJobsResponse {
   importJobSummaries: ImportJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListKnowledgeBasesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KnowledgeBaseSummary {
   knowledgeBaseId: string;
@@ -628,20 +628,20 @@ export interface KnowledgeBaseSummary {
   name: string;
   knowledgeBaseType: string;
   status: string;
-  sourceConfiguration?: SourceConfiguration;
-  renderingConfiguration?: RenderingConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  sourceConfiguration?: SourceConfiguration | undefined;
+  renderingConfiguration?: RenderingConfiguration | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type KnowledgeBaseList = KnowledgeBaseSummary[];
 export interface ListKnowledgeBasesResponse {
   knowledgeBaseSummaries: KnowledgeBaseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQuickResponsesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
 }
 export interface QuickResponseSummary {
@@ -654,22 +654,22 @@ export interface QuickResponseSummary {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  description?: string;
-  lastModifiedBy?: string;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  lastModifiedBy?: string | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QuickResponseSummaryList = QuickResponseSummary[];
 export interface ListQuickResponsesResponse {
   quickResponseSummaries: QuickResponseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface NotifyRecommendationsReceivedRequest {
   assistantId: string;
@@ -678,29 +678,29 @@ export interface NotifyRecommendationsReceivedRequest {
 }
 export type NotifyRecommendationsReceivedErrorMessage = string;
 export interface NotifyRecommendationsReceivedError_ {
-  recommendationId?: string;
-  message?: string;
+  recommendationId?: string | undefined;
+  message?: string | undefined;
 }
 export type NotifyRecommendationsReceivedErrorList = NotifyRecommendationsReceivedError_[];
 export interface NotifyRecommendationsReceivedResponse {
-  recommendationIds?: string[];
-  errors?: NotifyRecommendationsReceivedError_[];
+  recommendationIds?: string[] | undefined;
+  errors?: NotifyRecommendationsReceivedError_[] | undefined;
 }
 export interface QueryAssistantRequest {
   assistantId: string;
   queryText: string | redacted.Redacted<string>;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ResultData {
   resultId: string;
   document: Document;
-  relevanceScore?: number;
+  relevanceScore?: number | undefined;
 }
 export type QueryResultsList = ResultData[];
 export interface QueryAssistantResponse {
   results: ResultData[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface RemoveKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
@@ -718,14 +718,14 @@ export interface SearchExpression {
   filters: Filter[];
 }
 export interface SearchContentRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
   searchExpression: SearchExpression;
 }
 export interface SearchContentResponse {
   contentSummaries: ContentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type QuickResponseQueryValue = string;
 export type QuickResponseQueryValueList = string[];
@@ -735,8 +735,8 @@ export interface QuickResponseQueryField {
   name: string;
   values: string[];
   operator: string;
-  allowFuzziness?: boolean;
-  priority?: string;
+  allowFuzziness?: boolean | undefined;
+  priority?: string | undefined;
 }
 export type QuickResponseQueryFieldList = QuickResponseQueryField[];
 export type QuickResponseFilterValue = string;
@@ -744,20 +744,20 @@ export type QuickResponseFilterValueList = string[];
 export type QuickResponseFilterOperator = string;
 export interface QuickResponseFilterField {
   name: string;
-  values?: string[];
+  values?: string[] | undefined;
   operator: string;
-  includeNoExistence?: boolean;
+  includeNoExistence?: boolean | undefined;
 }
 export type QuickResponseFilterFieldList = QuickResponseFilterField[];
 export type Order = string;
 export interface QuickResponseOrderField {
   name: string;
-  order?: string;
+  order?: string | undefined;
 }
 export interface QuickResponseSearchExpression {
-  queries?: QuickResponseQueryField[];
-  filters?: QuickResponseFilterField[];
-  orderOnField?: QuickResponseOrderField;
+  queries?: QuickResponseQueryField[] | undefined;
+  filters?: QuickResponseFilterField[] | undefined;
+  orderOnField?: QuickResponseOrderField | undefined;
 }
 export type ContactAttributeKey = string;
 export type ContactAttributeValue = string;
@@ -765,9 +765,9 @@ export type ContactAttributes = { [key: string]: string | undefined };
 export interface SearchQuickResponsesRequest {
   knowledgeBaseId: string;
   searchExpression: QuickResponseSearchExpression;
-  nextToken?: string;
-  maxResults?: number;
-  attributes?: { [key: string]: string | undefined };
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ContactAttributeKeys = string[];
 export interface QuickResponseSearchResultData {
@@ -782,24 +782,24 @@ export interface QuickResponseSearchResultData {
   createdTime: Date;
   lastModifiedTime: Date;
   isActive: boolean;
-  description?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  shortcutKey?: string;
-  lastModifiedBy?: string;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
-  attributesNotInterpolated?: string[];
-  attributesInterpolated?: string[];
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  shortcutKey?: string | undefined;
+  lastModifiedBy?: string | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
+  attributesNotInterpolated?: string[] | undefined;
+  attributesInterpolated?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QuickResponseSearchResultsList = QuickResponseSearchResultData[];
 export interface SearchQuickResponsesResponse {
   results: QuickResponseSearchResultData[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SearchSessionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   assistantId: string;
   searchExpression: SearchExpression;
 }
@@ -812,13 +812,13 @@ export interface SessionSummary {
 export type SessionSummaries = SessionSummary[];
 export interface SearchSessionsResponse {
   sessionSummaries: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TimeToLive = number;
 export interface StartContentUploadRequest {
   knowledgeBaseId: string;
   contentType: string;
-  presignedUrlTimeToLive?: number;
+  presignedUrlTimeToLive?: number | undefined;
 }
 export type Headers = { [key: string]: string | undefined };
 export interface StartContentUploadResponse {
@@ -831,12 +831,12 @@ export interface StartImportJobRequest {
   knowledgeBaseId: string;
   importJobType: string;
   uploadId: string;
-  clientToken?: string;
-  metadata?: { [key: string]: string | undefined };
-  externalSourceConfiguration?: ExternalSourceConfiguration;
+  clientToken?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  externalSourceConfiguration?: ExternalSourceConfiguration | undefined;
 }
 export interface StartImportJobResponse {
-  importJob?: ImportJobData;
+  importJob?: ImportJobData | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -852,41 +852,41 @@ export interface UntagResourceResponse {}
 export interface UpdateContentRequest {
   knowledgeBaseId: string;
   contentId: string;
-  revisionId?: string;
-  title?: string;
-  overrideLinkOutUri?: string;
-  removeOverrideLinkOutUri?: boolean;
-  metadata?: { [key: string]: string | undefined };
-  uploadId?: string;
+  revisionId?: string | undefined;
+  title?: string | undefined;
+  overrideLinkOutUri?: string | undefined;
+  removeOverrideLinkOutUri?: boolean | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  uploadId?: string | undefined;
 }
 export interface UpdateContentResponse {
-  content?: ContentData;
+  content?: ContentData | undefined;
 }
 export interface UpdateKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
   templateUri: string;
 }
 export interface UpdateKnowledgeBaseTemplateUriResponse {
-  knowledgeBase?: KnowledgeBaseData;
+  knowledgeBase?: KnowledgeBaseData | undefined;
 }
 export interface UpdateQuickResponseRequest {
   knowledgeBaseId: string;
   quickResponseId: string;
-  name?: string;
-  content?: QuickResponseDataProvider;
-  contentType?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  removeGroupingConfiguration?: boolean;
-  description?: string;
-  removeDescription?: boolean;
-  shortcutKey?: string;
-  removeShortcutKey?: boolean;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
+  name?: string | undefined;
+  content?: QuickResponseDataProvider | undefined;
+  contentType?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  removeGroupingConfiguration?: boolean | undefined;
+  description?: string | undefined;
+  removeDescription?: boolean | undefined;
+  shortcutKey?: string | undefined;
+  removeShortcutKey?: boolean | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
 }
 export interface UpdateQuickResponseResponse {
-  quickResponse?: QuickResponseData;
+  quickResponse?: QuickResponseData | undefined;
 }
 export type CreateAssistantError =
   | AccessDeniedException

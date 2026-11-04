@@ -82,7 +82,7 @@ export interface AttachConfigurationRequest {
   /** The type of repositories to attach the configuration to. `selected` means the configuration will be attached to only the repositories specified by `selected_repository_ids` */
   scope: AttachConfigurationRequestScope | (string & {});
   /** An array of repository IDs to attach the configuration to. You can only provide a list of repository ids when the `scope` is set to `selected`. */
-  selected_repository_ids?: AttachConfigurationRequestSelectedRepositoryIdsList;
+  selected_repository_ids?: AttachConfigurationRequestSelectedRepositoryIdsList | undefined;
 }
 export interface AttachConfigurationResponse {}
 /** The type of repositories to attach the configuration to. */
@@ -114,7 +114,7 @@ export type CreateConfigurationRequestDependencyGraphAutosubmitAction =
 /** Feature options for Automatic dependency submission */
 export interface CreateConfigurationRequestDependencyGraphAutosubmitActionOptions {
   /** Whether to use runners labeled with 'dependency-submission' or standard GitHub runners. */
-  labeled_runners?: boolean;
+  labeled_runners?: boolean | undefined;
 }
 /** The enablement status of Dependabot alerts */
 export type CreateConfigurationRequestDependabotAlerts = "enabled" | "disabled" | "not_set";
@@ -131,7 +131,7 @@ export type CreateConfigurationRequestDependabotDelegatedAlertDismissal =
 /** Security Configuration feature options for code scanning */
 export interface CodeScanningOptions {
   /** Whether to allow repos which use advanced setup */
-  allow_advanced?: boolean | null;
+  allow_advanced?: boolean | null | undefined;
 }
 /** The enablement status of code scanning default setup */
 export type CreateConfigurationRequestCodeScanningDefaultSetup = "enabled" | "disabled" | "not_set";
@@ -140,9 +140,9 @@ export type CodeScanningDefaultSetupOptionsRunnerType = "standard" | "labeled" |
 /** Feature options for code scanning default setup */
 export interface CodeScanningDefaultSetupOptions {
   /** Whether to use labeled runners or standard GitHub runners. */
-  runner_type?: CodeScanningDefaultSetupOptionsRunnerType | (string & {});
+  runner_type?: CodeScanningDefaultSetupOptionsRunnerType | (string & {}) | undefined;
   /** The label of the runner to use for code scanning default setup when runner_type is 'labeled'. */
-  runner_label?: string | null;
+  runner_label?: string | null | undefined;
 }
 /** The enablement status of code scanning delegated alert dismissal */
 export type CreateConfigurationRequestCodeScanningDelegatedAlertDismissal =
@@ -181,7 +181,8 @@ export interface CreateConfigurationRequestSecretScanningDelegatedBypassOptionsR
   /** The bypass mode for the reviewer */
   mode?:
     | CreateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersItemMode
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type CreateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersList =
@@ -189,7 +190,9 @@ export type CreateConfigurationRequestSecretScanningDelegatedBypassOptionsReview
 /** Feature options for secret scanning delegated bypass */
 export interface CreateConfigurationRequestSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: CreateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?:
+    | CreateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersList
+    | undefined;
 }
 /** The enablement status of secret scanning validity checks */
 export type CreateConfigurationRequestSecretScanningValidityChecks =
@@ -229,75 +232,96 @@ export interface CreateConfigurationRequest {
   /** The name of the code security configuration. Must be unique within the organization. */
   name: string;
   /** A description of the code security configuration */
-  description?: string;
+  description?: string | undefined;
   /** The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features. > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. */
-  advanced_security?: CreateConfigurationRequestAdvancedSecurity | (string & {});
+  advanced_security?: CreateConfigurationRequestAdvancedSecurity | (string & {}) | undefined;
   /** The enablement status of GitHub Code Security features. */
-  code_security?: CreateConfigurationRequestCodeSecurity | (string & {});
+  code_security?: CreateConfigurationRequestCodeSecurity | (string & {}) | undefined;
   /** The enablement status of Dependency Graph */
-  dependency_graph?: CreateConfigurationRequestDependencyGraph | (string & {});
+  dependency_graph?: CreateConfigurationRequestDependencyGraph | (string & {}) | undefined;
   /** The enablement status of Automatic dependency submission */
   dependency_graph_autosubmit_action?:
     | CreateConfigurationRequestDependencyGraphAutosubmitAction
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Feature options for Automatic dependency submission */
-  dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
+  dependency_graph_autosubmit_action_options?:
+    | CreateConfigurationRequestDependencyGraphAutosubmitActionOptions
+    | undefined;
   /** The enablement status of Dependabot alerts */
-  dependabot_alerts?: CreateConfigurationRequestDependabotAlerts | (string & {});
+  dependabot_alerts?: CreateConfigurationRequestDependabotAlerts | (string & {}) | undefined;
   /** The enablement status of Dependabot security updates */
-  dependabot_security_updates?: CreateConfigurationRequestDependabotSecurityUpdates | (string & {});
+  dependabot_security_updates?:
+    | CreateConfigurationRequestDependabotSecurityUpdates
+    | (string & {})
+    | undefined;
   /** The enablement status of Dependabot delegated alert dismissal. Requires Dependabot alerts to be enabled. */
   dependabot_delegated_alert_dismissal?:
     | CreateConfigurationRequestDependabotDelegatedAlertDismissal
-    | (string & {});
-  code_scanning_options?: CodeScanningOptions | null;
+    | (string & {})
+    | undefined;
+  code_scanning_options?: CodeScanningOptions | null | undefined;
   /** The enablement status of code scanning default setup */
-  code_scanning_default_setup?: CreateConfigurationRequestCodeScanningDefaultSetup | (string & {});
-  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null;
+  code_scanning_default_setup?:
+    | CreateConfigurationRequestCodeScanningDefaultSetup
+    | (string & {})
+    | undefined;
+  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null | undefined;
   /** The enablement status of code scanning delegated alert dismissal */
   code_scanning_delegated_alert_dismissal?:
     | CreateConfigurationRequestCodeScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of GitHub Secret Protection features. */
-  secret_protection?: CreateConfigurationRequestSecretProtection | (string & {});
+  secret_protection?: CreateConfigurationRequestSecretProtection | (string & {}) | undefined;
   /** The enablement status of secret scanning */
-  secret_scanning?: CreateConfigurationRequestSecretScanning | (string & {});
+  secret_scanning?: CreateConfigurationRequestSecretScanning | (string & {}) | undefined;
   /** The enablement status of secret scanning push protection */
   secret_scanning_push_protection?:
     | CreateConfigurationRequestSecretScanningPushProtection
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning delegated bypass */
   secret_scanning_delegated_bypass?:
     | CreateConfigurationRequestSecretScanningDelegatedBypass
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Feature options for secret scanning delegated bypass */
-  secret_scanning_delegated_bypass_options?: CreateConfigurationRequestSecretScanningDelegatedBypassOptions;
+  secret_scanning_delegated_bypass_options?:
+    | CreateConfigurationRequestSecretScanningDelegatedBypassOptions
+    | undefined;
   /** The enablement status of secret scanning validity checks */
   secret_scanning_validity_checks?:
     | CreateConfigurationRequestSecretScanningValidityChecks
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning non provider patterns */
   secret_scanning_non_provider_patterns?:
     | CreateConfigurationRequestSecretScanningNonProviderPatterns
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?:
     | CreateConfigurationRequestSecretScanningGenericSecrets
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
     | CreateConfigurationRequestSecretScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning extended metadata */
   secret_scanning_extended_metadata?:
     | CreateConfigurationRequestSecretScanningExtendedMetadata
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of private vulnerability reporting */
   private_vulnerability_reporting?:
     | CreateConfigurationRequestPrivateVulnerabilityReporting
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enforcement status for a security configuration */
-  enforcement?: CreateConfigurationRequestEnforcement | (string & {});
+  enforcement?: CreateConfigurationRequestEnforcement | (string & {}) | undefined;
 }
 /** The type of the code security configuration. */
 export type CodeSecurityConfigurationTargetType = "global" | "organization" | "enterprise";
@@ -338,9 +362,12 @@ export type CodeSecurityConfigurationCodeScanningDefaultSetupOptionsRunnerType =
 /** Feature options for code scanning default setup */
 export interface CodeSecurityConfigurationCodeScanningDefaultSetupOptions {
   /** Whether to use labeled runners or standard GitHub runners. */
-  runner_type?: CodeSecurityConfigurationCodeScanningDefaultSetupOptionsRunnerType | null;
+  runner_type?:
+    | CodeSecurityConfigurationCodeScanningDefaultSetupOptionsRunnerType
+    | null
+    | undefined;
   /** The label of the runner to use for code scanning when runner_type is 'labeled'. */
-  runner_label?: string | null;
+  runner_label?: string | null | undefined;
 }
 /** The enablement status of code scanning delegated alert dismissal */
 export type CodeSecurityConfigurationCodeScanningDelegatedAlertDismissal =
@@ -373,9 +400,9 @@ export interface CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsRe
   /** The type of the bypass reviewer */
   reviewer_type: CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
   /** The ID of the security configuration associated with this bypass reviewer */
-  security_configuration_id?: number;
+  security_configuration_id?: number | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsReviewersList =
@@ -383,7 +410,9 @@ export type CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsReviewe
 /** Feature options for secret scanning delegated bypass */
 export interface CodeSecurityConfigurationSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?:
+    | CodeSecurityConfigurationSecretScanningDelegatedBypassOptionsReviewersList
+    | undefined;
 }
 /** The enablement status of secret scanning validity checks */
 export type CodeSecurityConfigurationSecretScanningValidityChecks =
@@ -423,63 +452,93 @@ export type CodeSecurityConfigurationEnforcement =
 /** A code security configuration */
 export interface CodeSecurityConfiguration {
   /** The ID of the code security configuration */
-  id?: number;
+  id?: number | undefined;
   /** The name of the code security configuration. Must be unique within the organization. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the code security configuration. */
-  target_type?: CodeSecurityConfigurationTargetType;
+  target_type?: CodeSecurityConfigurationTargetType | undefined;
   /** A description of the code security configuration */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The enablement status of GitHub Advanced Security */
-  advanced_security?: CodeSecurityConfigurationAdvancedSecurity;
+  advanced_security?: CodeSecurityConfigurationAdvancedSecurity | undefined;
   /** The enablement status of Dependency Graph */
-  dependency_graph?: CodeSecurityConfigurationDependencyGraph;
+  dependency_graph?: CodeSecurityConfigurationDependencyGraph | undefined;
   /** The enablement status of Automatic dependency submission */
-  dependency_graph_autosubmit_action?: CodeSecurityConfigurationDependencyGraphAutosubmitAction;
+  dependency_graph_autosubmit_action?:
+    | CodeSecurityConfigurationDependencyGraphAutosubmitAction
+    | undefined;
   /** Feature options for Automatic dependency submission */
-  dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
+  dependency_graph_autosubmit_action_options?:
+    | CreateConfigurationRequestDependencyGraphAutosubmitActionOptions
+    | undefined;
   /** The enablement status of Dependabot alerts */
-  dependabot_alerts?: CodeSecurityConfigurationDependabotAlerts;
+  dependabot_alerts?: CodeSecurityConfigurationDependabotAlerts | undefined;
   /** The enablement status of Dependabot security updates */
-  dependabot_security_updates?: CodeSecurityConfigurationDependabotSecurityUpdates;
+  dependabot_security_updates?: CodeSecurityConfigurationDependabotSecurityUpdates | undefined;
   /** The enablement status of Dependabot delegated alert dismissal */
-  dependabot_delegated_alert_dismissal?: CodeSecurityConfigurationDependabotDelegatedAlertDismissal | null;
+  dependabot_delegated_alert_dismissal?:
+    | CodeSecurityConfigurationDependabotDelegatedAlertDismissal
+    | null
+    | undefined;
   /** Feature options for code scanning */
-  code_scanning_options?: CodeScanningOptions | null;
+  code_scanning_options?: CodeScanningOptions | null | undefined;
   /** The enablement status of code scanning default setup */
-  code_scanning_default_setup?: CodeSecurityConfigurationCodeScanningDefaultSetup;
+  code_scanning_default_setup?: CodeSecurityConfigurationCodeScanningDefaultSetup | undefined;
   /** Feature options for code scanning default setup */
-  code_scanning_default_setup_options?: CodeSecurityConfigurationCodeScanningDefaultSetupOptions | null;
+  code_scanning_default_setup_options?:
+    | CodeSecurityConfigurationCodeScanningDefaultSetupOptions
+    | null
+    | undefined;
   /** The enablement status of code scanning delegated alert dismissal */
-  code_scanning_delegated_alert_dismissal?: CodeSecurityConfigurationCodeScanningDelegatedAlertDismissal;
+  code_scanning_delegated_alert_dismissal?:
+    | CodeSecurityConfigurationCodeScanningDelegatedAlertDismissal
+    | undefined;
   /** The enablement status of secret scanning */
-  secret_scanning?: CodeSecurityConfigurationSecretScanning;
+  secret_scanning?: CodeSecurityConfigurationSecretScanning | undefined;
   /** The enablement status of secret scanning push protection */
-  secret_scanning_push_protection?: CodeSecurityConfigurationSecretScanningPushProtection;
+  secret_scanning_push_protection?:
+    | CodeSecurityConfigurationSecretScanningPushProtection
+    | undefined;
   /** The enablement status of secret scanning delegated bypass */
-  secret_scanning_delegated_bypass?: CodeSecurityConfigurationSecretScanningDelegatedBypass;
+  secret_scanning_delegated_bypass?:
+    | CodeSecurityConfigurationSecretScanningDelegatedBypass
+    | undefined;
   /** Feature options for secret scanning delegated bypass */
-  secret_scanning_delegated_bypass_options?: CodeSecurityConfigurationSecretScanningDelegatedBypassOptions;
+  secret_scanning_delegated_bypass_options?:
+    | CodeSecurityConfigurationSecretScanningDelegatedBypassOptions
+    | undefined;
   /** The enablement status of secret scanning validity checks */
-  secret_scanning_validity_checks?: CodeSecurityConfigurationSecretScanningValidityChecks;
+  secret_scanning_validity_checks?:
+    | CodeSecurityConfigurationSecretScanningValidityChecks
+    | undefined;
   /** The enablement status of secret scanning non-provider patterns */
-  secret_scanning_non_provider_patterns?: CodeSecurityConfigurationSecretScanningNonProviderPatterns;
+  secret_scanning_non_provider_patterns?:
+    | CodeSecurityConfigurationSecretScanningNonProviderPatterns
+    | undefined;
   /** The enablement status of Copilot secret scanning */
-  secret_scanning_generic_secrets?: CodeSecurityConfigurationSecretScanningGenericSecrets;
+  secret_scanning_generic_secrets?:
+    | CodeSecurityConfigurationSecretScanningGenericSecrets
+    | undefined;
   /** The enablement status of secret scanning delegated alert dismissal */
-  secret_scanning_delegated_alert_dismissal?: CodeSecurityConfigurationSecretScanningDelegatedAlertDismissal;
+  secret_scanning_delegated_alert_dismissal?:
+    | CodeSecurityConfigurationSecretScanningDelegatedAlertDismissal
+    | undefined;
   /** The enablement status of secret scanning extended metadata */
-  secret_scanning_extended_metadata?: CodeSecurityConfigurationSecretScanningExtendedMetadata;
+  secret_scanning_extended_metadata?:
+    | CodeSecurityConfigurationSecretScanningExtendedMetadata
+    | undefined;
   /** The enablement status of private vulnerability reporting */
-  private_vulnerability_reporting?: CodeSecurityConfigurationPrivateVulnerabilityReporting;
+  private_vulnerability_reporting?:
+    | CodeSecurityConfigurationPrivateVulnerabilityReporting
+    | undefined;
   /** The enforcement status for a security configuration */
-  enforcement?: CodeSecurityConfigurationEnforcement;
+  enforcement?: CodeSecurityConfigurationEnforcement | undefined;
   /** The URL of the configuration */
-  url?: string;
+  url?: string | undefined;
   /** The URL of the configuration */
-  html_url?: string;
-  created_at?: string;
-  updated_at?: string;
+  html_url?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features. > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. */
 export type CreateConfigurationForEnterpriseRequestAdvancedSecurity =
@@ -581,69 +640,97 @@ export interface CreateConfigurationForEnterpriseRequest {
   /** The name of the code security configuration. Must be unique within the enterprise. */
   name: string;
   /** A description of the code security configuration */
-  description?: string;
+  description?: string | undefined;
   /** The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features. > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. */
-  advanced_security?: CreateConfigurationForEnterpriseRequestAdvancedSecurity | (string & {});
+  advanced_security?:
+    | CreateConfigurationForEnterpriseRequestAdvancedSecurity
+    | (string & {})
+    | undefined;
   /** The enablement status of GitHub Code Security features. */
-  code_security?: CreateConfigurationForEnterpriseRequestCodeSecurity | (string & {});
+  code_security?: CreateConfigurationForEnterpriseRequestCodeSecurity | (string & {}) | undefined;
   /** The enablement status of Dependency Graph */
-  dependency_graph?: CreateConfigurationForEnterpriseRequestDependencyGraph | (string & {});
+  dependency_graph?:
+    | CreateConfigurationForEnterpriseRequestDependencyGraph
+    | (string & {})
+    | undefined;
   /** The enablement status of Automatic dependency submission */
   dependency_graph_autosubmit_action?:
     | CreateConfigurationForEnterpriseRequestDependencyGraphAutosubmitAction
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Feature options for Automatic dependency submission */
-  dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
+  dependency_graph_autosubmit_action_options?:
+    | CreateConfigurationRequestDependencyGraphAutosubmitActionOptions
+    | undefined;
   /** The enablement status of Dependabot alerts */
-  dependabot_alerts?: CreateConfigurationForEnterpriseRequestDependabotAlerts | (string & {});
+  dependabot_alerts?:
+    | CreateConfigurationForEnterpriseRequestDependabotAlerts
+    | (string & {})
+    | undefined;
   /** The enablement status of Dependabot security updates */
   dependabot_security_updates?:
     | CreateConfigurationForEnterpriseRequestDependabotSecurityUpdates
-    | (string & {});
-  code_scanning_options?: CodeScanningOptions | null;
+    | (string & {})
+    | undefined;
+  code_scanning_options?: CodeScanningOptions | null | undefined;
   /** The enablement status of code scanning default setup */
   code_scanning_default_setup?:
     | CreateConfigurationForEnterpriseRequestCodeScanningDefaultSetup
-    | (string & {});
-  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null;
+    | (string & {})
+    | undefined;
+  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null | undefined;
   /** The enablement status of code scanning delegated alert dismissal */
   code_scanning_delegated_alert_dismissal?:
     | CreateConfigurationForEnterpriseRequestCodeScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of GitHub Secret Protection features. */
-  secret_protection?: CreateConfigurationForEnterpriseRequestSecretProtection | (string & {});
+  secret_protection?:
+    | CreateConfigurationForEnterpriseRequestSecretProtection
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning */
-  secret_scanning?: CreateConfigurationForEnterpriseRequestSecretScanning | (string & {});
+  secret_scanning?:
+    | CreateConfigurationForEnterpriseRequestSecretScanning
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning push protection */
   secret_scanning_push_protection?:
     | CreateConfigurationForEnterpriseRequestSecretScanningPushProtection
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning validity checks */
   secret_scanning_validity_checks?:
     | CreateConfigurationForEnterpriseRequestSecretScanningValidityChecks
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning non provider patterns */
   secret_scanning_non_provider_patterns?:
     | CreateConfigurationForEnterpriseRequestSecretScanningNonProviderPatterns
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?:
     | CreateConfigurationForEnterpriseRequestSecretScanningGenericSecrets
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
     | CreateConfigurationForEnterpriseRequestSecretScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning extended metadata */
   secret_scanning_extended_metadata?:
     | CreateConfigurationForEnterpriseRequestSecretScanningExtendedMetadata
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of private vulnerability reporting */
   private_vulnerability_reporting?:
     | CreateConfigurationForEnterpriseRequestPrivateVulnerabilityReporting
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enforcement status for a security configuration */
-  enforcement?: CreateConfigurationForEnterpriseRequestEnforcement | (string & {});
+  enforcement?: CreateConfigurationForEnterpriseRequestEnforcement | (string & {}) | undefined;
 }
 export interface DeleteConfigurationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -694,18 +781,18 @@ export type CodeSecurityConfigurationForRepositoryStatus =
 /** Code security configuration associated with a repository and attachment status */
 export interface CodeSecurityConfigurationForRepository {
   /** The attachment status of the code security configuration on the repository. */
-  status?: CodeSecurityConfigurationForRepositoryStatus;
-  configuration?: CodeSecurityConfiguration;
+  status?: CodeSecurityConfigurationForRepositoryStatus | undefined;
+  configuration?: CodeSecurityConfiguration | undefined;
 }
 export interface GetConfigurationsForEnterpriseRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export type GetConfigurationsForEnterpriseResponseBodyList = Array<CodeSecurityConfiguration>;
 export type GetConfigurationsForEnterpriseResponse = GetConfigurationsForEnterpriseResponseBodyList;
@@ -714,13 +801,13 @@ export interface GetConfigurationsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The target type of the code security configuration */
-  target_type?: GetConfigurationsForOrgRequestTargetType | (string & {});
+  target_type?: GetConfigurationsForOrgRequestTargetType | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export type GetConfigurationsForOrgResponseBodyList = Array<CodeSecurityConfiguration>;
 export type GetConfigurationsForOrgResponse = GetConfigurationsForOrgResponseBodyList;
@@ -735,8 +822,8 @@ export type CodeSecurityDefaultConfigurationsItemDefaultForNewRepos =
   | "all";
 export interface CodeSecurityDefaultConfigurationsItem {
   /** The visibility of newly created repositories for which the code security configuration will be applied to by default */
-  default_for_new_repos?: CodeSecurityDefaultConfigurationsItemDefaultForNewRepos;
-  configuration?: CodeSecurityConfiguration;
+  default_for_new_repos?: CodeSecurityDefaultConfigurationsItemDefaultForNewRepos | undefined;
+  configuration?: CodeSecurityConfiguration | undefined;
 }
 /** A list of default code security configurations */
 export type CodeSecurityDefaultConfigurations = Array<CodeSecurityDefaultConfigurationsItem>;
@@ -752,13 +839,13 @@ export interface GetRepositoriesForConfigurationRequest {
   /** The unique identifier of the code security configuration. */
   configuration_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** A comma-separated list of statuses. If specified, only repositories with these attachment statuses will be returned. Can be: `all`, `attached`, `attaching`, `detached`, `removed`, `enforced`, `failed`, `updating`, `removed_by_enterprise`, `enterprise_enforced` */
-  status?: string;
+  status?: string | undefined;
 }
 /** The attachment status of the code security configuration on the repository. */
 export type CodeSecurityConfigurationRepositoriesStatus =
@@ -773,8 +860,8 @@ export type CodeSecurityConfigurationRepositoriesStatus =
   | "enterprise_enforced";
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -793,8 +880,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** A GitHub repository. */
 export interface SimpleRepository {
@@ -893,8 +980,8 @@ export interface SimpleRepository {
 /** Repositories associated with a code security configuration and attachment status */
 export interface CodeSecurityConfigurationRepositories {
   /** The attachment status of the code security configuration on the repository. */
-  status?: CodeSecurityConfigurationRepositoriesStatus;
-  repository?: SimpleRepository;
+  status?: CodeSecurityConfigurationRepositoriesStatus | undefined;
+  repository?: SimpleRepository | undefined;
 }
 export type GetRepositoriesForConfigurationResponseBodyList =
   Array<CodeSecurityConfigurationRepositories>;
@@ -906,13 +993,13 @@ export interface GetRepositoriesForEnterpriseConfigurationRequest {
   /** The unique identifier of the code security configuration. */
   configuration_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** A comma-separated list of statuses. If specified, only repositories with these attachment statuses will be returned. Can be: `all`, `attached`, `attaching`, `removed`, `enforced`, `failed`, `updating`, `removed_by_enterprise`, `enterprise_enforced` */
-  status?: string;
+  status?: string | undefined;
 }
 export type GetRepositoriesForEnterpriseConfigurationResponseBodyList =
   Array<CodeSecurityConfigurationRepositories>;
@@ -936,7 +1023,10 @@ export interface SetConfigurationAsDefaultRequest {
   /** The unique identifier of the code security configuration. */
   configuration_id: number;
   /** Specify which types of repository this security configuration should be applied to by default. */
-  default_for_new_repos?: SetConfigurationAsDefaultRequestDefaultForNewRepos | (string & {});
+  default_for_new_repos?:
+    | SetConfigurationAsDefaultRequestDefaultForNewRepos
+    | (string & {})
+    | undefined;
 }
 /** Specifies which types of repository this security configuration is applied to by default. */
 export type SetConfigurationAsDefaultResponseDefaultForNewRepos =
@@ -946,8 +1036,8 @@ export type SetConfigurationAsDefaultResponseDefaultForNewRepos =
   | "public";
 export interface SetConfigurationAsDefaultResponse {
   /** Specifies which types of repository this security configuration is applied to by default. */
-  default_for_new_repos?: SetConfigurationAsDefaultResponseDefaultForNewRepos;
-  configuration?: CodeSecurityConfiguration;
+  default_for_new_repos?: SetConfigurationAsDefaultResponseDefaultForNewRepos | undefined;
+  configuration?: CodeSecurityConfiguration | undefined;
 }
 /** Specify which types of repository this security configuration should be applied to by default. */
 export type SetConfigurationAsDefaultForEnterpriseRequestDefaultForNewRepos =
@@ -963,7 +1053,8 @@ export interface SetConfigurationAsDefaultForEnterpriseRequest {
   /** Specify which types of repository this security configuration should be applied to by default. */
   default_for_new_repos?:
     | SetConfigurationAsDefaultForEnterpriseRequestDefaultForNewRepos
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Specifies which types of repository this security configuration is applied to by default. */
 export type SetConfigurationAsDefaultForEnterpriseResponseDefaultForNewRepos =
@@ -973,8 +1064,10 @@ export type SetConfigurationAsDefaultForEnterpriseResponseDefaultForNewRepos =
   | "public";
 export interface SetConfigurationAsDefaultForEnterpriseResponse {
   /** Specifies which types of repository this security configuration is applied to by default. */
-  default_for_new_repos?: SetConfigurationAsDefaultForEnterpriseResponseDefaultForNewRepos;
-  configuration?: CodeSecurityConfiguration;
+  default_for_new_repos?:
+    | SetConfigurationAsDefaultForEnterpriseResponseDefaultForNewRepos
+    | undefined;
+  configuration?: CodeSecurityConfiguration | undefined;
 }
 /** The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features. > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. */
 export type UpdateConfigurationRequestAdvancedSecurity =
@@ -1045,7 +1138,8 @@ export interface UpdateConfigurationRequestSecretScanningDelegatedBypassOptionsR
   /** The bypass mode for the reviewer */
   mode?:
     | UpdateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersItemMode
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type UpdateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersList =
@@ -1053,7 +1147,9 @@ export type UpdateConfigurationRequestSecretScanningDelegatedBypassOptionsReview
 /** Feature options for secret scanning delegated bypass */
 export interface UpdateConfigurationRequestSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: UpdateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?:
+    | UpdateConfigurationRequestSecretScanningDelegatedBypassOptionsReviewersList
+    | undefined;
 }
 /** The enablement status of secret scanning validity checks */
 export type UpdateConfigurationRequestSecretScanningValidityChecks =
@@ -1093,77 +1189,98 @@ export interface UpdateConfigurationRequest {
   /** The unique identifier of the code security configuration. */
   configuration_id: number;
   /** The name of the code security configuration. Must be unique within the organization. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the code security configuration */
-  description?: string;
+  description?: string | undefined;
   /** The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features. > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. */
-  advanced_security?: UpdateConfigurationRequestAdvancedSecurity | (string & {});
+  advanced_security?: UpdateConfigurationRequestAdvancedSecurity | (string & {}) | undefined;
   /** The enablement status of GitHub Code Security features. */
-  code_security?: UpdateConfigurationRequestCodeSecurity | (string & {});
+  code_security?: UpdateConfigurationRequestCodeSecurity | (string & {}) | undefined;
   /** The enablement status of Dependency Graph */
-  dependency_graph?: UpdateConfigurationRequestDependencyGraph | (string & {});
+  dependency_graph?: UpdateConfigurationRequestDependencyGraph | (string & {}) | undefined;
   /** The enablement status of Automatic dependency submission */
   dependency_graph_autosubmit_action?:
     | UpdateConfigurationRequestDependencyGraphAutosubmitAction
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Feature options for Automatic dependency submission */
-  dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
+  dependency_graph_autosubmit_action_options?:
+    | CreateConfigurationRequestDependencyGraphAutosubmitActionOptions
+    | undefined;
   /** The enablement status of Dependabot alerts */
-  dependabot_alerts?: UpdateConfigurationRequestDependabotAlerts | (string & {});
+  dependabot_alerts?: UpdateConfigurationRequestDependabotAlerts | (string & {}) | undefined;
   /** The enablement status of Dependabot security updates */
-  dependabot_security_updates?: UpdateConfigurationRequestDependabotSecurityUpdates | (string & {});
+  dependabot_security_updates?:
+    | UpdateConfigurationRequestDependabotSecurityUpdates
+    | (string & {})
+    | undefined;
   /** The enablement status of Dependabot delegated alert dismissal. Requires Dependabot alerts to be enabled. */
   dependabot_delegated_alert_dismissal?:
     | UpdateConfigurationRequestDependabotDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of code scanning default setup */
-  code_scanning_default_setup?: UpdateConfigurationRequestCodeScanningDefaultSetup | (string & {});
-  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null;
-  code_scanning_options?: CodeScanningOptions | null;
+  code_scanning_default_setup?:
+    | UpdateConfigurationRequestCodeScanningDefaultSetup
+    | (string & {})
+    | undefined;
+  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null | undefined;
+  code_scanning_options?: CodeScanningOptions | null | undefined;
   /** The enablement status of code scanning delegated alert dismissal */
   code_scanning_delegated_alert_dismissal?:
     | UpdateConfigurationRequestCodeScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of GitHub Secret Protection features. */
-  secret_protection?: UpdateConfigurationRequestSecretProtection | (string & {});
+  secret_protection?: UpdateConfigurationRequestSecretProtection | (string & {}) | undefined;
   /** The enablement status of secret scanning */
-  secret_scanning?: UpdateConfigurationRequestSecretScanning | (string & {});
+  secret_scanning?: UpdateConfigurationRequestSecretScanning | (string & {}) | undefined;
   /** The enablement status of secret scanning push protection */
   secret_scanning_push_protection?:
     | UpdateConfigurationRequestSecretScanningPushProtection
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning delegated bypass */
   secret_scanning_delegated_bypass?:
     | UpdateConfigurationRequestSecretScanningDelegatedBypass
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Feature options for secret scanning delegated bypass */
-  secret_scanning_delegated_bypass_options?: UpdateConfigurationRequestSecretScanningDelegatedBypassOptions;
+  secret_scanning_delegated_bypass_options?:
+    | UpdateConfigurationRequestSecretScanningDelegatedBypassOptions
+    | undefined;
   /** The enablement status of secret scanning validity checks */
   secret_scanning_validity_checks?:
     | UpdateConfigurationRequestSecretScanningValidityChecks
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning non-provider patterns */
   secret_scanning_non_provider_patterns?:
     | UpdateConfigurationRequestSecretScanningNonProviderPatterns
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?:
     | UpdateConfigurationRequestSecretScanningGenericSecrets
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
     | UpdateConfigurationRequestSecretScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning extended metadata */
   secret_scanning_extended_metadata?:
     | UpdateConfigurationRequestSecretScanningExtendedMetadata
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of private vulnerability reporting */
   private_vulnerability_reporting?:
     | UpdateConfigurationRequestPrivateVulnerabilityReporting
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enforcement status for a security configuration */
-  enforcement?: UpdateConfigurationRequestEnforcement | (string & {});
+  enforcement?: UpdateConfigurationRequestEnforcement | (string & {}) | undefined;
 }
 /** The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features. > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. */
 export type UpdateEnterpriseConfigurationRequestAdvancedSecurity =
@@ -1259,71 +1376,96 @@ export interface UpdateEnterpriseConfigurationRequest {
   /** The unique identifier of the code security configuration. */
   configuration_id: number;
   /** The name of the code security configuration. Must be unique across the enterprise. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the code security configuration */
-  description?: string;
+  description?: string | undefined;
   /** The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features. > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. */
-  advanced_security?: UpdateEnterpriseConfigurationRequestAdvancedSecurity | (string & {});
+  advanced_security?:
+    | UpdateEnterpriseConfigurationRequestAdvancedSecurity
+    | (string & {})
+    | undefined;
   /** The enablement status of GitHub Code Security features. */
-  code_security?: UpdateEnterpriseConfigurationRequestCodeSecurity | (string & {});
+  code_security?: UpdateEnterpriseConfigurationRequestCodeSecurity | (string & {}) | undefined;
   /** The enablement status of Dependency Graph */
-  dependency_graph?: UpdateEnterpriseConfigurationRequestDependencyGraph | (string & {});
+  dependency_graph?:
+    | UpdateEnterpriseConfigurationRequestDependencyGraph
+    | (string & {})
+    | undefined;
   /** The enablement status of Automatic dependency submission */
   dependency_graph_autosubmit_action?:
     | UpdateEnterpriseConfigurationRequestDependencyGraphAutosubmitAction
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Feature options for Automatic dependency submission */
-  dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
+  dependency_graph_autosubmit_action_options?:
+    | CreateConfigurationRequestDependencyGraphAutosubmitActionOptions
+    | undefined;
   /** The enablement status of Dependabot alerts */
-  dependabot_alerts?: UpdateEnterpriseConfigurationRequestDependabotAlerts | (string & {});
+  dependabot_alerts?:
+    | UpdateEnterpriseConfigurationRequestDependabotAlerts
+    | (string & {})
+    | undefined;
   /** The enablement status of Dependabot security updates */
   dependabot_security_updates?:
     | UpdateEnterpriseConfigurationRequestDependabotSecurityUpdates
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of code scanning default setup */
   code_scanning_default_setup?:
     | UpdateEnterpriseConfigurationRequestCodeScanningDefaultSetup
-    | (string & {});
-  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null;
-  code_scanning_options?: CodeScanningOptions | null;
+    | (string & {})
+    | undefined;
+  code_scanning_default_setup_options?: CodeScanningDefaultSetupOptions | null | undefined;
+  code_scanning_options?: CodeScanningOptions | null | undefined;
   /** The enablement status of code scanning delegated alert dismissal */
   code_scanning_delegated_alert_dismissal?:
     | UpdateEnterpriseConfigurationRequestCodeScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of GitHub Secret Protection features. */
-  secret_protection?: UpdateEnterpriseConfigurationRequestSecretProtection | (string & {});
+  secret_protection?:
+    | UpdateEnterpriseConfigurationRequestSecretProtection
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning */
-  secret_scanning?: UpdateEnterpriseConfigurationRequestSecretScanning | (string & {});
+  secret_scanning?: UpdateEnterpriseConfigurationRequestSecretScanning | (string & {}) | undefined;
   /** The enablement status of secret scanning push protection */
   secret_scanning_push_protection?:
     | UpdateEnterpriseConfigurationRequestSecretScanningPushProtection
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning validity checks */
   secret_scanning_validity_checks?:
     | UpdateEnterpriseConfigurationRequestSecretScanningValidityChecks
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning non-provider patterns */
   secret_scanning_non_provider_patterns?:
     | UpdateEnterpriseConfigurationRequestSecretScanningNonProviderPatterns
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?:
     | UpdateEnterpriseConfigurationRequestSecretScanningGenericSecrets
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
     | UpdateEnterpriseConfigurationRequestSecretScanningDelegatedAlertDismissal
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of secret scanning extended metadata */
   secret_scanning_extended_metadata?:
     | UpdateEnterpriseConfigurationRequestSecretScanningExtendedMetadata
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enablement status of private vulnerability reporting */
   private_vulnerability_reporting?:
     | UpdateEnterpriseConfigurationRequestPrivateVulnerabilityReporting
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The enforcement status for a security configuration */
-  enforcement?: UpdateEnterpriseConfigurationRequestEnforcement | (string & {});
+  enforcement?: UpdateEnterpriseConfigurationRequestEnforcement | (string & {}) | undefined;
 }
 export type AttachConfigurationError = Forbidden | GithubOpError;
 /** Attach a configuration to repositories Attach a code security configuration to a set of repositories. If the repositories specified are already attached to a configuration, they will be re-attached to the provided configuration. If insufficient GHAS licenses are available to attach the configuration to a repository, only free features will be enabled. The authenticated user must be an administrator or security manager for the organization to use this endpoint. Directly applying an enterprise-enforced configuration also requires permission to manage the enterprise's code security settings. Without it, the request returns `403` and no repositories change. When applying a different configuration, repositories with active enterprise-enforced attachments are skipped unless the authenticated user can manage the enterprise's code security settings; the remaining repositories are updated. The request still returns `202` if every repository is skipped. OAuth app tokens and classic PATs require the `write:org` scope. Directly applying an enterprise-enforced configuration also requires `admin:enterprise` and is not supported by fine-grained PATs or GitHub App access tokens. */

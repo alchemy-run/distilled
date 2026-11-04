@@ -164,9 +164,9 @@ export type Dimension = "USAGE_ACCOUNT_ID" | "REGION" | "SERVICE" | (string & {}
 export type DimensionList = Dimension[];
 export type DimensionValue = string;
 export type DimensionValueList = string[];
-export type DimensionListMap = { [key in Dimension]?: string[] };
+export type DimensionListMap = { [key in Dimension]?: string[] | undefined };
 export interface FilterExpression {
-  Dimensions?: { [key: string]: string[] | undefined };
+  Dimensions?: { [key: string]: string[] | undefined } | undefined;
 }
 export type EmissionsType =
   | "TOTAL_LBM_CARBON_EMISSIONS"
@@ -187,28 +187,28 @@ export type TimeGranularity =
   | (string & {});
 export type Month = number;
 export interface GranularityConfiguration {
-  FiscalYearStartMonth?: number;
+  FiscalYearStartMonth?: number | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetEstimatedCarbonEmissionsRequest {
   TimePeriod: TimePeriod;
-  GroupBy?: Dimension[];
-  FilterBy?: FilterExpression;
-  EmissionsTypes?: EmissionsType[];
-  Granularity?: TimeGranularity;
-  GranularityConfiguration?: GranularityConfiguration;
-  MaxResults?: number;
-  NextToken?: string;
+  GroupBy?: Dimension[] | undefined;
+  FilterBy?: FilterExpression | undefined;
+  EmissionsTypes?: EmissionsType[] | undefined;
+  Granularity?: TimeGranularity | undefined;
+  GranularityConfiguration?: GranularityConfiguration | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export type DimensionsMap = { [key in Dimension]?: string };
+export type DimensionsMap = { [key in Dimension]?: string | undefined };
 export type ModelVersion = string;
 export type EmissionsUnit = "MTCO2e" | (string & {});
 export interface Emissions {
   Value: number;
   Unit: EmissionsUnit;
 }
-export type EmissionsMap = { [key in EmissionsType]?: Emissions };
+export type EmissionsMap = { [key in EmissionsType]?: Emissions | undefined };
 export interface EstimatedCarbonEmissions {
   TimePeriod: TimePeriod;
   DimensionsValues: { [key: string]: string | undefined };
@@ -218,13 +218,13 @@ export interface EstimatedCarbonEmissions {
 export type EstimatedCarbonEmissionsList = EstimatedCarbonEmissions[];
 export interface GetEstimatedCarbonEmissionsResponse {
   Results: EstimatedCarbonEmissions[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetEstimatedCarbonEmissionsDimensionValuesRequest {
   TimePeriod: TimePeriod;
   Dimensions: Dimension[];
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DimensionEntry {
   Dimension: Dimension;
@@ -232,26 +232,26 @@ export interface DimensionEntry {
 }
 export type DimensionEntryList = DimensionEntry[];
 export interface GetEstimatedCarbonEmissionsDimensionValuesResponse {
-  Results?: DimensionEntry[];
-  NextToken?: string;
+  Results?: DimensionEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export type WaterAllocationType = "TOTAL_WATER_WITHDRAWALS" | (string & {});
 export type WaterAllocationTypeList = WaterAllocationType[];
 export interface GetEstimatedWaterAllocationRequest {
   TimePeriod: TimePeriod;
-  GroupBy?: Dimension[];
-  FilterBy?: FilterExpression;
-  AllocationTypes?: WaterAllocationType[];
-  Granularity?: TimeGranularity;
-  MaxResults?: number;
-  NextToken?: string;
+  GroupBy?: Dimension[] | undefined;
+  FilterBy?: FilterExpression | undefined;
+  AllocationTypes?: WaterAllocationType[] | undefined;
+  Granularity?: TimeGranularity | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type WaterAllocationUnit = "m3" | (string & {});
 export interface WaterAllocation {
   Value: number;
   Unit: WaterAllocationUnit;
 }
-export type WaterAllocationMap = { [key in WaterAllocationType]?: WaterAllocation };
+export type WaterAllocationMap = { [key in WaterAllocationType]?: WaterAllocation | undefined };
 export interface EstimatedWaterAllocation {
   TimePeriod: TimePeriod;
   DimensionsValues: { [key: string]: string | undefined };
@@ -261,17 +261,17 @@ export interface EstimatedWaterAllocation {
 export type EstimatedWaterAllocationList = EstimatedWaterAllocation[];
 export interface GetEstimatedWaterAllocationResponse {
   Results: EstimatedWaterAllocation[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetEstimatedWaterAllocationDimensionValuesRequest {
   TimePeriod: TimePeriod;
   Dimensions: Dimension[];
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetEstimatedWaterAllocationDimensionValuesResponse {
   Results: DimensionEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type GetEstimatedCarbonEmissionsError =
   | AccessDeniedException

@@ -59,29 +59,29 @@ export class NotFound
 export type StringList = Array<string>;
 export interface SearchEntitiesRequest {
   /** The list of entity id to be used for search instead of query string. To specify multiple ids in the HTTP request, repeat the parameter in the URL as in ...?ids=A&ids=B */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Restricts returned entities with these types, e.g. Person (as defined in http://schema.org/Person). If multiple types are specified, returned entities will contain one or more of these types. */
-  types?: StringList;
+  types?: StringList | undefined;
   /** The literal query string for search. */
-  query?: string;
+  query?: string | undefined;
   /** Enables indenting of json results. */
-  indent?: boolean;
+  indent?: boolean | undefined;
   /** The list of language codes (defined in ISO 693) to run the query with, e.g. 'en'. */
-  languages?: StringList;
+  languages?: StringList | undefined;
   /** Limits the number of entities to be returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Enables prefix match against names and aliases of entities */
-  prefix?: boolean;
+  prefix?: boolean | undefined;
 }
 export type DocumentList = Array<unknown>;
 /** Response message includes the context and a list of matching results which contain the detail of associated entities. */
 export interface SearchResponse {
   /** The schema type of top-level JSON-LD object, e.g. ItemList. */
-  "@type"?: unknown;
+  "@type"?: unknown | undefined;
   /** The local context applicable for the response. See more details at http://www.w3.org/TR/json-ld/#context-definitions. */
-  "@context"?: unknown;
+  "@context"?: unknown | undefined;
   /** The item list of search results. */
-  itemListElement?: DocumentList;
+  itemListElement?: DocumentList | undefined;
 }
 export type SearchEntitiesError = NotFound | Forbidden | GcpOpError;
 /** Searches Knowledge Graph for entities that match the constraints. A list of matched entities will be returned in response, which will be in JSON-LD format and compatible with http://schema.org */

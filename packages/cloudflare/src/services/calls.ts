@@ -65,7 +65,7 @@ export interface CreateSfuRequest {
   /** The account identifier tag. */
   accountId: string;
   /** A short description of a Realtime SFU app, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSfuResponse {
@@ -84,7 +84,7 @@ export interface CreateTurnRequest {
   /** The account identifier tag. */
   accountId: string;
   /** A short description of a TURN key, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTurnResponse {
@@ -206,7 +206,7 @@ export interface UpdateSfuRequest {
   /** A Cloudflare-generated unique identifier for a item. */
   appId: string;
   /** A short description of a Realtime SFU app, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSfuResponse {
@@ -225,7 +225,7 @@ export interface UpdateTurnRequest {
   /** A Cloudflare-generated unique identifier for a item. */
   keyId: string;
   /** A short description of a TURN key, not shown to end users. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTurnResponse {

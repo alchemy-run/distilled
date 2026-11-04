@@ -163,13 +163,13 @@ export type ManagedNotificationConfigurationOsArn = string;
 export interface AssociateManagedNotificationAccountContactRequest {
   contactIdentifier: string;
   managedNotificationConfigurationArn: string;
-  isSensitiveEventsSubscribed?: boolean;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export interface AssociateManagedNotificationAccountContactResponse {}
 export interface AssociateManagedNotificationAdditionalChannelRequest {
   channelArn: string;
   managedNotificationConfigurationArn: string;
-  isSensitiveEventsSubscribed?: boolean;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export interface AssociateManagedNotificationAdditionalChannelResponse {}
 export type OrganizationalUnitId = string;
@@ -187,7 +187,7 @@ export interface CreateEventRuleRequest {
   notificationConfigurationArn: string;
   source: string;
   eventType: string;
-  eventPattern?: string;
+  eventPattern?: string | undefined;
   regions: string[];
 }
 export type EventRuleArn = string;
@@ -212,8 +212,8 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateNotificationConfigurationRequest {
   name: string;
   description: string;
-  aggregationDuration?: string;
-  tags?: { [key: string]: string | undefined };
+  aggregationDuration?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NotificationConfigurationStatus = string;
 export interface CreateNotificationConfigurationResponse {
@@ -286,7 +286,7 @@ export type ManagedNotificationChildEventArn = string;
 export type LocaleCode = string;
 export interface GetManagedNotificationChildEventRequest {
   arn: string;
-  locale?: string;
+  locale?: string | undefined;
 }
 export type SchemaVersion = string;
 export type NotificationEventId = string;
@@ -297,11 +297,11 @@ export interface Dimension {
 }
 export type Dimensions = Dimension[];
 export interface MessageComponents {
-  headline?: string;
-  paragraphSummary?: string;
-  completeDescription?: string;
-  markupDescription?: string;
-  dimensions?: Dimension[];
+  headline?: string | undefined;
+  paragraphSummary?: string | undefined;
+  completeDescription?: string | undefined;
+  markupDescription?: string | undefined;
+  dimensions?: Dimension[] | undefined;
 }
 export type Url = string;
 export type NotificationType = string;
@@ -312,9 +312,9 @@ export type TextPartType = string;
 export type TextByLocale = { [key: string]: string | undefined };
 export interface TextPartValue {
   type: string;
-  displayText?: string;
-  textByLocale?: { [key: string]: string | undefined };
-  url?: string;
+  displayText?: string | undefined;
+  textByLocale?: { [key: string]: string | undefined } | undefined;
+  url?: string | undefined;
 }
 export type TextParts = { [key: string]: TextPartValue | undefined };
 export interface SummarizationDimensionDetail {
@@ -323,22 +323,22 @@ export interface SummarizationDimensionDetail {
 }
 export type SummarizationDimensionDetails = SummarizationDimensionDetail[];
 export interface AggregationDetail {
-  summarizationDimensions?: SummarizationDimensionDetail[];
+  summarizationDimensions?: SummarizationDimensionDetail[] | undefined;
 }
 export interface ManagedNotificationChildEvent {
   schemaVersion: string;
   id: string;
   messageComponents: MessageComponents;
-  sourceEventDetailUrl?: string;
-  sourceEventDetailUrlDisplayText?: string;
+  sourceEventDetailUrl?: string | undefined;
+  sourceEventDetailUrlDisplayText?: string | undefined;
   notificationType: string;
-  eventStatus?: string;
+  eventStatus?: string | undefined;
   aggregateManagedNotificationEventArn: string;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   textParts: { [key: string]: TextPartValue | undefined };
-  organizationalUnitId?: string;
-  aggregationDetail?: AggregationDetail;
+  organizationalUnitId?: string | undefined;
+  aggregationDetail?: AggregationDetail | undefined;
 }
 export interface GetManagedNotificationChildEventResponse {
   arn: string;
@@ -360,7 +360,7 @@ export interface GetManagedNotificationConfigurationResponse {
 }
 export interface GetManagedNotificationEventRequest {
   arn: string;
-  locale?: string;
+  locale?: string | undefined;
 }
 export type AggregationEventType = string;
 export interface AggregationKey {
@@ -372,7 +372,7 @@ export type SampleAggregationDimensionValues = string[];
 export interface SummarizationDimensionOverview {
   name: string;
   count: number;
-  sampleValues?: string[];
+  sampleValues?: string[] | undefined;
 }
 export type SummarizationDimensionOverviews = SummarizationDimensionOverview[];
 export interface AggregationSummary {
@@ -380,15 +380,15 @@ export interface AggregationSummary {
   aggregatedBy: AggregationKey[];
   aggregatedAccounts: SummarizationDimensionOverview;
   aggregatedRegions: SummarizationDimensionOverview;
-  aggregatedOrganizationalUnits?: SummarizationDimensionOverview;
-  additionalSummarizationDimensions?: SummarizationDimensionOverview[];
+  aggregatedOrganizationalUnits?: SummarizationDimensionOverview | undefined;
+  additionalSummarizationDimensions?: SummarizationDimensionOverview[] | undefined;
 }
 export type AttachmentDisplayName = string;
 export type SensitiveUrl = string | redacted.Redacted<string>;
 export type AttachmentContentType = string;
 export interface NotificationEventAttachment {
   displayName: string;
-  attachmentDownloadUrl?: string | redacted.Redacted<string>;
+  attachmentDownloadUrl?: string | redacted.Redacted<string> | undefined;
   contentType: string;
 }
 export type NotificationEventAttachmentList = NotificationEventAttachment[];
@@ -396,17 +396,17 @@ export interface ManagedNotificationEvent {
   schemaVersion: string;
   id: string;
   messageComponents: MessageComponents;
-  sourceEventDetailUrl?: string;
-  sourceEventDetailUrlDisplayText?: string;
+  sourceEventDetailUrl?: string | undefined;
+  sourceEventDetailUrlDisplayText?: string | undefined;
   notificationType: string;
-  eventStatus?: string;
-  aggregationEventType?: string;
-  aggregationSummary?: AggregationSummary;
-  startTime?: Date;
-  endTime?: Date;
+  eventStatus?: string | undefined;
+  aggregationEventType?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   textParts: { [key: string]: TextPartValue | undefined };
-  organizationalUnitId?: string;
-  attachments?: NotificationEventAttachment[];
+  organizationalUnitId?: string | undefined;
+  attachments?: NotificationEventAttachment[] | undefined;
 }
 export interface GetManagedNotificationEventResponse {
   arn: string;
@@ -424,28 +424,28 @@ export interface GetNotificationConfigurationResponse {
   description: string;
   status: string;
   creationTime: Date;
-  aggregationDuration?: string;
-  subtype?: string;
+  aggregationDuration?: string | undefined;
+  subtype?: string | undefined;
 }
 export type NotificationEventArn = string;
 export interface GetNotificationEventRequest {
   arn: string;
-  locale?: string;
+  locale?: string | undefined;
 }
 export type AccountId = string;
 export type Arn = string;
 export type Tags = string[];
 export interface Resource {
-  id?: string;
-  arn?: string;
-  detailUrl?: string;
-  tags?: string[];
+  id?: string | undefined;
+  arn?: string | undefined;
+  detailUrl?: string | undefined;
+  tags?: string[] | undefined;
 }
 export type Resources = Resource[];
 export interface SourceEventMetadata {
   eventTypeVersion: string;
   sourceEventId: string;
-  eventOriginRegion?: string;
+  eventOriginRegion?: string | undefined;
   relatedAccount: string;
   source: string;
   eventOccurrenceTime: Date;
@@ -466,18 +466,18 @@ export interface NotificationEventSchema {
   id: string;
   sourceEventMetadata: SourceEventMetadata;
   messageComponents: MessageComponents;
-  sourceEventDetailUrl?: string;
-  sourceEventDetailUrlDisplayText?: string;
+  sourceEventDetailUrl?: string | undefined;
+  sourceEventDetailUrlDisplayText?: string | undefined;
   notificationType: string;
-  eventStatus?: string;
-  aggregationEventType?: string;
-  aggregateNotificationEventArn?: string;
-  aggregationSummary?: AggregationSummary;
-  startTime?: Date;
-  endTime?: Date;
+  eventStatus?: string | undefined;
+  aggregationEventType?: string | undefined;
+  aggregateNotificationEventArn?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   textParts: { [key: string]: TextPartValue | undefined };
   media: MediaElement[];
-  organizationalUnitId?: string;
+  organizationalUnitId?: string | undefined;
 }
 export interface GetNotificationEventResponse {
   arn: string;
@@ -496,18 +496,18 @@ export interface GetNotificationsAccessForOrganizationResponse {
 export type NextToken = string;
 export interface ListChannelsRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Channels = string[];
 export interface ListChannelsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   channels: string[];
 }
 export interface ListEventRulesRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EventRuleStructure {
   arn: string;
@@ -522,39 +522,39 @@ export interface EventRuleStructure {
 }
 export type EventRules = EventRuleStructure[];
 export interface ListEventRulesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   eventRules: EventRuleStructure[];
 }
 export interface ListManagedNotificationChannelAssociationsRequest {
   managedNotificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ChannelType = "MOBILE" | "CHATBOT" | "EMAIL" | "ACCOUNT_CONTACT" | (string & {});
 export type ChannelAssociationOverrideOption = string;
 export interface ManagedNotificationChannelAssociationSummary {
   channelIdentifier: string;
   channelType: ChannelType;
-  overrideOption?: string;
-  isSensitiveEventsSubscribed?: boolean;
+  overrideOption?: string | undefined;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export type ManagedNotificationChannelAssociations = ManagedNotificationChannelAssociationSummary[];
 export interface ListManagedNotificationChannelAssociationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   channelAssociations: ManagedNotificationChannelAssociationSummary[];
 }
 export interface ListManagedNotificationChildEventsRequest {
   aggregateManagedNotificationEventArn: string;
-  startTime?: Date;
-  endTime?: Date;
-  locale?: string;
-  maxResults?: number;
-  relatedAccount?: string;
-  organizationalUnitId?: string;
-  nextToken?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  locale?: string | undefined;
+  maxResults?: number | undefined;
+  relatedAccount?: string | undefined;
+  organizationalUnitId?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface ManagedSourceEventMetadataSummary {
-  eventOriginRegion?: string;
+  eventOriginRegion?: string | undefined;
   source: string;
   eventType: string;
 }
@@ -576,18 +576,18 @@ export interface ManagedNotificationChildEventOverview {
   creationTime: Date;
   childEvent: ManagedNotificationChildEventSummary;
   aggregateManagedNotificationEventArn: string;
-  organizationalUnitId?: string;
+  organizationalUnitId?: string | undefined;
 }
 export type ManagedNotificationChildEvents = ManagedNotificationChildEventOverview[];
 export interface ListManagedNotificationChildEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedNotificationChildEvents: ManagedNotificationChildEventOverview[];
 }
 export type ChannelIdentifier = string;
 export interface ListManagedNotificationConfigurationsRequest {
-  channelIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  channelIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ManagedNotificationConfigurationStructure {
   arn: string;
@@ -596,19 +596,19 @@ export interface ManagedNotificationConfigurationStructure {
 }
 export type ManagedNotificationConfigurations = ManagedNotificationConfigurationStructure[];
 export interface ListManagedNotificationConfigurationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedNotificationConfigurations: ManagedNotificationConfigurationStructure[];
 }
 export interface ListManagedNotificationEventsRequest {
-  startTime?: Date;
-  endTime?: Date;
-  locale?: string;
-  source?: string;
-  maxResults?: number;
-  nextToken?: string;
-  organizationalUnitId?: string;
-  relatedAccount?: string;
-  includeSensitiveEvents?: boolean;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  locale?: string | undefined;
+  source?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  organizationalUnitId?: string | undefined;
+  relatedAccount?: string | undefined;
+  includeSensitiveEvents?: boolean | undefined;
 }
 export interface ManagedNotificationEventSummary {
   schemaVersion: string;
@@ -624,27 +624,27 @@ export interface ManagedNotificationEventOverview {
   relatedAccount: string;
   creationTime: Date;
   notificationEvent: ManagedNotificationEventSummary;
-  aggregationEventType?: string;
-  organizationalUnitId?: string;
-  aggregationSummary?: AggregationSummary;
-  aggregatedNotificationRegions?: string[];
+  aggregationEventType?: string | undefined;
+  organizationalUnitId?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  aggregatedNotificationRegions?: string[] | undefined;
 }
 export type ManagedNotificationEvents = ManagedNotificationEventOverview[];
 export interface ListManagedNotificationEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedNotificationEvents: ManagedNotificationEventOverview[];
 }
 export type MemberAccountNotificationConfigurationStatus = string;
 export interface ListMemberAccountsRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
-  memberAccount?: string;
-  status?: string;
-  organizationalUnitId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  memberAccount?: string | undefined;
+  status?: string | undefined;
+  organizationalUnitId?: string | undefined;
 }
 export interface MemberAccount {
-  notificationConfigurationArn?: string;
+  notificationConfigurationArn?: string | undefined;
   accountId: string;
   status: string;
   statusReason: string;
@@ -653,15 +653,15 @@ export interface MemberAccount {
 export type MemberAccounts = MemberAccount[];
 export interface ListMemberAccountsResponse {
   memberAccounts: MemberAccount[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListNotificationConfigurationsRequest {
-  eventRuleSource?: string;
-  channelArn?: string;
-  status?: string;
-  subtype?: string;
-  maxResults?: number;
-  nextToken?: string;
+  eventRuleSource?: string | undefined;
+  channelArn?: string | undefined;
+  status?: string | undefined;
+  subtype?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface NotificationConfigurationStructure {
   arn: string;
@@ -669,27 +669,27 @@ export interface NotificationConfigurationStructure {
   description: string;
   status: string;
   creationTime: Date;
-  aggregationDuration?: string;
-  subtype?: string;
+  aggregationDuration?: string | undefined;
+  subtype?: string | undefined;
 }
 export type NotificationConfigurations = NotificationConfigurationStructure[];
 export interface ListNotificationConfigurationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   notificationConfigurations: NotificationConfigurationStructure[];
 }
 export interface ListNotificationEventsRequest {
-  startTime?: Date;
-  endTime?: Date;
-  locale?: string;
-  source?: string;
-  includeChildEvents?: boolean;
-  aggregateNotificationEventArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  organizationalUnitId?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  locale?: string | undefined;
+  source?: string | undefined;
+  includeChildEvents?: boolean | undefined;
+  aggregateNotificationEventArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  organizationalUnitId?: string | undefined;
 }
 export interface SourceEventMetadataSummary {
-  eventOriginRegion?: string;
+  eventOriginRegion?: string | undefined;
   source: string;
   eventType: string;
 }
@@ -706,47 +706,47 @@ export interface NotificationEventOverview {
   relatedAccount: string;
   creationTime: Date;
   notificationEvent: NotificationEventSummary;
-  aggregationEventType?: string;
-  aggregateNotificationEventArn?: string;
-  aggregationSummary?: AggregationSummary;
-  organizationalUnitId?: string;
+  aggregationEventType?: string | undefined;
+  aggregateNotificationEventArn?: string | undefined;
+  aggregationSummary?: AggregationSummary | undefined;
+  organizationalUnitId?: string | undefined;
 }
 export type NotificationEvents = NotificationEventOverview[];
 export interface ListNotificationEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   notificationEvents: NotificationEventOverview[];
 }
 export interface ListNotificationHubsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LastActivationTime = Date;
 export interface NotificationHubOverview {
   notificationHubRegion: string;
   statusSummary: NotificationHubStatusSummary;
   creationTime: Date;
-  lastActivationTime?: Date;
+  lastActivationTime?: Date | undefined;
 }
 export type NotificationHubs = NotificationHubOverview[];
 export interface ListNotificationHubsResponse {
   notificationHubs: NotificationHubOverview[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListOrganizationalUnitsRequest {
   notificationConfigurationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type OrganizationalUnits = string[];
 export interface ListOrganizationalUnitsResponse {
   organizationalUnits: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterNotificationHubRequest {
   notificationHubRegion: string;
@@ -755,7 +755,7 @@ export interface RegisterNotificationHubResponse {
   notificationHubRegion: string;
   statusSummary: NotificationHubStatusSummary;
   creationTime: Date;
-  lastActivationTime?: Date;
+  lastActivationTime?: Date | undefined;
 }
 export interface TagResourceRequest {
   arn: string;
@@ -770,8 +770,8 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateEventRuleRequest {
   arn: string;
-  eventPattern?: string;
-  regions?: string[];
+  eventPattern?: string | undefined;
+  regions?: string[] | undefined;
 }
 export interface UpdateEventRuleResponse {
   arn: string;
@@ -782,14 +782,14 @@ export type ManagedNotificationChannelIdentifier = string;
 export interface UpdateManagedNotificationChannelAssociationRequest {
   managedNotificationConfigurationArn: string;
   channelIdentifier: string;
-  isSensitiveEventsSubscribed?: boolean;
+  isSensitiveEventsSubscribed?: boolean | undefined;
 }
 export interface UpdateManagedNotificationChannelAssociationResponse {}
 export interface UpdateNotificationConfigurationRequest {
   arn: string;
-  name?: string;
-  description?: string;
-  aggregationDuration?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  aggregationDuration?: string | undefined;
 }
 export interface UpdateNotificationConfigurationResponse {
   arn: string;

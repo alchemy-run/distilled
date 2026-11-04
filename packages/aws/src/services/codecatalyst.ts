@@ -97,7 +97,7 @@ const TELEMETRY = {
 export type AccessTokenName = string;
 export interface CreateAccessTokenRequest {
   name: string;
-  expiresTime?: Date;
+  expiresTime?: Date | undefined;
 }
 export type AccessTokenSecret = string | redacted.Redacted<string>;
 export type AccessTokenId = string;
@@ -112,13 +112,13 @@ export type SourceRepositoryNameString = string;
 export type SourceRepositoryBranchString = string;
 export interface RepositoryInput {
   repositoryName: string;
-  branchName?: string;
+  branchName?: string | undefined;
 }
 export type RepositoriesInput = RepositoryInput[];
 export type ClientToken = string;
 export interface IdeConfiguration {
-  runtime?: string;
-  name?: string;
+  runtime?: string | undefined;
+  name?: string | undefined;
 }
 export type IdeConfigurationList = IdeConfiguration[];
 export type InstanceType = string;
@@ -129,61 +129,61 @@ export interface PersistentStorageConfiguration {
 export interface CreateDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
-  repositories?: RepositoryInput[];
-  clientToken?: string;
-  alias?: string;
-  ides?: IdeConfiguration[];
+  repositories?: RepositoryInput[] | undefined;
+  clientToken?: string | undefined;
+  alias?: string | undefined;
+  ides?: IdeConfiguration[] | undefined;
   instanceType: string;
-  inactivityTimeoutMinutes?: number;
+  inactivityTimeoutMinutes?: number | undefined;
   persistentStorage: PersistentStorageConfiguration;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export type Uuid = string;
 export interface CreateDevEnvironmentResponse {
   spaceName: string;
   projectName: string;
   id: string;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export type ProjectDisplayName = string;
 export type ProjectDescription = string;
 export interface CreateProjectRequest {
   spaceName: string;
   displayName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectResponse {
-  spaceName?: string;
+  spaceName?: string | undefined;
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type SourceRepositoryDescriptionString = string;
 export interface CreateSourceRepositoryRequest {
   spaceName: string;
   projectName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateSourceRepositoryResponse {
   spaceName: string;
   projectName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateSourceRepositoryBranchRequest {
   spaceName: string;
   projectName: string;
   sourceRepositoryName: string;
   name: string;
-  headCommitId?: string;
+  headCommitId?: string | undefined;
 }
 export type SourceRepositoryBranchRefString = string;
 export interface CreateSourceRepositoryBranchResponse {
-  ref?: string;
-  name?: string;
-  lastUpdatedTime?: Date;
-  headCommitId?: string;
+  ref?: string | undefined;
+  name?: string | undefined;
+  lastUpdatedTime?: Date | undefined;
+  headCommitId?: string | undefined;
 }
 export interface DeleteAccessTokenRequest {
   id: string;
@@ -206,7 +206,7 @@ export interface DeleteProjectRequest {
 export interface DeleteProjectResponse {
   spaceName: string;
   name: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface DeleteSourceRepositoryRequest {
   spaceName: string;
@@ -223,7 +223,7 @@ export interface DeleteSpaceRequest {
 }
 export interface DeleteSpaceResponse {
   name: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetDevEnvironmentRequest {
   spaceName: string;
@@ -234,12 +234,12 @@ export type DevEnvironmentStatus = string;
 export type StatusReason = string;
 export interface DevEnvironmentRepositorySummary {
   repositoryName: string;
-  branchName?: string;
+  branchName?: string | undefined;
 }
 export type DevEnvironmentRepositorySummaries = DevEnvironmentRepositorySummary[];
 export interface Ide {
-  runtime?: string;
-  name?: string;
+  runtime?: string | undefined;
+  name?: string | undefined;
 }
 export type Ides = Ide[];
 export interface PersistentStorage {
@@ -252,24 +252,24 @@ export interface GetDevEnvironmentResponse {
   lastUpdatedTime: Date;
   creatorId: string;
   status: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
   repositories: DevEnvironmentRepositorySummary[];
-  alias?: string;
-  ides?: Ide[];
+  alias?: string | undefined;
+  ides?: Ide[] | undefined;
   instanceType: string;
   inactivityTimeoutMinutes: number;
   persistentStorage: PersistentStorage;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export interface GetProjectRequest {
   spaceName: string;
   name: string;
 }
 export interface GetProjectResponse {
-  spaceName?: string;
+  spaceName?: string | undefined;
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface GetSourceRepositoryRequest {
   spaceName: string;
@@ -280,7 +280,7 @@ export interface GetSourceRepositoryResponse {
   spaceName: string;
   projectName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdatedTime: Date;
   createdTime: Date;
 }
@@ -299,32 +299,32 @@ export type RegionString = string;
 export interface GetSpaceResponse {
   name: string;
   regionName: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface GetSubscriptionRequest {
   spaceName: string;
 }
 export interface GetSubscriptionResponse {
-  subscriptionType?: string;
-  awsAccountName?: string;
-  pendingSubscriptionType?: string;
-  pendingSubscriptionStartTime?: Date;
+  subscriptionType?: string | undefined;
+  awsAccountName?: string | undefined;
+  pendingSubscriptionType?: string | undefined;
+  pendingSubscriptionStartTime?: Date | undefined;
 }
 export interface GetUserDetailsRequest {
-  id?: string;
-  userName?: string;
+  id?: string | undefined;
+  userName?: string | undefined;
 }
 export interface EmailAddress {
-  email?: string;
-  verified?: boolean;
+  email?: string | undefined;
+  verified?: boolean | undefined;
 }
 export interface GetUserDetailsResponse {
-  userId?: string;
-  userName?: string;
-  displayName?: string;
-  primaryEmail?: EmailAddress;
-  version?: string;
+  userId?: string | undefined;
+  userName?: string | undefined;
+  displayName?: string | undefined;
+  primaryEmail?: EmailAddress | undefined;
+  version?: string | undefined;
 }
 export interface GetWorkflowRequest {
   spaceName: string;
@@ -341,8 +341,8 @@ export interface GetWorkflowResponse {
   projectName: string;
   id: string;
   name: string;
-  sourceRepositoryName?: string;
-  sourceBranchName?: string;
+  sourceRepositoryName?: string | undefined;
+  sourceBranchName?: string | undefined;
   definition: WorkflowDefinition;
   createdTime: Date;
   lastUpdatedTime: Date;
@@ -363,66 +363,66 @@ export interface GetWorkflowRunResponse {
   id: string;
   workflowId: string;
   status: string;
-  statusReasons?: WorkflowRunStatusReason[];
+  statusReasons?: WorkflowRunStatusReason[] | undefined;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   lastUpdatedTime: Date;
 }
 export interface ListAccessTokensRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AccessTokenSummary {
   id: string;
   name: string;
-  expiresTime?: Date;
+  expiresTime?: Date | undefined;
 }
 export type AccessTokenSummaries = AccessTokenSummary[];
 export interface ListAccessTokensResponse {
   items: AccessTokenSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type StringList = string[];
 export interface Filter {
   key: string;
   values: string[];
-  comparisonOperator?: string;
+  comparisonOperator?: string | undefined;
 }
 export type Filters = Filter[];
 export interface ListDevEnvironmentsRequest {
   spaceName: string;
-  projectName?: string;
-  filters?: Filter[];
-  nextToken?: string;
-  maxResults?: number;
+  projectName?: string | undefined;
+  filters?: Filter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DevEnvironmentSummary {
-  spaceName?: string;
-  projectName?: string;
+  spaceName?: string | undefined;
+  projectName?: string | undefined;
   id: string;
   lastUpdatedTime: Date;
   creatorId: string;
   status: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
   repositories: DevEnvironmentRepositorySummary[];
-  alias?: string;
-  ides?: Ide[];
+  alias?: string | undefined;
+  ides?: Ide[] | undefined;
   instanceType: string;
   inactivityTimeoutMinutes: number;
   persistentStorage: PersistentStorage;
-  vpcConnectionName?: string;
+  vpcConnectionName?: string | undefined;
 }
 export type DevEnvironmentSummaryList = DevEnvironmentSummary[];
 export interface ListDevEnvironmentsResponse {
   items: DevEnvironmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDevEnvironmentSessionsRequest {
   spaceName: string;
   projectName: string;
   devEnvironmentId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DevEnvironmentSessionSummary {
   spaceName: string;
@@ -434,31 +434,31 @@ export interface DevEnvironmentSessionSummary {
 export type DevEnvironmentSessionsSummaryList = DevEnvironmentSessionSummary[];
 export interface ListDevEnvironmentSessionsResponse {
   items: DevEnvironmentSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEventLogsRequest {
   spaceName: string;
   startTime: Date;
   endTime: Date;
-  eventName?: string;
-  nextToken?: string;
-  maxResults?: number;
+  eventName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type OperationType = string;
 export type UserType = string;
 export interface UserIdentity {
   userType: string;
   principalId: string;
-  userName?: string;
-  awsAccountId?: string;
+  userName?: string | undefined;
+  awsAccountId?: string | undefined;
 }
 export interface ProjectInformation {
-  name?: string;
-  projectId?: string;
+  name?: string | undefined;
+  projectId?: string | undefined;
 }
 export interface EventPayload {
-  contentType?: string;
-  data?: string;
+  contentType?: string | undefined;
+  data?: string | undefined;
 }
 export interface EventLogEntry {
   id: string;
@@ -469,17 +469,17 @@ export interface EventLogEntry {
   eventTime: Date;
   operationType: string;
   userIdentity: UserIdentity;
-  projectInformation?: ProjectInformation;
-  requestId?: string;
-  requestPayload?: EventPayload;
-  responsePayload?: EventPayload;
-  errorCode?: string;
-  sourceIpAddress?: string;
-  userAgent?: string;
+  projectInformation?: ProjectInformation | undefined;
+  requestId?: string | undefined;
+  requestPayload?: EventPayload | undefined;
+  responsePayload?: EventPayload | undefined;
+  errorCode?: string | undefined;
+  sourceIpAddress?: string | undefined;
+  userAgent?: string | undefined;
 }
 export type EventLogEntries = EventLogEntry[];
 export interface ListEventLogsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: EventLogEntry[];
 }
 export type FilterKey = string;
@@ -487,109 +487,109 @@ export type ComparisonOperator = string;
 export interface ProjectListFilter {
   key: string;
   values: string[];
-  comparisonOperator?: string;
+  comparisonOperator?: string | undefined;
 }
 export type ProjectListFilters = ProjectListFilter[];
 export interface ListProjectsRequest {
   spaceName: string;
-  nextToken?: string;
-  maxResults?: number;
-  filters?: ProjectListFilter[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: ProjectListFilter[] | undefined;
 }
 export interface ProjectSummary {
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type ProjectSummaries = ProjectSummary[];
 export interface ListProjectsResponse {
-  nextToken?: string;
-  items?: ProjectSummary[];
+  nextToken?: string | undefined;
+  items?: ProjectSummary[] | undefined;
 }
 export interface ListSourceRepositoriesRequest {
   spaceName: string;
   projectName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SourceRepositoryIdString = string;
 export interface ListSourceRepositoriesItem {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   lastUpdatedTime: Date;
   createdTime: Date;
 }
 export type ListSourceRepositoriesItems = ListSourceRepositoriesItem[];
 export interface ListSourceRepositoriesResponse {
-  items?: ListSourceRepositoriesItem[];
-  nextToken?: string;
+  items?: ListSourceRepositoriesItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSourceRepositoryBranchesRequest {
   spaceName: string;
   projectName: string;
   sourceRepositoryName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListSourceRepositoryBranchesItem {
-  ref?: string;
-  name?: string;
-  lastUpdatedTime?: Date;
-  headCommitId?: string;
+  ref?: string | undefined;
+  name?: string | undefined;
+  lastUpdatedTime?: Date | undefined;
+  headCommitId?: string | undefined;
 }
 export type ListSourceRepositoryBranchesItems = ListSourceRepositoryBranchesItem[];
 export interface ListSourceRepositoryBranchesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: ListSourceRepositoryBranchesItem[];
 }
 export interface ListSpacesRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SpaceSummary {
   name: string;
   regionName: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type SpaceSummaries = SpaceSummary[];
 export interface ListSpacesResponse {
-  nextToken?: string;
-  items?: SpaceSummary[];
+  nextToken?: string | undefined;
+  items?: SpaceSummary[] | undefined;
 }
 export interface WorkflowRunSortCriteria {}
 export type WorkflowRunSortCriteriaList = WorkflowRunSortCriteria[];
 export interface ListWorkflowRunsRequest {
   spaceName: string;
-  workflowId?: string;
+  workflowId?: string | undefined;
   projectName: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortBy?: WorkflowRunSortCriteria[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortBy?: WorkflowRunSortCriteria[] | undefined;
 }
 export interface WorkflowRunSummary {
   id: string;
   workflowId: string;
   workflowName: string;
   status: string;
-  statusReasons?: WorkflowRunStatusReason[];
+  statusReasons?: WorkflowRunStatusReason[] | undefined;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   lastUpdatedTime: Date;
 }
 export type WorkflowRunSummaries = WorkflowRunSummary[];
 export interface ListWorkflowRunsResponse {
-  nextToken?: string;
-  items?: WorkflowRunSummary[];
+  nextToken?: string | undefined;
+  items?: WorkflowRunSummary[] | undefined;
 }
 export interface WorkflowSortCriteria {}
 export type WorkflowSortCriteriaList = WorkflowSortCriteria[];
 export interface ListWorkflowsRequest {
   spaceName: string;
   projectName: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortBy?: WorkflowSortCriteria[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortBy?: WorkflowSortCriteria[] | undefined;
 }
 export interface WorkflowDefinitionSummary {
   path: string;
@@ -607,16 +607,16 @@ export interface WorkflowSummary {
 }
 export type WorkflowSummaries = WorkflowSummary[];
 export interface ListWorkflowsResponse {
-  nextToken?: string;
-  items?: WorkflowSummary[];
+  nextToken?: string | undefined;
+  items?: WorkflowSummary[] | undefined;
 }
 export interface StartDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
   id: string;
-  ides?: IdeConfiguration[];
-  instanceType?: string;
-  inactivityTimeoutMinutes?: number;
+  ides?: IdeConfiguration[] | undefined;
+  instanceType?: string | undefined;
+  inactivityTimeoutMinutes?: number | undefined;
 }
 export interface StartDevEnvironmentResponse {
   spaceName: string;
@@ -628,11 +628,11 @@ export type DevEnvironmentSessionType = string;
 export type ExecuteCommandSessionConfigurationArguments = string[];
 export interface ExecuteCommandSessionConfiguration {
   command: string;
-  arguments?: string[];
+  arguments?: string[] | undefined;
 }
 export interface DevEnvironmentSessionConfiguration {
   sessionType: string;
-  executeCommandSessionConfiguration?: ExecuteCommandSessionConfiguration;
+  executeCommandSessionConfiguration?: ExecuteCommandSessionConfiguration | undefined;
 }
 export interface StartDevEnvironmentSessionRequest {
   spaceName: string;
@@ -647,7 +647,7 @@ export interface DevEnvironmentAccessDetails {
 }
 export interface StartDevEnvironmentSessionResponse {
   accessDetails: DevEnvironmentAccessDetails;
-  sessionId?: string;
+  sessionId?: string | undefined;
   spaceName: string;
   projectName: string;
   id: string;
@@ -656,7 +656,7 @@ export interface StartWorkflowRunRequest {
   spaceName: string;
   projectName: string;
   workflowId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartWorkflowRunResponse {
   spaceName: string;
@@ -691,46 +691,46 @@ export interface UpdateDevEnvironmentRequest {
   spaceName: string;
   projectName: string;
   id: string;
-  alias?: string;
-  ides?: IdeConfiguration[];
-  instanceType?: string;
-  inactivityTimeoutMinutes?: number;
-  clientToken?: string;
+  alias?: string | undefined;
+  ides?: IdeConfiguration[] | undefined;
+  instanceType?: string | undefined;
+  inactivityTimeoutMinutes?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateDevEnvironmentResponse {
   id: string;
   spaceName: string;
   projectName: string;
-  alias?: string;
-  ides?: IdeConfiguration[];
-  instanceType?: string;
-  inactivityTimeoutMinutes?: number;
-  clientToken?: string;
+  alias?: string | undefined;
+  ides?: IdeConfiguration[] | undefined;
+  instanceType?: string | undefined;
+  inactivityTimeoutMinutes?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateProjectRequest {
   spaceName: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateProjectResponse {
-  spaceName?: string;
-  name?: string;
-  displayName?: string;
-  description?: string;
+  spaceName?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type SpaceDescription = string;
 export interface UpdateSpaceRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateSpaceResponse {
-  name?: string;
-  displayName?: string;
-  description?: string;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface VerifySessionRequest {}
 export interface VerifySessionResponse {
-  identity?: string;
+  identity?: string | undefined;
 }
 export type CreateAccessTokenError = CommonErrors;
 /**

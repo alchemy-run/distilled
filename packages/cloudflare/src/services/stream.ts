@@ -110,19 +110,19 @@ export interface CopyAudioTrackRequest {
   /** A string to uniquely identify the track amongst other audio track labels for the specified video. */
   label: string;
   /** An audio track URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. */
-  url?: string;
+  url?: string | undefined;
 }
 export type AudioTracksCopyResponseStatus = "queued" | "ready" | "error";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CopyAudioTrackResponse {
   /** Denotes whether the audio track will be played by default in a player. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
   /** A string to uniquely identify the track amongst other audio track labels for the specified video. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Specifies the processing status of the video. */
-  status?: AudioTracksCopyResponseStatus | null;
+  status?: AudioTracksCopyResponseStatus | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
 }
 export interface CreateCaptionLanguageRequest {
   /** Identifier. */
@@ -136,18 +136,18 @@ export type CaptionsLanguageCreateResponseStatus = "ready" | "inprogress" | "err
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCaptionLanguageResponse {
   /** Whether the caption was generated via AI. */
-  generated?: boolean | null;
+  generated?: boolean | null | undefined;
   /** The language label displayed in the native language to users. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The language tag in BCP 47 format. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** The status of a generated caption. */
-  status?: CaptionsLanguageCreateResponseStatus | null;
+  status?: CaptionsLanguageCreateResponseStatus | null | undefined;
 }
 export type ClipCreateRequestAllowedOriginsList = Array<string>;
 export interface ClipCreateRequestWatermark {
   /** The unique identifier for the watermark profile. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface CreateClipRequest {
   /** The account identifier tag. */
@@ -159,44 +159,44 @@ export interface CreateClipRequest {
   /** Specifies the start time for the video clip in seconds. */
   startTimeSeconds: number;
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: ClipCreateRequestAllowedOriginsList;
+  allowedOrigins?: ClipCreateRequestAllowedOriginsList | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** A video's URL. Preferred over 'url'. */
-  input?: string;
+  input?: string | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown;
+  meta?: unknown | undefined;
   /** A name for the video. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string;
+  scheduledDeletion?: string | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number;
+  thumbnailTimestampPct?: number | undefined;
   /** A video's URL (legacy field, use 'input' instead). */
-  url?: string;
-  watermark?: ClipCreateRequestWatermark;
+  url?: string | undefined;
+  watermark?: ClipCreateRequestWatermark | undefined;
 }
 export type ClipCreateResponseAllowedOriginsList = Array<string>;
 export interface ClipCreateResponseInput {
   /** The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready. */
-  height?: number | null;
+  height?: number | null | undefined;
   /** The video width in pixels. A value of `-1` means the width is unknown. The value becomes available after the upload and before the video is ready. */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface ClipCreateResponsePlayback {
   /** DASH Media Presentation Description for the video. */
-  dash?: string | null;
+  dash?: string | null | undefined;
   /** The HLS manifest for the video. */
-  hls?: string | null;
+  hls?: string | null | undefined;
 }
 export interface ClipCreateResponsePublicDetails {
-  channelLink?: string | null;
-  logo?: string | null;
-  mediaId?: number | null;
-  shareLink?: string | null;
-  title?: string | null;
+  channelLink?: string | null | undefined;
+  logo?: string | null | undefined;
+  mediaId?: number | null | undefined;
+  shareLink?: string | null | undefined;
+  title?: string | null | undefined;
 }
 export type ClipCreateResponseStatusState =
   | "pendingupload"
@@ -208,89 +208,89 @@ export type ClipCreateResponseStatusState =
   | "live-inprogress";
 export interface ClipCreateResponseStatus {
   /** Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use. */
-  errorReasonCode?: string | null;
+  errorReasonCode?: string | null | undefined;
   /** Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state. */
-  errorReasonText?: string | null;
+  errorReasonText?: string | null | undefined;
   /** Indicates the progress as a percentage between 0 and 100. */
-  pctComplete?: string | null;
+  pctComplete?: string | null | undefined;
   /** Specifies the processing status for all quality levels for a video. */
-  state?: ClipCreateResponseStatusState | null;
+  state?: ClipCreateResponseStatusState | null | undefined;
 }
 export interface ClipCreateResponseWatermark {
   /** The date and a time a watermark profile was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null. */
-  downloadedFrom?: string | null;
+  downloadedFrom?: string | null | undefined;
   /** The height of the image in pixels. */
-  height?: number | null;
+  height?: number | null | undefined;
   /** A short description of the watermark profile. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque. */
-  opacity?: number | null;
+  opacity?: number | null | undefined;
   /** The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm. */
-  padding?: number | null;
+  padding?: number | null | undefined;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
-  position?: string | null;
+  position?: string | null | undefined;
   /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
-  scale?: number | null;
+  scale?: number | null | undefined;
   /** The size of the image in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** The unique identifier for a watermark profile. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The width of the image in pixels. */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateClipResponse {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: ClipCreateResponseAllowedOriginsList | null;
+  allowedOrigins?: ClipCreateResponseAllowedOriginsList | null | undefined;
   /** The unique identifier of the source video this video was clipped from. */
-  clippedFrom?: string | null;
+  clippedFrom?: string | null | undefined;
   /** The date and time the media item was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
-  duration?: number | null;
-  input?: ClipCreateResponseInput | null;
+  duration?: number | null | undefined;
+  input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
-  liveInput?: string | null;
+  liveInput?: string | null | undefined;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown. */
-  maxDurationSeconds?: number | null;
+  maxDurationSeconds?: number | null | undefined;
   /** The maximum size in bytes for the video upload. */
-  maxSizeBytes?: number | null;
+  maxSizeBytes?: number | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the media item was last modified. */
-  modified?: string | null;
-  playback?: ClipCreateResponsePlayback | null;
+  modified?: string | null | undefined;
+  playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
-  preview?: string | null;
+  preview?: string | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
-  publicDetails?: ClipCreateResponsePublicDetails | null;
+  publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStream?: boolean | null;
+  readyToStream?: boolean | null | undefined;
   /** Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStreamAt?: string | null;
+  readyToStreamAt?: string | null | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string | null;
+  scheduledDeletion?: string | null | undefined;
   /** The size of the media item in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details. */
-  status?: ClipCreateResponseStatus | null;
+  status?: ClipCreateResponseStatus | null | undefined;
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
-  thumbnail?: string | null;
+  thumbnail?: string | null | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number | null;
+  thumbnailTimestampPct?: number | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The date and time the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** The date and time when the video upload URL is no longer valid for direct user uploads. */
-  uploadExpiry?: string | null;
-  watermark?: ClipCreateResponseWatermark | null;
+  uploadExpiry?: string | null | undefined;
+  watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export type CopyCreateRequestAllowedOriginsList = Array<string>;
 export type CopyCreateRequestWatermark = ClipCreateRequestWatermark;
@@ -298,26 +298,26 @@ export interface CreateCopyRequest {
   /** The account identifier tag. */
   accountId: string;
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: CopyCreateRequestAllowedOriginsList;
+  allowedOrigins?: CopyCreateRequestAllowedOriginsList | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. This is the preferred field over `url`. */
-  input?: string;
+  input?: string | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown;
+  meta?: unknown | undefined;
   /** A video's name. Used for legacy compatibility. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string;
+  scheduledDeletion?: string | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number;
+  thumbnailTimestampPct?: number | undefined;
   /** A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. This field is deprecated in favor of `input`. */
-  url?: string;
-  watermark?: ClipCreateRequestWatermark;
+  url?: string | undefined;
+  watermark?: ClipCreateRequestWatermark | undefined;
   /** A user-defined identifier for the media creator. */
-  uploadCreator?: string;
+  uploadCreator?: string | undefined;
 }
 export type CopyCreateResponseAllowedOriginsList = Array<string>;
 export type CopyCreateResponseInput = ClipCreateResponseInput;
@@ -333,66 +333,66 @@ export type CopyCreateResponseStatusState =
   | "live-inprogress";
 export interface CopyCreateResponseStatus {
   /** Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use. */
-  errorReasonCode?: string | null;
+  errorReasonCode?: string | null | undefined;
   /** Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state. */
-  errorReasonText?: string | null;
+  errorReasonText?: string | null | undefined;
   /** Indicates the progress as a percentage between 0 and 100. */
-  pctComplete?: string | null;
+  pctComplete?: string | null | undefined;
   /** Specifies the processing status for all quality levels for a video. */
-  state?: CopyCreateResponseStatusState | null;
+  state?: CopyCreateResponseStatusState | null | undefined;
 }
 export type CopyCreateResponseWatermark = ClipCreateResponseWatermark;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCopyResponse {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: CopyCreateResponseAllowedOriginsList | null;
+  allowedOrigins?: CopyCreateResponseAllowedOriginsList | null | undefined;
   /** The unique identifier of the source video this video was clipped from. */
-  clippedFrom?: string | null;
+  clippedFrom?: string | null | undefined;
   /** The date and time the media item was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
-  duration?: number | null;
-  input?: ClipCreateResponseInput | null;
+  duration?: number | null | undefined;
+  input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
-  liveInput?: string | null;
+  liveInput?: string | null | undefined;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown. */
-  maxDurationSeconds?: number | null;
+  maxDurationSeconds?: number | null | undefined;
   /** The maximum size in bytes for the video upload. */
-  maxSizeBytes?: number | null;
+  maxSizeBytes?: number | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the media item was last modified. */
-  modified?: string | null;
-  playback?: ClipCreateResponsePlayback | null;
+  modified?: string | null | undefined;
+  playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
-  preview?: string | null;
+  preview?: string | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
-  publicDetails?: ClipCreateResponsePublicDetails | null;
+  publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStream?: boolean | null;
+  readyToStream?: boolean | null | undefined;
   /** Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStreamAt?: string | null;
+  readyToStreamAt?: string | null | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string | null;
+  scheduledDeletion?: string | null | undefined;
   /** The size of the media item in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details. */
-  status?: CopyCreateResponseStatus | null;
+  status?: CopyCreateResponseStatus | null | undefined;
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
-  thumbnail?: string | null;
+  thumbnail?: string | null | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number | null;
+  thumbnailTimestampPct?: number | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The date and time the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** The date and time when the video upload URL is no longer valid for direct user uploads. */
-  uploadExpiry?: string | null;
-  watermark?: ClipCreateResponseWatermark | null;
+  uploadExpiry?: string | null | undefined;
+  watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export type DirectUploadCreateRequestAllowedOriginsList = Array<string>;
 export type DirectUploadCreateRequestWatermark = ClipCreateRequestWatermark;
@@ -402,33 +402,33 @@ export interface CreateDirectUploadRequest {
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown. */
   maxDurationSeconds: number;
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: DirectUploadCreateRequestAllowedOriginsList;
+  allowedOrigins?: DirectUploadCreateRequestAllowedOriginsList | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** The date and time after upload when videos will not be accepted. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown;
+  meta?: unknown | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string;
+  scheduledDeletion?: string | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number;
-  watermark?: ClipCreateRequestWatermark;
+  thumbnailTimestampPct?: number | undefined;
+  watermark?: ClipCreateRequestWatermark | undefined;
   /** A user-defined identifier for the media creator. */
-  uploadCreator?: string;
+  uploadCreator?: string | undefined;
 }
 export type DirectUploadCreateResponseWatermark = ClipCreateResponseWatermark;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDirectUploadResponse {
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string | null;
+  scheduledDeletion?: string | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The URL an unauthenticated upload can use for a single `HTTP POST multipart/form-data` request. */
-  uploadURL?: string | null;
-  watermark?: ClipCreateResponseWatermark | null;
+  uploadURL?: string | null | undefined;
+  watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export interface CreateDownloadRequest {
   /** Identifier. */
@@ -443,7 +443,7 @@ export interface DownloadsCreateResponseAudio {
   /** The status of a generated download. */
   status: DownloadsCreateResponseAudioStatus;
   /** The URL to access the generated download. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type DownloadsCreateResponseDefaultStatus = "ready" | "inprogress" | "error";
 export interface DownloadsCreateResponseDefault {
@@ -452,14 +452,14 @@ export interface DownloadsCreateResponseDefault {
   /** The status of a generated download. */
   status: DownloadsCreateResponseDefaultStatus;
   /** The URL to access the generated download. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDownloadResponse {
   /** The audio-only download. Only present if this download type has been created. */
-  audio?: DownloadsCreateResponseAudio | null;
+  audio?: DownloadsCreateResponseAudio | null | undefined;
   /** The default video download. Only present if this download type has been created. */
-  default?: DownloadsCreateResponseDefault | null;
+  default?: DownloadsCreateResponseDefault | null | undefined;
 }
 export interface CreateKeyRequest {
   /** Identifier. */
@@ -468,44 +468,44 @@ export interface CreateKeyRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateKeyResponse {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The date and time a signing key was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The signing key in JWK format. */
-  jwk?: string | null;
+  jwk?: string | null | undefined;
   /** The signing key in PEM format. */
-  pem?: string | null;
+  pem?: string | null | undefined;
 }
 export type LiveInputsCreateRequestRecordingAllowedOriginsList = Array<string>;
 export type LiveInputsCreateRequestRecordingMode = "off" | "automatic";
 export interface LiveInputsCreateRequestRecording {
   /** Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin. */
-  allowedOrigins?: LiveInputsCreateRequestRecordingAllowedOriginsList;
+  allowedOrigins?: LiveInputsCreateRequestRecordingAllowedOriginsList | undefined;
   /** Disables reporting the number of live viewers when this property is set to `true`. */
-  hideLiveViewerCount?: boolean;
+  hideLiveViewerCount?: boolean | undefined;
   /** Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input. */
-  mode?: LiveInputsCreateRequestRecordingMode | (string & {});
+  mode?: LiveInputsCreateRequestRecordingMode | (string & {}) | undefined;
   /** Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
   /** Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
 }
 export interface CreateLiveInputRequest {
   /** Identifier. */
   accountId: string;
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Sets the creator ID asssociated with this live input. */
-  defaultCreator?: string;
+  defaultCreator?: string | undefined;
   /** Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. */
-  deleteRecordingAfterDays?: number;
+  deleteRecordingAfterDays?: number | undefined;
   /** Indicates whether the live input is enabled and can accept streams. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing live inputs. */
-  meta?: unknown;
+  meta?: unknown | undefined;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
-  preferLowLatency?: boolean;
+  preferLowLatency?: boolean | undefined;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
-  recording?: LiveInputsCreateRequestRecording;
+  recording?: LiveInputsCreateRequestRecording | undefined;
 }
 export interface LiveInputsCreateResponsePlayback {
   /** The DASH manifest URL used to play live video, referencing the live input ID. */
@@ -517,43 +517,43 @@ export type LiveInputsCreateResponseRecordingAllowedOriginsList = Array<string>;
 export type LiveInputsCreateResponseRecordingMode = "off" | "automatic";
 export interface LiveInputsCreateResponseRecording {
   /** Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin. */
-  allowedOrigins?: LiveInputsCreateResponseRecordingAllowedOriginsList | null;
+  allowedOrigins?: LiveInputsCreateResponseRecordingAllowedOriginsList | null | undefined;
   /** Disables reporting the number of live viewers when this property is set to `true`. */
-  hideLiveViewerCount?: boolean | null;
+  hideLiveViewerCount?: boolean | null | undefined;
   /** Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input. */
-  mode?: LiveInputsCreateResponseRecordingMode | null;
+  mode?: LiveInputsCreateResponseRecordingMode | null | undefined;
   /** Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used. */
-  timeoutSeconds?: number | null;
+  timeoutSeconds?: number | null | undefined;
 }
 export interface LiveInputsCreateResponseRtmps {
   /** The secret key to use when streaming via RTMPS to a live input. */
-  streamKey?: string | null;
+  streamKey?: string | null | undefined;
   /** The RTMPS URL you provide to the broadcaster, which they stream live video to. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface LiveInputsCreateResponseRtmpsPlayback {
   /** The secret key to use for playback via RTMPS. */
-  streamKey?: string | null;
+  streamKey?: string | null | undefined;
   /** The URL used to play live video over RTMPS. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface LiveInputsCreateResponseSrt {
   /** The secret key to use when streaming via SRT to a live input. */
-  passphrase?: string | null;
+  passphrase?: string | null | undefined;
   /** The identifier of the live input to use when streaming via SRT. */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
   /** The SRT URL you provide to the broadcaster, which they stream live video to. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface LiveInputsCreateResponseSrtPlayback {
   /** The secret key to use for playback via SRT. */
-  passphrase?: string | null;
+  passphrase?: string | null | undefined;
   /** The identifier of the live input to use for playback via SRT. */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
   /** The URL used to play live video over SRT. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type LiveInputsCreateResponseStatus =
   | "connected"
@@ -566,48 +566,48 @@ export type LiveInputsCreateResponseStatus =
   | "new_configuration_accepted";
 export interface LiveInputsCreateResponseWebRTC {
   /** The WebRTC URL you provide to the broadcaster, which they stream live video to. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface LiveInputsCreateResponseWebRTCPlayback {
   /** The URL used to play live video over WebRTC. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateLiveInputResponse {
   /** The date and time the live input was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. */
-  deleteRecordingAfterDays?: number | null;
+  deleteRecordingAfterDays?: number | null | undefined;
   /** Indicates whether the live input is enabled and can accept streams. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated. */
-  keysRotatedAt?: string | null;
+  keysRotatedAt?: string | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing live inputs. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the live input was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID. */
-  playback?: LiveInputsCreateResponsePlayback | null;
+  playback?: LiveInputsCreateResponsePlayback | null | undefined;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
-  preferLowLatency?: boolean | null;
+  preferLowLatency?: boolean | null | undefined;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
-  recording?: LiveInputsCreateResponseRecording | null;
+  recording?: LiveInputsCreateResponseRecording | null | undefined;
   /** Details for streaming to an live input using RTMPS. */
-  rtmps?: LiveInputsCreateResponseRtmps | null;
+  rtmps?: LiveInputsCreateResponseRtmps | null | undefined;
   /** Details for playback from an live input using RTMPS. */
-  rtmpsPlayback?: LiveInputsCreateResponseRtmpsPlayback | null;
+  rtmpsPlayback?: LiveInputsCreateResponseRtmpsPlayback | null | undefined;
   /** Details for streaming to a live input using SRT. */
-  srt?: LiveInputsCreateResponseSrt | null;
+  srt?: LiveInputsCreateResponseSrt | null | undefined;
   /** Details for playback from an live input using SRT. */
-  srtPlayback?: LiveInputsCreateResponseSrtPlayback | null;
+  srtPlayback?: LiveInputsCreateResponseSrtPlayback | null | undefined;
   /** The connection status of a live input. */
-  status?: LiveInputsCreateResponseStatus | null;
+  status?: LiveInputsCreateResponseStatus | null | undefined;
   /** A unique identifier for a live input. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** Details for streaming to a live input using WebRTC. */
-  webRTC?: LiveInputsCreateResponseWebRTC | null;
+  webRTC?: LiveInputsCreateResponseWebRTC | null | undefined;
   /** Details for playback from a live input using WebRTC. */
-  webRTCPlayback?: LiveInputsCreateResponseWebRTCPlayback | null;
+  webRTCPlayback?: LiveInputsCreateResponseWebRTCPlayback | null | undefined;
 }
 export interface CreateLiveInputOutputRequest {
   /** Identifier. */
@@ -619,33 +619,33 @@ export interface CreateLiveInputOutputRequest {
   /** The URL an output uses to restream. */
   url: string;
   /** When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateLiveInputOutputResponse {
   /** When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The streamKey used to authenticate against an output's target. */
-  streamKey?: string | null;
+  streamKey?: string | null | undefined;
   /** A unique identifier for the output. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The URL an output uses to restream. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type CreateRequestTusResumable = "1.0.0";
 export interface CreateStreamRequest {
   /** The account identifier tag. */
   accountId: string;
   /** Provisions a URL to let your end users upload videos directly to Cloudflare Stream without exposing your API token to clients. */
-  directUser?: boolean;
+  directUser?: boolean | undefined;
   /** Specifies the TUS protocol version. This value must be included in every upload request. Notes: The only supported version of TUS protocol is 1.0.0. */
   tusResumable: CreateRequestTusResumable | (string & {});
   /** Indicates the size of the entire upload in bytes. The value must be a non-negative integer. */
   uploadLength: number;
   /** A user-defined identifier for the media creator. */
-  uploadCreator?: string;
+  uploadCreator?: string | undefined;
   /** Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded. Supported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`. */
-  uploadMetadata?: string;
+  uploadMetadata?: string | undefined;
 }
 export interface CreateStreamResponse {}
 export type TokenCreateRequestAccessRulesItemAction = "allow" | "block";
@@ -654,18 +654,18 @@ export type TokenCreateRequestAccessRulesItemIpList = Array<string>;
 export type TokenCreateRequestAccessRulesItemType = "any" | "ip.src" | "ip.geoip.country";
 export interface TokenCreateRequestAccessRulesItem {
   /** The action to take when a request matches a rule. If the action is `block`, the signed token blocks views for viewers matching the rule. */
-  action?: TokenCreateRequestAccessRulesItemAction | (string & {});
+  action?: TokenCreateRequestAccessRulesItemAction | (string & {}) | undefined;
   /** An array of 2-letter country codes in ISO 3166-1 Alpha-2 format used to match requests. */
-  country?: TokenCreateRequestAccessRulesItemCountryList;
+  country?: TokenCreateRequestAccessRulesItemCountryList | undefined;
   /** An array of IPv4 or IPV6 addresses or CIDRs used to match requests. */
-  ip?: TokenCreateRequestAccessRulesItemIpList;
+  ip?: TokenCreateRequestAccessRulesItemIpList | undefined;
   /** Lists available rule types to match for requests. An `any` type matches all requests and can be used as a wildcard to apply default actions after other rules. */
-  type?: TokenCreateRequestAccessRulesItemType | (string & {});
+  type?: TokenCreateRequestAccessRulesItemType | (string & {}) | undefined;
 }
 export type TokenCreateRequestAccessRulesList = Array<TokenCreateRequestAccessRulesItem>;
 export interface TokenCreateRequestFlags {
   /** Whether to return the original video without transformations. */
-  original?: boolean;
+  original?: boolean | undefined;
 }
 export interface CreateTokenRequest {
   /** The account identifier tag. */
@@ -673,65 +673,65 @@ export interface CreateTokenRequest {
   /** A Cloudflare-generated unique identifier for a media item. */
   identifier: string;
   /** The optional ID of a Stream signing key. If present, the `pem` field is also required. */
-  id?: string;
+  id?: string | undefined;
   /** The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated. */
-  accessRules?: TokenCreateRequestAccessRulesList;
+  accessRules?: TokenCreateRequestAccessRulesList | undefined;
   /** The optional boolean value that enables using signed tokens to access MP4 download links for a video. */
-  downloadable?: boolean;
+  downloadable?: boolean | undefined;
   /** The optional unix epoch timestamp that specficies the time after a token is not accepted. The maximum time specification is 24 hours from issuing time. If this field is not set, the default is one hour after issuing. */
-  exp?: number;
+  exp?: number | undefined;
   /** Optional flags for the signed token. */
-  flags?: TokenCreateRequestFlags;
+  flags?: TokenCreateRequestFlags | undefined;
   /** The optional unix epoch timestamp that specifies the time before a the token is not accepted. If this field is not set, the default is one hour before issuing. */
-  nbf?: number;
+  nbf?: number | undefined;
   /** The optional base64 encoded private key in PEM format associated with a Stream signing key. If present, the `id` field is also required. */
-  pem?: string;
+  pem?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
   /** The signed token used with the signed URLs feature. */
-  token?: string | null;
+  token?: string | null | undefined;
 }
 export interface CreateWatermarkRequest {
   /** The account identifier tag. */
   accountId: string;
   /** A short description of the watermark profile. */
-  name?: string;
+  name?: string | undefined;
   /** The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque. */
-  opacity?: number;
+  opacity?: number | undefined;
   /** The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm. */
-  padding?: number;
+  padding?: number | undefined;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
-  position?: string;
+  position?: string | undefined;
   /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
-  scale?: number;
+  scale?: number | undefined;
   /** URL of the watermark image to copy. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateWatermarkResponse {
   /** The date and a time a watermark profile was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null. */
-  downloadedFrom?: string | null;
+  downloadedFrom?: string | null | undefined;
   /** The height of the image in pixels. */
-  height?: number | null;
+  height?: number | null | undefined;
   /** A short description of the watermark profile. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque. */
-  opacity?: number | null;
+  opacity?: number | null | undefined;
   /** The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm. */
-  padding?: number | null;
+  padding?: number | null | undefined;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
-  position?: string | null;
+  position?: string | null | undefined;
   /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
-  scale?: number | null;
+  scale?: number | null | undefined;
   /** The size of the image in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** The unique identifier for a watermark profile. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The width of the image in pixels. */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface DeleteAudioTrackRequest {
   /** The account identifier tag. */
@@ -802,10 +802,10 @@ export interface DeleteWebhookRequest {
 export type DeleteWebhookResponse = string;
 export type EditRequestAllowedOriginsList = Array<string>;
 export interface EditRequestPublicDetails {
-  channelLink?: string;
-  logo?: string;
-  shareLink?: string;
-  title?: string;
+  channelLink?: string | undefined;
+  logo?: string | undefined;
+  shareLink?: string | undefined;
+  title?: string | undefined;
 }
 export interface EditStreamRequest {
   /** The account identifier tag. */
@@ -813,25 +813,25 @@ export interface EditStreamRequest {
   /** A Cloudflare-generated unique identifier for a media item. */
   identifier: string;
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: EditRequestAllowedOriginsList;
+  allowedOrigins?: EditRequestAllowedOriginsList | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown. */
-  maxDurationSeconds?: number;
+  maxDurationSeconds?: number | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown;
+  meta?: unknown | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
-  publicDetails?: EditRequestPublicDetails;
+  publicDetails?: EditRequestPublicDetails | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string;
+  scheduledDeletion?: string | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number;
+  thumbnailTimestampPct?: number | undefined;
   /** The unique identifier for the video. Can be used to verify the video being updated. */
-  uid?: string;
+  uid?: string | undefined;
   /** The date and time when the video upload URL is no longer valid for direct user uploads. */
-  uploadExpiry?: string;
+  uploadExpiry?: string | undefined;
 }
 export type EditResponseAllowedOriginsList = Array<string>;
 export type EditResponseInput = ClipCreateResponseInput;
@@ -847,66 +847,66 @@ export type EditResponseStatusState =
   | "live-inprogress";
 export interface EditResponseStatus {
   /** Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use. */
-  errorReasonCode?: string | null;
+  errorReasonCode?: string | null | undefined;
   /** Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state. */
-  errorReasonText?: string | null;
+  errorReasonText?: string | null | undefined;
   /** Indicates the progress as a percentage between 0 and 100. */
-  pctComplete?: string | null;
+  pctComplete?: string | null | undefined;
   /** Specifies the processing status for all quality levels for a video. */
-  state?: EditResponseStatusState | null;
+  state?: EditResponseStatusState | null | undefined;
 }
 export type EditResponseWatermark = ClipCreateResponseWatermark;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditStreamResponse {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: EditResponseAllowedOriginsList | null;
+  allowedOrigins?: EditResponseAllowedOriginsList | null | undefined;
   /** The unique identifier of the source video this video was clipped from. */
-  clippedFrom?: string | null;
+  clippedFrom?: string | null | undefined;
   /** The date and time the media item was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
-  duration?: number | null;
-  input?: ClipCreateResponseInput | null;
+  duration?: number | null | undefined;
+  input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
-  liveInput?: string | null;
+  liveInput?: string | null | undefined;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown. */
-  maxDurationSeconds?: number | null;
+  maxDurationSeconds?: number | null | undefined;
   /** The maximum size in bytes for the video upload. */
-  maxSizeBytes?: number | null;
+  maxSizeBytes?: number | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the media item was last modified. */
-  modified?: string | null;
-  playback?: ClipCreateResponsePlayback | null;
+  modified?: string | null | undefined;
+  playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
-  preview?: string | null;
+  preview?: string | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
-  publicDetails?: ClipCreateResponsePublicDetails | null;
+  publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStream?: boolean | null;
+  readyToStream?: boolean | null | undefined;
   /** Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStreamAt?: string | null;
+  readyToStreamAt?: string | null | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string | null;
+  scheduledDeletion?: string | null | undefined;
   /** The size of the media item in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details. */
-  status?: EditResponseStatus | null;
+  status?: EditResponseStatus | null | undefined;
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
-  thumbnail?: string | null;
+  thumbnail?: string | null | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number | null;
+  thumbnailTimestampPct?: number | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The date and time the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** The date and time when the video upload URL is no longer valid for direct user uploads. */
-  uploadExpiry?: string | null;
-  watermark?: ClipCreateResponseWatermark | null;
+  uploadExpiry?: string | null | undefined;
+  watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export interface GetAudioTrackRequest {
   /** The account identifier tag. */
@@ -917,19 +917,19 @@ export interface GetAudioTrackRequest {
 export type AudioTracksGetResponseAudioItemStatus = "queued" | "ready" | "error";
 export interface AudioTracksGetResponseAudioItem {
   /** Denotes whether the audio track will be played by default in a player. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
   /** A string to uniquely identify the track amongst other audio track labels for the specified video. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Specifies the processing status of the video. */
-  status?: AudioTracksGetResponseAudioItemStatus | null;
+  status?: AudioTracksGetResponseAudioItemStatus | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
 }
 export type AudioTracksGetResponseAudioList = Array<AudioTracksGetResponseAudioItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAudioTrackResponse {
   /** Array of audio tracks for the video. */
-  audio?: AudioTracksGetResponseAudioList | null;
+  audio?: AudioTracksGetResponseAudioList | null | undefined;
 }
 export interface GetCaptionRequest {
   /** Identifier. */
@@ -940,13 +940,13 @@ export interface GetCaptionRequest {
 export type CaptionsGetResultItemStatus = "ready" | "inprogress" | "error";
 export interface CaptionsGetResultItem {
   /** Whether the caption was generated via AI. */
-  generated?: boolean | null;
+  generated?: boolean | null | undefined;
   /** The language label displayed in the native language to users. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The language tag in BCP 47 format. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** The status of a generated caption. */
-  status?: CaptionsGetResultItemStatus | null;
+  status?: CaptionsGetResultItemStatus | null | undefined;
 }
 export type CaptionsGetResultList = Array<CaptionsGetResultItem>;
 export interface GetCaptionResponse {
@@ -967,13 +967,13 @@ export type CaptionsLanguageGetResponseStatus = "ready" | "inprogress" | "error"
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCaptionLanguageResponse {
   /** Whether the caption was generated via AI. */
-  generated?: boolean | null;
+  generated?: boolean | null | undefined;
   /** The language label displayed in the native language to users. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The language tag in BCP 47 format. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** The status of a generated caption. */
-  status?: CaptionsLanguageGetResponseStatus | null;
+  status?: CaptionsLanguageGetResponseStatus | null | undefined;
 }
 export interface GetCaptionLanguageVttRequest {
   /** Identifier. */
@@ -997,7 +997,7 @@ export interface DownloadsGetResponseAudio {
   /** The status of a generated download. */
   status: DownloadsGetResponseAudioStatus;
   /** The URL to access the generated download. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type DownloadsGetResponseDefaultStatus = "ready" | "inprogress" | "error";
 export interface DownloadsGetResponseDefault {
@@ -1006,14 +1006,14 @@ export interface DownloadsGetResponseDefault {
   /** The status of a generated download. */
   status: DownloadsGetResponseDefaultStatus;
   /** The URL to access the generated download. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDownloadResponse {
   /** The audio-only download. Only present if this download type has been created. */
-  audio?: DownloadsGetResponseAudio | null;
+  audio?: DownloadsGetResponseAudio | null | undefined;
   /** The default video download. Only present if this download type has been created. */
-  default?: DownloadsGetResponseDefault | null;
+  default?: DownloadsGetResponseDefault | null | undefined;
 }
 export interface GetEmbedRequest {
   /** The account identifier tag. */
@@ -1028,11 +1028,11 @@ export interface GetKeyRequest {
 }
 export interface KeysGetResultItem {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The date and time a signing key was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The unique identifier for the signing key. */
-  keyId?: string | null;
+  keyId?: string | null | undefined;
 }
 export type KeysGetResultList = Array<KeysGetResultItem>;
 export interface GetKeyResponse {
@@ -1052,15 +1052,15 @@ export type LiveInputsGetResponseRecordingAllowedOriginsList = Array<string>;
 export type LiveInputsGetResponseRecordingMode = "off" | "automatic";
 export interface LiveInputsGetResponseRecording {
   /** Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin. */
-  allowedOrigins?: LiveInputsGetResponseRecordingAllowedOriginsList | null;
+  allowedOrigins?: LiveInputsGetResponseRecordingAllowedOriginsList | null | undefined;
   /** Disables reporting the number of live viewers when this property is set to `true`. */
-  hideLiveViewerCount?: boolean | null;
+  hideLiveViewerCount?: boolean | null | undefined;
   /** Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input. */
-  mode?: LiveInputsGetResponseRecordingMode | null;
+  mode?: LiveInputsGetResponseRecordingMode | null | undefined;
   /** Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used. */
-  timeoutSeconds?: number | null;
+  timeoutSeconds?: number | null | undefined;
 }
 export type LiveInputsGetResponseRtmps = LiveInputsCreateResponseRtmps;
 export type LiveInputsGetResponseRtmpsPlayback = LiveInputsCreateResponseRtmpsPlayback;
@@ -1080,39 +1080,39 @@ export type LiveInputsGetResponseWebRTCPlayback = LiveInputsCreateResponseWebRTC
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetLiveInputResponse {
   /** The date and time the live input was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. */
-  deleteRecordingAfterDays?: number | null;
+  deleteRecordingAfterDays?: number | null | undefined;
   /** Indicates whether the live input is enabled and can accept streams. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated. */
-  keysRotatedAt?: string | null;
+  keysRotatedAt?: string | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing live inputs. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the live input was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID. */
-  playback?: LiveInputsCreateResponsePlayback | null;
+  playback?: LiveInputsCreateResponsePlayback | null | undefined;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
-  preferLowLatency?: boolean | null;
+  preferLowLatency?: boolean | null | undefined;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
-  recording?: LiveInputsGetResponseRecording | null;
+  recording?: LiveInputsGetResponseRecording | null | undefined;
   /** Details for streaming to an live input using RTMPS. */
-  rtmps?: LiveInputsCreateResponseRtmps | null;
+  rtmps?: LiveInputsCreateResponseRtmps | null | undefined;
   /** Details for playback from an live input using RTMPS. */
-  rtmpsPlayback?: LiveInputsCreateResponseRtmpsPlayback | null;
+  rtmpsPlayback?: LiveInputsCreateResponseRtmpsPlayback | null | undefined;
   /** Details for streaming to a live input using SRT. */
-  srt?: LiveInputsCreateResponseSrt | null;
+  srt?: LiveInputsCreateResponseSrt | null | undefined;
   /** Details for playback from an live input using SRT. */
-  srtPlayback?: LiveInputsCreateResponseSrtPlayback | null;
+  srtPlayback?: LiveInputsCreateResponseSrtPlayback | null | undefined;
   /** The connection status of a live input. */
-  status?: LiveInputsGetResponseStatus | null;
+  status?: LiveInputsGetResponseStatus | null | undefined;
   /** A unique identifier for a live input. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** Details for streaming to a live input using WebRTC. */
-  webRTC?: LiveInputsCreateResponseWebRTC | null;
+  webRTC?: LiveInputsCreateResponseWebRTC | null | undefined;
   /** Details for playback from a live input using WebRTC. */
-  webRTCPlayback?: LiveInputsCreateResponseWebRTCPlayback | null;
+  webRTCPlayback?: LiveInputsCreateResponseWebRTCPlayback | null | undefined;
 }
 export interface GetStreamRequest {
   /** The account identifier tag. */
@@ -1134,66 +1134,66 @@ export type GetResponseStatusState =
   | "live-inprogress";
 export interface GetResponseStatus {
   /** Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use. */
-  errorReasonCode?: string | null;
+  errorReasonCode?: string | null | undefined;
   /** Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state. */
-  errorReasonText?: string | null;
+  errorReasonText?: string | null | undefined;
   /** Indicates the progress as a percentage between 0 and 100. */
-  pctComplete?: string | null;
+  pctComplete?: string | null | undefined;
   /** Specifies the processing status for all quality levels for a video. */
-  state?: GetResponseStatusState | null;
+  state?: GetResponseStatusState | null | undefined;
 }
 export type GetResponseWatermark = ClipCreateResponseWatermark;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetStreamResponse {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: GetResponseAllowedOriginsList | null;
+  allowedOrigins?: GetResponseAllowedOriginsList | null | undefined;
   /** The unique identifier of the source video this video was clipped from. */
-  clippedFrom?: string | null;
+  clippedFrom?: string | null | undefined;
   /** The date and time the media item was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
-  duration?: number | null;
-  input?: ClipCreateResponseInput | null;
+  duration?: number | null | undefined;
+  input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
-  liveInput?: string | null;
+  liveInput?: string | null | undefined;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown. */
-  maxDurationSeconds?: number | null;
+  maxDurationSeconds?: number | null | undefined;
   /** The maximum size in bytes for the video upload. */
-  maxSizeBytes?: number | null;
+  maxSizeBytes?: number | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the media item was last modified. */
-  modified?: string | null;
-  playback?: ClipCreateResponsePlayback | null;
+  modified?: string | null | undefined;
+  playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
-  preview?: string | null;
+  preview?: string | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
-  publicDetails?: ClipCreateResponsePublicDetails | null;
+  publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStream?: boolean | null;
+  readyToStream?: boolean | null | undefined;
   /** Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStreamAt?: string | null;
+  readyToStreamAt?: string | null | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string | null;
+  scheduledDeletion?: string | null | undefined;
   /** The size of the media item in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details. */
-  status?: GetResponseStatus | null;
+  status?: GetResponseStatus | null | undefined;
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
-  thumbnail?: string | null;
+  thumbnail?: string | null | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number | null;
+  thumbnailTimestampPct?: number | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The date and time the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** The date and time when the video upload URL is no longer valid for direct user uploads. */
-  uploadExpiry?: string | null;
-  watermark?: ClipCreateResponseWatermark | null;
+  uploadExpiry?: string | null | undefined;
+  watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export interface GetWatermarkRequest {
   /** The account identifier tag. */
@@ -1204,27 +1204,27 @@ export interface GetWatermarkRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetWatermarkResponse {
   /** The date and a time a watermark profile was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The source URL for a downloaded image. If the watermark profile was created via direct upload, this field is null. */
-  downloadedFrom?: string | null;
+  downloadedFrom?: string | null | undefined;
   /** The height of the image in pixels. */
-  height?: number | null;
+  height?: number | null | undefined;
   /** A short description of the watermark profile. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque. */
-  opacity?: number | null;
+  opacity?: number | null | undefined;
   /** The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm. */
-  padding?: number | null;
+  padding?: number | null | undefined;
   /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
-  position?: string | null;
+  position?: string | null | undefined;
   /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0` fills the entire video. */
-  scale?: number | null;
+  scale?: number | null | undefined;
   /** The size of the image in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** The unique identifier for a watermark profile. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The width of the image in pixels. */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface GetWebhookRequest {
   /** The account identifier tag. */
@@ -1233,11 +1233,11 @@ export interface GetWebhookRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetWebhookResponse {
   /** The date and time the webhook was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** The URL where webhooks will be sent. */
-  notificationUrl?: string | null;
+  notificationUrl?: string | null | undefined;
   /** The secret used to verify webhook signatures. */
-  secret?: string | null;
+  secret?: string | null | undefined;
 }
 export interface ListLiveInputOutputsRequest {
   /** Identifier. */
@@ -1247,13 +1247,13 @@ export interface ListLiveInputOutputsRequest {
 }
 export interface LiveInputsOutputsListResultItem {
   /** When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The streamKey used to authenticate against an output's target. */
-  streamKey?: string | null;
+  streamKey?: string | null | undefined;
   /** A unique identifier for the output. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The URL an output uses to restream. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type LiveInputsOutputsListResultList = Array<LiveInputsOutputsListResultItem>;
 export interface ListLiveInputOutputsResponse {
@@ -1266,21 +1266,21 @@ export interface ListLiveInputsRequest {
   /** Identifier. */
   accountId: string;
   /** Includes the total number of videos associated with the submitted query parameters. */
-  includeCounts?: boolean;
+  includeCounts?: boolean | undefined;
 }
 export interface LiveInputsListResponseLiveInputsItem {
   /** The date and time the live input was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. */
-  deleteRecordingAfterDays?: number | null;
+  deleteRecordingAfterDays?: number | null | undefined;
   /** Indicates whether the live input is enabled and can accept streams. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing live inputs. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the live input was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** A unique identifier for a live input. */
-  uid?: string | null;
+  uid?: string | null | undefined;
 }
 export type LiveInputsListResponseLiveInputsList = Array<LiveInputsListResponseLiveInputsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1297,35 +1297,35 @@ export interface ListStreamsRequest {
   /** The account identifier tag. */
   accountId: string;
   /** Filter by video ID(s). Can be a single ID or a comma-separated list of IDs. */
-  id?: string;
+  id?: string | undefined;
   /** Alias for 'start'. Returns videos created after this date/time (RFC 3339 format). */
-  after?: string;
+  after?: string | undefined;
   /** Lists videos in ascending order of creation. */
-  asc?: boolean;
+  asc?: boolean | undefined;
   /** Alias for 'end'. Returns videos created before this date/time (RFC 3339 format). */
-  before?: string;
+  before?: string | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** Lists videos created before the specified date. */
-  end?: string;
+  end?: string | undefined;
   /** Includes the total number of videos associated with the submitted query parameters. */
-  includeCounts?: boolean;
+  includeCounts?: boolean | undefined;
   /** Maximum number of videos to return (default 1000, max 1000). */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by live input ID to find videos associated with a specific live stream. */
-  liveInputId?: string;
+  liveInputId?: string | undefined;
   /** Filter by video name/UID(s). Can be a single name or a comma-separated list. */
-  name?: string;
+  name?: string | undefined;
   /** Provides a partial word match of the `name` key in the `meta` field. Slow for medium to large video libraries. May be unavailable for very large libraries. */
-  search?: string;
+  search?: string | undefined;
   /** Lists videos created after the specified date. */
-  start?: string;
+  start?: string | undefined;
   /** Specifies the processing status for all quality levels for a video. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
   /** Specifies whether the video is `vod` or `live`. */
-  type?: string;
+  type?: string | undefined;
   /** Provides a fast, exact string match on the `name` key in the `meta` field. */
-  videoName?: string;
+  videoName?: string | undefined;
 }
 export type ListResultItemAllowedOriginsList = Array<string>;
 export type ListResultItemInput = ClipCreateResponseInput;
@@ -1341,65 +1341,65 @@ export type ListResultItemStatusState =
   | "live-inprogress";
 export interface ListResultItemStatus {
   /** Specifies why the video failed to encode. This field is empty if the video is not in an `error` state. Preferred for programmatic use. */
-  errorReasonCode?: string | null;
+  errorReasonCode?: string | null | undefined;
   /** Specifies why the video failed to encode using a human readable error message in English. This field is empty if the video is not in an `error` state. */
-  errorReasonText?: string | null;
+  errorReasonText?: string | null | undefined;
   /** Indicates the progress as a percentage between 0 and 100. */
-  pctComplete?: string | null;
+  pctComplete?: string | null | undefined;
   /** Specifies the processing status for all quality levels for a video. */
-  state?: ListResultItemStatusState | null;
+  state?: ListResultItemStatusState | null | undefined;
 }
 export type ListResultItemWatermark = ClipCreateResponseWatermark;
 export interface ListResultItem {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
-  allowedOrigins?: ListResultItemAllowedOriginsList | null;
+  allowedOrigins?: ListResultItemAllowedOriginsList | null | undefined;
   /** The unique identifier of the source video this video was clipped from. */
-  clippedFrom?: string | null;
+  clippedFrom?: string | null | undefined;
   /** The date and time the media item was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** A user-defined identifier for the media creator. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
-  duration?: number | null;
-  input?: ClipCreateResponseInput | null;
+  duration?: number | null | undefined;
+  input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
-  liveInput?: string | null;
+  liveInput?: string | null | undefined;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown. */
-  maxDurationSeconds?: number | null;
+  maxDurationSeconds?: number | null | undefined;
   /** The maximum size in bytes for the video upload. */
-  maxSizeBytes?: number | null;
+  maxSizeBytes?: number | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the media item was last modified. */
-  modified?: string | null;
-  playback?: ClipCreateResponsePlayback | null;
+  modified?: string | null | undefined;
+  playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
-  preview?: string | null;
+  preview?: string | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
-  publicDetails?: ClipCreateResponsePublicDetails | null;
+  publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStream?: boolean | null;
+  readyToStream?: boolean | null | undefined;
   /** Indicates the time at which the video became playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
-  readyToStreamAt?: string | null;
+  readyToStreamAt?: string | null | undefined;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time. */
-  scheduledDeletion?: string | null;
+  scheduledDeletion?: string | null | undefined;
   /** The size of the media item in bytes. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number between 0 and 100 to indicate the approximate percent of completion. If the `state` is `error`, `errorReasonCode` and `errorReasonText` provide additional details. */
-  status?: ListResultItemStatus | null;
+  status?: ListResultItemStatus | null | undefined;
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
-  thumbnail?: string | null;
+  thumbnail?: string | null | undefined;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video. If this value is not set, the default thumbnail image is taken from 0s of the video. */
-  thumbnailTimestampPct?: number | null;
+  thumbnailTimestampPct?: number | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The date and time the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** The date and time when the video upload URL is no longer valid for direct user uploads. */
-  uploadExpiry?: string | null;
-  watermark?: ClipCreateResponseWatermark | null;
+  uploadExpiry?: string | null | undefined;
+  watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListStreamsResponse {
@@ -1428,53 +1428,53 @@ export interface PatchAudioTrackRequest {
   /** The unique identifier for an additional audio track. */
   audioIdentifier: string;
   /** Denotes whether the audio track will be played by default in a player. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** A string to uniquely identify the track amongst other audio track labels for the specified video. */
-  label?: string;
+  label?: string | undefined;
 }
 export type AudioTracksEditResponseStatus = "queued" | "ready" | "error";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAudioTrackResponse {
   /** Denotes whether the audio track will be played by default in a player. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
   /** A string to uniquely identify the track amongst other audio track labels for the specified video. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Specifies the processing status of the video. */
-  status?: AudioTracksEditResponseStatus | null;
+  status?: AudioTracksEditResponseStatus | null | undefined;
   /** A Cloudflare-generated unique identifier for a media item. */
-  uid?: string | null;
+  uid?: string | null | undefined;
 }
 export interface PutWebhookRequest {
   /** The account identifier tag. */
   accountId: string;
   /** The URL where webhooks will be sent. */
-  notificationUrl?: string;
+  notificationUrl?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutWebhookResponse {
   /** The date and time the webhook was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** The URL where webhooks will be sent. */
-  notificationUrl?: string | null;
+  notificationUrl?: string | null | undefined;
   /** The secret used to verify webhook signatures. */
-  secret?: string | null;
+  secret?: string | null | undefined;
 }
 export interface StorageUsageVideoRequest {
   /** The account identifier tag. */
   accountId: string;
   /** A user-defined identifier for the media creator. */
-  creator?: string;
+  creator?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface StorageUsageVideoResponse {
   /** A user-defined identifier for the media creator. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** The total minutes of video content stored in the account. May contain decimal values. */
-  totalStorageMinutes?: number | null;
+  totalStorageMinutes?: number | null | undefined;
   /** The storage capacity alloted for the account. */
-  totalStorageMinutesLimit?: number | null;
+  totalStorageMinutesLimit?: number | null | undefined;
   /** The total count of videos associated with the account. */
-  videoCount?: number | null;
+  videoCount?: number | null | undefined;
 }
 export interface UpdateCaptionLanguageRequest {
   /** Identifier. */
@@ -1490,27 +1490,27 @@ export type CaptionsLanguageUpdateResponseStatus = "ready" | "inprogress" | "err
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateCaptionLanguageResponse {
   /** Whether the caption was generated via AI. */
-  generated?: boolean | null;
+  generated?: boolean | null | undefined;
   /** The language label displayed in the native language to users. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The language tag in BCP 47 format. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** The status of a generated caption. */
-  status?: CaptionsLanguageUpdateResponseStatus | null;
+  status?: CaptionsLanguageUpdateResponseStatus | null | undefined;
 }
 export type LiveInputsUpdateRequestRecordingAllowedOriginsList = Array<string>;
 export type LiveInputsUpdateRequestRecordingMode = "off" | "automatic";
 export interface LiveInputsUpdateRequestRecording {
   /** Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin. */
-  allowedOrigins?: LiveInputsUpdateRequestRecordingAllowedOriginsList;
+  allowedOrigins?: LiveInputsUpdateRequestRecordingAllowedOriginsList | undefined;
   /** Disables reporting the number of live viewers when this property is set to `true`. */
-  hideLiveViewerCount?: boolean;
+  hideLiveViewerCount?: boolean | undefined;
   /** Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input. */
-  mode?: LiveInputsUpdateRequestRecordingMode | (string & {});
+  mode?: LiveInputsUpdateRequestRecordingMode | (string & {}) | undefined;
   /** Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
   /** Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
 }
 export interface UpdateLiveInputRequest {
   /** Identifier. */
@@ -1518,32 +1518,32 @@ export interface UpdateLiveInputRequest {
   /** A unique identifier for a live input. */
   liveInputIdentifier: string;
   /** Sets the creator ID asssociated with this live input. */
-  defaultCreator?: string;
+  defaultCreator?: string | undefined;
   /** Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. */
-  deleteRecordingAfterDays?: number;
+  deleteRecordingAfterDays?: number | undefined;
   /** Indicates whether the live input is enabled and can accept streams. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing live inputs. */
-  meta?: unknown;
+  meta?: unknown | undefined;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
-  preferLowLatency?: boolean;
+  preferLowLatency?: boolean | undefined;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
-  recording?: LiveInputsUpdateRequestRecording;
+  recording?: LiveInputsUpdateRequestRecording | undefined;
 }
 export type LiveInputsUpdateResponsePlayback = LiveInputsCreateResponsePlayback;
 export type LiveInputsUpdateResponseRecordingAllowedOriginsList = Array<string>;
 export type LiveInputsUpdateResponseRecordingMode = "off" | "automatic";
 export interface LiveInputsUpdateResponseRecording {
   /** Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin. */
-  allowedOrigins?: LiveInputsUpdateResponseRecordingAllowedOriginsList | null;
+  allowedOrigins?: LiveInputsUpdateResponseRecordingAllowedOriginsList | null | undefined;
   /** Disables reporting the number of live viewers when this property is set to `true`. */
-  hideLiveViewerCount?: boolean | null;
+  hideLiveViewerCount?: boolean | null | undefined;
   /** Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input. */
-  mode?: LiveInputsUpdateResponseRecordingMode | null;
+  mode?: LiveInputsUpdateResponseRecordingMode | null | undefined;
   /** Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used. */
-  timeoutSeconds?: number | null;
+  timeoutSeconds?: number | null | undefined;
 }
 export type LiveInputsUpdateResponseRtmps = LiveInputsCreateResponseRtmps;
 export type LiveInputsUpdateResponseRtmpsPlayback = LiveInputsCreateResponseRtmpsPlayback;
@@ -1563,39 +1563,39 @@ export type LiveInputsUpdateResponseWebRTCPlayback = LiveInputsCreateResponseWeb
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateLiveInputResponse {
   /** The date and time the live input was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. */
-  deleteRecordingAfterDays?: number | null;
+  deleteRecordingAfterDays?: number | null | undefined;
   /** Indicates whether the live input is enabled and can accept streams. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated. */
-  keysRotatedAt?: string | null;
+  keysRotatedAt?: string | null | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing live inputs. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** The date and time the live input was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID. */
-  playback?: LiveInputsCreateResponsePlayback | null;
+  playback?: LiveInputsCreateResponsePlayback | null | undefined;
   /** When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility. */
-  preferLowLatency?: boolean | null;
+  preferLowLatency?: boolean | null | undefined;
   /** Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condition is satisfied. */
-  recording?: LiveInputsUpdateResponseRecording | null;
+  recording?: LiveInputsUpdateResponseRecording | null | undefined;
   /** Details for streaming to an live input using RTMPS. */
-  rtmps?: LiveInputsCreateResponseRtmps | null;
+  rtmps?: LiveInputsCreateResponseRtmps | null | undefined;
   /** Details for playback from an live input using RTMPS. */
-  rtmpsPlayback?: LiveInputsCreateResponseRtmpsPlayback | null;
+  rtmpsPlayback?: LiveInputsCreateResponseRtmpsPlayback | null | undefined;
   /** Details for streaming to a live input using SRT. */
-  srt?: LiveInputsCreateResponseSrt | null;
+  srt?: LiveInputsCreateResponseSrt | null | undefined;
   /** Details for playback from an live input using SRT. */
-  srtPlayback?: LiveInputsCreateResponseSrtPlayback | null;
+  srtPlayback?: LiveInputsCreateResponseSrtPlayback | null | undefined;
   /** The connection status of a live input. */
-  status?: LiveInputsUpdateResponseStatus | null;
+  status?: LiveInputsUpdateResponseStatus | null | undefined;
   /** A unique identifier for a live input. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** Details for streaming to a live input using WebRTC. */
-  webRTC?: LiveInputsCreateResponseWebRTC | null;
+  webRTC?: LiveInputsCreateResponseWebRTC | null | undefined;
   /** Details for playback from a live input using WebRTC. */
-  webRTCPlayback?: LiveInputsCreateResponseWebRTCPlayback | null;
+  webRTCPlayback?: LiveInputsCreateResponseWebRTCPlayback | null | undefined;
 }
 export interface UpdateLiveInputOutputRequest {
   /** Identifier. */
@@ -1610,13 +1610,13 @@ export interface UpdateLiveInputOutputRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateLiveInputOutputResponse {
   /** When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The streamKey used to authenticate against an output's target. */
-  streamKey?: string | null;
+  streamKey?: string | null | undefined;
   /** A unique identifier for the output. */
-  uid?: string | null;
+  uid?: string | null | undefined;
   /** The URL an output uses to restream. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type CopyAudioTrackError = CloudflareOpError;
 /** Adds an additional audio track to a video using the provided audio track URL. */

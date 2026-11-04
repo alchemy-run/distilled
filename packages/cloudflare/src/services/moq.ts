@@ -53,13 +53,13 @@ export interface RelaysCreateResponseConfigUpstreamsUpstreamsItem {
 export type RelaysCreateResponseConfigUpstreamsUpstreamsList =
   Array<RelaysCreateResponseConfigUpstreamsUpstreamsItem>;
 export interface RelaysCreateResponseConfigUpstreams {
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change. */
-  upstreams?: RelaysCreateResponseConfigUpstreamsUpstreamsList | null;
+  upstreams?: RelaysCreateResponseConfigUpstreamsUpstreamsList | null | undefined;
 }
 export interface RelaysCreateResponseConfig {
   /** Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track. */
-  upstreams?: RelaysCreateResponseConfigUpstreams | null;
+  upstreams?: RelaysCreateResponseConfigUpstreams | null | undefined;
 }
 export type RelaysCreateResponseIssuersItemCloudflareTokensItemOperationsItem =
   | "publish"
@@ -75,9 +75,9 @@ export interface RelaysCreateResponseIssuersItemCloudflareTokensItem {
   /** Signed allowlist of what the token may do. V1 coarse roles; the array form extends to fine-grained MoQT message names later without a breaking change. */
   operations: RelaysCreateResponseIssuersItemCloudflareTokensItemOperationsList;
   /** Optional, customer-set. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The signed JWT. Present ONLY in create / auto-create responses (shown once); never returned by list, never stored. */
-  secret?: string | null;
+  secret?: string | null | undefined;
 }
 export type RelaysCreateResponseIssuersItemCloudflareTokensList =
   Array<RelaysCreateResponseIssuersItemCloudflareTokensItem>;
@@ -113,9 +113,9 @@ export interface CreateRelaysTokenRequest {
   /** Non-empty subset of the V1 roles the token is allowed to perform. Signed into the token. */
   operations: CreateRelaysTokenRequestOperationsList;
   /** Optional expiry (RFC 3339). Defaults to 1 year from creation; rejected if more than 1 year in the future. */
-  expires?: string;
+  expires?: string | undefined;
   /** Optional, customer-set label. */
-  label?: string;
+  label?: string | undefined;
 }
 export type CreateRelaysTokenResponseIssuersItemCloudflareTokensItemOperationsItem =
   | "publish"
@@ -131,9 +131,9 @@ export interface CreateRelaysTokenResponseIssuersItemCloudflareTokensItem {
   /** Signed allowlist of what the token may do. V1 coarse roles; the array form extends to fine-grained MoQT message names later without a breaking change. */
   operations: CreateRelaysTokenResponseIssuersItemCloudflareTokensItemOperationsList;
   /** Optional, customer-set. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The signed JWT. Present ONLY in create / auto-create responses (shown once); never returned by list, never stored. */
-  secret?: string | null;
+  secret?: string | null | undefined;
 }
 export type CreateRelaysTokenResponseIssuersItemCloudflareTokensList =
   Array<CreateRelaysTokenResponseIssuersItemCloudflareTokensItem>;
@@ -173,13 +173,13 @@ export type RelaysGetResponseConfigUpstreamsUpstreamsItem =
 export type RelaysGetResponseConfigUpstreamsUpstreamsList =
   Array<RelaysCreateResponseConfigUpstreamsUpstreamsItem>;
 export interface RelaysGetResponseConfigUpstreams {
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change. */
-  upstreams?: RelaysGetResponseConfigUpstreamsUpstreamsList | null;
+  upstreams?: RelaysGetResponseConfigUpstreamsUpstreamsList | null | undefined;
 }
 export interface RelaysGetResponseConfig {
   /** Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track. */
-  upstreams?: RelaysGetResponseConfigUpstreams | null;
+  upstreams?: RelaysGetResponseConfigUpstreams | null | undefined;
 }
 export type RelaysGetResponseStatus = "connected";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -191,19 +191,19 @@ export interface GetRelayResponse {
   name: string;
   uid: string;
   /** "connected" when active, omitted otherwise. */
-  status?: RelaysGetResponseStatus | null;
+  status?: RelaysGetResponseStatus | null | undefined;
 }
 export interface ListRelaysRequest {
   /** Cloudflare account identifier. */
   accountId: string;
   /** Sort order by `created`. When true, results are returned oldest-first (ascending); otherwise newest-first (descending, the default). */
-  asc?: boolean;
+  asc?: boolean | undefined;
   /** Cursor for pagination. Returns relays created strictly after this RFC 3339 timestamp (typically the `created` value of the last item on the current page, to fetch the next page). */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Cursor for pagination. Returns relays created strictly before this RFC 3339 timestamp (typically the `created` value of the first item on the current page, to fetch the previous page). */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Maximum number of relays to return per page. Values above the maximum are clamped to it rather than rejected. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface RelaysListResultItem {
   created: string;
@@ -237,9 +237,9 @@ export interface ListRelaysTokensResponseIssuersItemCloudflareTokensItem {
   /** Signed allowlist of what the token may do. V1 coarse roles; the array form extends to fine-grained MoQT message names later without a breaking change. */
   operations: ListRelaysTokensResponseIssuersItemCloudflareTokensItemOperationsList;
   /** Optional, customer-set. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The signed JWT. Present ONLY in create / auto-create responses (shown once); never returned by list, never stored. */
-  secret?: string | null;
+  secret?: string | null | undefined;
 }
 export type ListRelaysTokensResponseIssuersItemCloudflareTokensList =
   Array<ListRelaysTokensResponseIssuersItemCloudflareTokensItem>;
@@ -276,34 +276,34 @@ export type RelaysUpdateRequestConfigUpstreamsUpstreamsItem =
 export type RelaysUpdateRequestConfigUpstreamsUpstreamsList =
   Array<RelaysCreateResponseConfigUpstreamsUpstreamsItem>;
 export interface RelaysUpdateRequestConfigUpstreams {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change. */
-  upstreams?: RelaysUpdateRequestConfigUpstreamsUpstreamsList;
+  upstreams?: RelaysUpdateRequestConfigUpstreamsUpstreamsList | undefined;
 }
 export interface RelaysUpdateRequestConfig {
   /** Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track. */
-  upstreams?: RelaysUpdateRequestConfigUpstreams;
+  upstreams?: RelaysUpdateRequestConfigUpstreams | undefined;
 }
 export interface UpdateRelayRequest {
   /** Cloudflare account identifier. */
   accountId: string;
   relayId: string;
   /** Relay configuration. All sub-objects use whole-object replacement when present; omitted sub-objects preserve the existing value. */
-  config?: RelaysUpdateRequestConfig;
-  name?: string;
+  config?: RelaysUpdateRequestConfig | undefined;
+  name?: string | undefined;
 }
 export type RelaysUpdateResponseConfigUpstreamsUpstreamsItem =
   RelaysCreateResponseConfigUpstreamsUpstreamsItem;
 export type RelaysUpdateResponseConfigUpstreamsUpstreamsList =
   Array<RelaysCreateResponseConfigUpstreamsUpstreamsItem>;
 export interface RelaysUpdateResponseConfigUpstreams {
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Ordered list of upstream MOQT server publishers. Each entry is an object (not a bare string) so per-upstream configuration can be added in the future without another breaking change. */
-  upstreams?: RelaysUpdateResponseConfigUpstreamsUpstreamsList | null;
+  upstreams?: RelaysUpdateResponseConfigUpstreamsUpstreamsList | null | undefined;
 }
 export interface RelaysUpdateResponseConfig {
   /** Upstreams are external MOQT server publishers that a relay falls back to when it has no local publisher for a requested namespace/track. */
-  upstreams?: RelaysUpdateResponseConfigUpstreams | null;
+  upstreams?: RelaysUpdateResponseConfigUpstreams | null | undefined;
 }
 export type RelaysUpdateResponseStatus = "connected";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -315,7 +315,7 @@ export interface UpdateRelayResponse {
   name: string;
   uid: string;
   /** "connected" when active, omitted otherwise. */
-  status?: RelaysUpdateResponseStatus | null;
+  status?: RelaysUpdateResponseStatus | null | undefined;
 }
 export type CreateRelayError = CloudflareOpError;
 /** Provisions a new MoQ relay instance. Auto-creates a publish+subscribe token and a subscribe-only token. Token values are included in the response (shown once). Config is always set to defaults (upstreams off) and cannot be supplied here -- sending a non-empty `config` is rejected (21014); `null` or `{}` is accepted as absent. Use PUT to configure the relay after it exists. */

@@ -273,11 +273,11 @@ export interface AssociateFacesRequest {
   CollectionId: string;
   UserId: string;
   FaceIds: string[];
-  UserMatchThreshold?: number;
-  ClientRequestToken?: string;
+  UserMatchThreshold?: number | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface AssociatedFace {
-  FaceId?: string;
+  FaceId?: string | undefined;
 }
 export type AssociatedFacesList = AssociatedFace[];
 export type UnsuccessfulFaceAssociationReason =
@@ -287,47 +287,47 @@ export type UnsuccessfulFaceAssociationReason =
   | (string & {});
 export type UnsuccessfulFaceAssociationReasons = UnsuccessfulFaceAssociationReason[];
 export interface UnsuccessfulFaceAssociation {
-  FaceId?: string;
-  UserId?: string;
-  Confidence?: number;
-  Reasons?: UnsuccessfulFaceAssociationReason[];
+  FaceId?: string | undefined;
+  UserId?: string | undefined;
+  Confidence?: number | undefined;
+  Reasons?: UnsuccessfulFaceAssociationReason[] | undefined;
 }
 export type UnsuccessfulFaceAssociationList = UnsuccessfulFaceAssociation[];
 export type UserStatus = "ACTIVE" | "UPDATING" | "CREATING" | "CREATED" | (string & {});
 export interface AssociateFacesResponse {
-  AssociatedFaces?: AssociatedFace[];
-  UnsuccessfulFaceAssociations?: UnsuccessfulFaceAssociation[];
-  UserStatus?: UserStatus;
+  AssociatedFaces?: AssociatedFace[] | undefined;
+  UnsuccessfulFaceAssociations?: UnsuccessfulFaceAssociation[] | undefined;
+  UserStatus?: UserStatus | undefined;
 }
 export type ImageBlob = Uint8Array;
 export type S3Bucket = string;
 export type S3ObjectName = string;
 export type S3ObjectVersion = string;
 export interface S3Object {
-  Bucket?: string;
-  Name?: string;
-  Version?: string;
+  Bucket?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
 export interface Image {
-  Bytes?: Uint8Array;
-  S3Object?: S3Object;
+  Bytes?: Uint8Array | undefined;
+  S3Object?: S3Object | undefined;
 }
 export type QualityFilter = "NONE" | "AUTO" | "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface CompareFacesRequest {
   SourceImage: Image;
   TargetImage: Image;
-  SimilarityThreshold?: number;
-  QualityFilter?: QualityFilter;
+  SimilarityThreshold?: number | undefined;
+  QualityFilter?: QualityFilter | undefined;
 }
 export interface BoundingBox {
-  Width?: number;
-  Height?: number;
-  Left?: number;
-  Top?: number;
+  Width?: number | undefined;
+  Height?: number | undefined;
+  Left?: number | undefined;
+  Top?: number | undefined;
 }
 export interface ComparedSourceImageFace {
-  BoundingBox?: BoundingBox;
-  Confidence?: number;
+  BoundingBox?: BoundingBox | undefined;
+  Confidence?: number | undefined;
 }
 export type LandmarkType =
   | "eyeLeft"
@@ -362,20 +362,20 @@ export type LandmarkType =
   | "upperJawlineRight"
   | (string & {});
 export interface Landmark {
-  Type?: LandmarkType;
-  X?: number;
-  Y?: number;
+  Type?: LandmarkType | undefined;
+  X?: number | undefined;
+  Y?: number | undefined;
 }
 export type Landmarks = Landmark[];
 export type Degree = number;
 export interface Pose {
-  Roll?: number;
-  Yaw?: number;
-  Pitch?: number;
+  Roll?: number | undefined;
+  Yaw?: number | undefined;
+  Pitch?: number | undefined;
 }
 export interface ImageQuality {
-  Brightness?: number;
-  Sharpness?: number;
+  Brightness?: number | undefined;
+  Sharpness?: number | undefined;
 }
 export type EmotionName =
   | "HAPPY"
@@ -389,26 +389,26 @@ export type EmotionName =
   | "FEAR"
   | (string & {});
 export interface Emotion {
-  Type?: EmotionName;
-  Confidence?: number;
+  Type?: EmotionName | undefined;
+  Confidence?: number | undefined;
 }
 export type Emotions = Emotion[];
 export interface Smile {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export interface ComparedFace {
-  BoundingBox?: BoundingBox;
-  Confidence?: number;
-  Landmarks?: Landmark[];
-  Pose?: Pose;
-  Quality?: ImageQuality;
-  Emotions?: Emotion[];
-  Smile?: Smile;
+  BoundingBox?: BoundingBox | undefined;
+  Confidence?: number | undefined;
+  Landmarks?: Landmark[] | undefined;
+  Pose?: Pose | undefined;
+  Quality?: ImageQuality | undefined;
+  Emotions?: Emotion[] | undefined;
+  Smile?: Smile | undefined;
 }
 export interface CompareFacesMatch {
-  Similarity?: number;
-  Face?: ComparedFace;
+  Similarity?: number | undefined;
+  Face?: ComparedFace | undefined;
 }
 export type CompareFacesMatchList = CompareFacesMatch[];
 export type CompareFacesUnmatchList = ComparedFace[];
@@ -419,19 +419,19 @@ export type OrientationCorrection =
   | "ROTATE_270"
   | (string & {});
 export interface CompareFacesResponse {
-  SourceImageFace?: ComparedSourceImageFace;
-  FaceMatches?: CompareFacesMatch[];
-  UnmatchedFaces?: ComparedFace[];
-  SourceImageOrientationCorrection?: OrientationCorrection;
-  TargetImageOrientationCorrection?: OrientationCorrection;
+  SourceImageFace?: ComparedSourceImageFace | undefined;
+  FaceMatches?: CompareFacesMatch[] | undefined;
+  UnmatchedFaces?: ComparedFace[] | undefined;
+  SourceImageOrientationCorrection?: OrientationCorrection | undefined;
+  TargetImageOrientationCorrection?: OrientationCorrection | undefined;
 }
 export type ProjectArn = string;
 export type ProjectVersionArn = string;
 export type VersionName = string;
 export type S3KeyPrefix = string;
 export interface OutputConfig {
-  S3Bucket?: string;
-  S3KeyPrefix?: string;
+  S3Bucket?: string | undefined;
+  S3KeyPrefix?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -443,44 +443,44 @@ export interface CopyProjectVersionRequest {
   DestinationProjectArn: string;
   VersionName: string;
   OutputConfig: OutputConfig;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyId?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface CopyProjectVersionResponse {
-  ProjectVersionArn?: string;
+  ProjectVersionArn?: string | undefined;
 }
 export interface CreateCollectionRequest {
   CollectionId: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type UInteger = number;
 export interface CreateCollectionResponse {
-  StatusCode?: number;
-  CollectionArn?: string;
-  FaceModelVersion?: string;
+  StatusCode?: number | undefined;
+  CollectionArn?: string | undefined;
+  FaceModelVersion?: string | undefined;
 }
 export interface GroundTruthManifest {
-  S3Object?: S3Object;
+  S3Object?: S3Object | undefined;
 }
 export type DatasetArn = string;
 export interface DatasetSource {
-  GroundTruthManifest?: GroundTruthManifest;
-  DatasetArn?: string;
+  GroundTruthManifest?: GroundTruthManifest | undefined;
+  DatasetArn?: string | undefined;
 }
 export type DatasetType = "TRAIN" | "TEST" | (string & {});
 export interface CreateDatasetRequest {
-  DatasetSource?: DatasetSource;
+  DatasetSource?: DatasetSource | undefined;
   DatasetType: DatasetType;
   ProjectArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDatasetResponse {
-  DatasetArn?: string;
+  DatasetArn?: string | undefined;
 }
 export type LivenessS3KeyPrefix = string;
 export interface LivenessOutputConfig {
   S3Bucket: string;
-  S3KeyPrefix?: string;
+  S3KeyPrefix?: string | undefined;
 }
 export type AuditImagesLimit = number;
 export type ChallengeType =
@@ -489,23 +489,23 @@ export type ChallengeType =
   | (string & {});
 export type Version = string;
 export interface Versions {
-  Minimum?: string;
-  Maximum?: string;
+  Minimum?: string | undefined;
+  Maximum?: string | undefined;
 }
 export interface ChallengePreference {
   Type: ChallengeType;
-  Versions?: Versions;
+  Versions?: Versions | undefined;
 }
 export type ChallengePreferences = ChallengePreference[];
 export interface CreateFaceLivenessSessionRequestSettings {
-  OutputConfig?: LivenessOutputConfig;
-  AuditImagesLimit?: number;
-  ChallengePreferences?: ChallengePreference[];
+  OutputConfig?: LivenessOutputConfig | undefined;
+  AuditImagesLimit?: number | undefined;
+  ChallengePreferences?: ChallengePreference[] | undefined;
 }
 export interface CreateFaceLivenessSessionRequest {
-  KmsKeyId?: string;
-  Settings?: CreateFaceLivenessSessionRequestSettings;
-  ClientRequestToken?: string;
+  KmsKeyId?: string | undefined;
+  Settings?: CreateFaceLivenessSessionRequestSettings | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type LivenessSessionId = string;
 export interface CreateFaceLivenessSessionResponse {
@@ -516,78 +516,78 @@ export type CustomizationFeature = "CONTENT_MODERATION" | "CUSTOM_LABELS" | (str
 export type ProjectAutoUpdate = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateProjectRequest {
   ProjectName: string;
-  Feature?: CustomizationFeature;
-  AutoUpdate?: ProjectAutoUpdate;
-  Tags?: { [key: string]: string | undefined };
+  Feature?: CustomizationFeature | undefined;
+  AutoUpdate?: ProjectAutoUpdate | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateProjectResponse {
-  ProjectArn?: string;
+  ProjectArn?: string | undefined;
 }
 export interface Asset {
-  GroundTruthManifest?: GroundTruthManifest;
+  GroundTruthManifest?: GroundTruthManifest | undefined;
 }
 export type Assets = Asset[];
 export interface TrainingData {
-  Assets?: Asset[];
+  Assets?: Asset[] | undefined;
 }
 export interface TestingData {
-  Assets?: Asset[];
-  AutoCreate?: boolean;
+  Assets?: Asset[] | undefined;
+  AutoCreate?: boolean | undefined;
 }
 export type VersionDescription = string;
 export interface CustomizationFeatureContentModerationConfig {
-  ConfidenceThreshold?: number;
+  ConfidenceThreshold?: number | undefined;
 }
 export interface CustomizationFeatureConfig {
-  ContentModeration?: CustomizationFeatureContentModerationConfig;
+  ContentModeration?: CustomizationFeatureContentModerationConfig | undefined;
 }
 export interface CreateProjectVersionRequest {
   ProjectArn: string;
   VersionName: string;
   OutputConfig: OutputConfig;
-  TrainingData?: TrainingData;
-  TestingData?: TestingData;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyId?: string;
-  VersionDescription?: string;
-  FeatureConfig?: CustomizationFeatureConfig;
+  TrainingData?: TrainingData | undefined;
+  TestingData?: TestingData | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyId?: string | undefined;
+  VersionDescription?: string | undefined;
+  FeatureConfig?: CustomizationFeatureConfig | undefined;
 }
 export interface CreateProjectVersionResponse {
-  ProjectVersionArn?: string;
+  ProjectVersionArn?: string | undefined;
 }
 export type KinesisVideoArn = string;
 export interface KinesisVideoStream {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface StreamProcessorInput {
-  KinesisVideoStream?: KinesisVideoStream;
+  KinesisVideoStream?: KinesisVideoStream | undefined;
 }
 export type KinesisDataArn = string;
 export interface KinesisDataStream {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface S3Destination {
-  Bucket?: string;
-  KeyPrefix?: string;
+  Bucket?: string | undefined;
+  KeyPrefix?: string | undefined;
 }
 export interface StreamProcessorOutput {
-  KinesisDataStream?: KinesisDataStream;
-  S3Destination?: S3Destination;
+  KinesisDataStream?: KinesisDataStream | undefined;
+  S3Destination?: S3Destination | undefined;
 }
 export type StreamProcessorName = string;
 export interface FaceSearchSettings {
-  CollectionId?: string;
-  FaceMatchThreshold?: number;
+  CollectionId?: string | undefined;
+  FaceMatchThreshold?: number | undefined;
 }
 export type ConnectedHomeLabel = string;
 export type ConnectedHomeLabels = string[];
 export interface ConnectedHomeSettings {
   Labels: string[];
-  MinConfidence?: number;
+  MinConfidence?: number | undefined;
 }
 export interface StreamProcessorSettings {
-  FaceSearch?: FaceSearchSettings;
-  ConnectedHome?: ConnectedHomeSettings;
+  FaceSearch?: FaceSearchSettings | undefined;
+  ConnectedHome?: ConnectedHomeSettings | undefined;
 }
 export type RoleArn = string;
 export type SNSTopicArn = string;
@@ -595,13 +595,13 @@ export interface StreamProcessorNotificationChannel {
   SNSTopicArn: string;
 }
 export interface Point {
-  X?: number;
-  Y?: number;
+  X?: number | undefined;
+  Y?: number | undefined;
 }
 export type Polygon = Point[];
 export interface RegionOfInterest {
-  BoundingBox?: BoundingBox;
-  Polygon?: Point[];
+  BoundingBox?: BoundingBox | undefined;
+  Polygon?: Point[] | undefined;
 }
 export type RegionsOfInterest = RegionOfInterest[];
 export interface StreamProcessorDataSharingPreference {
@@ -613,27 +613,27 @@ export interface CreateStreamProcessorRequest {
   Name: string;
   Settings: StreamProcessorSettings;
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
-  NotificationChannel?: StreamProcessorNotificationChannel;
-  KmsKeyId?: string;
-  RegionsOfInterest?: RegionOfInterest[];
-  DataSharingPreference?: StreamProcessorDataSharingPreference;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NotificationChannel?: StreamProcessorNotificationChannel | undefined;
+  KmsKeyId?: string | undefined;
+  RegionsOfInterest?: RegionOfInterest[] | undefined;
+  DataSharingPreference?: StreamProcessorDataSharingPreference | undefined;
 }
 export type StreamProcessorArn = string;
 export interface CreateStreamProcessorResponse {
-  StreamProcessorArn?: string;
+  StreamProcessorArn?: string | undefined;
 }
 export interface CreateUserRequest {
   CollectionId: string;
   UserId: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface CreateUserResponse {}
 export interface DeleteCollectionRequest {
   CollectionId: string;
 }
 export interface DeleteCollectionResponse {
-  StatusCode?: number;
+  StatusCode?: number | undefined;
 }
 export interface DeleteDatasetRequest {
   DatasetArn: string;
@@ -650,28 +650,28 @@ export type UnsuccessfulFaceDeletionReason =
   | (string & {});
 export type UnsuccessfulFaceDeletionReasons = UnsuccessfulFaceDeletionReason[];
 export interface UnsuccessfulFaceDeletion {
-  FaceId?: string;
-  UserId?: string;
-  Reasons?: UnsuccessfulFaceDeletionReason[];
+  FaceId?: string | undefined;
+  UserId?: string | undefined;
+  Reasons?: UnsuccessfulFaceDeletionReason[] | undefined;
 }
 export type UnsuccessfulFaceDeletionsList = UnsuccessfulFaceDeletion[];
 export interface DeleteFacesResponse {
-  DeletedFaces?: string[];
-  UnsuccessfulFaceDeletions?: UnsuccessfulFaceDeletion[];
+  DeletedFaces?: string[] | undefined;
+  UnsuccessfulFaceDeletions?: UnsuccessfulFaceDeletion[] | undefined;
 }
 export interface DeleteProjectRequest {
   ProjectArn: string;
 }
 export type ProjectStatus = "CREATING" | "CREATED" | "DELETING" | (string & {});
 export interface DeleteProjectResponse {
-  Status?: ProjectStatus;
+  Status?: ProjectStatus | undefined;
 }
 export type ProjectPolicyName = string;
 export type ProjectPolicyRevisionId = string;
 export interface DeleteProjectPolicyRequest {
   ProjectArn: string;
   PolicyName: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface DeleteProjectPolicyResponse {}
 export interface DeleteProjectVersionRequest {
@@ -694,7 +694,7 @@ export type ProjectVersionStatus =
   | "EXPIRED"
   | (string & {});
 export interface DeleteProjectVersionResponse {
-  Status?: ProjectVersionStatus;
+  Status?: ProjectVersionStatus | undefined;
 }
 export interface DeleteStreamProcessorRequest {
   Name: string;
@@ -703,7 +703,7 @@ export interface DeleteStreamProcessorResponse {}
 export interface DeleteUserRequest {
   CollectionId: string;
   UserId: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteUserResponse {}
 export interface DescribeCollectionRequest {
@@ -711,11 +711,11 @@ export interface DescribeCollectionRequest {
 }
 export type ULong = number;
 export interface DescribeCollectionResponse {
-  FaceCount?: number;
-  FaceModelVersion?: string;
-  CollectionARN?: string;
-  CreationTimestamp?: Date;
-  UserCount?: number;
+  FaceCount?: number | undefined;
+  FaceModelVersion?: string | undefined;
+  CollectionARN?: string | undefined;
+  CreationTimestamp?: Date | undefined;
+  UserCount?: number | undefined;
 }
 export interface DescribeDatasetRequest {
   DatasetArn: string;
@@ -732,108 +732,108 @@ export type DatasetStatus =
 export type StatusMessage = string;
 export type DatasetStatusMessageCode = "SUCCESS" | "SERVICE_ERROR" | "CLIENT_ERROR" | (string & {});
 export interface DatasetStats {
-  LabeledEntries?: number;
-  TotalEntries?: number;
-  TotalLabels?: number;
-  ErrorEntries?: number;
+  LabeledEntries?: number | undefined;
+  TotalEntries?: number | undefined;
+  TotalLabels?: number | undefined;
+  ErrorEntries?: number | undefined;
 }
 export interface DatasetDescription {
-  CreationTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  Status?: DatasetStatus;
-  StatusMessage?: string;
-  StatusMessageCode?: DatasetStatusMessageCode;
-  DatasetStats?: DatasetStats;
+  CreationTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  Status?: DatasetStatus | undefined;
+  StatusMessage?: string | undefined;
+  StatusMessageCode?: DatasetStatusMessageCode | undefined;
+  DatasetStats?: DatasetStats | undefined;
 }
 export interface DescribeDatasetResponse {
-  DatasetDescription?: DatasetDescription;
+  DatasetDescription?: DatasetDescription | undefined;
 }
 export type ExtendedPaginationToken = string;
 export type ProjectsPageSize = number;
 export type ProjectNames = string[];
 export type CustomizationFeatures = CustomizationFeature[];
 export interface DescribeProjectsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  ProjectNames?: string[];
-  Features?: CustomizationFeature[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ProjectNames?: string[] | undefined;
+  Features?: CustomizationFeature[] | undefined;
 }
 export interface DatasetMetadata {
-  CreationTimestamp?: Date;
-  DatasetType?: DatasetType;
-  DatasetArn?: string;
-  Status?: DatasetStatus;
-  StatusMessage?: string;
-  StatusMessageCode?: DatasetStatusMessageCode;
+  CreationTimestamp?: Date | undefined;
+  DatasetType?: DatasetType | undefined;
+  DatasetArn?: string | undefined;
+  Status?: DatasetStatus | undefined;
+  StatusMessage?: string | undefined;
+  StatusMessageCode?: DatasetStatusMessageCode | undefined;
 }
 export type DatasetMetadataList = DatasetMetadata[];
 export interface ProjectDescription {
-  ProjectArn?: string;
-  CreationTimestamp?: Date;
-  Status?: ProjectStatus;
-  Datasets?: DatasetMetadata[];
-  Feature?: CustomizationFeature;
-  AutoUpdate?: ProjectAutoUpdate;
+  ProjectArn?: string | undefined;
+  CreationTimestamp?: Date | undefined;
+  Status?: ProjectStatus | undefined;
+  Datasets?: DatasetMetadata[] | undefined;
+  Feature?: CustomizationFeature | undefined;
+  AutoUpdate?: ProjectAutoUpdate | undefined;
 }
 export type ProjectDescriptions = ProjectDescription[];
 export interface DescribeProjectsResponse {
-  ProjectDescriptions?: ProjectDescription[];
-  NextToken?: string;
+  ProjectDescriptions?: ProjectDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type VersionNames = string[];
 export type ProjectVersionsPageSize = number;
 export interface DescribeProjectVersionsRequest {
   ProjectArn: string;
-  VersionNames?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  VersionNames?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type InferenceUnits = number;
 export interface ValidationData {
-  Assets?: Asset[];
+  Assets?: Asset[] | undefined;
 }
 export interface TrainingDataResult {
-  Input?: TrainingData;
-  Output?: TrainingData;
-  Validation?: ValidationData;
+  Input?: TrainingData | undefined;
+  Output?: TrainingData | undefined;
+  Validation?: ValidationData | undefined;
 }
 export interface TestingDataResult {
-  Input?: TestingData;
-  Output?: TestingData;
-  Validation?: ValidationData;
+  Input?: TestingData | undefined;
+  Output?: TestingData | undefined;
+  Validation?: ValidationData | undefined;
 }
 export interface Summary {
-  S3Object?: S3Object;
+  S3Object?: S3Object | undefined;
 }
 export interface EvaluationResult {
-  F1Score?: number;
-  Summary?: Summary;
+  F1Score?: number | undefined;
+  Summary?: Summary | undefined;
 }
 export interface ProjectVersionDescription {
-  ProjectVersionArn?: string;
-  CreationTimestamp?: Date;
-  MinInferenceUnits?: number;
-  Status?: ProjectVersionStatus;
-  StatusMessage?: string;
-  BillableTrainingTimeInSeconds?: number;
-  TrainingEndTimestamp?: Date;
-  OutputConfig?: OutputConfig;
-  TrainingDataResult?: TrainingDataResult;
-  TestingDataResult?: TestingDataResult;
-  EvaluationResult?: EvaluationResult;
-  ManifestSummary?: GroundTruthManifest;
-  KmsKeyId?: string;
-  MaxInferenceUnits?: number;
-  SourceProjectVersionArn?: string;
-  VersionDescription?: string;
-  Feature?: CustomizationFeature;
-  BaseModelVersion?: string;
-  FeatureConfig?: CustomizationFeatureConfig;
+  ProjectVersionArn?: string | undefined;
+  CreationTimestamp?: Date | undefined;
+  MinInferenceUnits?: number | undefined;
+  Status?: ProjectVersionStatus | undefined;
+  StatusMessage?: string | undefined;
+  BillableTrainingTimeInSeconds?: number | undefined;
+  TrainingEndTimestamp?: Date | undefined;
+  OutputConfig?: OutputConfig | undefined;
+  TrainingDataResult?: TrainingDataResult | undefined;
+  TestingDataResult?: TestingDataResult | undefined;
+  EvaluationResult?: EvaluationResult | undefined;
+  ManifestSummary?: GroundTruthManifest | undefined;
+  KmsKeyId?: string | undefined;
+  MaxInferenceUnits?: number | undefined;
+  SourceProjectVersionArn?: string | undefined;
+  VersionDescription?: string | undefined;
+  Feature?: CustomizationFeature | undefined;
+  BaseModelVersion?: string | undefined;
+  FeatureConfig?: CustomizationFeatureConfig | undefined;
 }
 export type ProjectVersionDescriptions = ProjectVersionDescription[];
 export interface DescribeProjectVersionsResponse {
-  ProjectVersionDescriptions?: ProjectVersionDescription[];
-  NextToken?: string;
+  ProjectVersionDescriptions?: ProjectVersionDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeStreamProcessorRequest {
   Name: string;
@@ -847,39 +847,39 @@ export type StreamProcessorStatus =
   | "UPDATING"
   | (string & {});
 export interface DescribeStreamProcessorResponse {
-  Name?: string;
-  StreamProcessorArn?: string;
-  Status?: StreamProcessorStatus;
-  StatusMessage?: string;
-  CreationTimestamp?: Date;
-  LastUpdateTimestamp?: Date;
-  Input?: StreamProcessorInput;
-  Output?: StreamProcessorOutput;
-  RoleArn?: string;
-  Settings?: StreamProcessorSettings;
-  NotificationChannel?: StreamProcessorNotificationChannel;
-  KmsKeyId?: string;
-  RegionsOfInterest?: RegionOfInterest[];
-  DataSharingPreference?: StreamProcessorDataSharingPreference;
+  Name?: string | undefined;
+  StreamProcessorArn?: string | undefined;
+  Status?: StreamProcessorStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTimestamp?: Date | undefined;
+  LastUpdateTimestamp?: Date | undefined;
+  Input?: StreamProcessorInput | undefined;
+  Output?: StreamProcessorOutput | undefined;
+  RoleArn?: string | undefined;
+  Settings?: StreamProcessorSettings | undefined;
+  NotificationChannel?: StreamProcessorNotificationChannel | undefined;
+  KmsKeyId?: string | undefined;
+  RegionsOfInterest?: RegionOfInterest[] | undefined;
+  DataSharingPreference?: StreamProcessorDataSharingPreference | undefined;
 }
 export interface DetectCustomLabelsRequest {
   ProjectVersionArn: string;
   Image: Image;
-  MaxResults?: number;
-  MinConfidence?: number;
+  MaxResults?: number | undefined;
+  MinConfidence?: number | undefined;
 }
 export interface Geometry {
-  BoundingBox?: BoundingBox;
-  Polygon?: Point[];
+  BoundingBox?: BoundingBox | undefined;
+  Polygon?: Point[] | undefined;
 }
 export interface CustomLabel {
-  Name?: string;
-  Confidence?: number;
-  Geometry?: Geometry;
+  Name?: string | undefined;
+  Confidence?: number | undefined;
+  Geometry?: Geometry | undefined;
 }
 export type CustomLabels = CustomLabel[];
 export interface DetectCustomLabelsResponse {
-  CustomLabels?: CustomLabel[];
+  CustomLabels?: CustomLabel[] | undefined;
 }
 export type Attribute =
   | "DEFAULT"
@@ -900,160 +900,160 @@ export type Attribute =
 export type Attributes = Attribute[];
 export interface DetectFacesRequest {
   Image: Image;
-  Attributes?: Attribute[];
+  Attributes?: Attribute[] | undefined;
 }
 export interface AgeRange {
-  Low?: number;
-  High?: number;
+  Low?: number | undefined;
+  High?: number | undefined;
 }
 export interface Eyeglasses {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export interface Sunglasses {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export type GenderType = "Male" | "Female" | (string & {});
 export interface Gender {
-  Value?: GenderType;
-  Confidence?: number;
+  Value?: GenderType | undefined;
+  Confidence?: number | undefined;
 }
 export interface Beard {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export interface Mustache {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export interface EyeOpen {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export interface MouthOpen {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export interface FaceOccluded {
-  Value?: boolean;
-  Confidence?: number;
+  Value?: boolean | undefined;
+  Confidence?: number | undefined;
 }
 export interface EyeDirection {
-  Yaw?: number;
-  Pitch?: number;
-  Confidence?: number;
+  Yaw?: number | undefined;
+  Pitch?: number | undefined;
+  Confidence?: number | undefined;
 }
 export interface FaceDetail {
-  BoundingBox?: BoundingBox;
-  AgeRange?: AgeRange;
-  Smile?: Smile;
-  Eyeglasses?: Eyeglasses;
-  Sunglasses?: Sunglasses;
-  Gender?: Gender;
-  Beard?: Beard;
-  Mustache?: Mustache;
-  EyesOpen?: EyeOpen;
-  MouthOpen?: MouthOpen;
-  Emotions?: Emotion[];
-  Landmarks?: Landmark[];
-  Pose?: Pose;
-  Quality?: ImageQuality;
-  Confidence?: number;
-  FaceOccluded?: FaceOccluded;
-  EyeDirection?: EyeDirection;
+  BoundingBox?: BoundingBox | undefined;
+  AgeRange?: AgeRange | undefined;
+  Smile?: Smile | undefined;
+  Eyeglasses?: Eyeglasses | undefined;
+  Sunglasses?: Sunglasses | undefined;
+  Gender?: Gender | undefined;
+  Beard?: Beard | undefined;
+  Mustache?: Mustache | undefined;
+  EyesOpen?: EyeOpen | undefined;
+  MouthOpen?: MouthOpen | undefined;
+  Emotions?: Emotion[] | undefined;
+  Landmarks?: Landmark[] | undefined;
+  Pose?: Pose | undefined;
+  Quality?: ImageQuality | undefined;
+  Confidence?: number | undefined;
+  FaceOccluded?: FaceOccluded | undefined;
+  EyeDirection?: EyeDirection | undefined;
 }
 export type FaceDetailList = FaceDetail[];
 export interface DetectFacesResponse {
-  FaceDetails?: FaceDetail[];
-  OrientationCorrection?: OrientationCorrection;
+  FaceDetails?: FaceDetail[] | undefined;
+  OrientationCorrection?: OrientationCorrection | undefined;
 }
 export type DetectLabelsFeatureName = "GENERAL_LABELS" | "IMAGE_PROPERTIES" | (string & {});
 export type DetectLabelsFeatureList = DetectLabelsFeatureName[];
 export type GeneralLabelsFilterValue = string;
 export type GeneralLabelsFilterList = string[];
 export interface GeneralLabelsSettings {
-  LabelInclusionFilters?: string[];
-  LabelExclusionFilters?: string[];
-  LabelCategoryInclusionFilters?: string[];
-  LabelCategoryExclusionFilters?: string[];
+  LabelInclusionFilters?: string[] | undefined;
+  LabelExclusionFilters?: string[] | undefined;
+  LabelCategoryInclusionFilters?: string[] | undefined;
+  LabelCategoryExclusionFilters?: string[] | undefined;
 }
 export type DetectLabelsMaxDominantColors = number;
 export interface DetectLabelsImagePropertiesSettings {
-  MaxDominantColors?: number;
+  MaxDominantColors?: number | undefined;
 }
 export interface DetectLabelsSettings {
-  GeneralLabels?: GeneralLabelsSettings;
-  ImageProperties?: DetectLabelsImagePropertiesSettings;
+  GeneralLabels?: GeneralLabelsSettings | undefined;
+  ImageProperties?: DetectLabelsImagePropertiesSettings | undefined;
 }
 export interface DetectLabelsRequest {
   Image: Image;
-  MaxLabels?: number;
-  MinConfidence?: number;
-  Features?: DetectLabelsFeatureName[];
-  Settings?: DetectLabelsSettings;
+  MaxLabels?: number | undefined;
+  MinConfidence?: number | undefined;
+  Features?: DetectLabelsFeatureName[] | undefined;
+  Settings?: DetectLabelsSettings | undefined;
 }
 export interface DominantColor {
-  Red?: number;
-  Blue?: number;
-  Green?: number;
-  HexCode?: string;
-  CSSColor?: string;
-  SimplifiedColor?: string;
-  PixelPercent?: number;
+  Red?: number | undefined;
+  Blue?: number | undefined;
+  Green?: number | undefined;
+  HexCode?: string | undefined;
+  CSSColor?: string | undefined;
+  SimplifiedColor?: string | undefined;
+  PixelPercent?: number | undefined;
 }
 export type DominantColors = DominantColor[];
 export interface Instance {
-  BoundingBox?: BoundingBox;
-  Confidence?: number;
-  DominantColors?: DominantColor[];
+  BoundingBox?: BoundingBox | undefined;
+  Confidence?: number | undefined;
+  DominantColors?: DominantColor[] | undefined;
 }
 export type Instances = Instance[];
 export interface Parent {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type Parents = Parent[];
 export interface LabelAlias {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type LabelAliases = LabelAlias[];
 export interface LabelCategory {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type LabelCategories = LabelCategory[];
 export interface Label {
-  Name?: string;
-  Confidence?: number;
-  Instances?: Instance[];
-  Parents?: Parent[];
-  Aliases?: LabelAlias[];
-  Categories?: LabelCategory[];
+  Name?: string | undefined;
+  Confidence?: number | undefined;
+  Instances?: Instance[] | undefined;
+  Parents?: Parent[] | undefined;
+  Aliases?: LabelAlias[] | undefined;
+  Categories?: LabelCategory[] | undefined;
 }
 export type Labels = Label[];
 export interface DetectLabelsImageQuality {
-  Brightness?: number;
-  Sharpness?: number;
-  Contrast?: number;
+  Brightness?: number | undefined;
+  Sharpness?: number | undefined;
+  Contrast?: number | undefined;
 }
 export interface DetectLabelsImageForeground {
-  Quality?: DetectLabelsImageQuality;
-  DominantColors?: DominantColor[];
+  Quality?: DetectLabelsImageQuality | undefined;
+  DominantColors?: DominantColor[] | undefined;
 }
 export interface DetectLabelsImageBackground {
-  Quality?: DetectLabelsImageQuality;
-  DominantColors?: DominantColor[];
+  Quality?: DetectLabelsImageQuality | undefined;
+  DominantColors?: DominantColor[] | undefined;
 }
 export interface DetectLabelsImageProperties {
-  Quality?: DetectLabelsImageQuality;
-  DominantColors?: DominantColor[];
-  Foreground?: DetectLabelsImageForeground;
-  Background?: DetectLabelsImageBackground;
+  Quality?: DetectLabelsImageQuality | undefined;
+  DominantColors?: DominantColor[] | undefined;
+  Foreground?: DetectLabelsImageForeground | undefined;
+  Background?: DetectLabelsImageBackground | undefined;
 }
 export interface DetectLabelsResponse {
-  Labels?: Label[];
-  OrientationCorrection?: OrientationCorrection;
-  LabelModelVersion?: string;
-  ImageProperties?: DetectLabelsImageProperties;
+  Labels?: Label[] | undefined;
+  OrientationCorrection?: OrientationCorrection | undefined;
+  LabelModelVersion?: string | undefined;
+  ImageProperties?: DetectLabelsImageProperties | undefined;
 }
 export type HumanLoopName = string;
 export type FlowDefinitionArn = string;
@@ -1063,25 +1063,25 @@ export type ContentClassifier =
   | (string & {});
 export type ContentClassifiers = ContentClassifier[];
 export interface HumanLoopDataAttributes {
-  ContentClassifiers?: ContentClassifier[];
+  ContentClassifiers?: ContentClassifier[] | undefined;
 }
 export interface HumanLoopConfig {
   HumanLoopName: string;
   FlowDefinitionArn: string;
-  DataAttributes?: HumanLoopDataAttributes;
+  DataAttributes?: HumanLoopDataAttributes | undefined;
 }
 export type ProjectVersionId = string;
 export interface DetectModerationLabelsRequest {
   Image: Image;
-  MinConfidence?: number;
-  HumanLoopConfig?: HumanLoopConfig;
-  ProjectVersion?: string;
+  MinConfidence?: number | undefined;
+  HumanLoopConfig?: HumanLoopConfig | undefined;
+  ProjectVersion?: string | undefined;
 }
 export interface ModerationLabel {
-  Confidence?: number;
-  Name?: string;
-  ParentName?: string;
-  TaxonomyLevel?: number;
+  Confidence?: number | undefined;
+  Name?: string | undefined;
+  ParentName?: string | undefined;
+  TaxonomyLevel?: number | undefined;
 }
 export type ModerationLabels = ModerationLabel[];
 export type HumanLoopArn = string;
@@ -1089,21 +1089,21 @@ export type HumanLoopActivationReason = string;
 export type HumanLoopActivationReasons = string[];
 export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults = string;
 export interface HumanLoopActivationOutput {
-  HumanLoopArn?: string;
-  HumanLoopActivationReasons?: string[];
-  HumanLoopActivationConditionsEvaluationResults?: string;
+  HumanLoopArn?: string | undefined;
+  HumanLoopActivationReasons?: string[] | undefined;
+  HumanLoopActivationConditionsEvaluationResults?: string | undefined;
 }
 export interface ContentType {
-  Confidence?: number;
-  Name?: string;
+  Confidence?: number | undefined;
+  Name?: string | undefined;
 }
 export type ContentTypes = ContentType[];
 export interface DetectModerationLabelsResponse {
-  ModerationLabels?: ModerationLabel[];
-  ModerationModelVersion?: string;
-  HumanLoopActivationOutput?: HumanLoopActivationOutput;
-  ProjectVersion?: string;
-  ContentTypes?: ContentType[];
+  ModerationLabels?: ModerationLabel[] | undefined;
+  ModerationModelVersion?: string | undefined;
+  HumanLoopActivationOutput?: HumanLoopActivationOutput | undefined;
+  ProjectVersion?: string | undefined;
+  ContentTypes?: ContentType[] | undefined;
 }
 export type ProtectiveEquipmentType = "FACE_COVER" | "HAND_COVER" | "HEAD_COVER" | (string & {});
 export type ProtectiveEquipmentTypes = ProtectiveEquipmentType[];
@@ -1113,81 +1113,81 @@ export interface ProtectiveEquipmentSummarizationAttributes {
 }
 export interface DetectProtectiveEquipmentRequest {
   Image: Image;
-  SummarizationAttributes?: ProtectiveEquipmentSummarizationAttributes;
+  SummarizationAttributes?: ProtectiveEquipmentSummarizationAttributes | undefined;
 }
 export type BodyPart = "FACE" | "HEAD" | "LEFT_HAND" | "RIGHT_HAND" | (string & {});
 export interface CoversBodyPart {
-  Confidence?: number;
-  Value?: boolean;
+  Confidence?: number | undefined;
+  Value?: boolean | undefined;
 }
 export interface EquipmentDetection {
-  BoundingBox?: BoundingBox;
-  Confidence?: number;
-  Type?: ProtectiveEquipmentType;
-  CoversBodyPart?: CoversBodyPart;
+  BoundingBox?: BoundingBox | undefined;
+  Confidence?: number | undefined;
+  Type?: ProtectiveEquipmentType | undefined;
+  CoversBodyPart?: CoversBodyPart | undefined;
 }
 export type EquipmentDetections = EquipmentDetection[];
 export interface ProtectiveEquipmentBodyPart {
-  Name?: BodyPart;
-  Confidence?: number;
-  EquipmentDetections?: EquipmentDetection[];
+  Name?: BodyPart | undefined;
+  Confidence?: number | undefined;
+  EquipmentDetections?: EquipmentDetection[] | undefined;
 }
 export type BodyParts = ProtectiveEquipmentBodyPart[];
 export interface ProtectiveEquipmentPerson {
-  BodyParts?: ProtectiveEquipmentBodyPart[];
-  BoundingBox?: BoundingBox;
-  Confidence?: number;
-  Id?: number;
+  BodyParts?: ProtectiveEquipmentBodyPart[] | undefined;
+  BoundingBox?: BoundingBox | undefined;
+  Confidence?: number | undefined;
+  Id?: number | undefined;
 }
 export type ProtectiveEquipmentPersons = ProtectiveEquipmentPerson[];
 export type ProtectiveEquipmentPersonIds = number[];
 export interface ProtectiveEquipmentSummary {
-  PersonsWithRequiredEquipment?: number[];
-  PersonsWithoutRequiredEquipment?: number[];
-  PersonsIndeterminate?: number[];
+  PersonsWithRequiredEquipment?: number[] | undefined;
+  PersonsWithoutRequiredEquipment?: number[] | undefined;
+  PersonsIndeterminate?: number[] | undefined;
 }
 export interface DetectProtectiveEquipmentResponse {
-  ProtectiveEquipmentModelVersion?: string;
-  Persons?: ProtectiveEquipmentPerson[];
-  Summary?: ProtectiveEquipmentSummary;
+  ProtectiveEquipmentModelVersion?: string | undefined;
+  Persons?: ProtectiveEquipmentPerson[] | undefined;
+  Summary?: ProtectiveEquipmentSummary | undefined;
 }
 export type BoundingBoxHeight = number;
 export type BoundingBoxWidth = number;
 export interface DetectionFilter {
-  MinConfidence?: number;
-  MinBoundingBoxHeight?: number;
-  MinBoundingBoxWidth?: number;
+  MinConfidence?: number | undefined;
+  MinBoundingBoxHeight?: number | undefined;
+  MinBoundingBoxWidth?: number | undefined;
 }
 export interface DetectTextFilters {
-  WordFilter?: DetectionFilter;
-  RegionsOfInterest?: RegionOfInterest[];
+  WordFilter?: DetectionFilter | undefined;
+  RegionsOfInterest?: RegionOfInterest[] | undefined;
 }
 export interface DetectTextRequest {
   Image: Image;
-  Filters?: DetectTextFilters;
+  Filters?: DetectTextFilters | undefined;
 }
 export type TextTypes = "LINE" | "WORD" | (string & {});
 export interface TextDetection {
-  DetectedText?: string;
-  Type?: TextTypes;
-  Id?: number;
-  ParentId?: number;
-  Confidence?: number;
-  Geometry?: Geometry;
+  DetectedText?: string | undefined;
+  Type?: TextTypes | undefined;
+  Id?: number | undefined;
+  ParentId?: number | undefined;
+  Confidence?: number | undefined;
+  Geometry?: Geometry | undefined;
 }
 export type TextDetectionList = TextDetection[];
 export interface DetectTextResponse {
-  TextDetections?: TextDetection[];
-  TextModelVersion?: string;
+  TextDetections?: TextDetection[] | undefined;
+  TextModelVersion?: string | undefined;
 }
 export interface DisassociateFacesRequest {
   CollectionId: string;
   UserId: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
   FaceIds: string[];
 }
 export interface DisassociatedFace {
-  FaceId?: string;
+  FaceId?: string | undefined;
 }
 export type DisassociatedFacesList = DisassociatedFace[];
 export type UnsuccessfulFaceDisassociationReason =
@@ -1196,15 +1196,15 @@ export type UnsuccessfulFaceDisassociationReason =
   | (string & {});
 export type UnsuccessfulFaceDisassociationReasons = UnsuccessfulFaceDisassociationReason[];
 export interface UnsuccessfulFaceDisassociation {
-  FaceId?: string;
-  UserId?: string;
-  Reasons?: UnsuccessfulFaceDisassociationReason[];
+  FaceId?: string | undefined;
+  UserId?: string | undefined;
+  Reasons?: UnsuccessfulFaceDisassociationReason[] | undefined;
 }
 export type UnsuccessfulFaceDisassociationList = UnsuccessfulFaceDisassociation[];
 export interface DisassociateFacesResponse {
-  DisassociatedFaces?: DisassociatedFace[];
-  UnsuccessfulFaceDisassociations?: UnsuccessfulFaceDisassociation[];
-  UserStatus?: UserStatus;
+  DisassociatedFaces?: DisassociatedFace[] | undefined;
+  UnsuccessfulFaceDisassociations?: UnsuccessfulFaceDisassociation[] | undefined;
+  UserStatus?: UserStatus | undefined;
 }
 export interface DistributeDataset {
   Arn: string;
@@ -1222,12 +1222,12 @@ export type Url = string;
 export type Urls = string[];
 export type KnownGenderType = "Male" | "Female" | "Nonbinary" | "Unlisted" | (string & {});
 export interface KnownGender {
-  Type?: KnownGenderType;
+  Type?: KnownGenderType | undefined;
 }
 export interface GetCelebrityInfoResponse {
-  Urls?: string[];
-  Name?: string;
-  KnownGender?: KnownGender;
+  Urls?: string[] | undefined;
+  Name?: string | undefined;
+  KnownGender?: KnownGender | undefined;
 }
 export type JobId = string;
 export type MaxResults = number;
@@ -1235,102 +1235,102 @@ export type PaginationToken = string;
 export type CelebrityRecognitionSortBy = "ID" | "TIMESTAMP" | (string & {});
 export interface GetCelebrityRecognitionRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  SortBy?: CelebrityRecognitionSortBy;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SortBy?: CelebrityRecognitionSortBy | undefined;
 }
 export type VideoJobStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type VideoColorRange = "FULL" | "LIMITED" | (string & {});
 export interface VideoMetadata {
-  Codec?: string;
-  DurationMillis?: number;
-  Format?: string;
-  FrameRate?: number;
-  FrameHeight?: number;
-  FrameWidth?: number;
-  ColorRange?: VideoColorRange;
+  Codec?: string | undefined;
+  DurationMillis?: number | undefined;
+  Format?: string | undefined;
+  FrameRate?: number | undefined;
+  FrameHeight?: number | undefined;
+  FrameWidth?: number | undefined;
+  ColorRange?: VideoColorRange | undefined;
 }
 export interface CelebrityDetail {
-  Urls?: string[];
-  Name?: string;
-  Id?: string;
-  Confidence?: number;
-  BoundingBox?: BoundingBox;
-  Face?: FaceDetail;
-  KnownGender?: KnownGender;
+  Urls?: string[] | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Confidence?: number | undefined;
+  BoundingBox?: BoundingBox | undefined;
+  Face?: FaceDetail | undefined;
+  KnownGender?: KnownGender | undefined;
 }
 export interface CelebrityRecognition {
-  Timestamp?: number;
-  Celebrity?: CelebrityDetail;
+  Timestamp?: number | undefined;
+  Celebrity?: CelebrityDetail | undefined;
 }
 export type CelebrityRecognitions = CelebrityRecognition[];
 export interface Video {
-  S3Object?: S3Object;
+  S3Object?: S3Object | undefined;
 }
 export type JobTag = string;
 export interface GetCelebrityRecognitionResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  VideoMetadata?: VideoMetadata;
-  NextToken?: string;
-  Celebrities?: CelebrityRecognition[];
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  VideoMetadata?: VideoMetadata | undefined;
+  NextToken?: string | undefined;
+  Celebrities?: CelebrityRecognition[] | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
 }
 export type ContentModerationSortBy = "NAME" | "TIMESTAMP" | (string & {});
 export type ContentModerationAggregateBy = "TIMESTAMPS" | "SEGMENTS" | (string & {});
 export interface GetContentModerationRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  SortBy?: ContentModerationSortBy;
-  AggregateBy?: ContentModerationAggregateBy;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SortBy?: ContentModerationSortBy | undefined;
+  AggregateBy?: ContentModerationAggregateBy | undefined;
 }
 export interface ContentModerationDetection {
-  Timestamp?: number;
-  ModerationLabel?: ModerationLabel;
-  StartTimestampMillis?: number;
-  EndTimestampMillis?: number;
-  DurationMillis?: number;
-  ContentTypes?: ContentType[];
+  Timestamp?: number | undefined;
+  ModerationLabel?: ModerationLabel | undefined;
+  StartTimestampMillis?: number | undefined;
+  EndTimestampMillis?: number | undefined;
+  DurationMillis?: number | undefined;
+  ContentTypes?: ContentType[] | undefined;
 }
 export type ContentModerationDetections = ContentModerationDetection[];
 export interface GetContentModerationRequestMetadata {
-  SortBy?: ContentModerationSortBy;
-  AggregateBy?: ContentModerationAggregateBy;
+  SortBy?: ContentModerationSortBy | undefined;
+  AggregateBy?: ContentModerationAggregateBy | undefined;
 }
 export interface GetContentModerationResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  VideoMetadata?: VideoMetadata;
-  ModerationLabels?: ContentModerationDetection[];
-  NextToken?: string;
-  ModerationModelVersion?: string;
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
-  GetRequestMetadata?: GetContentModerationRequestMetadata;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  VideoMetadata?: VideoMetadata | undefined;
+  ModerationLabels?: ContentModerationDetection[] | undefined;
+  NextToken?: string | undefined;
+  ModerationModelVersion?: string | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
+  GetRequestMetadata?: GetContentModerationRequestMetadata | undefined;
 }
 export interface GetFaceDetectionRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FaceDetection {
-  Timestamp?: number;
-  Face?: FaceDetail;
+  Timestamp?: number | undefined;
+  Face?: FaceDetail | undefined;
 }
 export type FaceDetections = FaceDetection[];
 export interface GetFaceDetectionResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  VideoMetadata?: VideoMetadata;
-  NextToken?: string;
-  Faces?: FaceDetection[];
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  VideoMetadata?: VideoMetadata | undefined;
+  NextToken?: string | undefined;
+  Faces?: FaceDetection[] | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
 }
 export interface GetFaceLivenessSessionResultsRequest {
   SessionId: string;
@@ -1344,9 +1344,9 @@ export type LivenessSessionStatus =
   | (string & {});
 export type LivenessImageBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface AuditImage {
-  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  S3Object?: S3Object;
-  BoundingBox?: BoundingBox;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  S3Object?: S3Object | undefined;
+  BoundingBox?: BoundingBox | undefined;
 }
 export type AuditImages = AuditImage[];
 export interface Challenge {
@@ -1375,91 +1375,91 @@ export interface SessionMetadata {
 export interface GetFaceLivenessSessionResultsResponse {
   SessionId: string;
   Status: LivenessSessionStatus;
-  Confidence?: number;
-  ReferenceImage?: AuditImage;
-  AuditImages?: AuditImage[];
-  Challenge?: Challenge;
-  Feedback?: FeedbackItem[];
-  Metadata?: SessionMetadata;
+  Confidence?: number | undefined;
+  ReferenceImage?: AuditImage | undefined;
+  AuditImages?: AuditImage[] | undefined;
+  Challenge?: Challenge | undefined;
+  Feedback?: FeedbackItem[] | undefined;
+  Metadata?: SessionMetadata | undefined;
 }
 export type FaceSearchSortBy = "INDEX" | "TIMESTAMP" | (string & {});
 export interface GetFaceSearchRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  SortBy?: FaceSearchSortBy;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SortBy?: FaceSearchSortBy | undefined;
 }
 export type PersonIndex = number;
 export interface PersonDetail {
-  Index?: number;
-  BoundingBox?: BoundingBox;
-  Face?: FaceDetail;
+  Index?: number | undefined;
+  BoundingBox?: BoundingBox | undefined;
+  Face?: FaceDetail | undefined;
 }
 export type ImageId = string;
 export type ExternalImageId = string;
 export type IndexFacesModelVersion = string;
 export interface Face {
-  FaceId?: string;
-  BoundingBox?: BoundingBox;
-  ImageId?: string;
-  ExternalImageId?: string;
-  Confidence?: number;
-  IndexFacesModelVersion?: string;
-  UserId?: string;
+  FaceId?: string | undefined;
+  BoundingBox?: BoundingBox | undefined;
+  ImageId?: string | undefined;
+  ExternalImageId?: string | undefined;
+  Confidence?: number | undefined;
+  IndexFacesModelVersion?: string | undefined;
+  UserId?: string | undefined;
 }
 export interface FaceMatch {
-  Similarity?: number;
-  Face?: Face;
+  Similarity?: number | undefined;
+  Face?: Face | undefined;
 }
 export type FaceMatchList = FaceMatch[];
 export interface PersonMatch {
-  Timestamp?: number;
-  Person?: PersonDetail;
-  FaceMatches?: FaceMatch[];
+  Timestamp?: number | undefined;
+  Person?: PersonDetail | undefined;
+  FaceMatches?: FaceMatch[] | undefined;
 }
 export type PersonMatches = PersonMatch[];
 export interface GetFaceSearchResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  NextToken?: string;
-  VideoMetadata?: VideoMetadata;
-  Persons?: PersonMatch[];
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  NextToken?: string | undefined;
+  VideoMetadata?: VideoMetadata | undefined;
+  Persons?: PersonMatch[] | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
 }
 export type LabelDetectionSortBy = "NAME" | "TIMESTAMP" | (string & {});
 export type LabelDetectionAggregateBy = "TIMESTAMPS" | "SEGMENTS" | (string & {});
 export interface GetLabelDetectionRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  SortBy?: LabelDetectionSortBy;
-  AggregateBy?: LabelDetectionAggregateBy;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SortBy?: LabelDetectionSortBy | undefined;
+  AggregateBy?: LabelDetectionAggregateBy | undefined;
 }
 export interface LabelDetection {
-  Timestamp?: number;
-  Label?: Label;
-  StartTimestampMillis?: number;
-  EndTimestampMillis?: number;
-  DurationMillis?: number;
+  Timestamp?: number | undefined;
+  Label?: Label | undefined;
+  StartTimestampMillis?: number | undefined;
+  EndTimestampMillis?: number | undefined;
+  DurationMillis?: number | undefined;
 }
 export type LabelDetections = LabelDetection[];
 export interface GetLabelDetectionRequestMetadata {
-  SortBy?: LabelDetectionSortBy;
-  AggregateBy?: LabelDetectionAggregateBy;
+  SortBy?: LabelDetectionSortBy | undefined;
+  AggregateBy?: LabelDetectionAggregateBy | undefined;
 }
 export interface GetLabelDetectionResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  VideoMetadata?: VideoMetadata;
-  NextToken?: string;
-  Labels?: LabelDetection[];
-  LabelModelVersion?: string;
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
-  GetRequestMetadata?: GetLabelDetectionRequestMetadata;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  VideoMetadata?: VideoMetadata | undefined;
+  NextToken?: string | undefined;
+  Labels?: LabelDetection[] | undefined;
+  LabelModelVersion?: string | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
+  GetRequestMetadata?: GetLabelDetectionRequestMetadata | undefined;
 }
 export type MediaAnalysisJobId = string;
 export interface GetMediaAnalysisJobRequest {
@@ -1467,11 +1467,11 @@ export interface GetMediaAnalysisJobRequest {
 }
 export type MediaAnalysisJobName = string;
 export interface MediaAnalysisDetectModerationLabelsConfig {
-  MinConfidence?: number;
-  ProjectVersion?: string;
+  MinConfidence?: number | undefined;
+  ProjectVersion?: string | undefined;
 }
 export interface MediaAnalysisOperationsConfig {
-  DetectModerationLabels?: MediaAnalysisDetectModerationLabelsConfig;
+  DetectModerationLabels?: MediaAnalysisDetectModerationLabelsConfig | undefined;
 }
 export type MediaAnalysisJobStatus =
   | "CREATED"
@@ -1492,8 +1492,8 @@ export type MediaAnalysisJobFailureCode =
   | "THROTTLED"
   | (string & {});
 export interface MediaAnalysisJobFailureDetails {
-  Code?: MediaAnalysisJobFailureCode;
-  Message?: string;
+  Code?: MediaAnalysisJobFailureCode | undefined;
+  Message?: string | undefined;
 }
 export interface MediaAnalysisInput {
   S3Object: S3Object;
@@ -1501,65 +1501,65 @@ export interface MediaAnalysisInput {
 export type MediaAnalysisS3KeyPrefix = string;
 export interface MediaAnalysisOutputConfig {
   S3Bucket: string;
-  S3KeyPrefix?: string;
+  S3KeyPrefix?: string | undefined;
 }
 export interface MediaAnalysisModelVersions {
-  Moderation?: string;
+  Moderation?: string | undefined;
 }
 export interface MediaAnalysisResults {
-  S3Object?: S3Object;
-  ModelVersions?: MediaAnalysisModelVersions;
+  S3Object?: S3Object | undefined;
+  ModelVersions?: MediaAnalysisModelVersions | undefined;
 }
 export interface MediaAnalysisManifestSummary {
-  S3Object?: S3Object;
+  S3Object?: S3Object | undefined;
 }
 export interface GetMediaAnalysisJobResponse {
   JobId: string;
-  JobName?: string;
+  JobName?: string | undefined;
   OperationsConfig: MediaAnalysisOperationsConfig;
   Status: MediaAnalysisJobStatus;
-  FailureDetails?: MediaAnalysisJobFailureDetails;
+  FailureDetails?: MediaAnalysisJobFailureDetails | undefined;
   CreationTimestamp: Date;
-  CompletionTimestamp?: Date;
+  CompletionTimestamp?: Date | undefined;
   Input: MediaAnalysisInput;
   OutputConfig: MediaAnalysisOutputConfig;
-  KmsKeyId?: string;
-  Results?: MediaAnalysisResults;
-  ManifestSummary?: MediaAnalysisManifestSummary;
+  KmsKeyId?: string | undefined;
+  Results?: MediaAnalysisResults | undefined;
+  ManifestSummary?: MediaAnalysisManifestSummary | undefined;
 }
 export type PersonTrackingSortBy = "INDEX" | "TIMESTAMP" | (string & {});
 export interface GetPersonTrackingRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  SortBy?: PersonTrackingSortBy;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SortBy?: PersonTrackingSortBy | undefined;
 }
 export interface PersonDetection {
-  Timestamp?: number;
-  Person?: PersonDetail;
+  Timestamp?: number | undefined;
+  Person?: PersonDetail | undefined;
 }
 export type PersonDetections = PersonDetection[];
 export interface GetPersonTrackingResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  VideoMetadata?: VideoMetadata;
-  NextToken?: string;
-  Persons?: PersonDetection[];
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  VideoMetadata?: VideoMetadata | undefined;
+  NextToken?: string | undefined;
+  Persons?: PersonDetection[] | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
 }
 export interface GetSegmentDetectionRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type VideoMetadataList = VideoMetadata[];
 export interface AudioMetadata {
-  Codec?: string;
-  DurationMillis?: number;
-  SampleRate?: number;
-  NumberOfChannels?: number;
+  Codec?: string | undefined;
+  DurationMillis?: number | undefined;
+  SampleRate?: number | undefined;
+  NumberOfChannels?: number | undefined;
 }
 export type AudioMetadataList = AudioMetadata[];
 export type SegmentType = "TECHNICAL_CUE" | "SHOT" | (string & {});
@@ -1575,78 +1575,78 @@ export type TechnicalCueType =
   | (string & {});
 export type SegmentConfidence = number;
 export interface TechnicalCueSegment {
-  Type?: TechnicalCueType;
-  Confidence?: number;
+  Type?: TechnicalCueType | undefined;
+  Confidence?: number | undefined;
 }
 export interface ShotSegment {
-  Index?: number;
-  Confidence?: number;
+  Index?: number | undefined;
+  Confidence?: number | undefined;
 }
 export interface SegmentDetection {
-  Type?: SegmentType;
-  StartTimestampMillis?: number;
-  EndTimestampMillis?: number;
-  DurationMillis?: number;
-  StartTimecodeSMPTE?: string;
-  EndTimecodeSMPTE?: string;
-  DurationSMPTE?: string;
-  TechnicalCueSegment?: TechnicalCueSegment;
-  ShotSegment?: ShotSegment;
-  StartFrameNumber?: number;
-  EndFrameNumber?: number;
-  DurationFrames?: number;
+  Type?: SegmentType | undefined;
+  StartTimestampMillis?: number | undefined;
+  EndTimestampMillis?: number | undefined;
+  DurationMillis?: number | undefined;
+  StartTimecodeSMPTE?: string | undefined;
+  EndTimecodeSMPTE?: string | undefined;
+  DurationSMPTE?: string | undefined;
+  TechnicalCueSegment?: TechnicalCueSegment | undefined;
+  ShotSegment?: ShotSegment | undefined;
+  StartFrameNumber?: number | undefined;
+  EndFrameNumber?: number | undefined;
+  DurationFrames?: number | undefined;
 }
 export type SegmentDetections = SegmentDetection[];
 export interface SegmentTypeInfo {
-  Type?: SegmentType;
-  ModelVersion?: string;
+  Type?: SegmentType | undefined;
+  ModelVersion?: string | undefined;
 }
 export type SegmentTypesInfo = SegmentTypeInfo[];
 export interface GetSegmentDetectionResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  VideoMetadata?: VideoMetadata[];
-  AudioMetadata?: AudioMetadata[];
-  NextToken?: string;
-  Segments?: SegmentDetection[];
-  SelectedSegmentTypes?: SegmentTypeInfo[];
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  VideoMetadata?: VideoMetadata[] | undefined;
+  AudioMetadata?: AudioMetadata[] | undefined;
+  NextToken?: string | undefined;
+  Segments?: SegmentDetection[] | undefined;
+  SelectedSegmentTypes?: SegmentTypeInfo[] | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
 }
 export interface GetTextDetectionRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TextDetectionResult {
-  Timestamp?: number;
-  TextDetection?: TextDetection;
+  Timestamp?: number | undefined;
+  TextDetection?: TextDetection | undefined;
 }
 export type TextDetectionResults = TextDetectionResult[];
 export interface GetTextDetectionResponse {
-  JobStatus?: VideoJobStatus;
-  StatusMessage?: string;
-  VideoMetadata?: VideoMetadata;
-  TextDetections?: TextDetectionResult[];
-  NextToken?: string;
-  TextModelVersion?: string;
-  JobId?: string;
-  Video?: Video;
-  JobTag?: string;
+  JobStatus?: VideoJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  VideoMetadata?: VideoMetadata | undefined;
+  TextDetections?: TextDetectionResult[] | undefined;
+  NextToken?: string | undefined;
+  TextModelVersion?: string | undefined;
+  JobId?: string | undefined;
+  Video?: Video | undefined;
+  JobTag?: string | undefined;
 }
 export type MaxFacesToIndex = number;
 export interface IndexFacesRequest {
   CollectionId: string;
   Image: Image;
-  ExternalImageId?: string;
-  DetectionAttributes?: Attribute[];
-  MaxFaces?: number;
-  QualityFilter?: QualityFilter;
+  ExternalImageId?: string | undefined;
+  DetectionAttributes?: Attribute[] | undefined;
+  MaxFaces?: number | undefined;
+  QualityFilter?: QualityFilter | undefined;
 }
 export interface FaceRecord {
-  Face?: Face;
-  FaceDetail?: FaceDetail;
+  Face?: Face | undefined;
+  FaceDetail?: FaceDetail | undefined;
 }
 export type FaceRecordList = FaceRecord[];
 export type Reason =
@@ -1660,27 +1660,27 @@ export type Reason =
   | (string & {});
 export type Reasons = Reason[];
 export interface UnindexedFace {
-  Reasons?: Reason[];
-  FaceDetail?: FaceDetail;
+  Reasons?: Reason[] | undefined;
+  FaceDetail?: FaceDetail | undefined;
 }
 export type UnindexedFaces = UnindexedFace[];
 export interface IndexFacesResponse {
-  FaceRecords?: FaceRecord[];
-  OrientationCorrection?: OrientationCorrection;
-  FaceModelVersion?: string;
-  UnindexedFaces?: UnindexedFace[];
+  FaceRecords?: FaceRecord[] | undefined;
+  OrientationCorrection?: OrientationCorrection | undefined;
+  FaceModelVersion?: string | undefined;
+  UnindexedFaces?: UnindexedFace[] | undefined;
 }
 export type PageSize = number;
 export interface ListCollectionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CollectionIdList = string[];
 export type FaceModelVersionList = string[];
 export interface ListCollectionsResponse {
-  CollectionIds?: string[];
-  NextToken?: string;
-  FaceModelVersions?: string[];
+  CollectionIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  FaceModelVersions?: string[] | undefined;
 }
 export type DatasetLabel = string;
 export type DatasetLabels = string[];
@@ -1690,219 +1690,219 @@ export type HasErrors = boolean;
 export type ListDatasetEntriesPageSize = number;
 export interface ListDatasetEntriesRequest {
   DatasetArn: string;
-  ContainsLabels?: string[];
-  Labeled?: boolean;
-  SourceRefContains?: string;
-  HasErrors?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  ContainsLabels?: string[] | undefined;
+  Labeled?: boolean | undefined;
+  SourceRefContains?: string | undefined;
+  HasErrors?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DatasetEntry = string;
 export type DatasetEntries = string[];
 export interface ListDatasetEntriesResponse {
-  DatasetEntries?: string[];
-  NextToken?: string;
+  DatasetEntries?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListDatasetLabelsPageSize = number;
 export interface ListDatasetLabelsRequest {
   DatasetArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DatasetLabelStats {
-  EntryCount?: number;
-  BoundingBoxCount?: number;
+  EntryCount?: number | undefined;
+  BoundingBoxCount?: number | undefined;
 }
 export interface DatasetLabelDescription {
-  LabelName?: string;
-  LabelStats?: DatasetLabelStats;
+  LabelName?: string | undefined;
+  LabelStats?: DatasetLabelStats | undefined;
 }
 export type DatasetLabelDescriptions = DatasetLabelDescription[];
 export interface ListDatasetLabelsResponse {
-  DatasetLabelDescriptions?: DatasetLabelDescription[];
-  NextToken?: string;
+  DatasetLabelDescriptions?: DatasetLabelDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFacesRequest {
   CollectionId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  UserId?: string;
-  FaceIds?: string[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  UserId?: string | undefined;
+  FaceIds?: string[] | undefined;
 }
 export type FaceList = Face[];
 export interface ListFacesResponse {
-  Faces?: Face[];
-  NextToken?: string;
-  FaceModelVersion?: string;
+  Faces?: Face[] | undefined;
+  NextToken?: string | undefined;
+  FaceModelVersion?: string | undefined;
 }
 export type ListMediaAnalysisJobsPageSize = number;
 export interface ListMediaAnalysisJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MediaAnalysisJobDescription {
   JobId: string;
-  JobName?: string;
+  JobName?: string | undefined;
   OperationsConfig: MediaAnalysisOperationsConfig;
   Status: MediaAnalysisJobStatus;
-  FailureDetails?: MediaAnalysisJobFailureDetails;
+  FailureDetails?: MediaAnalysisJobFailureDetails | undefined;
   CreationTimestamp: Date;
-  CompletionTimestamp?: Date;
+  CompletionTimestamp?: Date | undefined;
   Input: MediaAnalysisInput;
   OutputConfig: MediaAnalysisOutputConfig;
-  KmsKeyId?: string;
-  Results?: MediaAnalysisResults;
-  ManifestSummary?: MediaAnalysisManifestSummary;
+  KmsKeyId?: string | undefined;
+  Results?: MediaAnalysisResults | undefined;
+  ManifestSummary?: MediaAnalysisManifestSummary | undefined;
 }
 export type MediaAnalysisJobDescriptions = MediaAnalysisJobDescription[];
 export interface ListMediaAnalysisJobsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   MediaAnalysisJobs: MediaAnalysisJobDescription[];
 }
 export type ListProjectPoliciesPageSize = number;
 export interface ListProjectPoliciesRequest {
   ProjectArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ProjectPolicyDocument = string;
 export interface ProjectPolicy {
-  ProjectArn?: string;
-  PolicyName?: string;
-  PolicyRevisionId?: string;
-  PolicyDocument?: string;
-  CreationTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  ProjectArn?: string | undefined;
+  PolicyName?: string | undefined;
+  PolicyRevisionId?: string | undefined;
+  PolicyDocument?: string | undefined;
+  CreationTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type ProjectPolicies = ProjectPolicy[];
 export interface ListProjectPoliciesResponse {
-  ProjectPolicies?: ProjectPolicy[];
-  NextToken?: string;
+  ProjectPolicies?: ProjectPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStreamProcessorsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface StreamProcessor {
-  Name?: string;
-  Status?: StreamProcessorStatus;
+  Name?: string | undefined;
+  Status?: StreamProcessorStatus | undefined;
 }
 export type StreamProcessorList = StreamProcessor[];
 export interface ListStreamProcessorsResponse {
-  NextToken?: string;
-  StreamProcessors?: StreamProcessor[];
+  NextToken?: string | undefined;
+  StreamProcessors?: StreamProcessor[] | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MaxUserResults = number;
 export interface ListUsersRequest {
   CollectionId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface User {
-  UserId?: string;
-  UserStatus?: UserStatus;
+  UserId?: string | undefined;
+  UserStatus?: UserStatus | undefined;
 }
 export type UserList = User[];
 export interface ListUsersResponse {
-  Users?: User[];
-  NextToken?: string;
+  Users?: User[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutProjectPolicyRequest {
   ProjectArn: string;
   PolicyName: string;
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
   PolicyDocument: string;
 }
 export interface PutProjectPolicyResponse {
-  PolicyRevisionId?: string;
+  PolicyRevisionId?: string | undefined;
 }
 export interface RecognizeCelebritiesRequest {
   Image: Image;
 }
 export interface Celebrity {
-  Urls?: string[];
-  Name?: string;
-  Id?: string;
-  Face?: ComparedFace;
-  MatchConfidence?: number;
-  KnownGender?: KnownGender;
+  Urls?: string[] | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Face?: ComparedFace | undefined;
+  MatchConfidence?: number | undefined;
+  KnownGender?: KnownGender | undefined;
 }
 export type CelebrityList = Celebrity[];
 export type ComparedFaceList = ComparedFace[];
 export interface RecognizeCelebritiesResponse {
-  CelebrityFaces?: Celebrity[];
-  UnrecognizedFaces?: ComparedFace[];
-  OrientationCorrection?: OrientationCorrection;
+  CelebrityFaces?: Celebrity[] | undefined;
+  UnrecognizedFaces?: ComparedFace[] | undefined;
+  OrientationCorrection?: OrientationCorrection | undefined;
 }
 export type MaxFaces = number;
 export interface SearchFacesRequest {
   CollectionId: string;
   FaceId: string;
-  MaxFaces?: number;
-  FaceMatchThreshold?: number;
+  MaxFaces?: number | undefined;
+  FaceMatchThreshold?: number | undefined;
 }
 export interface SearchFacesResponse {
-  SearchedFaceId?: string;
-  FaceMatches?: FaceMatch[];
-  FaceModelVersion?: string;
+  SearchedFaceId?: string | undefined;
+  FaceMatches?: FaceMatch[] | undefined;
+  FaceModelVersion?: string | undefined;
 }
 export interface SearchFacesByImageRequest {
   CollectionId: string;
   Image: Image;
-  MaxFaces?: number;
-  FaceMatchThreshold?: number;
-  QualityFilter?: QualityFilter;
+  MaxFaces?: number | undefined;
+  FaceMatchThreshold?: number | undefined;
+  QualityFilter?: QualityFilter | undefined;
 }
 export interface SearchFacesByImageResponse {
-  SearchedFaceBoundingBox?: BoundingBox;
-  SearchedFaceConfidence?: number;
-  FaceMatches?: FaceMatch[];
-  FaceModelVersion?: string;
+  SearchedFaceBoundingBox?: BoundingBox | undefined;
+  SearchedFaceConfidence?: number | undefined;
+  FaceMatches?: FaceMatch[] | undefined;
+  FaceModelVersion?: string | undefined;
 }
 export interface SearchUsersRequest {
   CollectionId: string;
-  UserId?: string;
-  FaceId?: string;
-  UserMatchThreshold?: number;
-  MaxUsers?: number;
+  UserId?: string | undefined;
+  FaceId?: string | undefined;
+  UserMatchThreshold?: number | undefined;
+  MaxUsers?: number | undefined;
 }
 export interface MatchedUser {
-  UserId?: string;
-  UserStatus?: UserStatus;
+  UserId?: string | undefined;
+  UserStatus?: UserStatus | undefined;
 }
 export interface UserMatch {
-  Similarity?: number;
-  User?: MatchedUser;
+  Similarity?: number | undefined;
+  User?: MatchedUser | undefined;
 }
 export type UserMatchList = UserMatch[];
 export interface SearchedFace {
-  FaceId?: string;
+  FaceId?: string | undefined;
 }
 export interface SearchedUser {
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export interface SearchUsersResponse {
-  UserMatches?: UserMatch[];
-  FaceModelVersion?: string;
-  SearchedFace?: SearchedFace;
-  SearchedUser?: SearchedUser;
+  UserMatches?: UserMatch[] | undefined;
+  FaceModelVersion?: string | undefined;
+  SearchedFace?: SearchedFace | undefined;
+  SearchedUser?: SearchedUser | undefined;
 }
 export interface SearchUsersByImageRequest {
   CollectionId: string;
   Image: Image;
-  UserMatchThreshold?: number;
-  MaxUsers?: number;
-  QualityFilter?: QualityFilter;
+  UserMatchThreshold?: number | undefined;
+  MaxUsers?: number | undefined;
+  QualityFilter?: QualityFilter | undefined;
 }
 export interface SearchedFaceDetails {
-  FaceDetail?: FaceDetail;
+  FaceDetail?: FaceDetail | undefined;
 }
 export type UnsearchedFaceReason =
   | "FACE_NOT_LARGEST"
@@ -1916,15 +1916,15 @@ export type UnsearchedFaceReason =
   | (string & {});
 export type UnsearchedFaceReasons = UnsearchedFaceReason[];
 export interface UnsearchedFace {
-  FaceDetails?: FaceDetail;
-  Reasons?: UnsearchedFaceReason[];
+  FaceDetails?: FaceDetail | undefined;
+  Reasons?: UnsearchedFaceReason[] | undefined;
 }
 export type UnsearchedFacesList = UnsearchedFace[];
 export interface SearchUsersByImageResponse {
-  UserMatches?: UserMatch[];
-  FaceModelVersion?: string;
-  SearchedFace?: SearchedFaceDetails;
-  UnsearchedFaces?: UnsearchedFace[];
+  UserMatches?: UserMatch[] | undefined;
+  FaceModelVersion?: string | undefined;
+  SearchedFace?: SearchedFaceDetails | undefined;
+  UnsearchedFaces?: UnsearchedFace[] | undefined;
 }
 export interface NotificationChannel {
   SNSTopicArn: string;
@@ -1932,159 +1932,159 @@ export interface NotificationChannel {
 }
 export interface StartCelebrityRecognitionRequest {
   Video: Video;
-  ClientRequestToken?: string;
-  NotificationChannel?: NotificationChannel;
-  JobTag?: string;
+  ClientRequestToken?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  JobTag?: string | undefined;
 }
 export interface StartCelebrityRecognitionResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartContentModerationRequest {
   Video: Video;
-  MinConfidence?: number;
-  ClientRequestToken?: string;
-  NotificationChannel?: NotificationChannel;
-  JobTag?: string;
+  MinConfidence?: number | undefined;
+  ClientRequestToken?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  JobTag?: string | undefined;
 }
 export interface StartContentModerationResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type FaceAttributes = "DEFAULT" | "ALL" | (string & {});
 export interface StartFaceDetectionRequest {
   Video: Video;
-  ClientRequestToken?: string;
-  NotificationChannel?: NotificationChannel;
-  FaceAttributes?: FaceAttributes;
-  JobTag?: string;
+  ClientRequestToken?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  FaceAttributes?: FaceAttributes | undefined;
+  JobTag?: string | undefined;
 }
 export interface StartFaceDetectionResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartFaceSearchRequest {
   Video: Video;
-  ClientRequestToken?: string;
-  FaceMatchThreshold?: number;
+  ClientRequestToken?: string | undefined;
+  FaceMatchThreshold?: number | undefined;
   CollectionId: string;
-  NotificationChannel?: NotificationChannel;
-  JobTag?: string;
+  NotificationChannel?: NotificationChannel | undefined;
+  JobTag?: string | undefined;
 }
 export interface StartFaceSearchResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type LabelDetectionFeatureName = "GENERAL_LABELS" | (string & {});
 export type LabelDetectionFeatureList = LabelDetectionFeatureName[];
 export interface LabelDetectionSettings {
-  GeneralLabels?: GeneralLabelsSettings;
+  GeneralLabels?: GeneralLabelsSettings | undefined;
 }
 export interface StartLabelDetectionRequest {
   Video: Video;
-  ClientRequestToken?: string;
-  MinConfidence?: number;
-  NotificationChannel?: NotificationChannel;
-  JobTag?: string;
-  Features?: LabelDetectionFeatureName[];
-  Settings?: LabelDetectionSettings;
+  ClientRequestToken?: string | undefined;
+  MinConfidence?: number | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  JobTag?: string | undefined;
+  Features?: LabelDetectionFeatureName[] | undefined;
+  Settings?: LabelDetectionSettings | undefined;
 }
 export interface StartLabelDetectionResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartMediaAnalysisJobRequest {
-  ClientRequestToken?: string;
-  JobName?: string;
+  ClientRequestToken?: string | undefined;
+  JobName?: string | undefined;
   OperationsConfig: MediaAnalysisOperationsConfig;
   Input: MediaAnalysisInput;
   OutputConfig: MediaAnalysisOutputConfig;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface StartMediaAnalysisJobResponse {
   JobId: string;
 }
 export interface StartPersonTrackingRequest {
   Video: Video;
-  ClientRequestToken?: string;
-  NotificationChannel?: NotificationChannel;
-  JobTag?: string;
+  ClientRequestToken?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  JobTag?: string | undefined;
 }
 export interface StartPersonTrackingResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartProjectVersionRequest {
   ProjectVersionArn: string;
   MinInferenceUnits: number;
-  MaxInferenceUnits?: number;
+  MaxInferenceUnits?: number | undefined;
 }
 export interface StartProjectVersionResponse {
-  Status?: ProjectVersionStatus;
+  Status?: ProjectVersionStatus | undefined;
 }
 export type MaxPixelThreshold = number;
 export type MinCoveragePercentage = number;
 export interface BlackFrame {
-  MaxPixelThreshold?: number;
-  MinCoveragePercentage?: number;
+  MaxPixelThreshold?: number | undefined;
+  MinCoveragePercentage?: number | undefined;
 }
 export interface StartTechnicalCueDetectionFilter {
-  MinSegmentConfidence?: number;
-  BlackFrame?: BlackFrame;
+  MinSegmentConfidence?: number | undefined;
+  BlackFrame?: BlackFrame | undefined;
 }
 export interface StartShotDetectionFilter {
-  MinSegmentConfidence?: number;
+  MinSegmentConfidence?: number | undefined;
 }
 export interface StartSegmentDetectionFilters {
-  TechnicalCueFilter?: StartTechnicalCueDetectionFilter;
-  ShotFilter?: StartShotDetectionFilter;
+  TechnicalCueFilter?: StartTechnicalCueDetectionFilter | undefined;
+  ShotFilter?: StartShotDetectionFilter | undefined;
 }
 export type SegmentTypes = SegmentType[];
 export interface StartSegmentDetectionRequest {
   Video: Video;
-  ClientRequestToken?: string;
-  NotificationChannel?: NotificationChannel;
-  JobTag?: string;
-  Filters?: StartSegmentDetectionFilters;
+  ClientRequestToken?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  JobTag?: string | undefined;
+  Filters?: StartSegmentDetectionFilters | undefined;
   SegmentTypes: SegmentType[];
 }
 export interface StartSegmentDetectionResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type KinesisVideoStreamFragmentNumber = string;
 export interface KinesisVideoStreamStartSelector {
-  ProducerTimestamp?: number;
-  FragmentNumber?: string;
+  ProducerTimestamp?: number | undefined;
+  FragmentNumber?: string | undefined;
 }
 export interface StreamProcessingStartSelector {
-  KVSStreamStartSelector?: KinesisVideoStreamStartSelector;
+  KVSStreamStartSelector?: KinesisVideoStreamStartSelector | undefined;
 }
 export type MaxDurationInSecondsULong = number;
 export interface StreamProcessingStopSelector {
-  MaxDurationInSeconds?: number;
+  MaxDurationInSeconds?: number | undefined;
 }
 export interface StartStreamProcessorRequest {
   Name: string;
-  StartSelector?: StreamProcessingStartSelector;
-  StopSelector?: StreamProcessingStopSelector;
+  StartSelector?: StreamProcessingStartSelector | undefined;
+  StopSelector?: StreamProcessingStopSelector | undefined;
 }
 export type StartStreamProcessorSessionId = string;
 export interface StartStreamProcessorResponse {
-  SessionId?: string;
+  SessionId?: string | undefined;
 }
 export interface StartTextDetectionFilters {
-  WordFilter?: DetectionFilter;
-  RegionsOfInterest?: RegionOfInterest[];
+  WordFilter?: DetectionFilter | undefined;
+  RegionsOfInterest?: RegionOfInterest[] | undefined;
 }
 export interface StartTextDetectionRequest {
   Video: Video;
-  ClientRequestToken?: string;
-  NotificationChannel?: NotificationChannel;
-  JobTag?: string;
-  Filters?: StartTextDetectionFilters;
+  ClientRequestToken?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  JobTag?: string | undefined;
+  Filters?: StartTextDetectionFilters | undefined;
 }
 export interface StartTextDetectionResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StopProjectVersionRequest {
   ProjectVersionArn: string;
 }
 export interface StopProjectVersionResponse {
-  Status?: ProjectVersionStatus;
+  Status?: ProjectVersionStatus | undefined;
 }
 export interface StopStreamProcessorRequest {
   Name: string;
@@ -2111,11 +2111,11 @@ export interface UpdateDatasetEntriesRequest {
 }
 export interface UpdateDatasetEntriesResponse {}
 export interface ConnectedHomeSettingsForUpdate {
-  Labels?: string[];
-  MinConfidence?: number;
+  Labels?: string[] | undefined;
+  MinConfidence?: number | undefined;
 }
 export interface StreamProcessorSettingsForUpdate {
-  ConnectedHomeForUpdate?: ConnectedHomeSettingsForUpdate;
+  ConnectedHomeForUpdate?: ConnectedHomeSettingsForUpdate | undefined;
 }
 export type StreamProcessorParameterToDelete =
   | "ConnectedHomeMinConfidence"
@@ -2124,10 +2124,10 @@ export type StreamProcessorParameterToDelete =
 export type StreamProcessorParametersToDelete = StreamProcessorParameterToDelete[];
 export interface UpdateStreamProcessorRequest {
   Name: string;
-  SettingsForUpdate?: StreamProcessorSettingsForUpdate;
-  RegionsOfInterestForUpdate?: RegionOfInterest[];
-  DataSharingPreferenceForUpdate?: StreamProcessorDataSharingPreference;
-  ParametersToDelete?: StreamProcessorParameterToDelete[];
+  SettingsForUpdate?: StreamProcessorSettingsForUpdate | undefined;
+  RegionsOfInterestForUpdate?: RegionOfInterest[] | undefined;
+  DataSharingPreferenceForUpdate?: StreamProcessorDataSharingPreference | undefined;
+  ParametersToDelete?: StreamProcessorParameterToDelete[] | undefined;
 }
 export interface UpdateStreamProcessorResponse {}
 export type AssociateFacesError =

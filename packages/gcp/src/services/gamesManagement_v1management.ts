@@ -92,87 +92,87 @@ export interface HidePlayersRequest {
 export interface HidePlayersResponse {}
 export interface ListHiddenApplicationsRequest {
   /** The maximum number of player resources to return in the response, used for paging. For any response, the actual number of player resources returned may be less than the specified `maxResults`. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The token returned by the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The application ID from the Google Play developer console. */
   applicationId: string;
 }
 /** 1P/3P metadata about a user's level. */
 export interface GamesPlayerLevelResource {
   /** The minimum experience points for this level. */
-  minExperiencePoints?: string;
+  minExperiencePoints?: string | undefined;
   /** The maximum experience points for this level. */
-  maxExperiencePoints?: string;
+  maxExperiencePoints?: string | undefined;
   /** The level for the user. */
-  level?: number;
+  level?: number | undefined;
 }
 /** 1P/3P metadata about the player's experience. */
 export interface GamesPlayerExperienceInfoResource {
   /** The current number of experience points for the player. */
-  currentExperiencePoints?: string;
+  currentExperiencePoints?: string | undefined;
   /** The timestamp when the player was leveled up, in millis since Unix epoch UTC. */
-  lastLevelUpTimestampMillis?: string;
+  lastLevelUpTimestampMillis?: string | undefined;
   /** The current level of the player. */
-  currentLevel?: GamesPlayerLevelResource;
+  currentLevel?: GamesPlayerLevelResource | undefined;
   /** The next level of the player. If the current level is the maximum level, this should be same as the current level. */
-  nextLevel?: GamesPlayerLevelResource;
+  nextLevel?: GamesPlayerLevelResource | undefined;
 }
 export interface PlayerName {
   /** The family name of this player. In some places, this is known as the last name. */
-  familyName?: string;
+  familyName?: string | undefined;
   /** The given name of this player. In some places, this is known as the first name. */
-  givenName?: string;
+  givenName?: string | undefined;
 }
 /** Profile settings */
 export interface ProfileSettings {
-  profileVisible?: boolean;
+  profileVisible?: boolean | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#profileSettings`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** A Player resource. */
 export interface Player {
   /** An object to represent Play Game experience information for the player. */
-  experienceInfo?: GamesPlayerExperienceInfoResource;
+  experienceInfo?: GamesPlayerExperienceInfoResource | undefined;
   /** The url to the landscape mode player banner image. */
-  bannerUrlLandscape?: string;
+  bannerUrlLandscape?: string | undefined;
   /** The url to the portrait mode player banner image. */
-  bannerUrlPortrait?: string;
+  bannerUrlPortrait?: string | undefined;
   /** The player's title rewarded for their game activities. */
-  title?: string;
+  title?: string | undefined;
   /** The base URL for the image that represents the player. */
-  avatarImageUrl?: string;
+  avatarImageUrl?: string | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#player`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name to display for the player. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The player ID that was used for this player the first time they signed into the game in question. This is only populated for calls to player.get for the requesting player, only if the player ID has subsequently changed, and only to clients that support remapping player IDs. */
-  originalPlayerId?: string;
+  originalPlayerId?: string | undefined;
   /** An object representation of the individual components of the player's name. For some players, these fields may not be present. */
-  name?: PlayerName;
+  name?: PlayerName | undefined;
   /** The player's profile settings. Controls whether or not the player's profile is visible to other players. */
-  profileSettings?: ProfileSettings;
+  profileSettings?: ProfileSettings | undefined;
   /** The ID of the player. */
-  playerId?: string;
+  playerId?: string | undefined;
 }
 /** The HiddenPlayer resource. */
 export interface HiddenPlayer {
   /** Output only. The player information. */
-  player?: Player;
+  player?: Player | undefined;
   /** Output only. The time this player was hidden. */
-  hiddenTimeMillis?: string;
+  hiddenTimeMillis?: string | undefined;
   /** Output only. Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#hiddenPlayer`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type HiddenPlayerList_ = Array<HiddenPlayer>;
 /** A list of hidden players. */
 export interface HiddenPlayerList {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#hiddenPlayerList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The players. */
   items: HiddenPlayerList_;
   /** The pagination token for the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ResetAchievementsRequest {
   /** The ID of the achievement used by this method. */
@@ -181,22 +181,22 @@ export interface ResetAchievementsRequest {
 /** An achievement reset response. */
 export interface AchievementResetResponse {
   /** The ID of an achievement for which player state has been updated. */
-  definitionId?: string;
+  definitionId?: string | undefined;
   /** Flag to indicate if the requested update actually occurred. */
-  updateOccurred?: boolean;
+  updateOccurred?: boolean | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetResponse`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The current state of the achievement. This is the same as the initial state of the achievement. Possible values are: - "`HIDDEN`"- Achievement is hidden. - "`REVEALED`" - Achievement is revealed. - "`UNLOCKED`" - Achievement is unlocked. */
-  currentState?: string;
+  currentState?: string | undefined;
 }
 export interface ResetAllAchievementsRequest {}
 export type AchievementResetResponseList = Array<AchievementResetResponse>;
 /** Achievement reset all response. */
 export interface AchievementResetAllResponse {
   /** The achievement reset results. */
-  results?: AchievementResetResponseList;
+  results?: AchievementResetResponseList | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetAllResponse`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ResetAllEventsRequest {}
 export interface ResetAllEventsResponse {}
@@ -211,19 +211,19 @@ export type StringList = Array<string>;
 /** A list of reset leaderboard entry resources. */
 export interface PlayerScoreResetResponse {
   /** The ID of an leaderboard for which player state has been updated. */
-  definitionId?: string;
+  definitionId?: string | undefined;
   /** The time spans of the updated score. Possible values are: - "`ALL_TIME`" - The score is an all-time score. - "`WEEKLY`" - The score is a weekly score. - "`DAILY`" - The score is a daily score. */
-  resetScoreTimeSpans?: StringList;
+  resetScoreTimeSpans?: StringList | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#playerScoreResetResponse`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type PlayerScoreResetResponseList = Array<PlayerScoreResetResponse>;
 /** A list of leaderboard reset resources. */
 export interface PlayerScoreResetAllResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#playerScoreResetAllResponse`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The leaderboard reset results. */
-  results?: PlayerScoreResetResponseList;
+  results?: PlayerScoreResetResponseList | undefined;
 }
 export interface ResetEventsRequest {
   /** The ID of the event. */
@@ -247,36 +247,36 @@ export interface ResetForAllPlayersScoresRequest {
 export interface ResetForAllPlayersScoresResponse {}
 export interface AchievementResetMultipleForAllRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetMultipleForAllRequest`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The IDs of achievements to reset. */
-  achievement_ids?: StringList;
+  achievement_ids?: StringList | undefined;
 }
 export interface ResetMultipleForAllPlayersAchievementsRequest {
   /** Request body */
-  body?: AchievementResetMultipleForAllRequest;
+  body?: AchievementResetMultipleForAllRequest | undefined;
 }
 export interface ResetMultipleForAllPlayersAchievementsResponse {}
 /** Multiple events reset all request. */
 export interface EventsResetMultipleForAllRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#eventsResetMultipleForAllRequest`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The IDs of events to reset. */
-  event_ids?: StringList;
+  event_ids?: StringList | undefined;
 }
 export interface ResetMultipleForAllPlayersEventsRequest {
   /** Request body */
-  body?: EventsResetMultipleForAllRequest;
+  body?: EventsResetMultipleForAllRequest | undefined;
 }
 export interface ResetMultipleForAllPlayersEventsResponse {}
 export interface ScoresResetMultipleForAllRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#scoresResetMultipleForAllRequest`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The IDs of leaderboards to reset. */
-  leaderboard_ids?: StringList;
+  leaderboard_ids?: StringList | undefined;
 }
 export interface ResetMultipleForAllPlayersScoresRequest {
   /** Request body */
-  body?: ScoresResetMultipleForAllRequest;
+  body?: ScoresResetMultipleForAllRequest | undefined;
 }
 export interface ResetMultipleForAllPlayersScoresResponse {}
 export interface ResetScoresRequest {

@@ -212,11 +212,11 @@ export type AttendeeIdList = string[];
 export type ExternalUserIdType = string | redacted.Redacted<string>;
 export type ExternalUserIdList = (string | redacted.Redacted<string>)[];
 export interface SelectedVideoStreams {
-  AttendeeIds?: string[];
-  ExternalUserIds?: (string | redacted.Redacted<string>)[];
+  AttendeeIds?: string[] | undefined;
+  ExternalUserIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface SourceConfiguration {
-  SelectedVideoStreams?: SelectedVideoStreams;
+  SelectedVideoStreams?: SelectedVideoStreams | undefined;
 }
 export type AudioMuxType =
   | "AudioOnly"
@@ -230,12 +230,12 @@ export type ArtifactsState = "Enabled" | "Disabled" | (string & {});
 export type VideoMuxType = "VideoOnly" | (string & {});
 export interface VideoArtifactsConfiguration {
   State: ArtifactsState;
-  MuxType?: VideoMuxType;
+  MuxType?: VideoMuxType | undefined;
 }
 export type ContentMuxType = "ContentOnly" | (string & {});
 export interface ContentArtifactsConfiguration {
   State: ArtifactsState;
-  MuxType?: ContentMuxType;
+  MuxType?: ContentMuxType | undefined;
 }
 export type LayoutOption = "GridView" | (string & {});
 export type ResolutionOption = "HD" | "FHD" | (string & {});
@@ -252,7 +252,7 @@ export type PresenterPosition =
   | "BottomRight"
   | (string & {});
 export interface PresenterOnlyConfiguration {
-  PresenterPosition?: PresenterPosition;
+  PresenterPosition?: PresenterPosition | undefined;
 }
 export type ActiveSpeakerPosition =
   | "TopLeft"
@@ -261,24 +261,24 @@ export type ActiveSpeakerPosition =
   | "BottomRight"
   | (string & {});
 export interface ActiveSpeakerOnlyConfiguration {
-  ActiveSpeakerPosition?: ActiveSpeakerPosition;
+  ActiveSpeakerPosition?: ActiveSpeakerPosition | undefined;
 }
 export type TileOrder = "JoinSequence" | "SpeakerSequence" | (string & {});
 export type HorizontalTilePosition = "Top" | "Bottom" | (string & {});
 export type TileCount = number;
 export type TileAspectRatio = string;
 export interface HorizontalLayoutConfiguration {
-  TileOrder?: TileOrder;
-  TilePosition?: HorizontalTilePosition;
-  TileCount?: number;
-  TileAspectRatio?: string;
+  TileOrder?: TileOrder | undefined;
+  TilePosition?: HorizontalTilePosition | undefined;
+  TileCount?: number | undefined;
+  TileAspectRatio?: string | undefined;
 }
 export type VerticalTilePosition = "Left" | "Right" | (string & {});
 export interface VerticalLayoutConfiguration {
-  TileOrder?: TileOrder;
-  TilePosition?: VerticalTilePosition;
-  TileCount?: number;
-  TileAspectRatio?: string;
+  TileOrder?: TileOrder | undefined;
+  TilePosition?: VerticalTilePosition | undefined;
+  TileCount?: number | undefined;
+  TileAspectRatio?: string | undefined;
 }
 export type CornerRadius = number;
 export type BorderColor = "Black" | "Blue" | "Red" | "Green" | "White" | "Yellow" | (string & {});
@@ -292,39 +292,39 @@ export type HighlightColor =
   | (string & {});
 export type BorderThickness = number;
 export interface VideoAttribute {
-  CornerRadius?: number;
-  BorderColor?: BorderColor;
-  HighlightColor?: HighlightColor;
-  BorderThickness?: number;
+  CornerRadius?: number | undefined;
+  BorderColor?: BorderColor | undefined;
+  HighlightColor?: HighlightColor | undefined;
+  BorderThickness?: number | undefined;
 }
 export type CanvasOrientation = "Landscape" | "Portrait" | (string & {});
 export interface GridViewConfiguration {
   ContentShareLayout: ContentShareLayoutOption;
-  PresenterOnlyConfiguration?: PresenterOnlyConfiguration;
-  ActiveSpeakerOnlyConfiguration?: ActiveSpeakerOnlyConfiguration;
-  HorizontalLayoutConfiguration?: HorizontalLayoutConfiguration;
-  VerticalLayoutConfiguration?: VerticalLayoutConfiguration;
-  VideoAttribute?: VideoAttribute;
-  CanvasOrientation?: CanvasOrientation;
+  PresenterOnlyConfiguration?: PresenterOnlyConfiguration | undefined;
+  ActiveSpeakerOnlyConfiguration?: ActiveSpeakerOnlyConfiguration | undefined;
+  HorizontalLayoutConfiguration?: HorizontalLayoutConfiguration | undefined;
+  VerticalLayoutConfiguration?: VerticalLayoutConfiguration | undefined;
+  VideoAttribute?: VideoAttribute | undefined;
+  CanvasOrientation?: CanvasOrientation | undefined;
 }
 export interface CompositedVideoArtifactsConfiguration {
-  Layout?: LayoutOption;
-  Resolution?: ResolutionOption;
+  Layout?: LayoutOption | undefined;
+  Resolution?: ResolutionOption | undefined;
   GridViewConfiguration: GridViewConfiguration;
 }
 export interface ArtifactsConfiguration {
   Audio: AudioArtifactsConfiguration;
   Video: VideoArtifactsConfiguration;
   Content: ContentArtifactsConfiguration;
-  CompositedVideo?: CompositedVideoArtifactsConfiguration;
+  CompositedVideo?: CompositedVideoArtifactsConfiguration | undefined;
 }
 export interface ChimeSdkMeetingConfiguration {
-  SourceConfiguration?: SourceConfiguration;
-  ArtifactsConfiguration?: ArtifactsConfiguration;
+  SourceConfiguration?: SourceConfiguration | undefined;
+  ArtifactsConfiguration?: ArtifactsConfiguration | undefined;
 }
 export interface SseAwsKeyManagementParams {
   AwsKmsKeyId: string;
-  AwsKmsEncryptionContext?: string;
+  AwsKmsEncryptionContext?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -338,11 +338,11 @@ export interface CreateMediaCapturePipelineRequest {
   SourceArn: string | redacted.Redacted<string>;
   SinkType: MediaPipelineSinkType;
   SinkArn: string | redacted.Redacted<string>;
-  ClientRequestToken?: string | redacted.Redacted<string>;
-  ChimeSdkMeetingConfiguration?: ChimeSdkMeetingConfiguration;
-  SseAwsKeyManagementParams?: SseAwsKeyManagementParams;
-  SinkIamRoleArn?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
+  ChimeSdkMeetingConfiguration?: ChimeSdkMeetingConfiguration | undefined;
+  SseAwsKeyManagementParams?: SseAwsKeyManagementParams | undefined;
+  SinkIamRoleArn?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AmazonResourceName = string;
 export type MediaPipelineStatus =
@@ -356,21 +356,21 @@ export type MediaPipelineStatus =
   | (string & {});
 export type Iso8601Timestamp = Date;
 export interface MediaCapturePipeline {
-  MediaPipelineId?: string;
-  MediaPipelineArn?: string;
-  SourceType?: MediaPipelineSourceType;
-  SourceArn?: string | redacted.Redacted<string>;
-  Status?: MediaPipelineStatus;
-  SinkType?: MediaPipelineSinkType;
-  SinkArn?: string | redacted.Redacted<string>;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  ChimeSdkMeetingConfiguration?: ChimeSdkMeetingConfiguration;
-  SseAwsKeyManagementParams?: SseAwsKeyManagementParams;
-  SinkIamRoleArn?: string | redacted.Redacted<string>;
+  MediaPipelineId?: string | undefined;
+  MediaPipelineArn?: string | undefined;
+  SourceType?: MediaPipelineSourceType | undefined;
+  SourceArn?: string | redacted.Redacted<string> | undefined;
+  Status?: MediaPipelineStatus | undefined;
+  SinkType?: MediaPipelineSinkType | undefined;
+  SinkArn?: string | redacted.Redacted<string> | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  ChimeSdkMeetingConfiguration?: ChimeSdkMeetingConfiguration | undefined;
+  SseAwsKeyManagementParams?: SseAwsKeyManagementParams | undefined;
+  SinkIamRoleArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateMediaCapturePipelineResponse {
-  MediaCapturePipeline?: MediaCapturePipeline;
+  MediaCapturePipeline?: MediaCapturePipeline | undefined;
 }
 export type ConcatenationSourceType = "MediaCapturePipeline" | (string & {});
 export type AudioArtifactsConcatenationState = "Enabled" | (string & {});
@@ -429,20 +429,20 @@ export type ConcatenationSinkList = ConcatenationSink[];
 export interface CreateMediaConcatenationPipelineRequest {
   Sources: ConcatenationSource[];
   Sinks: ConcatenationSink[];
-  ClientRequestToken?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface MediaConcatenationPipeline {
-  MediaPipelineId?: string;
-  MediaPipelineArn?: string;
-  Sources?: ConcatenationSource[];
-  Sinks?: ConcatenationSink[];
-  Status?: MediaPipelineStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  MediaPipelineId?: string | undefined;
+  MediaPipelineArn?: string | undefined;
+  Sources?: ConcatenationSource[] | undefined;
+  Sinks?: ConcatenationSink[] | undefined;
+  Status?: MediaPipelineStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateMediaConcatenationPipelineResponse {
-  MediaConcatenationPipeline?: MediaConcatenationPipeline;
+  MediaConcatenationPipeline?: MediaConcatenationPipeline | undefined;
 }
 export type KinesisVideoStreamArn = string;
 export type FragmentNumberString = string;
@@ -451,16 +451,16 @@ export type ChannelId = number;
 export type ParticipantRole = "AGENT" | "CUSTOMER" | (string & {});
 export interface ChannelDefinition {
   ChannelId: number;
-  ParticipantRole?: ParticipantRole;
+  ParticipantRole?: ParticipantRole | undefined;
 }
 export type ChannelDefinitions = ChannelDefinition[];
 export interface StreamChannelDefinition {
   NumberOfChannels: number;
-  ChannelDefinitions?: ChannelDefinition[];
+  ChannelDefinitions?: ChannelDefinition[] | undefined;
 }
 export interface StreamConfiguration {
   StreamArn: string;
-  FragmentNumber?: string;
+  FragmentNumber?: string | undefined;
   StreamChannelDefinition: StreamChannelDefinition;
 }
 export type Streams = StreamConfiguration[];
@@ -474,7 +474,7 @@ export interface KinesisVideoStreamSourceRuntimeConfiguration {
 export type NonEmptyString = string;
 export type MediaInsightsRuntimeMetadata = { [key: string]: string | undefined };
 export interface RecordingStreamConfiguration {
-  StreamArn?: string;
+  StreamArn?: string | undefined;
 }
 export type RecordingStreamList = RecordingStreamConfiguration[];
 export type FragmentSelectorType = "ProducerTimestamp" | "ServerTimestamp" | (string & {});
@@ -497,12 +497,16 @@ export interface S3RecordingSinkRuntimeConfiguration {
 }
 export interface CreateMediaInsightsPipelineRequest {
   MediaInsightsPipelineConfigurationArn: string | redacted.Redacted<string>;
-  KinesisVideoStreamSourceRuntimeConfiguration?: KinesisVideoStreamSourceRuntimeConfiguration;
-  MediaInsightsRuntimeMetadata?: { [key: string]: string | undefined };
-  KinesisVideoStreamRecordingSourceRuntimeConfiguration?: KinesisVideoStreamRecordingSourceRuntimeConfiguration;
-  S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration;
-  Tags?: Tag[];
-  ClientRequestToken?: string | redacted.Redacted<string>;
+  KinesisVideoStreamSourceRuntimeConfiguration?:
+    | KinesisVideoStreamSourceRuntimeConfiguration
+    | undefined;
+  MediaInsightsRuntimeMetadata?: { [key: string]: string | undefined } | undefined;
+  KinesisVideoStreamRecordingSourceRuntimeConfiguration?:
+    | KinesisVideoStreamRecordingSourceRuntimeConfiguration
+    | undefined;
+  S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
 }
 export type MediaInsightsPipelineConfigurationElementType =
   | "AmazonTranscribeCallAnalyticsProcessor"
@@ -526,21 +530,25 @@ export type MediaPipelineElementStatus =
   | "Paused"
   | (string & {});
 export interface MediaInsightsPipelineElementStatus {
-  Type?: MediaInsightsPipelineConfigurationElementType;
-  Status?: MediaPipelineElementStatus;
+  Type?: MediaInsightsPipelineConfigurationElementType | undefined;
+  Status?: MediaPipelineElementStatus | undefined;
 }
 export type MediaInsightsPipelineElementStatuses = MediaInsightsPipelineElementStatus[];
 export interface MediaInsightsPipeline {
-  MediaPipelineId?: string;
-  MediaPipelineArn?: string | redacted.Redacted<string>;
-  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
-  Status?: MediaPipelineStatus;
-  KinesisVideoStreamSourceRuntimeConfiguration?: KinesisVideoStreamSourceRuntimeConfiguration;
-  MediaInsightsRuntimeMetadata?: { [key: string]: string | undefined };
-  KinesisVideoStreamRecordingSourceRuntimeConfiguration?: KinesisVideoStreamRecordingSourceRuntimeConfiguration;
-  S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration;
-  CreatedTimestamp?: Date;
-  ElementStatuses?: MediaInsightsPipelineElementStatus[];
+  MediaPipelineId?: string | undefined;
+  MediaPipelineArn?: string | redacted.Redacted<string> | undefined;
+  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string> | undefined;
+  Status?: MediaPipelineStatus | undefined;
+  KinesisVideoStreamSourceRuntimeConfiguration?:
+    | KinesisVideoStreamSourceRuntimeConfiguration
+    | undefined;
+  MediaInsightsRuntimeMetadata?: { [key: string]: string | undefined } | undefined;
+  KinesisVideoStreamRecordingSourceRuntimeConfiguration?:
+    | KinesisVideoStreamRecordingSourceRuntimeConfiguration
+    | undefined;
+  S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration | undefined;
+  CreatedTimestamp?: Date | undefined;
+  ElementStatuses?: MediaInsightsPipelineElementStatus[] | undefined;
 }
 export interface CreateMediaInsightsPipelineResponse {
   MediaInsightsPipeline: MediaInsightsPipeline;
@@ -553,7 +561,7 @@ export type KeywordMatchWordList = string[];
 export interface KeywordMatchConfiguration {
   RuleName: string;
   Keywords: string[];
-  Negate?: boolean;
+  Negate?: boolean | undefined;
 }
 export type SentimentType = "NEGATIVE" | (string & {});
 export type SentimentTimePeriodInSeconds = number;
@@ -567,14 +575,14 @@ export interface IssueDetectionConfiguration {
 }
 export interface RealTimeAlertRule {
   Type: RealTimeAlertRuleType;
-  KeywordMatchConfiguration?: KeywordMatchConfiguration;
-  SentimentConfiguration?: SentimentConfiguration;
-  IssueDetectionConfiguration?: IssueDetectionConfiguration;
+  KeywordMatchConfiguration?: KeywordMatchConfiguration | undefined;
+  SentimentConfiguration?: SentimentConfiguration | undefined;
+  IssueDetectionConfiguration?: IssueDetectionConfiguration | undefined;
 }
 export type RealTimeAlertRuleList = RealTimeAlertRule[];
 export interface RealTimeAlertConfiguration {
-  Disabled?: boolean;
-  Rules?: RealTimeAlertRule[];
+  Disabled?: boolean | undefined;
+  Rules?: RealTimeAlertRule[] | undefined;
 }
 export type CallAnalyticsLanguageCode =
   | "en-US"
@@ -598,107 +606,109 @@ export type ContentRedactionOutput = "redacted" | "redacted_and_unredacted" | (s
 export interface PostCallAnalyticsSettings {
   OutputLocation: string;
   DataAccessRoleArn: string;
-  ContentRedactionOutput?: ContentRedactionOutput;
-  OutputEncryptionKMSKeyId?: string;
+  ContentRedactionOutput?: ContentRedactionOutput | undefined;
+  OutputEncryptionKMSKeyId?: string | undefined;
 }
 export type CategoryName = string;
 export type CategoryNameList = string[];
 export interface AmazonTranscribeCallAnalyticsProcessorConfiguration {
   LanguageCode: CallAnalyticsLanguageCode;
-  VocabularyName?: string;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  LanguageModelName?: string;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: PartialResultsStability;
-  ContentIdentificationType?: ContentType;
-  ContentRedactionType?: ContentType;
-  PiiEntityTypes?: string;
-  FilterPartialResults?: boolean;
-  PostCallAnalyticsSettings?: PostCallAnalyticsSettings;
-  CallAnalyticsStreamCategories?: string[];
+  VocabularyName?: string | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  LanguageModelName?: string | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: PartialResultsStability | undefined;
+  ContentIdentificationType?: ContentType | undefined;
+  ContentRedactionType?: ContentType | undefined;
+  PiiEntityTypes?: string | undefined;
+  FilterPartialResults?: boolean | undefined;
+  PostCallAnalyticsSettings?: PostCallAnalyticsSettings | undefined;
+  CallAnalyticsStreamCategories?: string[] | undefined;
 }
 export type LanguageOptions = string;
 export type VocabularyNames = string;
 export type VocabularyFilterNames = string;
 export interface AmazonTranscribeProcessorConfiguration {
-  LanguageCode?: CallAnalyticsLanguageCode;
-  VocabularyName?: string;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  ShowSpeakerLabel?: boolean;
-  EnablePartialResultsStabilization?: boolean;
-  PartialResultsStability?: PartialResultsStability;
-  ContentIdentificationType?: ContentType;
-  ContentRedactionType?: ContentType;
-  PiiEntityTypes?: string;
-  LanguageModelName?: string;
-  FilterPartialResults?: boolean;
-  IdentifyLanguage?: boolean;
-  IdentifyMultipleLanguages?: boolean;
-  LanguageOptions?: string;
-  PreferredLanguage?: CallAnalyticsLanguageCode;
-  VocabularyNames?: string;
-  VocabularyFilterNames?: string;
+  LanguageCode?: CallAnalyticsLanguageCode | undefined;
+  VocabularyName?: string | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  ShowSpeakerLabel?: boolean | undefined;
+  EnablePartialResultsStabilization?: boolean | undefined;
+  PartialResultsStability?: PartialResultsStability | undefined;
+  ContentIdentificationType?: ContentType | undefined;
+  ContentRedactionType?: ContentType | undefined;
+  PiiEntityTypes?: string | undefined;
+  LanguageModelName?: string | undefined;
+  FilterPartialResults?: boolean | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  IdentifyMultipleLanguages?: boolean | undefined;
+  LanguageOptions?: string | undefined;
+  PreferredLanguage?: CallAnalyticsLanguageCode | undefined;
+  VocabularyNames?: string | undefined;
+  VocabularyFilterNames?: string | undefined;
 }
 export interface KinesisDataStreamSinkConfiguration {
-  InsightsTarget?: string | redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string> | undefined;
 }
 export interface S3RecordingSinkConfiguration {
-  Destination?: string | redacted.Redacted<string>;
-  RecordingFileFormat?: RecordingFileFormat;
+  Destination?: string | redacted.Redacted<string> | undefined;
+  RecordingFileFormat?: RecordingFileFormat | undefined;
 }
 export type VoiceAnalyticsConfigurationStatus = "Enabled" | "Disabled" | (string & {});
 export interface VoiceAnalyticsProcessorConfiguration {
-  SpeakerSearchStatus?: VoiceAnalyticsConfigurationStatus;
-  VoiceToneAnalysisStatus?: VoiceAnalyticsConfigurationStatus;
+  SpeakerSearchStatus?: VoiceAnalyticsConfigurationStatus | undefined;
+  VoiceToneAnalysisStatus?: VoiceAnalyticsConfigurationStatus | undefined;
 }
 export interface LambdaFunctionSinkConfiguration {
-  InsightsTarget?: string | redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string> | undefined;
 }
 export interface SqsQueueSinkConfiguration {
-  InsightsTarget?: string | redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string> | undefined;
 }
 export interface SnsTopicSinkConfiguration {
-  InsightsTarget?: string | redacted.Redacted<string>;
+  InsightsTarget?: string | redacted.Redacted<string> | undefined;
 }
 export interface VoiceEnhancementSinkConfiguration {
-  Disabled?: boolean;
+  Disabled?: boolean | undefined;
 }
 export interface MediaInsightsPipelineConfigurationElement {
   Type: MediaInsightsPipelineConfigurationElementType;
-  AmazonTranscribeCallAnalyticsProcessorConfiguration?: AmazonTranscribeCallAnalyticsProcessorConfiguration;
-  AmazonTranscribeProcessorConfiguration?: AmazonTranscribeProcessorConfiguration;
-  KinesisDataStreamSinkConfiguration?: KinesisDataStreamSinkConfiguration;
-  S3RecordingSinkConfiguration?: S3RecordingSinkConfiguration;
-  VoiceAnalyticsProcessorConfiguration?: VoiceAnalyticsProcessorConfiguration;
-  LambdaFunctionSinkConfiguration?: LambdaFunctionSinkConfiguration;
-  SqsQueueSinkConfiguration?: SqsQueueSinkConfiguration;
-  SnsTopicSinkConfiguration?: SnsTopicSinkConfiguration;
-  VoiceEnhancementSinkConfiguration?: VoiceEnhancementSinkConfiguration;
+  AmazonTranscribeCallAnalyticsProcessorConfiguration?:
+    | AmazonTranscribeCallAnalyticsProcessorConfiguration
+    | undefined;
+  AmazonTranscribeProcessorConfiguration?: AmazonTranscribeProcessorConfiguration | undefined;
+  KinesisDataStreamSinkConfiguration?: KinesisDataStreamSinkConfiguration | undefined;
+  S3RecordingSinkConfiguration?: S3RecordingSinkConfiguration | undefined;
+  VoiceAnalyticsProcessorConfiguration?: VoiceAnalyticsProcessorConfiguration | undefined;
+  LambdaFunctionSinkConfiguration?: LambdaFunctionSinkConfiguration | undefined;
+  SqsQueueSinkConfiguration?: SqsQueueSinkConfiguration | undefined;
+  SnsTopicSinkConfiguration?: SnsTopicSinkConfiguration | undefined;
+  VoiceEnhancementSinkConfiguration?: VoiceEnhancementSinkConfiguration | undefined;
 }
 export type MediaInsightsPipelineConfigurationElements =
   MediaInsightsPipelineConfigurationElement[];
 export interface CreateMediaInsightsPipelineConfigurationRequest {
   MediaInsightsPipelineConfigurationName: string;
   ResourceAccessRoleArn: string | redacted.Redacted<string>;
-  RealTimeAlertConfiguration?: RealTimeAlertConfiguration;
+  RealTimeAlertConfiguration?: RealTimeAlertConfiguration | undefined;
   Elements: MediaInsightsPipelineConfigurationElement[];
-  Tags?: Tag[];
-  ClientRequestToken?: string | redacted.Redacted<string>;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface MediaInsightsPipelineConfiguration {
-  MediaInsightsPipelineConfigurationName?: string;
-  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
-  ResourceAccessRoleArn?: string | redacted.Redacted<string>;
-  RealTimeAlertConfiguration?: RealTimeAlertConfiguration;
-  Elements?: MediaInsightsPipelineConfigurationElement[];
-  MediaInsightsPipelineConfigurationId?: string;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  MediaInsightsPipelineConfigurationName?: string | undefined;
+  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string> | undefined;
+  ResourceAccessRoleArn?: string | redacted.Redacted<string> | undefined;
+  RealTimeAlertConfiguration?: RealTimeAlertConfiguration | undefined;
+  Elements?: MediaInsightsPipelineConfigurationElement[] | undefined;
+  MediaInsightsPipelineConfigurationId?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateMediaInsightsPipelineConfigurationResponse {
-  MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration;
+  MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration | undefined;
 }
 export type LiveConnectorSourceType = "ChimeSdkMeeting" | (string & {});
 export type LiveConnectorMuxType =
@@ -708,8 +718,8 @@ export type LiveConnectorMuxType =
 export interface ChimeSdkMeetingLiveConnectorConfiguration {
   Arn: string | redacted.Redacted<string>;
   MuxType: LiveConnectorMuxType;
-  CompositedVideo?: CompositedVideoArtifactsConfiguration;
-  SourceConfiguration?: SourceConfiguration;
+  CompositedVideo?: CompositedVideoArtifactsConfiguration | undefined;
+  SourceConfiguration?: SourceConfiguration | undefined;
 }
 export interface LiveConnectorSourceConfiguration {
   SourceType: LiveConnectorSourceType;
@@ -722,8 +732,8 @@ export type AudioChannelsOption = "Stereo" | "Mono" | (string & {});
 export type AudioSampleRateOption = string;
 export interface LiveConnectorRTMPConfiguration {
   Url: string | redacted.Redacted<string>;
-  AudioChannels?: AudioChannelsOption;
-  AudioSampleRate?: string;
+  AudioChannels?: AudioChannelsOption | undefined;
+  AudioSampleRate?: string | undefined;
 }
 export interface LiveConnectorSinkConfiguration {
   SinkType: LiveConnectorSinkType;
@@ -733,33 +743,33 @@ export type LiveConnectorSinkList = LiveConnectorSinkConfiguration[];
 export interface CreateMediaLiveConnectorPipelineRequest {
   Sources: LiveConnectorSourceConfiguration[];
   Sinks: LiveConnectorSinkConfiguration[];
-  ClientRequestToken?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface MediaLiveConnectorPipeline {
-  Sources?: LiveConnectorSourceConfiguration[];
-  Sinks?: LiveConnectorSinkConfiguration[];
-  MediaPipelineId?: string;
-  MediaPipelineArn?: string;
-  Status?: MediaPipelineStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  Sources?: LiveConnectorSourceConfiguration[] | undefined;
+  Sinks?: LiveConnectorSinkConfiguration[] | undefined;
+  MediaPipelineId?: string | undefined;
+  MediaPipelineArn?: string | undefined;
+  Status?: MediaPipelineStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateMediaLiveConnectorPipelineResponse {
-  MediaLiveConnectorPipeline?: MediaLiveConnectorPipeline;
+  MediaLiveConnectorPipeline?: MediaLiveConnectorPipeline | undefined;
 }
 export type AwsRegion = string;
 export type DataRetentionInHours = number;
 export interface KinesisVideoStreamConfiguration {
   Region: string;
-  DataRetentionInHours?: number;
+  DataRetentionInHours?: number | undefined;
 }
 export type KinesisVideoStreamPoolName = string;
 export interface CreateMediaPipelineKinesisVideoStreamPoolRequest {
   StreamConfiguration: KinesisVideoStreamConfiguration;
   PoolName: string;
-  ClientRequestToken?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type KinesisVideoStreamPoolId = string;
 export type KinesisVideoStreamPoolStatus =
@@ -771,17 +781,17 @@ export type KinesisVideoStreamPoolStatus =
   | (string & {});
 export type KinesisVideoStreamPoolSize = number;
 export interface KinesisVideoStreamPoolConfiguration {
-  PoolArn?: string | redacted.Redacted<string>;
-  PoolName?: string;
-  PoolId?: string;
-  PoolStatus?: KinesisVideoStreamPoolStatus;
-  PoolSize?: number;
-  StreamConfiguration?: KinesisVideoStreamConfiguration;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  PoolArn?: string | redacted.Redacted<string> | undefined;
+  PoolName?: string | undefined;
+  PoolId?: string | undefined;
+  PoolStatus?: KinesisVideoStreamPoolStatus | undefined;
+  PoolSize?: number | undefined;
+  StreamConfiguration?: KinesisVideoStreamConfiguration | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateMediaPipelineKinesisVideoStreamPoolResponse {
-  KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration;
+  KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration | undefined;
 }
 export interface MediaStreamSource {
   SourceType: MediaPipelineSourceType;
@@ -801,20 +811,20 @@ export type MediaStreamSinkList = MediaStreamSink[];
 export interface CreateMediaStreamPipelineRequest {
   Sources: MediaStreamSource[];
   Sinks: MediaStreamSink[];
-  ClientRequestToken?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface MediaStreamPipeline {
-  MediaPipelineId?: string;
-  MediaPipelineArn?: string;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  Status?: MediaPipelineStatus;
-  Sources?: MediaStreamSource[];
-  Sinks?: MediaStreamSink[];
+  MediaPipelineId?: string | undefined;
+  MediaPipelineArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  Status?: MediaPipelineStatus | undefined;
+  Sources?: MediaStreamSource[] | undefined;
+  Sinks?: MediaStreamSink[] | undefined;
 }
 export interface CreateMediaStreamPipelineResponse {
-  MediaStreamPipeline?: MediaStreamPipeline;
+  MediaStreamPipeline?: MediaStreamPipeline | undefined;
 }
 export interface DeleteMediaCapturePipelineRequest {
   MediaPipelineId: string;
@@ -836,32 +846,32 @@ export interface GetMediaCapturePipelineRequest {
   MediaPipelineId: string;
 }
 export interface GetMediaCapturePipelineResponse {
-  MediaCapturePipeline?: MediaCapturePipeline;
+  MediaCapturePipeline?: MediaCapturePipeline | undefined;
 }
 export interface GetMediaInsightsPipelineConfigurationRequest {
   Identifier: string;
 }
 export interface GetMediaInsightsPipelineConfigurationResponse {
-  MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration;
+  MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration | undefined;
 }
 export interface GetMediaPipelineRequest {
   MediaPipelineId: string;
 }
 export interface MediaPipeline {
-  MediaCapturePipeline?: MediaCapturePipeline;
-  MediaLiveConnectorPipeline?: MediaLiveConnectorPipeline;
-  MediaConcatenationPipeline?: MediaConcatenationPipeline;
-  MediaInsightsPipeline?: MediaInsightsPipeline;
-  MediaStreamPipeline?: MediaStreamPipeline;
+  MediaCapturePipeline?: MediaCapturePipeline | undefined;
+  MediaLiveConnectorPipeline?: MediaLiveConnectorPipeline | undefined;
+  MediaConcatenationPipeline?: MediaConcatenationPipeline | undefined;
+  MediaInsightsPipeline?: MediaInsightsPipeline | undefined;
+  MediaStreamPipeline?: MediaStreamPipeline | undefined;
 }
 export interface GetMediaPipelineResponse {
-  MediaPipeline?: MediaPipeline;
+  MediaPipeline?: MediaPipeline | undefined;
 }
 export interface GetMediaPipelineKinesisVideoStreamPoolRequest {
   Identifier: string;
 }
 export interface GetMediaPipelineKinesisVideoStreamPoolResponse {
-  KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration;
+  KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration | undefined;
 }
 export interface GetSpeakerSearchTaskRequest {
   Identifier: string;
@@ -876,112 +886,112 @@ export type MediaPipelineTaskStatus =
   | "Stopped"
   | (string & {});
 export interface SpeakerSearchTask {
-  SpeakerSearchTaskId?: string;
-  SpeakerSearchTaskStatus?: MediaPipelineTaskStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  SpeakerSearchTaskId?: string | undefined;
+  SpeakerSearchTaskStatus?: MediaPipelineTaskStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface GetSpeakerSearchTaskResponse {
-  SpeakerSearchTask?: SpeakerSearchTask;
+  SpeakerSearchTask?: SpeakerSearchTask | undefined;
 }
 export interface GetVoiceToneAnalysisTaskRequest {
   Identifier: string;
   VoiceToneAnalysisTaskId: string;
 }
 export interface VoiceToneAnalysisTask {
-  VoiceToneAnalysisTaskId?: string;
-  VoiceToneAnalysisTaskStatus?: MediaPipelineTaskStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  VoiceToneAnalysisTaskId?: string | undefined;
+  VoiceToneAnalysisTaskStatus?: MediaPipelineTaskStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface GetVoiceToneAnalysisTaskResponse {
-  VoiceToneAnalysisTask?: VoiceToneAnalysisTask;
+  VoiceToneAnalysisTask?: VoiceToneAnalysisTask | undefined;
 }
 export type ResultMax = number;
 export interface ListMediaCapturePipelinesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MediaCapturePipelineSummary {
-  MediaPipelineId?: string;
-  MediaPipelineArn?: string;
+  MediaPipelineId?: string | undefined;
+  MediaPipelineArn?: string | undefined;
 }
 export type MediaCapturePipelineSummaryList = MediaCapturePipelineSummary[];
 export interface ListMediaCapturePipelinesResponse {
-  MediaCapturePipelines?: MediaCapturePipelineSummary[];
-  NextToken?: string;
+  MediaCapturePipelines?: MediaCapturePipelineSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMediaInsightsPipelineConfigurationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MediaInsightsPipelineConfigurationSummary {
-  MediaInsightsPipelineConfigurationName?: string;
-  MediaInsightsPipelineConfigurationId?: string;
-  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
+  MediaInsightsPipelineConfigurationName?: string | undefined;
+  MediaInsightsPipelineConfigurationId?: string | undefined;
+  MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string> | undefined;
 }
 export type MediaInsightsPipelineConfigurationSummaryList =
   MediaInsightsPipelineConfigurationSummary[];
 export interface ListMediaInsightsPipelineConfigurationsResponse {
-  MediaInsightsPipelineConfigurations?: MediaInsightsPipelineConfigurationSummary[];
-  NextToken?: string;
+  MediaInsightsPipelineConfigurations?: MediaInsightsPipelineConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMediaPipelineKinesisVideoStreamPoolsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface KinesisVideoStreamPoolSummary {
-  PoolName?: string;
-  PoolId?: string;
-  PoolArn?: string | redacted.Redacted<string>;
+  PoolName?: string | undefined;
+  PoolId?: string | undefined;
+  PoolArn?: string | redacted.Redacted<string> | undefined;
 }
 export type KinesisVideoStreamPoolSummaryList = KinesisVideoStreamPoolSummary[];
 export interface ListMediaPipelineKinesisVideoStreamPoolsResponse {
-  KinesisVideoStreamPools?: KinesisVideoStreamPoolSummary[];
-  NextToken?: string;
+  KinesisVideoStreamPools?: KinesisVideoStreamPoolSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMediaPipelinesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MediaPipelineSummary {
-  MediaPipelineId?: string;
-  MediaPipelineArn?: string;
+  MediaPipelineId?: string | undefined;
+  MediaPipelineArn?: string | undefined;
 }
 export type MediaPipelineList = MediaPipelineSummary[];
 export interface ListMediaPipelinesResponse {
-  MediaPipelines?: MediaPipelineSummary[];
-  NextToken?: string;
+  MediaPipelines?: MediaPipelineSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface KinesisVideoStreamSourceTaskConfiguration {
   StreamArn: string;
   ChannelId: number;
-  FragmentNumber?: string;
+  FragmentNumber?: string | undefined;
 }
 export interface StartSpeakerSearchTaskRequest {
   Identifier: string;
   VoiceProfileDomainArn: string | redacted.Redacted<string>;
-  KinesisVideoStreamSourceTaskConfiguration?: KinesisVideoStreamSourceTaskConfiguration;
-  ClientRequestToken?: string | redacted.Redacted<string>;
+  KinesisVideoStreamSourceTaskConfiguration?: KinesisVideoStreamSourceTaskConfiguration | undefined;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface StartSpeakerSearchTaskResponse {
-  SpeakerSearchTask?: SpeakerSearchTask;
+  SpeakerSearchTask?: SpeakerSearchTask | undefined;
 }
 export type VoiceAnalyticsLanguageCode = "en-US" | (string & {});
 export interface StartVoiceToneAnalysisTaskRequest {
   Identifier: string;
   LanguageCode: VoiceAnalyticsLanguageCode;
-  KinesisVideoStreamSourceTaskConfiguration?: KinesisVideoStreamSourceTaskConfiguration;
-  ClientRequestToken?: string | redacted.Redacted<string>;
+  KinesisVideoStreamSourceTaskConfiguration?: KinesisVideoStreamSourceTaskConfiguration | undefined;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface StartVoiceToneAnalysisTaskResponse {
-  VoiceToneAnalysisTask?: VoiceToneAnalysisTask;
+  VoiceToneAnalysisTask?: VoiceToneAnalysisTask | undefined;
 }
 export interface StopSpeakerSearchTaskRequest {
   Identifier: string;
@@ -1007,11 +1017,11 @@ export interface UntagResourceResponse {}
 export interface UpdateMediaInsightsPipelineConfigurationRequest {
   Identifier: string;
   ResourceAccessRoleArn: string | redacted.Redacted<string>;
-  RealTimeAlertConfiguration?: RealTimeAlertConfiguration;
+  RealTimeAlertConfiguration?: RealTimeAlertConfiguration | undefined;
   Elements: MediaInsightsPipelineConfigurationElement[];
 }
 export interface UpdateMediaInsightsPipelineConfigurationResponse {
-  MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration;
+  MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration | undefined;
 }
 export type MediaPipelineStatusUpdate = "Pause" | "Resume" | (string & {});
 export interface UpdateMediaInsightsPipelineStatusRequest {
@@ -1021,14 +1031,14 @@ export interface UpdateMediaInsightsPipelineStatusRequest {
 export interface UpdateMediaInsightsPipelineStatusResponse {}
 export type DataRetentionChangeInHours = number;
 export interface KinesisVideoStreamConfigurationUpdate {
-  DataRetentionInHours?: number;
+  DataRetentionInHours?: number | undefined;
 }
 export interface UpdateMediaPipelineKinesisVideoStreamPoolRequest {
   Identifier: string;
-  StreamConfiguration?: KinesisVideoStreamConfigurationUpdate;
+  StreamConfiguration?: KinesisVideoStreamConfigurationUpdate | undefined;
 }
 export interface UpdateMediaPipelineKinesisVideoStreamPoolResponse {
-  KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration;
+  KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration | undefined;
 }
 export type ErrorCode =
   | "BadRequest"

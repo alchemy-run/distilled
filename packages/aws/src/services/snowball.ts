@@ -155,95 +155,95 @@ export interface CancelJobResult {}
 export type AddressId = string;
 export type AddressType = "CUST_PICKUP" | "AWS_SHIP" | (string & {});
 export interface Address {
-  AddressId?: string;
-  Name?: string;
-  Company?: string;
-  Street1?: string;
-  Street2?: string;
-  Street3?: string;
-  City?: string;
-  StateOrProvince?: string;
-  PrefectureOrDistrict?: string;
-  Landmark?: string;
-  Country?: string;
-  PostalCode?: string;
-  PhoneNumber?: string;
-  IsRestricted?: boolean;
-  Type?: AddressType;
+  AddressId?: string | undefined;
+  Name?: string | undefined;
+  Company?: string | undefined;
+  Street1?: string | undefined;
+  Street2?: string | undefined;
+  Street3?: string | undefined;
+  City?: string | undefined;
+  StateOrProvince?: string | undefined;
+  PrefectureOrDistrict?: string | undefined;
+  Landmark?: string | undefined;
+  Country?: string | undefined;
+  PostalCode?: string | undefined;
+  PhoneNumber?: string | undefined;
+  IsRestricted?: boolean | undefined;
+  Type?: AddressType | undefined;
 }
 export interface CreateAddressRequest {
   Address: Address;
 }
 export interface CreateAddressResult {
-  AddressId?: string;
+  AddressId?: string | undefined;
 }
 export type JobType = "IMPORT" | "EXPORT" | "LOCAL_USE" | (string & {});
 export type ResourceARN = string;
 export interface KeyRange {
-  BeginMarker?: string;
-  EndMarker?: string;
+  BeginMarker?: string | undefined;
+  EndMarker?: string | undefined;
 }
 export type DeviceServiceName = "NFS_ON_DEVICE_SERVICE" | "S3_ON_DEVICE_SERVICE" | (string & {});
 export type TransferOption = "IMPORT" | "EXPORT" | "LOCAL_USE" | (string & {});
 export interface TargetOnDeviceService {
-  ServiceName?: DeviceServiceName;
-  TransferOption?: TransferOption;
+  ServiceName?: DeviceServiceName | undefined;
+  TransferOption?: TransferOption | undefined;
 }
 export type TargetOnDeviceServiceList = TargetOnDeviceService[];
 export interface S3Resource {
-  BucketArn?: string;
-  KeyRange?: KeyRange;
-  TargetOnDeviceServices?: TargetOnDeviceService[];
+  BucketArn?: string | undefined;
+  KeyRange?: KeyRange | undefined;
+  TargetOnDeviceServices?: TargetOnDeviceService[] | undefined;
 }
 export type S3ResourceList = S3Resource[];
 export interface EventTriggerDefinition {
-  EventResourceARN?: string;
+  EventResourceARN?: string | undefined;
 }
 export type EventTriggerDefinitionList = EventTriggerDefinition[];
 export interface LambdaResource {
-  LambdaArn?: string;
-  EventTriggers?: EventTriggerDefinition[];
+  LambdaArn?: string | undefined;
+  EventTriggers?: EventTriggerDefinition[] | undefined;
 }
 export type LambdaResourceList = LambdaResource[];
 export type AmiId = string;
 export interface Ec2AmiResource {
   AmiId: string;
-  SnowballAmiId?: string;
+  SnowballAmiId?: string | undefined;
 }
 export type Ec2AmiResourceList = Ec2AmiResource[];
 export interface JobResource {
-  S3Resources?: S3Resource[];
-  LambdaResources?: LambdaResource[];
-  Ec2AmiResources?: Ec2AmiResource[];
+  S3Resources?: S3Resource[] | undefined;
+  LambdaResources?: LambdaResource[] | undefined;
+  Ec2AmiResources?: Ec2AmiResource[] | undefined;
 }
 export type StorageLimit = number;
 export type StorageUnit = "TB" | (string & {});
 export interface NFSOnDeviceServiceConfiguration {
-  StorageLimit?: number;
-  StorageUnit?: StorageUnit;
+  StorageLimit?: number | undefined;
+  StorageUnit?: StorageUnit | undefined;
 }
 export interface TGWOnDeviceServiceConfiguration {
-  StorageLimit?: number;
-  StorageUnit?: StorageUnit;
+  StorageLimit?: number | undefined;
+  StorageUnit?: StorageUnit | undefined;
 }
 export interface EKSOnDeviceServiceConfiguration {
-  KubernetesVersion?: string;
-  EKSAnywhereVersion?: string;
+  KubernetesVersion?: string | undefined;
+  EKSAnywhereVersion?: string | undefined;
 }
 export type S3StorageLimit = number;
 export type ServiceSize = number;
 export type NodeFaultTolerance = number;
 export interface S3OnDeviceServiceConfiguration {
-  StorageLimit?: number;
-  StorageUnit?: StorageUnit;
-  ServiceSize?: number;
-  FaultTolerance?: number;
+  StorageLimit?: number | undefined;
+  StorageUnit?: StorageUnit | undefined;
+  ServiceSize?: number | undefined;
+  FaultTolerance?: number | undefined;
 }
 export interface OnDeviceServiceConfiguration {
-  NFSOnDeviceService?: NFSOnDeviceServiceConfiguration;
-  TGWOnDeviceService?: TGWOnDeviceServiceConfiguration;
-  EKSOnDeviceService?: EKSOnDeviceServiceConfiguration;
-  S3OnDeviceService?: S3OnDeviceServiceConfiguration;
+  NFSOnDeviceService?: NFSOnDeviceServiceConfiguration | undefined;
+  TGWOnDeviceService?: TGWOnDeviceServiceConfiguration | undefined;
+  EKSOnDeviceService?: EKSOnDeviceServiceConfiguration | undefined;
+  S3OnDeviceService?: S3OnDeviceServiceConfiguration | undefined;
 }
 export type KmsKeyARN = string;
 export type RoleARN = string;
@@ -278,17 +278,17 @@ export type JobState =
   | (string & {});
 export type JobStateList = JobState[];
 export interface Notification {
-  SnsTopicARN?: string;
-  JobStatesToNotify?: JobState[];
-  NotifyAll?: boolean;
-  DevicePickupSnsTopicARN?: string;
+  SnsTopicARN?: string | undefined;
+  JobStatesToNotify?: JobState[] | undefined;
+  NotifyAll?: boolean | undefined;
+  DevicePickupSnsTopicARN?: string | undefined;
 }
 export type GSTIN = string;
 export interface INDTaxDocuments {
-  GSTIN?: string;
+  GSTIN?: string | undefined;
 }
 export interface TaxDocuments {
-  IND?: INDTaxDocuments;
+  IND?: INDTaxDocuments | undefined;
 }
 export type RemoteManagement =
   | "INSTALLED_ONLY"
@@ -313,96 +313,96 @@ export type SnowballCapacity =
   | (string & {});
 export interface CreateClusterRequest {
   JobType: JobType;
-  Resources?: JobResource;
-  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
-  Description?: string;
+  Resources?: JobResource | undefined;
+  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration | undefined;
+  Description?: string | undefined;
   AddressId: string;
-  KmsKeyARN?: string;
-  RoleARN?: string;
+  KmsKeyARN?: string | undefined;
+  RoleARN?: string | undefined;
   SnowballType: SnowballType;
   ShippingOption: ShippingOption;
-  Notification?: Notification;
-  ForwardingAddressId?: string;
-  TaxDocuments?: TaxDocuments;
-  RemoteManagement?: RemoteManagement;
-  InitialClusterSize?: number;
-  ForceCreateJobs?: boolean;
-  LongTermPricingIds?: string[];
-  SnowballCapacityPreference?: SnowballCapacity;
+  Notification?: Notification | undefined;
+  ForwardingAddressId?: string | undefined;
+  TaxDocuments?: TaxDocuments | undefined;
+  RemoteManagement?: RemoteManagement | undefined;
+  InitialClusterSize?: number | undefined;
+  ForceCreateJobs?: boolean | undefined;
+  LongTermPricingIds?: string[] | undefined;
+  SnowballCapacityPreference?: SnowballCapacity | undefined;
 }
 export interface JobListEntry {
-  JobId?: string;
-  JobState?: JobState;
-  IsMaster?: boolean;
-  JobType?: JobType;
-  SnowballType?: SnowballType;
-  CreationDate?: Date;
-  Description?: string;
+  JobId?: string | undefined;
+  JobState?: JobState | undefined;
+  IsMaster?: boolean | undefined;
+  JobType?: JobType | undefined;
+  SnowballType?: SnowballType | undefined;
+  CreationDate?: Date | undefined;
+  Description?: string | undefined;
 }
 export type JobListEntryList = JobListEntry[];
 export interface CreateClusterResult {
-  ClusterId?: string;
-  JobListEntries?: JobListEntry[];
+  ClusterId?: string | undefined;
+  JobListEntries?: JobListEntry[] | undefined;
 }
 export interface WirelessConnection {
-  IsWifiEnabled?: boolean;
+  IsWifiEnabled?: boolean | undefined;
 }
 export interface SnowconeDeviceConfiguration {
-  WirelessConnection?: WirelessConnection;
+  WirelessConnection?: WirelessConnection | undefined;
 }
 export interface DeviceConfiguration {
-  SnowconeDeviceConfiguration?: SnowconeDeviceConfiguration;
+  SnowconeDeviceConfiguration?: SnowconeDeviceConfiguration | undefined;
 }
 export type ImpactLevel = "IL2" | "IL4" | "IL5" | "IL6" | "IL99" | (string & {});
 export type PhoneNumber = string | redacted.Redacted<string>;
 export type Email = string | redacted.Redacted<string>;
 export type DevicePickupId = string;
 export interface PickupDetails {
-  Name?: string;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  Email?: string | redacted.Redacted<string>;
-  IdentificationNumber?: string;
-  IdentificationExpirationDate?: Date;
-  IdentificationIssuingOrg?: string;
-  DevicePickupId?: string;
+  Name?: string | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  IdentificationNumber?: string | undefined;
+  IdentificationExpirationDate?: Date | undefined;
+  IdentificationIssuingOrg?: string | undefined;
+  DevicePickupId?: string | undefined;
 }
 export interface CreateJobRequest {
-  JobType?: JobType;
-  Resources?: JobResource;
-  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
-  Description?: string;
-  AddressId?: string;
-  KmsKeyARN?: string;
-  RoleARN?: string;
-  SnowballCapacityPreference?: SnowballCapacity;
-  ShippingOption?: ShippingOption;
-  Notification?: Notification;
-  ClusterId?: string;
-  SnowballType?: SnowballType;
-  ForwardingAddressId?: string;
-  TaxDocuments?: TaxDocuments;
-  DeviceConfiguration?: DeviceConfiguration;
-  RemoteManagement?: RemoteManagement;
-  LongTermPricingId?: string;
-  ImpactLevel?: ImpactLevel;
-  PickupDetails?: PickupDetails;
+  JobType?: JobType | undefined;
+  Resources?: JobResource | undefined;
+  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration | undefined;
+  Description?: string | undefined;
+  AddressId?: string | undefined;
+  KmsKeyARN?: string | undefined;
+  RoleARN?: string | undefined;
+  SnowballCapacityPreference?: SnowballCapacity | undefined;
+  ShippingOption?: ShippingOption | undefined;
+  Notification?: Notification | undefined;
+  ClusterId?: string | undefined;
+  SnowballType?: SnowballType | undefined;
+  ForwardingAddressId?: string | undefined;
+  TaxDocuments?: TaxDocuments | undefined;
+  DeviceConfiguration?: DeviceConfiguration | undefined;
+  RemoteManagement?: RemoteManagement | undefined;
+  LongTermPricingId?: string | undefined;
+  ImpactLevel?: ImpactLevel | undefined;
+  PickupDetails?: PickupDetails | undefined;
 }
 export interface CreateJobResult {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type LongTermPricingType = "OneYear" | "ThreeYear" | "OneMonth" | (string & {});
 export type JavaBoolean = boolean;
 export interface CreateLongTermPricingRequest {
   LongTermPricingType: LongTermPricingType;
-  IsLongTermPricingAutoRenew?: boolean;
+  IsLongTermPricingAutoRenew?: boolean | undefined;
   SnowballType: SnowballType;
 }
 export interface CreateLongTermPricingResult {
-  LongTermPricingId?: string;
+  LongTermPricingId?: string | undefined;
 }
 export interface CreateReturnShippingLabelRequest {
   JobId: string;
-  ShippingOption?: ShippingOption;
+  ShippingOption?: ShippingOption | undefined;
 }
 export type ShippingLabelStatus =
   | "InProgress"
@@ -411,23 +411,23 @@ export type ShippingLabelStatus =
   | "Failed"
   | (string & {});
 export interface CreateReturnShippingLabelResult {
-  Status?: ShippingLabelStatus;
+  Status?: ShippingLabelStatus | undefined;
 }
 export interface DescribeAddressRequest {
   AddressId: string;
 }
 export interface DescribeAddressResult {
-  Address?: Address;
+  Address?: Address | undefined;
 }
 export type ListLimit = number;
 export interface DescribeAddressesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AddressList = Address[];
 export interface DescribeAddressesResult {
-  Addresses?: Address[];
-  NextToken?: string;
+  Addresses?: Address[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeClusterRequest {
   ClusterId: string;
@@ -440,232 +440,232 @@ export type ClusterState =
   | "Cancelled"
   | (string & {});
 export interface ClusterMetadata {
-  ClusterId?: string;
-  Description?: string;
-  KmsKeyARN?: string;
-  RoleARN?: string;
-  ClusterState?: ClusterState;
-  JobType?: JobType;
-  SnowballType?: SnowballType;
-  CreationDate?: Date;
-  Resources?: JobResource;
-  AddressId?: string;
-  ShippingOption?: ShippingOption;
-  Notification?: Notification;
-  ForwardingAddressId?: string;
-  TaxDocuments?: TaxDocuments;
-  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
+  ClusterId?: string | undefined;
+  Description?: string | undefined;
+  KmsKeyARN?: string | undefined;
+  RoleARN?: string | undefined;
+  ClusterState?: ClusterState | undefined;
+  JobType?: JobType | undefined;
+  SnowballType?: SnowballType | undefined;
+  CreationDate?: Date | undefined;
+  Resources?: JobResource | undefined;
+  AddressId?: string | undefined;
+  ShippingOption?: ShippingOption | undefined;
+  Notification?: Notification | undefined;
+  ForwardingAddressId?: string | undefined;
+  TaxDocuments?: TaxDocuments | undefined;
+  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration | undefined;
 }
 export interface DescribeClusterResult {
-  ClusterMetadata?: ClusterMetadata;
+  ClusterMetadata?: ClusterMetadata | undefined;
 }
 export interface DescribeJobRequest {
   JobId: string;
 }
 export interface Shipment {
-  Status?: string;
-  TrackingNumber?: string;
+  Status?: string | undefined;
+  TrackingNumber?: string | undefined;
 }
 export interface ShippingDetails {
-  ShippingOption?: ShippingOption;
-  InboundShipment?: Shipment;
-  OutboundShipment?: Shipment;
+  ShippingOption?: ShippingOption | undefined;
+  InboundShipment?: Shipment | undefined;
+  OutboundShipment?: Shipment | undefined;
 }
 export interface DataTransfer {
-  BytesTransferred?: number;
-  ObjectsTransferred?: number;
-  TotalBytes?: number;
-  TotalObjects?: number;
+  BytesTransferred?: number | undefined;
+  ObjectsTransferred?: number | undefined;
+  TotalBytes?: number | undefined;
+  TotalObjects?: number | undefined;
 }
 export interface JobLogs {
-  JobCompletionReportURI?: string;
-  JobSuccessLogURI?: string;
-  JobFailureLogURI?: string;
+  JobCompletionReportURI?: string | undefined;
+  JobSuccessLogURI?: string | undefined;
+  JobFailureLogURI?: string | undefined;
 }
 export interface JobMetadata {
-  JobId?: string;
-  JobState?: JobState;
-  JobType?: JobType;
-  SnowballType?: SnowballType;
-  CreationDate?: Date;
-  Resources?: JobResource;
-  Description?: string;
-  KmsKeyARN?: string;
-  RoleARN?: string;
-  AddressId?: string;
-  ShippingDetails?: ShippingDetails;
-  SnowballCapacityPreference?: SnowballCapacity;
-  Notification?: Notification;
-  DataTransferProgress?: DataTransfer;
-  JobLogInfo?: JobLogs;
-  ClusterId?: string;
-  ForwardingAddressId?: string;
-  TaxDocuments?: TaxDocuments;
-  DeviceConfiguration?: DeviceConfiguration;
-  RemoteManagement?: RemoteManagement;
-  LongTermPricingId?: string;
-  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
-  ImpactLevel?: ImpactLevel;
-  PickupDetails?: PickupDetails;
-  SnowballId?: string;
+  JobId?: string | undefined;
+  JobState?: JobState | undefined;
+  JobType?: JobType | undefined;
+  SnowballType?: SnowballType | undefined;
+  CreationDate?: Date | undefined;
+  Resources?: JobResource | undefined;
+  Description?: string | undefined;
+  KmsKeyARN?: string | undefined;
+  RoleARN?: string | undefined;
+  AddressId?: string | undefined;
+  ShippingDetails?: ShippingDetails | undefined;
+  SnowballCapacityPreference?: SnowballCapacity | undefined;
+  Notification?: Notification | undefined;
+  DataTransferProgress?: DataTransfer | undefined;
+  JobLogInfo?: JobLogs | undefined;
+  ClusterId?: string | undefined;
+  ForwardingAddressId?: string | undefined;
+  TaxDocuments?: TaxDocuments | undefined;
+  DeviceConfiguration?: DeviceConfiguration | undefined;
+  RemoteManagement?: RemoteManagement | undefined;
+  LongTermPricingId?: string | undefined;
+  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration | undefined;
+  ImpactLevel?: ImpactLevel | undefined;
+  PickupDetails?: PickupDetails | undefined;
+  SnowballId?: string | undefined;
 }
 export type JobMetadataList = JobMetadata[];
 export interface DescribeJobResult {
-  JobMetadata?: JobMetadata;
-  SubJobMetadata?: JobMetadata[];
+  JobMetadata?: JobMetadata | undefined;
+  SubJobMetadata?: JobMetadata[] | undefined;
 }
 export interface DescribeReturnShippingLabelRequest {
   JobId: string;
 }
 export interface DescribeReturnShippingLabelResult {
-  Status?: ShippingLabelStatus;
-  ExpirationDate?: Date;
-  ReturnShippingLabelURI?: string;
+  Status?: ShippingLabelStatus | undefined;
+  ExpirationDate?: Date | undefined;
+  ReturnShippingLabelURI?: string | undefined;
 }
 export interface GetJobManifestRequest {
   JobId: string;
 }
 export interface GetJobManifestResult {
-  ManifestURI?: string;
+  ManifestURI?: string | undefined;
 }
 export interface GetJobUnlockCodeRequest {
   JobId: string;
 }
 export interface GetJobUnlockCodeResult {
-  UnlockCode?: string;
+  UnlockCode?: string | undefined;
 }
 export interface GetSnowballUsageRequest {}
 export interface GetSnowballUsageResult {
-  SnowballLimit?: number;
-  SnowballsInUse?: number;
+  SnowballLimit?: number | undefined;
+  SnowballsInUse?: number | undefined;
 }
 export interface GetSoftwareUpdatesRequest {
   JobId: string;
 }
 export interface GetSoftwareUpdatesResult {
-  UpdatesURI?: string;
+  UpdatesURI?: string | undefined;
 }
 export interface ListClusterJobsRequest {
   ClusterId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClusterJobsResult {
-  JobListEntries?: JobListEntry[];
-  NextToken?: string;
+  JobListEntries?: JobListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClustersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ClusterListEntry {
-  ClusterId?: string;
-  ClusterState?: ClusterState;
-  CreationDate?: Date;
-  Description?: string;
+  ClusterId?: string | undefined;
+  ClusterState?: ClusterState | undefined;
+  CreationDate?: Date | undefined;
+  Description?: string | undefined;
 }
 export type ClusterListEntryList = ClusterListEntry[];
 export interface ListClustersResult {
-  ClusterListEntries?: ClusterListEntry[];
-  NextToken?: string;
+  ClusterListEntries?: ClusterListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCompatibleImagesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CompatibleImage {
-  AmiId?: string;
-  Name?: string;
+  AmiId?: string | undefined;
+  Name?: string | undefined;
 }
 export type CompatibleImageList = CompatibleImage[];
 export interface ListCompatibleImagesResult {
-  CompatibleImages?: CompatibleImage[];
-  NextToken?: string;
+  CompatibleImages?: CompatibleImage[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJobsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJobsResult {
-  JobListEntries?: JobListEntry[];
-  NextToken?: string;
+  JobListEntries?: JobListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLongTermPricingRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LongTermPricingAssociatedJobIdList = string[];
 export interface LongTermPricingListEntry {
-  LongTermPricingId?: string;
-  LongTermPricingEndDate?: Date;
-  LongTermPricingStartDate?: Date;
-  LongTermPricingType?: LongTermPricingType;
-  CurrentActiveJob?: string;
-  ReplacementJob?: string;
-  IsLongTermPricingAutoRenew?: boolean;
-  LongTermPricingStatus?: string;
-  SnowballType?: SnowballType;
-  JobIds?: string[];
+  LongTermPricingId?: string | undefined;
+  LongTermPricingEndDate?: Date | undefined;
+  LongTermPricingStartDate?: Date | undefined;
+  LongTermPricingType?: LongTermPricingType | undefined;
+  CurrentActiveJob?: string | undefined;
+  ReplacementJob?: string | undefined;
+  IsLongTermPricingAutoRenew?: boolean | undefined;
+  LongTermPricingStatus?: string | undefined;
+  SnowballType?: SnowballType | undefined;
+  JobIds?: string[] | undefined;
 }
 export type LongTermPricingEntryList = LongTermPricingListEntry[];
 export interface ListLongTermPricingResult {
-  LongTermPricingEntries?: LongTermPricingListEntry[];
-  NextToken?: string;
+  LongTermPricingEntries?: LongTermPricingListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPickupLocationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPickupLocationsResult {
-  Addresses?: Address[];
-  NextToken?: string;
+  Addresses?: Address[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceName = "KUBERNETES" | "EKS_ANYWHERE" | (string & {});
 export interface ServiceVersion {
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface DependentService {
-  ServiceName?: ServiceName;
-  ServiceVersion?: ServiceVersion;
+  ServiceName?: ServiceName | undefined;
+  ServiceVersion?: ServiceVersion | undefined;
 }
 export type DependentServiceList = DependentService[];
 export interface ListServiceVersionsRequest {
   ServiceName: ServiceName;
-  DependentServices?: DependentService[];
-  MaxResults?: number;
-  NextToken?: string;
+  DependentServices?: DependentService[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceVersionList = ServiceVersion[];
 export interface ListServiceVersionsResult {
   ServiceVersions: ServiceVersion[];
   ServiceName: ServiceName;
-  DependentServices?: DependentService[];
-  NextToken?: string;
+  DependentServices?: DependentService[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface UpdateClusterRequest {
   ClusterId: string;
-  RoleARN?: string;
-  Description?: string;
-  Resources?: JobResource;
-  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
-  AddressId?: string;
-  ShippingOption?: ShippingOption;
-  Notification?: Notification;
-  ForwardingAddressId?: string;
+  RoleARN?: string | undefined;
+  Description?: string | undefined;
+  Resources?: JobResource | undefined;
+  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration | undefined;
+  AddressId?: string | undefined;
+  ShippingOption?: ShippingOption | undefined;
+  Notification?: Notification | undefined;
+  ForwardingAddressId?: string | undefined;
 }
 export interface UpdateClusterResult {}
 export interface UpdateJobRequest {
   JobId: string;
-  RoleARN?: string;
-  Notification?: Notification;
-  Resources?: JobResource;
-  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration;
-  AddressId?: string;
-  ShippingOption?: ShippingOption;
-  Description?: string;
-  SnowballCapacityPreference?: SnowballCapacity;
-  ForwardingAddressId?: string;
-  PickupDetails?: PickupDetails;
+  RoleARN?: string | undefined;
+  Notification?: Notification | undefined;
+  Resources?: JobResource | undefined;
+  OnDeviceServiceConfiguration?: OnDeviceServiceConfiguration | undefined;
+  AddressId?: string | undefined;
+  ShippingOption?: ShippingOption | undefined;
+  Description?: string | undefined;
+  SnowballCapacityPreference?: SnowballCapacity | undefined;
+  ForwardingAddressId?: string | undefined;
+  PickupDetails?: PickupDetails | undefined;
 }
 export interface UpdateJobResult {}
 export type ShipmentState = "RECEIVED" | "RETURNED" | (string & {});
@@ -676,8 +676,8 @@ export interface UpdateJobShipmentStateRequest {
 export interface UpdateJobShipmentStateResult {}
 export interface UpdateLongTermPricingRequest {
   LongTermPricingId: string;
-  ReplacementJob?: string;
-  IsLongTermPricingAutoRenew?: boolean;
+  ReplacementJob?: string | undefined;
+  IsLongTermPricingAutoRenew?: boolean | undefined;
 }
 export interface UpdateLongTermPricingResult {}
 export type CancelClusterError =

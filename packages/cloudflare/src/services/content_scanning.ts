@@ -68,9 +68,9 @@ export interface CreateContentScanningRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Defines the status of Content Scanning. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface PayloadsCreateRequestBodyItem {
   /** Defines the custom content extraction expression used to reach content objects in the request. */
@@ -84,9 +84,9 @@ export interface CreatePayloadRequest {
 }
 export interface PayloadsCreateResultItem {
   /** Defines the unique ID for this Content Scanning custom expression. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Defines the custom content extraction expression used to reach content objects in the request. */
-  payload?: string | null;
+  payload?: string | null | undefined;
 }
 export type PayloadsCreateResultList = Array<PayloadsCreateResultItem>;
 export interface CreatePayloadResponse {
@@ -126,9 +126,9 @@ export interface GetContentScanningRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Defines the status of Content Scanning. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface GetSettingsRequest {
   /** Defines an identifier. */
@@ -137,9 +137,9 @@ export interface GetSettingsRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingsResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Defines the status of Content Scanning. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface ListPayloadsRequest {
   /** Defines an identifier. */
@@ -163,9 +163,9 @@ export interface UpdateRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Defines the status of Content Scanning. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface UpdatePayloadRequest {
   /** Defines an identifier. */

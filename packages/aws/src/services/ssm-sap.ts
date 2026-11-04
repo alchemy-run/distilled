@@ -121,12 +121,12 @@ export class ValidationException
 export type PermissionActionType = "RESTORE" | (string & {});
 export type Arn = string;
 export interface DeleteResourcePermissionInput {
-  ActionType?: PermissionActionType;
-  SourceResourceArn?: string;
+  ActionType?: PermissionActionType | undefined;
+  SourceResourceArn?: string | undefined;
   ResourceArn: string;
 }
 export interface DeleteResourcePermissionOutput {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type ApplicationId = string;
 export interface DeregisterApplicationInput {
@@ -136,9 +136,9 @@ export interface DeregisterApplicationOutput {}
 export type SsmSapArn = string;
 export type AppRegistryArn = string;
 export interface GetApplicationInput {
-  ApplicationId?: string;
-  ApplicationArn?: string;
-  AppRegistryArn?: string;
+  ApplicationId?: string | undefined;
+  ApplicationArn?: string | undefined;
+  AppRegistryArn?: string | undefined;
 }
 export type ApplicationType = "HANA" | "SAP_ABAP" | (string & {});
 export type ApplicationStatus =
@@ -162,23 +162,23 @@ export type ComponentId = string;
 export type ComponentIdList = string[];
 export type ApplicationArnList = string[];
 export interface Application {
-  Id?: string;
-  Type?: ApplicationType;
-  Arn?: string;
-  AppRegistryArn?: string;
-  Status?: ApplicationStatus;
-  DiscoveryStatus?: ApplicationDiscoveryStatus;
-  Components?: string[];
-  LastUpdated?: Date;
-  StatusMessage?: string;
-  AssociatedApplicationArns?: string[];
+  Id?: string | undefined;
+  Type?: ApplicationType | undefined;
+  Arn?: string | undefined;
+  AppRegistryArn?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  DiscoveryStatus?: ApplicationDiscoveryStatus | undefined;
+  Components?: string[] | undefined;
+  LastUpdated?: Date | undefined;
+  StatusMessage?: string | undefined;
+  AssociatedApplicationArns?: string[] | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface GetApplicationOutput {
-  Application?: Application;
-  Tags?: { [key: string]: string | undefined };
+  Application?: Application | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetComponentInput {
   ApplicationId: string;
@@ -221,68 +221,68 @@ export type ClusterStatus =
   | "NONE"
   | (string & {});
 export interface Resilience {
-  HsrTier?: string;
-  HsrReplicationMode?: ReplicationMode;
-  HsrOperationMode?: OperationMode;
-  ClusterStatus?: ClusterStatus;
-  EnqueueReplication?: boolean;
+  HsrTier?: string | undefined;
+  HsrReplicationMode?: ReplicationMode | undefined;
+  HsrOperationMode?: OperationMode | undefined;
+  ClusterStatus?: ClusterStatus | undefined;
+  EnqueueReplication?: boolean | undefined;
 }
 export type AllocationType = "VPC_SUBNET" | "ELASTIC_IP" | "OVERLAY" | "UNKNOWN" | (string & {});
 export interface IpAddressMember {
-  IpAddress?: string;
-  Primary?: boolean;
-  AllocationType?: AllocationType;
+  IpAddress?: string | undefined;
+  Primary?: boolean | undefined;
+  AllocationType?: AllocationType | undefined;
 }
 export type IpAddressList = IpAddressMember[];
 export interface AssociatedHost {
-  Hostname?: string;
-  Ec2InstanceId?: string;
-  IpAddresses?: IpAddressMember[];
-  OsVersion?: string;
+  Hostname?: string | undefined;
+  Ec2InstanceId?: string | undefined;
+  IpAddresses?: IpAddressMember[] | undefined;
+  OsVersion?: string | undefined;
 }
 export type DatabaseId = string;
 export type DatabaseIdList = string[];
 export type HostRole = "LEADER" | "WORKER" | "STANDBY" | "UNKNOWN" | (string & {});
 export interface Host {
-  HostName?: string;
-  HostIp?: string;
-  EC2InstanceId?: string;
-  InstanceId?: string;
-  HostRole?: HostRole;
-  OsVersion?: string;
+  HostName?: string | undefined;
+  HostIp?: string | undefined;
+  EC2InstanceId?: string | undefined;
+  InstanceId?: string | undefined;
+  HostRole?: HostRole | undefined;
+  OsVersion?: string | undefined;
 }
 export type HostList = Host[];
 export type DatabaseConnectionMethod = "DIRECT" | "OVERLAY" | (string & {});
 export interface DatabaseConnection {
-  DatabaseConnectionMethod?: DatabaseConnectionMethod;
-  DatabaseArn?: string;
-  ConnectionIp?: string;
+  DatabaseConnectionMethod?: DatabaseConnectionMethod | undefined;
+  DatabaseArn?: string | undefined;
+  ConnectionIp?: string | undefined;
 }
 export interface Component {
-  ComponentId?: string;
-  Sid?: string;
-  SystemNumber?: string;
-  ParentComponent?: string;
-  ChildComponents?: string[];
-  ApplicationId?: string;
-  ComponentType?: ComponentType;
-  Status?: ComponentStatus;
-  SapHostname?: string;
-  SapFeature?: string;
-  SapKernelVersion?: string;
-  HdbVersion?: string;
-  Resilience?: Resilience;
-  AssociatedHost?: AssociatedHost;
-  Databases?: string[];
-  Hosts?: Host[];
-  PrimaryHost?: string;
-  DatabaseConnection?: DatabaseConnection;
-  LastUpdated?: Date;
-  Arn?: string;
+  ComponentId?: string | undefined;
+  Sid?: string | undefined;
+  SystemNumber?: string | undefined;
+  ParentComponent?: string | undefined;
+  ChildComponents?: string[] | undefined;
+  ApplicationId?: string | undefined;
+  ComponentType?: ComponentType | undefined;
+  Status?: ComponentStatus | undefined;
+  SapHostname?: string | undefined;
+  SapFeature?: string | undefined;
+  SapKernelVersion?: string | undefined;
+  HdbVersion?: string | undefined;
+  Resilience?: Resilience | undefined;
+  AssociatedHost?: AssociatedHost | undefined;
+  Databases?: string[] | undefined;
+  Hosts?: Host[] | undefined;
+  PrimaryHost?: string | undefined;
+  DatabaseConnection?: DatabaseConnection | undefined;
+  LastUpdated?: Date | undefined;
+  Arn?: string | undefined;
 }
 export interface GetComponentOutput {
-  Component?: Component;
-  Tags?: { [key: string]: string | undefined };
+  Component?: Component | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type OperationId = string;
 export interface GetConfigurationCheckOperationInput {
@@ -295,32 +295,32 @@ export type ConfigurationCheckType =
   | "SAP_CHECK_03"
   | (string & {});
 export interface RuleStatusCounts {
-  Failed?: number;
-  Warning?: number;
-  Info?: number;
-  Passed?: number;
-  Unknown?: number;
+  Failed?: number | undefined;
+  Warning?: number | undefined;
+  Info?: number | undefined;
+  Passed?: number | undefined;
+  Unknown?: number | undefined;
 }
 export interface ConfigurationCheckOperation {
-  Id?: string;
-  ApplicationId?: string;
-  Status?: OperationStatus;
-  StatusMessage?: string;
-  ConfigurationCheckId?: ConfigurationCheckType;
-  ConfigurationCheckName?: string;
-  ConfigurationCheckDescription?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  RuleStatusCounts?: RuleStatusCounts;
+  Id?: string | undefined;
+  ApplicationId?: string | undefined;
+  Status?: OperationStatus | undefined;
+  StatusMessage?: string | undefined;
+  ConfigurationCheckId?: ConfigurationCheckType | undefined;
+  ConfigurationCheckName?: string | undefined;
+  ConfigurationCheckDescription?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  RuleStatusCounts?: RuleStatusCounts | undefined;
 }
 export interface GetConfigurationCheckOperationOutput {
-  ConfigurationCheckOperation?: ConfigurationCheckOperation;
+  ConfigurationCheckOperation?: ConfigurationCheckOperation | undefined;
 }
 export interface GetDatabaseInput {
-  ApplicationId?: string;
-  ComponentId?: string;
-  DatabaseId?: string;
-  DatabaseArn?: string;
+  ApplicationId?: string | undefined;
+  ComponentId?: string | undefined;
+  DatabaseId?: string | undefined;
+  DatabaseArn?: string | undefined;
 }
 export type DatabaseName = string;
 export type CredentialType = "ADMIN" | (string & {});
@@ -343,22 +343,22 @@ export type DatabaseStatus =
   | (string & {});
 export type ComponentArnList = string[];
 export interface Database {
-  ApplicationId?: string;
-  ComponentId?: string;
-  Credentials?: ApplicationCredential[];
-  DatabaseId?: string;
-  DatabaseName?: string;
-  DatabaseType?: DatabaseType;
-  Arn?: string;
-  Status?: DatabaseStatus;
-  PrimaryHost?: string;
-  SQLPort?: number;
-  LastUpdated?: Date;
-  ConnectedComponentArns?: string[];
+  ApplicationId?: string | undefined;
+  ComponentId?: string | undefined;
+  Credentials?: ApplicationCredential[] | undefined;
+  DatabaseId?: string | undefined;
+  DatabaseName?: string | undefined;
+  DatabaseType?: DatabaseType | undefined;
+  Arn?: string | undefined;
+  Status?: DatabaseStatus | undefined;
+  PrimaryHost?: string | undefined;
+  SQLPort?: number | undefined;
+  LastUpdated?: Date | undefined;
+  ConnectedComponentArns?: string[] | undefined;
 }
 export interface GetDatabaseOutput {
-  Database?: Database;
-  Tags?: { [key: string]: string | undefined };
+  Database?: Database | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOperationInput {
   OperationId: string;
@@ -368,27 +368,27 @@ export type OperationProperties = { [key: string]: string | undefined };
 export type ResourceType = string;
 export type ResourceId = string;
 export interface Operation {
-  Id?: string;
-  Type?: string;
-  Status?: OperationStatus;
-  StatusMessage?: string;
-  Properties?: { [key: string]: string | undefined };
-  ResourceType?: string;
-  ResourceId?: string;
-  ResourceArn?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  LastUpdatedTime?: Date;
+  Id?: string | undefined;
+  Type?: string | undefined;
+  Status?: OperationStatus | undefined;
+  StatusMessage?: string | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceArn?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface GetOperationOutput {
-  Operation?: Operation;
+  Operation?: Operation | undefined;
 }
 export interface GetResourcePermissionInput {
-  ActionType?: PermissionActionType;
+  ActionType?: PermissionActionType | undefined;
   ResourceArn: string;
 }
 export interface GetResourcePermissionOutput {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
@@ -402,54 +402,54 @@ export interface Filter {
 }
 export type FilterList = Filter[];
 export interface ListApplicationsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ApplicationSummary {
-  Id?: string;
-  DiscoveryStatus?: ApplicationDiscoveryStatus;
-  Type?: ApplicationType;
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  DiscoveryStatus?: ApplicationDiscoveryStatus | undefined;
+  Type?: ApplicationType | undefined;
+  Arn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationSummaryList = ApplicationSummary[];
 export interface ListApplicationsOutput {
-  Applications?: ApplicationSummary[];
-  NextToken?: string;
+  Applications?: ApplicationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListComponentsInput {
-  ApplicationId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ApplicationId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ComponentSummary {
-  ApplicationId?: string;
-  ComponentId?: string;
-  ComponentType?: ComponentType;
-  Tags?: { [key: string]: string | undefined };
-  Arn?: string;
+  ApplicationId?: string | undefined;
+  ComponentId?: string | undefined;
+  ComponentType?: ComponentType | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arn?: string | undefined;
 }
 export type ComponentSummaryList = ComponentSummary[];
 export interface ListComponentsOutput {
-  Components?: ComponentSummary[];
-  NextToken?: string;
+  Components?: ComponentSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationCheckDefinitionsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ApplicationTypeList = ApplicationType[];
 export interface ConfigurationCheckDefinition {
-  Id?: ConfigurationCheckType;
-  Name?: string;
-  Description?: string;
-  ApplicableApplicationTypes?: ApplicationType[];
+  Id?: ConfigurationCheckType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ApplicableApplicationTypes?: ApplicationType[] | undefined;
 }
 export type ConfigurationCheckDefinitionList = ConfigurationCheckDefinition[];
 export interface ListConfigurationCheckDefinitionsOutput {
-  ConfigurationChecks?: ConfigurationCheckDefinition[];
-  NextToken?: string;
+  ConfigurationChecks?: ConfigurationCheckDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConfigurationCheckOperationListingMode =
   | "ALL_OPERATIONS"
@@ -457,92 +457,92 @@ export type ConfigurationCheckOperationListingMode =
   | (string & {});
 export interface ListConfigurationCheckOperationsInput {
   ApplicationId: string;
-  ListMode?: ConfigurationCheckOperationListingMode;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  ListMode?: ConfigurationCheckOperationListingMode | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ConfigurationCheckOperationList = ConfigurationCheckOperation[];
 export interface ListConfigurationCheckOperationsOutput {
-  ConfigurationCheckOperations?: ConfigurationCheckOperation[];
-  NextToken?: string;
+  ConfigurationCheckOperations?: ConfigurationCheckOperation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDatabasesInput {
-  ApplicationId?: string;
-  ComponentId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ApplicationId?: string | undefined;
+  ComponentId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DatabaseSummary {
-  ApplicationId?: string;
-  ComponentId?: string;
-  DatabaseId?: string;
-  DatabaseType?: DatabaseType;
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
+  ApplicationId?: string | undefined;
+  ComponentId?: string | undefined;
+  DatabaseId?: string | undefined;
+  DatabaseType?: DatabaseType | undefined;
+  Arn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DatabaseSummaryList = DatabaseSummary[];
 export interface ListDatabasesOutput {
-  Databases?: DatabaseSummary[];
-  NextToken?: string;
+  Databases?: DatabaseSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOperationEventsInput {
   OperationId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type OperationEventResourceType = string;
 export interface Resource {
-  ResourceArn?: string;
-  ResourceType?: string;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type OperationEventStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export interface OperationEvent {
-  Description?: string;
-  Resource?: Resource;
-  Status?: OperationEventStatus;
-  StatusMessage?: string;
-  Timestamp?: Date;
+  Description?: string | undefined;
+  Resource?: Resource | undefined;
+  Status?: OperationEventStatus | undefined;
+  StatusMessage?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export type OperationEventList = OperationEvent[];
 export interface ListOperationEventsOutput {
-  OperationEvents?: OperationEvent[];
-  NextToken?: string;
+  OperationEvents?: OperationEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOperationsInput {
   ApplicationId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type OperationList = Operation[];
 export interface ListOperationsOutput {
-  Operations?: Operation[];
-  NextToken?: string;
+  Operations?: Operation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSubCheckResultsInput {
   OperationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SubCheckResultId = string;
 export type SubCheckReferencesList = string[];
 export interface SubCheckResult {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  References?: string[];
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  References?: string[] | undefined;
 }
 export type SubCheckResultList = SubCheckResult[];
 export interface ListSubCheckResultsOutput {
-  SubCheckResults?: SubCheckResult[];
-  NextToken?: string;
+  SubCheckResults?: SubCheckResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSubCheckRuleResultsInput {
   SubCheckResultId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RuleResultId = string;
 export type RuleResultStatus = "PASSED" | "FAILED" | "WARNING" | "INFO" | "UNKNOWN" | (string & {});
@@ -550,22 +550,22 @@ export type RuleResultMetadataKey = string;
 export type RuleResultMetadataValue = string;
 export type RuleResultMetadata = { [key: string]: string | undefined };
 export interface RuleResult {
-  Id?: string;
-  Description?: string;
-  Status?: RuleResultStatus;
-  Message?: string;
-  Metadata?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Description?: string | undefined;
+  Status?: RuleResultStatus | undefined;
+  Message?: string | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleResultList = RuleResult[];
 export interface ListSubCheckRuleResultsOutput {
-  RuleResults?: RuleResult[];
-  NextToken?: string;
+  RuleResults?: RuleResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutResourcePermissionInput {
   ActionType: PermissionActionType;
@@ -573,7 +573,7 @@ export interface PutResourcePermissionInput {
   ResourceArn: string;
 }
 export interface PutResourcePermissionOutput {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type InstanceId = string;
 export type InstanceList = string[];
@@ -587,45 +587,45 @@ export interface RegisterApplicationInput {
   ApplicationId: string;
   ApplicationType: ApplicationType;
   Instances: string[];
-  SapInstanceNumber?: string;
-  Sid?: string;
-  Tags?: { [key: string]: string | undefined };
-  Credentials?: ApplicationCredential[];
-  DatabaseArn?: string;
-  ComponentsInfo?: ComponentInfo[];
+  SapInstanceNumber?: string | undefined;
+  Sid?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Credentials?: ApplicationCredential[] | undefined;
+  DatabaseArn?: string | undefined;
+  ComponentsInfo?: ComponentInfo[] | undefined;
 }
 export interface RegisterApplicationOutput {
-  Application?: Application;
-  OperationId?: string;
+  Application?: Application | undefined;
+  OperationId?: string | undefined;
 }
 export interface StartApplicationInput {
   ApplicationId: string;
 }
 export interface StartApplicationOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface StartApplicationRefreshInput {
   ApplicationId: string;
 }
 export interface StartApplicationRefreshOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type ConfigurationCheckTypeList = ConfigurationCheckType[];
 export interface StartConfigurationChecksInput {
   ApplicationId: string;
-  ConfigurationCheckIds?: ConfigurationCheckType[];
+  ConfigurationCheckIds?: ConfigurationCheckType[] | undefined;
 }
 export interface StartConfigurationChecksOutput {
-  ConfigurationCheckOperations?: ConfigurationCheckOperation[];
+  ConfigurationCheckOperations?: ConfigurationCheckOperation[] | undefined;
 }
 export type ConnectedEntityType = "DBMS" | (string & {});
 export interface StopApplicationInput {
   ApplicationId: string;
-  StopConnectedEntity?: ConnectedEntityType;
-  IncludeEc2InstanceShutdown?: boolean;
+  StopConnectedEntity?: ConnectedEntityType | undefined;
+  IncludeEc2InstanceShutdown?: boolean | undefined;
 }
 export interface StopApplicationOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -645,15 +645,15 @@ export interface BackintConfig {
 }
 export interface UpdateApplicationSettingsInput {
   ApplicationId: string;
-  CredentialsToAddOrUpdate?: ApplicationCredential[];
-  CredentialsToRemove?: ApplicationCredential[];
-  Backint?: BackintConfig;
-  DatabaseArn?: string;
+  CredentialsToAddOrUpdate?: ApplicationCredential[] | undefined;
+  CredentialsToRemove?: ApplicationCredential[] | undefined;
+  Backint?: BackintConfig | undefined;
+  DatabaseArn?: string | undefined;
 }
 export type OperationIdList = string[];
 export interface UpdateApplicationSettingsOutput {
-  Message?: string;
-  OperationIds?: string[];
+  Message?: string | undefined;
+  OperationIds?: string[] | undefined;
 }
 export type DeleteResourcePermissionError =
   | InternalServerException

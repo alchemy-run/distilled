@@ -142,27 +142,27 @@ export interface CreateForAuthenticatedUserRequestBodyCase0 {
   /** Repository id for this codespace */
   repository_id: number;
   /** Git ref (typically a branch name) for this codespace */
-  ref?: string;
+  ref?: string | undefined;
   /** The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
-  location?: string;
+  location?: string | undefined;
   /** The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down. */
-  geo?: CreateForAuthenticatedUserRequestBodyCase0Geo | (string & {});
+  geo?: CreateForAuthenticatedUserRequestBodyCase0Geo | (string & {}) | undefined;
   /** IP for location auto-detection when proxying a request */
-  client_ip?: string;
+  client_ip?: string | undefined;
   /** Machine type to use for this codespace */
-  machine?: string;
+  machine?: string | undefined;
   /** Path to devcontainer.json config to use for this codespace */
-  devcontainer_path?: string;
+  devcontainer_path?: string | undefined;
   /** Whether to authorize requested permissions from devcontainer.json */
-  multi_repo_permissions_opt_out?: boolean;
+  multi_repo_permissions_opt_out?: boolean | undefined;
   /** Working directory for this codespace */
-  working_directory?: string;
+  working_directory?: string | undefined;
   /** Time in minutes before codespace stops from inactivity */
-  idle_timeout_minutes?: number;
+  idle_timeout_minutes?: number | undefined;
   /** Display name for this codespace */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days). */
-  retention_period_minutes?: number;
+  retention_period_minutes?: number | undefined;
 }
 /** Pull request number for this codespace */
 export interface CreateForAuthenticatedUserRequestBodyCase1PullRequest {
@@ -181,17 +181,17 @@ export interface CreateForAuthenticatedUserRequestBodyCase1 {
   /** Pull request number for this codespace */
   pull_request: CreateForAuthenticatedUserRequestBodyCase1PullRequest;
   /** The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
-  location?: string;
+  location?: string | undefined;
   /** The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down. */
-  geo?: CreateForAuthenticatedUserRequestBodyCase1Geo | (string & {});
+  geo?: CreateForAuthenticatedUserRequestBodyCase1Geo | (string & {}) | undefined;
   /** Machine type to use for this codespace */
-  machine?: string;
+  machine?: string | undefined;
   /** Path to devcontainer.json config to use for this codespace */
-  devcontainer_path?: string;
+  devcontainer_path?: string | undefined;
   /** Working directory for this codespace */
-  working_directory?: string;
+  working_directory?: string | undefined;
   /** Time in minutes before codespace stops from inactivity */
-  idle_timeout_minutes?: number;
+  idle_timeout_minutes?: number | undefined;
 }
 export type CreateForAuthenticatedUserRequestBody =
   | CreateForAuthenticatedUserRequestBodyCase0
@@ -201,8 +201,8 @@ export interface CreateForAuthenticatedUserRequest {
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -221,73 +221,73 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -303,28 +303,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -357,7 +363,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -369,7 +375,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -377,52 +383,52 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 /** Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value will be "none" if no prebuild is available. Latest values "ready" and "in_progress" indicate the prebuild availability status. */
 export type NullableCodespaceMachinePrebuildAvailability = "none" | "ready" | "in_progress";
@@ -465,15 +471,15 @@ export type CodespaceState =
 /** Details about the codespace's git repository. */
 export interface CodespaceGitStatus {
   /** The number of commits the local repository is ahead of the remote. */
-  ahead?: number;
+  ahead?: number | undefined;
   /** The number of commits the local repository is behind the remote. */
-  behind?: number;
+  behind?: number | undefined;
   /** Whether the local repository has unpushed changes. */
-  has_unpushed_changes?: boolean;
+  has_unpushed_changes?: boolean | undefined;
   /** Whether the local repository has uncommitted changes. */
-  has_uncommitted_changes?: boolean;
+  has_uncommitted_changes?: boolean | undefined;
   /** The current branch (or SHA if in detached HEAD state) of the local repository. */
-  ref?: string;
+  ref?: string | undefined;
 }
 /** The initally assigned location of a new codespace. */
 export type CodespaceLocation = "EastUs" | "SouthEastAsia" | "WestEurope" | "WestUs2";
@@ -482,7 +488,10 @@ export type CodespaceRecentFoldersList = Array<string>;
 export type CodespaceRuntimeConstraintsAllowedPortPrivacySettingsList = Array<string>;
 export interface CodespaceRuntimeConstraints {
   /** The privacy settings a user can select from when forwarding a port. */
-  allowed_port_privacy_settings?: CodespaceRuntimeConstraintsAllowedPortPrivacySettingsList | null;
+  allowed_port_privacy_settings?:
+    | CodespaceRuntimeConstraintsAllowedPortPrivacySettingsList
+    | null
+    | undefined;
 }
 /** A codespace. */
 export interface Codespace {
@@ -490,7 +499,7 @@ export interface Codespace {
   /** Automatically generated name of this codespace. */
   name: string;
   /** Display name for this codespace. */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** UUID identifying this codespace's environment. */
   environment_id: string | null;
   owner: SimpleUser;
@@ -498,7 +507,7 @@ export interface Codespace {
   repository: MinimalRepository;
   machine: NullableCodespaceMachine | null;
   /** Path to devcontainer.json from repo root used to create Codespace. */
-  devcontainer_path?: string | null;
+  devcontainer_path?: string | null | undefined;
   /** Whether the codespace was created from a prebuild. */
   prebuild: boolean | null;
   created_at: string;
@@ -524,23 +533,23 @@ export interface Codespace {
   /** API URL to stop this codespace. */
   stop_url: string;
   /** API URL to publish this codespace to a new repository. */
-  publish_url?: string | null;
+  publish_url?: string | null | undefined;
   /** API URL for the Pull Request associated with this codespace, if any. */
   pulls_url: string | null;
   recent_folders: CodespaceRecentFoldersList;
-  runtime_constraints?: CodespaceRuntimeConstraints;
+  runtime_constraints?: CodespaceRuntimeConstraints | undefined;
   /** Whether or not a codespace has a pending async operation. This would mean that the codespace is temporarily unavailable. The only thing that you can do with a codespace in this state is delete it. */
-  pending_operation?: boolean | null;
+  pending_operation?: boolean | null | undefined;
   /** Text to show user when codespace is disabled by a pending operation */
-  pending_operation_disabled_reason?: string | null;
+  pending_operation_disabled_reason?: string | null | undefined;
   /** Text to show user when codespace idle timeout minutes has been overriden by an organization policy */
-  idle_timeout_notice?: string | null;
+  idle_timeout_notice?: string | null | undefined;
   /** Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days). */
-  retention_period_minutes?: number | null;
+  retention_period_minutes?: number | null | undefined;
   /** When a codespace will be auto-deleted based on the "retention_period_minutes" and "last_used_at" */
-  retention_expires_at?: string | null;
+  retention_expires_at?: string | null | undefined;
   /** The text to display to a user when a codespace has been stopped for a potentially actionable reason. */
-  last_known_stop_notice?: string | null;
+  last_known_stop_notice?: string | null | undefined;
 }
 /** Which type of organization repositories have access to the organization secret. `selected` means only the repositories specified by `selected_repository_ids` can access the secret. */
 export type CreateOrUpdateOrgSecretRequestVisibility = "all" | "private" | "selected";
@@ -552,13 +561,13 @@ export interface CreateOrUpdateOrgSecretRequest {
   /** The name of the secret. */
   secret_name: string;
   /** The value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get an organization public key](https://docs.github.com/rest/codespaces/organization-secrets#get-an-organization-public-key) endpoint. */
-  encrypted_value?: string;
+  encrypted_value?: string | undefined;
   /** The ID of the key you used to encrypt the secret. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Which type of organization repositories have access to the organization secret. `selected` means only the repositories specified by `selected_repository_ids` can access the secret. */
   visibility: CreateOrUpdateOrgSecretRequestVisibility | (string & {});
   /** An array of repository IDs that can access the organization secret. You can only provide a list of repository IDs when the `visibility` is set to `selected`. You can manage the list of selected repositories using the [List selected repositories for an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#list-selected-repositories-for-an-organization-secret), [Set selected repositories for an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#set-selected-repositories-for-an-organization-secret), and [Remove selected repository from an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#remove-selected-repository-from-an-organization-secret) endpoints. */
-  selected_repository_ids?: CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList;
+  selected_repository_ids?: CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList | undefined;
 }
 export type CreateOrUpdateOrgSecretResponse = unknown;
 export interface CreateOrUpdateRepoSecretRequest {
@@ -569,9 +578,9 @@ export interface CreateOrUpdateRepoSecretRequest {
   /** The name of the secret. */
   secret_name: string;
   /** Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get a repository public key](https://docs.github.com/rest/codespaces/repository-secrets#get-a-repository-public-key) endpoint. */
-  encrypted_value?: string;
+  encrypted_value?: string | undefined;
   /** ID of the key you used to encrypt the secret. */
-  key_id?: string;
+  key_id?: string | undefined;
 }
 export type CreateOrUpdateRepoSecretResponse = unknown;
 export type CreateOrUpdateSecretForAuthenticatedUserRequestSelectedRepositoryIdsItem =
@@ -584,11 +593,13 @@ export interface CreateOrUpdateSecretForAuthenticatedUserRequest {
   /** The name of the secret. */
   secret_name: string;
   /** Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get the public key for the authenticated user](https://docs.github.com/rest/codespaces/secrets#get-public-key-for-the-authenticated-user) endpoint. */
-  encrypted_value?: string;
+  encrypted_value?: string | undefined;
   /** ID of the key you used to encrypt the secret. */
   key_id: string;
   /** An array of repository ids that can access the user secret. You can manage the list of selected repositories using the [List selected repositories for a user secret](https://docs.github.com/rest/codespaces/secrets#list-selected-repositories-for-a-user-secret), [Set selected repositories for a user secret](https://docs.github.com/rest/codespaces/secrets#set-selected-repositories-for-a-user-secret), and [Remove a selected repository from a user secret](https://docs.github.com/rest/codespaces/secrets#remove-a-selected-repository-from-a-user-secret) endpoints. */
-  selected_repository_ids?: CreateOrUpdateSecretForAuthenticatedUserRequestSelectedRepositoryIdsList;
+  selected_repository_ids?:
+    | CreateOrUpdateSecretForAuthenticatedUserRequestSelectedRepositoryIdsList
+    | undefined;
 }
 export type CreateOrUpdateSecretForAuthenticatedUserResponse = unknown;
 /** The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down. */
@@ -605,25 +616,25 @@ export interface CreateWithPrForAuthenticatedUserRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
-  location?: string;
+  location?: string | undefined;
   /** The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down. */
-  geo?: CreateWithPrForAuthenticatedUserRequestGeo | (string & {});
+  geo?: CreateWithPrForAuthenticatedUserRequestGeo | (string & {}) | undefined;
   /** IP for location auto-detection when proxying a request */
-  client_ip?: string;
+  client_ip?: string | undefined;
   /** Machine type to use for this codespace */
-  machine?: string;
+  machine?: string | undefined;
   /** Path to devcontainer.json config to use for this codespace */
-  devcontainer_path?: string;
+  devcontainer_path?: string | undefined;
   /** Whether to authorize requested permissions from devcontainer.json */
-  multi_repo_permissions_opt_out?: boolean;
+  multi_repo_permissions_opt_out?: boolean | undefined;
   /** Working directory for this codespace */
-  working_directory?: string;
+  working_directory?: string | undefined;
   /** Time in minutes before codespace stops from inactivity */
-  idle_timeout_minutes?: number;
+  idle_timeout_minutes?: number | undefined;
   /** Display name for this codespace */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days). */
-  retention_period_minutes?: number;
+  retention_period_minutes?: number | undefined;
 }
 /** The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down. */
 export type CreateWithRepoForAuthenticatedUserRequestGeo =
@@ -637,27 +648,27 @@ export interface CreateWithRepoForAuthenticatedUserRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Git ref (typically a branch name) for this codespace */
-  ref?: string;
+  ref?: string | undefined;
   /** The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
-  location?: string;
+  location?: string | undefined;
   /** The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down. */
-  geo?: CreateWithRepoForAuthenticatedUserRequestGeo | (string & {});
+  geo?: CreateWithRepoForAuthenticatedUserRequestGeo | (string & {}) | undefined;
   /** IP for location auto-detection when proxying a request */
-  client_ip?: string;
+  client_ip?: string | undefined;
   /** Machine type to use for this codespace */
-  machine?: string;
+  machine?: string | undefined;
   /** Path to devcontainer.json config to use for this codespace */
-  devcontainer_path?: string;
+  devcontainer_path?: string | undefined;
   /** Whether to authorize requested permissions from devcontainer.json */
-  multi_repo_permissions_opt_out?: boolean;
+  multi_repo_permissions_opt_out?: boolean | undefined;
   /** Working directory for this codespace */
-  working_directory?: string;
+  working_directory?: string | undefined;
   /** Time in minutes before codespace stops from inactivity */
-  idle_timeout_minutes?: number;
+  idle_timeout_minutes?: number | undefined;
   /** Display name for this codespace */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days). */
-  retention_period_minutes?: number;
+  retention_period_minutes?: number | undefined;
 }
 export interface DeleteForAuthenticatedUserRequest {
   /** The name of the codespace. */
@@ -705,9 +716,9 @@ export interface GetCodespacesForUserInOrgRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type GetCodespacesForUserInOrgResponseCodespacesList = Array<Codespace>;
 export interface GetCodespacesForUserInOrgResponse {
@@ -723,19 +734,19 @@ export interface GetExportDetailsForAuthenticatedUserRequest {
 /** An export of a codespace. Also, latest export details for a codespace can be fetched with id = latest */
 export interface CodespaceExportDetails {
   /** State of the latest export */
-  state?: string | null;
+  state?: string | null | undefined;
   /** Completion time of the last export operation */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** Name of the exported branch */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Git commit SHA of the exported branch */
-  sha?: string | null;
+  sha?: string | null | undefined;
   /** Id for the export details */
-  id?: string;
+  id?: string | undefined;
   /** Url for fetching export details */
-  export_url?: string;
+  export_url?: string | undefined;
   /** Web url for the exported branch */
-  html_url?: string | null;
+  html_url?: string | null | undefined;
 }
 export interface GetForAuthenticatedUserRequest {
   /** The name of the codespace. */
@@ -751,10 +762,10 @@ export interface CodespacesPublicKey {
   key_id: string;
   /** The Base64 encoded public key. */
   key: string;
-  id?: number;
-  url?: string;
-  title?: string;
-  created_at?: string;
+  id?: number | undefined;
+  url?: string | undefined;
+  title?: string | undefined;
+  created_at?: string | undefined;
 }
 export interface GetOrgSecretRequest {
   /** The organization name. The name is not case sensitive. */
@@ -775,7 +786,7 @@ export interface CodespacesOrgSecret {
   /** The type of repositories in the organization that the secret is visible to */
   visibility: CodespacesOrgSecretVisibility;
   /** The API URL at which the list of repositories this secret is visible to can be retrieved */
-  selected_repositories_url?: string;
+  selected_repositories_url?: string | undefined;
 }
 export interface GetPublicKeyForAuthenticatedUserRequest {}
 /** The public key used for setting user Codespaces' Secrets. */
@@ -831,14 +842,14 @@ export interface ListDevcontainersInRepositoryForAuthenticatedUserRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface ListDevcontainersInRepositoryForAuthenticatedUserResponseDevcontainersItem {
   path: string;
-  name?: string;
-  display_name?: string;
+  name?: string | undefined;
+  display_name?: string | undefined;
 }
 export type ListDevcontainersInRepositoryForAuthenticatedUserResponseDevcontainersList =
   Array<ListDevcontainersInRepositoryForAuthenticatedUserResponseDevcontainersItem>;
@@ -848,11 +859,11 @@ export interface ListDevcontainersInRepositoryForAuthenticatedUserResponse {
 }
 export interface ListForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** ID of the Repository to filter on */
-  repository_id?: number;
+  repository_id?: number | undefined;
 }
 export type ListForAuthenticatedUserResponseCodespacesList = Array<Codespace>;
 export interface ListForAuthenticatedUserResponse {
@@ -863,9 +874,9 @@ export interface ListInOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListInOrganizationResponseCodespacesList = Array<Codespace>;
 export interface ListInOrganizationResponse {
@@ -878,9 +889,9 @@ export interface ListInRepositoryForAuthenticatedUserRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListInRepositoryForAuthenticatedUserResponseCodespacesList = Array<Codespace>;
 export interface ListInRepositoryForAuthenticatedUserResponse {
@@ -891,9 +902,9 @@ export interface ListOrgSecretsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListOrgSecretsResponseSecretsList = Array<CodespacesOrgSecret>;
 export interface ListOrgSecretsResponse {
@@ -906,9 +917,9 @@ export interface ListRepoSecretsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoSecretsResponseSecretsList = Array<RepoCodespacesSecret>;
 export interface ListRepoSecretsResponse {
@@ -927,9 +938,9 @@ export interface ListRepositoriesForSecretForAuthenticatedUserResponse {
 }
 export interface ListSecretsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSecretsForAuthenticatedUserResponseSecretsList = Array<CodespacesSecret>;
 export interface ListSecretsForAuthenticatedUserResponse {
@@ -942,9 +953,9 @@ export interface ListSelectedReposForOrgSecretRequest {
   /** The name of the secret. */
   secret_name: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListSelectedReposForOrgSecretResponseRepositoriesList = Array<MinimalRepository>;
 export interface ListSelectedReposForOrgSecretResponse {
@@ -957,34 +968,34 @@ export interface PreFlightWithRepoForAuthenticatedUserRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The branch or commit to check for a default devcontainer path. If not specified, the default branch will be checked. */
-  ref?: string;
+  ref?: string | undefined;
   /** An alternative IP for default location auto-detection, such as when proxying a request. */
-  client_ip?: string;
+  client_ip?: string | undefined;
 }
 export interface PreFlightWithRepoForAuthenticatedUserResponseDefaults {
   location: string;
   devcontainer_path: string | null;
 }
 export interface PreFlightWithRepoForAuthenticatedUserResponse {
-  billable_owner?: SimpleUser;
-  defaults?: PreFlightWithRepoForAuthenticatedUserResponseDefaults;
+  billable_owner?: SimpleUser | undefined;
+  defaults?: PreFlightWithRepoForAuthenticatedUserResponseDefaults | undefined;
 }
 export interface PublishForAuthenticatedUserRequest {
   /** The name of the codespace. */
   codespace_name: string;
   /** A name for the new repository. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the new repository should be private. */
-  private?: boolean;
+  private?: boolean | undefined;
 }
 export type FullRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type FullRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface FullRepositoryPermissions {
   admin: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
   push: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   pull: boolean;
 }
 /** License Simple */
@@ -994,14 +1005,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface NullableRepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type NullableRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -1016,8 +1027,8 @@ export type NullableRepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type NullableRepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface NullableRepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface NullableRepository {
@@ -1029,7 +1040,7 @@ export interface NullableRepository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: NullableRepositoryPermissions;
+  permissions?: NullableRepositoryPermissions | undefined;
   owner: SimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -1089,8 +1100,8 @@ export interface NullableRepository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: NullableRepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: NullableRepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -1101,55 +1112,55 @@ export interface NullableRepository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: NullableRepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: NullableRepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: NullableRepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: NullableRepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: NullableRepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: NullableRepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: NullableRepositoryMergeCommitTitle;
+  merge_commit_title?: NullableRepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: NullableRepositoryMergeCommitMessage;
+  merge_commit_message?: NullableRepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus;
+  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus | undefined;
 }
 /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
 export type FullRepositorySquashMergeCommitTitle = "PR_TITLE" | "COMMIT_OR_PR_TITLE";
@@ -1185,7 +1196,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: NullableRepositoryPermissions;
+  permissions?: NullableRepositoryPermissions | undefined;
   owner: SimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -1245,8 +1256,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -1257,55 +1268,55 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus;
+  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus | undefined;
 }
 /** Code of Conduct Simple */
 export interface CodeOfConductSimple {
@@ -1378,61 +1389,61 @@ export interface FullRepository {
   size: number;
   default_branch: string;
   open_issues_count: number;
-  is_template?: boolean;
-  topics?: FullRepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: FullRepositoryTopicsList | undefined;
   has_issues: boolean;
   has_projects: boolean;
   has_wiki: boolean;
   has_pages: boolean;
-  has_downloads?: boolean;
+  has_downloads?: boolean | undefined;
   has_discussions: boolean;
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: FullRepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: FullRepositoryPullRequestCreationPolicy | undefined;
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string;
   created_at: string;
   updated_at: string;
-  permissions?: FullRepositoryPermissions;
-  allow_rebase_merge?: boolean;
-  template_repository?: NullableRepository | null;
-  temp_clone_token?: string | null;
-  allow_squash_merge?: boolean;
-  allow_auto_merge?: boolean;
-  delete_branch_on_merge?: boolean;
-  allow_merge_commit?: boolean;
-  allow_update_branch?: boolean;
-  use_squash_pr_title_as_default?: boolean;
+  permissions?: FullRepositoryPermissions | undefined;
+  allow_rebase_merge?: boolean | undefined;
+  template_repository?: NullableRepository | null | undefined;
+  temp_clone_token?: string | null | undefined;
+  allow_squash_merge?: boolean | undefined;
+  allow_auto_merge?: boolean | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  allow_merge_commit?: boolean | undefined;
+  allow_update_branch?: boolean | undefined;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: FullRepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: FullRepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: FullRepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: FullRepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: FullRepositoryMergeCommitTitle;
+  merge_commit_title?: FullRepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: FullRepositoryMergeCommitMessage;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
+  merge_commit_message?: FullRepositoryMergeCommitMessage | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
   subscribers_count: number;
   network_count: number;
   license: NullableLicenseSimple | null;
-  organization?: SimpleUser | null;
-  parent?: Repository;
-  source?: Repository;
+  organization?: SimpleUser | null | undefined;
+  parent?: Repository | undefined;
+  source?: Repository | undefined;
   forks: number;
-  master_branch?: string;
+  master_branch?: string | undefined;
   open_issues: number;
   watchers: number;
   /** Whether anonymous git access is allowed. */
-  anonymous_access_enabled?: boolean;
-  code_of_conduct?: CodeOfConductSimple;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  anonymous_access_enabled?: boolean | undefined;
+  code_of_conduct?: CodeOfConductSimple | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: FullRepositoryCustomPropertiesMap;
+  custom_properties?: FullRepositoryCustomPropertiesMap | undefined;
 }
 /** State of this codespace. */
 export type CodespaceWithFullRepositoryState =
@@ -1467,7 +1478,10 @@ export type CodespaceWithFullRepositoryRuntimeConstraintsAllowedPortPrivacySetti
   Array<string>;
 export interface CodespaceWithFullRepositoryRuntimeConstraints {
   /** The privacy settings a user can select from when forwarding a port. */
-  allowed_port_privacy_settings?: CodespaceWithFullRepositoryRuntimeConstraintsAllowedPortPrivacySettingsList | null;
+  allowed_port_privacy_settings?:
+    | CodespaceWithFullRepositoryRuntimeConstraintsAllowedPortPrivacySettingsList
+    | null
+    | undefined;
 }
 /** A codespace. */
 export interface CodespaceWithFullRepository {
@@ -1475,7 +1489,7 @@ export interface CodespaceWithFullRepository {
   /** Automatically generated name of this codespace. */
   name: string;
   /** Display name for this codespace. */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** UUID identifying this codespace's environment. */
   environment_id: string | null;
   owner: SimpleUser;
@@ -1483,7 +1497,7 @@ export interface CodespaceWithFullRepository {
   repository: FullRepository;
   machine: NullableCodespaceMachine | null;
   /** Path to devcontainer.json from repo root used to create Codespace. */
-  devcontainer_path?: string | null;
+  devcontainer_path?: string | null | undefined;
   /** Whether the codespace was created from a prebuild. */
   prebuild: boolean | null;
   created_at: string;
@@ -1509,21 +1523,21 @@ export interface CodespaceWithFullRepository {
   /** API URL to stop this codespace. */
   stop_url: string;
   /** API URL to publish this codespace to a new repository. */
-  publish_url?: string | null;
+  publish_url?: string | null | undefined;
   /** API URL for the Pull Request associated with this codespace, if any. */
   pulls_url: string | null;
   recent_folders: CodespaceWithFullRepositoryRecentFoldersList;
-  runtime_constraints?: CodespaceWithFullRepositoryRuntimeConstraints;
+  runtime_constraints?: CodespaceWithFullRepositoryRuntimeConstraints | undefined;
   /** Whether or not a codespace has a pending async operation. This would mean that the codespace is temporarily unavailable. The only thing that you can do with a codespace in this state is delete it. */
-  pending_operation?: boolean | null;
+  pending_operation?: boolean | null | undefined;
   /** Text to show user when codespace is disabled by a pending operation */
-  pending_operation_disabled_reason?: string | null;
+  pending_operation_disabled_reason?: string | null | undefined;
   /** Text to show user when codespace idle timeout minutes has been overriden by an organization policy */
-  idle_timeout_notice?: string | null;
+  idle_timeout_notice?: string | null | undefined;
   /** Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days). */
-  retention_period_minutes?: number | null;
+  retention_period_minutes?: number | null | undefined;
   /** When a codespace will be auto-deleted based on the "retention_period_minutes" and "last_used_at" */
-  retention_expires_at?: string | null;
+  retention_expires_at?: string | null | undefined;
 }
 export interface RemoveRepositoryForSecretForAuthenticatedUserRequest {
   /** The name of the secret. */
@@ -1545,11 +1559,11 @@ export interface RepoMachinesForAuthenticatedUserRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The location to check for available machines. Assigned by IP if not provided. */
-  location?: string;
+  location?: string | undefined;
   /** IP for location auto-detection when proxying a request */
-  client_ip?: string;
+  client_ip?: string | undefined;
   /** The branch or commit to check for prebuild availability and devcontainer restrictions. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type RepoMachinesForAuthenticatedUserResponseMachinesList = Array<CodespaceMachine>;
 export interface RepoMachinesForAuthenticatedUserResponse {
@@ -1599,11 +1613,11 @@ export interface UpdateForAuthenticatedUserRequest {
   /** The name of the codespace. */
   codespace_name: string;
   /** A valid machine to transition this codespace to. */
-  machine?: string;
+  machine?: string | undefined;
   /** Display name for this codespace */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Recently opened folders inside the codespace. It is currently used by the clients to determine the folder path to load the codespace in. */
-  recent_folders?: UpdateForAuthenticatedUserRequestRecentFoldersList;
+  recent_folders?: UpdateForAuthenticatedUserRequestRecentFoldersList | undefined;
 }
 export type AddRepositoryForSecretForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
 /** Add a selected repository to a user secret Adds a repository to the selected repositories for a user's development environment secret. The authenticated user must have Codespaces access to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `codespace` or `codespace:secrets` scope to use this endpoint. */

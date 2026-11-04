@@ -70,45 +70,45 @@ export type RunpagespeedPagespeedapiCategoryEnumList = Array<
 export type RunpagespeedPagespeedapiStrategyEnum = "STRATEGY_UNSPECIFIED" | "DESKTOP" | "MOBILE";
 export interface RunpagespeedPagespeedapiRequest {
   /** The captcha token passed when filling out a captcha. */
-  captchaToken?: string;
+  captchaToken?: string | undefined;
   /** Required. The URL to fetch and analyze */
   url: string;
   /** A Lighthouse category to run; if none are given, only Performance category will be run */
-  category?: RunpagespeedPagespeedapiCategoryEnumList;
+  category?: RunpagespeedPagespeedapiCategoryEnumList | undefined;
   /** The locale used to localize formatted results */
-  locale?: string;
+  locale?: string | undefined;
   /** The analysis strategy (desktop or mobile) to use, and desktop is the default */
-  strategy?: RunpagespeedPagespeedapiStrategyEnum | (string & {});
+  strategy?: RunpagespeedPagespeedapiStrategyEnum | (string & {}) | undefined;
   /** Campaign name for analytics. */
-  utm_campaign?: string;
+  utm_campaign?: string | undefined;
   /** Campaign source for analytics. */
-  utm_source?: string;
+  utm_source?: string | undefined;
 }
 /** The Pagespeed Version object. */
 export interface PagespeedVersion {
   /** The minor version number of PageSpeed used to generate these results. */
-  minor?: string;
+  minor?: string | undefined;
   /** The major version number of PageSpeed used to generate these results. */
-  major?: string;
+  major?: string | undefined;
 }
 /** Message containing the performance timing data for the Lighthouse run. */
 export interface Timing {
   /** The total duration of Lighthouse's run. */
-  total?: number;
+  total?: number | undefined;
 }
 export type StringList = Array<string>;
 /** A light reference to an audit by id, used to group and weight audits in a given category. */
 export interface AuditRefs {
   /** The category group that the audit belongs to (optional). */
-  group?: string;
+  group?: string | undefined;
   /** The conventional acronym for the audit/metric. */
-  acronym?: string;
+  acronym?: string | undefined;
   /** Any audit IDs closely relevant to this one. */
-  relevantAudits?: StringList;
+  relevantAudits?: StringList | undefined;
   /** The audit ref id. */
-  id?: string;
+  id?: string | undefined;
   /** The weight this audit's score has on the overall category score. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type AuditRefsList = Array<AuditRefs>;
 export type LighthouseCategoryV5CategoryScoreDisplayModeEnum =
@@ -118,350 +118,350 @@ export type LighthouseCategoryV5CategoryScoreDisplayModeEnum =
 /** A Lighthouse category. */
 export interface LighthouseCategoryV5 {
   /** An array of references to all the audit members of this category. */
-  auditRefs?: AuditRefsList;
+  auditRefs?: AuditRefsList | undefined;
   /** Optional. How the category score should be displayed (e.g. as a fraction). */
-  categoryScoreDisplayMode?: LighthouseCategoryV5CategoryScoreDisplayModeEnum;
+  categoryScoreDisplayMode?: LighthouseCategoryV5CategoryScoreDisplayModeEnum | undefined;
   /** A more detailed description of the category and its importance. */
-  description?: string;
+  description?: string | undefined;
   /** The overall score of the category, the weighted average of all its audits. (The category's score, can be null.) */
-  score?: unknown;
+  score?: unknown | undefined;
   /** A description for the manual audits in the category. */
-  manualDescription?: string;
+  manualDescription?: string | undefined;
   /** The string identifier of the category. */
-  id?: string;
+  id?: string | undefined;
   /** The human-friendly name of the category. */
-  title?: string;
+  title?: string | undefined;
 }
 /** The categories in a Lighthouse run. */
 export interface Categories {
   /** The best practices category, containing all best practices related audits. */
-  "best-practices"?: LighthouseCategoryV5;
+  "best-practices"?: LighthouseCategoryV5 | undefined;
   /** The agentic browsing category, containing all agentic browsing related audits. */
-  "agentic-browsing"?: LighthouseCategoryV5;
+  "agentic-browsing"?: LighthouseCategoryV5 | undefined;
   /** The performance category, containing all performance related audits. */
-  performance?: LighthouseCategoryV5;
+  performance?: LighthouseCategoryV5 | undefined;
   /** The Search-Engine-Optimization (SEO) category, containing all seo related audits. */
-  seo?: LighthouseCategoryV5;
+  seo?: LighthouseCategoryV5 | undefined;
   /** The accessibility category, containing all accessibility related audits. */
-  accessibility?: LighthouseCategoryV5;
+  accessibility?: LighthouseCategoryV5 | undefined;
   /** The Progressive-Web-App (PWA) category, containing all pwa related audits. This is deprecated in Lighthouse's 12.0 release. */
-  pwa?: LighthouseCategoryV5;
+  pwa?: LighthouseCategoryV5 | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** The metric savings of the audit. */
 export interface MetricSavings {
   /** Optional. Optional numeric value representing the audit's savings for the LCP metric. */
-  LCP?: number;
+  LCP?: number | undefined;
   /** Optional. Optional numeric value representing the audit's savings for the FCP metric. */
-  FCP?: number;
+  FCP?: number | undefined;
   /** Optional. Optional numeric value representing the audit's savings for the INP metric. */
-  INP?: number;
+  INP?: number | undefined;
   /** Optional. Optional numeric value representing the audit's savings for the TBT metric. */
-  TBT?: number;
+  TBT?: number | undefined;
   /** Optional. Optional numeric value representing the audit's savings for the CLS metric. */
-  CLS?: number;
+  CLS?: number | undefined;
 }
 /** An audit's result object in a Lighthouse result. */
 export interface LighthouseAuditResultV5 {
   /** The value that should be displayed on the UI for this audit. */
-  displayValue?: string;
+  displayValue?: string | undefined;
   /** Possible warnings that occurred in the audit, can be null. */
-  warnings?: unknown;
+  warnings?: unknown | undefined;
   /** Freeform details section of the audit. */
-  details?: DocumentMap;
+  details?: DocumentMap | undefined;
   /** The human readable title. */
-  title?: string;
+  title?: string | undefined;
   /** The enumerated score display mode. */
-  scoreDisplayMode?: string;
+  scoreDisplayMode?: string | undefined;
   /** The metric savings of the audit. */
-  metricSavings?: MetricSavings;
+  metricSavings?: MetricSavings | undefined;
   /** The unit of the numeric_value field. Used to format the numeric value for display. */
-  numericUnit?: string;
+  numericUnit?: string | undefined;
   /** An explanation of the errors in the audit. */
-  explanation?: string;
+  explanation?: string | undefined;
   /** The score of the audit, can be null. */
-  score?: unknown;
+  score?: unknown | undefined;
   /** A numeric value that has a meaning specific to the audit, e.g. the number of nodes in the DOM or the timestamp of a specific load event. More information can be found in the audit details, if present. */
-  numericValue?: number;
+  numericValue?: number | undefined;
   /** The audit's id. */
-  id?: string;
+  id?: string | undefined;
   /** The description of the audit. */
-  description?: string;
+  description?: string | undefined;
   /** An error message from a thrown error inside the audit. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type LighthouseAuditResultV5Map = { [key: string]: LighthouseAuditResultV5 | undefined };
 export type StringMap = { [key: string]: string | undefined };
 /** Message containing Stack Pack information. */
 export interface StackPack {
   /** The stack pack title. */
-  title?: string;
+  title?: string | undefined;
   /** The stack pack advice strings. */
-  descriptions?: StringMap;
+  descriptions?: StringMap | undefined;
   /** The stack pack icon data uri. */
-  iconDataURL?: string;
+  iconDataURL?: string | undefined;
   /** The stack pack id. */
-  id?: string;
+  id?: string | undefined;
 }
 export type StackPackList = Array<StackPack>;
 /** Message containing environment configuration for a Lighthouse run. */
 export interface Environment {
   /** The benchmark index number that indicates rough device class. */
-  benchmarkIndex?: number;
+  benchmarkIndex?: number | undefined;
   /** The user agent string that was sent over the network. */
-  networkUserAgent?: string;
+  networkUserAgent?: string | undefined;
   /** The user agent string of the version of Chrome used. */
-  hostUserAgent?: string;
+  hostUserAgent?: string | undefined;
   /** The version of libraries with which these results were generated. Ex: axe-core. */
-  credits?: StringMap;
+  credits?: StringMap | undefined;
 }
 /** Message containing a category */
 export interface CategoryGroupV5 {
   /** The human readable title of the group */
-  title?: string;
+  title?: string | undefined;
   /** The description of what the category is grouping */
-  description?: string;
+  description?: string | undefined;
 }
 export type CategoryGroupV5Map = { [key: string]: CategoryGroupV5 | undefined };
 export type DocumentList = Array<unknown>;
 /** Message containing an Entity. */
 export interface LhrEntity {
   /** Optional. An optional flag indicating if the entity is the first party. */
-  isFirstParty?: boolean;
+  isFirstParty?: boolean | undefined;
   /** Optional. An optional category name for the entity. */
-  category?: string;
+  category?: string | undefined;
   /** Required. Name of the entity. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. An optional flag indicating if the entity is not recognized. */
-  isUnrecognized?: boolean;
+  isUnrecognized?: boolean | undefined;
   /** Optional. An optional homepage URL of the entity. */
-  homepage?: string;
+  homepage?: string | undefined;
   /** Required. A list of URL origin strings that belong to this entity. */
-  origins?: StringList;
+  origins?: StringList | undefined;
 }
 export type LhrEntityList = Array<LhrEntity>;
 /** Message containing the configuration settings for the Lighthouse run. */
 export interface ConfigSettings {
   /** The locale setting. */
-  locale?: string;
+  locale?: string | undefined;
   /** How Lighthouse should interpret this run in regards to scoring performance metrics and skipping mobile-only tests in desktop. */
-  formFactor?: string;
+  formFactor?: string | undefined;
   /** List of categories of audits the run should conduct. */
-  onlyCategories?: unknown;
+  onlyCategories?: unknown | undefined;
   /** How Lighthouse was run, e.g. from the Chrome extension or from the npm module. */
-  channel?: string;
+  channel?: string | undefined;
   /** The form factor the emulation should use. This field is deprecated, form_factor should be used instead. */
-  emulatedFormFactor?: string;
+  emulatedFormFactor?: string | undefined;
 }
 /** Message holding the formatted strings used in the renderer. */
 export interface RendererFormattedStrings {
   /** The label for the initial request in a critical request chain. */
-  crcInitialNavigation?: string;
+  crcInitialNavigation?: string | undefined;
   /** The label shown preceding important warnings that may have invalidated an entire report. */
-  toplevelWarningsMessage?: string;
+  toplevelWarningsMessage?: string | undefined;
   /** The tooltip text on an expandable chevron icon. */
-  auditGroupExpandTooltip?: string;
+  auditGroupExpandTooltip?: string | undefined;
   /** The label shown next to an audit or metric that has had an error. */
-  errorLabel?: string;
+  errorLabel?: string | undefined;
   /** Descriptive explanation for emulation setting when emulating a generic desktop form factor, as opposed to a mobile-device like form factor. */
-  runtimeDesktopEmulation?: string;
+  runtimeDesktopEmulation?: string | undefined;
   /** The error string shown next to an erroring audit. */
-  errorMissingAuditInfo?: string;
+  errorMissingAuditInfo?: string | undefined;
   /** Descriptive explanation for emulation setting when no device emulation is set. */
-  runtimeNoEmulation?: string;
+  runtimeNoEmulation?: string | undefined;
   /** Option in a dropdown menu that copies the Lighthouse JSON object to the system clipboard. */
-  dropdownCopyJSON?: string;
+  dropdownCopyJSON?: string | undefined;
   /** Option in a dropdown menu that toggles the themeing of the report between Light(default) and Dark themes. */
-  dropdownDarkTheme?: string;
+  dropdownDarkTheme?: string | undefined;
   /** Label for a row in a table that shows the User Agent that was detected on the Host machine that ran Lighthouse. */
-  runtimeSettingsUA?: string;
+  runtimeSettingsUA?: string | undefined;
   /** The disclaimer shown below a performance metric value. */
-  varianceDisclaimer?: string;
+  varianceDisclaimer?: string | undefined;
   /** The label shown above a bulleted list of warnings. */
-  warningHeader?: string;
+  warningHeader?: string | undefined;
   /** Label for button to create an issue against the Lighthouse GitHub project. */
-  footerIssue?: string;
+  footerIssue?: string | undefined;
   /** Label for a row in a table that shows the User Agent that was used to send out all network requests during the Lighthouse run. */
-  runtimeSettingsUANetwork?: string;
+  runtimeSettingsUANetwork?: string | undefined;
   /** Label for a row in a table that describes the CPU throttling conditions that were used during a Lighthouse run, if any. */
-  runtimeSettingsCPUThrottling?: string;
+  runtimeSettingsCPUThrottling?: string | undefined;
   /** The heading that is shown above a list of audits that are passing. */
-  passedAuditsGroupTitle?: string;
+  passedAuditsGroupTitle?: string | undefined;
   /** The heading for the estimated page load savings opportunity of an audit. */
-  opportunityResourceColumnLabel?: string;
+  opportunityResourceColumnLabel?: string | undefined;
   /** This label is for a filter checkbox above a table of items */
-  thirdPartyResourcesLabel?: string;
+  thirdPartyResourcesLabel?: string | undefined;
   /** The title of the lab data performance category. */
-  labDataTitle?: string;
+  labDataTitle?: string | undefined;
   /** The label for values shown in the summary of critical request chains. */
-  crcLongestDurationLabel?: string;
+  crcLongestDurationLabel?: string | undefined;
   /** Label for a row in a table that shows in what tool Lighthouse is being run (e.g. The lighthouse CLI, Chrome DevTools, Lightrider, WebPageTest, etc). */
-  runtimeSettingsChannel?: string;
+  runtimeSettingsChannel?: string | undefined;
   /** Descriptive explanation for environment throttling that was provided by the runtime environment instead of provided by Lighthouse throttling. */
-  throttlingProvided?: string;
+  throttlingProvided?: string | undefined;
   /** The heading for the estimated page load savings of opportunity audits. */
-  opportunitySavingsColumnLabel?: string;
+  opportunitySavingsColumnLabel?: string | undefined;
   /** The heading shown above a list of audits that do not apply to a page. */
-  notApplicableAuditsGroupTitle?: string;
+  notApplicableAuditsGroupTitle?: string | undefined;
   /** The disclaimer shown under performance explaining that the network can vary. */
-  lsPerformanceCategoryDescription?: string;
+  lsPerformanceCategoryDescription?: string | undefined;
   /** The label for the button to show all lines of a snippet */
-  snippetExpandButtonLabel?: string;
+  snippetExpandButtonLabel?: string | undefined;
   /** Option in a dropdown menu that saves the Lighthouse report HTML locally to the system as a '.html' file. */
-  dropdownSaveHTML?: string;
+  dropdownSaveHTML?: string | undefined;
   /** The heading shown above a list of audits that were not computerd in the run. */
-  manualAuditsGroupTitle?: string;
+  manualAuditsGroupTitle?: string | undefined;
   /** Option in a dropdown menu that opens a full Lighthouse report in a print dialog. */
-  dropdownPrintExpanded?: string;
+  dropdownPrintExpanded?: string | undefined;
   /** Title of the Runtime settings table in a Lighthouse report. Runtime settings are the environment configurations that a specific report used at auditing time. */
-  runtimeSettingsTitle?: string;
+  runtimeSettingsTitle?: string | undefined;
   /** Option in a dropdown menu that saves the Lighthouse JSON object to the local system as a '.json' file. */
-  dropdownSaveJSON?: string;
+  dropdownSaveJSON?: string | undefined;
   /** Label for a row in a table that shows the estimated CPU power of the machine running Lighthouse. Example row values: 532, 1492, 783. */
-  runtimeSettingsBenchmark?: string;
+  runtimeSettingsBenchmark?: string | undefined;
   /** Label for a row in a table that shows the time at which a Lighthouse run was conducted; formatted as a timestamp, e.g. Jan 1, 1970 12:00 AM UTC. */
-  runtimeSettingsFetchTime?: string;
+  runtimeSettingsFetchTime?: string | undefined;
   /** Option in a dropdown menu that opens a small, summary report in a print dialog. */
-  dropdownPrintSummary?: string;
+  dropdownPrintSummary?: string | undefined;
   /** Label preceding a radio control for filtering the list of audits. The radio choices are various performance metrics (FCP, LCP, TBT), and if chosen, the audits in the report are hidden if they are not relevant to the selected metric. */
-  showRelevantAudits?: string;
+  showRelevantAudits?: string | undefined;
   /** Descriptive explanation for a runtime setting that is set to an unknown value. */
-  runtimeUnknown?: string;
+  runtimeUnknown?: string | undefined;
   /** Option in a dropdown menu that opens the current report in the Lighthouse Viewer Application. */
-  dropdownViewer?: string;
+  dropdownViewer?: string | undefined;
   /** Label for a row in a table that describes the network throttling conditions that were used during a Lighthouse run, if any. */
-  runtimeSettingsNetworkThrottling?: string;
+  runtimeSettingsNetworkThrottling?: string | undefined;
   /** The heading that is shown above a list of audits that have warnings */
-  warningAuditsGroupTitle?: string;
+  warningAuditsGroupTitle?: string | undefined;
   /** Label for a row in a table that describes the kind of device that was emulated for the Lighthouse run. Example values for row elements: 'No Emulation', 'Emulated Desktop', etc. */
-  runtimeSettingsDevice?: string;
+  runtimeSettingsDevice?: string | undefined;
   /** Option in a dropdown menu that saves the current report as a new GitHub Gist. */
-  dropdownSaveGist?: string;
+  dropdownSaveGist?: string | undefined;
   /** The label for the button to show only a few lines of a snippet */
-  snippetCollapseButtonLabel?: string;
+  snippetCollapseButtonLabel?: string | undefined;
   /** Descriptive explanation for emulation setting when emulating a Nexus 5X mobile device. */
-  runtimeMobileEmulation?: string;
+  runtimeMobileEmulation?: string | undefined;
   /** The label that explains the score gauges scale (0-49, 50-89, 90-100). */
-  scorescaleLabel?: string;
+  scorescaleLabel?: string | undefined;
   /** Label for a row in a table that shows the URL that was audited during a Lighthouse run. */
-  runtimeSettingsUrl?: string;
+  runtimeSettingsUrl?: string | undefined;
   /** Label for a button that opens the Treemap App */
-  viewTreemapLabel?: string;
+  viewTreemapLabel?: string | undefined;
   /** Label for a row in a table that shows the version of the Axe library used */
-  runtimeSettingsAxeVersion?: string;
+  runtimeSettingsAxeVersion?: string | undefined;
   /** Text link pointing to the Lighthouse scoring calculator. This link immediately follows a sentence stating the performance score is calculated from the perf metrics. */
-  calculatorLink?: string;
+  calculatorLink?: string | undefined;
 }
 /** Message containing the i18n data for the LHR - Version 1. */
 export interface I18n {
   /** Internationalized strings that are formatted to the locale in configSettings. */
-  rendererFormattedStrings?: RendererFormattedStrings;
+  rendererFormattedStrings?: RendererFormattedStrings | undefined;
 }
 /** Message containing a runtime error config. */
 export interface RuntimeError {
   /** A human readable message explaining the error code. */
-  message?: string;
+  message?: string | undefined;
   /** The enumerated Lighthouse Error code. */
-  code?: string;
+  code?: string | undefined;
 }
 /** The Lighthouse result object. */
 export interface LighthouseResultV5 {
   /** Timing information for this LHR. */
-  timing?: Timing;
+  timing?: Timing | undefined;
   /** Map of categories in the LHR. */
-  categories?: Categories;
+  categories?: Categories | undefined;
   /** Map of audits in the LHR. */
-  audits?: LighthouseAuditResultV5Map;
+  audits?: LighthouseAuditResultV5Map | undefined;
   /** The lighthouse version that was used to generate this LHR. */
-  lighthouseVersion?: string;
+  lighthouseVersion?: string | undefined;
   /** The Stack Pack advice strings. */
-  stackPacks?: StackPackList;
+  stackPacks?: StackPackList | undefined;
   /** Screenshot data of the full page, along with node rects relevant to the audit results. */
-  fullPageScreenshot?: unknown;
+  fullPageScreenshot?: unknown | undefined;
   /** Environment settings that were used when making this LHR. */
-  environment?: Environment;
+  environment?: Environment | undefined;
   /** URL of the main document request of the final navigation. */
-  mainDocumentUrl?: string;
+  mainDocumentUrl?: string | undefined;
   /** Map of category groups in the LHR. */
-  categoryGroups?: CategoryGroupV5Map;
+  categoryGroups?: CategoryGroupV5Map | undefined;
   /** The user agent that was used to run this LHR. */
-  userAgent?: string;
+  userAgent?: string | undefined;
   /** List of all run warnings in the LHR. Will always output to at least `[]`. */
-  runWarnings?: DocumentList;
+  runWarnings?: DocumentList | undefined;
   /** Entity classification data. */
-  entities?: LhrEntityList;
+  entities?: LhrEntityList | undefined;
   /** The original requested url. */
-  requestedUrl?: string;
+  requestedUrl?: string | undefined;
   /** The final resolved url that was audited. */
-  finalUrl?: string;
+  finalUrl?: string | undefined;
   /** The configuration settings for this LHR. */
-  configSettings?: ConfigSettings;
+  configSettings?: ConfigSettings | undefined;
   /** The internationalization strings that are required to render the LHR. */
-  i18n?: I18n;
+  i18n?: I18n | undefined;
   /** A top-level error message that, if present, indicates a serious enough problem that this Lighthouse result may need to be discarded. */
-  runtimeError?: RuntimeError;
+  runtimeError?: RuntimeError | undefined;
   /** The time that this run was fetched. */
-  fetchTime?: string;
+  fetchTime?: string | undefined;
   /** URL displayed on the page after Lighthouse finishes. */
-  finalDisplayedUrl?: string;
+  finalDisplayedUrl?: string | undefined;
 }
 /** A proportion of data in the total distribution, bucketed by a min/max percentage. Each bucket's range is bounded by min <= x < max, In millisecond. */
 export interface Bucket {
   /** The proportion of data in this bucket. */
-  proportion?: number;
+  proportion?: number | undefined;
   /** Upper bound for a bucket's range. */
-  max?: number;
+  max?: number | undefined;
   /** Lower bound for a bucket's range. */
-  min?: number;
+  min?: number | undefined;
 }
 export type BucketList = Array<Bucket>;
 /** A CrUX metric object for a single metric and form factor. */
 export interface UserPageLoadMetricV5 {
   /** Metric distributions. Proportions should sum up to 1. */
-  distributions?: BucketList;
+  distributions?: BucketList | undefined;
   /** The median number of the metric, in millisecond. */
-  median?: number;
+  median?: number | undefined;
   /** We use this field to store certain percentile value for this metric. For v4, this field contains pc50. For v5, this field contains pc90. */
-  percentile?: number;
+  percentile?: number | undefined;
   /** Identifies the type of the metric. */
-  metricId?: string;
+  metricId?: string | undefined;
   /** The category of the specific time metric. */
-  category?: string;
+  category?: string | undefined;
   /** Identifies the form factor of the metric being collected. */
-  formFactor?: string;
+  formFactor?: string | undefined;
 }
 export type UserPageLoadMetricV5Map = { [key: string]: UserPageLoadMetricV5 | undefined };
 /** The CrUX loading experience object that contains CrUX data breakdowns. */
 export interface PagespeedApiLoadingExperienceV5 {
   /** True if the result is an origin fallback from a page, false otherwise. */
-  origin_fallback?: boolean;
+  origin_fallback?: boolean | undefined;
   /** The requested URL, which may differ from the resolved "id". */
-  initial_url?: string;
+  initial_url?: string | undefined;
   /** The url, pattern or origin which the metrics are on. */
-  id?: string;
+  id?: string | undefined;
   /** The human readable speed "category" of the id. */
-  overall_category?: string;
+  overall_category?: string | undefined;
   /** The map of . */
-  metrics?: UserPageLoadMetricV5Map;
+  metrics?: UserPageLoadMetricV5Map | undefined;
 }
 /** The Pagespeed API response object. */
 export interface PagespeedApiPagespeedResponseV5 {
   /** The version of PageSpeed used to generate these results. */
-  version?: PagespeedVersion;
+  version?: PagespeedVersion | undefined;
   /** The UTC timestamp of this analysis. */
-  analysisUTCTimestamp?: string;
+  analysisUTCTimestamp?: string | undefined;
   /** Canonicalized and final URL for the document, after following page redirects (if any). */
-  id?: string;
+  id?: string | undefined;
   /** The captcha verify result */
-  captchaResult?: string;
+  captchaResult?: string | undefined;
   /** Lighthouse response for the audit url as an object. */
-  lighthouseResult?: LighthouseResultV5;
+  lighthouseResult?: LighthouseResultV5 | undefined;
   /** Metrics of the aggregated page loading experience of the origin */
-  originLoadingExperience?: PagespeedApiLoadingExperienceV5;
+  originLoadingExperience?: PagespeedApiLoadingExperienceV5 | undefined;
   /** Kind of result. */
-  kind?: string;
+  kind?: string | undefined;
   /** Metrics of end users' page loading experience. */
-  loadingExperience?: PagespeedApiLoadingExperienceV5;
+  loadingExperience?: PagespeedApiLoadingExperienceV5 | undefined;
 }
 export type RunpagespeedPagespeedapiError = NotFound | Forbidden | GcpOpError;
 /** Runs PageSpeed analysis on the page at the specified URL, and returns PageSpeed scores, a list of suggestions to make that page faster, and other information. */

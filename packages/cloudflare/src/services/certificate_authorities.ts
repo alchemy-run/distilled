@@ -47,25 +47,25 @@ export interface GetHostnameAssociationRequest {
   /** Identifier. */
   zoneId: string;
   /** The UUID to match against for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the results will be the hostnames associated to your active Cloudflare Managed CA. */
-  mtlsCertificateId?: string;
+  mtlsCertificateId?: string | undefined;
 }
 export type HostnameAssociationsGetResponseHostnamesList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameAssociationResponse {
-  hostnames?: HostnameAssociationsGetResponseHostnamesList | null;
+  hostnames?: HostnameAssociationsGetResponseHostnamesList | null | undefined;
 }
 export type HostnameAssociationsUpdateRequestHostnamesList = Array<string>;
 export interface PutHostnameAssociationRequest {
   /** Identifier. */
   zoneId: string;
-  hostnames?: HostnameAssociationsUpdateRequestHostnamesList;
+  hostnames?: HostnameAssociationsUpdateRequestHostnamesList | undefined;
   /** The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the hostnames will be associated to your active Cloudflare Managed CA. */
-  mtlsCertificateId?: string;
+  mtlsCertificateId?: string | undefined;
 }
 export type HostnameAssociationsUpdateResponseHostnamesList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutHostnameAssociationResponse {
-  hostnames?: HostnameAssociationsUpdateResponseHostnamesList | null;
+  hostnames?: HostnameAssociationsUpdateResponseHostnamesList | null | undefined;
 }
 export type GetHostnameAssociationError = Forbidden | CloudflareOpError;
 /** List Hostname Associations. */

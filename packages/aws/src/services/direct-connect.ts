@@ -123,14 +123,14 @@ export type DirectConnectGatewayAssociationProposalId = string;
 export type OwnerAccount = string;
 export type CIDR = string;
 export interface RouteFilterPrefix {
-  cidr?: string;
+  cidr?: string | undefined;
 }
 export type RouteFilterPrefixList = RouteFilterPrefix[];
 export interface AcceptDirectConnectGatewayAssociationProposalRequest {
   directConnectGatewayId: string;
   proposalId: string;
   associatedGatewayOwnerAccount: string;
-  overrideAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
+  overrideAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
 }
 export type DirectConnectGatewayAssociationState =
   | "associating"
@@ -144,36 +144,36 @@ export type GatewayIdentifier = string;
 export type GatewayType = "virtualPrivateGateway" | "transitGateway" | (string & {});
 export type Region = string;
 export interface AssociatedGateway {
-  id?: string;
-  type?: GatewayType;
-  ownerAccount?: string;
-  region?: string;
+  id?: string | undefined;
+  type?: GatewayType | undefined;
+  ownerAccount?: string | undefined;
+  region?: string | undefined;
 }
 export type DirectConnectGatewayAssociationId = string;
 export type CoreNetworkIdentifier = string;
 export type CoreNetworkAttachmentId = string;
 export interface AssociatedCoreNetwork {
-  id?: string;
-  ownerAccount?: string;
-  attachmentId?: string;
+  id?: string | undefined;
+  ownerAccount?: string | undefined;
+  attachmentId?: string | undefined;
 }
 export type VirtualGatewayId = string;
 export type VirtualGatewayRegion = string;
 export interface DirectConnectGatewayAssociation {
-  directConnectGatewayId?: string;
-  directConnectGatewayOwnerAccount?: string;
-  associationState?: DirectConnectGatewayAssociationState;
-  stateChangeError?: string;
-  associatedGateway?: AssociatedGateway;
-  associationId?: string;
-  allowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
-  associatedCoreNetwork?: AssociatedCoreNetwork;
-  virtualGatewayId?: string;
-  virtualGatewayRegion?: string;
-  virtualGatewayOwnerAccount?: string;
+  directConnectGatewayId?: string | undefined;
+  directConnectGatewayOwnerAccount?: string | undefined;
+  associationState?: DirectConnectGatewayAssociationState | undefined;
+  stateChangeError?: string | undefined;
+  associatedGateway?: AssociatedGateway | undefined;
+  associationId?: string | undefined;
+  allowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
+  associatedCoreNetwork?: AssociatedCoreNetwork | undefined;
+  virtualGatewayId?: string | undefined;
+  virtualGatewayRegion?: string | undefined;
+  virtualGatewayOwnerAccount?: string | undefined;
 }
 export interface AcceptDirectConnectGatewayAssociationProposalResult {
-  directConnectGatewayAssociation?: DirectConnectGatewayAssociation;
+  directConnectGatewayAssociation?: DirectConnectGatewayAssociation | undefined;
 }
 export type Bandwidth = string;
 export type ConnectionName = string;
@@ -211,7 +211,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export type ProviderName = string;
@@ -223,18 +223,18 @@ export type Ckn = string;
 export type State = string;
 export type StartOnDate = string;
 export interface MacSecKey {
-  secretARN?: string;
-  ckn?: string;
-  state?: string;
-  startOn?: string;
+  secretARN?: string | undefined;
+  ckn?: string | undefined;
+  state?: string | undefined;
+  startOn?: string | undefined;
 }
 export type MacSecKeyList = MacSecKey[];
 export type Count = number;
 export interface RateLimiterStatus {
-  maxAllowed?: number;
-  inUse?: number;
-  remaining?: number;
-  totalBandwidth?: string;
+  maxAllowed?: number | undefined;
+  inUse?: number | undefined;
+  remaining?: number | undefined;
+  totalBandwidth?: string | undefined;
 }
 export type PartnerInterconnectMacSecCapable = boolean;
 export type PrefixPoolSize = number;
@@ -253,35 +253,35 @@ export type BillingMode =
   | "PortPairFlatRateTier5"
   | (string & {});
 export interface Connection {
-  ownerAccount?: string;
-  connectionId?: string;
-  connectionName?: string;
-  connectionState?: ConnectionState;
-  region?: string;
-  location?: string;
-  bandwidth?: string;
-  vlan?: number;
-  partnerName?: string;
-  loaIssueTime?: Date;
-  lagId?: string;
-  awsDevice?: string;
-  jumboFrameCapable?: boolean;
-  awsDeviceV2?: string;
-  awsLogicalDeviceId?: string;
-  hasLogicalRedundancy?: HasLogicalRedundancy;
-  tags?: Tag[];
-  providerName?: string;
-  macSecCapable?: boolean;
-  portEncryptionStatus?: string;
-  encryptionMode?: string;
-  macSecKeys?: MacSecKey[];
-  rateLimiterStatus?: RateLimiterStatus;
-  partnerInterconnectMacSecCapable?: boolean;
-  prefixPoolSizeIpv4?: number;
-  prefixPoolSizeIpv6?: number;
-  prefixPoolUnallocatedCountIpv4?: number;
-  prefixPoolUnallocatedCountIpv6?: number;
-  billingMode?: BillingMode;
+  ownerAccount?: string | undefined;
+  connectionId?: string | undefined;
+  connectionName?: string | undefined;
+  connectionState?: ConnectionState | undefined;
+  region?: string | undefined;
+  location?: string | undefined;
+  bandwidth?: string | undefined;
+  vlan?: number | undefined;
+  partnerName?: string | undefined;
+  loaIssueTime?: Date | undefined;
+  lagId?: string | undefined;
+  awsDevice?: string | undefined;
+  jumboFrameCapable?: boolean | undefined;
+  awsDeviceV2?: string | undefined;
+  awsLogicalDeviceId?: string | undefined;
+  hasLogicalRedundancy?: HasLogicalRedundancy | undefined;
+  tags?: Tag[] | undefined;
+  providerName?: string | undefined;
+  macSecCapable?: boolean | undefined;
+  portEncryptionStatus?: string | undefined;
+  encryptionMode?: string | undefined;
+  macSecKeys?: MacSecKey[] | undefined;
+  rateLimiterStatus?: RateLimiterStatus | undefined;
+  partnerInterconnectMacSecCapable?: boolean | undefined;
+  prefixPoolSizeIpv4?: number | undefined;
+  prefixPoolSizeIpv6?: number | undefined;
+  prefixPoolUnallocatedCountIpv4?: number | undefined;
+  prefixPoolUnallocatedCountIpv6?: number | undefined;
+  billingMode?: BillingMode | undefined;
 }
 export interface AllocateHostedConnectionRequest {
   connectionId: string;
@@ -289,7 +289,7 @@ export interface AllocateHostedConnectionRequest {
   bandwidth: string;
   connectionName: string;
   vlan: number;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type VirtualInterfaceName = string;
 export type ASN = number;
@@ -303,15 +303,15 @@ export type RateLimit = string;
 export interface NewPrivateVirtualInterfaceAllocation {
   virtualInterfaceName: string;
   vlan: number;
-  asn?: number;
-  asnLong?: number;
-  mtu?: number;
-  authKey?: string;
-  amazonAddress?: string;
-  addressFamily?: AddressFamily;
-  customerAddress?: string;
-  tags?: Tag[];
-  rateLimit?: string;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  mtu?: number | undefined;
+  authKey?: string | undefined;
+  amazonAddress?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  customerAddress?: string | undefined;
+  tags?: Tag[] | undefined;
+  rateLimit?: string | undefined;
 }
 export interface AllocatePrivateVirtualInterfaceRequest {
   connectionId: string;
@@ -343,65 +343,65 @@ export type BGPPeerState =
   | (string & {});
 export type BGPStatus = "up" | "down" | "unknown" | (string & {});
 export interface BGPPeer {
-  bgpPeerId?: string;
-  asn?: number;
-  asnLong?: number;
-  authKey?: string;
-  addressFamily?: AddressFamily;
-  amazonAddress?: string;
-  customerAddress?: string;
-  bgpPeerState?: BGPPeerState;
-  bgpStatus?: BGPStatus;
-  awsDeviceV2?: string;
-  awsLogicalDeviceId?: string;
+  bgpPeerId?: string | undefined;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  authKey?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
+  bgpPeerState?: BGPPeerState | undefined;
+  bgpStatus?: BGPStatus | undefined;
+  awsDeviceV2?: string | undefined;
+  awsLogicalDeviceId?: string | undefined;
 }
 export type BGPPeerList = BGPPeer[];
 export type SiteLinkEnabled = boolean;
 export type PrefixPoolAllocatedCount = number;
 export interface VirtualInterface {
-  ownerAccount?: string;
-  virtualInterfaceId?: string;
-  location?: string;
-  connectionId?: string;
-  virtualInterfaceType?: string;
-  virtualInterfaceName?: string;
-  vlan?: number;
-  asn?: number;
-  asnLong?: number;
-  amazonSideAsn?: number;
-  authKey?: string;
-  amazonAddress?: string;
-  customerAddress?: string;
-  addressFamily?: AddressFamily;
-  virtualInterfaceState?: VirtualInterfaceState;
-  customerRouterConfig?: string;
-  mtu?: number;
-  jumboFrameCapable?: boolean;
-  virtualGatewayId?: string;
-  directConnectGatewayId?: string;
-  routeFilterPrefixes?: RouteFilterPrefix[];
-  bgpPeers?: BGPPeer[];
-  region?: string;
-  awsDeviceV2?: string;
-  awsLogicalDeviceId?: string;
-  tags?: Tag[];
-  siteLinkEnabled?: boolean;
-  prefixPoolAllocatedCountIpv4?: number;
-  prefixPoolAllocatedCountIpv6?: number;
-  rateLimit?: string;
+  ownerAccount?: string | undefined;
+  virtualInterfaceId?: string | undefined;
+  location?: string | undefined;
+  connectionId?: string | undefined;
+  virtualInterfaceType?: string | undefined;
+  virtualInterfaceName?: string | undefined;
+  vlan?: number | undefined;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  amazonSideAsn?: number | undefined;
+  authKey?: string | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  virtualInterfaceState?: VirtualInterfaceState | undefined;
+  customerRouterConfig?: string | undefined;
+  mtu?: number | undefined;
+  jumboFrameCapable?: boolean | undefined;
+  virtualGatewayId?: string | undefined;
+  directConnectGatewayId?: string | undefined;
+  routeFilterPrefixes?: RouteFilterPrefix[] | undefined;
+  bgpPeers?: BGPPeer[] | undefined;
+  region?: string | undefined;
+  awsDeviceV2?: string | undefined;
+  awsLogicalDeviceId?: string | undefined;
+  tags?: Tag[] | undefined;
+  siteLinkEnabled?: boolean | undefined;
+  prefixPoolAllocatedCountIpv4?: number | undefined;
+  prefixPoolAllocatedCountIpv6?: number | undefined;
+  rateLimit?: string | undefined;
 }
 export interface NewPublicVirtualInterfaceAllocation {
   virtualInterfaceName: string;
   vlan: number;
-  asn?: number;
-  asnLong?: number;
-  authKey?: string;
-  amazonAddress?: string;
-  customerAddress?: string;
-  addressFamily?: AddressFamily;
-  routeFilterPrefixes?: RouteFilterPrefix[];
-  tags?: Tag[];
-  rateLimit?: string;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  authKey?: string | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  routeFilterPrefixes?: RouteFilterPrefix[] | undefined;
+  tags?: Tag[] | undefined;
+  rateLimit?: string | undefined;
 }
 export interface AllocatePublicVirtualInterfaceRequest {
   connectionId: string;
@@ -409,17 +409,17 @@ export interface AllocatePublicVirtualInterfaceRequest {
   newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation;
 }
 export interface NewTransitVirtualInterfaceAllocation {
-  virtualInterfaceName?: string;
-  vlan?: number;
-  asn?: number;
-  asnLong?: number;
-  mtu?: number;
-  authKey?: string;
-  amazonAddress?: string;
-  customerAddress?: string;
-  addressFamily?: AddressFamily;
-  tags?: Tag[];
-  rateLimit?: string;
+  virtualInterfaceName?: string | undefined;
+  vlan?: number | undefined;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  mtu?: number | undefined;
+  authKey?: string | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  tags?: Tag[] | undefined;
+  rateLimit?: string | undefined;
 }
 export interface AllocateTransitVirtualInterfaceRequest {
   connectionId: string;
@@ -427,7 +427,7 @@ export interface AllocateTransitVirtualInterfaceRequest {
   newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation;
 }
 export interface AllocateTransitVirtualInterfaceResult {
-  virtualInterface?: VirtualInterface;
+  virtualInterface?: VirtualInterface | undefined;
 }
 export type ConnectionIdentifier = string;
 export type ConnectionIdentifierList = string[];
@@ -436,7 +436,7 @@ export type IdempotencyToken = string;
 export interface AssociateConnectionsToResiliencyGroupRequest {
   connectionIdentifiers: string[];
   resiliencyGroupId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ConnectionArn = string;
 export type ResiliencyGroupAssociationState =
@@ -446,13 +446,13 @@ export type ResiliencyGroupAssociationState =
   | "disassociated"
   | (string & {});
 export interface ResiliencyGroupAssociation {
-  resiliencyGroupId?: string;
-  connectionArn?: string;
-  state?: ResiliencyGroupAssociationState;
+  resiliencyGroupId?: string | undefined;
+  connectionArn?: string | undefined;
+  state?: ResiliencyGroupAssociationState | undefined;
 }
 export type ResiliencyGroupAssociationList = ResiliencyGroupAssociation[];
 export interface AssociateConnectionsToResiliencyGroupResult {
-  resiliencyGroupAssociations?: ResiliencyGroupAssociation[];
+  resiliencyGroupAssociations?: ResiliencyGroupAssociation[] | undefined;
 }
 export interface AssociateConnectionWithLagRequest {
   connectionId: string;
@@ -465,13 +465,13 @@ export interface AssociateHostedConnectionRequest {
 export type Cak = string;
 export interface AssociateMacSecKeyRequest {
   connectionId: string;
-  secretARN?: string;
-  ckn?: string;
-  cak?: string;
+  secretARN?: string | undefined;
+  ckn?: string | undefined;
+  cak?: string | undefined;
 }
 export interface AssociateMacSecKeyResponse {
-  connectionId?: string;
-  macSecKeys?: MacSecKey[];
+  connectionId?: string | undefined;
+  macSecKeys?: MacSecKey[] | undefined;
 }
 export interface AssociateVirtualInterfaceRequest {
   virtualInterfaceId: string;
@@ -481,51 +481,51 @@ export interface ConfirmConnectionRequest {
   connectionId: string;
 }
 export interface ConfirmConnectionResponse {
-  connectionState?: ConnectionState;
+  connectionState?: ConnectionState | undefined;
 }
 export type AgreementName = string;
 export interface ConfirmCustomerAgreementRequest {
-  agreementName?: string;
+  agreementName?: string | undefined;
 }
 export type Status = string;
 export interface ConfirmCustomerAgreementResponse {
-  status?: string;
+  status?: string | undefined;
 }
 export interface ConfirmPrivateVirtualInterfaceRequest {
   virtualInterfaceId: string;
-  virtualGatewayId?: string;
-  directConnectGatewayId?: string;
+  virtualGatewayId?: string | undefined;
+  directConnectGatewayId?: string | undefined;
 }
 export interface ConfirmPrivateVirtualInterfaceResponse {
-  virtualInterfaceState?: VirtualInterfaceState;
+  virtualInterfaceState?: VirtualInterfaceState | undefined;
 }
 export interface ConfirmPublicVirtualInterfaceRequest {
   virtualInterfaceId: string;
 }
 export interface ConfirmPublicVirtualInterfaceResponse {
-  virtualInterfaceState?: VirtualInterfaceState;
+  virtualInterfaceState?: VirtualInterfaceState | undefined;
 }
 export interface ConfirmTransitVirtualInterfaceRequest {
   virtualInterfaceId: string;
   directConnectGatewayId: string;
 }
 export interface ConfirmTransitVirtualInterfaceResponse {
-  virtualInterfaceState?: VirtualInterfaceState;
+  virtualInterfaceState?: VirtualInterfaceState | undefined;
 }
 export interface NewBGPPeer {
-  asn?: number;
-  asnLong?: number;
-  authKey?: string;
-  addressFamily?: AddressFamily;
-  amazonAddress?: string;
-  customerAddress?: string;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  authKey?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
 }
 export interface CreateBGPPeerRequest {
-  virtualInterfaceId?: string;
-  newBGPPeer?: NewBGPPeer;
+  virtualInterfaceId?: string | undefined;
+  newBGPPeer?: NewBGPPeer | undefined;
 }
 export interface CreateBGPPeerResponse {
-  virtualInterface?: VirtualInterface;
+  virtualInterface?: VirtualInterface | undefined;
 }
 export type RequestMACSec = boolean;
 export type RequestBillingMode =
@@ -540,17 +540,17 @@ export interface CreateConnectionRequest {
   location: string;
   bandwidth: string;
   connectionName: string;
-  lagId?: string;
-  tags?: Tag[];
-  providerName?: string;
-  requestMACSec?: boolean;
-  billingMode?: RequestBillingMode;
+  lagId?: string | undefined;
+  tags?: Tag[] | undefined;
+  providerName?: string | undefined;
+  requestMACSec?: boolean | undefined;
+  billingMode?: RequestBillingMode | undefined;
 }
 export type DirectConnectGatewayName = string;
 export interface CreateDirectConnectGatewayRequest {
   directConnectGatewayName: string;
-  tags?: Tag[];
-  amazonSideAsn?: number;
+  tags?: Tag[] | undefined;
+  amazonSideAsn?: number | undefined;
 }
 export type DirectConnectGatewayState =
   | "pending"
@@ -559,34 +559,34 @@ export type DirectConnectGatewayState =
   | "deleted"
   | (string & {});
 export interface DirectConnectGateway {
-  directConnectGatewayId?: string;
-  directConnectGatewayName?: string;
-  amazonSideAsn?: number;
-  ownerAccount?: string;
-  directConnectGatewayState?: DirectConnectGatewayState;
-  stateChangeError?: string;
-  totalPrefixPoolAllocations?: number;
-  tags?: Tag[];
+  directConnectGatewayId?: string | undefined;
+  directConnectGatewayName?: string | undefined;
+  amazonSideAsn?: number | undefined;
+  ownerAccount?: string | undefined;
+  directConnectGatewayState?: DirectConnectGatewayState | undefined;
+  stateChangeError?: string | undefined;
+  totalPrefixPoolAllocations?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateDirectConnectGatewayResult {
-  directConnectGateway?: DirectConnectGateway;
+  directConnectGateway?: DirectConnectGateway | undefined;
 }
 export type GatewayIdToAssociate = string;
 export interface CreateDirectConnectGatewayAssociationRequest {
   directConnectGatewayId: string;
-  gatewayId?: string;
-  addAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
-  virtualGatewayId?: string;
+  gatewayId?: string | undefined;
+  addAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
+  virtualGatewayId?: string | undefined;
 }
 export interface CreateDirectConnectGatewayAssociationResult {
-  directConnectGatewayAssociation?: DirectConnectGatewayAssociation;
+  directConnectGatewayAssociation?: DirectConnectGatewayAssociation | undefined;
 }
 export interface CreateDirectConnectGatewayAssociationProposalRequest {
   directConnectGatewayId: string;
   directConnectGatewayOwnerAccount: string;
   gatewayId: string;
-  addAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
-  removeAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
+  addAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
+  removeAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
 }
 export type DirectConnectGatewayAssociationProposalState =
   | "requested"
@@ -594,26 +594,26 @@ export type DirectConnectGatewayAssociationProposalState =
   | "deleted"
   | (string & {});
 export interface DirectConnectGatewayAssociationProposal {
-  proposalId?: string;
-  directConnectGatewayId?: string;
-  directConnectGatewayOwnerAccount?: string;
-  proposalState?: DirectConnectGatewayAssociationProposalState;
-  associatedGateway?: AssociatedGateway;
-  existingAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
-  requestedAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
+  proposalId?: string | undefined;
+  directConnectGatewayId?: string | undefined;
+  directConnectGatewayOwnerAccount?: string | undefined;
+  proposalState?: DirectConnectGatewayAssociationProposalState | undefined;
+  associatedGateway?: AssociatedGateway | undefined;
+  existingAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
+  requestedAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
 }
 export interface CreateDirectConnectGatewayAssociationProposalResult {
-  directConnectGatewayAssociationProposal?: DirectConnectGatewayAssociationProposal;
+  directConnectGatewayAssociationProposal?: DirectConnectGatewayAssociationProposal | undefined;
 }
 export type InterconnectName = string;
 export interface CreateInterconnectRequest {
   interconnectName: string;
   bandwidth: string;
   location: string;
-  lagId?: string;
-  tags?: Tag[];
-  providerName?: string;
-  requestMACSec?: boolean;
+  lagId?: string | undefined;
+  tags?: Tag[] | undefined;
+  providerName?: string | undefined;
+  requestMACSec?: boolean | undefined;
 }
 export type InterconnectState =
   | "requested"
@@ -625,25 +625,25 @@ export type InterconnectState =
   | "unknown"
   | (string & {});
 export interface Interconnect {
-  interconnectId?: string;
-  interconnectName?: string;
-  interconnectState?: InterconnectState;
-  region?: string;
-  location?: string;
-  bandwidth?: string;
-  loaIssueTime?: Date;
-  lagId?: string;
-  awsDevice?: string;
-  jumboFrameCapable?: boolean;
-  awsDeviceV2?: string;
-  awsLogicalDeviceId?: string;
-  hasLogicalRedundancy?: HasLogicalRedundancy;
-  tags?: Tag[];
-  providerName?: string;
-  macSecCapable?: boolean;
-  portEncryptionStatus?: string;
-  encryptionMode?: string;
-  macSecKeys?: MacSecKey[];
+  interconnectId?: string | undefined;
+  interconnectName?: string | undefined;
+  interconnectState?: InterconnectState | undefined;
+  region?: string | undefined;
+  location?: string | undefined;
+  bandwidth?: string | undefined;
+  loaIssueTime?: Date | undefined;
+  lagId?: string | undefined;
+  awsDevice?: string | undefined;
+  jumboFrameCapable?: boolean | undefined;
+  awsDeviceV2?: string | undefined;
+  awsLogicalDeviceId?: string | undefined;
+  hasLogicalRedundancy?: HasLogicalRedundancy | undefined;
+  tags?: Tag[] | undefined;
+  providerName?: string | undefined;
+  macSecCapable?: boolean | undefined;
+  portEncryptionStatus?: string | undefined;
+  encryptionMode?: string | undefined;
+  macSecKeys?: MacSecKey[] | undefined;
 }
 export type LagName = string;
 export interface CreateLagRequest {
@@ -651,12 +651,12 @@ export interface CreateLagRequest {
   location: string;
   connectionsBandwidth: string;
   lagName: string;
-  connectionId?: string;
-  tags?: Tag[];
-  childConnectionTags?: Tag[];
-  providerName?: string;
-  requestMACSec?: boolean;
-  billingMode?: RequestBillingMode;
+  connectionId?: string | undefined;
+  tags?: Tag[] | undefined;
+  childConnectionTags?: Tag[] | undefined;
+  providerName?: string | undefined;
+  requestMACSec?: boolean | undefined;
+  billingMode?: RequestBillingMode | undefined;
 }
 export type LagState =
   | "requested"
@@ -670,52 +670,52 @@ export type LagState =
 export type ConnectionList = Connection[];
 export type BooleanFlag = boolean;
 export interface Lag {
-  connectionsBandwidth?: string;
-  numberOfConnections?: number;
-  lagId?: string;
-  ownerAccount?: string;
-  lagName?: string;
-  lagState?: LagState;
-  location?: string;
-  region?: string;
-  minimumLinks?: number;
-  awsDevice?: string;
-  awsDeviceV2?: string;
-  awsLogicalDeviceId?: string;
-  connections?: Connection[];
-  allowsHostedConnections?: boolean;
-  jumboFrameCapable?: boolean;
-  hasLogicalRedundancy?: HasLogicalRedundancy;
-  tags?: Tag[];
-  providerName?: string;
-  macSecCapable?: boolean;
-  encryptionMode?: string;
-  macSecKeys?: MacSecKey[];
-  prefixPoolSizeIpv4?: number;
-  prefixPoolSizeIpv6?: number;
-  prefixPoolUnallocatedCountIpv4?: number;
-  prefixPoolUnallocatedCountIpv6?: number;
-  rateLimiterStatus?: RateLimiterStatus;
-  billingMode?: BillingMode;
+  connectionsBandwidth?: string | undefined;
+  numberOfConnections?: number | undefined;
+  lagId?: string | undefined;
+  ownerAccount?: string | undefined;
+  lagName?: string | undefined;
+  lagState?: LagState | undefined;
+  location?: string | undefined;
+  region?: string | undefined;
+  minimumLinks?: number | undefined;
+  awsDevice?: string | undefined;
+  awsDeviceV2?: string | undefined;
+  awsLogicalDeviceId?: string | undefined;
+  connections?: Connection[] | undefined;
+  allowsHostedConnections?: boolean | undefined;
+  jumboFrameCapable?: boolean | undefined;
+  hasLogicalRedundancy?: HasLogicalRedundancy | undefined;
+  tags?: Tag[] | undefined;
+  providerName?: string | undefined;
+  macSecCapable?: boolean | undefined;
+  encryptionMode?: string | undefined;
+  macSecKeys?: MacSecKey[] | undefined;
+  prefixPoolSizeIpv4?: number | undefined;
+  prefixPoolSizeIpv6?: number | undefined;
+  prefixPoolUnallocatedCountIpv4?: number | undefined;
+  prefixPoolUnallocatedCountIpv6?: number | undefined;
+  rateLimiterStatus?: RateLimiterStatus | undefined;
+  billingMode?: BillingMode | undefined;
 }
 export type EnableSiteLink = boolean;
 export interface NewPrivateVirtualInterface {
   virtualInterfaceName: string;
   vlan: number;
-  asn?: number;
-  asnLong?: number;
-  mtu?: number;
-  authKey?: string;
-  amazonAddress?: string;
-  customerAddress?: string;
-  addressFamily?: AddressFamily;
-  virtualGatewayId?: string;
-  directConnectGatewayId?: string;
-  tags?: Tag[];
-  enableSiteLink?: boolean;
-  prefixPoolAllocatedCountIpv4?: number;
-  prefixPoolAllocatedCountIpv6?: number;
-  rateLimit?: string;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  mtu?: number | undefined;
+  authKey?: string | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  virtualGatewayId?: string | undefined;
+  directConnectGatewayId?: string | undefined;
+  tags?: Tag[] | undefined;
+  enableSiteLink?: boolean | undefined;
+  prefixPoolAllocatedCountIpv4?: number | undefined;
+  prefixPoolAllocatedCountIpv6?: number | undefined;
+  rateLimit?: string | undefined;
 }
 export interface CreatePrivateVirtualInterfaceRequest {
   connectionId: string;
@@ -724,15 +724,15 @@ export interface CreatePrivateVirtualInterfaceRequest {
 export interface NewPublicVirtualInterface {
   virtualInterfaceName: string;
   vlan: number;
-  asn?: number;
-  asnLong?: number;
-  authKey?: string;
-  amazonAddress?: string;
-  customerAddress?: string;
-  addressFamily?: AddressFamily;
-  routeFilterPrefixes?: RouteFilterPrefix[];
-  tags?: Tag[];
-  rateLimit?: string;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  authKey?: string | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  routeFilterPrefixes?: RouteFilterPrefix[] | undefined;
+  tags?: Tag[] | undefined;
+  rateLimit?: string | undefined;
 }
 export interface CreatePublicVirtualInterfaceRequest {
   connectionId: string;
@@ -747,57 +747,57 @@ export type ResiliencyModel =
 export interface CreateResiliencyGroupRequest {
   resiliencyGroupName: string;
   intendedResiliencyModel: ResiliencyModel;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ResiliencyGroupArn = string;
 export type ResiliencyGroupType = "Managed" | (string & {});
 export type ResiliencyGroupState = "pending" | "available" | "deleting" | "deleted" | (string & {});
 export interface ResiliencyGroup {
-  resiliencyGroupId?: string;
-  resiliencyGroupArn?: string;
-  resiliencyGroupName?: string;
-  resiliencyGroupType?: ResiliencyGroupType;
-  ownerAccount?: string;
-  state?: ResiliencyGroupState;
-  tags?: Tag[];
+  resiliencyGroupId?: string | undefined;
+  resiliencyGroupArn?: string | undefined;
+  resiliencyGroupName?: string | undefined;
+  resiliencyGroupType?: ResiliencyGroupType | undefined;
+  ownerAccount?: string | undefined;
+  state?: ResiliencyGroupState | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateResiliencyGroupResult {
-  resiliencyGroup?: ResiliencyGroup;
+  resiliencyGroup?: ResiliencyGroup | undefined;
 }
 export interface NewTransitVirtualInterface {
-  virtualInterfaceName?: string;
-  vlan?: number;
-  asn?: number;
-  asnLong?: number;
-  mtu?: number;
-  authKey?: string;
-  amazonAddress?: string;
-  customerAddress?: string;
-  addressFamily?: AddressFamily;
-  directConnectGatewayId?: string;
-  tags?: Tag[];
-  enableSiteLink?: boolean;
-  prefixPoolAllocatedCountIpv4?: number;
-  prefixPoolAllocatedCountIpv6?: number;
-  rateLimit?: string;
+  virtualInterfaceName?: string | undefined;
+  vlan?: number | undefined;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  mtu?: number | undefined;
+  authKey?: string | undefined;
+  amazonAddress?: string | undefined;
+  customerAddress?: string | undefined;
+  addressFamily?: AddressFamily | undefined;
+  directConnectGatewayId?: string | undefined;
+  tags?: Tag[] | undefined;
+  enableSiteLink?: boolean | undefined;
+  prefixPoolAllocatedCountIpv4?: number | undefined;
+  prefixPoolAllocatedCountIpv6?: number | undefined;
+  rateLimit?: string | undefined;
 }
 export interface CreateTransitVirtualInterfaceRequest {
   connectionId: string;
   newTransitVirtualInterface: NewTransitVirtualInterface;
 }
 export interface CreateTransitVirtualInterfaceResult {
-  virtualInterface?: VirtualInterface;
+  virtualInterface?: VirtualInterface | undefined;
 }
 export interface DeleteBGPPeerRequest {
-  virtualInterfaceId?: string;
-  asn?: number;
-  asnLong?: number;
-  customerAddress?: string;
-  bgpPeerId?: string;
+  virtualInterfaceId?: string | undefined;
+  asn?: number | undefined;
+  asnLong?: number | undefined;
+  customerAddress?: string | undefined;
+  bgpPeerId?: string | undefined;
 }
 export interface DeleteBGPPeerResponse {
-  virtualInterface?: VirtualInterface;
+  virtualInterface?: VirtualInterface | undefined;
 }
 export interface DeleteConnectionRequest {
   connectionId: string;
@@ -806,27 +806,27 @@ export interface DeleteDirectConnectGatewayRequest {
   directConnectGatewayId: string;
 }
 export interface DeleteDirectConnectGatewayResult {
-  directConnectGateway?: DirectConnectGateway;
+  directConnectGateway?: DirectConnectGateway | undefined;
 }
 export interface DeleteDirectConnectGatewayAssociationRequest {
-  associationId?: string;
-  directConnectGatewayId?: string;
-  virtualGatewayId?: string;
+  associationId?: string | undefined;
+  directConnectGatewayId?: string | undefined;
+  virtualGatewayId?: string | undefined;
 }
 export interface DeleteDirectConnectGatewayAssociationResult {
-  directConnectGatewayAssociation?: DirectConnectGatewayAssociation;
+  directConnectGatewayAssociation?: DirectConnectGatewayAssociation | undefined;
 }
 export interface DeleteDirectConnectGatewayAssociationProposalRequest {
   proposalId: string;
 }
 export interface DeleteDirectConnectGatewayAssociationProposalResult {
-  directConnectGatewayAssociationProposal?: DirectConnectGatewayAssociationProposal;
+  directConnectGatewayAssociationProposal?: DirectConnectGatewayAssociationProposal | undefined;
 }
 export interface DeleteInterconnectRequest {
   interconnectId: string;
 }
 export interface DeleteInterconnectResponse {
-  interconnectState?: InterconnectState;
+  interconnectState?: InterconnectState | undefined;
 }
 export interface DeleteLagRequest {
   lagId: string;
@@ -835,84 +835,84 @@ export interface DeleteResiliencyGroupRequest {
   resiliencyGroupId: string;
 }
 export interface DeleteResiliencyGroupResult {
-  resiliencyGroup?: ResiliencyGroup;
+  resiliencyGroup?: ResiliencyGroup | undefined;
 }
 export interface DeleteVirtualInterfaceRequest {
   virtualInterfaceId: string;
 }
 export interface DeleteVirtualInterfaceResponse {
-  virtualInterfaceState?: VirtualInterfaceState;
+  virtualInterfaceState?: VirtualInterfaceState | undefined;
 }
 export type LoaContentType = "application/pdf" | (string & {});
 export interface DescribeConnectionLoaRequest {
   connectionId: string;
-  providerName?: string;
-  loaContentType?: LoaContentType;
+  providerName?: string | undefined;
+  loaContentType?: LoaContentType | undefined;
 }
 export type LoaContent = Uint8Array;
 export interface Loa {
-  loaContent?: Uint8Array;
-  loaContentType?: LoaContentType;
+  loaContent?: Uint8Array | undefined;
+  loaContentType?: LoaContentType | undefined;
 }
 export interface DescribeConnectionLoaResponse {
-  loa?: Loa;
+  loa?: Loa | undefined;
 }
 export type MaxResultSetSize = number;
 export type PaginationToken = string;
 export interface DescribeConnectionsRequest {
-  connectionId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  connectionId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Connections {
-  connections?: Connection[];
-  nextToken?: string;
+  connections?: Connection[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeConnectionsOnInterconnectRequest {
   interconnectId: string;
 }
 export interface DescribeCustomerMetadataRequest {}
 export interface CustomerAgreement {
-  agreementName?: string;
-  status?: string;
+  agreementName?: string | undefined;
+  status?: string | undefined;
 }
 export type AgreementList = CustomerAgreement[];
 export type NniPartnerType = "v1" | "v2" | "nonPartner" | (string & {});
 export interface DescribeCustomerMetadataResponse {
-  agreements?: CustomerAgreement[];
-  nniPartnerType?: NniPartnerType;
+  agreements?: CustomerAgreement[] | undefined;
+  nniPartnerType?: NniPartnerType | undefined;
 }
 export type AssociatedGatewayId = string;
 export interface DescribeDirectConnectGatewayAssociationProposalsRequest {
-  directConnectGatewayId?: string;
-  proposalId?: string;
-  associatedGatewayId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  directConnectGatewayId?: string | undefined;
+  proposalId?: string | undefined;
+  associatedGatewayId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DirectConnectGatewayAssociationProposalList = DirectConnectGatewayAssociationProposal[];
 export interface DescribeDirectConnectGatewayAssociationProposalsResult {
-  directConnectGatewayAssociationProposals?: DirectConnectGatewayAssociationProposal[];
-  nextToken?: string;
+  directConnectGatewayAssociationProposals?: DirectConnectGatewayAssociationProposal[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDirectConnectGatewayAssociationsRequest {
-  associationId?: string;
-  associatedGatewayId?: string;
-  directConnectGatewayId?: string;
-  maxResults?: number;
-  nextToken?: string;
-  virtualGatewayId?: string;
+  associationId?: string | undefined;
+  associatedGatewayId?: string | undefined;
+  directConnectGatewayId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  virtualGatewayId?: string | undefined;
 }
 export type DirectConnectGatewayAssociationList = DirectConnectGatewayAssociation[];
 export interface DescribeDirectConnectGatewayAssociationsResult {
-  directConnectGatewayAssociations?: DirectConnectGatewayAssociation[];
-  nextToken?: string;
+  directConnectGatewayAssociations?: DirectConnectGatewayAssociation[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDirectConnectGatewayAttachmentsRequest {
-  directConnectGatewayId?: string;
-  virtualInterfaceId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  directConnectGatewayId?: string | undefined;
+  virtualInterfaceId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type VirtualInterfaceRegion = string;
 export type DirectConnectGatewayAttachmentState =
@@ -926,66 +926,66 @@ export type DirectConnectGatewayAttachmentType =
   | "PrivateVirtualInterface"
   | (string & {});
 export interface DirectConnectGatewayAttachment {
-  directConnectGatewayId?: string;
-  virtualInterfaceId?: string;
-  virtualInterfaceRegion?: string;
-  virtualInterfaceOwnerAccount?: string;
-  attachmentState?: DirectConnectGatewayAttachmentState;
-  attachmentType?: DirectConnectGatewayAttachmentType;
-  stateChangeError?: string;
+  directConnectGatewayId?: string | undefined;
+  virtualInterfaceId?: string | undefined;
+  virtualInterfaceRegion?: string | undefined;
+  virtualInterfaceOwnerAccount?: string | undefined;
+  attachmentState?: DirectConnectGatewayAttachmentState | undefined;
+  attachmentType?: DirectConnectGatewayAttachmentType | undefined;
+  stateChangeError?: string | undefined;
 }
 export type DirectConnectGatewayAttachmentList = DirectConnectGatewayAttachment[];
 export interface DescribeDirectConnectGatewayAttachmentsResult {
-  directConnectGatewayAttachments?: DirectConnectGatewayAttachment[];
-  nextToken?: string;
+  directConnectGatewayAttachments?: DirectConnectGatewayAttachment[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDirectConnectGatewaysRequest {
-  directConnectGatewayId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  directConnectGatewayId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DirectConnectGatewayList = DirectConnectGateway[];
 export interface DescribeDirectConnectGatewaysResult {
-  directConnectGateways?: DirectConnectGateway[];
-  nextToken?: string;
+  directConnectGateways?: DirectConnectGateway[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeHostedConnectionsRequest {
   connectionId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeInterconnectLoaRequest {
   interconnectId: string;
-  providerName?: string;
-  loaContentType?: LoaContentType;
+  providerName?: string | undefined;
+  loaContentType?: LoaContentType | undefined;
 }
 export interface DescribeInterconnectLoaResponse {
-  loa?: Loa;
+  loa?: Loa | undefined;
 }
 export interface DescribeInterconnectsRequest {
-  interconnectId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  interconnectId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type InterconnectList = Interconnect[];
 export interface Interconnects {
-  interconnects?: Interconnect[];
-  nextToken?: string;
+  interconnects?: Interconnect[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeLagsRequest {
-  lagId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  lagId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LagList = Lag[];
 export interface Lags {
-  lags?: Lag[];
-  nextToken?: string;
+  lags?: Lag[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeLoaRequest {
   connectionId: string;
-  providerName?: string;
-  loaContentType?: LoaContentType;
+  providerName?: string | undefined;
+  loaContentType?: LoaContentType | undefined;
 }
 export interface DescribeLocationsRequest {}
 export type LocationName = string;
@@ -995,28 +995,28 @@ export type ProviderList = string[];
 export type AvailableMacSecPortSpeeds = string[];
 export type IncludedRegionList = string[];
 export interface AvailableBillingMode {
-  billingMode?: BillingMode;
-  availablePortSpeeds?: string[];
-  includedRegions?: string[];
+  billingMode?: BillingMode | undefined;
+  availablePortSpeeds?: string[] | undefined;
+  includedRegions?: string[] | undefined;
 }
 export type AvailableBillingModeList = AvailableBillingMode[];
 export interface Location {
-  locationCode?: string;
-  locationName?: string;
-  region?: string;
-  availablePortSpeeds?: string[];
-  availableProviders?: string[];
-  availableMacSecPortSpeeds?: string[];
-  availableBillingModes?: AvailableBillingMode[];
+  locationCode?: string | undefined;
+  locationName?: string | undefined;
+  region?: string | undefined;
+  availablePortSpeeds?: string[] | undefined;
+  availableProviders?: string[] | undefined;
+  availableMacSecPortSpeeds?: string[] | undefined;
+  availableBillingModes?: AvailableBillingMode[] | undefined;
 }
 export type LocationList = Location[];
 export interface Locations {
-  locations?: Location[];
+  locations?: Location[] | undefined;
 }
 export type RouterTypeIdentifier = string;
 export interface DescribeRouterConfigurationRequest {
   virtualInterfaceId: string;
-  routerTypeIdentifier?: string;
+  routerTypeIdentifier?: string | undefined;
 }
 export type Vendor = string;
 export type Platform = string;
@@ -1024,18 +1024,18 @@ export type Software = string;
 export type XsltTemplateName = string;
 export type XsltTemplateNameForMacSec = string;
 export interface RouterType {
-  vendor?: string;
-  platform?: string;
-  software?: string;
-  xsltTemplateName?: string;
-  xsltTemplateNameForMacSec?: string;
-  routerTypeIdentifier?: string;
+  vendor?: string | undefined;
+  platform?: string | undefined;
+  software?: string | undefined;
+  xsltTemplateName?: string | undefined;
+  xsltTemplateNameForMacSec?: string | undefined;
+  routerTypeIdentifier?: string | undefined;
 }
 export interface DescribeRouterConfigurationResponse {
-  customerRouterConfig?: string;
-  router?: RouterType;
-  virtualInterfaceId?: string;
-  virtualInterfaceName?: string;
+  customerRouterConfig?: string | undefined;
+  router?: RouterType | undefined;
+  virtualInterfaceId?: string | undefined;
+  virtualInterfaceName?: string | undefined;
 }
 export type ResourceArn = string;
 export type ResourceArnList = string[];
@@ -1043,33 +1043,33 @@ export interface DescribeTagsRequest {
   resourceArns: string[];
 }
 export interface ResourceTag {
-  resourceArn?: string;
-  tags?: Tag[];
+  resourceArn?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ResourceTagList = ResourceTag[];
 export interface DescribeTagsResponse {
-  resourceTags?: ResourceTag[];
+  resourceTags?: ResourceTag[] | undefined;
 }
 export interface DescribeVirtualGatewaysRequest {}
 export type VirtualGatewayState = string;
 export interface VirtualGateway {
-  virtualGatewayId?: string;
-  virtualGatewayState?: string;
+  virtualGatewayId?: string | undefined;
+  virtualGatewayState?: string | undefined;
 }
 export type VirtualGatewayList = VirtualGateway[];
 export interface VirtualGateways {
-  virtualGateways?: VirtualGateway[];
+  virtualGateways?: VirtualGateway[] | undefined;
 }
 export interface DescribeVirtualInterfacesRequest {
-  connectionId?: string;
-  virtualInterfaceId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  connectionId?: string | undefined;
+  virtualInterfaceId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type VirtualInterfaceList = VirtualInterface[];
 export interface VirtualInterfaces {
-  virtualInterfaces?: VirtualInterface[];
-  nextToken?: string;
+  virtualInterfaces?: VirtualInterface[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DisassociateConnectionFromLagRequest {
   connectionId: string;
@@ -1078,50 +1078,50 @@ export interface DisassociateConnectionFromLagRequest {
 export interface DisassociateConnectionsFromResiliencyGroupRequest {
   connectionIdentifiers: string[];
   resiliencyGroupId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateConnectionsFromResiliencyGroupResult {
-  resiliencyGroupAssociations?: ResiliencyGroupAssociation[];
+  resiliencyGroupAssociations?: ResiliencyGroupAssociation[] | undefined;
 }
 export interface DisassociateMacSecKeyRequest {
   connectionId: string;
   secretARN: string;
 }
 export interface DisassociateMacSecKeyResponse {
-  connectionId?: string;
-  macSecKeys?: MacSecKey[];
+  connectionId?: string | undefined;
+  macSecKeys?: MacSecKey[] | undefined;
 }
 export interface GetResiliencyGroupRequest {
   resiliencyGroupId: string;
 }
 export interface GetResiliencyGroupResult {
-  resiliencyGroup?: ResiliencyGroup;
+  resiliencyGroup?: ResiliencyGroup | undefined;
 }
 export interface ListResiliencyGroupAssociationsRequest {
   resiliencyGroupId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResiliencyGroupAssociationsResult {
-  items?: ResiliencyGroupAssociation[];
-  nextToken?: string;
+  items?: ResiliencyGroupAssociation[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResiliencyGroupsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ResiliencyGroupSummary {
-  resiliencyGroupId?: string;
-  resiliencyGroupArn?: string;
-  resiliencyGroupName?: string;
-  resiliencyGroupType?: ResiliencyGroupType;
-  ownerAccount?: string;
-  state?: ResiliencyGroupState;
+  resiliencyGroupId?: string | undefined;
+  resiliencyGroupArn?: string | undefined;
+  resiliencyGroupName?: string | undefined;
+  resiliencyGroupType?: ResiliencyGroupType | undefined;
+  ownerAccount?: string | undefined;
+  state?: ResiliencyGroupState | undefined;
 }
 export type ResiliencyGroupSummaryList = ResiliencyGroupSummary[];
 export interface ListResiliencyGroupsResult {
-  items?: ResiliencyGroupSummary[];
-  nextToken?: string;
+  items?: ResiliencyGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RouteDirection = "accepted" | "advertised" | (string & {});
 export type RouteFilterCidrString = string;
@@ -1130,83 +1130,83 @@ export type AsPathList = number[];
 export type CommunityEntry = string;
 export type CommunityList = string[];
 export interface RouteFilters {
-  routeDirection?: RouteDirection;
-  addressFamily?: AddressFamily;
-  cidrs?: string[];
-  asPath?: number[];
-  communities?: string[];
+  routeDirection?: RouteDirection | undefined;
+  addressFamily?: AddressFamily | undefined;
+  cidrs?: string[] | undefined;
+  asPath?: number[] | undefined;
+  communities?: string[] | undefined;
 }
 export interface ListVirtualInterfaceRoutesRequest {
-  virtualInterfaceId?: string;
-  filters?: RouteFilters;
-  maxResults?: number;
-  nextToken?: string;
+  virtualInterfaceId?: string | undefined;
+  filters?: RouteFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RouteCidr = string;
 export type AsPathType = "seq" | "set" | (string & {});
 export interface AsPathSegment {
-  pathType?: AsPathType;
-  path?: number[];
+  pathType?: AsPathType | undefined;
+  path?: number[] | undefined;
 }
 export type AsPathSegmentList = AsPathSegment[];
 export type RouteInstalledAt = Date;
 export interface Route {
-  cidr?: string;
-  routeDirection?: RouteDirection;
-  addressFamily?: AddressFamily;
-  asPath?: AsPathSegment[];
-  communities?: string[];
-  awsLogicalDeviceId?: string;
-  routeInstalledAt?: Date;
+  cidr?: string | undefined;
+  routeDirection?: RouteDirection | undefined;
+  addressFamily?: AddressFamily | undefined;
+  asPath?: AsPathSegment[] | undefined;
+  communities?: string[] | undefined;
+  awsLogicalDeviceId?: string | undefined;
+  routeInstalledAt?: Date | undefined;
 }
 export type RouteList = Route[];
 export interface ListVirtualInterfaceRoutesResponse {
-  virtualInterfaceId?: string;
-  routes?: Route[];
-  nextToken?: string;
+  virtualInterfaceId?: string | undefined;
+  routes?: Route[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TestId = string;
 export type BGPPeerIdList = string[];
 export type FailureTestHistoryStatus = string;
 export interface ListVirtualInterfaceTestHistoryRequest {
-  testId?: string;
-  virtualInterfaceId?: string;
-  bgpPeers?: string[];
-  status?: string;
-  maxResults?: number;
-  nextToken?: string;
+  testId?: string | undefined;
+  virtualInterfaceId?: string | undefined;
+  bgpPeers?: string[] | undefined;
+  status?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestDuration = number;
 export type StartTime = Date;
 export type EndTime = Date;
 export interface VirtualInterfaceTestHistory {
-  testId?: string;
-  virtualInterfaceId?: string;
-  bgpPeers?: string[];
-  status?: string;
-  ownerAccount?: string;
-  testDurationInMinutes?: number;
-  startTime?: Date;
-  endTime?: Date;
+  testId?: string | undefined;
+  virtualInterfaceId?: string | undefined;
+  bgpPeers?: string[] | undefined;
+  status?: string | undefined;
+  ownerAccount?: string | undefined;
+  testDurationInMinutes?: number | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type VirtualInterfaceTestHistoryList = VirtualInterfaceTestHistory[];
 export interface ListVirtualInterfaceTestHistoryResponse {
-  virtualInterfaceTestHistory?: VirtualInterfaceTestHistory[];
-  nextToken?: string;
+  virtualInterfaceTestHistory?: VirtualInterfaceTestHistory[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartBgpFailoverTestRequest {
   virtualInterfaceId: string;
-  bgpPeers?: string[];
-  testDurationInMinutes?: number;
+  bgpPeers?: string[] | undefined;
+  testDurationInMinutes?: number | undefined;
 }
 export interface StartBgpFailoverTestResponse {
-  virtualInterfaceTest?: VirtualInterfaceTestHistory;
+  virtualInterfaceTest?: VirtualInterfaceTestHistory | undefined;
 }
 export interface StopBgpFailoverTestRequest {
   virtualInterfaceId: string;
 }
 export interface StopBgpFailoverTestResponse {
-  virtualInterfaceTest?: VirtualInterfaceTestHistory;
+  virtualInterfaceTest?: VirtualInterfaceTestHistory | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1221,8 +1221,8 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateConnectionRequest {
   connectionId: string;
-  connectionName?: string;
-  encryptionMode?: string;
+  connectionName?: string | undefined;
+  encryptionMode?: string | undefined;
 }
 export type ConnectionIdList = string[];
 export interface UpdateConnectionsBillingModeRequest {
@@ -1230,46 +1230,46 @@ export interface UpdateConnectionsBillingModeRequest {
   billingMode: RequestBillingMode;
 }
 export interface UpdateConnectionsBillingModeResponse {
-  billingMode?: BillingMode;
-  connections?: Connection[];
+  billingMode?: BillingMode | undefined;
+  connections?: Connection[] | undefined;
 }
 export interface UpdateDirectConnectGatewayRequest {
   directConnectGatewayId: string;
   newDirectConnectGatewayName: string;
 }
 export interface UpdateDirectConnectGatewayResponse {
-  directConnectGateway?: DirectConnectGateway;
+  directConnectGateway?: DirectConnectGateway | undefined;
 }
 export interface UpdateDirectConnectGatewayAssociationRequest {
-  associationId?: string;
-  addAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
-  removeAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[];
+  associationId?: string | undefined;
+  addAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
+  removeAllowedPrefixesToDirectConnectGateway?: RouteFilterPrefix[] | undefined;
 }
 export interface UpdateDirectConnectGatewayAssociationResult {
-  directConnectGatewayAssociation?: DirectConnectGatewayAssociation;
+  directConnectGatewayAssociation?: DirectConnectGatewayAssociation | undefined;
 }
 export interface UpdateLagRequest {
   lagId: string;
-  lagName?: string;
-  minimumLinks?: number;
-  encryptionMode?: string;
+  lagName?: string | undefined;
+  minimumLinks?: number | undefined;
+  encryptionMode?: string | undefined;
 }
 export interface UpdateResiliencyGroupRequest {
   resiliencyGroupId: string;
   resiliencyGroupName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateResiliencyGroupResult {
-  resiliencyGroup?: ResiliencyGroup;
+  resiliencyGroup?: ResiliencyGroup | undefined;
 }
 export interface UpdateVirtualInterfaceAttributesRequest {
   virtualInterfaceId: string;
-  mtu?: number;
-  enableSiteLink?: boolean;
-  virtualInterfaceName?: string;
-  prefixPoolAllocatedCountIpv4?: number;
-  prefixPoolAllocatedCountIpv6?: number;
-  rateLimit?: string;
+  mtu?: number | undefined;
+  enableSiteLink?: boolean | undefined;
+  virtualInterfaceName?: string | undefined;
+  prefixPoolAllocatedCountIpv4?: number | undefined;
+  prefixPoolAllocatedCountIpv6?: number | undefined;
+  rateLimit?: string | undefined;
 }
 export type ErrorMessage = string;
 export type AcceptDirectConnectGatewayAssociationProposalError =

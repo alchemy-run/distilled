@@ -108,8 +108,8 @@ export interface ListRegionalServicePrefixBindingsRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
   /** Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page. */
-  cursor?: string;
-  perPage?: number;
+  cursor?: string | undefined;
+  perPage?: number | undefined;
 }
 export interface RegionalServicesPrefixBindingsListResultItem {
   /** The ID of the binding. */
@@ -134,10 +134,10 @@ export interface ListRegionsRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
   /** Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page. */
-  cursor?: string;
-  perPage?: number;
+  cursor?: string | undefined;
+  perPage?: number | undefined;
   /** Filter regions by type. Omit to return all regions. */
-  type?: RegionsListRequestType | (string & {});
+  type?: RegionsListRequestType | (string & {}) | undefined;
 }
 export interface RegionsListResultItem {
   id: string;

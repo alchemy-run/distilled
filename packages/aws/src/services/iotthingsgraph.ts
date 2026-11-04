@@ -143,7 +143,7 @@ export type Version = number;
 export interface AssociateEntityToThingRequest {
   thingName: string;
   entityId: string;
-  namespaceVersion?: number;
+  namespaceVersion?: number | undefined;
 }
 export interface AssociateEntityToThingResponse {}
 export type DefinitionLanguage = "GRAPHQL" | (string & {});
@@ -154,17 +154,17 @@ export interface DefinitionDocument {
 }
 export interface CreateFlowTemplateRequest {
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export type Arn = string;
 export interface FlowTemplateSummary {
-  id?: string;
-  arn?: string;
-  revisionNumber?: number;
-  createdAt?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  revisionNumber?: number | undefined;
+  createdAt?: Date | undefined;
 }
 export interface CreateFlowTemplateResponse {
-  summary?: FlowTemplateSummary;
+  summary?: FlowTemplateSummary | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -179,17 +179,17 @@ export type S3BucketName = string;
 export type Enabled = boolean;
 export type RoleArn = string;
 export interface MetricsConfiguration {
-  cloudMetricEnabled?: boolean;
-  metricRuleRoleArn?: string;
+  cloudMetricEnabled?: boolean | undefined;
+  metricRuleRoleArn?: string | undefined;
 }
 export interface CreateSystemInstanceRequest {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
   definition: DefinitionDocument;
   target: DeploymentTarget;
-  greengrassGroupName?: string;
-  s3BucketName?: string;
-  metricsConfiguration?: MetricsConfiguration;
-  flowActionsRoleArn?: string;
+  greengrassGroupName?: string | undefined;
+  s3BucketName?: string | undefined;
+  metricsConfiguration?: MetricsConfiguration | undefined;
+  flowActionsRoleArn?: string | undefined;
 }
 export type SystemInstanceDeploymentStatus =
   | "NOT_DEPLOYED"
@@ -204,31 +204,31 @@ export type SystemInstanceDeploymentStatus =
 export type GreengrassGroupId = string;
 export type GreengrassGroupVersionId = string;
 export interface SystemInstanceSummary {
-  id?: string;
-  arn?: string;
-  status?: SystemInstanceDeploymentStatus;
-  target?: DeploymentTarget;
-  greengrassGroupName?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  greengrassGroupId?: string;
-  greengrassGroupVersionId?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: SystemInstanceDeploymentStatus | undefined;
+  target?: DeploymentTarget | undefined;
+  greengrassGroupName?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  greengrassGroupId?: string | undefined;
+  greengrassGroupVersionId?: string | undefined;
 }
 export interface CreateSystemInstanceResponse {
-  summary?: SystemInstanceSummary;
+  summary?: SystemInstanceSummary | undefined;
 }
 export interface CreateSystemTemplateRequest {
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export interface SystemTemplateSummary {
-  id?: string;
-  arn?: string;
-  revisionNumber?: number;
-  createdAt?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  revisionNumber?: number | undefined;
+  createdAt?: Date | undefined;
 }
 export interface CreateSystemTemplateResponse {
-  summary?: SystemTemplateSummary;
+  summary?: SystemTemplateSummary | undefined;
 }
 export interface DeleteFlowTemplateRequest {
   id: string;
@@ -237,11 +237,11 @@ export interface DeleteFlowTemplateResponse {}
 export interface DeleteNamespaceRequest {}
 export type NamespaceName = string;
 export interface DeleteNamespaceResponse {
-  namespaceArn?: string;
-  namespaceName?: string;
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
 }
 export interface DeleteSystemInstanceRequest {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DeleteSystemInstanceResponse {}
 export interface DeleteSystemTemplateRequest {
@@ -249,12 +249,12 @@ export interface DeleteSystemTemplateRequest {
 }
 export interface DeleteSystemTemplateResponse {}
 export interface DeploySystemInstanceRequest {
-  id?: string;
+  id?: string | undefined;
 }
 export type GreengrassDeploymentId = string;
 export interface DeploySystemInstanceResponse {
   summary: SystemInstanceSummary;
-  greengrassDeploymentId?: string;
+  greengrassDeploymentId?: string | undefined;
 }
 export interface DeprecateFlowTemplateRequest {
   id: string;
@@ -265,14 +265,14 @@ export interface DeprecateSystemTemplateRequest {
 }
 export interface DeprecateSystemTemplateResponse {}
 export interface DescribeNamespaceRequest {
-  namespaceName?: string;
+  namespaceName?: string | undefined;
 }
 export interface DescribeNamespaceResponse {
-  namespaceArn?: string;
-  namespaceName?: string;
-  trackingNamespaceName?: string;
-  trackingNamespaceVersion?: number;
-  namespaceVersion?: number;
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
+  trackingNamespaceName?: string | undefined;
+  trackingNamespaceVersion?: number | undefined;
+  namespaceVersion?: number | undefined;
 }
 export type EntityType =
   | "DEVICE"
@@ -294,94 +294,94 @@ export interface DissociateEntityFromThingResponse {}
 export type Urns = string[];
 export interface GetEntitiesRequest {
   ids: string[];
-  namespaceVersion?: number;
+  namespaceVersion?: number | undefined;
 }
 export interface EntityDescription {
-  id?: string;
-  arn?: string;
-  type?: EntityType;
-  createdAt?: Date;
-  definition?: DefinitionDocument;
+  id?: string | undefined;
+  arn?: string | undefined;
+  type?: EntityType | undefined;
+  createdAt?: Date | undefined;
+  definition?: DefinitionDocument | undefined;
 }
 export type EntityDescriptions = EntityDescription[];
 export interface GetEntitiesResponse {
-  descriptions?: EntityDescription[];
+  descriptions?: EntityDescription[] | undefined;
 }
 export interface GetFlowTemplateRequest {
   id: string;
-  revisionNumber?: number;
+  revisionNumber?: number | undefined;
 }
 export interface FlowTemplateDescription {
-  summary?: FlowTemplateSummary;
-  definition?: DefinitionDocument;
-  validatedNamespaceVersion?: number;
+  summary?: FlowTemplateSummary | undefined;
+  definition?: DefinitionDocument | undefined;
+  validatedNamespaceVersion?: number | undefined;
 }
 export interface GetFlowTemplateResponse {
-  description?: FlowTemplateDescription;
+  description?: FlowTemplateDescription | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface GetFlowTemplateRevisionsRequest {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FlowTemplateSummaries = FlowTemplateSummary[];
 export interface GetFlowTemplateRevisionsResponse {
-  summaries?: FlowTemplateSummary[];
-  nextToken?: string;
+  summaries?: FlowTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetNamespaceDeletionStatusRequest {}
 export type NamespaceDeletionStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type NamespaceDeletionStatusErrorCodes = "VALIDATION_FAILED" | (string & {});
 export interface GetNamespaceDeletionStatusResponse {
-  namespaceArn?: string;
-  namespaceName?: string;
-  status?: NamespaceDeletionStatus;
-  errorCode?: NamespaceDeletionStatusErrorCodes;
-  errorMessage?: string;
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
+  status?: NamespaceDeletionStatus | undefined;
+  errorCode?: NamespaceDeletionStatusErrorCodes | undefined;
+  errorMessage?: string | undefined;
 }
 export interface GetSystemInstanceRequest {
   id: string;
 }
 export interface DependencyRevision {
-  id?: string;
-  revisionNumber?: number;
+  id?: string | undefined;
+  revisionNumber?: number | undefined;
 }
 export type DependencyRevisions = DependencyRevision[];
 export interface SystemInstanceDescription {
-  summary?: SystemInstanceSummary;
-  definition?: DefinitionDocument;
-  s3BucketName?: string;
-  metricsConfiguration?: MetricsConfiguration;
-  validatedNamespaceVersion?: number;
-  validatedDependencyRevisions?: DependencyRevision[];
-  flowActionsRoleArn?: string;
+  summary?: SystemInstanceSummary | undefined;
+  definition?: DefinitionDocument | undefined;
+  s3BucketName?: string | undefined;
+  metricsConfiguration?: MetricsConfiguration | undefined;
+  validatedNamespaceVersion?: number | undefined;
+  validatedDependencyRevisions?: DependencyRevision[] | undefined;
+  flowActionsRoleArn?: string | undefined;
 }
 export interface GetSystemInstanceResponse {
-  description?: SystemInstanceDescription;
+  description?: SystemInstanceDescription | undefined;
 }
 export interface GetSystemTemplateRequest {
   id: string;
-  revisionNumber?: number;
+  revisionNumber?: number | undefined;
 }
 export interface SystemTemplateDescription {
-  summary?: SystemTemplateSummary;
-  definition?: DefinitionDocument;
-  validatedNamespaceVersion?: number;
+  summary?: SystemTemplateSummary | undefined;
+  definition?: DefinitionDocument | undefined;
+  validatedNamespaceVersion?: number | undefined;
 }
 export interface GetSystemTemplateResponse {
-  description?: SystemTemplateDescription;
+  description?: SystemTemplateDescription | undefined;
 }
 export interface GetSystemTemplateRevisionsRequest {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SystemTemplateSummaries = SystemTemplateSummary[];
 export interface GetSystemTemplateRevisionsResponse {
-  summaries?: SystemTemplateSummary[];
-  nextToken?: string;
+  summaries?: SystemTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type UploadId = string;
 export interface GetUploadStatusRequest {
@@ -392,17 +392,17 @@ export type StringList = string[];
 export interface GetUploadStatusResponse {
   uploadId: string;
   uploadStatus: UploadStatus;
-  namespaceArn?: string;
-  namespaceName?: string;
-  namespaceVersion?: number;
-  failureReason?: string[];
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
+  namespaceVersion?: number | undefined;
+  failureReason?: string[] | undefined;
   createdDate: Date;
 }
 export type FlowExecutionId = string;
 export interface ListFlowExecutionMessagesRequest {
   flowExecutionId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FlowExecutionMessageId = string;
 export type FlowExecutionEventType =
@@ -426,25 +426,25 @@ export type FlowExecutionEventType =
   | (string & {});
 export type FlowExecutionMessagePayload = string;
 export interface FlowExecutionMessage {
-  messageId?: string;
-  eventType?: FlowExecutionEventType;
-  timestamp?: Date;
-  payload?: string;
+  messageId?: string | undefined;
+  eventType?: FlowExecutionEventType | undefined;
+  timestamp?: Date | undefined;
+  payload?: string | undefined;
 }
 export type FlowExecutionMessages = FlowExecutionMessage[];
 export interface ListFlowExecutionMessagesResponse {
-  messages?: FlowExecutionMessage[];
-  nextToken?: string;
+  messages?: FlowExecutionMessage[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
-  maxResults?: number;
+  maxResults?: number | undefined;
   resourceArn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
-  nextToken?: string;
+  tags?: Tag[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EntityTypes = EntityType[];
 export type EntityFilterName =
@@ -456,42 +456,42 @@ export type EntityFilterName =
 export type EntityFilterValue = string;
 export type EntityFilterValues = string[];
 export interface EntityFilter {
-  name?: EntityFilterName;
-  value?: string[];
+  name?: EntityFilterName | undefined;
+  value?: string[] | undefined;
 }
 export type EntityFilters = EntityFilter[];
 export interface SearchEntitiesRequest {
   entityTypes: EntityType[];
-  filters?: EntityFilter[];
-  nextToken?: string;
-  maxResults?: number;
-  namespaceVersion?: number;
+  filters?: EntityFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namespaceVersion?: number | undefined;
 }
 export interface SearchEntitiesResponse {
-  descriptions?: EntityDescription[];
-  nextToken?: string;
+  descriptions?: EntityDescription[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface SearchFlowExecutionsRequest {
   systemInstanceId: string;
-  flowExecutionId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  nextToken?: string;
-  maxResults?: number;
+  flowExecutionId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FlowExecutionStatus = "RUNNING" | "ABORTED" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface FlowExecutionSummary {
-  flowExecutionId?: string;
-  status?: FlowExecutionStatus;
-  systemInstanceId?: string;
-  flowTemplateId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  flowExecutionId?: string | undefined;
+  status?: FlowExecutionStatus | undefined;
+  systemInstanceId?: string | undefined;
+  flowTemplateId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type FlowExecutionSummaries = FlowExecutionSummary[];
 export interface SearchFlowExecutionsResponse {
-  summaries?: FlowExecutionSummary[];
-  nextToken?: string;
+  summaries?: FlowExecutionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FlowTemplateFilterName = "DEVICE_MODEL_ID" | (string & {});
 export type FlowTemplateFilterValue = string;
@@ -502,13 +502,13 @@ export interface FlowTemplateFilter {
 }
 export type FlowTemplateFilters = FlowTemplateFilter[];
 export interface SearchFlowTemplatesRequest {
-  filters?: FlowTemplateFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: FlowTemplateFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SearchFlowTemplatesResponse {
-  summaries?: FlowTemplateSummary[];
-  nextToken?: string;
+  summaries?: FlowTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SystemInstanceFilterName =
   | "SYSTEM_TEMPLATE_ID"
@@ -518,19 +518,19 @@ export type SystemInstanceFilterName =
 export type SystemInstanceFilterValue = string;
 export type SystemInstanceFilterValues = string[];
 export interface SystemInstanceFilter {
-  name?: SystemInstanceFilterName;
-  value?: string[];
+  name?: SystemInstanceFilterName | undefined;
+  value?: string[] | undefined;
 }
 export type SystemInstanceFilters = SystemInstanceFilter[];
 export interface SearchSystemInstancesRequest {
-  filters?: SystemInstanceFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: SystemInstanceFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SystemInstanceSummaries = SystemInstanceSummary[];
 export interface SearchSystemInstancesResponse {
-  summaries?: SystemInstanceSummary[];
-  nextToken?: string;
+  summaries?: SystemInstanceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SystemTemplateFilterName = "FLOW_TEMPLATE_ID" | (string & {});
 export type SystemTemplateFilterValue = string;
@@ -541,29 +541,29 @@ export interface SystemTemplateFilter {
 }
 export type SystemTemplateFilters = SystemTemplateFilter[];
 export interface SearchSystemTemplatesRequest {
-  filters?: SystemTemplateFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: SystemTemplateFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SearchSystemTemplatesResponse {
-  summaries?: SystemTemplateSummary[];
-  nextToken?: string;
+  summaries?: SystemTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface SearchThingsRequest {
   entityId: string;
-  nextToken?: string;
-  maxResults?: number;
-  namespaceVersion?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namespaceVersion?: number | undefined;
 }
 export type ThingArn = string;
 export interface Thing {
-  thingArn?: string;
-  thingName?: string;
+  thingArn?: string | undefined;
+  thingName?: string | undefined;
 }
 export type Things = Thing[];
 export interface SearchThingsResponse {
-  things?: Thing[];
-  nextToken?: string;
+  things?: Thing[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -571,10 +571,10 @@ export interface TagResourceRequest {
 }
 export interface TagResourceResponse {}
 export interface UndeploySystemInstanceRequest {
-  id?: string;
+  id?: string | undefined;
 }
 export interface UndeploySystemInstanceResponse {
-  summary?: SystemInstanceSummary;
+  summary?: SystemInstanceSummary | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -585,25 +585,25 @@ export interface UntagResourceResponse {}
 export interface UpdateFlowTemplateRequest {
   id: string;
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export interface UpdateFlowTemplateResponse {
-  summary?: FlowTemplateSummary;
+  summary?: FlowTemplateSummary | undefined;
 }
 export interface UpdateSystemTemplateRequest {
   id: string;
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export interface UpdateSystemTemplateResponse {
-  summary?: SystemTemplateSummary;
+  summary?: SystemTemplateSummary | undefined;
 }
 export type SyncWithPublicNamespace = boolean;
 export type DeprecateExistingEntities = boolean;
 export interface UploadEntityDefinitionsRequest {
-  document?: DefinitionDocument;
-  syncWithPublicNamespace?: boolean;
-  deprecateExistingEntities?: boolean;
+  document?: DefinitionDocument | undefined;
+  syncWithPublicNamespace?: boolean | undefined;
+  deprecateExistingEntities?: boolean | undefined;
 }
 export interface UploadEntityDefinitionsResponse {
   uploadId: string;

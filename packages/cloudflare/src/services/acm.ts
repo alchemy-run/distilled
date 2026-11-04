@@ -141,7 +141,7 @@ export interface DeleteCustomTrustStoreRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCustomTrustStoreResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface GetCustomTrustStoreRequest {
   /** Identifier. */
@@ -184,23 +184,23 @@ export type TotalTlsGetResponseValidityPeriod = 90;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTotalTlResponse {
   /** The Certificate Authority that Total TLS certificates will be issued through. */
-  certificateAuthority?: TotalTlsGetResponseCertificateAuthority | null;
+  certificateAuthority?: TotalTlsGetResponseCertificateAuthority | null | undefined;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: TotalTlsGetResponseValidityPeriod | null;
+  validityPeriod?: TotalTlsGetResponseValidityPeriod | null | undefined;
 }
 export interface ListCustomTrustStoresRequest {
   /** Identifier. */
   zoneId: string;
   /** Limit to the number of records returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of records per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type CustomTrustStoreListResultItemStatus =
   | "initializing"
@@ -241,18 +241,18 @@ export interface UpdateTotalTlRequest {
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled: boolean;
   /** The Certificate Authority that Total TLS certificates will be issued through. */
-  certificateAuthority?: TotalTlsEditRequestCertificateAuthority | (string & {});
+  certificateAuthority?: TotalTlsEditRequestCertificateAuthority | (string & {}) | undefined;
 }
 export type TotalTlsEditResponseCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export type TotalTlsEditResponseValidityPeriod = 90;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTotalTlResponse {
   /** The Certificate Authority that Total TLS certificates will be issued through. */
-  certificateAuthority?: TotalTlsEditResponseCertificateAuthority | null;
+  certificateAuthority?: TotalTlsEditResponseCertificateAuthority | null | undefined;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: TotalTlsEditResponseValidityPeriod | null;
+  validityPeriod?: TotalTlsEditResponseValidityPeriod | null | undefined;
 }
 export type UpdateTotalTlsRequestCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export interface UpdateTotalTlsRequest {
@@ -261,18 +261,18 @@ export interface UpdateTotalTlsRequest {
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled: boolean;
   /** The Certificate Authority that Total TLS certificates will be issued through. */
-  certificateAuthority?: UpdateTotalTlsRequestCertificateAuthority | (string & {});
+  certificateAuthority?: UpdateTotalTlsRequestCertificateAuthority | (string & {}) | undefined;
 }
 export type UpdateTotalTlsResponseCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export type UpdateTotalTlsResponseValidityPeriod = 90;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTotalTlsResponse {
   /** The Certificate Authority that Total TLS certificates will be issued through. */
-  certificateAuthority?: UpdateTotalTlsResponseCertificateAuthority | null;
+  certificateAuthority?: UpdateTotalTlsResponseCertificateAuthority | null | undefined;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: UpdateTotalTlsResponseValidityPeriod | null;
+  validityPeriod?: UpdateTotalTlsResponseValidityPeriod | null | undefined;
 }
 export type CreateCustomTrustStoreError =
   | InvalidObjectIdentifier

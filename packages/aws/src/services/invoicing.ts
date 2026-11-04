@@ -195,36 +195,36 @@ export interface BatchGetInvoiceProfileRequest {
 export type BasicStringWithoutSpace = string;
 export type BasicString = string;
 export interface ReceiverAddress {
-  AddressLine1?: string;
-  AddressLine2?: string;
-  AddressLine3?: string;
-  DistrictOrCounty?: string;
-  City?: string;
-  StateOrRegion?: string;
-  CountryCode?: string;
-  CompanyName?: string;
-  PostalCode?: string;
+  AddressLine1?: string | undefined;
+  AddressLine2?: string | undefined;
+  AddressLine3?: string | undefined;
+  DistrictOrCounty?: string | undefined;
+  City?: string | undefined;
+  StateOrRegion?: string | undefined;
+  CountryCode?: string | undefined;
+  CompanyName?: string | undefined;
+  PostalCode?: string | undefined;
 }
 export type SensitiveBasicStringWithoutSpace = string | redacted.Redacted<string>;
 export interface InvoiceProfile {
-  AccountId?: string;
-  ReceiverName?: string;
-  ReceiverAddress?: ReceiverAddress;
-  ReceiverEmail?: string | redacted.Redacted<string>;
-  Issuer?: string;
-  TaxRegistrationNumber?: string | redacted.Redacted<string>;
+  AccountId?: string | undefined;
+  ReceiverName?: string | undefined;
+  ReceiverAddress?: ReceiverAddress | undefined;
+  ReceiverEmail?: string | redacted.Redacted<string> | undefined;
+  Issuer?: string | undefined;
+  TaxRegistrationNumber?: string | redacted.Redacted<string> | undefined;
 }
 export type ProfileList = InvoiceProfile[];
 export interface BatchGetInvoiceProfileResponse {
-  Profiles?: InvoiceProfile[];
+  Profiles?: InvoiceProfile[] | undefined;
 }
 export type InvoiceUnitName = string;
 export type DescriptionString = string;
 export type TaxInheritanceDisabledFlag = boolean;
 export type RuleAccountIdList = string[];
 export interface InvoiceUnitRule {
-  LinkedAccounts?: string[];
-  BillSourceAccounts?: string[];
+  LinkedAccounts?: string[] | undefined;
+  BillSourceAccounts?: string[] | undefined;
 }
 export type ResourceTagKey = string;
 export type ResourceTagValue = string;
@@ -236,15 +236,15 @@ export type ResourceTagList = ResourceTag[];
 export interface CreateInvoiceUnitRequest {
   Name: string;
   InvoiceReceiver: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
+  Description?: string | undefined;
+  TaxInheritanceDisabled?: boolean | undefined;
   Rule: InvoiceUnitRule;
-  ResourceTags?: ResourceTag[];
-  ClientToken?: string;
+  ResourceTags?: ResourceTag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type InvoiceUnitArnString = string;
 export interface CreateInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
+  InvoiceUnitArn?: string | undefined;
 }
 export type ProcurementPortalName = "SAP_BUSINESS_NETWORK" | "COUPA" | (string & {});
 export type BuyerDomain = "NetworkID" | (string & {});
@@ -252,16 +252,16 @@ export type SupplierDomain = "NetworkID" | (string & {});
 export type InvoiceUnitArns = string[];
 export type SellerOfRecords = string[];
 export interface ProcurementPortalPreferenceSelector {
-  InvoiceUnitArns?: string[];
-  SellerOfRecords?: string[];
+  InvoiceUnitArns?: string[] | undefined;
+  SellerOfRecords?: string[] | undefined;
 }
 export interface TestEnvPreferenceInput {
   BuyerDomain: BuyerDomain;
   BuyerIdentifier: string;
   SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
-  ProcurementPortalSharedSecret?: string;
-  ProcurementPortalInstanceEndpoint?: string;
+  ProcurementPortalSharedSecret?: string | undefined;
+  ProcurementPortalInstanceEndpoint?: string | undefined;
 }
 export type EinvoiceDeliveryDocumentType =
   | "AWS_CLOUD_INVOICE"
@@ -279,8 +279,8 @@ export type PurchaseOrderDataSourceType =
   | "PURCHASE_ORDER_NOT_REQUIRED"
   | (string & {});
 export interface PurchaseOrderDataSource {
-  EinvoiceDeliveryDocumentType?: EinvoiceDeliveryDocumentType;
-  PurchaseOrderDataSourceType?: PurchaseOrderDataSourceType;
+  EinvoiceDeliveryDocumentType?: EinvoiceDeliveryDocumentType | undefined;
+  PurchaseOrderDataSourceType?: PurchaseOrderDataSourceType | undefined;
 }
 export type PurchaseOrderDataSources = PurchaseOrderDataSource[];
 export type ConnectionTestingMethod =
@@ -289,19 +289,19 @@ export type ConnectionTestingMethod =
   | (string & {});
 export interface EinvoiceDeliveryPreference {
   EinvoiceDeliveryDocumentTypes: EinvoiceDeliveryDocumentType[];
-  EinvoiceDeliveryAttachmentTypes?: EinvoiceDeliveryAttachmentType[];
+  EinvoiceDeliveryAttachmentTypes?: EinvoiceDeliveryAttachmentType[] | undefined;
   Protocol: Protocol;
   PurchaseOrderDataSources: PurchaseOrderDataSource[];
   ConnectionTestingMethod: ConnectionTestingMethod;
   EinvoiceDeliveryActivationDate: Date;
 }
 export interface MarketplacePunchOutPreference {
-  ApprovalRequestRedirectUrl?: string;
+  ApprovalRequestRedirectUrl?: string | undefined;
 }
 export type EmailString = string;
 export interface Contact {
-  Name?: string;
-  Email?: string;
+  Name?: string | undefined;
+  Email?: string | undefined;
 }
 export type Contacts = Contact[];
 export interface CreateProcurementPortalPreferenceRequest {
@@ -310,18 +310,18 @@ export interface CreateProcurementPortalPreferenceRequest {
   BuyerIdentifier: string;
   SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
-  Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string | redacted.Redacted<string>;
-  ProcurementPortalInstanceEndpoint?: string;
-  TestEnvPreference?: TestEnvPreferenceInput;
+  Selector?: ProcurementPortalPreferenceSelector | undefined;
+  ProcurementPortalSharedSecret?: string | redacted.Redacted<string> | undefined;
+  ProcurementPortalInstanceEndpoint?: string | undefined;
+  TestEnvPreference?: TestEnvPreferenceInput | undefined;
   EinvoiceDeliveryEnabled: boolean;
-  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
+  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference | undefined;
   PurchaseOrderRetrievalEnabled: boolean;
-  MarketplacePunchOutEnabled?: boolean;
-  MarketplacePunchOutPreference?: MarketplacePunchOutPreference;
+  MarketplacePunchOutEnabled?: boolean | undefined;
+  MarketplacePunchOutPreference?: MarketplacePunchOutPreference | undefined;
   Contacts: Contact[];
-  ResourceTags?: ResourceTag[];
-  ClientToken?: string;
+  ResourceTags?: ResourceTag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type ProcurementPortalPreferenceArnString = string;
 export interface CreateProcurementPortalPreferenceResponse {
@@ -329,14 +329,14 @@ export interface CreateProcurementPortalPreferenceResponse {
 }
 export interface DeleteInvoiceUnitRequest {
   InvoiceUnitArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
+  InvoiceUnitArn?: string | undefined;
 }
 export interface DeleteProcurementPortalPreferenceRequest {
   ProcurementPortalPreferenceArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteProcurementPortalPreferenceResponse {
   ProcurementPortalPreferenceArn: string;
@@ -352,35 +352,35 @@ export type SupplementalDocumentType =
   | "SUPPLEMENT"
   | (string & {});
 export interface SupplementalDocument {
-  DocumentType?: SupplementalDocumentType;
-  DocumentId?: string;
-  DocumentUrl?: string;
-  DocumentUrlExpirationDate?: Date;
+  DocumentType?: SupplementalDocumentType | undefined;
+  DocumentId?: string | undefined;
+  DocumentUrl?: string | undefined;
+  DocumentUrlExpirationDate?: Date | undefined;
 }
 export type SupplementalDocuments = SupplementalDocument[];
 export interface InvoicePDF {
-  InvoiceId?: string;
-  DocumentUrl?: string;
-  DocumentUrlExpirationDate?: Date;
-  SupplementalDocuments?: SupplementalDocument[];
+  InvoiceId?: string | undefined;
+  DocumentUrl?: string | undefined;
+  DocumentUrlExpirationDate?: Date | undefined;
+  SupplementalDocuments?: SupplementalDocument[] | undefined;
 }
 export interface GetInvoicePDFResponse {
-  InvoicePDF?: InvoicePDF;
+  InvoicePDF?: InvoicePDF | undefined;
 }
 export type AsOfTimestamp = Date;
 export interface GetInvoiceUnitRequest {
   InvoiceUnitArn: string;
-  AsOf?: Date;
+  AsOf?: Date | undefined;
 }
 export type LastModifiedTimestamp = Date;
 export interface GetInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
-  InvoiceReceiver?: string;
-  Name?: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
-  Rule?: InvoiceUnitRule;
-  LastModified?: Date;
+  InvoiceUnitArn?: string | undefined;
+  InvoiceReceiver?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  TaxInheritanceDisabled?: boolean | undefined;
+  Rule?: InvoiceUnitRule | undefined;
+  LastModified?: Date | undefined;
 }
 export interface GetProcurementPortalPreferenceRequest {
   ProcurementPortalPreferenceArn: string;
@@ -390,9 +390,9 @@ export interface TestEnvPreference {
   BuyerIdentifier: string;
   SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
-  ProcurementPortalSharedSecret?: string;
-  ProcurementPortalInstanceEndpoint?: string;
-  PurchaseOrderRetrievalEndpoint?: string;
+  ProcurementPortalSharedSecret?: string | undefined;
+  ProcurementPortalInstanceEndpoint?: string | undefined;
+  PurchaseOrderRetrievalEndpoint?: string | undefined;
 }
 export type ProcurementPortalPreferenceStatus =
   | "PENDING_VERIFICATION"
@@ -411,21 +411,21 @@ export interface ProcurementPortalPreference {
   BuyerIdentifier: string;
   SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
-  Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string;
-  ProcurementPortalInstanceEndpoint?: string;
-  PurchaseOrderRetrievalEndpoint?: string;
-  TestEnvPreference?: TestEnvPreference;
+  Selector?: ProcurementPortalPreferenceSelector | undefined;
+  ProcurementPortalSharedSecret?: string | undefined;
+  ProcurementPortalInstanceEndpoint?: string | undefined;
+  PurchaseOrderRetrievalEndpoint?: string | undefined;
+  TestEnvPreference?: TestEnvPreference | undefined;
   EinvoiceDeliveryEnabled: boolean;
-  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
+  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference | undefined;
   PurchaseOrderRetrievalEnabled: boolean;
-  MarketplacePunchOutEnabled?: boolean;
-  MarketplacePunchOutPreference?: MarketplacePunchOutPreference;
-  Contacts?: Contact[];
-  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  PurchaseOrderRetrievalPreferenceStatusReason?: string;
+  MarketplacePunchOutEnabled?: boolean | undefined;
+  MarketplacePunchOutPreference?: MarketplacePunchOutPreference | undefined;
+  Contacts?: Contact[] | undefined;
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus | undefined;
+  EinvoiceDeliveryPreferenceStatusReason?: string | undefined;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus | undefined;
+  PurchaseOrderRetrievalPreferenceStatusReason?: string | undefined;
   Version: number;
   CreateDate: Date;
   LastUpdateDate: Date;
@@ -450,24 +450,24 @@ export interface BillingPeriod {
 }
 export type ReceiverRole = "SELLER" | "RESELLER" | "BUYER" | (string & {});
 export interface InvoiceSummariesFilter {
-  TimeInterval?: DateInterval;
-  BillingPeriod?: BillingPeriod;
-  InvoicingEntity?: string;
-  ReceiverRole?: ReceiverRole;
+  TimeInterval?: DateInterval | undefined;
+  BillingPeriod?: BillingPeriod | undefined;
+  InvoicingEntity?: string | undefined;
+  ReceiverRole?: ReceiverRole | undefined;
 }
 export type NextTokenString = string;
 export type InvoiceSummariesMaxResults = number;
 export interface ListInvoiceSummariesRequest {
   Selector: InvoiceSummariesSelector;
-  Filter?: InvoiceSummariesFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: InvoiceSummariesFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type BillSourceAccountList = string[];
 export type BillingEntity = "AWS" | "AWS_MARKETPLACE" | (string & {});
 export interface Entity {
-  InvoicingEntity?: string;
-  BillingEntity?: BillingEntity;
+  InvoicingEntity?: string | undefined;
+  BillingEntity?: BillingEntity | undefined;
 }
 export type InvoiceFrequency = "ONE_TIME" | "RECURRING" | (string & {});
 export type BillType = "ANNIVERSARY" | "PURCHASE" | "REFUND" | (string & {});
@@ -476,112 +476,112 @@ export type EinvoiceDeliveryStatus = "DELIVERED" | "NOT_DELIVERED" | (string & {
 export type TaxAuthorityStatus = "ISSUED" | "CANCELLED" | (string & {});
 export type CurrencyCode = string;
 export interface DiscountsBreakdownAmount {
-  Description?: string;
-  Amount?: string;
-  Rate?: string;
+  Description?: string | undefined;
+  Amount?: string | undefined;
+  Rate?: string | undefined;
 }
 export type DiscountsBreakdownAmountList = DiscountsBreakdownAmount[];
 export interface DiscountsBreakdown {
-  Breakdown?: DiscountsBreakdownAmount[];
-  TotalAmount?: string;
+  Breakdown?: DiscountsBreakdownAmount[] | undefined;
+  TotalAmount?: string | undefined;
 }
 export interface TaxesBreakdownAmount {
-  Description?: string;
-  Amount?: string;
-  Rate?: string;
+  Description?: string | undefined;
+  Amount?: string | undefined;
+  Rate?: string | undefined;
 }
 export type TaxesBreakdownAmountList = TaxesBreakdownAmount[];
 export interface TaxesBreakdown {
-  Breakdown?: TaxesBreakdownAmount[];
-  TotalAmount?: string;
+  Breakdown?: TaxesBreakdownAmount[] | undefined;
+  TotalAmount?: string | undefined;
 }
 export interface FeesBreakdownAmount {
-  Description?: string;
-  Amount?: string;
-  Rate?: string;
+  Description?: string | undefined;
+  Amount?: string | undefined;
+  Rate?: string | undefined;
 }
 export type FeesBreakdownAmountList = FeesBreakdownAmount[];
 export interface FeesBreakdown {
-  Breakdown?: FeesBreakdownAmount[];
-  TotalAmount?: string;
+  Breakdown?: FeesBreakdownAmount[] | undefined;
+  TotalAmount?: string | undefined;
 }
 export interface AmountBreakdown {
-  SubTotalAmount?: string;
-  Discounts?: DiscountsBreakdown;
-  Taxes?: TaxesBreakdown;
-  Fees?: FeesBreakdown;
+  SubTotalAmount?: string | undefined;
+  Discounts?: DiscountsBreakdown | undefined;
+  Taxes?: TaxesBreakdown | undefined;
+  Fees?: FeesBreakdown | undefined;
 }
 export interface CurrencyExchangeDetails {
-  SourceCurrencyCode?: string;
-  TargetCurrencyCode?: string;
-  Rate?: string;
+  SourceCurrencyCode?: string | undefined;
+  TargetCurrencyCode?: string | undefined;
+  Rate?: string | undefined;
 }
 export interface InvoiceCurrencyAmount {
-  TotalAmount?: string;
-  TotalAmountBeforeTax?: string;
-  CurrencyCode?: string;
-  AmountBreakdown?: AmountBreakdown;
-  CurrencyExchangeDetails?: CurrencyExchangeDetails;
+  TotalAmount?: string | undefined;
+  TotalAmountBeforeTax?: string | undefined;
+  CurrencyCode?: string | undefined;
+  AmountBreakdown?: AmountBreakdown | undefined;
+  CurrencyExchangeDetails?: CurrencyExchangeDetails | undefined;
 }
 export interface InvoiceSummary {
-  AccountId?: string;
-  InvoiceId?: string;
-  IssuedDate?: Date;
-  DueDate?: Date;
-  BillSourceAccounts?: string[];
-  BillSourceAccountsTotalCount?: number;
-  ReceiverRole?: ReceiverRole;
-  Entity?: Entity;
-  BillingPeriod?: BillingPeriod;
-  InvoiceFrequency?: InvoiceFrequency;
-  BillType?: BillType;
-  InvoiceType?: InvoiceType;
-  CommercialInvoiceId?: string;
-  OriginalInvoiceId?: string;
-  PurchaseOrderNumber?: string;
-  EinvoiceDeliveryStatus?: EinvoiceDeliveryStatus;
-  TaxAuthorityStatus?: TaxAuthorityStatus;
-  BaseCurrencyAmount?: InvoiceCurrencyAmount;
-  TaxCurrencyAmount?: InvoiceCurrencyAmount;
-  PaymentCurrencyAmount?: InvoiceCurrencyAmount;
+  AccountId?: string | undefined;
+  InvoiceId?: string | undefined;
+  IssuedDate?: Date | undefined;
+  DueDate?: Date | undefined;
+  BillSourceAccounts?: string[] | undefined;
+  BillSourceAccountsTotalCount?: number | undefined;
+  ReceiverRole?: ReceiverRole | undefined;
+  Entity?: Entity | undefined;
+  BillingPeriod?: BillingPeriod | undefined;
+  InvoiceFrequency?: InvoiceFrequency | undefined;
+  BillType?: BillType | undefined;
+  InvoiceType?: InvoiceType | undefined;
+  CommercialInvoiceId?: string | undefined;
+  OriginalInvoiceId?: string | undefined;
+  PurchaseOrderNumber?: string | undefined;
+  EinvoiceDeliveryStatus?: EinvoiceDeliveryStatus | undefined;
+  TaxAuthorityStatus?: TaxAuthorityStatus | undefined;
+  BaseCurrencyAmount?: InvoiceCurrencyAmount | undefined;
+  TaxCurrencyAmount?: InvoiceCurrencyAmount | undefined;
+  PaymentCurrencyAmount?: InvoiceCurrencyAmount | undefined;
 }
 export type InvoiceSummaries = InvoiceSummary[];
 export interface ListInvoiceSummariesResponse {
   InvoiceSummaries: InvoiceSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type InvoiceUnitNames = string[];
 export interface Filters {
-  Names?: string[];
-  InvoiceReceivers?: string[];
-  Accounts?: string[];
-  BillSourceAccounts?: string[];
+  Names?: string[] | undefined;
+  InvoiceReceivers?: string[] | undefined;
+  Accounts?: string[] | undefined;
+  BillSourceAccounts?: string[] | undefined;
 }
 export type MaxResultsInteger = number;
 export interface ListInvoiceUnitsRequest {
-  Filters?: Filters;
-  NextToken?: string;
-  MaxResults?: number;
-  AsOf?: Date;
+  Filters?: Filters | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AsOf?: Date | undefined;
 }
 export interface InvoiceUnit {
-  InvoiceUnitArn?: string;
-  InvoiceReceiver?: string;
-  Name?: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
-  Rule?: InvoiceUnitRule;
-  LastModified?: Date;
+  InvoiceUnitArn?: string | undefined;
+  InvoiceReceiver?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  TaxInheritanceDisabled?: boolean | undefined;
+  Rule?: InvoiceUnitRule | undefined;
+  LastModified?: Date | undefined;
 }
 export type InvoiceUnits = InvoiceUnit[];
 export interface ListInvoiceUnitsResponse {
-  InvoiceUnits?: InvoiceUnit[];
-  NextToken?: string;
+  InvoiceUnits?: InvoiceUnit[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListProcurementPortalPreferencesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProcurementPortalPreferenceSummary {
   AwsAccountId: string;
@@ -591,92 +591,92 @@ export interface ProcurementPortalPreferenceSummary {
   BuyerIdentifier: string;
   SupplierDomain: SupplierDomain;
   SupplierIdentifier: string;
-  Selector?: ProcurementPortalPreferenceSelector;
+  Selector?: ProcurementPortalPreferenceSelector | undefined;
   EinvoiceDeliveryEnabled: boolean;
   PurchaseOrderRetrievalEnabled: boolean;
-  MarketplacePunchOutEnabled?: boolean;
-  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  PurchaseOrderRetrievalPreferenceStatusReason?: string;
+  MarketplacePunchOutEnabled?: boolean | undefined;
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus | undefined;
+  EinvoiceDeliveryPreferenceStatusReason?: string | undefined;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus | undefined;
+  PurchaseOrderRetrievalPreferenceStatusReason?: string | undefined;
   Version: number;
   CreateDate: Date;
   LastUpdateDate: Date;
 }
 export type ProcurementPortalPreferenceSummaries = ProcurementPortalPreferenceSummary[];
 export interface ListProcurementPortalPreferencesResponse {
-  ProcurementPortalPreferences?: ProcurementPortalPreferenceSummary[];
-  NextToken?: string;
+  ProcurementPortalPreferences?: ProcurementPortalPreferenceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProcurementPortalsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ProcurementPortalIdString = string;
 export interface InvoiceConfiguration {
-  DocumentTypes?: EinvoiceDeliveryDocumentType[];
-  AttachmentTypes?: EinvoiceDeliveryAttachmentType[];
+  DocumentTypes?: EinvoiceDeliveryDocumentType[] | undefined;
+  AttachmentTypes?: EinvoiceDeliveryAttachmentType[] | undefined;
 }
 export interface FeatureConfigurations {
-  InvoiceConfiguration?: InvoiceConfiguration;
+  InvoiceConfiguration?: InvoiceConfiguration | undefined;
 }
 export interface ProcurementPortal {
   PortalIdentifier: string;
   PortalName: ProcurementPortalName;
-  PortalDisplayName?: string;
-  DefaultFeatureConfigurations?: FeatureConfigurations;
+  PortalDisplayName?: string | undefined;
+  DefaultFeatureConfigurations?: FeatureConfigurations | undefined;
 }
 export type ProcurementPortals = ProcurementPortal[];
 export interface ListProcurementPortalsResponse {
   ProcurementPortals: ProcurementPortal[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListProcurementPortalSuppliersRequest {
   PortalIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SupplierIdString = string;
 export type CountryCode = string;
 export type ProcurementPortalEnv = "PROD" | "TEST" | (string & {});
 export interface ProcurementPortalSupplier {
   SupplierIdentifier: string;
-  SellerOfRecord?: string;
-  CountryCode?: string;
-  Environment?: ProcurementPortalEnv;
+  SellerOfRecord?: string | undefined;
+  CountryCode?: string | undefined;
+  Environment?: ProcurementPortalEnv | undefined;
 }
 export type ProcurementPortalSuppliers = ProcurementPortalSupplier[];
 export interface ListProcurementPortalSuppliersResponse {
   ProcurementPortalSuppliers: ProcurementPortalSupplier[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type TagrisArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface PutProcurementPortalPreferenceRequest {
   ProcurementPortalPreferenceArn: string;
-  Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string | redacted.Redacted<string>;
-  ProcurementPortalInstanceEndpoint?: string;
-  TestEnvPreference?: TestEnvPreferenceInput;
+  Selector?: ProcurementPortalPreferenceSelector | undefined;
+  ProcurementPortalSharedSecret?: string | redacted.Redacted<string> | undefined;
+  ProcurementPortalInstanceEndpoint?: string | undefined;
+  TestEnvPreference?: TestEnvPreferenceInput | undefined;
   EinvoiceDeliveryEnabled: boolean;
-  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
+  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference | undefined;
   PurchaseOrderRetrievalEnabled: boolean;
-  MarketplacePunchOutEnabled?: boolean;
-  MarketplacePunchOutPreference?: MarketplacePunchOutPreference;
+  MarketplacePunchOutEnabled?: boolean | undefined;
+  MarketplacePunchOutPreference?: MarketplacePunchOutPreference | undefined;
   Contacts: Contact[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutProcurementPortalPreferenceResponse {
   ProcurementPortalPreferenceArn: string;
 }
 export interface SendProcurementPortalValidationRequest {
   ProcurementPortalPreferenceArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface SendProcurementPortalValidationResponse {
   ProcurementPortalPreferenceArn: string;
@@ -694,21 +694,21 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateInvoiceUnitRequest {
   InvoiceUnitArn: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
-  Rule?: InvoiceUnitRule;
-  ClientToken?: string;
+  Description?: string | undefined;
+  TaxInheritanceDisabled?: boolean | undefined;
+  Rule?: InvoiceUnitRule | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
+  InvoiceUnitArn?: string | undefined;
 }
 export interface UpdateProcurementPortalPreferenceStatusRequest {
   ProcurementPortalPreferenceArn: string;
-  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  PurchaseOrderRetrievalPreferenceStatusReason?: string;
-  ClientToken?: string;
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus | undefined;
+  EinvoiceDeliveryPreferenceStatusReason?: string | undefined;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus | undefined;
+  PurchaseOrderRetrievalPreferenceStatusReason?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateProcurementPortalPreferenceStatusResponse {
   ProcurementPortalPreferenceArn: string;
@@ -716,7 +716,7 @@ export interface UpdateProcurementPortalPreferenceStatusResponse {
 export interface VerifyProcurementPortalValidationRequest {
   ProcurementPortalPreferenceArn: string;
   Code: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface VerifyProcurementPortalValidationResponse {
   ProcurementPortalPreferenceArn: string;

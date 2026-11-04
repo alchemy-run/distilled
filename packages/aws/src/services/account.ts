@@ -216,57 +216,57 @@ export interface AcceptPrimaryEmailUpdateRequest {
 }
 export type PrimaryEmailUpdateStatus = string;
 export interface AcceptPrimaryEmailUpdateResponse {
-  Status?: string;
+  Status?: string | undefined;
 }
 export type AlternateContactType = string;
 export interface DeleteAlternateContactRequest {
   AlternateContactType: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface DeleteAlternateContactResponse {}
 export type RegionName = string;
 export interface DisableRegionRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
   RegionName: string;
 }
 export interface DisableRegionResponse {}
 export interface EnableRegionRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
   RegionName: string;
 }
 export interface EnableRegionResponse {}
 export interface GetAccountInformationRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type AccountName = string | redacted.Redacted<string>;
 export type AccountCreatedDate = Date;
 export type AccountState = string;
 export interface GetAccountInformationResponse {
-  AccountId?: string;
-  AccountName?: string | redacted.Redacted<string>;
-  AccountCreatedDate?: Date;
-  AccountState?: string;
+  AccountId?: string | undefined;
+  AccountName?: string | redacted.Redacted<string> | undefined;
+  AccountCreatedDate?: Date | undefined;
+  AccountState?: string | undefined;
 }
 export interface GetAlternateContactRequest {
   AlternateContactType: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type Name = string | redacted.Redacted<string>;
 export type Title = string | redacted.Redacted<string>;
 export type EmailAddress = string | redacted.Redacted<string>;
 export type PhoneNumber = string | redacted.Redacted<string>;
 export interface AlternateContact {
-  Name?: string | redacted.Redacted<string>;
-  Title?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  AlternateContactType?: string;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Title?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  AlternateContactType?: string | undefined;
 }
 export interface GetAlternateContactResponse {
-  AlternateContact?: AlternateContact;
+  AlternateContact?: AlternateContact | undefined;
 }
 export interface GetContactInformationRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type FullName = string | redacted.Redacted<string>;
 export type AddressLine = string | redacted.Redacted<string>;
@@ -281,24 +281,24 @@ export type WebsiteUrl = string | redacted.Redacted<string>;
 export interface ContactInformation {
   FullName: string | redacted.Redacted<string>;
   AddressLine1: string | redacted.Redacted<string>;
-  AddressLine2?: string | redacted.Redacted<string>;
-  AddressLine3?: string | redacted.Redacted<string>;
+  AddressLine2?: string | redacted.Redacted<string> | undefined;
+  AddressLine3?: string | redacted.Redacted<string> | undefined;
   City: string | redacted.Redacted<string>;
-  StateOrRegion?: string | redacted.Redacted<string>;
-  DistrictOrCounty?: string | redacted.Redacted<string>;
+  StateOrRegion?: string | redacted.Redacted<string> | undefined;
+  DistrictOrCounty?: string | redacted.Redacted<string> | undefined;
   PostalCode: string | redacted.Redacted<string>;
   CountryCode: string | redacted.Redacted<string>;
   PhoneNumber: string | redacted.Redacted<string>;
-  CompanyName?: string | redacted.Redacted<string>;
-  WebsiteUrl?: string | redacted.Redacted<string>;
+  CompanyName?: string | redacted.Redacted<string> | undefined;
+  WebsiteUrl?: string | redacted.Redacted<string> | undefined;
 }
 export type PhoneNumberVerificationStatus = string;
 export interface GetContactInformationResponse {
-  ContactInformation?: ContactInformation;
-  VerificationStatus?: string;
+  ContactInformation?: ContactInformation | undefined;
+  VerificationStatus?: string | undefined;
 }
 export interface GetGovCloudAccountInformationRequest {
-  StandardAccountId?: string;
+  StandardAccountId?: string | undefined;
 }
 export type AwsAccountState = string;
 export interface GetGovCloudAccountInformationResponse {
@@ -309,44 +309,44 @@ export interface GetPrimaryEmailRequest {
   AccountId: string;
 }
 export interface GetPrimaryEmailResponse {
-  PrimaryEmail?: string | redacted.Redacted<string>;
+  PrimaryEmail?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetPrimaryEmailUpdateStatusRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface GetPrimaryEmailUpdateStatusResponse {
   Status: string;
-  UpdatedAt?: Date;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetRegionOptStatusRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
   RegionName: string;
 }
 export type RegionOptStatus = string;
 export interface GetRegionOptStatusResponse {
-  RegionName?: string;
-  RegionOptStatus?: string;
+  RegionName?: string | undefined;
+  RegionOptStatus?: string | undefined;
 }
 export type RegionOptStatusList = string[];
 export interface ListRegionsRequest {
-  AccountId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  RegionOptStatusContains?: string[];
+  AccountId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RegionOptStatusContains?: string[] | undefined;
 }
 export interface Region {
-  RegionName?: string;
-  RegionOptStatus?: string;
+  RegionName?: string | undefined;
+  RegionOptStatus?: string | undefined;
 }
 const Region = __S(76, __c19, 0) as any as S.Schema<Region>;
 export type RegionOptList = Region[];
 export interface ListRegionsResponse {
-  NextToken?: string;
-  Regions?: Region[];
+  NextToken?: string | undefined;
+  Regions?: Region[] | undefined;
 }
 export interface PutAccountNameRequest {
   AccountName: string | redacted.Redacted<string>;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface PutAccountNameResponse {}
 export interface PutAlternateContactRequest {
@@ -355,33 +355,33 @@ export interface PutAlternateContactRequest {
   EmailAddress: string | redacted.Redacted<string>;
   PhoneNumber: string | redacted.Redacted<string>;
   AlternateContactType: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface PutAlternateContactResponse {}
 export interface PutContactInformationRequest {
   ContactInformation: ContactInformation;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface PutContactInformationResponse {}
 export interface SendPhoneNumberVerificationRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface SendPhoneNumberVerificationResponse {
-  Status?: string;
+  Status?: string | undefined;
 }
 export interface StartPrimaryEmailUpdateRequest {
   AccountId: string;
   PrimaryEmail: string | redacted.Redacted<string>;
 }
 export interface StartPrimaryEmailUpdateResponse {
-  Status?: string;
+  Status?: string | undefined;
 }
 export interface VerifyPhoneNumberRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
   Otp: string | redacted.Redacted<string>;
 }
 export interface VerifyPhoneNumberResponse {
-  Status?: string;
+  Status?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export type ValidationExceptionReason = string;

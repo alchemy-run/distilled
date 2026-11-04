@@ -623,8 +623,8 @@ export class UnsupportedActionForDeploymentTypeException
 export type Key = string;
 export type Value = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type InstanceName = string;
@@ -642,34 +642,34 @@ export type BundleType = "tar" | "tgz" | "zip" | "YAML" | "JSON" | (string & {})
 export type VersionId = string;
 export type ETag = string;
 export interface S3Location {
-  bucket?: string;
-  key?: string;
-  bundleType?: BundleType;
-  version?: string;
-  eTag?: string;
+  bucket?: string | undefined;
+  key?: string | undefined;
+  bundleType?: BundleType | undefined;
+  version?: string | undefined;
+  eTag?: string | undefined;
 }
 export type Repository = string;
 export type CommitId = string;
 export interface GitHubLocation {
-  repository?: string;
-  commitId?: string;
+  repository?: string | undefined;
+  commitId?: string | undefined;
 }
 export type RawStringContent = string;
 export type RawStringSha256 = string;
 export interface RawString {
-  content?: string;
-  sha256?: string;
+  content?: string | undefined;
+  sha256?: string | undefined;
 }
 export interface AppSpecContent {
-  content?: string;
-  sha256?: string;
+  content?: string | undefined;
+  sha256?: string | undefined;
 }
 export interface RevisionLocation {
-  revisionType?: RevisionLocationType;
-  s3Location?: S3Location;
-  gitHubLocation?: GitHubLocation;
-  string?: RawString;
-  appSpecContent?: AppSpecContent;
+  revisionType?: RevisionLocationType | undefined;
+  s3Location?: S3Location | undefined;
+  gitHubLocation?: GitHubLocation | undefined;
+  string?: RawString | undefined;
+  appSpecContent?: AppSpecContent | undefined;
 }
 export type RevisionLocationList = RevisionLocation[];
 export interface BatchGetApplicationRevisionsInput {
@@ -681,21 +681,21 @@ export type Description = string;
 export type DeploymentGroupName = string;
 export type DeploymentGroupsList = string[];
 export interface GenericRevisionInfo {
-  description?: string;
-  deploymentGroups?: string[];
-  firstUsedTime?: Date;
-  lastUsedTime?: Date;
-  registerTime?: Date;
+  description?: string | undefined;
+  deploymentGroups?: string[] | undefined;
+  firstUsedTime?: Date | undefined;
+  lastUsedTime?: Date | undefined;
+  registerTime?: Date | undefined;
 }
 export interface RevisionInfo {
-  revisionLocation?: RevisionLocation;
-  genericRevisionInfo?: GenericRevisionInfo;
+  revisionLocation?: RevisionLocation | undefined;
+  genericRevisionInfo?: GenericRevisionInfo | undefined;
 }
 export type RevisionInfoList = RevisionInfo[];
 export interface BatchGetApplicationRevisionsOutput {
-  applicationName?: string;
-  errorMessage?: string;
-  revisions?: RevisionInfo[];
+  applicationName?: string | undefined;
+  errorMessage?: string | undefined;
+  revisions?: RevisionInfo[] | undefined;
 }
 export type ApplicationsList = string[];
 export interface BatchGetApplicationsInput {
@@ -705,16 +705,16 @@ export type ApplicationId = string;
 export type GitHubAccountTokenName = string;
 export type ComputePlatform = "Server" | "Lambda" | "ECS" | (string & {});
 export interface ApplicationInfo {
-  applicationId?: string;
-  applicationName?: string;
-  createTime?: Date;
-  linkedToGitHub?: boolean;
-  gitHubAccountName?: string;
-  computePlatform?: ComputePlatform;
+  applicationId?: string | undefined;
+  applicationName?: string | undefined;
+  createTime?: Date | undefined;
+  linkedToGitHub?: boolean | undefined;
+  gitHubAccountName?: string | undefined;
+  computePlatform?: ComputePlatform | undefined;
 }
 export type ApplicationsInfoList = ApplicationInfo[];
 export interface BatchGetApplicationsOutput {
-  applicationsInfo?: ApplicationInfo[];
+  applicationsInfo?: ApplicationInfo[] | undefined;
 }
 export interface BatchGetDeploymentGroupsInput {
   applicationName: string;
@@ -724,24 +724,24 @@ export type DeploymentGroupId = string;
 export type DeploymentConfigName = string;
 export type EC2TagFilterType = "KEY_ONLY" | "VALUE_ONLY" | "KEY_AND_VALUE" | (string & {});
 export interface EC2TagFilter {
-  Key?: string;
-  Value?: string;
-  Type?: EC2TagFilterType;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Type?: EC2TagFilterType | undefined;
 }
 export type EC2TagFilterList = EC2TagFilter[];
 export type TagFilterType = "KEY_ONLY" | "VALUE_ONLY" | "KEY_AND_VALUE" | (string & {});
 export interface TagFilter {
-  Key?: string;
-  Value?: string;
-  Type?: TagFilterType;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Type?: TagFilterType | undefined;
 }
 export type TagFilterList = TagFilter[];
 export type AutoScalingGroupName = string;
 export type AutoScalingGroupHook = string;
 export interface AutoScalingGroup {
-  name?: string;
-  hook?: string;
-  terminationHook?: string;
+  name?: string | undefined;
+  hook?: string | undefined;
+  terminationHook?: string | undefined;
 }
 export type AutoScalingGroupList = AutoScalingGroup[];
 export type Role = string;
@@ -761,20 +761,20 @@ export type TriggerEventType =
   | (string & {});
 export type TriggerEventTypeList = TriggerEventType[];
 export interface TriggerConfig {
-  triggerName?: string;
-  triggerTargetArn?: string;
-  triggerEvents?: TriggerEventType[];
+  triggerName?: string | undefined;
+  triggerTargetArn?: string | undefined;
+  triggerEvents?: TriggerEventType[] | undefined;
 }
 export type TriggerConfigList = TriggerConfig[];
 export type AlarmName = string;
 export interface Alarm {
-  name?: string;
+  name?: string | undefined;
 }
 export type AlarmList = Alarm[];
 export interface AlarmConfiguration {
-  enabled?: boolean;
-  ignorePollAlarmFailure?: boolean;
-  alarms?: Alarm[];
+  enabled?: boolean | undefined;
+  ignorePollAlarmFailure?: boolean | undefined;
+  alarms?: Alarm[] | undefined;
 }
 export type AutoRollbackEvent =
   | "DEPLOYMENT_FAILURE"
@@ -783,64 +783,64 @@ export type AutoRollbackEvent =
   | (string & {});
 export type AutoRollbackEventsList = AutoRollbackEvent[];
 export interface AutoRollbackConfiguration {
-  enabled?: boolean;
-  events?: AutoRollbackEvent[];
+  enabled?: boolean | undefined;
+  events?: AutoRollbackEvent[] | undefined;
 }
 export type DeploymentType = "IN_PLACE" | "BLUE_GREEN" | (string & {});
 export type DeploymentOption = "WITH_TRAFFIC_CONTROL" | "WITHOUT_TRAFFIC_CONTROL" | (string & {});
 export interface DeploymentStyle {
-  deploymentType?: DeploymentType;
-  deploymentOption?: DeploymentOption;
+  deploymentType?: DeploymentType | undefined;
+  deploymentOption?: DeploymentOption | undefined;
 }
 export type OutdatedInstancesStrategy = "UPDATE" | "IGNORE" | (string & {});
 export type InstanceAction = "TERMINATE" | "KEEP_ALIVE" | (string & {});
 export type Duration = number;
 export interface BlueInstanceTerminationOption {
-  action?: InstanceAction;
-  terminationWaitTimeInMinutes?: number;
+  action?: InstanceAction | undefined;
+  terminationWaitTimeInMinutes?: number | undefined;
 }
 export type DeploymentReadyAction = "CONTINUE_DEPLOYMENT" | "STOP_DEPLOYMENT" | (string & {});
 export interface DeploymentReadyOption {
-  actionOnTimeout?: DeploymentReadyAction;
-  waitTimeInMinutes?: number;
+  actionOnTimeout?: DeploymentReadyAction | undefined;
+  waitTimeInMinutes?: number | undefined;
 }
 export type GreenFleetProvisioningAction =
   | "DISCOVER_EXISTING"
   | "COPY_AUTO_SCALING_GROUP"
   | (string & {});
 export interface GreenFleetProvisioningOption {
-  action?: GreenFleetProvisioningAction;
+  action?: GreenFleetProvisioningAction | undefined;
 }
 export interface BlueGreenDeploymentConfiguration {
-  terminateBlueInstancesOnDeploymentSuccess?: BlueInstanceTerminationOption;
-  deploymentReadyOption?: DeploymentReadyOption;
-  greenFleetProvisioningOption?: GreenFleetProvisioningOption;
+  terminateBlueInstancesOnDeploymentSuccess?: BlueInstanceTerminationOption | undefined;
+  deploymentReadyOption?: DeploymentReadyOption | undefined;
+  greenFleetProvisioningOption?: GreenFleetProvisioningOption | undefined;
 }
 export type ELBName = string;
 export interface ELBInfo {
-  name?: string;
+  name?: string | undefined;
 }
 export type ELBInfoList = ELBInfo[];
 export type TargetGroupName = string;
 export interface TargetGroupInfo {
-  name?: string;
+  name?: string | undefined;
 }
 export type TargetGroupInfoList = TargetGroupInfo[];
 export type ListenerArn = string;
 export type ListenerArnList = string[];
 export interface TrafficRoute {
-  listenerArns?: string[];
+  listenerArns?: string[] | undefined;
 }
 export interface TargetGroupPairInfo {
-  targetGroups?: TargetGroupInfo[];
-  prodTrafficRoute?: TrafficRoute;
-  testTrafficRoute?: TrafficRoute;
+  targetGroups?: TargetGroupInfo[] | undefined;
+  prodTrafficRoute?: TrafficRoute | undefined;
+  testTrafficRoute?: TrafficRoute | undefined;
 }
 export type TargetGroupPairInfoList = TargetGroupPairInfo[];
 export interface LoadBalancerInfo {
-  elbInfoList?: ELBInfo[];
-  targetGroupInfoList?: TargetGroupInfo[];
-  targetGroupPairInfoList?: TargetGroupPairInfo[];
+  elbInfoList?: ELBInfo[] | undefined;
+  targetGroupInfoList?: TargetGroupInfo[] | undefined;
+  targetGroupPairInfoList?: TargetGroupPairInfo[] | undefined;
 }
 export type DeploymentId = string;
 export type DeploymentStatus =
@@ -854,55 +854,55 @@ export type DeploymentStatus =
   | "Ready"
   | (string & {});
 export interface LastDeploymentInfo {
-  deploymentId?: string;
-  status?: DeploymentStatus;
-  endTime?: Date;
-  createTime?: Date;
+  deploymentId?: string | undefined;
+  status?: DeploymentStatus | undefined;
+  endTime?: Date | undefined;
+  createTime?: Date | undefined;
 }
 export type EC2TagSetList = EC2TagFilter[][];
 export interface EC2TagSet {
-  ec2TagSetList?: EC2TagFilter[][];
+  ec2TagSetList?: EC2TagFilter[][] | undefined;
 }
 export type OnPremisesTagSetList = TagFilter[][];
 export interface OnPremisesTagSet {
-  onPremisesTagSetList?: TagFilter[][];
+  onPremisesTagSetList?: TagFilter[][] | undefined;
 }
 export type ECSServiceName = string;
 export type ECSClusterName = string;
 export interface ECSService {
-  serviceName?: string;
-  clusterName?: string;
+  serviceName?: string | undefined;
+  clusterName?: string | undefined;
 }
 export type ECSServiceList = ECSService[];
 export interface DeploymentGroupInfo {
-  applicationName?: string;
-  deploymentGroupId?: string;
-  deploymentGroupName?: string;
-  deploymentConfigName?: string;
-  ec2TagFilters?: EC2TagFilter[];
-  onPremisesInstanceTagFilters?: TagFilter[];
-  autoScalingGroups?: AutoScalingGroup[];
-  serviceRoleArn?: string;
-  targetRevision?: RevisionLocation;
-  triggerConfigurations?: TriggerConfig[];
-  alarmConfiguration?: AlarmConfiguration;
-  autoRollbackConfiguration?: AutoRollbackConfiguration;
-  deploymentStyle?: DeploymentStyle;
-  outdatedInstancesStrategy?: OutdatedInstancesStrategy;
-  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
-  loadBalancerInfo?: LoadBalancerInfo;
-  lastSuccessfulDeployment?: LastDeploymentInfo;
-  lastAttemptedDeployment?: LastDeploymentInfo;
-  ec2TagSet?: EC2TagSet;
-  onPremisesTagSet?: OnPremisesTagSet;
-  computePlatform?: ComputePlatform;
-  ecsServices?: ECSService[];
-  terminationHookEnabled?: boolean;
+  applicationName?: string | undefined;
+  deploymentGroupId?: string | undefined;
+  deploymentGroupName?: string | undefined;
+  deploymentConfigName?: string | undefined;
+  ec2TagFilters?: EC2TagFilter[] | undefined;
+  onPremisesInstanceTagFilters?: TagFilter[] | undefined;
+  autoScalingGroups?: AutoScalingGroup[] | undefined;
+  serviceRoleArn?: string | undefined;
+  targetRevision?: RevisionLocation | undefined;
+  triggerConfigurations?: TriggerConfig[] | undefined;
+  alarmConfiguration?: AlarmConfiguration | undefined;
+  autoRollbackConfiguration?: AutoRollbackConfiguration | undefined;
+  deploymentStyle?: DeploymentStyle | undefined;
+  outdatedInstancesStrategy?: OutdatedInstancesStrategy | undefined;
+  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration | undefined;
+  loadBalancerInfo?: LoadBalancerInfo | undefined;
+  lastSuccessfulDeployment?: LastDeploymentInfo | undefined;
+  lastAttemptedDeployment?: LastDeploymentInfo | undefined;
+  ec2TagSet?: EC2TagSet | undefined;
+  onPremisesTagSet?: OnPremisesTagSet | undefined;
+  computePlatform?: ComputePlatform | undefined;
+  ecsServices?: ECSService[] | undefined;
+  terminationHookEnabled?: boolean | undefined;
 }
 export type DeploymentGroupInfoList = DeploymentGroupInfo[];
 export interface BatchGetDeploymentGroupsOutput {
-  deploymentGroupsInfo?: DeploymentGroupInfo[];
-  errorMessage?: string;
+  deploymentGroupsInfo?: DeploymentGroupInfo[] | undefined;
+  errorMessage?: string | undefined;
 }
 export type InstanceId = string;
 export type InstancesList = string[];
@@ -932,10 +932,10 @@ export type ScriptName = string;
 export type LifecycleMessage = string;
 export type LogTail = string;
 export interface Diagnostics {
-  errorCode?: LifecycleErrorCode;
-  scriptName?: string;
-  message?: string;
-  logTail?: string;
+  errorCode?: LifecycleErrorCode | undefined;
+  scriptName?: string | undefined;
+  message?: string | undefined;
+  logTail?: string | undefined;
 }
 export type LifecycleEventStatus =
   | "Pending"
@@ -946,26 +946,26 @@ export type LifecycleEventStatus =
   | "Unknown"
   | (string & {});
 export interface LifecycleEvent {
-  lifecycleEventName?: string;
-  diagnostics?: Diagnostics;
-  startTime?: Date;
-  endTime?: Date;
-  status?: LifecycleEventStatus;
+  lifecycleEventName?: string | undefined;
+  diagnostics?: Diagnostics | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  status?: LifecycleEventStatus | undefined;
 }
 export type LifecycleEventList = LifecycleEvent[];
 export type InstanceType = "Blue" | "Green" | (string & {});
 export interface InstanceSummary {
-  deploymentId?: string;
-  instanceId?: string;
-  status?: InstanceStatus;
-  lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEvent[];
-  instanceType?: InstanceType;
+  deploymentId?: string | undefined;
+  instanceId?: string | undefined;
+  status?: InstanceStatus | undefined;
+  lastUpdatedAt?: Date | undefined;
+  lifecycleEvents?: LifecycleEvent[] | undefined;
+  instanceType?: InstanceType | undefined;
 }
 export type InstanceSummaryList = InstanceSummary[];
 export interface BatchGetDeploymentInstancesOutput {
-  instancesSummary?: InstanceSummary[];
-  errorMessage?: string;
+  instancesSummary?: InstanceSummary[] | undefined;
+  errorMessage?: string | undefined;
 }
 export type DeploymentsList = string[];
 export interface BatchGetDeploymentsInput {
@@ -1008,17 +1008,17 @@ export type ErrorCode =
   | "CLOUDFORMATION_STACK_FAILURE"
   | (string & {});
 export interface ErrorInformation {
-  code?: ErrorCode;
-  message?: string;
+  code?: ErrorCode | undefined;
+  message?: string | undefined;
 }
 export type InstanceCount = number;
 export interface DeploymentOverview {
-  Pending?: number;
-  InProgress?: number;
-  Succeeded?: number;
-  Failed?: number;
-  Skipped?: number;
-  Ready?: number;
+  Pending?: number | undefined;
+  InProgress?: number | undefined;
+  Succeeded?: number | undefined;
+  Failed?: number | undefined;
+  Skipped?: number | undefined;
+  Ready?: number | undefined;
 }
 export type DeploymentCreator =
   | "user"
@@ -1031,15 +1031,15 @@ export type DeploymentCreator =
   | "autoscalingTermination"
   | (string & {});
 export interface RollbackInfo {
-  rollbackDeploymentId?: string;
-  rollbackTriggeringDeploymentId?: string;
-  rollbackMessage?: string;
+  rollbackDeploymentId?: string | undefined;
+  rollbackTriggeringDeploymentId?: string | undefined;
+  rollbackMessage?: string | undefined;
 }
 export type AutoScalingGroupNameList = string[];
 export interface TargetInstances {
-  tagFilters?: EC2TagFilter[];
-  autoScalingGroups?: string[];
-  ec2TagSet?: EC2TagSet;
+  tagFilters?: EC2TagFilter[] | undefined;
+  autoScalingGroups?: string[] | undefined;
+  ec2TagSet?: EC2TagSet | undefined;
 }
 export type AdditionalDeploymentStatusInfo = string;
 export type FileExistsBehavior = "DISALLOW" | "OVERWRITE" | "RETAIN" | (string & {});
@@ -1047,45 +1047,45 @@ export type DeploymentMode = "STANDARD" | "RESTART" | (string & {});
 export type DeploymentStatusMessageList = string[];
 export type ExternalId = string;
 export interface RelatedDeployments {
-  autoUpdateOutdatedInstancesRootDeploymentId?: string;
-  autoUpdateOutdatedInstancesDeploymentIds?: string[];
+  autoUpdateOutdatedInstancesRootDeploymentId?: string | undefined;
+  autoUpdateOutdatedInstancesDeploymentIds?: string[] | undefined;
 }
 export interface DeploymentInfo {
-  applicationName?: string;
-  deploymentGroupName?: string;
-  deploymentConfigName?: string;
-  deploymentId?: string;
-  previousRevision?: RevisionLocation;
-  revision?: RevisionLocation;
-  status?: DeploymentStatus;
-  errorInformation?: ErrorInformation;
-  createTime?: Date;
-  startTime?: Date;
-  completeTime?: Date;
-  deploymentOverview?: DeploymentOverview;
-  description?: string;
-  creator?: DeploymentCreator;
-  ignoreApplicationStopFailures?: boolean;
-  autoRollbackConfiguration?: AutoRollbackConfiguration;
-  updateOutdatedInstancesOnly?: boolean;
-  rollbackInfo?: RollbackInfo;
-  deploymentStyle?: DeploymentStyle;
-  targetInstances?: TargetInstances;
-  instanceTerminationWaitTimeStarted?: boolean;
-  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
-  loadBalancerInfo?: LoadBalancerInfo;
-  additionalDeploymentStatusInfo?: string;
-  fileExistsBehavior?: FileExistsBehavior;
-  deploymentMode?: DeploymentMode;
-  deploymentStatusMessages?: string[];
-  computePlatform?: ComputePlatform;
-  externalId?: string;
-  relatedDeployments?: RelatedDeployments;
-  overrideAlarmConfiguration?: AlarmConfiguration;
+  applicationName?: string | undefined;
+  deploymentGroupName?: string | undefined;
+  deploymentConfigName?: string | undefined;
+  deploymentId?: string | undefined;
+  previousRevision?: RevisionLocation | undefined;
+  revision?: RevisionLocation | undefined;
+  status?: DeploymentStatus | undefined;
+  errorInformation?: ErrorInformation | undefined;
+  createTime?: Date | undefined;
+  startTime?: Date | undefined;
+  completeTime?: Date | undefined;
+  deploymentOverview?: DeploymentOverview | undefined;
+  description?: string | undefined;
+  creator?: DeploymentCreator | undefined;
+  ignoreApplicationStopFailures?: boolean | undefined;
+  autoRollbackConfiguration?: AutoRollbackConfiguration | undefined;
+  updateOutdatedInstancesOnly?: boolean | undefined;
+  rollbackInfo?: RollbackInfo | undefined;
+  deploymentStyle?: DeploymentStyle | undefined;
+  targetInstances?: TargetInstances | undefined;
+  instanceTerminationWaitTimeStarted?: boolean | undefined;
+  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration | undefined;
+  loadBalancerInfo?: LoadBalancerInfo | undefined;
+  additionalDeploymentStatusInfo?: string | undefined;
+  fileExistsBehavior?: FileExistsBehavior | undefined;
+  deploymentMode?: DeploymentMode | undefined;
+  deploymentStatusMessages?: string[] | undefined;
+  computePlatform?: ComputePlatform | undefined;
+  externalId?: string | undefined;
+  relatedDeployments?: RelatedDeployments | undefined;
+  overrideAlarmConfiguration?: AlarmConfiguration | undefined;
 }
 export type DeploymentsInfoList = DeploymentInfo[];
 export interface BatchGetDeploymentsOutput {
-  deploymentsInfo?: DeploymentInfo[];
+  deploymentsInfo?: DeploymentInfo[] | undefined;
 }
 export type TargetId = string;
 export type TargetIdList = string[];
@@ -1111,77 +1111,77 @@ export type TargetStatus =
   | (string & {});
 export type TargetLabel = "Blue" | "Green" | (string & {});
 export interface InstanceTarget {
-  deploymentId?: string;
-  targetId?: string;
-  targetArn?: string;
-  status?: TargetStatus;
-  lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEvent[];
-  instanceLabel?: TargetLabel;
+  deploymentId?: string | undefined;
+  targetId?: string | undefined;
+  targetArn?: string | undefined;
+  status?: TargetStatus | undefined;
+  lastUpdatedAt?: Date | undefined;
+  lifecycleEvents?: LifecycleEvent[] | undefined;
+  instanceLabel?: TargetLabel | undefined;
 }
 export type LambdaFunctionName = string;
 export type LambdaFunctionAlias = string;
 export type Version = string;
 export type TrafficWeight = number;
 export interface LambdaFunctionInfo {
-  functionName?: string;
-  functionAlias?: string;
-  currentVersion?: string;
-  targetVersion?: string;
-  targetVersionWeight?: number;
+  functionName?: string | undefined;
+  functionAlias?: string | undefined;
+  currentVersion?: string | undefined;
+  targetVersion?: string | undefined;
+  targetVersionWeight?: number | undefined;
 }
 export interface LambdaTarget {
-  deploymentId?: string;
-  targetId?: string;
-  targetArn?: string;
-  status?: TargetStatus;
-  lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEvent[];
-  lambdaFunctionInfo?: LambdaFunctionInfo;
+  deploymentId?: string | undefined;
+  targetId?: string | undefined;
+  targetArn?: string | undefined;
+  status?: TargetStatus | undefined;
+  lastUpdatedAt?: Date | undefined;
+  lifecycleEvents?: LifecycleEvent[] | undefined;
+  lambdaFunctionInfo?: LambdaFunctionInfo | undefined;
 }
 export type ECSTaskSetIdentifier = string;
 export type ECSTaskSetCount = number;
 export type ECSTaskSetStatus = string;
 export interface ECSTaskSet {
-  identifer?: string;
-  desiredCount?: number;
-  pendingCount?: number;
-  runningCount?: number;
-  status?: string;
-  trafficWeight?: number;
-  targetGroup?: TargetGroupInfo;
-  taskSetLabel?: TargetLabel;
+  identifer?: string | undefined;
+  desiredCount?: number | undefined;
+  pendingCount?: number | undefined;
+  runningCount?: number | undefined;
+  status?: string | undefined;
+  trafficWeight?: number | undefined;
+  targetGroup?: TargetGroupInfo | undefined;
+  taskSetLabel?: TargetLabel | undefined;
 }
 export type ECSTaskSetList = ECSTaskSet[];
 export interface ECSTarget {
-  deploymentId?: string;
-  targetId?: string;
-  targetArn?: string;
-  lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEvent[];
-  status?: TargetStatus;
-  taskSetsInfo?: ECSTaskSet[];
+  deploymentId?: string | undefined;
+  targetId?: string | undefined;
+  targetArn?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
+  lifecycleEvents?: LifecycleEvent[] | undefined;
+  status?: TargetStatus | undefined;
+  taskSetsInfo?: ECSTaskSet[] | undefined;
 }
 export type CloudFormationResourceType = string;
 export interface CloudFormationTarget {
-  deploymentId?: string;
-  targetId?: string;
-  lastUpdatedAt?: Date;
-  lifecycleEvents?: LifecycleEvent[];
-  status?: TargetStatus;
-  resourceType?: string;
-  targetVersionWeight?: number;
+  deploymentId?: string | undefined;
+  targetId?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
+  lifecycleEvents?: LifecycleEvent[] | undefined;
+  status?: TargetStatus | undefined;
+  resourceType?: string | undefined;
+  targetVersionWeight?: number | undefined;
 }
 export interface DeploymentTarget {
-  deploymentTargetType?: DeploymentTargetType;
-  instanceTarget?: InstanceTarget;
-  lambdaTarget?: LambdaTarget;
-  ecsTarget?: ECSTarget;
-  cloudFormationTarget?: CloudFormationTarget;
+  deploymentTargetType?: DeploymentTargetType | undefined;
+  instanceTarget?: InstanceTarget | undefined;
+  lambdaTarget?: LambdaTarget | undefined;
+  ecsTarget?: ECSTarget | undefined;
+  cloudFormationTarget?: CloudFormationTarget | undefined;
 }
 export type DeploymentTargetList = DeploymentTarget[];
 export interface BatchGetDeploymentTargetsOutput {
-  deploymentTargets?: DeploymentTarget[];
+  deploymentTargets?: DeploymentTarget[] | undefined;
 }
 export interface BatchGetOnPremisesInstancesInput {
   instanceNames: string[];
@@ -1190,54 +1190,54 @@ export type IamSessionArn = string;
 export type IamUserArn = string;
 export type InstanceArn = string;
 export interface InstanceInfo {
-  instanceName?: string;
-  iamSessionArn?: string;
-  iamUserArn?: string;
-  instanceArn?: string;
-  registerTime?: Date;
-  deregisterTime?: Date;
-  tags?: Tag[];
+  instanceName?: string | undefined;
+  iamSessionArn?: string | undefined;
+  iamUserArn?: string | undefined;
+  instanceArn?: string | undefined;
+  registerTime?: Date | undefined;
+  deregisterTime?: Date | undefined;
+  tags?: Tag[] | undefined;
 }
 export type InstanceInfoList = InstanceInfo[];
 export interface BatchGetOnPremisesInstancesOutput {
-  instanceInfos?: InstanceInfo[];
+  instanceInfos?: InstanceInfo[] | undefined;
 }
 export type DeploymentWaitType = "READY_WAIT" | "TERMINATION_WAIT" | (string & {});
 export interface ContinueDeploymentInput {
-  deploymentId?: string;
-  deploymentWaitType?: DeploymentWaitType;
+  deploymentId?: string | undefined;
+  deploymentWaitType?: DeploymentWaitType | undefined;
 }
 export interface ContinueDeploymentResponse {}
 export interface CreateApplicationInput {
   applicationName: string;
-  computePlatform?: ComputePlatform;
-  tags?: Tag[];
+  computePlatform?: ComputePlatform | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateApplicationOutput {
-  applicationId?: string;
+  applicationId?: string | undefined;
 }
 export interface CreateDeploymentInput {
   applicationName: string;
-  deploymentGroupName?: string;
-  revision?: RevisionLocation;
-  deploymentConfigName?: string;
-  description?: string;
-  ignoreApplicationStopFailures?: boolean;
-  targetInstances?: TargetInstances;
-  autoRollbackConfiguration?: AutoRollbackConfiguration;
-  updateOutdatedInstancesOnly?: boolean;
-  fileExistsBehavior?: FileExistsBehavior;
-  deploymentMode?: DeploymentMode;
-  overrideAlarmConfiguration?: AlarmConfiguration;
+  deploymentGroupName?: string | undefined;
+  revision?: RevisionLocation | undefined;
+  deploymentConfigName?: string | undefined;
+  description?: string | undefined;
+  ignoreApplicationStopFailures?: boolean | undefined;
+  targetInstances?: TargetInstances | undefined;
+  autoRollbackConfiguration?: AutoRollbackConfiguration | undefined;
+  updateOutdatedInstancesOnly?: boolean | undefined;
+  fileExistsBehavior?: FileExistsBehavior | undefined;
+  deploymentMode?: DeploymentMode | undefined;
+  overrideAlarmConfiguration?: AlarmConfiguration | undefined;
 }
 export interface CreateDeploymentOutput {
-  deploymentId?: string;
+  deploymentId?: string | undefined;
 }
 export type MinimumHealthyHostsType = "HOST_COUNT" | "FLEET_PERCENT" | (string & {});
 export type MinimumHealthyHostsValue = number;
 export interface MinimumHealthyHosts {
-  type?: MinimumHealthyHostsType;
-  value?: number;
+  type?: MinimumHealthyHostsType | undefined;
+  value?: number | undefined;
 }
 export type TrafficRoutingType =
   | "TimeBasedCanary"
@@ -1247,64 +1247,64 @@ export type TrafficRoutingType =
 export type Percentage = number;
 export type WaitTimeInMins = number;
 export interface TimeBasedCanary {
-  canaryPercentage?: number;
-  canaryInterval?: number;
+  canaryPercentage?: number | undefined;
+  canaryInterval?: number | undefined;
 }
 export interface TimeBasedLinear {
-  linearPercentage?: number;
-  linearInterval?: number;
+  linearPercentage?: number | undefined;
+  linearInterval?: number | undefined;
 }
 export interface TrafficRoutingConfig {
-  type?: TrafficRoutingType;
-  timeBasedCanary?: TimeBasedCanary;
-  timeBasedLinear?: TimeBasedLinear;
+  type?: TrafficRoutingType | undefined;
+  timeBasedCanary?: TimeBasedCanary | undefined;
+  timeBasedLinear?: TimeBasedLinear | undefined;
 }
 export type WaitTimeInSeconds = number;
 export type MinimumHealthyHostsPerZoneType = "HOST_COUNT" | "FLEET_PERCENT" | (string & {});
 export type MinimumHealthyHostsPerZoneValue = number;
 export interface MinimumHealthyHostsPerZone {
-  type?: MinimumHealthyHostsPerZoneType;
-  value?: number;
+  type?: MinimumHealthyHostsPerZoneType | undefined;
+  value?: number | undefined;
 }
 export interface ZonalConfig {
-  firstZoneMonitorDurationInSeconds?: number;
-  monitorDurationInSeconds?: number;
-  minimumHealthyHostsPerZone?: MinimumHealthyHostsPerZone;
+  firstZoneMonitorDurationInSeconds?: number | undefined;
+  monitorDurationInSeconds?: number | undefined;
+  minimumHealthyHostsPerZone?: MinimumHealthyHostsPerZone | undefined;
 }
 export interface CreateDeploymentConfigInput {
   deploymentConfigName: string;
-  minimumHealthyHosts?: MinimumHealthyHosts;
-  trafficRoutingConfig?: TrafficRoutingConfig;
-  computePlatform?: ComputePlatform;
-  zonalConfig?: ZonalConfig;
+  minimumHealthyHosts?: MinimumHealthyHosts | undefined;
+  trafficRoutingConfig?: TrafficRoutingConfig | undefined;
+  computePlatform?: ComputePlatform | undefined;
+  zonalConfig?: ZonalConfig | undefined;
 }
 export type DeploymentConfigId = string;
 export interface CreateDeploymentConfigOutput {
-  deploymentConfigId?: string;
+  deploymentConfigId?: string | undefined;
 }
 export interface CreateDeploymentGroupInput {
   applicationName: string;
   deploymentGroupName: string;
-  deploymentConfigName?: string;
-  ec2TagFilters?: EC2TagFilter[];
-  onPremisesInstanceTagFilters?: TagFilter[];
-  autoScalingGroups?: string[];
+  deploymentConfigName?: string | undefined;
+  ec2TagFilters?: EC2TagFilter[] | undefined;
+  onPremisesInstanceTagFilters?: TagFilter[] | undefined;
+  autoScalingGroups?: string[] | undefined;
   serviceRoleArn: string;
-  triggerConfigurations?: TriggerConfig[];
-  alarmConfiguration?: AlarmConfiguration;
-  autoRollbackConfiguration?: AutoRollbackConfiguration;
-  outdatedInstancesStrategy?: OutdatedInstancesStrategy;
-  deploymentStyle?: DeploymentStyle;
-  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
-  loadBalancerInfo?: LoadBalancerInfo;
-  ec2TagSet?: EC2TagSet;
-  ecsServices?: ECSService[];
-  onPremisesTagSet?: OnPremisesTagSet;
-  tags?: Tag[];
-  terminationHookEnabled?: boolean;
+  triggerConfigurations?: TriggerConfig[] | undefined;
+  alarmConfiguration?: AlarmConfiguration | undefined;
+  autoRollbackConfiguration?: AutoRollbackConfiguration | undefined;
+  outdatedInstancesStrategy?: OutdatedInstancesStrategy | undefined;
+  deploymentStyle?: DeploymentStyle | undefined;
+  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration | undefined;
+  loadBalancerInfo?: LoadBalancerInfo | undefined;
+  ec2TagSet?: EC2TagSet | undefined;
+  ecsServices?: ECSService[] | undefined;
+  onPremisesTagSet?: OnPremisesTagSet | undefined;
+  tags?: Tag[] | undefined;
+  terminationHookEnabled?: boolean | undefined;
 }
 export interface CreateDeploymentGroupOutput {
-  deploymentGroupId?: string;
+  deploymentGroupId?: string | undefined;
 }
 export interface DeleteApplicationInput {
   applicationName: string;
@@ -1319,16 +1319,16 @@ export interface DeleteDeploymentGroupInput {
   deploymentGroupName: string;
 }
 export interface DeleteDeploymentGroupOutput {
-  hooksNotCleanedUp?: AutoScalingGroup[];
+  hooksNotCleanedUp?: AutoScalingGroup[] | undefined;
 }
 export interface DeleteGitHubAccountTokenInput {
-  tokenName?: string;
+  tokenName?: string | undefined;
 }
 export interface DeleteGitHubAccountTokenOutput {
-  tokenName?: string;
+  tokenName?: string | undefined;
 }
 export interface DeleteResourcesByExternalIdInput {
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface DeleteResourcesByExternalIdOutput {}
 export interface DeregisterOnPremisesInstanceInput {
@@ -1339,64 +1339,64 @@ export interface GetApplicationInput {
   applicationName: string;
 }
 export interface GetApplicationOutput {
-  application?: ApplicationInfo;
+  application?: ApplicationInfo | undefined;
 }
 export interface GetApplicationRevisionInput {
   applicationName: string;
   revision: RevisionLocation;
 }
 export interface GetApplicationRevisionOutput {
-  applicationName?: string;
-  revision?: RevisionLocation;
-  revisionInfo?: GenericRevisionInfo;
+  applicationName?: string | undefined;
+  revision?: RevisionLocation | undefined;
+  revisionInfo?: GenericRevisionInfo | undefined;
 }
 export interface GetDeploymentInput {
   deploymentId: string;
 }
 export interface GetDeploymentOutput {
-  deploymentInfo?: DeploymentInfo;
+  deploymentInfo?: DeploymentInfo | undefined;
 }
 export interface GetDeploymentConfigInput {
   deploymentConfigName: string;
 }
 export interface DeploymentConfigInfo {
-  deploymentConfigId?: string;
-  deploymentConfigName?: string;
-  minimumHealthyHosts?: MinimumHealthyHosts;
-  createTime?: Date;
-  computePlatform?: ComputePlatform;
-  trafficRoutingConfig?: TrafficRoutingConfig;
-  zonalConfig?: ZonalConfig;
+  deploymentConfigId?: string | undefined;
+  deploymentConfigName?: string | undefined;
+  minimumHealthyHosts?: MinimumHealthyHosts | undefined;
+  createTime?: Date | undefined;
+  computePlatform?: ComputePlatform | undefined;
+  trafficRoutingConfig?: TrafficRoutingConfig | undefined;
+  zonalConfig?: ZonalConfig | undefined;
 }
 export interface GetDeploymentConfigOutput {
-  deploymentConfigInfo?: DeploymentConfigInfo;
+  deploymentConfigInfo?: DeploymentConfigInfo | undefined;
 }
 export interface GetDeploymentGroupInput {
   applicationName: string;
   deploymentGroupName: string;
 }
 export interface GetDeploymentGroupOutput {
-  deploymentGroupInfo?: DeploymentGroupInfo;
+  deploymentGroupInfo?: DeploymentGroupInfo | undefined;
 }
 export interface GetDeploymentInstanceInput {
   deploymentId: string;
   instanceId: string;
 }
 export interface GetDeploymentInstanceOutput {
-  instanceSummary?: InstanceSummary;
+  instanceSummary?: InstanceSummary | undefined;
 }
 export interface GetDeploymentTargetInput {
   deploymentId: string;
   targetId: string;
 }
 export interface GetDeploymentTargetOutput {
-  deploymentTarget?: DeploymentTarget;
+  deploymentTarget?: DeploymentTarget | undefined;
 }
 export interface GetOnPremisesInstanceInput {
   instanceName: string;
 }
 export interface GetOnPremisesInstanceOutput {
-  instanceInfo?: InstanceInfo;
+  instanceInfo?: InstanceInfo | undefined;
 }
 export type ApplicationRevisionSortBy =
   | "registerTime"
@@ -1408,129 +1408,129 @@ export type ListStateFilterAction = "include" | "exclude" | "ignore" | (string &
 export type NextToken = string;
 export interface ListApplicationRevisionsInput {
   applicationName: string;
-  sortBy?: ApplicationRevisionSortBy;
-  sortOrder?: SortOrder;
-  s3Bucket?: string;
-  s3KeyPrefix?: string;
-  deployed?: ListStateFilterAction;
-  nextToken?: string;
+  sortBy?: ApplicationRevisionSortBy | undefined;
+  sortOrder?: SortOrder | undefined;
+  s3Bucket?: string | undefined;
+  s3KeyPrefix?: string | undefined;
+  deployed?: ListStateFilterAction | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListApplicationRevisionsOutput {
-  revisions?: RevisionLocation[];
-  nextToken?: string;
+  revisions?: RevisionLocation[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListApplicationsInput {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListApplicationsOutput {
-  applications?: string[];
-  nextToken?: string;
+  applications?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDeploymentConfigsInput {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DeploymentConfigsList = string[];
 export interface ListDeploymentConfigsOutput {
-  deploymentConfigsList?: string[];
-  nextToken?: string;
+  deploymentConfigsList?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDeploymentGroupsInput {
   applicationName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDeploymentGroupsOutput {
-  applicationName?: string;
-  deploymentGroups?: string[];
-  nextToken?: string;
+  applicationName?: string | undefined;
+  deploymentGroups?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type InstanceStatusList = InstanceStatus[];
 export type InstanceTypeList = InstanceType[];
 export interface ListDeploymentInstancesInput {
   deploymentId: string;
-  nextToken?: string;
-  instanceStatusFilter?: InstanceStatus[];
-  instanceTypeFilter?: InstanceType[];
+  nextToken?: string | undefined;
+  instanceStatusFilter?: InstanceStatus[] | undefined;
+  instanceTypeFilter?: InstanceType[] | undefined;
 }
 export interface ListDeploymentInstancesOutput {
-  instancesList?: string[];
-  nextToken?: string;
+  instancesList?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DeploymentStatusList = DeploymentStatus[];
 export interface TimeRange {
-  start?: Date;
-  end?: Date;
+  start?: Date | undefined;
+  end?: Date | undefined;
 }
 export interface ListDeploymentsInput {
-  applicationName?: string;
-  deploymentGroupName?: string;
-  externalId?: string;
-  includeOnlyStatuses?: DeploymentStatus[];
-  createTimeRange?: TimeRange;
-  nextToken?: string;
+  applicationName?: string | undefined;
+  deploymentGroupName?: string | undefined;
+  externalId?: string | undefined;
+  includeOnlyStatuses?: DeploymentStatus[] | undefined;
+  createTimeRange?: TimeRange | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDeploymentsOutput {
-  deployments?: string[];
-  nextToken?: string;
+  deployments?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TargetFilterName = "TargetStatus" | "ServerInstanceLabel" | (string & {});
 export type FilterValue = string;
 export type FilterValueList = string[];
-export type TargetFilters = { [key in TargetFilterName]?: string[] };
+export type TargetFilters = { [key in TargetFilterName]?: string[] | undefined };
 export interface ListDeploymentTargetsInput {
   deploymentId: string;
-  nextToken?: string;
-  targetFilters?: { [key: string]: string[] | undefined };
+  nextToken?: string | undefined;
+  targetFilters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface ListDeploymentTargetsOutput {
-  targetIds?: string[];
-  nextToken?: string;
+  targetIds?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListGitHubAccountTokenNamesInput {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type GitHubAccountTokenNameList = string[];
 export interface ListGitHubAccountTokenNamesOutput {
-  tokenNameList?: string[];
-  nextToken?: string;
+  tokenNameList?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RegistrationStatus = "Registered" | "Deregistered" | (string & {});
 export interface ListOnPremisesInstancesInput {
-  registrationStatus?: RegistrationStatus;
-  tagFilters?: TagFilter[];
-  nextToken?: string;
+  registrationStatus?: RegistrationStatus | undefined;
+  tagFilters?: TagFilter[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListOnPremisesInstancesOutput {
-  instanceNames?: string[];
-  nextToken?: string;
+  instanceNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LifecycleEventHookExecutionId = string;
 export interface PutLifecycleEventHookExecutionStatusInput {
-  deploymentId?: string;
-  lifecycleEventHookExecutionId?: string;
-  status?: LifecycleEventStatus;
+  deploymentId?: string | undefined;
+  lifecycleEventHookExecutionId?: string | undefined;
+  status?: LifecycleEventStatus | undefined;
 }
 export interface PutLifecycleEventHookExecutionStatusOutput {
-  lifecycleEventHookExecutionId?: string;
+  lifecycleEventHookExecutionId?: string | undefined;
 }
 export interface RegisterApplicationRevisionInput {
   applicationName: string;
-  description?: string;
+  description?: string | undefined;
   revision: RevisionLocation;
 }
 export interface RegisterApplicationRevisionResponse {}
 export interface RegisterOnPremisesInstanceInput {
   instanceName: string;
-  iamSessionArn?: string;
-  iamUserArn?: string;
+  iamSessionArn?: string | undefined;
+  iamUserArn?: string | undefined;
 }
 export interface RegisterOnPremisesInstanceResponse {}
 export interface RemoveTagsFromOnPremisesInstancesInput {
@@ -1539,18 +1539,18 @@ export interface RemoveTagsFromOnPremisesInstancesInput {
 }
 export interface RemoveTagsFromOnPremisesInstancesResponse {}
 export interface SkipWaitTimeForInstanceTerminationInput {
-  deploymentId?: string;
+  deploymentId?: string | undefined;
 }
 export interface SkipWaitTimeForInstanceTerminationResponse {}
 export interface StopDeploymentInput {
   deploymentId: string;
-  autoRollbackEnabled?: boolean;
+  autoRollbackEnabled?: boolean | undefined;
 }
 export type StopStatus = "Pending" | "Succeeded" | (string & {});
 export type Message = string;
 export interface StopDeploymentOutput {
-  status?: StopStatus;
-  statusMessage?: string;
+  status?: StopStatus | undefined;
+  statusMessage?: string | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -1564,33 +1564,33 @@ export interface UntagResourceInput {
 }
 export interface UntagResourceOutput {}
 export interface UpdateApplicationInput {
-  applicationName?: string;
-  newApplicationName?: string;
+  applicationName?: string | undefined;
+  newApplicationName?: string | undefined;
 }
 export interface UpdateApplicationResponse {}
 export interface UpdateDeploymentGroupInput {
   applicationName: string;
   currentDeploymentGroupName: string;
-  newDeploymentGroupName?: string;
-  deploymentConfigName?: string;
-  ec2TagFilters?: EC2TagFilter[];
-  onPremisesInstanceTagFilters?: TagFilter[];
-  autoScalingGroups?: string[];
-  serviceRoleArn?: string;
-  triggerConfigurations?: TriggerConfig[];
-  alarmConfiguration?: AlarmConfiguration;
-  autoRollbackConfiguration?: AutoRollbackConfiguration;
-  outdatedInstancesStrategy?: OutdatedInstancesStrategy;
-  deploymentStyle?: DeploymentStyle;
-  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration;
-  loadBalancerInfo?: LoadBalancerInfo;
-  ec2TagSet?: EC2TagSet;
-  ecsServices?: ECSService[];
-  onPremisesTagSet?: OnPremisesTagSet;
-  terminationHookEnabled?: boolean;
+  newDeploymentGroupName?: string | undefined;
+  deploymentConfigName?: string | undefined;
+  ec2TagFilters?: EC2TagFilter[] | undefined;
+  onPremisesInstanceTagFilters?: TagFilter[] | undefined;
+  autoScalingGroups?: string[] | undefined;
+  serviceRoleArn?: string | undefined;
+  triggerConfigurations?: TriggerConfig[] | undefined;
+  alarmConfiguration?: AlarmConfiguration | undefined;
+  autoRollbackConfiguration?: AutoRollbackConfiguration | undefined;
+  outdatedInstancesStrategy?: OutdatedInstancesStrategy | undefined;
+  deploymentStyle?: DeploymentStyle | undefined;
+  blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration | undefined;
+  loadBalancerInfo?: LoadBalancerInfo | undefined;
+  ec2TagSet?: EC2TagSet | undefined;
+  ecsServices?: ECSService[] | undefined;
+  onPremisesTagSet?: OnPremisesTagSet | undefined;
+  terminationHookEnabled?: boolean | undefined;
 }
 export interface UpdateDeploymentGroupOutput {
-  hooksNotCleanedUp?: AutoScalingGroup[];
+  hooksNotCleanedUp?: AutoScalingGroup[] | undefined;
 }
 export type AddTagsToOnPremisesInstancesError =
   | InstanceLimitExceededException

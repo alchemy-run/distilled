@@ -167,7 +167,7 @@ export type KmsKeyArn = string;
 export interface S3Object {
   bucket: string;
   key: string;
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export interface CodeConfig {
   s3Object: S3Object;
@@ -191,24 +191,24 @@ export type ApplicationLogLevel =
   | (string & {});
 export type SystemLogLevel = "DEBUG" | "INFO" | "WARN" | (string & {});
 export interface LoggingConfig {
-  logGroup?: string;
-  applicationLogLevel?: ApplicationLogLevel;
-  systemLogLevel?: SystemLogLevel;
+  logGroup?: string | undefined;
+  applicationLogLevel?: ApplicationLogLevel | undefined;
+  systemLogLevel?: SystemLogLevel | undefined;
 }
 export interface TelemetryConfig {
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
 }
 export interface ServiceConfig {
   executionRoleArn: string;
-  timeoutSeconds?: number;
-  egressNetworkConnectorArn?: string;
-  maxConcurrencyPerEnvironment?: number;
-  environmentVariables?: { [key: string]: string | undefined };
-  telemetryConfig?: TelemetryConfig;
+  timeoutSeconds?: number | undefined;
+  egressNetworkConnectorArn?: string | undefined;
+  maxConcurrencyPerEnvironment?: number | undefined;
+  environmentVariables?: { [key: string]: string | undefined } | undefined;
+  telemetryConfig?: TelemetryConfig | undefined;
 }
 export interface RevisionConfig {
-  description?: string;
-  kmsKeyArn?: string;
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
   buildConfig: BuildConfig;
   serviceConfig: ServiceConfig;
 }
@@ -219,28 +219,28 @@ export type AutoDeploymentMode = "LatestRevision" | "Disabled" | (string & {});
 export type Region = string;
 export type RegionList = string[];
 export interface ScalingConfig {
-  maxEnvironments?: number;
+  maxEnvironments?: number | undefined;
 }
 export interface ThrottleConfig {
-  rateLimit?: number;
+  rateLimit?: number | undefined;
 }
 export interface EndpointConfig {
   endpointName: string;
-  description?: string;
+  description?: string | undefined;
   endpointType: EndpointType;
   authType: AuthType;
-  autoDeploymentMode?: AutoDeploymentMode;
-  regions?: string[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  autoDeploymentMode?: AutoDeploymentMode | undefined;
+  regions?: string[] | undefined;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
 }
 export type TagKey = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateWebFunctionRequest {
   functionName: string;
-  revisionConfig?: RevisionConfig;
-  endpointConfig?: EndpointConfig;
-  tags?: { [key: string]: string | undefined };
+  revisionConfig?: RevisionConfig | undefined;
+  endpointConfig?: EndpointConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FunctionArn = string;
 export type FunctionState = "Pending" | "Active" | "Failed" | "Deleting" | (string & {});
@@ -250,7 +250,7 @@ export type RevisionState = "Pending" | "Active" | "Failed" | (string & {});
 export interface FunctionRevisionSummary {
   revisionArn: string;
   revisionId: string;
-  description?: string;
+  description?: string | undefined;
   state: RevisionState;
   stateReason: string;
   createdAt: Date;
@@ -267,19 +267,19 @@ export type EndpointUpdateStatus = "InProgress" | "Successful" | "Failed" | (str
 export interface FunctionEndpointSummary {
   endpointArn: string;
   endpointName: string;
-  description?: string;
+  description?: string | undefined;
   endpointType: EndpointType;
   domainName: string;
   authType: AuthType;
   autoDeploymentMode: AutoDeploymentMode;
   revisionWeights: RevisionWeight[];
   regions: string[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
   state: EndpointState;
   stateReason: string;
-  updateStatus?: EndpointUpdateStatus;
-  updateStatusReason?: string;
+  updateStatus?: EndpointUpdateStatus | undefined;
+  updateStatusReason?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -290,59 +290,59 @@ export interface CreateWebFunctionResponse {
   stateReason: string;
   createdAt: Date;
   updatedAt: Date;
-  revision?: FunctionRevisionSummary;
-  endpoint?: FunctionEndpointSummary;
-  tags?: { [key: string]: string | undefined };
+  revision?: FunctionRevisionSummary | undefined;
+  endpoint?: FunctionEndpointSummary | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateWebFunctionEndpointRequest {
   functionName: string;
   endpointName: string;
-  description?: string;
+  description?: string | undefined;
   endpointType: EndpointType;
   authType: AuthType;
-  autoDeploymentMode?: AutoDeploymentMode;
-  revisionWeights?: RevisionWeight[];
-  regions?: string[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  autoDeploymentMode?: AutoDeploymentMode | undefined;
+  revisionWeights?: RevisionWeight[] | undefined;
+  regions?: string[] | undefined;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
 }
 export interface RegionalEndpoint {
-  domainName?: string;
+  domainName?: string | undefined;
   authType: AuthType;
   revisionWeights: RevisionWeight[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
   state: EndpointState;
   stateReason: string;
-  updateStatus?: EndpointUpdateStatus;
-  updateStatusReason?: string;
+  updateStatus?: EndpointUpdateStatus | undefined;
+  updateStatusReason?: string | undefined;
 }
 export type RegionalEndpoints = { [key: string]: RegionalEndpoint | undefined };
 export interface CreateWebFunctionEndpointResponse {
   functionArn: string;
   endpointArn: string;
   endpointName: string;
-  description?: string;
+  description?: string | undefined;
   endpointType: EndpointType;
   domainName: string;
   authType: AuthType;
   autoDeploymentMode: AutoDeploymentMode;
   revisionWeights: RevisionWeight[];
   regions: string[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
   state: EndpointState;
   stateReason: string;
-  updateStatus?: EndpointUpdateStatus;
-  updateStatusReason?: string;
+  updateStatus?: EndpointUpdateStatus | undefined;
+  updateStatusReason?: string | undefined;
   regionalEndpoints: { [key: string]: RegionalEndpoint | undefined };
   createdAt: Date;
   updatedAt: Date;
 }
 export interface CreateWebFunctionRevisionRequest {
   functionName: string;
-  description?: string;
-  kmsKeyArn?: string;
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
   buildConfig: BuildConfig;
   serviceConfig: ServiceConfig;
 }
@@ -356,20 +356,20 @@ export interface CreateWebFunctionRevisionResponse {
   functionArn: string;
   revisionArn: string;
   revisionId: string;
-  description?: string;
-  kmsKeyArn?: string;
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
   buildConfig: BuildConfig;
   serviceConfig: ServiceConfig;
   state: RevisionState;
   stateReason: string;
-  errors?: RevisionError[];
+  errors?: RevisionError[] | undefined;
   createdAt: Date;
 }
 export type ResourceArn = string;
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyRequest {
   resourceArn: string;
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteWebFunctionRequest {
@@ -427,19 +427,19 @@ export interface GetWebFunctionEndpointResponse {
   functionArn: string;
   endpointArn: string;
   endpointName: string;
-  description?: string;
+  description?: string | undefined;
   endpointType: EndpointType;
   domainName: string;
   authType: AuthType;
   autoDeploymentMode: AutoDeploymentMode;
   revisionWeights: RevisionWeight[];
   regions: string[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
   state: EndpointState;
   stateReason: string;
-  updateStatus?: EndpointUpdateStatus;
-  updateStatusReason?: string;
+  updateStatus?: EndpointUpdateStatus | undefined;
+  updateStatusReason?: string | undefined;
   regionalEndpoints: { [key: string]: RegionalEndpoint | undefined };
   createdAt: Date;
   updatedAt: Date;
@@ -452,20 +452,20 @@ export interface GetWebFunctionRevisionResponse {
   functionArn: string;
   revisionArn: string;
   revisionId: string;
-  description?: string;
-  kmsKeyArn?: string;
+  description?: string | undefined;
+  kmsKeyArn?: string | undefined;
   buildConfig: BuildConfig;
   serviceConfig: ServiceConfig;
   state: RevisionState;
   stateReason: string;
-  errors?: RevisionError[];
+  errors?: RevisionError[] | undefined;
   createdAt: Date;
 }
 export interface ListTagsRequest {
   resource: string;
 }
 export interface ListTagsResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FilterValueList = string[];
 export interface Filter {
@@ -477,30 +477,30 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface ListWebFunctionEndpointsRequest {
   functionName: string;
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type FunctionEndpointSummaryList = FunctionEndpointSummary[];
 export interface ListWebFunctionEndpointsResponse {
   endpoints: FunctionEndpointSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWebFunctionRevisionsRequest {
   functionName: string;
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type FunctionRevisionSummaryList = FunctionRevisionSummary[];
 export interface ListWebFunctionRevisionsResponse {
   revisions: FunctionRevisionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWebFunctionsRequest {
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FunctionSummary {
   functionName: string;
@@ -513,12 +513,12 @@ export interface FunctionSummary {
 export type FunctionSummaryList = FunctionSummary[];
 export interface ListWebFunctionsResponse {
   functions: FunctionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   resourceArn: string;
   policy: string;
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
   policy: string;
@@ -538,30 +538,30 @@ export interface UntagResourceResponse {}
 export interface UpdateWebFunctionEndpointRequest {
   functionName: string;
   endpointName: string;
-  description?: string;
-  authType?: AuthType;
-  autoDeploymentMode?: AutoDeploymentMode;
-  revisionWeights?: RevisionWeight[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  description?: string | undefined;
+  authType?: AuthType | undefined;
+  autoDeploymentMode?: AutoDeploymentMode | undefined;
+  revisionWeights?: RevisionWeight[] | undefined;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
 }
 export interface UpdateWebFunctionEndpointResponse {
   functionArn: string;
   endpointArn: string;
   endpointName: string;
-  description?: string;
+  description?: string | undefined;
   endpointType: EndpointType;
   domainName: string;
   authType: AuthType;
   autoDeploymentMode: AutoDeploymentMode;
   revisionWeights: RevisionWeight[];
   regions: string[];
-  scalingConfig?: ScalingConfig;
-  throttleConfig?: ThrottleConfig;
+  scalingConfig?: ScalingConfig | undefined;
+  throttleConfig?: ThrottleConfig | undefined;
   state: EndpointState;
   stateReason: string;
-  updateStatus?: EndpointUpdateStatus;
-  updateStatusReason?: string;
+  updateStatus?: EndpointUpdateStatus | undefined;
+  updateStatusReason?: string | undefined;
   regionalEndpoints: { [key: string]: RegionalEndpoint | undefined };
   createdAt: Date;
   updatedAt: Date;

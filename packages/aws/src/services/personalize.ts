@@ -149,7 +149,7 @@ export type S3Location = string;
 export type KmsKeyArn = string;
 export interface S3DataConfig {
   path: string;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface BatchInferenceJobInput {
   s3DataSource: S3DataConfig;
@@ -163,10 +163,10 @@ export type ParameterValue = string;
 export type HyperParameters = { [key: string]: string | undefined };
 export type RankingInfluenceType = "POPULARITY" | "FRESHNESS" | (string & {});
 export type RankingInfluenceWeight = number;
-export type RankingInfluence = { [key in RankingInfluenceType]?: number };
+export type RankingInfluence = { [key in RankingInfluenceType]?: number | undefined };
 export interface BatchInferenceJobConfig {
-  itemExplorationConfig?: { [key: string]: string | undefined };
-  rankingInfluence?: { [key: string]: number | undefined };
+  itemExplorationConfig?: { [key: string]: string | undefined } | undefined;
+  rankingInfluence?: { [key: string]: number | undefined } | undefined;
 }
 export type TagKey = string | redacted.Redacted<string>;
 export type TagValue = string | redacted.Redacted<string>;
@@ -186,18 +186,18 @@ export interface ThemeGenerationConfig {
 export interface CreateBatchInferenceJobRequest {
   jobName: string;
   solutionVersionArn: string;
-  filterArn?: string;
-  numResults?: number;
+  filterArn?: string | undefined;
+  numResults?: number | undefined;
   jobInput: BatchInferenceJobInput;
   jobOutput: BatchInferenceJobOutput;
   roleArn: string;
-  batchInferenceJobConfig?: BatchInferenceJobConfig;
-  tags?: Tag[];
-  batchInferenceJobMode?: BatchInferenceJobMode;
-  themeGenerationConfig?: ThemeGenerationConfig;
+  batchInferenceJobConfig?: BatchInferenceJobConfig | undefined;
+  tags?: Tag[] | undefined;
+  batchInferenceJobMode?: BatchInferenceJobMode | undefined;
+  themeGenerationConfig?: ThemeGenerationConfig | undefined;
 }
 export interface CreateBatchInferenceJobResponse {
-  batchInferenceJobArn?: string;
+  batchInferenceJobArn?: string | undefined;
 }
 export interface BatchSegmentJobInput {
   s3DataSource: S3DataConfig;
@@ -208,45 +208,45 @@ export interface BatchSegmentJobOutput {
 export interface CreateBatchSegmentJobRequest {
   jobName: string;
   solutionVersionArn: string;
-  filterArn?: string;
-  numResults?: number;
+  filterArn?: string | undefined;
+  numResults?: number | undefined;
   jobInput: BatchSegmentJobInput;
   jobOutput: BatchSegmentJobOutput;
   roleArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateBatchSegmentJobResponse {
-  batchSegmentJobArn?: string;
+  batchSegmentJobArn?: string | undefined;
 }
 export type TransactionsPerSecond = number;
 export interface CampaignConfig {
-  itemExplorationConfig?: { [key: string]: string | undefined };
-  enableMetadataWithRecommendations?: boolean;
-  syncWithLatestSolutionVersion?: boolean;
-  rankingInfluence?: { [key: string]: number | undefined };
+  itemExplorationConfig?: { [key: string]: string | undefined } | undefined;
+  enableMetadataWithRecommendations?: boolean | undefined;
+  syncWithLatestSolutionVersion?: boolean | undefined;
+  rankingInfluence?: { [key: string]: number | undefined } | undefined;
 }
 export interface CreateCampaignRequest {
   name: string;
   solutionVersionArn: string;
-  minProvisionedTPS?: number;
-  campaignConfig?: CampaignConfig;
-  tags?: Tag[];
+  minProvisionedTPS?: number | undefined;
+  campaignConfig?: CampaignConfig | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateCampaignResponse {
-  campaignArn?: string;
+  campaignArn?: string | undefined;
 }
 export interface DataSource {
-  dataLocation?: string;
+  dataLocation?: string | undefined;
 }
 export interface CreateDataDeletionJobRequest {
   jobName: string;
   datasetGroupArn: string;
   dataSource: DataSource;
   roleArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateDataDeletionJobResponse {
-  dataDeletionJobArn?: string;
+  dataDeletionJobArn?: string | undefined;
 }
 export type DatasetType = string;
 export interface CreateDatasetRequest {
@@ -254,10 +254,10 @@ export interface CreateDatasetRequest {
   schemaArn: string;
   datasetGroupArn: string;
   datasetType: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateDatasetResponse {
-  datasetArn?: string;
+  datasetArn?: string | undefined;
 }
 export type IngestionMode = "BULK" | "PUT" | "ALL" | (string & {});
 export interface DatasetExportJobOutput {
@@ -266,58 +266,58 @@ export interface DatasetExportJobOutput {
 export interface CreateDatasetExportJobRequest {
   jobName: string;
   datasetArn: string;
-  ingestionMode?: IngestionMode;
+  ingestionMode?: IngestionMode | undefined;
   roleArn: string;
   jobOutput: DatasetExportJobOutput;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateDatasetExportJobResponse {
-  datasetExportJobArn?: string;
+  datasetExportJobArn?: string | undefined;
 }
 export type Domain = "ECOMMERCE" | "VIDEO_ON_DEMAND" | (string & {});
 export interface CreateDatasetGroupRequest {
   name: string;
-  roleArn?: string;
-  kmsKeyArn?: string;
-  domain?: Domain;
-  tags?: Tag[];
+  roleArn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  domain?: Domain | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateDatasetGroupResponse {
-  datasetGroupArn?: string;
-  domain?: Domain;
+  datasetGroupArn?: string | undefined;
+  domain?: Domain | undefined;
 }
 export type ImportMode = "FULL" | "INCREMENTAL" | (string & {});
 export interface CreateDatasetImportJobRequest {
   jobName: string;
   datasetArn: string;
   dataSource: DataSource;
-  roleArn?: string;
-  tags?: Tag[];
-  importMode?: ImportMode;
-  publishAttributionMetricsToS3?: boolean;
+  roleArn?: string | undefined;
+  tags?: Tag[] | undefined;
+  importMode?: ImportMode | undefined;
+  publishAttributionMetricsToS3?: boolean | undefined;
 }
 export interface CreateDatasetImportJobResponse {
-  datasetImportJobArn?: string;
+  datasetImportJobArn?: string | undefined;
 }
 export interface CreateEventTrackerRequest {
   name: string;
   datasetGroupArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type TrackingId = string;
 export interface CreateEventTrackerResponse {
-  eventTrackerArn?: string;
-  trackingId?: string;
+  eventTrackerArn?: string | undefined;
+  trackingId?: string | undefined;
 }
 export type FilterExpression = string | redacted.Redacted<string>;
 export interface CreateFilterRequest {
   name: string;
   datasetGroupArn: string;
   filterExpression: string | redacted.Redacted<string>;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateFilterResponse {
-  filterArn?: string;
+  filterArn?: string | undefined;
 }
 export type EventType = string;
 export type MetricName = string;
@@ -329,7 +329,7 @@ export interface MetricAttribute {
 }
 export type MetricAttributes = MetricAttribute[];
 export interface MetricAttributionOutput {
-  s3DataDestination?: S3DataConfig;
+  s3DataDestination?: S3DataConfig | undefined;
   roleArn: string;
 }
 export interface CreateMetricAttributionRequest {
@@ -339,39 +339,39 @@ export interface CreateMetricAttributionRequest {
   metricsOutputConfig: MetricAttributionOutput;
 }
 export interface CreateMetricAttributionResponse {
-  metricAttributionArn?: string;
+  metricAttributionArn?: string | undefined;
 }
 export type ColumnNamesList = string[];
 export type ExcludedDatasetColumns = { [key: string]: string[] | undefined };
 export type IncludedDatasetColumns = { [key: string]: string[] | undefined };
 export interface TrainingDataConfig {
-  excludedDatasetColumns?: { [key: string]: string[] | undefined };
-  includedDatasetColumns?: { [key: string]: string[] | undefined };
+  excludedDatasetColumns?: { [key: string]: string[] | undefined } | undefined;
+  includedDatasetColumns?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface RecommenderConfig {
-  itemExplorationConfig?: { [key: string]: string | undefined };
-  minRecommendationRequestsPerSecond?: number;
-  trainingDataConfig?: TrainingDataConfig;
-  enableMetadataWithRecommendations?: boolean;
+  itemExplorationConfig?: { [key: string]: string | undefined } | undefined;
+  minRecommendationRequestsPerSecond?: number | undefined;
+  trainingDataConfig?: TrainingDataConfig | undefined;
+  enableMetadataWithRecommendations?: boolean | undefined;
 }
 export interface CreateRecommenderRequest {
   name: string;
   datasetGroupArn: string;
   recipeArn: string;
-  recommenderConfig?: RecommenderConfig;
-  tags?: Tag[];
+  recommenderConfig?: RecommenderConfig | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRecommenderResponse {
-  recommenderArn?: string;
+  recommenderArn?: string | undefined;
 }
 export type AvroSchema = string;
 export interface CreateSchemaRequest {
   name: string;
   schema: string;
-  domain?: Domain;
+  domain?: Domain | undefined;
 }
 export interface CreateSchemaResponse {
-  schemaArn?: string;
+  schemaArn?: string | undefined;
 }
 export type PerformAutoML = boolean;
 export type PerformAutoTraining = boolean;
@@ -380,110 +380,110 @@ export type EventValueThreshold = string;
 export type HPOObjectiveType = string;
 export type MetricRegex = string;
 export interface HPOObjective {
-  type?: string;
-  metricName?: string;
-  metricRegex?: string;
+  type?: string | undefined;
+  metricName?: string | undefined;
+  metricRegex?: string | undefined;
 }
 export type HPOResource = string;
 export interface HPOResourceConfig {
-  maxNumberOfTrainingJobs?: string;
-  maxParallelTrainingJobs?: string;
+  maxNumberOfTrainingJobs?: string | undefined;
+  maxParallelTrainingJobs?: string | undefined;
 }
 export type IntegerMinValue = number;
 export type IntegerMaxValue = number;
 export interface IntegerHyperParameterRange {
-  name?: string;
-  minValue?: number;
-  maxValue?: number;
+  name?: string | undefined;
+  minValue?: number | undefined;
+  maxValue?: number | undefined;
 }
 export type IntegerHyperParameterRanges = IntegerHyperParameterRange[];
 export type ContinuousMinValue = number;
 export type ContinuousMaxValue = number;
 export interface ContinuousHyperParameterRange {
-  name?: string;
-  minValue?: number;
-  maxValue?: number;
+  name?: string | undefined;
+  minValue?: number | undefined;
+  maxValue?: number | undefined;
 }
 export type ContinuousHyperParameterRanges = ContinuousHyperParameterRange[];
 export type CategoricalValue = string;
 export type CategoricalValues = string[];
 export interface CategoricalHyperParameterRange {
-  name?: string;
-  values?: string[];
+  name?: string | undefined;
+  values?: string[] | undefined;
 }
 export type CategoricalHyperParameterRanges = CategoricalHyperParameterRange[];
 export interface HyperParameterRanges {
-  integerHyperParameterRanges?: IntegerHyperParameterRange[];
-  continuousHyperParameterRanges?: ContinuousHyperParameterRange[];
-  categoricalHyperParameterRanges?: CategoricalHyperParameterRange[];
+  integerHyperParameterRanges?: IntegerHyperParameterRange[] | undefined;
+  continuousHyperParameterRanges?: ContinuousHyperParameterRange[] | undefined;
+  categoricalHyperParameterRanges?: CategoricalHyperParameterRange[] | undefined;
 }
 export interface HPOConfig {
-  hpoObjective?: HPOObjective;
-  hpoResourceConfig?: HPOResourceConfig;
-  algorithmHyperParameterRanges?: HyperParameterRanges;
+  hpoObjective?: HPOObjective | undefined;
+  hpoResourceConfig?: HPOResourceConfig | undefined;
+  algorithmHyperParameterRanges?: HyperParameterRanges | undefined;
 }
 export type FeatureTransformationParameters = { [key: string]: string | undefined };
 export type ArnList = string[];
 export interface AutoMLConfig {
-  metricName?: string;
-  recipeList?: string[];
+  metricName?: string | undefined;
+  recipeList?: string[] | undefined;
 }
 export type EventTypeThresholdValue = number;
 export type EventTypeWeight = number;
 export interface EventParameters {
-  eventType?: string;
-  eventValueThreshold?: number;
-  weight?: number;
+  eventType?: string | undefined;
+  eventValueThreshold?: number | undefined;
+  weight?: number | undefined;
 }
 export type EventParametersList = EventParameters[];
 export interface EventsConfig {
-  eventParametersList?: EventParameters[];
+  eventParametersList?: EventParameters[] | undefined;
 }
 export type ItemAttribute = string;
 export type ObjectiveSensitivity = "LOW" | "MEDIUM" | "HIGH" | "OFF" | (string & {});
 export interface OptimizationObjective {
-  itemAttribute?: string;
-  objectiveSensitivity?: ObjectiveSensitivity;
+  itemAttribute?: string | undefined;
+  objectiveSensitivity?: ObjectiveSensitivity | undefined;
 }
 export type SchedulingExpression = string;
 export interface AutoTrainingConfig {
-  schedulingExpression?: string;
+  schedulingExpression?: string | undefined;
 }
 export interface SolutionConfig {
-  eventValueThreshold?: string;
-  hpoConfig?: HPOConfig;
-  algorithmHyperParameters?: { [key: string]: string | undefined };
-  featureTransformationParameters?: { [key: string]: string | undefined };
-  autoMLConfig?: AutoMLConfig;
-  eventsConfig?: EventsConfig;
-  optimizationObjective?: OptimizationObjective;
-  trainingDataConfig?: TrainingDataConfig;
-  autoTrainingConfig?: AutoTrainingConfig;
+  eventValueThreshold?: string | undefined;
+  hpoConfig?: HPOConfig | undefined;
+  algorithmHyperParameters?: { [key: string]: string | undefined } | undefined;
+  featureTransformationParameters?: { [key: string]: string | undefined } | undefined;
+  autoMLConfig?: AutoMLConfig | undefined;
+  eventsConfig?: EventsConfig | undefined;
+  optimizationObjective?: OptimizationObjective | undefined;
+  trainingDataConfig?: TrainingDataConfig | undefined;
+  autoTrainingConfig?: AutoTrainingConfig | undefined;
 }
 export interface CreateSolutionRequest {
   name: string;
-  performHPO?: boolean;
-  performAutoML?: boolean;
-  performAutoTraining?: boolean;
-  performIncrementalUpdate?: boolean;
-  recipeArn?: string;
+  performHPO?: boolean | undefined;
+  performAutoML?: boolean | undefined;
+  performAutoTraining?: boolean | undefined;
+  performIncrementalUpdate?: boolean | undefined;
+  recipeArn?: string | undefined;
   datasetGroupArn: string;
-  eventType?: string;
-  solutionConfig?: SolutionConfig;
-  tags?: Tag[];
+  eventType?: string | undefined;
+  solutionConfig?: SolutionConfig | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateSolutionResponse {
-  solutionArn?: string;
+  solutionArn?: string | undefined;
 }
 export type TrainingMode = "FULL" | "UPDATE" | "AUTOTRAIN" | (string & {});
 export interface CreateSolutionVersionRequest {
-  name?: string;
+  name?: string | undefined;
   solutionArn: string;
-  trainingMode?: TrainingMode;
-  tags?: Tag[];
+  trainingMode?: TrainingMode | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateSolutionVersionResponse {
-  solutionVersionArn?: string;
+  solutionVersionArn?: string | undefined;
 }
 export interface DeleteCampaignRequest {
   campaignArn: string;
@@ -526,51 +526,51 @@ export interface DescribeAlgorithmRequest {
 }
 export type DockerURI = string;
 export interface AlgorithmImage {
-  name?: string;
+  name?: string | undefined;
   dockerURI: string;
 }
 export type Tunable = boolean;
 export interface DefaultIntegerHyperParameterRange {
-  name?: string;
-  minValue?: number;
-  maxValue?: number;
-  isTunable?: boolean;
+  name?: string | undefined;
+  minValue?: number | undefined;
+  maxValue?: number | undefined;
+  isTunable?: boolean | undefined;
 }
 export type DefaultIntegerHyperParameterRanges = DefaultIntegerHyperParameterRange[];
 export interface DefaultContinuousHyperParameterRange {
-  name?: string;
-  minValue?: number;
-  maxValue?: number;
-  isTunable?: boolean;
+  name?: string | undefined;
+  minValue?: number | undefined;
+  maxValue?: number | undefined;
+  isTunable?: boolean | undefined;
 }
 export type DefaultContinuousHyperParameterRanges = DefaultContinuousHyperParameterRange[];
 export interface DefaultCategoricalHyperParameterRange {
-  name?: string;
-  values?: string[];
-  isTunable?: boolean;
+  name?: string | undefined;
+  values?: string[] | undefined;
+  isTunable?: boolean | undefined;
 }
 export type DefaultCategoricalHyperParameterRanges = DefaultCategoricalHyperParameterRange[];
 export interface DefaultHyperParameterRanges {
-  integerHyperParameterRanges?: DefaultIntegerHyperParameterRange[];
-  continuousHyperParameterRanges?: DefaultContinuousHyperParameterRange[];
-  categoricalHyperParameterRanges?: DefaultCategoricalHyperParameterRange[];
+  integerHyperParameterRanges?: DefaultIntegerHyperParameterRange[] | undefined;
+  continuousHyperParameterRanges?: DefaultContinuousHyperParameterRange[] | undefined;
+  categoricalHyperParameterRanges?: DefaultCategoricalHyperParameterRange[] | undefined;
 }
 export type ResourceConfig = { [key: string]: string | undefined };
 export type TrainingInputMode = string;
 export interface Algorithm {
-  name?: string;
-  algorithmArn?: string;
-  algorithmImage?: AlgorithmImage;
-  defaultHyperParameters?: { [key: string]: string | undefined };
-  defaultHyperParameterRanges?: DefaultHyperParameterRanges;
-  defaultResourceConfig?: { [key: string]: string | undefined };
-  trainingInputMode?: string;
-  roleArn?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  name?: string | undefined;
+  algorithmArn?: string | undefined;
+  algorithmImage?: AlgorithmImage | undefined;
+  defaultHyperParameters?: { [key: string]: string | undefined } | undefined;
+  defaultHyperParameterRanges?: DefaultHyperParameterRanges | undefined;
+  defaultResourceConfig?: { [key: string]: string | undefined } | undefined;
+  trainingInputMode?: string | undefined;
+  roleArn?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeAlgorithmResponse {
-  algorithm?: Algorithm;
+  algorithm?: Algorithm | undefined;
 }
 export interface DescribeBatchInferenceJobRequest {
   batchInferenceJobArn: string;
@@ -578,232 +578,232 @@ export interface DescribeBatchInferenceJobRequest {
 export type FailureReason = string;
 export type Status = string;
 export interface BatchInferenceJob {
-  jobName?: string;
-  batchInferenceJobArn?: string;
-  filterArn?: string;
-  failureReason?: string;
-  solutionVersionArn?: string;
-  numResults?: number;
-  jobInput?: BatchInferenceJobInput;
-  jobOutput?: BatchInferenceJobOutput;
-  batchInferenceJobConfig?: BatchInferenceJobConfig;
-  roleArn?: string;
-  batchInferenceJobMode?: BatchInferenceJobMode;
-  themeGenerationConfig?: ThemeGenerationConfig;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  jobName?: string | undefined;
+  batchInferenceJobArn?: string | undefined;
+  filterArn?: string | undefined;
+  failureReason?: string | undefined;
+  solutionVersionArn?: string | undefined;
+  numResults?: number | undefined;
+  jobInput?: BatchInferenceJobInput | undefined;
+  jobOutput?: BatchInferenceJobOutput | undefined;
+  batchInferenceJobConfig?: BatchInferenceJobConfig | undefined;
+  roleArn?: string | undefined;
+  batchInferenceJobMode?: BatchInferenceJobMode | undefined;
+  themeGenerationConfig?: ThemeGenerationConfig | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeBatchInferenceJobResponse {
-  batchInferenceJob?: BatchInferenceJob;
+  batchInferenceJob?: BatchInferenceJob | undefined;
 }
 export interface DescribeBatchSegmentJobRequest {
   batchSegmentJobArn: string;
 }
 export interface BatchSegmentJob {
-  jobName?: string;
-  batchSegmentJobArn?: string;
-  filterArn?: string;
-  failureReason?: string;
-  solutionVersionArn?: string;
-  numResults?: number;
-  jobInput?: BatchSegmentJobInput;
-  jobOutput?: BatchSegmentJobOutput;
-  roleArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  jobName?: string | undefined;
+  batchSegmentJobArn?: string | undefined;
+  filterArn?: string | undefined;
+  failureReason?: string | undefined;
+  solutionVersionArn?: string | undefined;
+  numResults?: number | undefined;
+  jobInput?: BatchSegmentJobInput | undefined;
+  jobOutput?: BatchSegmentJobOutput | undefined;
+  roleArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeBatchSegmentJobResponse {
-  batchSegmentJob?: BatchSegmentJob;
+  batchSegmentJob?: BatchSegmentJob | undefined;
 }
 export interface DescribeCampaignRequest {
   campaignArn: string;
 }
 export interface CampaignUpdateSummary {
-  solutionVersionArn?: string;
-  minProvisionedTPS?: number;
-  campaignConfig?: CampaignConfig;
-  status?: string;
-  failureReason?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  solutionVersionArn?: string | undefined;
+  minProvisionedTPS?: number | undefined;
+  campaignConfig?: CampaignConfig | undefined;
+  status?: string | undefined;
+  failureReason?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface Campaign {
-  name?: string;
-  campaignArn?: string;
-  solutionVersionArn?: string;
-  minProvisionedTPS?: number;
-  campaignConfig?: CampaignConfig;
-  status?: string;
-  failureReason?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  latestCampaignUpdate?: CampaignUpdateSummary;
+  name?: string | undefined;
+  campaignArn?: string | undefined;
+  solutionVersionArn?: string | undefined;
+  minProvisionedTPS?: number | undefined;
+  campaignConfig?: CampaignConfig | undefined;
+  status?: string | undefined;
+  failureReason?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  latestCampaignUpdate?: CampaignUpdateSummary | undefined;
 }
 export interface DescribeCampaignResponse {
-  campaign?: Campaign;
+  campaign?: Campaign | undefined;
 }
 export interface DescribeDataDeletionJobRequest {
   dataDeletionJobArn: string;
 }
 export interface DataDeletionJob {
-  jobName?: string;
-  dataDeletionJobArn?: string;
-  datasetGroupArn?: string;
-  dataSource?: DataSource;
-  roleArn?: string;
-  status?: string;
-  numDeleted?: number;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  jobName?: string | undefined;
+  dataDeletionJobArn?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  dataSource?: DataSource | undefined;
+  roleArn?: string | undefined;
+  status?: string | undefined;
+  numDeleted?: number | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export interface DescribeDataDeletionJobResponse {
-  dataDeletionJob?: DataDeletionJob;
+  dataDeletionJob?: DataDeletionJob | undefined;
 }
 export interface DescribeDatasetRequest {
   datasetArn: string;
 }
 export interface DatasetUpdateSummary {
-  schemaArn?: string;
-  status?: string;
-  failureReason?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  schemaArn?: string | undefined;
+  status?: string | undefined;
+  failureReason?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface Dataset {
-  name?: string;
-  datasetArn?: string;
-  datasetGroupArn?: string;
-  datasetType?: string;
-  schemaArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  latestDatasetUpdate?: DatasetUpdateSummary;
-  trackingId?: string;
+  name?: string | undefined;
+  datasetArn?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  datasetType?: string | undefined;
+  schemaArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  latestDatasetUpdate?: DatasetUpdateSummary | undefined;
+  trackingId?: string | undefined;
 }
 export interface DescribeDatasetResponse {
-  dataset?: Dataset;
+  dataset?: Dataset | undefined;
 }
 export interface DescribeDatasetExportJobRequest {
   datasetExportJobArn: string;
 }
 export interface DatasetExportJob {
-  jobName?: string;
-  datasetExportJobArn?: string;
-  datasetArn?: string;
-  ingestionMode?: IngestionMode;
-  roleArn?: string;
-  status?: string;
-  jobOutput?: DatasetExportJobOutput;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  jobName?: string | undefined;
+  datasetExportJobArn?: string | undefined;
+  datasetArn?: string | undefined;
+  ingestionMode?: IngestionMode | undefined;
+  roleArn?: string | undefined;
+  status?: string | undefined;
+  jobOutput?: DatasetExportJobOutput | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export interface DescribeDatasetExportJobResponse {
-  datasetExportJob?: DatasetExportJob;
+  datasetExportJob?: DatasetExportJob | undefined;
 }
 export interface DescribeDatasetGroupRequest {
   datasetGroupArn: string;
 }
 export interface DatasetGroup {
-  name?: string;
-  datasetGroupArn?: string;
-  status?: string;
-  roleArn?: string;
-  kmsKeyArn?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
-  domain?: Domain;
+  name?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  status?: string | undefined;
+  roleArn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
+  domain?: Domain | undefined;
 }
 export interface DescribeDatasetGroupResponse {
-  datasetGroup?: DatasetGroup;
+  datasetGroup?: DatasetGroup | undefined;
 }
 export interface DescribeDatasetImportJobRequest {
   datasetImportJobArn: string;
 }
 export interface DatasetImportJob {
-  jobName?: string;
-  datasetImportJobArn?: string;
-  datasetArn?: string;
-  dataSource?: DataSource;
-  roleArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
-  importMode?: ImportMode;
-  publishAttributionMetricsToS3?: boolean;
+  jobName?: string | undefined;
+  datasetImportJobArn?: string | undefined;
+  datasetArn?: string | undefined;
+  dataSource?: DataSource | undefined;
+  roleArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
+  importMode?: ImportMode | undefined;
+  publishAttributionMetricsToS3?: boolean | undefined;
 }
 export interface DescribeDatasetImportJobResponse {
-  datasetImportJob?: DatasetImportJob;
+  datasetImportJob?: DatasetImportJob | undefined;
 }
 export interface DescribeEventTrackerRequest {
   eventTrackerArn: string;
 }
 export type AccountId = string;
 export interface EventTracker {
-  name?: string;
-  eventTrackerArn?: string;
-  accountId?: string;
-  trackingId?: string;
-  datasetGroupArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  name?: string | undefined;
+  eventTrackerArn?: string | undefined;
+  accountId?: string | undefined;
+  trackingId?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeEventTrackerResponse {
-  eventTracker?: EventTracker;
+  eventTracker?: EventTracker | undefined;
 }
 export interface DescribeFeatureTransformationRequest {
   featureTransformationArn: string;
 }
 export type FeaturizationParameters = { [key: string]: string | undefined };
 export interface FeatureTransformation {
-  name?: string;
-  featureTransformationArn?: string;
-  defaultParameters?: { [key: string]: string | undefined };
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  status?: string;
+  name?: string | undefined;
+  featureTransformationArn?: string | undefined;
+  defaultParameters?: { [key: string]: string | undefined } | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  status?: string | undefined;
 }
 export interface DescribeFeatureTransformationResponse {
-  featureTransformation?: FeatureTransformation;
+  featureTransformation?: FeatureTransformation | undefined;
 }
 export interface DescribeFilterRequest {
   filterArn: string;
 }
 export interface Filter {
-  name?: string;
-  filterArn?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  datasetGroupArn?: string;
-  failureReason?: string;
-  filterExpression?: string | redacted.Redacted<string>;
-  status?: string;
+  name?: string | undefined;
+  filterArn?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  datasetGroupArn?: string | undefined;
+  failureReason?: string | undefined;
+  filterExpression?: string | redacted.Redacted<string> | undefined;
+  status?: string | undefined;
 }
 export interface DescribeFilterResponse {
-  filter?: Filter;
+  filter?: Filter | undefined;
 }
 export interface DescribeMetricAttributionRequest {
   metricAttributionArn: string;
 }
 export interface MetricAttribution {
-  name?: string;
-  metricAttributionArn?: string;
-  datasetGroupArn?: string;
-  metricsOutputConfig?: MetricAttributionOutput;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  name?: string | undefined;
+  metricAttributionArn?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  metricsOutputConfig?: MetricAttributionOutput | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export interface DescribeMetricAttributionResponse {
-  metricAttribution?: MetricAttribution;
+  metricAttribution?: MetricAttribution | undefined;
 }
 export interface DescribeRecipeRequest {
   recipeArn: string;
@@ -811,464 +811,464 @@ export interface DescribeRecipeRequest {
 export type Description = string;
 export type RecipeType = string;
 export interface Recipe {
-  name?: string;
-  recipeArn?: string;
-  algorithmArn?: string;
-  featureTransformationArn?: string;
-  status?: string;
-  description?: string;
-  creationDateTime?: Date;
-  recipeType?: string;
-  lastUpdatedDateTime?: Date;
+  name?: string | undefined;
+  recipeArn?: string | undefined;
+  algorithmArn?: string | undefined;
+  featureTransformationArn?: string | undefined;
+  status?: string | undefined;
+  description?: string | undefined;
+  creationDateTime?: Date | undefined;
+  recipeType?: string | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeRecipeResponse {
-  recipe?: Recipe;
+  recipe?: Recipe | undefined;
 }
 export interface DescribeRecommenderRequest {
   recommenderArn: string;
 }
 export interface RecommenderUpdateSummary {
-  recommenderConfig?: RecommenderConfig;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  status?: string;
-  failureReason?: string;
+  recommenderConfig?: RecommenderConfig | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  status?: string | undefined;
+  failureReason?: string | undefined;
 }
 export type MetricValue = number;
 export type Metrics = { [key: string]: number | undefined };
 export interface Recommender {
-  recommenderArn?: string;
-  datasetGroupArn?: string;
-  name?: string;
-  recipeArn?: string;
-  recommenderConfig?: RecommenderConfig;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  status?: string;
-  failureReason?: string;
-  latestRecommenderUpdate?: RecommenderUpdateSummary;
-  modelMetrics?: { [key: string]: number | undefined };
+  recommenderArn?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  name?: string | undefined;
+  recipeArn?: string | undefined;
+  recommenderConfig?: RecommenderConfig | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  status?: string | undefined;
+  failureReason?: string | undefined;
+  latestRecommenderUpdate?: RecommenderUpdateSummary | undefined;
+  modelMetrics?: { [key: string]: number | undefined } | undefined;
 }
 export interface DescribeRecommenderResponse {
-  recommender?: Recommender;
+  recommender?: Recommender | undefined;
 }
 export interface DescribeSchemaRequest {
   schemaArn: string;
 }
 export interface DatasetSchema {
-  name?: string;
-  schemaArn?: string;
-  schema?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  domain?: Domain;
+  name?: string | undefined;
+  schemaArn?: string | undefined;
+  schema?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  domain?: Domain | undefined;
 }
 export interface DescribeSchemaResponse {
-  schema?: DatasetSchema;
+  schema?: DatasetSchema | undefined;
 }
 export interface DescribeSolutionRequest {
   solutionArn: string;
 }
 export type PerformHPO = boolean;
 export interface AutoMLResult {
-  bestRecipeArn?: string;
+  bestRecipeArn?: string | undefined;
 }
 export type TrainingType = "AUTOMATIC" | "MANUAL" | (string & {});
 export interface SolutionVersionSummary {
-  solutionVersionArn?: string;
-  status?: string;
-  trainingMode?: TrainingMode;
-  trainingType?: TrainingType;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  solutionVersionArn?: string | undefined;
+  status?: string | undefined;
+  trainingMode?: TrainingMode | undefined;
+  trainingType?: TrainingType | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export interface SolutionUpdateConfig {
-  autoTrainingConfig?: AutoTrainingConfig;
-  eventsConfig?: EventsConfig;
+  autoTrainingConfig?: AutoTrainingConfig | undefined;
+  eventsConfig?: EventsConfig | undefined;
 }
 export interface SolutionUpdateSummary {
-  solutionUpdateConfig?: SolutionUpdateConfig;
-  status?: string;
-  performAutoTraining?: boolean;
-  performIncrementalUpdate?: boolean;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  solutionUpdateConfig?: SolutionUpdateConfig | undefined;
+  status?: string | undefined;
+  performAutoTraining?: boolean | undefined;
+  performIncrementalUpdate?: boolean | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export interface Solution {
-  name?: string;
-  solutionArn?: string;
-  performHPO?: boolean;
-  performAutoML?: boolean;
-  performAutoTraining?: boolean;
-  performIncrementalUpdate?: boolean;
-  recipeArn?: string;
-  datasetGroupArn?: string;
-  eventType?: string;
-  solutionConfig?: SolutionConfig;
-  autoMLResult?: AutoMLResult;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  latestSolutionVersion?: SolutionVersionSummary;
-  latestSolutionUpdate?: SolutionUpdateSummary;
+  name?: string | undefined;
+  solutionArn?: string | undefined;
+  performHPO?: boolean | undefined;
+  performAutoML?: boolean | undefined;
+  performAutoTraining?: boolean | undefined;
+  performIncrementalUpdate?: boolean | undefined;
+  recipeArn?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  eventType?: string | undefined;
+  solutionConfig?: SolutionConfig | undefined;
+  autoMLResult?: AutoMLResult | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  latestSolutionVersion?: SolutionVersionSummary | undefined;
+  latestSolutionUpdate?: SolutionUpdateSummary | undefined;
 }
 export interface DescribeSolutionResponse {
-  solution?: Solution;
+  solution?: Solution | undefined;
 }
 export interface DescribeSolutionVersionRequest {
   solutionVersionArn: string;
 }
 export type TrainingHours = number;
 export interface TunedHPOParams {
-  algorithmHyperParameters?: { [key: string]: string | undefined };
+  algorithmHyperParameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface SolutionVersion {
-  name?: string;
-  solutionVersionArn?: string;
-  solutionArn?: string;
-  performHPO?: boolean;
-  performAutoML?: boolean;
-  performIncrementalUpdate?: boolean;
-  recipeArn?: string;
-  eventType?: string;
-  datasetGroupArn?: string;
-  solutionConfig?: SolutionConfig;
-  trainingHours?: number;
-  trainingMode?: TrainingMode;
-  tunedHPOParams?: TunedHPOParams;
-  status?: string;
-  failureReason?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  trainingType?: TrainingType;
+  name?: string | undefined;
+  solutionVersionArn?: string | undefined;
+  solutionArn?: string | undefined;
+  performHPO?: boolean | undefined;
+  performAutoML?: boolean | undefined;
+  performIncrementalUpdate?: boolean | undefined;
+  recipeArn?: string | undefined;
+  eventType?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  solutionConfig?: SolutionConfig | undefined;
+  trainingHours?: number | undefined;
+  trainingMode?: TrainingMode | undefined;
+  tunedHPOParams?: TunedHPOParams | undefined;
+  status?: string | undefined;
+  failureReason?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  trainingType?: TrainingType | undefined;
 }
 export interface DescribeSolutionVersionResponse {
-  solutionVersion?: SolutionVersion;
+  solutionVersion?: SolutionVersion | undefined;
 }
 export interface GetSolutionMetricsRequest {
   solutionVersionArn: string;
 }
 export interface GetSolutionMetricsResponse {
-  solutionVersionArn?: string;
-  metrics?: { [key: string]: number | undefined };
+  solutionVersionArn?: string | undefined;
+  metrics?: { [key: string]: number | undefined } | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListBatchInferenceJobsRequest {
-  solutionVersionArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  solutionVersionArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BatchInferenceJobSummary {
-  batchInferenceJobArn?: string;
-  jobName?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
-  solutionVersionArn?: string;
-  batchInferenceJobMode?: BatchInferenceJobMode;
+  batchInferenceJobArn?: string | undefined;
+  jobName?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
+  solutionVersionArn?: string | undefined;
+  batchInferenceJobMode?: BatchInferenceJobMode | undefined;
 }
 export type BatchInferenceJobs = BatchInferenceJobSummary[];
 export interface ListBatchInferenceJobsResponse {
-  batchInferenceJobs?: BatchInferenceJobSummary[];
-  nextToken?: string;
+  batchInferenceJobs?: BatchInferenceJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBatchSegmentJobsRequest {
-  solutionVersionArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  solutionVersionArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BatchSegmentJobSummary {
-  batchSegmentJobArn?: string;
-  jobName?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
-  solutionVersionArn?: string;
+  batchSegmentJobArn?: string | undefined;
+  jobName?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
+  solutionVersionArn?: string | undefined;
 }
 export type BatchSegmentJobs = BatchSegmentJobSummary[];
 export interface ListBatchSegmentJobsResponse {
-  batchSegmentJobs?: BatchSegmentJobSummary[];
-  nextToken?: string;
+  batchSegmentJobs?: BatchSegmentJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCampaignsRequest {
-  solutionArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  solutionArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CampaignSummary {
-  name?: string;
-  campaignArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  name?: string | undefined;
+  campaignArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export type Campaigns = CampaignSummary[];
 export interface ListCampaignsResponse {
-  campaigns?: CampaignSummary[];
-  nextToken?: string;
+  campaigns?: CampaignSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataDeletionJobsRequest {
-  datasetGroupArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetGroupArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataDeletionJobSummary {
-  dataDeletionJobArn?: string;
-  datasetGroupArn?: string;
-  jobName?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  dataDeletionJobArn?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  jobName?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export type DataDeletionJobs = DataDeletionJobSummary[];
 export interface ListDataDeletionJobsResponse {
-  dataDeletionJobs?: DataDeletionJobSummary[];
-  nextToken?: string;
+  dataDeletionJobs?: DataDeletionJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetExportJobsRequest {
-  datasetArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DatasetExportJobSummary {
-  datasetExportJobArn?: string;
-  jobName?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  datasetExportJobArn?: string | undefined;
+  jobName?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export type DatasetExportJobs = DatasetExportJobSummary[];
 export interface ListDatasetExportJobsResponse {
-  datasetExportJobs?: DatasetExportJobSummary[];
-  nextToken?: string;
+  datasetExportJobs?: DatasetExportJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DatasetGroupSummary {
-  name?: string;
-  datasetGroupArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
-  domain?: Domain;
+  name?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
+  domain?: Domain | undefined;
 }
 export type DatasetGroups = DatasetGroupSummary[];
 export interface ListDatasetGroupsResponse {
-  datasetGroups?: DatasetGroupSummary[];
-  nextToken?: string;
+  datasetGroups?: DatasetGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetImportJobsRequest {
-  datasetArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DatasetImportJobSummary {
-  datasetImportJobArn?: string;
-  jobName?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
-  importMode?: ImportMode;
+  datasetImportJobArn?: string | undefined;
+  jobName?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
+  importMode?: ImportMode | undefined;
 }
 export type DatasetImportJobs = DatasetImportJobSummary[];
 export interface ListDatasetImportJobsResponse {
-  datasetImportJobs?: DatasetImportJobSummary[];
-  nextToken?: string;
+  datasetImportJobs?: DatasetImportJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetsRequest {
-  datasetGroupArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetGroupArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DatasetSummary {
-  name?: string;
-  datasetArn?: string;
-  datasetType?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  name?: string | undefined;
+  datasetArn?: string | undefined;
+  datasetType?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type Datasets = DatasetSummary[];
 export interface ListDatasetsResponse {
-  datasets?: DatasetSummary[];
-  nextToken?: string;
+  datasets?: DatasetSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEventTrackersRequest {
-  datasetGroupArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetGroupArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EventTrackerSummary {
-  name?: string;
-  eventTrackerArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  name?: string | undefined;
+  eventTrackerArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type EventTrackers = EventTrackerSummary[];
 export interface ListEventTrackersResponse {
-  eventTrackers?: EventTrackerSummary[];
-  nextToken?: string;
+  eventTrackers?: EventTrackerSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFiltersRequest {
-  datasetGroupArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetGroupArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FilterSummary {
-  name?: string;
-  filterArn?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  datasetGroupArn?: string;
-  failureReason?: string;
-  status?: string;
+  name?: string | undefined;
+  filterArn?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  datasetGroupArn?: string | undefined;
+  failureReason?: string | undefined;
+  status?: string | undefined;
 }
 export type Filters = FilterSummary[];
 export interface ListFiltersResponse {
-  Filters?: FilterSummary[];
-  nextToken?: string;
+  Filters?: FilterSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMetricAttributionMetricsRequest {
-  metricAttributionArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  metricAttributionArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListMetricAttributionMetricsResponse {
-  metrics?: MetricAttribute[];
-  nextToken?: string;
+  metrics?: MetricAttribute[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMetricAttributionsRequest {
-  datasetGroupArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetGroupArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MetricAttributionSummary {
-  name?: string;
-  metricAttributionArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReason?: string;
+  name?: string | undefined;
+  metricAttributionArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export type MetricAttributions = MetricAttributionSummary[];
 export interface ListMetricAttributionsResponse {
-  metricAttributions?: MetricAttributionSummary[];
-  nextToken?: string;
+  metricAttributions?: MetricAttributionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RecipeProvider = "SERVICE" | (string & {});
 export interface ListRecipesRequest {
-  recipeProvider?: RecipeProvider;
-  nextToken?: string;
-  maxResults?: number;
-  domain?: Domain;
+  recipeProvider?: RecipeProvider | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  domain?: Domain | undefined;
 }
 export interface RecipeSummary {
-  name?: string;
-  recipeArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  domain?: Domain;
+  name?: string | undefined;
+  recipeArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  domain?: Domain | undefined;
 }
 export type Recipes = RecipeSummary[];
 export interface ListRecipesResponse {
-  recipes?: RecipeSummary[];
-  nextToken?: string;
+  recipes?: RecipeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRecommendersRequest {
-  datasetGroupArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetGroupArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RecommenderSummary {
-  name?: string;
-  recommenderArn?: string;
-  datasetGroupArn?: string;
-  recipeArn?: string;
-  recommenderConfig?: RecommenderConfig;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  name?: string | undefined;
+  recommenderArn?: string | undefined;
+  datasetGroupArn?: string | undefined;
+  recipeArn?: string | undefined;
+  recommenderConfig?: RecommenderConfig | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type Recommenders = RecommenderSummary[];
 export interface ListRecommendersResponse {
-  recommenders?: RecommenderSummary[];
-  nextToken?: string;
+  recommenders?: RecommenderSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSchemasRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DatasetSchemaSummary {
-  name?: string;
-  schemaArn?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  domain?: Domain;
+  name?: string | undefined;
+  schemaArn?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  domain?: Domain | undefined;
 }
 export type Schemas = DatasetSchemaSummary[];
 export interface ListSchemasResponse {
-  schemas?: DatasetSchemaSummary[];
-  nextToken?: string;
+  schemas?: DatasetSchemaSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSolutionsRequest {
-  datasetGroupArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  datasetGroupArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SolutionSummary {
-  name?: string;
-  solutionArn?: string;
-  status?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  recipeArn?: string;
+  name?: string | undefined;
+  solutionArn?: string | undefined;
+  status?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  recipeArn?: string | undefined;
 }
 export type Solutions = SolutionSummary[];
 export interface ListSolutionsResponse {
-  solutions?: SolutionSummary[];
-  nextToken?: string;
+  solutions?: SolutionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSolutionVersionsRequest {
-  solutionArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  solutionArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SolutionVersions = SolutionVersionSummary[];
 export interface ListSolutionVersionsResponse {
-  solutionVersions?: SolutionVersionSummary[];
-  nextToken?: string;
+  solutionVersions?: SolutionVersionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface StartRecommenderRequest {
   recommenderArn: string;
 }
 export interface StartRecommenderResponse {
-  recommenderArn?: string;
+  recommenderArn?: string | undefined;
 }
 export interface StopRecommenderRequest {
   recommenderArn: string;
 }
 export interface StopRecommenderResponse {
-  recommenderArn?: string;
+  recommenderArn?: string | undefined;
 }
 export interface StopSolutionVersionCreationRequest {
   solutionVersionArn: string;
@@ -1287,45 +1287,45 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateCampaignRequest {
   campaignArn: string;
-  solutionVersionArn?: string;
-  minProvisionedTPS?: number;
-  campaignConfig?: CampaignConfig;
+  solutionVersionArn?: string | undefined;
+  minProvisionedTPS?: number | undefined;
+  campaignConfig?: CampaignConfig | undefined;
 }
 export interface UpdateCampaignResponse {
-  campaignArn?: string;
+  campaignArn?: string | undefined;
 }
 export interface UpdateDatasetRequest {
   datasetArn: string;
   schemaArn: string;
 }
 export interface UpdateDatasetResponse {
-  datasetArn?: string;
+  datasetArn?: string | undefined;
 }
 export type MetricAttributesNamesList = string[];
 export interface UpdateMetricAttributionRequest {
-  addMetrics?: MetricAttribute[];
-  removeMetrics?: string[];
-  metricsOutputConfig?: MetricAttributionOutput;
-  metricAttributionArn?: string;
+  addMetrics?: MetricAttribute[] | undefined;
+  removeMetrics?: string[] | undefined;
+  metricsOutputConfig?: MetricAttributionOutput | undefined;
+  metricAttributionArn?: string | undefined;
 }
 export interface UpdateMetricAttributionResponse {
-  metricAttributionArn?: string;
+  metricAttributionArn?: string | undefined;
 }
 export interface UpdateRecommenderRequest {
   recommenderArn: string;
   recommenderConfig: RecommenderConfig;
 }
 export interface UpdateRecommenderResponse {
-  recommenderArn?: string;
+  recommenderArn?: string | undefined;
 }
 export interface UpdateSolutionRequest {
   solutionArn: string;
-  performAutoTraining?: boolean;
-  performIncrementalUpdate?: boolean;
-  solutionUpdateConfig?: SolutionUpdateConfig;
+  performAutoTraining?: boolean | undefined;
+  performIncrementalUpdate?: boolean | undefined;
+  solutionUpdateConfig?: SolutionUpdateConfig | undefined;
 }
 export interface UpdateSolutionResponse {
-  solutionArn?: string;
+  solutionArn?: string | undefined;
 }
 export type ErrorMessage = string;
 export type CreateBatchInferenceJobError =

@@ -217,8 +217,8 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type SensitiveBoolean = boolean;
 export interface IsolineAllowOptions {
-  Hot?: boolean;
-  Hov?: boolean;
+  Hot?: boolean | undefined;
+  Hov?: boolean | undefined;
 }
 export type TimestampWithTimezoneOffset = string | redacted.Redacted<string>;
 export type BoundingBox = number[];
@@ -238,15 +238,15 @@ export interface PolylineCorridor {
 export type PolylineRing = string | redacted.Redacted<string>;
 export type PolylineRingList = (string | redacted.Redacted<string>)[];
 export interface IsolineAvoidanceAreaGeometry {
-  BoundingBox?: number[];
-  Corridor?: Corridor;
-  Polygon?: number[][][];
-  PolylineCorridor?: PolylineCorridor;
-  PolylinePolygon?: (string | redacted.Redacted<string>)[];
+  BoundingBox?: number[] | undefined;
+  Corridor?: Corridor | undefined;
+  Polygon?: number[][][] | undefined;
+  PolylineCorridor?: PolylineCorridor | undefined;
+  PolylinePolygon?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type IsolineAvoidanceAreaGeometryList = IsolineAvoidanceAreaGeometry[];
 export interface IsolineAvoidanceArea {
-  Except?: IsolineAvoidanceAreaGeometry[];
+  Except?: IsolineAvoidanceAreaGeometry[] | undefined;
   Geometry: IsolineAvoidanceAreaGeometry;
 }
 export type IsolineAvoidanceAreaList = IsolineAvoidanceArea[];
@@ -258,48 +258,48 @@ export type IsolineZoneCategory =
   | "Vignette"
   | (string & {});
 export interface IsolineAvoidanceZoneCategory {
-  Category?: IsolineZoneCategory;
+  Category?: IsolineZoneCategory | undefined;
 }
 export type IsolineAvoidanceZoneCategoryList = IsolineAvoidanceZoneCategory[];
 export interface IsolineAvoidanceOptions {
-  Areas?: IsolineAvoidanceArea[];
-  CarShuttleTrains?: boolean;
-  ControlledAccessHighways?: boolean;
-  DirtRoads?: boolean;
-  Ferries?: boolean;
-  SeasonalClosure?: boolean;
-  TollRoads?: boolean;
-  TollTransponders?: boolean;
-  TruckRoadTypes?: (string | redacted.Redacted<string>)[];
-  Tunnels?: boolean;
-  UTurns?: boolean;
-  ZoneCategories?: IsolineAvoidanceZoneCategory[];
+  Areas?: IsolineAvoidanceArea[] | undefined;
+  CarShuttleTrains?: boolean | undefined;
+  ControlledAccessHighways?: boolean | undefined;
+  DirtRoads?: boolean | undefined;
+  Ferries?: boolean | undefined;
+  SeasonalClosure?: boolean | undefined;
+  TollRoads?: boolean | undefined;
+  TollTransponders?: boolean | undefined;
+  TruckRoadTypes?: (string | redacted.Redacted<string>)[] | undefined;
+  Tunnels?: boolean | undefined;
+  UTurns?: boolean | undefined;
+  ZoneCategories?: IsolineAvoidanceZoneCategory[] | undefined;
 }
 export type DistanceMeters = number;
 export type Heading = number;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type MatchingStrategy = "MatchAny" | "MatchMostSignificantRoad" | (string & {});
 export interface IsolineMatchingOptions {
-  NameHint?: string | redacted.Redacted<string>;
-  OnRoadThreshold?: number;
-  Radius?: number;
-  Strategy?: MatchingStrategy;
+  NameHint?: string | redacted.Redacted<string> | undefined;
+  OnRoadThreshold?: number | undefined;
+  Radius?: number | undefined;
+  Strategy?: MatchingStrategy | undefined;
 }
 export type SideOfStreetMatchingStrategy = "AnyStreet" | "DividedStreetOnly" | (string & {});
 export interface IsolineSideOfStreetOptions {
   Position: number[];
-  UseWith?: SideOfStreetMatchingStrategy;
+  UseWith?: SideOfStreetMatchingStrategy | undefined;
 }
 export interface IsolineDestinationOptions {
-  AvoidActionsForDistance?: number;
-  Heading?: number;
-  Matching?: IsolineMatchingOptions;
-  SideOfStreet?: IsolineSideOfStreetOptions;
+  AvoidActionsForDistance?: number | undefined;
+  Heading?: number | undefined;
+  Matching?: IsolineMatchingOptions | undefined;
+  SideOfStreet?: IsolineSideOfStreetOptions | undefined;
 }
 export type GeometryFormat = "FlexiblePolyline" | "Simple" | (string & {});
 export interface IsolineGranularityOptions {
-  MaxPoints?: number;
-  MaxResolution?: number;
+  MaxPoints?: number | undefined;
+  MaxResolution?: number | undefined;
 }
 export type ApiKey = string | redacted.Redacted<string>;
 export type IsolineOptimizationObjective =
@@ -309,41 +309,41 @@ export type IsolineOptimizationObjective =
   | (string & {});
 export type RoutingObjective = "FastestRoute" | "ShortestRoute" | (string & {});
 export interface IsolineOriginOptions {
-  AvoidActionsForDistance?: number;
-  Heading?: number;
-  Matching?: IsolineMatchingOptions;
-  SideOfStreet?: IsolineSideOfStreetOptions;
+  AvoidActionsForDistance?: number | undefined;
+  Heading?: number | undefined;
+  Matching?: IsolineMatchingOptions | undefined;
+  SideOfStreet?: IsolineSideOfStreetOptions | undefined;
 }
 export type DistanceThresholdList = number[];
 export type DurationSeconds = number;
 export type TimeThresholdList = number[];
 export interface IsolineThresholds {
-  Distance?: number[];
-  Time?: number[];
+  Distance?: number[] | undefined;
+  Time?: number[] | undefined;
 }
 export type TrafficUsage = "IgnoreTrafficData" | "UseTrafficData" | (string & {});
 export interface IsolineTrafficOptions {
-  FlowEventThresholdOverride?: number;
-  Usage?: TrafficUsage;
+  FlowEventThresholdOverride?: number | undefined;
+  Usage?: TrafficUsage | undefined;
 }
 export type IsolineTravelMode = "Car" | "Pedestrian" | "Scooter" | "Truck" | (string & {});
 export type IsolineEngineType = "Electric" | "InternalCombustion" | "PluginHybrid" | (string & {});
 export interface IsolineVehicleLicensePlate {
-  LastCharacter?: string;
+  LastCharacter?: string | undefined;
 }
 export type SpeedKilometersPerHour = number;
 export type SensitiveInteger = number;
 export interface IsolineCarOptions {
-  EngineType?: IsolineEngineType;
-  LicensePlate?: IsolineVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
+  EngineType?: IsolineEngineType | undefined;
+  LicensePlate?: IsolineVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
 }
 export interface IsolineScooterOptions {
-  EngineType?: IsolineEngineType;
-  LicensePlate?: IsolineVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
+  EngineType?: IsolineEngineType | undefined;
+  LicensePlate?: IsolineVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
 }
 export type WeightKilograms = number;
 export type IsolineHazardousCargoType =
@@ -362,67 +362,67 @@ export type IsolineHazardousCargoType =
 export type IsolineHazardousCargoTypeList = IsolineHazardousCargoType[];
 export type DimensionCentimeters = number;
 export interface IsolineTrailerOptions {
-  AxleCount?: number;
-  TrailerCount?: number;
+  AxleCount?: number | undefined;
+  TrailerCount?: number | undefined;
 }
 export type IsolineTruckType = "LightTruck" | "StraightTruck" | "Tractor" | (string & {});
 export type TunnelRestrictionCode = string | redacted.Redacted<string>;
 export interface WeightPerAxleGroup {
-  Single?: number;
-  Tandem?: number;
-  Triple?: number;
-  Quad?: number;
-  Quint?: number;
+  Single?: number | undefined;
+  Tandem?: number | undefined;
+  Triple?: number | undefined;
+  Quad?: number | undefined;
+  Quint?: number | undefined;
 }
 export interface IsolineTruckOptions {
-  AxleCount?: number;
-  EngineType?: IsolineEngineType;
-  GrossWeight?: number;
-  HazardousCargos?: IsolineHazardousCargoType[];
-  Height?: number;
-  HeightAboveFirstAxle?: number;
-  KpraLength?: number;
-  Length?: number;
-  LicensePlate?: IsolineVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
-  PayloadCapacity?: number;
-  TireCount?: number;
-  Trailer?: IsolineTrailerOptions;
-  TruckType?: IsolineTruckType;
-  TunnelRestrictionCode?: string | redacted.Redacted<string>;
-  WeightPerAxle?: number;
-  WeightPerAxleGroup?: WeightPerAxleGroup;
-  Width?: number;
+  AxleCount?: number | undefined;
+  EngineType?: IsolineEngineType | undefined;
+  GrossWeight?: number | undefined;
+  HazardousCargos?: IsolineHazardousCargoType[] | undefined;
+  Height?: number | undefined;
+  HeightAboveFirstAxle?: number | undefined;
+  KpraLength?: number | undefined;
+  Length?: number | undefined;
+  LicensePlate?: IsolineVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
+  PayloadCapacity?: number | undefined;
+  TireCount?: number | undefined;
+  Trailer?: IsolineTrailerOptions | undefined;
+  TruckType?: IsolineTruckType | undefined;
+  TunnelRestrictionCode?: string | redacted.Redacted<string> | undefined;
+  WeightPerAxle?: number | undefined;
+  WeightPerAxleGroup?: WeightPerAxleGroup | undefined;
+  Width?: number | undefined;
 }
 export interface IsolineTravelModeOptions {
-  Car?: IsolineCarOptions;
-  Scooter?: IsolineScooterOptions;
-  Truck?: IsolineTruckOptions;
+  Car?: IsolineCarOptions | undefined;
+  Scooter?: IsolineScooterOptions | undefined;
+  Truck?: IsolineTruckOptions | undefined;
 }
 export interface CalculateIsolinesRequest {
-  Allow?: IsolineAllowOptions;
-  ArrivalTime?: string | redacted.Redacted<string>;
-  Avoid?: IsolineAvoidanceOptions;
-  DepartNow?: boolean;
-  DepartureTime?: string | redacted.Redacted<string>;
-  Destination?: number[];
-  DestinationOptions?: IsolineDestinationOptions;
-  IsolineGeometryFormat?: GeometryFormat;
-  IsolineGranularity?: IsolineGranularityOptions;
-  Key?: string | redacted.Redacted<string>;
-  OptimizeIsolineFor?: IsolineOptimizationObjective;
-  OptimizeRoutingFor?: RoutingObjective;
-  Origin?: number[];
-  OriginOptions?: IsolineOriginOptions;
+  Allow?: IsolineAllowOptions | undefined;
+  ArrivalTime?: string | redacted.Redacted<string> | undefined;
+  Avoid?: IsolineAvoidanceOptions | undefined;
+  DepartNow?: boolean | undefined;
+  DepartureTime?: string | redacted.Redacted<string> | undefined;
+  Destination?: number[] | undefined;
+  DestinationOptions?: IsolineDestinationOptions | undefined;
+  IsolineGeometryFormat?: GeometryFormat | undefined;
+  IsolineGranularity?: IsolineGranularityOptions | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
+  OptimizeIsolineFor?: IsolineOptimizationObjective | undefined;
+  OptimizeRoutingFor?: RoutingObjective | undefined;
+  Origin?: number[] | undefined;
+  OriginOptions?: IsolineOriginOptions | undefined;
   Thresholds: IsolineThresholds;
-  Traffic?: IsolineTrafficOptions;
-  TravelMode?: IsolineTravelMode;
-  TravelModeOptions?: IsolineTravelModeOptions;
+  Traffic?: IsolineTrafficOptions | undefined;
+  TravelMode?: IsolineTravelMode | undefined;
+  TravelModeOptions?: IsolineTravelModeOptions | undefined;
 }
 export interface IsolineConnectionGeometry {
-  LineString?: number[][];
-  Polyline?: string | redacted.Redacted<string>;
+  LineString?: number[][] | undefined;
+  Polyline?: string | redacted.Redacted<string> | undefined;
 }
 export interface IsolineConnection {
   FromPolygonIndex: number;
@@ -431,34 +431,34 @@ export interface IsolineConnection {
 }
 export type IsolineConnectionList = IsolineConnection[];
 export interface IsolineShapeGeometry {
-  Polygon?: number[][][];
-  PolylinePolygon?: (string | redacted.Redacted<string>)[];
+  Polygon?: number[][][] | undefined;
+  PolylinePolygon?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type IsolineShapeGeometryList = IsolineShapeGeometry[];
 export interface Isoline {
   Connections: IsolineConnection[];
-  DistanceThreshold?: number;
+  DistanceThreshold?: number | undefined;
   Geometries: IsolineShapeGeometry[];
-  TimeThreshold?: number;
+  TimeThreshold?: number | undefined;
 }
 export type IsolineList = Isoline[];
 export interface CalculateIsolinesResponse {
-  ArrivalTime?: string | redacted.Redacted<string>;
-  DepartureTime?: string | redacted.Redacted<string>;
+  ArrivalTime?: string | redacted.Redacted<string> | undefined;
+  DepartureTime?: string | redacted.Redacted<string> | undefined;
   IsolineGeometryFormat: GeometryFormat;
   Isolines: Isoline[];
   PricingBucket: string;
-  SnappedDestination?: number[];
-  SnappedOrigin?: number[];
+  SnappedDestination?: number[] | undefined;
+  SnappedOrigin?: number[] | undefined;
 }
 export interface RouteMatrixAllowOptions {
-  Hot?: boolean;
-  Hov?: boolean;
+  Hot?: boolean | undefined;
+  Hov?: boolean | undefined;
 }
 export interface RouteMatrixAvoidanceAreaGeometry {
-  BoundingBox?: number[];
-  Polygon?: number[][][];
-  PolylinePolygon?: (string | redacted.Redacted<string>)[];
+  BoundingBox?: number[] | undefined;
+  Polygon?: number[][][] | undefined;
+  PolylinePolygon?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface RouteMatrixAvoidanceArea {
   Geometry: RouteMatrixAvoidanceAreaGeometry;
@@ -470,40 +470,40 @@ export type RouteMatrixZoneCategory =
   | "Vignette"
   | (string & {});
 export interface RouteMatrixAvoidanceZoneCategory {
-  Category?: RouteMatrixZoneCategory;
+  Category?: RouteMatrixZoneCategory | undefined;
 }
 export type RouteMatrixAvoidanceZoneCategoryList = RouteMatrixAvoidanceZoneCategory[];
 export interface RouteMatrixAvoidanceOptions {
-  Areas?: RouteMatrixAvoidanceArea[];
-  CarShuttleTrains?: boolean;
-  ControlledAccessHighways?: boolean;
-  DirtRoads?: boolean;
-  Ferries?: boolean;
-  TollRoads?: boolean;
-  TollTransponders?: boolean;
-  TruckRoadTypes?: (string | redacted.Redacted<string>)[];
-  Tunnels?: boolean;
-  UTurns?: boolean;
-  ZoneCategories?: RouteMatrixAvoidanceZoneCategory[];
+  Areas?: RouteMatrixAvoidanceArea[] | undefined;
+  CarShuttleTrains?: boolean | undefined;
+  ControlledAccessHighways?: boolean | undefined;
+  DirtRoads?: boolean | undefined;
+  Ferries?: boolean | undefined;
+  TollRoads?: boolean | undefined;
+  TollTransponders?: boolean | undefined;
+  TruckRoadTypes?: (string | redacted.Redacted<string>)[] | undefined;
+  Tunnels?: boolean | undefined;
+  UTurns?: boolean | undefined;
+  ZoneCategories?: RouteMatrixAvoidanceZoneCategory[] | undefined;
 }
 export interface RouteMatrixMatchingOptions {
-  NameHint?: string | redacted.Redacted<string>;
-  OnRoadThreshold?: number;
-  Radius?: number;
-  Strategy?: MatchingStrategy;
+  NameHint?: string | redacted.Redacted<string> | undefined;
+  OnRoadThreshold?: number | undefined;
+  Radius?: number | undefined;
+  Strategy?: MatchingStrategy | undefined;
 }
 export interface RouteMatrixSideOfStreetOptions {
   Position: number[];
-  UseWith?: SideOfStreetMatchingStrategy;
+  UseWith?: SideOfStreetMatchingStrategy | undefined;
 }
 export interface RouteMatrixDestinationOptions {
-  AvoidActionsForDistance?: number;
-  Heading?: number;
-  Matching?: RouteMatrixMatchingOptions;
-  SideOfStreet?: RouteMatrixSideOfStreetOptions;
+  AvoidActionsForDistance?: number | undefined;
+  Heading?: number | undefined;
+  Matching?: RouteMatrixMatchingOptions | undefined;
+  SideOfStreet?: RouteMatrixSideOfStreetOptions | undefined;
 }
 export interface RouteMatrixDestination {
-  Options?: RouteMatrixDestinationOptions;
+  Options?: RouteMatrixDestinationOptions | undefined;
   Position: number[];
 }
 export type RouteMatrixDestinationList = RouteMatrixDestination[];
@@ -513,19 +513,19 @@ export interface RouteMatrixExclusionOptions {
   Countries: (string | redacted.Redacted<string>)[];
 }
 export interface RouteMatrixOriginOptions {
-  AvoidActionsForDistance?: number;
-  Heading?: number;
-  Matching?: RouteMatrixMatchingOptions;
-  SideOfStreet?: RouteMatrixSideOfStreetOptions;
+  AvoidActionsForDistance?: number | undefined;
+  Heading?: number | undefined;
+  Matching?: RouteMatrixMatchingOptions | undefined;
+  SideOfStreet?: RouteMatrixSideOfStreetOptions | undefined;
 }
 export interface RouteMatrixOrigin {
-  Options?: RouteMatrixOriginOptions;
+  Options?: RouteMatrixOriginOptions | undefined;
   Position: number[];
 }
 export type RouteMatrixOriginList = RouteMatrixOrigin[];
 export interface RouteMatrixAutoCircle {
-  Margin?: number;
-  MaxRadius?: number;
+  Margin?: number | undefined;
+  MaxRadius?: number | undefined;
 }
 export type SensitiveDouble = number;
 export interface Circle {
@@ -533,32 +533,32 @@ export interface Circle {
   Radius: number;
 }
 export interface RouteMatrixBoundaryGeometry {
-  AutoCircle?: RouteMatrixAutoCircle;
-  Circle?: Circle;
-  BoundingBox?: number[];
-  Polygon?: number[][][];
+  AutoCircle?: RouteMatrixAutoCircle | undefined;
+  Circle?: Circle | undefined;
+  BoundingBox?: number[] | undefined;
+  Polygon?: number[][][] | undefined;
 }
 export interface RouteMatrixBoundary {
-  Geometry?: RouteMatrixBoundaryGeometry;
-  Unbounded?: boolean;
+  Geometry?: RouteMatrixBoundaryGeometry | undefined;
+  Unbounded?: boolean | undefined;
 }
 export interface RouteMatrixTrafficOptions {
-  FlowEventThresholdOverride?: number;
-  Usage?: TrafficUsage;
+  FlowEventThresholdOverride?: number | undefined;
+  Usage?: TrafficUsage | undefined;
 }
 export type RouteMatrixTravelMode = "Car" | "Pedestrian" | "Scooter" | "Truck" | (string & {});
 export interface RouteMatrixVehicleLicensePlate {
-  LastCharacter?: string;
+  LastCharacter?: string | undefined;
 }
 export interface RouteMatrixCarOptions {
-  LicensePlate?: RouteMatrixVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
+  LicensePlate?: RouteMatrixVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
 }
 export interface RouteMatrixScooterOptions {
-  LicensePlate?: RouteMatrixVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
+  LicensePlate?: RouteMatrixVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
 }
 export type RouteMatrixHazardousCargoType =
   | "Combustible"
@@ -575,46 +575,46 @@ export type RouteMatrixHazardousCargoType =
   | (string & {});
 export type RouteMatrixHazardousCargoTypeList = RouteMatrixHazardousCargoType[];
 export interface RouteMatrixTrailerOptions {
-  TrailerCount?: number;
+  TrailerCount?: number | undefined;
 }
 export type RouteMatrixTruckType = "LightTruck" | "StraightTruck" | "Tractor" | (string & {});
 export interface RouteMatrixTruckOptions {
-  AxleCount?: number;
-  GrossWeight?: number;
-  HazardousCargos?: RouteMatrixHazardousCargoType[];
-  Height?: number;
-  KpraLength?: number;
-  Length?: number;
-  LicensePlate?: RouteMatrixVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
-  PayloadCapacity?: number;
-  Trailer?: RouteMatrixTrailerOptions;
-  TruckType?: RouteMatrixTruckType;
-  TunnelRestrictionCode?: string | redacted.Redacted<string>;
-  WeightPerAxle?: number;
-  WeightPerAxleGroup?: WeightPerAxleGroup;
-  Width?: number;
+  AxleCount?: number | undefined;
+  GrossWeight?: number | undefined;
+  HazardousCargos?: RouteMatrixHazardousCargoType[] | undefined;
+  Height?: number | undefined;
+  KpraLength?: number | undefined;
+  Length?: number | undefined;
+  LicensePlate?: RouteMatrixVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
+  PayloadCapacity?: number | undefined;
+  Trailer?: RouteMatrixTrailerOptions | undefined;
+  TruckType?: RouteMatrixTruckType | undefined;
+  TunnelRestrictionCode?: string | redacted.Redacted<string> | undefined;
+  WeightPerAxle?: number | undefined;
+  WeightPerAxleGroup?: WeightPerAxleGroup | undefined;
+  Width?: number | undefined;
 }
 export interface RouteMatrixTravelModeOptions {
-  Car?: RouteMatrixCarOptions;
-  Scooter?: RouteMatrixScooterOptions;
-  Truck?: RouteMatrixTruckOptions;
+  Car?: RouteMatrixCarOptions | undefined;
+  Scooter?: RouteMatrixScooterOptions | undefined;
+  Truck?: RouteMatrixTruckOptions | undefined;
 }
 export interface CalculateRouteMatrixRequest {
-  Allow?: RouteMatrixAllowOptions;
-  Avoid?: RouteMatrixAvoidanceOptions;
-  DepartNow?: boolean;
-  DepartureTime?: string | redacted.Redacted<string>;
+  Allow?: RouteMatrixAllowOptions | undefined;
+  Avoid?: RouteMatrixAvoidanceOptions | undefined;
+  DepartNow?: boolean | undefined;
+  DepartureTime?: string | redacted.Redacted<string> | undefined;
   Destinations: RouteMatrixDestination[];
-  Exclude?: RouteMatrixExclusionOptions;
-  Key?: string | redacted.Redacted<string>;
-  OptimizeRoutingFor?: RoutingObjective;
+  Exclude?: RouteMatrixExclusionOptions | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
+  OptimizeRoutingFor?: RoutingObjective | undefined;
   Origins: RouteMatrixOrigin[];
-  RoutingBoundary?: RouteMatrixBoundary;
-  Traffic?: RouteMatrixTrafficOptions;
-  TravelMode?: RouteMatrixTravelMode;
-  TravelModeOptions?: RouteMatrixTravelModeOptions;
+  RoutingBoundary?: RouteMatrixBoundary | undefined;
+  Traffic?: RouteMatrixTrafficOptions | undefined;
+  TravelMode?: RouteMatrixTravelMode | undefined;
+  TravelModeOptions?: RouteMatrixTravelModeOptions | undefined;
 }
 export type RouteMatrixErrorCode =
   | "NoMatch"
@@ -630,7 +630,7 @@ export type RouteMatrixErrorCode =
 export interface RouteMatrixEntry {
   Distance: number;
   Duration: number;
-  Error?: RouteMatrixErrorCode;
+  Error?: RouteMatrixErrorCode | undefined;
 }
 export type RouteMatrixRow = RouteMatrixEntry[];
 export type RouteMatrix = RouteMatrixEntry[][];
@@ -641,19 +641,19 @@ export interface CalculateRouteMatrixResponse {
   RoutingBoundary: RouteMatrixBoundary;
 }
 export interface RouteAllowOptions {
-  Hot?: boolean;
-  Hov?: boolean;
+  Hot?: boolean | undefined;
+  Hov?: boolean | undefined;
 }
 export interface RouteAvoidanceAreaGeometry {
-  Corridor?: Corridor;
-  BoundingBox?: number[];
-  Polygon?: number[][][];
-  PolylineCorridor?: PolylineCorridor;
-  PolylinePolygon?: (string | redacted.Redacted<string>)[];
+  Corridor?: Corridor | undefined;
+  BoundingBox?: number[] | undefined;
+  Polygon?: number[][][] | undefined;
+  PolylineCorridor?: PolylineCorridor | undefined;
+  PolylinePolygon?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type RouteAvoidanceAreaGeometryList = RouteAvoidanceAreaGeometry[];
 export interface RouteAvoidanceArea {
-  Except?: RouteAvoidanceAreaGeometry[];
+  Except?: RouteAvoidanceAreaGeometry[] | undefined;
   Geometry: RouteAvoidanceAreaGeometry;
 }
 export type RouteAvoidanceAreaList = RouteAvoidanceArea[];
@@ -663,36 +663,36 @@ export interface RouteAvoidanceZoneCategory {
 }
 export type RouteAvoidanceZoneCategoryList = RouteAvoidanceZoneCategory[];
 export interface RouteAvoidanceOptions {
-  Areas?: RouteAvoidanceArea[];
-  CarShuttleTrains?: boolean;
-  ControlledAccessHighways?: boolean;
-  DirtRoads?: boolean;
-  Ferries?: boolean;
-  SeasonalClosure?: boolean;
-  TollRoads?: boolean;
-  TollTransponders?: boolean;
-  TruckRoadTypes?: (string | redacted.Redacted<string>)[];
-  Tunnels?: boolean;
-  UTurns?: boolean;
-  ZoneCategories?: RouteAvoidanceZoneCategory[];
+  Areas?: RouteAvoidanceArea[] | undefined;
+  CarShuttleTrains?: boolean | undefined;
+  ControlledAccessHighways?: boolean | undefined;
+  DirtRoads?: boolean | undefined;
+  Ferries?: boolean | undefined;
+  SeasonalClosure?: boolean | undefined;
+  TollRoads?: boolean | undefined;
+  TollTransponders?: boolean | undefined;
+  TruckRoadTypes?: (string | redacted.Redacted<string>)[] | undefined;
+  Tunnels?: boolean | undefined;
+  UTurns?: boolean | undefined;
+  ZoneCategories?: RouteAvoidanceZoneCategory[] | undefined;
 }
 export interface RouteMatchingOptions {
-  NameHint?: string | redacted.Redacted<string>;
-  OnRoadThreshold?: number;
-  Radius?: number;
-  Strategy?: MatchingStrategy;
+  NameHint?: string | redacted.Redacted<string> | undefined;
+  OnRoadThreshold?: number | undefined;
+  Radius?: number | undefined;
+  Strategy?: MatchingStrategy | undefined;
 }
 export interface RouteSideOfStreetOptions {
   Position: number[];
-  UseWith?: SideOfStreetMatchingStrategy;
+  UseWith?: SideOfStreetMatchingStrategy | undefined;
 }
 export interface RouteDestinationOptions {
-  AvoidActionsForDistance?: number;
-  AvoidUTurns?: boolean;
-  Heading?: number;
-  Matching?: RouteMatchingOptions;
-  SideOfStreet?: RouteSideOfStreetOptions;
-  StopDuration?: number;
+  AvoidActionsForDistance?: number | undefined;
+  AvoidUTurns?: boolean | undefined;
+  Heading?: number | undefined;
+  Matching?: RouteMatchingOptions | undefined;
+  SideOfStreet?: RouteSideOfStreetOptions | undefined;
+  StopDuration?: number | undefined;
 }
 export interface RouteDriverScheduleInterval {
   DriveDuration: number;
@@ -700,7 +700,7 @@ export interface RouteDriverScheduleInterval {
 }
 export type RouteDriverScheduleIntervalList = RouteDriverScheduleInterval[];
 export interface RouteDriverOptions {
-  Schedule?: RouteDriverScheduleInterval[];
+  Schedule?: RouteDriverScheduleInterval[] | undefined;
 }
 export interface RouteExclusionOptions {
   Countries: (string | redacted.Redacted<string>)[];
@@ -724,11 +724,11 @@ export type RouteLegAdditionalFeature =
   | (string & {});
 export type RouteLegAdditionalFeatureList = RouteLegAdditionalFeature[];
 export interface RouteOriginOptions {
-  AvoidActionsForDistance?: number;
-  AvoidUTurns?: boolean;
-  Heading?: number;
-  Matching?: RouteMatchingOptions;
-  SideOfStreet?: RouteSideOfStreetOptions;
+  AvoidActionsForDistance?: number | undefined;
+  AvoidUTurns?: boolean | undefined;
+  Heading?: number | undefined;
+  Matching?: RouteMatchingOptions | undefined;
+  SideOfStreet?: RouteSideOfStreetOptions | undefined;
 }
 export type RouteSpanAdditionalFeature =
   | "BestCaseDuration"
@@ -759,20 +759,20 @@ export type RouteSpanAdditionalFeature =
 export type RouteSpanAdditionalFeatureList = RouteSpanAdditionalFeature[];
 export type CurrencyCode = string;
 export interface RouteEmissionType {
-  Co2EmissionClass?: string | redacted.Redacted<string>;
+  Co2EmissionClass?: string | redacted.Redacted<string> | undefined;
   Type: string | redacted.Redacted<string>;
 }
 export type RouteTollVehicleCategory = "Minibus" | (string & {});
 export interface RouteTollOptions {
-  AllTransponders?: boolean;
-  AllVignettes?: boolean;
-  Currency?: string;
-  EmissionType?: RouteEmissionType;
-  VehicleCategory?: RouteTollVehicleCategory;
+  AllTransponders?: boolean | undefined;
+  AllVignettes?: boolean | undefined;
+  Currency?: string | undefined;
+  EmissionType?: RouteEmissionType | undefined;
+  VehicleCategory?: RouteTollVehicleCategory | undefined;
 }
 export interface RouteTrafficOptions {
-  FlowEventThresholdOverride?: number;
-  Usage?: TrafficUsage;
+  FlowEventThresholdOverride?: number | undefined;
+  Usage?: TrafficUsage | undefined;
 }
 export type RouteTravelMode =
   | "Car"
@@ -784,22 +784,22 @@ export type RouteTravelMode =
   | (string & {});
 export type RouteEngineType = "Electric" | "InternalCombustion" | "PluginHybrid" | (string & {});
 export interface RouteVehicleLicensePlate {
-  LastCharacter?: string | redacted.Redacted<string>;
+  LastCharacter?: string | redacted.Redacted<string> | undefined;
 }
 export interface RouteCarOptions {
-  EngineType?: RouteEngineType;
-  LicensePlate?: RouteVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
+  EngineType?: RouteEngineType | undefined;
+  LicensePlate?: RouteVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
 }
 export interface RoutePedestrianOptions {
-  Speed?: number;
+  Speed?: number | undefined;
 }
 export interface RouteScooterOptions {
-  EngineType?: RouteEngineType;
-  LicensePlate?: RouteVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
+  EngineType?: RouteEngineType | undefined;
+  LicensePlate?: RouteVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
 }
 export type RouteHazardousCargoType =
   | "Combustible"
@@ -816,36 +816,36 @@ export type RouteHazardousCargoType =
   | (string & {});
 export type RouteHazardousCargoTypeList = RouteHazardousCargoType[];
 export interface RouteTrailerOptions {
-  AxleCount?: number;
-  TrailerCount?: number;
+  AxleCount?: number | undefined;
+  TrailerCount?: number | undefined;
 }
 export type RouteTruckType = "LightTruck" | "StraightTruck" | "Tractor" | (string & {});
 export interface RouteTruckOptions {
-  AxleCount?: number;
-  EngineType?: RouteEngineType;
-  GrossWeight?: number;
-  HazardousCargos?: RouteHazardousCargoType[];
-  Height?: number;
-  HeightAboveFirstAxle?: number;
-  KpraLength?: number;
-  Length?: number;
-  LicensePlate?: RouteVehicleLicensePlate;
-  MaxSpeed?: number;
-  Occupancy?: number;
-  PayloadCapacity?: number;
-  TireCount?: number;
-  Trailer?: RouteTrailerOptions;
-  TruckType?: RouteTruckType;
-  TunnelRestrictionCode?: string | redacted.Redacted<string>;
-  WeightPerAxle?: number;
-  WeightPerAxleGroup?: WeightPerAxleGroup;
-  Width?: number;
+  AxleCount?: number | undefined;
+  EngineType?: RouteEngineType | undefined;
+  GrossWeight?: number | undefined;
+  HazardousCargos?: RouteHazardousCargoType[] | undefined;
+  Height?: number | undefined;
+  HeightAboveFirstAxle?: number | undefined;
+  KpraLength?: number | undefined;
+  Length?: number | undefined;
+  LicensePlate?: RouteVehicleLicensePlate | undefined;
+  MaxSpeed?: number | undefined;
+  Occupancy?: number | undefined;
+  PayloadCapacity?: number | undefined;
+  TireCount?: number | undefined;
+  Trailer?: RouteTrailerOptions | undefined;
+  TruckType?: RouteTruckType | undefined;
+  TunnelRestrictionCode?: string | redacted.Redacted<string> | undefined;
+  WeightPerAxle?: number | undefined;
+  WeightPerAxleGroup?: WeightPerAxleGroup | undefined;
+  Width?: number | undefined;
 }
 export type RouteAccessibilityAttribute = "Wheelchair" | (string & {});
 export type RouteAccessibilityAttributeList = RouteAccessibilityAttribute[];
 export interface RouteIntermodalPedestrianOptions {
-  MaxDistance?: number;
-  Speed?: number;
+  MaxDistance?: number | undefined;
+  Speed?: number | undefined;
 }
 export type RouteRentalMode = "All" | "Car" | (string & {});
 export type RouteRentalModeList = RouteRentalMode[];
@@ -857,16 +857,16 @@ export type RouteIntermodalEnabledLegs =
   | (string & {});
 export type RouteIntermodalEnabledLegsList = RouteIntermodalEnabledLegs[];
 export interface RouteIntermodalRentalOptions {
-  AllowedModes?: RouteRentalMode[];
-  EnabledFor?: RouteIntermodalEnabledLegs[];
-  ExcludedModes?: RouteRentalMode[];
+  AllowedModes?: RouteRentalMode[] | undefined;
+  EnabledFor?: RouteIntermodalEnabledLegs[] | undefined;
+  ExcludedModes?: RouteRentalMode[] | undefined;
 }
 export type RouteTaxiMode = "All" | "Car" | (string & {});
 export type RouteTaxiModeList = RouteTaxiMode[];
 export interface RouteIntermodalTaxiOptions {
-  AllowedModes?: RouteTaxiMode[];
-  EnabledFor?: RouteIntermodalEnabledLegs[];
-  ExcludedModes?: RouteTaxiMode[];
+  AllowedModes?: RouteTaxiMode[] | undefined;
+  EnabledFor?: RouteIntermodalEnabledLegs[] | undefined;
+  ExcludedModes?: RouteTaxiMode[] | undefined;
 }
 export type RouteTransitMode =
   | "AerialTramway"
@@ -888,83 +888,83 @@ export type RouteTransitMode =
   | (string & {});
 export type RouteTransitModeList = RouteTransitMode[];
 export interface RouteIntermodalTransitOptions {
-  AllowedModes?: RouteTransitMode[];
-  EnabledFor?: RouteIntermodalEnabledLegs[];
-  ExcludedModes?: RouteTransitMode[];
+  AllowedModes?: RouteTransitMode[] | undefined;
+  EnabledFor?: RouteIntermodalEnabledLegs[] | undefined;
+  ExcludedModes?: RouteTransitMode[] | undefined;
 }
 export type RouteVehicleMode = "All" | "Car" | (string & {});
 export type RouteVehicleModeList = RouteVehicleMode[];
 export interface RouteIntermodalVehicleOptions {
-  AllowedModes?: RouteVehicleMode[];
-  EnabledFor?: RouteIntermodalEnabledLegs[];
-  ExcludedModes?: RouteVehicleMode[];
+  AllowedModes?: RouteVehicleMode[] | undefined;
+  EnabledFor?: RouteIntermodalEnabledLegs[] | undefined;
+  ExcludedModes?: RouteVehicleMode[] | undefined;
 }
 export interface RouteIntermodalOptions {
-  AccessibilityAttributes?: RouteAccessibilityAttribute[];
-  MaxTransfers?: number;
-  Pedestrian?: RouteIntermodalPedestrianOptions;
-  Rental?: RouteIntermodalRentalOptions;
-  Taxi?: RouteIntermodalTaxiOptions;
-  Transit?: RouteIntermodalTransitOptions;
-  Vehicle?: RouteIntermodalVehicleOptions;
+  AccessibilityAttributes?: RouteAccessibilityAttribute[] | undefined;
+  MaxTransfers?: number | undefined;
+  Pedestrian?: RouteIntermodalPedestrianOptions | undefined;
+  Rental?: RouteIntermodalRentalOptions | undefined;
+  Taxi?: RouteIntermodalTaxiOptions | undefined;
+  Transit?: RouteIntermodalTransitOptions | undefined;
+  Vehicle?: RouteIntermodalVehicleOptions | undefined;
 }
 export interface RouteTransitPedestrianOptions {
-  MaxDistance?: number;
-  Speed?: number;
+  MaxDistance?: number | undefined;
+  Speed?: number | undefined;
 }
 export interface RouteTransitOptions {
-  AccessibilityAttributes?: RouteAccessibilityAttribute[];
-  AllowedModes?: RouteTransitMode[];
-  ExcludedModes?: RouteTransitMode[];
-  MaxTransfers?: number;
-  Pedestrian?: RouteTransitPedestrianOptions;
+  AccessibilityAttributes?: RouteAccessibilityAttribute[] | undefined;
+  AllowedModes?: RouteTransitMode[] | undefined;
+  ExcludedModes?: RouteTransitMode[] | undefined;
+  MaxTransfers?: number | undefined;
+  Pedestrian?: RouteTransitPedestrianOptions | undefined;
 }
 export interface RouteTravelModeOptions {
-  Car?: RouteCarOptions;
-  Pedestrian?: RoutePedestrianOptions;
-  Scooter?: RouteScooterOptions;
-  Truck?: RouteTruckOptions;
-  Intermodal?: RouteIntermodalOptions;
-  Transit?: RouteTransitOptions;
+  Car?: RouteCarOptions | undefined;
+  Pedestrian?: RoutePedestrianOptions | undefined;
+  Scooter?: RouteScooterOptions | undefined;
+  Truck?: RouteTruckOptions | undefined;
+  Intermodal?: RouteIntermodalOptions | undefined;
+  Transit?: RouteTransitOptions | undefined;
 }
 export type RouteTravelStepType = "Default" | "TurnByTurn" | (string & {});
 export interface RouteWaypoint {
-  AvoidActionsForDistance?: number;
-  AvoidUTurns?: boolean;
-  Heading?: number;
-  Matching?: RouteMatchingOptions;
-  PassThrough?: boolean;
+  AvoidActionsForDistance?: number | undefined;
+  AvoidUTurns?: boolean | undefined;
+  Heading?: number | undefined;
+  Matching?: RouteMatchingOptions | undefined;
+  PassThrough?: boolean | undefined;
   Position: number[];
-  SideOfStreet?: RouteSideOfStreetOptions;
-  StopDuration?: number;
+  SideOfStreet?: RouteSideOfStreetOptions | undefined;
+  StopDuration?: number | undefined;
 }
 export type RouteWaypointList = RouteWaypoint[];
 export interface CalculateRoutesRequest {
-  Allow?: RouteAllowOptions;
-  ArrivalTime?: string | redacted.Redacted<string>;
-  Avoid?: RouteAvoidanceOptions;
-  DepartNow?: boolean;
-  DepartureTime?: string | redacted.Redacted<string>;
+  Allow?: RouteAllowOptions | undefined;
+  ArrivalTime?: string | redacted.Redacted<string> | undefined;
+  Avoid?: RouteAvoidanceOptions | undefined;
+  DepartNow?: boolean | undefined;
+  DepartureTime?: string | redacted.Redacted<string> | undefined;
   Destination: number[];
-  DestinationOptions?: RouteDestinationOptions;
-  Driver?: RouteDriverOptions;
-  Exclude?: RouteExclusionOptions;
-  InstructionsMeasurementSystem?: MeasurementSystem;
-  Key?: string | redacted.Redacted<string>;
-  Languages?: string[];
-  LegAdditionalFeatures?: RouteLegAdditionalFeature[];
-  LegGeometryFormat?: GeometryFormat;
-  MaxAlternatives?: number;
-  OptimizeRoutingFor?: RoutingObjective;
+  DestinationOptions?: RouteDestinationOptions | undefined;
+  Driver?: RouteDriverOptions | undefined;
+  Exclude?: RouteExclusionOptions | undefined;
+  InstructionsMeasurementSystem?: MeasurementSystem | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
+  Languages?: string[] | undefined;
+  LegAdditionalFeatures?: RouteLegAdditionalFeature[] | undefined;
+  LegGeometryFormat?: GeometryFormat | undefined;
+  MaxAlternatives?: number | undefined;
+  OptimizeRoutingFor?: RoutingObjective | undefined;
   Origin: number[];
-  OriginOptions?: RouteOriginOptions;
-  SpanAdditionalFeatures?: RouteSpanAdditionalFeature[];
-  Tolls?: RouteTollOptions;
-  Traffic?: RouteTrafficOptions;
-  TravelMode?: RouteTravelMode;
-  TravelModeOptions?: RouteTravelModeOptions;
-  TravelStepType?: RouteTravelStepType;
-  Waypoints?: RouteWaypoint[];
+  OriginOptions?: RouteOriginOptions | undefined;
+  SpanAdditionalFeatures?: RouteSpanAdditionalFeature[] | undefined;
+  Tolls?: RouteTollOptions | undefined;
+  Traffic?: RouteTrafficOptions | undefined;
+  TravelMode?: RouteTravelMode | undefined;
+  TravelModeOptions?: RouteTravelModeOptions | undefined;
+  TravelStepType?: RouteTravelStepType | undefined;
+  Waypoints?: RouteWaypoint[] | undefined;
 }
 export type RouteResponseNoticeCode =
   | "MainLanguageNotFound"
@@ -977,37 +977,37 @@ export type RouteResponseNoticeCode =
 export type RouteNoticeImpact = "High" | "Low" | (string & {});
 export interface RouteResponseNotice {
   Code: RouteResponseNoticeCode;
-  Impact?: RouteNoticeImpact;
+  Impact?: RouteNoticeImpact | undefined;
 }
 export type RouteResponseNoticeList = RouteResponseNotice[];
 export type RouteFerryAfterTravelStepType = "Deboard" | (string & {});
 export interface RouteFerryAfterTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteFerryAfterTravelStepType;
 }
 export type RouteFerryAfterTravelStepList = RouteFerryAfterTravelStep[];
 export type Position23 = number[];
 export interface RouteFerryPlace {
-  Name?: string | redacted.Redacted<string>;
-  OriginalPosition?: number[];
+  Name?: string | redacted.Redacted<string> | undefined;
+  OriginalPosition?: number[] | undefined;
   Position: number[];
-  WaypointIndex?: number;
+  WaypointIndex?: number | undefined;
 }
 export interface RouteFerryArrival {
   Place: RouteFerryPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteFerryBeforeTravelStepType = "Board" | (string & {});
 export interface RouteFerryBeforeTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteFerryBeforeTravelStepType;
 }
 export type RouteFerryBeforeTravelStepList = RouteFerryBeforeTravelStep[];
 export interface RouteFerryDeparture {
   Place: RouteFerryPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteFerryNoticeCode =
   | "AccuratePolylineUnavailable"
@@ -1022,32 +1022,32 @@ export type RouteFerryNoticeCode =
   | (string & {});
 export interface RouteFerryNotice {
   Code: RouteFerryNoticeCode;
-  Impact?: RouteNoticeImpact;
+  Impact?: RouteNoticeImpact | undefined;
 }
 export type RouteFerryNoticeList = RouteFerryNotice[];
 export interface RoutePassThroughPlace {
-  OriginalPosition?: number[];
+  OriginalPosition?: number[] | undefined;
   Position: number[];
-  WaypointIndex?: number;
+  WaypointIndex?: number | undefined;
 }
 export interface RoutePassThroughWaypoint {
-  GeometryOffset?: number;
+  GeometryOffset?: number | undefined;
   Place: RoutePassThroughPlace;
 }
 export type RoutePassThroughWaypointList = RoutePassThroughWaypoint[];
 export type CountryCode3 = string | redacted.Redacted<string>;
 export interface LocalizedString {
-  Language?: string;
+  Language?: string | undefined;
   Value: string | redacted.Redacted<string>;
 }
 export type LocalizedStringList = LocalizedString[];
 export interface RouteFerrySpan {
-  Country?: string | redacted.Redacted<string>;
-  Distance?: number;
-  Duration?: number;
-  GeometryOffset?: number;
-  Names?: LocalizedString[];
-  Region?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Distance?: number | undefined;
+  Duration?: number | undefined;
+  GeometryOffset?: number | undefined;
+  Names?: LocalizedString[] | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteFerrySpanList = RouteFerrySpan[];
 export interface RouteFerryOverviewSummary {
@@ -1058,38 +1058,38 @@ export interface RouteFerryTravelOnlySummary {
   Duration: number;
 }
 export interface RouteFerrySummary {
-  Overview?: RouteFerryOverviewSummary;
-  TravelOnly?: RouteFerryTravelOnlySummary;
+  Overview?: RouteFerryOverviewSummary | undefined;
+  TravelOnly?: RouteFerryTravelOnlySummary | undefined;
 }
 export type RouteFerryTravelStepType = "Depart" | "Continue" | "Arrive" | (string & {});
 export interface RouteFerryTravelStep {
-  Distance?: number;
+  Distance?: number | undefined;
   Duration: number;
-  GeometryOffset?: number;
-  Instruction?: string | redacted.Redacted<string>;
+  GeometryOffset?: number | undefined;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteFerryTravelStepType;
 }
 export type RouteFerryTravelStepList = RouteFerryTravelStep[];
 export interface RouteFerryLegDetails {
-  AfterTravelSteps?: RouteFerryAfterTravelStep[];
+  AfterTravelSteps?: RouteFerryAfterTravelStep[] | undefined;
   Arrival: RouteFerryArrival;
-  BeforeTravelSteps?: RouteFerryBeforeTravelStep[];
+  BeforeTravelSteps?: RouteFerryBeforeTravelStep[] | undefined;
   Departure: RouteFerryDeparture;
-  Notices?: RouteFerryNotice[];
-  PassThroughWaypoints?: RoutePassThroughWaypoint[];
-  RouteName?: string | redacted.Redacted<string>;
-  Spans?: RouteFerrySpan[];
-  Summary?: RouteFerrySummary;
-  TravelSteps?: RouteFerryTravelStep[];
+  Notices?: RouteFerryNotice[] | undefined;
+  PassThroughWaypoints?: RoutePassThroughWaypoint[] | undefined;
+  RouteName?: string | redacted.Redacted<string> | undefined;
+  Spans?: RouteFerrySpan[] | undefined;
+  Summary?: RouteFerrySummary | undefined;
+  TravelSteps?: RouteFerryTravelStep[] | undefined;
 }
 export interface RouteLegGeometry {
-  LineString?: number[][];
-  Polyline?: string | redacted.Redacted<string>;
+  LineString?: number[][] | undefined;
+  Polyline?: string | redacted.Redacted<string> | undefined;
 }
 export type RoutePedestrianAfterTravelStepType = "Wait" | (string & {});
 export interface RoutePedestrianAfterTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RoutePedestrianAfterTravelStepType;
 }
 export type RoutePedestrianAfterTravelStepList = RoutePedestrianAfterTravelStep[];
@@ -1100,16 +1100,16 @@ export type RouteAccessibilityAvailability =
   | "Unknown"
   | (string & {});
 export interface RouteAccessibilityAvailabilityDetails {
-  Wheelchair?: RouteAccessibilityAvailability;
+  Wheelchair?: RouteAccessibilityAvailability | undefined;
 }
 export interface RouteAccessPointDetails {
-  Accessibility?: RouteAccessibilityAvailabilityDetails;
+  Accessibility?: RouteAccessibilityAvailabilityDetails | undefined;
 }
 export type RouteSideOfStreet = "Left" | "Right" | (string & {});
 export interface RouteStationDetails {
-  Accessibility?: RouteAccessibilityAvailabilityDetails;
-  PlatformName?: string | redacted.Redacted<string>;
-  ShortName?: string | redacted.Redacted<string>;
+  Accessibility?: RouteAccessibilityAvailabilityDetails | undefined;
+  PlatformName?: string | redacted.Redacted<string> | undefined;
+  ShortName?: string | redacted.Redacted<string> | undefined;
 }
 export type RoutePedestrianPlaceType =
   | "AccessPoint"
@@ -1118,22 +1118,22 @@ export type RoutePedestrianPlaceType =
   | "Station"
   | (string & {});
 export interface RoutePedestrianPlace {
-  AccessPointDetails?: RouteAccessPointDetails;
-  Name?: string | redacted.Redacted<string>;
-  OriginalPosition?: number[];
+  AccessPointDetails?: RouteAccessPointDetails | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  OriginalPosition?: number[] | undefined;
   Position: number[];
-  SideOfStreet?: RouteSideOfStreet;
-  StationDetails?: RouteStationDetails;
-  Type?: RoutePedestrianPlaceType;
-  WaypointIndex?: number;
+  SideOfStreet?: RouteSideOfStreet | undefined;
+  StationDetails?: RouteStationDetails | undefined;
+  Type?: RoutePedestrianPlaceType | undefined;
+  WaypointIndex?: number | undefined;
 }
 export interface RoutePedestrianArrival {
   Place: RoutePedestrianPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export interface RoutePedestrianDeparture {
   Place: RoutePedestrianPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RoutePedestrianNoticeCode =
   | "AccuratePolylineUnavailable"
@@ -1145,13 +1145,13 @@ export type RoutePedestrianNoticeCode =
   | (string & {});
 export interface RoutePedestrianNotice {
   Code: RoutePedestrianNoticeCode;
-  Impact?: RouteNoticeImpact;
+  Impact?: RouteNoticeImpact | undefined;
 }
 export type RoutePedestrianNoticeList = RoutePedestrianNotice[];
 export interface RouteSpanDynamicSpeedDetails {
-  BestCaseSpeed?: number;
-  TurnDuration?: number;
-  TypicalSpeed?: number;
+  BestCaseSpeed?: number | undefined;
+  TurnDuration?: number | undefined;
+  TypicalSpeed?: number | undefined;
 }
 export type IndexList = number[];
 export type RouteSpanPedestrianAccessAttribute =
@@ -1180,31 +1180,31 @@ export type RouteSpanRoadAttribute =
 export type RouteSpanRoadAttributeList = RouteSpanRoadAttribute[];
 export type RouteDirection = "East" | "North" | "South" | "West" | (string & {});
 export interface RouteNumber {
-  Direction?: RouteDirection;
-  Language?: string;
+  Direction?: RouteDirection | undefined;
+  Language?: string | undefined;
   Value: string | redacted.Redacted<string>;
 }
 export type RouteNumberList = RouteNumber[];
 export interface RouteSpanSpeedLimitDetails {
-  MaxSpeed?: number;
-  Unlimited?: boolean;
+  MaxSpeed?: number | undefined;
+  Unlimited?: boolean | undefined;
 }
 export interface RoutePedestrianSpan {
-  BestCaseDuration?: number;
-  Country?: string | redacted.Redacted<string>;
-  Distance?: number;
-  Duration?: number;
-  DynamicSpeed?: RouteSpanDynamicSpeedDetails;
-  FunctionalClassification?: number;
-  GeometryOffset?: number;
-  Incidents?: number[];
-  Names?: LocalizedString[];
-  PedestrianAccess?: RouteSpanPedestrianAccessAttribute[];
-  Region?: string | redacted.Redacted<string>;
-  RoadAttributes?: RouteSpanRoadAttribute[];
-  RouteNumbers?: RouteNumber[];
-  SpeedLimit?: RouteSpanSpeedLimitDetails;
-  TypicalDuration?: number;
+  BestCaseDuration?: number | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Distance?: number | undefined;
+  Duration?: number | undefined;
+  DynamicSpeed?: RouteSpanDynamicSpeedDetails | undefined;
+  FunctionalClassification?: number | undefined;
+  GeometryOffset?: number | undefined;
+  Incidents?: number[] | undefined;
+  Names?: LocalizedString[] | undefined;
+  PedestrianAccess?: RouteSpanPedestrianAccessAttribute[] | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
+  RoadAttributes?: RouteSpanRoadAttribute[] | undefined;
+  RouteNumbers?: RouteNumber[] | undefined;
+  SpeedLimit?: RouteSpanSpeedLimitDetails | undefined;
+  TypicalDuration?: number | undefined;
 }
 export type RoutePedestrianSpanList = RoutePedestrianSpan[];
 export interface RoutePedestrianOverviewSummary {
@@ -1215,8 +1215,8 @@ export interface RoutePedestrianTravelOnlySummary {
   Duration: number;
 }
 export interface RoutePedestrianSummary {
-  Overview?: RoutePedestrianOverviewSummary;
-  TravelOnly?: RoutePedestrianTravelOnlySummary;
+  Overview?: RoutePedestrianOverviewSummary | undefined;
+  TravelOnly?: RoutePedestrianTravelOnlySummary | undefined;
 }
 export interface RouteContinueStepDetails {
   Intersection: LocalizedString[];
@@ -1226,39 +1226,39 @@ export interface RouteRoad {
   RoadName: LocalizedString[];
   RouteNumber: RouteNumber[];
   Towards: LocalizedString[];
-  Type?: RouteRoadType;
+  Type?: RouteRoadType | undefined;
 }
 export type RouteSteeringDirection = "Left" | "Right" | "Straight" | (string & {});
 export type TurnAngle = number;
 export type RouteTurnIntensity = "Sharp" | "Slight" | "Typical" | (string & {});
 export interface RouteKeepStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteRoundaboutEnterStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export type RoundaboutAngle = number;
 export interface RouteRoundaboutExitStepDetails {
   Intersection: LocalizedString[];
-  RelativeExit?: number;
-  RoundaboutAngle?: number;
-  SteeringDirection?: RouteSteeringDirection;
+  RelativeExit?: number | undefined;
+  RoundaboutAngle?: number | undefined;
+  SteeringDirection?: RouteSteeringDirection | undefined;
 }
 export interface RouteRoundaboutPassStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteSignpostLabel {
-  RouteNumber?: RouteNumber;
-  Text?: LocalizedString;
+  RouteNumber?: RouteNumber | undefined;
+  Text?: LocalizedString | undefined;
 }
 export type RouteSignpostLabelList = RouteSignpostLabel[];
 export interface RouteSignpost {
@@ -1266,9 +1266,9 @@ export interface RouteSignpost {
 }
 export interface RouteTurnStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export type RoutePedestrianTravelStepType =
   | "Arrive"
@@ -1281,32 +1281,32 @@ export type RoutePedestrianTravelStepType =
   | "Turn"
   | (string & {});
 export interface RoutePedestrianTravelStep {
-  ContinueStepDetails?: RouteContinueStepDetails;
-  CurrentRoad?: RouteRoad;
-  Distance?: number;
+  ContinueStepDetails?: RouteContinueStepDetails | undefined;
+  CurrentRoad?: RouteRoad | undefined;
+  Distance?: number | undefined;
   Duration: number;
-  ExitNumber?: LocalizedString[];
-  GeometryOffset?: number;
-  Instruction?: string | redacted.Redacted<string>;
-  KeepStepDetails?: RouteKeepStepDetails;
-  NextRoad?: RouteRoad;
-  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails;
-  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails;
-  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails;
-  Signpost?: RouteSignpost;
-  TurnStepDetails?: RouteTurnStepDetails;
+  ExitNumber?: LocalizedString[] | undefined;
+  GeometryOffset?: number | undefined;
+  Instruction?: string | redacted.Redacted<string> | undefined;
+  KeepStepDetails?: RouteKeepStepDetails | undefined;
+  NextRoad?: RouteRoad | undefined;
+  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails | undefined;
+  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails | undefined;
+  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails | undefined;
+  Signpost?: RouteSignpost | undefined;
+  TurnStepDetails?: RouteTurnStepDetails | undefined;
   Type: RoutePedestrianTravelStepType;
 }
 export type RoutePedestrianTravelStepList = RoutePedestrianTravelStep[];
 export interface RoutePedestrianLegDetails {
-  AfterTravelSteps?: RoutePedestrianAfterTravelStep[];
+  AfterTravelSteps?: RoutePedestrianAfterTravelStep[] | undefined;
   Arrival: RoutePedestrianArrival;
   Departure: RoutePedestrianDeparture;
-  Notices?: RoutePedestrianNotice[];
-  PassThroughWaypoints?: RoutePassThroughWaypoint[];
-  Spans?: RoutePedestrianSpan[];
-  Summary?: RoutePedestrianSummary;
-  TravelSteps?: RoutePedestrianTravelStep[];
+  Notices?: RoutePedestrianNotice[] | undefined;
+  PassThroughWaypoints?: RoutePassThroughWaypoint[] | undefined;
+  Spans?: RoutePedestrianSpan[] | undefined;
+  Summary?: RoutePedestrianSummary | undefined;
+  TravelSteps?: RoutePedestrianTravelStep[] | undefined;
 }
 export type RouteLegTravelMode =
   | "Car"
@@ -1341,15 +1341,15 @@ export type RouteLegType =
 export type EnergyKilowattHours = number;
 export type PowerKilowatts = number;
 export interface RouteChargeStepDetails {
-  ArrivalCharge?: number;
-  ConsumablePower?: number;
-  DesiredCharge?: number;
+  ArrivalCharge?: number | undefined;
+  ConsumablePower?: number | undefined;
+  DesiredCharge?: number | undefined;
 }
 export type RouteVehicleAfterTravelStepType = "Park" | (string & {});
 export interface RouteVehicleAfterTravelStep {
-  ChargeStepDetails?: RouteChargeStepDetails;
+  ChargeStepDetails?: RouteChargeStepDetails | undefined;
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteVehicleAfterTravelStepType;
 }
 export type RouteVehicleAfterTravelStepList = RouteVehicleAfterTravelStep[];
@@ -1360,22 +1360,22 @@ export type RouteVehiclePlaceType =
   | "Station"
   | (string & {});
 export interface RouteVehiclePlace {
-  Name?: string | redacted.Redacted<string>;
-  OriginalPosition?: number[];
+  Name?: string | redacted.Redacted<string> | undefined;
+  OriginalPosition?: number[] | undefined;
   Position: number[];
-  SideOfStreet?: RouteSideOfStreet;
-  WaypointIndex?: number;
-  AccessPointDetails?: RouteAccessPointDetails;
-  StationDetails?: RouteStationDetails;
-  Type?: RouteVehiclePlaceType;
+  SideOfStreet?: RouteSideOfStreet | undefined;
+  WaypointIndex?: number | undefined;
+  AccessPointDetails?: RouteAccessPointDetails | undefined;
+  StationDetails?: RouteStationDetails | undefined;
+  Type?: RouteVehiclePlaceType | undefined;
 }
 export interface RouteVehicleArrival {
   Place: RouteVehiclePlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export interface RouteVehicleDeparture {
   Place: RouteVehiclePlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteVehicleIncidentSeverity = "Critical" | "High" | "Medium" | "Low" | (string & {});
 export type RouteVehicleIncidentType =
@@ -1392,11 +1392,11 @@ export type RouteVehicleIncidentType =
   | "Weather"
   | (string & {});
 export interface RouteVehicleIncident {
-  Description?: string | redacted.Redacted<string>;
-  EndTime?: string | redacted.Redacted<string>;
-  Severity?: RouteVehicleIncidentSeverity;
-  StartTime?: string | redacted.Redacted<string>;
-  Type?: RouteVehicleIncidentType;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EndTime?: string | redacted.Redacted<string> | undefined;
+  Severity?: RouteVehicleIncidentSeverity | undefined;
+  StartTime?: string | redacted.Redacted<string> | undefined;
+  Type?: RouteVehicleIncidentType | undefined;
 }
 export type RouteVehicleIncidentList = RouteVehicleIncident[];
 export type RouteVehicleNoticeCode =
@@ -1430,8 +1430,8 @@ export type RouteVehicleNoticeCode =
   | "TravelTimeExceedsDriverWorkHours"
   | (string & {});
 export interface RouteNoticeDetailRange {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export type RouteWeightConstraintType = "Current" | "Gross" | "Unknown" | (string & {});
 export interface RouteWeightConstraint {
@@ -1439,35 +1439,35 @@ export interface RouteWeightConstraint {
   Value: number;
 }
 export interface RouteViolatedConstraints {
-  AllHazardsRestricted?: boolean;
-  AxleCount?: RouteNoticeDetailRange;
+  AllHazardsRestricted?: boolean | undefined;
+  AxleCount?: RouteNoticeDetailRange | undefined;
   HazardousCargos: RouteHazardousCargoType[];
-  MaxHeight?: number;
-  MaxKpraLength?: number;
-  MaxLength?: number;
-  MaxPayloadCapacity?: number;
-  MaxWeight?: RouteWeightConstraint;
-  MaxWeightPerAxle?: number;
-  MaxWeightPerAxleGroup?: WeightPerAxleGroup;
-  MaxWidth?: number;
-  Occupancy?: RouteNoticeDetailRange;
-  RestrictedTimes?: string;
-  TimeDependent?: boolean;
-  TrailerCount?: RouteNoticeDetailRange;
-  TravelMode?: boolean;
-  TruckRoadType?: string;
-  TruckType?: RouteTruckType;
-  TunnelRestrictionCode?: string | redacted.Redacted<string>;
+  MaxHeight?: number | undefined;
+  MaxKpraLength?: number | undefined;
+  MaxLength?: number | undefined;
+  MaxPayloadCapacity?: number | undefined;
+  MaxWeight?: RouteWeightConstraint | undefined;
+  MaxWeightPerAxle?: number | undefined;
+  MaxWeightPerAxleGroup?: WeightPerAxleGroup | undefined;
+  MaxWidth?: number | undefined;
+  Occupancy?: RouteNoticeDetailRange | undefined;
+  RestrictedTimes?: string | undefined;
+  TimeDependent?: boolean | undefined;
+  TrailerCount?: RouteNoticeDetailRange | undefined;
+  TravelMode?: boolean | undefined;
+  TruckRoadType?: string | undefined;
+  TruckType?: RouteTruckType | undefined;
+  TunnelRestrictionCode?: string | redacted.Redacted<string> | undefined;
 }
 export interface RouteVehicleNoticeDetail {
-  Title?: string | redacted.Redacted<string>;
-  ViolatedConstraints?: RouteViolatedConstraints;
+  Title?: string | redacted.Redacted<string> | undefined;
+  ViolatedConstraints?: RouteViolatedConstraints | undefined;
 }
 export type RouteVehicleNoticeDetailList = RouteVehicleNoticeDetail[];
 export interface RouteVehicleNotice {
   Code: RouteVehicleNoticeCode;
   Details: RouteVehicleNoticeDetail[];
-  Impact?: RouteNoticeImpact;
+  Impact?: RouteNoticeImpact | undefined;
 }
 export type RouteVehicleNoticeList = RouteVehicleNotice[];
 export type RouteSpanCarAccessAttribute =
@@ -1495,48 +1495,48 @@ export type RouteSpanTruckAccessAttribute =
   | (string & {});
 export type RouteSpanTruckAccessAttributeList = RouteSpanTruckAccessAttribute[];
 export interface RouteVehicleSpan {
-  BestCaseDuration?: number;
-  CarAccess?: RouteSpanCarAccessAttribute[];
-  Country?: string | redacted.Redacted<string>;
-  Distance?: number;
-  Duration?: number;
-  DynamicSpeed?: RouteSpanDynamicSpeedDetails;
-  FunctionalClassification?: number;
-  Gate?: RouteSpanGateAttribute;
-  GeometryOffset?: number;
-  Incidents?: number[];
-  Names?: LocalizedString[];
-  Notices?: number[];
-  RailwayCrossing?: RouteSpanRailwayCrossingAttribute;
-  Region?: string | redacted.Redacted<string>;
-  RoadAttributes?: RouteSpanRoadAttribute[];
-  RouteNumbers?: RouteNumber[];
-  ScooterAccess?: RouteSpanScooterAccessAttribute[];
-  SpeedLimit?: RouteSpanSpeedLimitDetails;
-  TollSystems?: number[];
-  TruckAccess?: RouteSpanTruckAccessAttribute[];
-  TruckRoadTypes?: number[];
-  TypicalDuration?: number;
-  Zones?: number[];
+  BestCaseDuration?: number | undefined;
+  CarAccess?: RouteSpanCarAccessAttribute[] | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Distance?: number | undefined;
+  Duration?: number | undefined;
+  DynamicSpeed?: RouteSpanDynamicSpeedDetails | undefined;
+  FunctionalClassification?: number | undefined;
+  Gate?: RouteSpanGateAttribute | undefined;
+  GeometryOffset?: number | undefined;
+  Incidents?: number[] | undefined;
+  Names?: LocalizedString[] | undefined;
+  Notices?: number[] | undefined;
+  RailwayCrossing?: RouteSpanRailwayCrossingAttribute | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
+  RoadAttributes?: RouteSpanRoadAttribute[] | undefined;
+  RouteNumbers?: RouteNumber[] | undefined;
+  ScooterAccess?: RouteSpanScooterAccessAttribute[] | undefined;
+  SpeedLimit?: RouteSpanSpeedLimitDetails | undefined;
+  TollSystems?: number[] | undefined;
+  TruckAccess?: RouteSpanTruckAccessAttribute[] | undefined;
+  TruckRoadTypes?: number[] | undefined;
+  TypicalDuration?: number | undefined;
+  Zones?: number[] | undefined;
 }
 export type RouteVehicleSpanList = RouteVehicleSpan[];
 export interface RouteVehicleOverviewSummary {
-  BestCaseDuration?: number;
+  BestCaseDuration?: number | undefined;
   Distance: number;
   Duration: number;
-  TypicalDuration?: number;
+  TypicalDuration?: number | undefined;
 }
 export interface RouteVehicleTravelOnlySummary {
-  BestCaseDuration?: number;
+  BestCaseDuration?: number | undefined;
   Duration: number;
-  TypicalDuration?: number;
+  TypicalDuration?: number | undefined;
 }
 export interface RouteVehicleSummary {
-  Overview?: RouteVehicleOverviewSummary;
-  TravelOnly?: RouteVehicleTravelOnlySummary;
+  Overview?: RouteVehicleOverviewSummary | undefined;
+  TravelOnly?: RouteVehicleTravelOnlySummary | undefined;
 }
 export interface RouteTollPaymentSite {
-  Name?: string;
+  Name?: string | undefined;
   Position: number[];
 }
 export type RouteTollPaymentSiteList = RouteTollPaymentSite[];
@@ -1547,9 +1547,9 @@ export interface RouteTollPriceValueRange {
 export interface RouteTollPrice {
   Currency: string;
   Estimate: boolean;
-  PerDuration?: number;
+  PerDuration?: number | undefined;
   Range: boolean;
-  RangeValue?: RouteTollPriceValueRange;
+  RangeValue?: RouteTollPriceValueRange | undefined;
   Value: number;
 }
 export type RouteTollPassValidityPeriodType =
@@ -1561,14 +1561,14 @@ export type RouteTollPassValidityPeriodType =
   | (string & {});
 export interface RouteTollPassValidityPeriod {
   Period: RouteTollPassValidityPeriodType;
-  PeriodCount?: number;
+  PeriodCount?: number | undefined;
 }
 export interface RouteTollPass {
-  IncludesReturnTrip?: boolean;
-  SeniorPass?: boolean;
-  TransferCount?: number;
-  TripCount?: number;
-  ValidityPeriod?: RouteTollPassValidityPeriod;
+  IncludesReturnTrip?: boolean | undefined;
+  SeniorPass?: boolean | undefined;
+  TransferCount?: number | undefined;
+  TripCount?: number | undefined;
+  ValidityPeriod?: RouteTollPassValidityPeriod | undefined;
 }
 export type RouteTollPaymentMethod =
   | "BankCard"
@@ -1582,55 +1582,55 @@ export type RouteTollPaymentMethod =
   | (string & {});
 export type RouteTollPaymentMethodList = RouteTollPaymentMethod[];
 export interface RouteTransponder {
-  SystemName?: string | redacted.Redacted<string>;
+  SystemName?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTransponderList = RouteTransponder[];
 export interface RouteTollRate {
-  ApplicableTimes?: string | redacted.Redacted<string>;
-  ConvertedPrice?: RouteTollPrice;
+  ApplicableTimes?: string | redacted.Redacted<string> | undefined;
+  ConvertedPrice?: RouteTollPrice | undefined;
   Id: string | redacted.Redacted<string>;
   LocalPrice: RouteTollPrice;
   Name: string | redacted.Redacted<string>;
-  Pass?: RouteTollPass;
+  Pass?: RouteTollPass | undefined;
   PaymentMethods: RouteTollPaymentMethod[];
   Transponders: RouteTransponder[];
 }
 export type RouteTollRateList = RouteTollRate[];
 export interface RouteToll {
-  Country?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string> | undefined;
   PaymentSites: RouteTollPaymentSite[];
   Rates: RouteTollRate[];
   Systems: number[];
 }
 export type RouteTollList = RouteToll[];
 export interface RouteTollSystem {
-  Name?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTollSystemList = RouteTollSystem[];
 export interface RouteContinueHighwayStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteEnterHighwayStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteExitStepDetails {
   Intersection: LocalizedString[];
-  RelativeExit?: number;
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  RelativeExit?: number | undefined;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteRampStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export type RouteVehicleTravelStepType =
   | "Arrive"
@@ -1649,63 +1649,63 @@ export type RouteVehicleTravelStepType =
   | (string & {});
 export interface RouteUTurnStepDetails {
   Intersection: LocalizedString[];
-  SteeringDirection?: RouteSteeringDirection;
-  TurnAngle?: number;
-  TurnIntensity?: RouteTurnIntensity;
+  SteeringDirection?: RouteSteeringDirection | undefined;
+  TurnAngle?: number | undefined;
+  TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteVehicleTravelStep {
-  ContinueHighwayStepDetails?: RouteContinueHighwayStepDetails;
-  ContinueStepDetails?: RouteContinueStepDetails;
-  CurrentRoad?: RouteRoad;
-  Distance?: number;
+  ContinueHighwayStepDetails?: RouteContinueHighwayStepDetails | undefined;
+  ContinueStepDetails?: RouteContinueStepDetails | undefined;
+  CurrentRoad?: RouteRoad | undefined;
+  Distance?: number | undefined;
   Duration: number;
-  EnterHighwayStepDetails?: RouteEnterHighwayStepDetails;
-  ExitNumber?: LocalizedString[];
-  ExitStepDetails?: RouteExitStepDetails;
-  GeometryOffset?: number;
-  Instruction?: string | redacted.Redacted<string>;
-  KeepStepDetails?: RouteKeepStepDetails;
-  NextRoad?: RouteRoad;
-  RampStepDetails?: RouteRampStepDetails;
-  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails;
-  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails;
-  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails;
-  Signpost?: RouteSignpost;
-  TurnStepDetails?: RouteTurnStepDetails;
+  EnterHighwayStepDetails?: RouteEnterHighwayStepDetails | undefined;
+  ExitNumber?: LocalizedString[] | undefined;
+  ExitStepDetails?: RouteExitStepDetails | undefined;
+  GeometryOffset?: number | undefined;
+  Instruction?: string | redacted.Redacted<string> | undefined;
+  KeepStepDetails?: RouteKeepStepDetails | undefined;
+  NextRoad?: RouteRoad | undefined;
+  RampStepDetails?: RouteRampStepDetails | undefined;
+  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails | undefined;
+  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails | undefined;
+  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails | undefined;
+  Signpost?: RouteSignpost | undefined;
+  TurnStepDetails?: RouteTurnStepDetails | undefined;
   Type: RouteVehicleTravelStepType;
-  UTurnStepDetails?: RouteUTurnStepDetails;
+  UTurnStepDetails?: RouteUTurnStepDetails | undefined;
 }
 export type RouteVehicleTravelStepList = RouteVehicleTravelStep[];
 export interface RouteZone {
-  Category?: RouteZoneCategory;
-  Name?: string | redacted.Redacted<string>;
+  Category?: RouteZoneCategory | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteZoneList = RouteZone[];
 export interface RouteVehicleLegDetails {
-  AfterTravelSteps?: RouteVehicleAfterTravelStep[];
+  AfterTravelSteps?: RouteVehicleAfterTravelStep[] | undefined;
   Arrival: RouteVehicleArrival;
   Departure: RouteVehicleDeparture;
-  Incidents?: RouteVehicleIncident[];
-  Notices?: RouteVehicleNotice[];
-  PassThroughWaypoints?: RoutePassThroughWaypoint[];
-  Spans?: RouteVehicleSpan[];
-  Summary?: RouteVehicleSummary;
-  Tolls?: RouteToll[];
-  TollSystems?: RouteTollSystem[];
-  TravelSteps?: RouteVehicleTravelStep[];
-  TruckRoadTypes?: (string | redacted.Redacted<string>)[];
-  Zones?: RouteZone[];
+  Incidents?: RouteVehicleIncident[] | undefined;
+  Notices?: RouteVehicleNotice[] | undefined;
+  PassThroughWaypoints?: RoutePassThroughWaypoint[] | undefined;
+  Spans?: RouteVehicleSpan[] | undefined;
+  Summary?: RouteVehicleSummary | undefined;
+  Tolls?: RouteToll[] | undefined;
+  TollSystems?: RouteTollSystem[] | undefined;
+  TravelSteps?: RouteVehicleTravelStep[] | undefined;
+  TruckRoadTypes?: (string | redacted.Redacted<string>)[] | undefined;
+  Zones?: RouteZone[] | undefined;
 }
 export type RouteRentalAfterTravelStepType = "Park" | (string & {});
 export interface RouteRentalAfterTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteRentalAfterTravelStepType;
 }
 export type RouteRentalAfterTravelStepList = RouteRentalAfterTravelStep[];
 export interface RouteRentalAgency {
   Name: string | redacted.Redacted<string>;
-  Url?: string | redacted.Redacted<string>;
+  Url?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteRentalPlaceType =
   | "AccessPoint"
@@ -1714,42 +1714,42 @@ export type RouteRentalPlaceType =
   | "Station"
   | (string & {});
 export interface RouteRentalPlace {
-  AccessPointDetails?: RouteAccessPointDetails;
-  Name?: string | redacted.Redacted<string>;
-  OriginalPosition?: number[];
+  AccessPointDetails?: RouteAccessPointDetails | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  OriginalPosition?: number[] | undefined;
   Position: number[];
-  StationDetails?: RouteStationDetails;
-  Type?: RouteRentalPlaceType;
-  WaypointIndex?: number;
+  StationDetails?: RouteStationDetails | undefined;
+  Type?: RouteRentalPlaceType | undefined;
+  WaypointIndex?: number | undefined;
 }
 export interface RouteRentalArrival {
   Place: RouteRentalPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteAttributionType = "Disclaimer" | "Tariff" | (string & {});
 export type RouteWebLinkDeviceType = "Android" | "Ios" | "Web" | (string & {});
 export interface RouteWebLink {
-  AnchorText?: string | redacted.Redacted<string>;
+  AnchorText?: string | redacted.Redacted<string> | undefined;
   Description: string | redacted.Redacted<string>;
-  DeviceType?: RouteWebLinkDeviceType;
-  Url?: string | redacted.Redacted<string>;
+  DeviceType?: RouteWebLinkDeviceType | undefined;
+  Url?: string | redacted.Redacted<string> | undefined;
 }
 export interface RouteAttribution {
-  AttributionType?: RouteAttributionType;
+  AttributionType?: RouteAttributionType | undefined;
   WebLink: RouteWebLink;
 }
 export type RouteAttributionList = RouteAttribution[];
 export type RouteRentalBeforeTravelStepType = "Setup" | (string & {});
 export interface RouteRentalBeforeTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteRentalBeforeTravelStepType;
 }
 export type RouteRentalBeforeTravelStepList = RouteRentalBeforeTravelStep[];
 export type RouteWebLinkList = RouteWebLink[];
 export interface RouteRentalDeparture {
   Place: RouteRentalPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export interface RouteRentalOverviewSummary {
   Duration: number;
@@ -1759,19 +1759,19 @@ export interface RouteRentalTravelOnlySummary {
   Duration: number;
 }
 export interface RouteRentalSummary {
-  Overview?: RouteRentalOverviewSummary;
-  TravelOnly?: RouteRentalTravelOnlySummary;
+  Overview?: RouteRentalOverviewSummary | undefined;
+  TravelOnly?: RouteRentalTravelOnlySummary | undefined;
 }
 export interface RouteRentalTransportModeDetails {
-  AvailableSeats?: number;
-  Category?: string | redacted.Redacted<string>;
-  Color?: string | redacted.Redacted<string>;
-  Engine?: RouteEngineType;
-  LicensePlate?: string | redacted.Redacted<string>;
+  AvailableSeats?: number | undefined;
+  Category?: string | redacted.Redacted<string> | undefined;
+  Color?: string | redacted.Redacted<string> | undefined;
+  Engine?: RouteEngineType | undefined;
+  LicensePlate?: string | redacted.Redacted<string> | undefined;
   Mode: RouteRentalMode;
-  Model?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
-  TextColor?: string | redacted.Redacted<string>;
+  Model?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  TextColor?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteRentalTravelStepType =
   | "Arrive"
@@ -1787,74 +1787,74 @@ export type RouteRentalTravelStepType =
   | "UTurn"
   | (string & {});
 export interface RouteRentalTravelStep {
-  ContinueStepDetails?: RouteContinueStepDetails;
-  Distance?: number;
+  ContinueStepDetails?: RouteContinueStepDetails | undefined;
+  Distance?: number | undefined;
   Duration: number;
-  ExitStepDetails?: RouteExitStepDetails;
-  GeometryOffset?: number;
-  Instruction?: string | redacted.Redacted<string>;
-  KeepStepDetails?: RouteKeepStepDetails;
-  RampStepDetails?: RouteRampStepDetails;
-  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails;
-  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails;
-  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails;
-  TurnStepDetails?: RouteTurnStepDetails;
+  ExitStepDetails?: RouteExitStepDetails | undefined;
+  GeometryOffset?: number | undefined;
+  Instruction?: string | redacted.Redacted<string> | undefined;
+  KeepStepDetails?: RouteKeepStepDetails | undefined;
+  RampStepDetails?: RouteRampStepDetails | undefined;
+  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails | undefined;
+  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails | undefined;
+  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails | undefined;
+  TurnStepDetails?: RouteTurnStepDetails | undefined;
   Type: RouteRentalTravelStepType;
-  UTurnStepDetails?: RouteUTurnStepDetails;
+  UTurnStepDetails?: RouteUTurnStepDetails | undefined;
 }
 export type RouteRentalTravelStepList = RouteRentalTravelStep[];
 export interface RouteRentalLegDetails {
-  AfterTravelSteps?: RouteRentalAfterTravelStep[];
+  AfterTravelSteps?: RouteRentalAfterTravelStep[] | undefined;
   Agency: RouteRentalAgency;
   Arrival: RouteRentalArrival;
-  Attributions?: RouteAttribution[];
-  BeforeTravelSteps?: RouteRentalBeforeTravelStep[];
-  BookingWebLinks?: RouteWebLink[];
+  Attributions?: RouteAttribution[] | undefined;
+  BeforeTravelSteps?: RouteRentalBeforeTravelStep[] | undefined;
+  BookingWebLinks?: RouteWebLink[] | undefined;
   Departure: RouteRentalDeparture;
-  Summary?: RouteRentalSummary;
+  Summary?: RouteRentalSummary | undefined;
   Transport: RouteRentalTransportModeDetails;
-  TravelSteps?: RouteRentalTravelStep[];
+  TravelSteps?: RouteRentalTravelStep[] | undefined;
 }
 export type RouteTaxiAfterTravelStepType = "Park" | (string & {});
 export interface RouteTaxiAfterTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteTaxiAfterTravelStepType;
 }
 export type RouteTaxiAfterTravelStepList = RouteTaxiAfterTravelStep[];
 export interface RouteTaxiAgency {
   Name: string | redacted.Redacted<string>;
-  Url?: string | redacted.Redacted<string>;
+  Url?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTaxiPlaceType = "AccessPoint" | "Station" | (string & {});
 export interface RouteTaxiPlace {
-  AccessPointDetails?: RouteAccessPointDetails;
-  Name?: string | redacted.Redacted<string>;
-  OriginalPosition?: number[];
+  AccessPointDetails?: RouteAccessPointDetails | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  OriginalPosition?: number[] | undefined;
   Position: number[];
-  StationDetails?: RouteStationDetails;
-  Type?: RouteTaxiPlaceType;
-  WaypointIndex?: number;
+  StationDetails?: RouteStationDetails | undefined;
+  Type?: RouteTaxiPlaceType | undefined;
+  WaypointIndex?: number | undefined;
 }
 export interface RouteTaxiArrival {
   Place: RouteTaxiPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTaxiBeforeTravelStepType = "Wait" | (string & {});
 export interface RouteTaxiBeforeTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteTaxiBeforeTravelStepType;
 }
 export type RouteTaxiBeforeTravelStepList = RouteTaxiBeforeTravelStep[];
 export interface RouteTaxiDeparture {
   Place: RouteTaxiPlace;
-  Time?: string | redacted.Redacted<string>;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTaxiNoticeCode = "AccuratePolylineUnavailable" | "Other" | (string & {});
 export interface RouteTaxiNotice {
   Code: RouteTaxiNoticeCode;
-  Impact?: RouteNoticeImpact;
+  Impact?: RouteNoticeImpact | undefined;
 }
 export type RouteTaxiNoticeList = RouteTaxiNotice[];
 export interface RouteTaxiOverviewSummary {
@@ -1865,19 +1865,19 @@ export interface RouteTaxiTravelOnlySummary {
   Duration: number;
 }
 export interface RouteTaxiSummary {
-  Overview?: RouteTaxiOverviewSummary;
-  TravelOnly?: RouteTaxiTravelOnlySummary;
+  Overview?: RouteTaxiOverviewSummary | undefined;
+  TravelOnly?: RouteTaxiTravelOnlySummary | undefined;
 }
 export interface RouteTaxiTransportModeDetails {
-  AvailableSeats?: number;
-  Category?: string | redacted.Redacted<string>;
-  Color?: string | redacted.Redacted<string>;
-  Engine?: RouteEngineType;
-  LicensePlate?: string | redacted.Redacted<string>;
+  AvailableSeats?: number | undefined;
+  Category?: string | redacted.Redacted<string> | undefined;
+  Color?: string | redacted.Redacted<string> | undefined;
+  Engine?: RouteEngineType | undefined;
+  LicensePlate?: string | redacted.Redacted<string> | undefined;
   Mode: RouteTaxiMode;
-  Model?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
-  TextColor?: string | redacted.Redacted<string>;
+  Model?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  TextColor?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTaxiTravelStepType =
   | "Arrive"
@@ -1893,54 +1893,54 @@ export type RouteTaxiTravelStepType =
   | "UTurn"
   | (string & {});
 export interface RouteTaxiTravelStep {
-  ContinueStepDetails?: RouteContinueStepDetails;
-  Distance?: number;
+  ContinueStepDetails?: RouteContinueStepDetails | undefined;
+  Distance?: number | undefined;
   Duration: number;
-  ExitStepDetails?: RouteExitStepDetails;
-  GeometryOffset?: number;
-  Instruction?: string | redacted.Redacted<string>;
-  KeepStepDetails?: RouteKeepStepDetails;
-  RampStepDetails?: RouteRampStepDetails;
-  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails;
-  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails;
-  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails;
-  TurnStepDetails?: RouteTurnStepDetails;
+  ExitStepDetails?: RouteExitStepDetails | undefined;
+  GeometryOffset?: number | undefined;
+  Instruction?: string | redacted.Redacted<string> | undefined;
+  KeepStepDetails?: RouteKeepStepDetails | undefined;
+  RampStepDetails?: RouteRampStepDetails | undefined;
+  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails | undefined;
+  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails | undefined;
+  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails | undefined;
+  TurnStepDetails?: RouteTurnStepDetails | undefined;
   Type: RouteTaxiTravelStepType;
-  UTurnStepDetails?: RouteUTurnStepDetails;
+  UTurnStepDetails?: RouteUTurnStepDetails | undefined;
 }
 export type RouteTaxiTravelStepList = RouteTaxiTravelStep[];
 export interface RouteTaxiLegDetails {
-  AfterTravelSteps?: RouteTaxiAfterTravelStep[];
+  AfterTravelSteps?: RouteTaxiAfterTravelStep[] | undefined;
   Agency: RouteTaxiAgency;
   Arrival: RouteTaxiArrival;
-  Attributions?: RouteAttribution[];
-  BeforeTravelSteps?: RouteTaxiBeforeTravelStep[];
-  BookingWebLinks?: RouteWebLink[];
+  Attributions?: RouteAttribution[] | undefined;
+  BeforeTravelSteps?: RouteTaxiBeforeTravelStep[] | undefined;
+  BookingWebLinks?: RouteWebLink[] | undefined;
   Departure: RouteTaxiDeparture;
-  Notices?: RouteTaxiNotice[];
-  Summary?: RouteTaxiSummary;
+  Notices?: RouteTaxiNotice[] | undefined;
+  Summary?: RouteTaxiSummary | undefined;
   Transport: RouteTaxiTransportModeDetails;
-  TravelSteps?: RouteTaxiTravelStep[];
+  TravelSteps?: RouteTaxiTravelStep[] | undefined;
 }
 export type RouteTransitAfterTravelStepType = "Deboard" | (string & {});
 export interface RouteTransitAfterTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteTransitAfterTravelStepType;
 }
 export type RouteTransitAfterTravelStepList = RouteTransitAfterTravelStep[];
 export interface RouteTransitAgency {
   Name: string | redacted.Redacted<string>;
-  Url?: string | redacted.Redacted<string>;
+  Url?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTransitPlaceType = "Station" | (string & {});
 export interface RouteTransitPlace {
-  Name?: string | redacted.Redacted<string>;
-  OriginalPosition?: number[];
+  Name?: string | redacted.Redacted<string> | undefined;
+  OriginalPosition?: number[] | undefined;
   Position: number[];
-  StationDetails?: RouteStationDetails;
-  Type?: RouteTransitPlaceType;
-  WaypointIndex?: number;
+  StationDetails?: RouteStationDetails | undefined;
+  Type?: RouteTransitPlaceType | undefined;
+  WaypointIndex?: number | undefined;
 }
 export type RouteTransitTripStatus =
   | "Added"
@@ -1949,23 +1949,23 @@ export type RouteTransitTripStatus =
   | "Scheduled"
   | (string & {});
 export interface RouteTransitArrival {
-  Delay?: number;
+  Delay?: number | undefined;
   Place: RouteTransitPlace;
-  Status?: RouteTransitTripStatus;
-  Time?: string | redacted.Redacted<string>;
+  Status?: RouteTransitTripStatus | undefined;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTransitBeforeTravelStepType = "Board" | (string & {});
 export interface RouteTransitBeforeTravelStep {
   Duration: number;
-  Instruction?: string | redacted.Redacted<string>;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteTransitBeforeTravelStepType;
 }
 export type RouteTransitBeforeTravelStepList = RouteTransitBeforeTravelStep[];
 export interface RouteTransitDeparture {
-  Delay?: number;
+  Delay?: number | undefined;
   Place: RouteTransitPlace;
-  Status?: RouteTransitTripStatus;
-  Time?: string | redacted.Redacted<string>;
+  Status?: RouteTransitTripStatus | undefined;
+  Time?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTransitIncidentEffect =
   | "Delayed"
@@ -1991,41 +1991,41 @@ export type RouteTransitIncidentType =
   | "Weather"
   | (string & {});
 export interface RouteTransitIncident {
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   Effect: RouteTransitIncidentEffect;
-  EndTime?: string | redacted.Redacted<string>;
-  StartTime?: string | redacted.Redacted<string>;
+  EndTime?: string | redacted.Redacted<string> | undefined;
+  StartTime?: string | redacted.Redacted<string> | undefined;
   Type: RouteTransitIncidentType;
-  Url?: string | redacted.Redacted<string>;
+  Url?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTransitIncidentList = RouteTransitIncident[];
 export type RouteTransitIntermediateStopAttribute = "NoEntry" | "NoExit" | (string & {});
 export type RouteTransitIntermediateStopAttributeList = RouteTransitIntermediateStopAttribute[];
 export type HexColor = string | redacted.Redacted<string>;
 export interface RouteTransitTransportModeDetails {
-  Accessibility?: RouteAccessibilityAvailabilityDetails;
-  Color?: string | redacted.Redacted<string>;
-  Headsign?: string | redacted.Redacted<string>;
-  LongRouteName?: string | redacted.Redacted<string>;
+  Accessibility?: RouteAccessibilityAvailabilityDetails | undefined;
+  Color?: string | redacted.Redacted<string> | undefined;
+  Headsign?: string | redacted.Redacted<string> | undefined;
+  LongRouteName?: string | redacted.Redacted<string> | undefined;
   Mode: RouteTransitMode;
-  RouteName?: string | redacted.Redacted<string>;
-  ShortRouteName?: string | redacted.Redacted<string>;
-  TextColor?: string | redacted.Redacted<string>;
+  RouteName?: string | redacted.Redacted<string> | undefined;
+  ShortRouteName?: string | redacted.Redacted<string> | undefined;
+  TextColor?: string | redacted.Redacted<string> | undefined;
 }
 export interface RouteTransitIntermediateStop {
-  Attributes?: RouteTransitIntermediateStopAttribute[];
+  Attributes?: RouteTransitIntermediateStopAttribute[] | undefined;
   Departure: RouteTransitDeparture;
   Duration: number;
-  GeometryOffset?: number;
-  Transport?: RouteTransitTransportModeDetails;
+  GeometryOffset?: number | undefined;
+  Transport?: RouteTransitTransportModeDetails | undefined;
 }
 export type RouteTransitIntermediateStopList = RouteTransitIntermediateStop[];
 export interface RouteTransitNextDeparture {
-  Delay?: number;
-  PlatformName?: string | redacted.Redacted<string>;
-  Status?: RouteTransitTripStatus;
+  Delay?: number | undefined;
+  PlatformName?: string | redacted.Redacted<string> | undefined;
+  Status?: RouteTransitTripStatus | undefined;
   Time: string | redacted.Redacted<string>;
-  Transport?: RouteTransitTransportModeDetails;
+  Transport?: RouteTransitTransportModeDetails | undefined;
 }
 export type RouteTransitNextDepartureList = RouteTransitNextDeparture[];
 export type RouteTransitNoticeCode =
@@ -2044,16 +2044,16 @@ export type RouteTransitNoticeCode =
   | (string & {});
 export interface RouteTransitNotice {
   Code: RouteTransitNoticeCode;
-  Impact?: RouteNoticeImpact;
+  Impact?: RouteNoticeImpact | undefined;
 }
 export type RouteTransitNoticeList = RouteTransitNotice[];
 export interface RouteTransitSpan {
-  Country?: string | redacted.Redacted<string>;
-  Distance?: number;
-  Duration?: number;
-  GeometryOffset?: number;
-  Names?: LocalizedString[];
-  Region?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Distance?: number | undefined;
+  Duration?: number | undefined;
+  GeometryOffset?: number | undefined;
+  Names?: LocalizedString[] | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteTransitSpanList = RouteTransitSpan[];
 export interface RouteTransitOverviewSummary {
@@ -2064,73 +2064,73 @@ export interface RouteTransitTravelOnlySummary {
   Duration: number;
 }
 export interface RouteTransitSummary {
-  Overview?: RouteTransitOverviewSummary;
-  TravelOnly?: RouteTransitTravelOnlySummary;
+  Overview?: RouteTransitOverviewSummary | undefined;
+  TravelOnly?: RouteTransitTravelOnlySummary | undefined;
 }
 export type RouteTransitTravelStepType = "Depart" | (string & {});
 export interface RouteTransitTravelStep {
-  Distance?: number;
+  Distance?: number | undefined;
   Duration: number;
-  GeometryOffset?: number;
-  Instruction?: string | redacted.Redacted<string>;
+  GeometryOffset?: number | undefined;
+  Instruction?: string | redacted.Redacted<string> | undefined;
   Type: RouteTransitTravelStepType;
 }
 export type RouteTransitTravelStepList = RouteTransitTravelStep[];
 export interface RouteTransitLegDetails {
-  AfterTravelSteps?: RouteTransitAfterTravelStep[];
-  Agency?: RouteTransitAgency;
+  AfterTravelSteps?: RouteTransitAfterTravelStep[] | undefined;
+  Agency?: RouteTransitAgency | undefined;
   Arrival: RouteTransitArrival;
-  Attributions?: RouteAttribution[];
-  BeforeTravelSteps?: RouteTransitBeforeTravelStep[];
-  BookingWebLinks?: RouteWebLink[];
+  Attributions?: RouteAttribution[] | undefined;
+  BeforeTravelSteps?: RouteTransitBeforeTravelStep[] | undefined;
+  BookingWebLinks?: RouteWebLink[] | undefined;
   Departure: RouteTransitDeparture;
-  Incidents?: RouteTransitIncident[];
-  IntermediateStops?: RouteTransitIntermediateStop[];
-  NextDepartures?: RouteTransitNextDeparture[];
-  Notices?: RouteTransitNotice[];
-  PassThroughWaypoints?: RoutePassThroughWaypoint[];
-  Spans?: RouteTransitSpan[];
-  Summary?: RouteTransitSummary;
+  Incidents?: RouteTransitIncident[] | undefined;
+  IntermediateStops?: RouteTransitIntermediateStop[] | undefined;
+  NextDepartures?: RouteTransitNextDeparture[] | undefined;
+  Notices?: RouteTransitNotice[] | undefined;
+  PassThroughWaypoints?: RoutePassThroughWaypoint[] | undefined;
+  Spans?: RouteTransitSpan[] | undefined;
+  Summary?: RouteTransitSummary | undefined;
   Transport: RouteTransitTransportModeDetails;
-  TravelSteps?: RouteTransitTravelStep[];
+  TravelSteps?: RouteTransitTravelStep[] | undefined;
 }
 export interface RouteLeg {
-  FerryLegDetails?: RouteFerryLegDetails;
+  FerryLegDetails?: RouteFerryLegDetails | undefined;
   Geometry: RouteLegGeometry;
-  Language?: string;
-  PedestrianLegDetails?: RoutePedestrianLegDetails;
+  Language?: string | undefined;
+  PedestrianLegDetails?: RoutePedestrianLegDetails | undefined;
   TravelMode: RouteLegTravelMode;
   Type: RouteLegType;
-  VehicleLegDetails?: RouteVehicleLegDetails;
-  RentalLegDetails?: RouteRentalLegDetails;
-  TaxiLegDetails?: RouteTaxiLegDetails;
-  TransitLegDetails?: RouteTransitLegDetails;
+  VehicleLegDetails?: RouteVehicleLegDetails | undefined;
+  RentalLegDetails?: RouteRentalLegDetails | undefined;
+  TaxiLegDetails?: RouteTaxiLegDetails | undefined;
+  TransitLegDetails?: RouteTransitLegDetails | undefined;
 }
 export type RouteLegList = RouteLeg[];
 export interface RouteMajorRoadLabel {
-  RoadName?: LocalizedString;
-  RouteNumber?: RouteNumber;
+  RoadName?: LocalizedString | undefined;
+  RouteNumber?: RouteNumber | undefined;
 }
 export type RouteMajorRoadLabelList = RouteMajorRoadLabel[];
 export interface RouteTollPriceSummary {
   Currency: string;
   Estimate: boolean;
   Range: boolean;
-  RangeValue?: RouteTollPriceValueRange;
+  RangeValue?: RouteTollPriceValueRange | undefined;
   Value: number;
 }
 export interface RouteTollSummary {
-  Total?: RouteTollPriceSummary;
+  Total?: RouteTollPriceSummary | undefined;
 }
 export interface RouteSummary {
-  Distance?: number;
-  Duration?: number;
-  Tolls?: RouteTollSummary;
+  Distance?: number | undefined;
+  Duration?: number | undefined;
+  Tolls?: RouteTollSummary | undefined;
 }
 export interface Route {
   Legs: RouteLeg[];
   MajorRoadLabels: RouteMajorRoadLabel[];
-  Summary?: RouteSummary;
+  Summary?: RouteSummary | undefined;
 }
 export type RouteList = Route[];
 export interface CalculateRoutesResponse {
@@ -2140,21 +2140,21 @@ export interface CalculateRoutesResponse {
   Routes: Route[];
 }
 export interface WaypointOptimizationAvoidanceAreaGeometry {
-  BoundingBox?: number[];
+  BoundingBox?: number[] | undefined;
 }
 export interface WaypointOptimizationAvoidanceArea {
   Geometry: WaypointOptimizationAvoidanceAreaGeometry;
 }
 export type WaypointOptimizationAvoidanceAreaList = WaypointOptimizationAvoidanceArea[];
 export interface WaypointOptimizationAvoidanceOptions {
-  Areas?: WaypointOptimizationAvoidanceArea[];
-  CarShuttleTrains?: boolean;
-  ControlledAccessHighways?: boolean;
-  DirtRoads?: boolean;
-  Ferries?: boolean;
-  TollRoads?: boolean;
-  Tunnels?: boolean;
-  UTurns?: boolean;
+  Areas?: WaypointOptimizationAvoidanceArea[] | undefined;
+  CarShuttleTrains?: boolean | undefined;
+  ControlledAccessHighways?: boolean | undefined;
+  DirtRoads?: boolean | undefined;
+  Ferries?: boolean | undefined;
+  TollRoads?: boolean | undefined;
+  Tunnels?: boolean | undefined;
+  UTurns?: boolean | undefined;
 }
 export type WaypointOptimizationClusteringAlgorithm =
   | "DrivingDistance"
@@ -2166,7 +2166,7 @@ export interface WaypointOptimizationDrivingDistanceOptions {
 }
 export interface WaypointOptimizationClusteringOptions {
   Algorithm: WaypointOptimizationClusteringAlgorithm;
-  DrivingDistanceOptions?: WaypointOptimizationDrivingDistanceOptions;
+  DrivingDistanceOptions?: WaypointOptimizationDrivingDistanceOptions | undefined;
 }
 export type DayOfWeek =
   | "Monday"
@@ -2189,15 +2189,15 @@ export interface WaypointOptimizationAccessHours {
 export type WaypointId = string;
 export interface WaypointOptimizationSideOfStreetOptions {
   Position: number[];
-  UseWith?: SideOfStreetMatchingStrategy;
+  UseWith?: SideOfStreetMatchingStrategy | undefined;
 }
 export interface WaypointOptimizationDestinationOptions {
-  AccessHours?: WaypointOptimizationAccessHours;
-  AppointmentTime?: string | redacted.Redacted<string>;
-  Heading?: number;
-  Id?: string;
-  ServiceDuration?: number;
-  SideOfStreet?: WaypointOptimizationSideOfStreetOptions;
+  AccessHours?: WaypointOptimizationAccessHours | undefined;
+  AppointmentTime?: string | redacted.Redacted<string> | undefined;
+  Heading?: number | undefined;
+  Id?: string | undefined;
+  ServiceDuration?: number | undefined;
+  SideOfStreet?: WaypointOptimizationSideOfStreetOptions | undefined;
 }
 export interface WaypointOptimizationRestCycleDurations {
   RestDuration: number;
@@ -2212,9 +2212,9 @@ export interface WaypointOptimizationRestProfile {
 }
 export type WaypointOptimizationServiceTimeTreatment = "Rest" | "Work" | (string & {});
 export interface WaypointOptimizationDriverOptions {
-  RestCycles?: WaypointOptimizationRestCycles;
-  RestProfile?: WaypointOptimizationRestProfile;
-  TreatServiceTimeAs?: WaypointOptimizationServiceTimeTreatment;
+  RestCycles?: WaypointOptimizationRestCycles | undefined;
+  RestProfile?: WaypointOptimizationRestProfile | undefined;
+  TreatServiceTimeAs?: WaypointOptimizationServiceTimeTreatment | undefined;
 }
 export interface WaypointOptimizationExclusionOptions {
   Countries: (string | redacted.Redacted<string>)[];
@@ -2224,10 +2224,10 @@ export type WaypointOptimizationSequencingObjective =
   | "ShortestRoute"
   | (string & {});
 export interface WaypointOptimizationOriginOptions {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface WaypointOptimizationTrafficOptions {
-  Usage?: TrafficUsage;
+  Usage?: TrafficUsage | undefined;
 }
 export type WaypointOptimizationTravelMode =
   | "Car"
@@ -2236,7 +2236,7 @@ export type WaypointOptimizationTravelMode =
   | "Truck"
   | (string & {});
 export interface WaypointOptimizationPedestrianOptions {
-  Speed?: number;
+  Speed?: number | undefined;
 }
 export type WaypointOptimizationHazardousCargoType =
   | "Combustible"
@@ -2253,53 +2253,53 @@ export type WaypointOptimizationHazardousCargoType =
   | (string & {});
 export type WaypointOptimizationHazardousCargoTypeList = WaypointOptimizationHazardousCargoType[];
 export interface WaypointOptimizationTrailerOptions {
-  TrailerCount?: number;
+  TrailerCount?: number | undefined;
 }
 export type WaypointOptimizationTruckType = "StraightTruck" | "Tractor" | (string & {});
 export interface WaypointOptimizationTruckOptions {
-  GrossWeight?: number;
-  HazardousCargos?: WaypointOptimizationHazardousCargoType[];
-  Height?: number;
-  Length?: number;
-  Trailer?: WaypointOptimizationTrailerOptions;
-  TruckType?: WaypointOptimizationTruckType;
-  TunnelRestrictionCode?: string | redacted.Redacted<string>;
-  WeightPerAxle?: number;
-  Width?: number;
+  GrossWeight?: number | undefined;
+  HazardousCargos?: WaypointOptimizationHazardousCargoType[] | undefined;
+  Height?: number | undefined;
+  Length?: number | undefined;
+  Trailer?: WaypointOptimizationTrailerOptions | undefined;
+  TruckType?: WaypointOptimizationTruckType | undefined;
+  TunnelRestrictionCode?: string | redacted.Redacted<string> | undefined;
+  WeightPerAxle?: number | undefined;
+  Width?: number | undefined;
 }
 export interface WaypointOptimizationTravelModeOptions {
-  Pedestrian?: WaypointOptimizationPedestrianOptions;
-  Truck?: WaypointOptimizationTruckOptions;
+  Pedestrian?: WaypointOptimizationPedestrianOptions | undefined;
+  Truck?: WaypointOptimizationTruckOptions | undefined;
 }
 export type WaypointIndex = number;
 export type BeforeWaypointsList = number[];
 export interface WaypointOptimizationWaypoint {
-  AccessHours?: WaypointOptimizationAccessHours;
-  AppointmentTime?: string | redacted.Redacted<string>;
-  Before?: number[];
-  Heading?: number;
-  Id?: string;
+  AccessHours?: WaypointOptimizationAccessHours | undefined;
+  AppointmentTime?: string | redacted.Redacted<string> | undefined;
+  Before?: number[] | undefined;
+  Heading?: number | undefined;
+  Id?: string | undefined;
   Position: number[];
-  ServiceDuration?: number;
-  SideOfStreet?: WaypointOptimizationSideOfStreetOptions;
+  ServiceDuration?: number | undefined;
+  SideOfStreet?: WaypointOptimizationSideOfStreetOptions | undefined;
 }
 export type WaypointOptimizationWaypointList = WaypointOptimizationWaypoint[];
 export interface OptimizeWaypointsRequest {
-  Avoid?: WaypointOptimizationAvoidanceOptions;
-  Clustering?: WaypointOptimizationClusteringOptions;
-  DepartureTime?: string | redacted.Redacted<string>;
-  Destination?: number[];
-  DestinationOptions?: WaypointOptimizationDestinationOptions;
-  Driver?: WaypointOptimizationDriverOptions;
-  Exclude?: WaypointOptimizationExclusionOptions;
-  Key?: string | redacted.Redacted<string>;
-  OptimizeSequencingFor?: WaypointOptimizationSequencingObjective;
+  Avoid?: WaypointOptimizationAvoidanceOptions | undefined;
+  Clustering?: WaypointOptimizationClusteringOptions | undefined;
+  DepartureTime?: string | redacted.Redacted<string> | undefined;
+  Destination?: number[] | undefined;
+  DestinationOptions?: WaypointOptimizationDestinationOptions | undefined;
+  Driver?: WaypointOptimizationDriverOptions | undefined;
+  Exclude?: WaypointOptimizationExclusionOptions | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
+  OptimizeSequencingFor?: WaypointOptimizationSequencingObjective | undefined;
   Origin: number[];
-  OriginOptions?: WaypointOptimizationOriginOptions;
-  Traffic?: WaypointOptimizationTrafficOptions;
-  TravelMode?: WaypointOptimizationTravelMode;
-  TravelModeOptions?: WaypointOptimizationTravelModeOptions;
-  Waypoints?: WaypointOptimizationWaypoint[];
+  OriginOptions?: WaypointOptimizationOriginOptions | undefined;
+  Traffic?: WaypointOptimizationTrafficOptions | undefined;
+  TravelMode?: WaypointOptimizationTravelMode | undefined;
+  TravelModeOptions?: WaypointOptimizationTravelModeOptions | undefined;
+  Waypoints?: WaypointOptimizationWaypoint[] | undefined;
 }
 export interface WaypointOptimizationConnection {
   Distance: number;
@@ -2319,8 +2319,8 @@ export type WaypointOptimizationConstraint =
   | "SideOfStreet"
   | (string & {});
 export interface WaypointOptimizationFailedConstraint {
-  Constraint?: WaypointOptimizationConstraint;
-  Reason?: string | redacted.Redacted<string>;
+  Constraint?: WaypointOptimizationConstraint | undefined;
+  Reason?: string | redacted.Redacted<string> | undefined;
 }
 export type WaypointOptimizationFailedConstraintList = WaypointOptimizationFailedConstraint[];
 export interface WaypointOptimizationImpedingWaypoint {
@@ -2331,9 +2331,9 @@ export interface WaypointOptimizationImpedingWaypoint {
 export type WaypointOptimizationImpedingWaypointList = WaypointOptimizationImpedingWaypoint[];
 export type ClusterIndex = number;
 export interface WaypointOptimizationOptimizedWaypoint {
-  ArrivalTime?: string | redacted.Redacted<string>;
-  ClusterIndex?: number;
-  DepartureTime?: string | redacted.Redacted<string>;
+  ArrivalTime?: string | redacted.Redacted<string> | undefined;
+  ClusterIndex?: number | undefined;
+  DepartureTime?: string | redacted.Redacted<string> | undefined;
   Id: string;
   Position: number[];
 }
@@ -2354,10 +2354,10 @@ export interface OptimizeWaypointsResponse {
   TimeBreakdown: WaypointOptimizationTimeBreakdown;
 }
 export interface RoadSnapTracePoint {
-  Heading?: number;
+  Heading?: number | undefined;
   Position: number[];
-  Speed?: number;
-  Timestamp?: string | redacted.Redacted<string>;
+  Speed?: number | undefined;
+  Timestamp?: string | redacted.Redacted<string> | undefined;
 }
 export type RoadSnapTracePointList = RoadSnapTracePoint[];
 export type RoadSnapTravelMode = "Car" | "Pedestrian" | "Scooter" | "Truck" | (string & {});
@@ -2376,27 +2376,27 @@ export type RoadSnapHazardousCargoType =
   | (string & {});
 export type RoadSnapHazardousCargoTypeList = RoadSnapHazardousCargoType[];
 export interface RoadSnapTrailerOptions {
-  TrailerCount?: number;
+  TrailerCount?: number | undefined;
 }
 export interface RoadSnapTruckOptions {
-  GrossWeight?: number;
-  HazardousCargos?: RoadSnapHazardousCargoType[];
-  Height?: number;
-  Length?: number;
-  Trailer?: RoadSnapTrailerOptions;
-  TunnelRestrictionCode?: string | redacted.Redacted<string>;
-  Width?: number;
+  GrossWeight?: number | undefined;
+  HazardousCargos?: RoadSnapHazardousCargoType[] | undefined;
+  Height?: number | undefined;
+  Length?: number | undefined;
+  Trailer?: RoadSnapTrailerOptions | undefined;
+  TunnelRestrictionCode?: string | redacted.Redacted<string> | undefined;
+  Width?: number | undefined;
 }
 export interface RoadSnapTravelModeOptions {
-  Truck?: RoadSnapTruckOptions;
+  Truck?: RoadSnapTruckOptions | undefined;
 }
 export interface SnapToRoadsRequest {
-  Key?: string | redacted.Redacted<string>;
-  SnappedGeometryFormat?: GeometryFormat;
-  SnapRadius?: number;
+  Key?: string | redacted.Redacted<string> | undefined;
+  SnappedGeometryFormat?: GeometryFormat | undefined;
+  SnapRadius?: number | undefined;
   TracePoints: RoadSnapTracePoint[];
-  TravelMode?: RoadSnapTravelMode;
-  TravelModeOptions?: RoadSnapTravelModeOptions;
+  TravelMode?: RoadSnapTravelMode | undefined;
+  TravelModeOptions?: RoadSnapTravelModeOptions | undefined;
 }
 export type RoadSnapNoticeCode =
   | "TracePointsHeadingIgnored"
@@ -2415,8 +2415,8 @@ export interface RoadSnapNotice {
 }
 export type RoadSnapNoticeList = RoadSnapNotice[];
 export interface RoadSnapSnappedGeometry {
-  LineString?: number[][];
-  Polyline?: string | redacted.Redacted<string>;
+  LineString?: number[][] | undefined;
+  Polyline?: string | redacted.Redacted<string> | undefined;
 }
 export interface RoadSnapSnappedTracePoint {
   Confidence: number;
@@ -2427,7 +2427,7 @@ export type RoadSnapSnappedTracePointList = RoadSnapSnappedTracePoint[];
 export interface SnapToRoadsResponse {
   Notices: RoadSnapNotice[];
   PricingBucket: string;
-  SnappedGeometry?: RoadSnapSnappedGeometry;
+  SnappedGeometry?: RoadSnapSnappedGeometry | undefined;
   SnappedGeometryFormat: GeometryFormat;
   SnappedTracePoints: RoadSnapSnappedTracePoint[];
 }

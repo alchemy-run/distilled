@@ -577,10 +577,10 @@ export interface BetaWorkersVersionsProfileRequest {
   /** Profile duration in milliseconds. */
   durationMs: number;
   /** Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version. */
-  actorId?: string;
+  actorId?: string | undefined;
   /** Identifies the Durable Object namespace containing the actor to profile. Must be specified together with actor_id. */
-  namespaceId?: string;
-  profileType?: BetaWorkersVersionsProfileRequestProfileType | (string & {});
+  namespaceId?: string | undefined;
+  profileType?: BetaWorkersVersionsProfileRequestProfileType | (string & {}) | undefined;
 }
 export interface BetaWorkersVersionsProfileResponse {}
 export type ScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType = "secret_text";
@@ -622,9 +622,9 @@ export interface ScriptsSecretsBulkUpdateRequestSecretsValueSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string;
+  keyBase64?: string | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown;
+  keyJwk?: unknown | undefined;
 }
 export type ScriptsSecretsBulkUpdateRequestSecretsValue =
   | ScriptsSecretsBulkUpdateRequestSecretsValueSecretText
@@ -639,9 +639,9 @@ export interface BulkUpdateScriptSecretsRequest {
   /** Name of the script. */
   scriptName: string;
   /** Map of secret names to secret values: */
-  secrets?: ScriptsSecretsBulkUpdateRequestSecretsMap;
+  secrets?: ScriptsSecretsBulkUpdateRequestSecretsMap | undefined;
   /** Optional version tags to apply to the new script version. */
-  versionTags?: ScriptsSecretsBulkUpdateRequestVersionTagsMap;
+  versionTags?: ScriptsSecretsBulkUpdateRequestVersionTagsMap | undefined;
 }
 export type ScriptsSecretsBulkUpdateResultValueSecretTextType = "secret_text";
 export interface ScriptsSecretsBulkUpdateResultValueSecretText {
@@ -677,9 +677,9 @@ export interface ScriptsSecretsBulkUpdateResultValueSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type ScriptsSecretsBulkUpdateResultValue =
   | ScriptsSecretsBulkUpdateResultValueSecretText
@@ -695,31 +695,31 @@ export interface CreateAssetUploadRequest {
   /** Whether the file contents are base64-encoded. Must be `true`. */
   base64: boolean;
   /** Map of asset hash -> base64 file content; each entry is a multipart form part. */
-  body?: CreateAssetUploadBodyMap;
+  body?: CreateAssetUploadBodyMap | undefined;
   /** Asset-upload session JWT (sent as Bearer Authorization). */
-  jwtToken?: string;
+  jwtToken?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAssetUploadResponse {
   /** A "completion" JWT which can be redeemed when creating a Worker version. */
-  jwt?: string | null;
+  jwt?: string | null | undefined;
 }
 export interface BetaWorkersCreateRequestObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type BetaWorkersCreateRequestObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersCreateRequestObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersCreateRequestObservabilityLogsDestinationsList;
+  destinations?: BetaWorkersCreateRequestObservabilityLogsDestinationsList | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean;
+  invocationLogs?: boolean | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type BetaWorkersCreateRequestObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersCreateRequestObservabilityTracesPropagationPolicy =
@@ -727,35 +727,38 @@ export type BetaWorkersCreateRequestObservabilityTracesPropagationPolicy =
   | "accept";
 export interface BetaWorkersCreateRequestObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersCreateRequestObservabilityTracesDestinationsList;
+  destinations?: BetaWorkersCreateRequestObservabilityTracesDestinationsList | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersCreateRequestObservabilityTracesPropagationPolicy | (string & {});
+  propagationPolicy?:
+    | BetaWorkersCreateRequestObservabilityTracesPropagationPolicy
+    | (string & {})
+    | undefined;
 }
 export interface BetaWorkersCreateRequestObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateRequestObservabilityIssues;
+  issues?: BetaWorkersCreateRequestObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersCreateRequestObservabilityLogs;
+  logs?: BetaWorkersCreateRequestObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersCreateRequestObservabilityTraces;
+  traces?: BetaWorkersCreateRequestObservabilityTraces | undefined;
 }
 export interface BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions {
   /** Whether caching is enabled for this Worker. */
   enabled: boolean;
   /** Whether cached responses are shared across Worker version uploads. This is independent of `enabled`. It can stay true while caching is off, so the preference survives turning caching off and back on. */
-  crossVersionCache?: boolean;
+  crossVersionCache?: boolean | undefined;
 }
 export interface BetaWorkersCreateRequestPreviewsBaseConfigEnvValue {
   /** The kind of resource that the binding provides. */
@@ -766,9 +769,9 @@ export type BetaWorkersCreateRequestPreviewsBaseConfigEnvMap = {
 };
 export interface BetaWorkersCreateRequestPreviewsBaseConfigLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
-  cpuMs?: number;
+  cpuMs?: number | undefined;
   /** The number of subrequests this Worker can make per request. */
-  subrequests?: number;
+  subrequests?: number | undefined;
 }
 export type BetaWorkersCreateRequestPreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateRequestObservabilityIssues;
@@ -776,15 +779,17 @@ export type BetaWorkersCreateRequestPreviewsBaseConfigObservabilityLogsDestinati
   Array<string>;
 export interface BetaWorkersCreateRequestPreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersCreateRequestPreviewsBaseConfigObservabilityLogsDestinationsList;
+  destinations?:
+    | BetaWorkersCreateRequestPreviewsBaseConfigObservabilityLogsDestinationsList
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean;
+  invocationLogs?: boolean | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -793,31 +798,34 @@ export type BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTracesPropaga
   | "accept";
 export interface BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTracesDestinationsList;
+  destinations?:
+    | BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTracesDestinationsList
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTracesPropagationPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface BetaWorkersCreateRequestPreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateRequestObservabilityIssues;
+  issues?: BetaWorkersCreateRequestObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersCreateRequestPreviewsBaseConfigObservabilityLogs;
+  logs?: BetaWorkersCreateRequestPreviewsBaseConfigObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTraces;
+  traces?: BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTraces | undefined;
 }
 export type BetaWorkersCreateRequestPreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersCreateRequestPreviewsBaseConfigPlacementMode {
@@ -897,29 +905,29 @@ export type BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersCreateRequestPreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions;
+  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersCreateRequestPreviewsBaseConfigEnvMap;
+  env?: BetaWorkersCreateRequestPreviewsBaseConfigEnvMap | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateRequestPreviewsBaseConfigLimits;
+  limits?: BetaWorkersCreateRequestPreviewsBaseConfigLimits | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean;
+  logpush?: boolean | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersCreateRequestPreviewsBaseConfigObservability;
+  observability?: BetaWorkersCreateRequestPreviewsBaseConfigObservability | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersCreateRequestPreviewsBaseConfigPlacement;
+  placement?: BetaWorkersCreateRequestPreviewsBaseConfigPlacement | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersList;
+  tailConsumers?: BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersList | undefined;
 }
 export interface BetaWorkersCreateRequestSubdomain {
   /** Whether the *.workers.dev subdomain is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Prepend a version or preview prefix to this host suffix to form the *.workers.dev [preview URL](https://developers.cloudflare.com/workers/configuration/previews/) the Worker would serve on once previews are enabled, e.g. `https://&lt;prefix&gt;-my-worker.my-subdomain.workers.dev`. Present whenever the account owns a workers.dev subdomain, regardless of whether `previews_enabled` is true, so presence does not imply preview URLs are currently live. Absent only when the account owns no workers.dev subdomain. */
-  previewUrlSuffix?: string;
+  previewUrlSuffix?: string | undefined;
   /** Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker. */
-  previewsEnabled?: boolean;
+  previewsEnabled?: boolean | undefined;
   /** The address the Worker would serve on once its *.workers.dev subdomain is enabled. Present whenever the account owns a workers.dev subdomain, regardless of whether `enabled` is true, so presence does not imply the Worker is currently live at this URL. Absent only when the account owns no workers.dev subdomain. */
-  url?: string;
+  url?: string | undefined;
 }
 export type BetaWorkersCreateRequestTagsList = Array<string>;
 export type BetaWorkersCreateRequestTailConsumersItem =
@@ -932,34 +940,34 @@ export interface CreateBetaWorkerRequest {
   /** Name of the Worker. */
   name: string;
   /** Whether logpush is enabled for the Worker. */
-  logpush?: boolean;
+  logpush?: boolean | undefined;
   /** Observability settings for the Worker. */
-  observability?: BetaWorkersCreateRequestObservability;
+  observability?: BetaWorkersCreateRequestObservability | undefined;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersCreateRequestPreviewsBaseConfig;
+  previewsBaseConfig?: BetaWorkersCreateRequestPreviewsBaseConfig | undefined;
   /** Subdomain settings for the Worker. */
-  subdomain?: BetaWorkersCreateRequestSubdomain;
+  subdomain?: BetaWorkersCreateRequestSubdomain | undefined;
   /** Tags associated with the Worker. */
-  tags?: BetaWorkersCreateRequestTagsList;
+  tags?: BetaWorkersCreateRequestTagsList | undefined;
   /** Other Workers that should consume logs from the Worker. */
-  tailConsumers?: BetaWorkersCreateRequestTailConsumersList;
+  tailConsumers?: BetaWorkersCreateRequestTailConsumersList | undefined;
 }
 export interface BetaWorkersCreateResponseObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type BetaWorkersCreateResponseObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersCreateResponseObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersCreateResponseObservabilityLogsDestinationsList | null;
+  destinations?: BetaWorkersCreateResponseObservabilityLogsDestinationsList | null | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersCreateResponseObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersCreateResponseObservabilityTracesPropagationPolicy =
@@ -967,29 +975,32 @@ export type BetaWorkersCreateResponseObservabilityTracesPropagationPolicy =
   | "accept";
 export interface BetaWorkersCreateResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersCreateResponseObservabilityTracesDestinationsList | null;
+  destinations?: BetaWorkersCreateResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersCreateResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersCreateResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersCreateResponseObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersCreateResponseObservabilityLogs | null;
+  logs?: BetaWorkersCreateResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersCreateResponseObservabilityTraces | null;
+  traces?: BetaWorkersCreateResponseObservabilityTraces | null | undefined;
 }
 export interface BetaWorkersCreateResponseReferencesDispatchNamespaceOutboundsItem {
   /** ID of the dispatch namespace. */
@@ -1061,13 +1072,13 @@ export interface BetaWorkersCreateResponseReferences {
 }
 export interface BetaWorkersCreateResponseSubdomain {
   /** Whether the *.workers.dev subdomain is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Prepend a version or preview prefix to this host suffix to form the *.workers.dev [preview URL](https://developers.cloudflare.com/workers/configuration/previews/) the Worker would serve on once previews are enabled, e.g. `https://&lt;prefix&gt;-my-worker.my-subdomain.workers.dev`. Present whenever the account owns a workers.dev subdomain, regardless of whether `previews_enabled` is true, so presence does not imply preview URLs are currently live. Absent only when the account owns no workers.dev subdomain. */
-  previewUrlSuffix?: string | null;
+  previewUrlSuffix?: string | null | undefined;
   /** Whether [preview URLs](https://developers.cloudflare.com/workers/configuration/previews/) are enabled for the Worker. */
-  previewsEnabled?: boolean | null;
+  previewsEnabled?: boolean | null | undefined;
   /** The address the Worker would serve on once its *.workers.dev subdomain is enabled. Present whenever the account owns a workers.dev subdomain, regardless of whether `enabled` is true, so presence does not imply the Worker is currently live at this URL. Absent only when the account owns no workers.dev subdomain. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type BetaWorkersCreateResponseTagsList = Array<string>;
 export type BetaWorkersCreateResponseTailConsumersItem =
@@ -1078,7 +1089,7 @@ export interface BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions {
   /** Whether caching is enabled for this Worker. */
   enabled: boolean;
   /** Whether cached responses are shared across Worker version uploads. This is independent of `enabled`. It can stay true while caching is off, so the preference survives turning caching off and back on. */
-  crossVersionCache?: boolean | null;
+  crossVersionCache?: boolean | null | undefined;
 }
 export type BetaWorkersCreateResponsePreviewsBaseConfigEnvValue =
   BetaWorkersCreateRequestPreviewsBaseConfigEnvValue;
@@ -1087,9 +1098,9 @@ export type BetaWorkersCreateResponsePreviewsBaseConfigEnvMap = {
 };
 export interface BetaWorkersCreateResponsePreviewsBaseConfigLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
-  cpuMs?: number | null;
+  cpuMs?: number | null | undefined;
   /** The number of subrequests this Worker can make per request. */
-  subrequests?: number | null;
+  subrequests?: number | null | undefined;
 }
 export type BetaWorkersCreateResponsePreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
@@ -1097,15 +1108,18 @@ export type BetaWorkersCreateResponsePreviewsBaseConfigObservabilityLogsDestinat
   Array<string>;
 export interface BetaWorkersCreateResponsePreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersCreateResponsePreviewsBaseConfigObservabilityLogsDestinationsList | null;
+  destinations?:
+    | BetaWorkersCreateResponsePreviewsBaseConfigObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -1114,29 +1128,35 @@ export type BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTracesPropag
   | "accept";
 export interface BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTracesDestinationsList | null;
+  destinations?:
+    | BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersCreateResponsePreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersCreateResponsePreviewsBaseConfigObservabilityLogs | null;
+  logs?: BetaWorkersCreateResponsePreviewsBaseConfigObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTraces | null;
+  traces?: BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTraces | null | undefined;
 }
 export type BetaWorkersCreateResponsePreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersCreateResponsePreviewsBaseConfigPlacementMode {
@@ -1204,19 +1224,19 @@ export type BetaWorkersCreateResponsePreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersCreateResponsePreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersCreateResponsePreviewsBaseConfigEnvMap | null;
+  env?: BetaWorkersCreateResponsePreviewsBaseConfigEnvMap | null | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null;
+  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersCreateResponsePreviewsBaseConfigObservability | null;
+  observability?: BetaWorkersCreateResponsePreviewsBaseConfigObservability | null | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersCreateResponsePreviewsBaseConfigPlacement | null;
+  placement?: BetaWorkersCreateResponsePreviewsBaseConfigPlacement | null | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersCreateResponsePreviewsBaseConfigTailConsumersList | null;
+  tailConsumers?: BetaWorkersCreateResponsePreviewsBaseConfigTailConsumersList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateBetaWorkerResponse {
@@ -1241,17 +1261,17 @@ export interface CreateBetaWorkerResponse {
   /** When the Worker was most recently updated. */
   updatedOn: string;
   /** When the Worker's most recent deployment was created. `null` if the Worker has never been deployed. */
-  deployedOn?: string | null;
+  deployedOn?: string | null | undefined;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersCreateResponsePreviewsBaseConfig | null;
+  previewsBaseConfig?: BetaWorkersCreateResponsePreviewsBaseConfig | null | undefined;
 }
 export interface BetaWorkersVersionsCreateRequestAnnotations {
   /** Human-readable message about the version. Truncated to 1000 bytes if longer. */
-  workersMessage?: string;
+  workersMessage?: string | undefined;
   /** User-provided identifier for the version. Maximum 100 bytes. */
-  workersTag?: string;
+  workersTag?: string | undefined;
   /** Operation that triggered the creation of the version. */
-  workersTriggeredBy?: string;
+  workersTriggeredBy?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestAssetsConfigHtmlHandling =
   | "auto-trailing-slash"
@@ -1268,19 +1288,25 @@ export type BetaWorkersVersionsCreateRequestAssetsConfigRunWorkerFirst =
   | BetaWorkersVersionsCreateRequestAssetsConfigRunWorkerFirstCase0List;
 export interface BetaWorkersVersionsCreateRequestAssetsConfig {
   /** The public URL path prefix under which assets are served. A null request value resets it to `/`; responses represent the root as `/`. All versions in a gradual deployment must use the same canonical value. To change it, first deploy the version containing the change at 100%. */
-  basePath?: string;
+  basePath?: string | undefined;
   /** Determines the redirects and rewrites of requests for HTML content. */
-  htmlHandling?: BetaWorkersVersionsCreateRequestAssetsConfigHtmlHandling | (string & {});
+  htmlHandling?:
+    | BetaWorkersVersionsCreateRequestAssetsConfigHtmlHandling
+    | (string & {})
+    | undefined;
   /** Determines the response when a request does not match a static asset, and there is no Worker script. */
-  notFoundHandling?: BetaWorkersVersionsCreateRequestAssetsConfigNotFoundHandling | (string & {});
+  notFoundHandling?:
+    | BetaWorkersVersionsCreateRequestAssetsConfigNotFoundHandling
+    | (string & {})
+    | undefined;
   /** Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules. */
-  runWorkerFirst?: BetaWorkersVersionsCreateRequestAssetsConfigRunWorkerFirst;
+  runWorkerFirst?: BetaWorkersVersionsCreateRequestAssetsConfigRunWorkerFirst | undefined;
 }
 export interface BetaWorkersVersionsCreateRequestAssets {
   /** Configuration for assets within a Worker. */
-  config?: BetaWorkersVersionsCreateRequestAssetsConfig;
+  config?: BetaWorkersVersionsCreateRequestAssetsConfig | undefined;
   /** Token provided upon successful upload of all files from a registered manifest. */
-  jwt?: string;
+  jwt?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemAIType = "ai";
 export interface BetaWorkersVersionsCreateRequestBindingsItemAI {
@@ -1298,7 +1324,7 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemAISearch {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -1360,7 +1386,7 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string;
+  id?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemDataBlobType = "data_blob";
 export interface BetaWorkersVersionsCreateRequestBindingsItemDataBlob {
@@ -1381,17 +1407,19 @@ export type BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboun
   Array<BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem>;
 export interface BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundWorker {
   /** Entrypoint to invoke on the outbound worker. */
-  entrypoint?: string;
+  entrypoint?: string | undefined;
   /** Environment of the outbound worker. */
-  environment?: string;
+  environment?: string | undefined;
   /** Name of the outbound worker. */
-  service?: string;
+  service?: string | undefined;
 }
 export interface BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsList;
+  params?:
+    | BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsList
+    | undefined;
   /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundWorker;
+  worker?: BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundWorker | undefined;
 }
 export interface BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -1401,7 +1429,7 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespace {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutbound;
+  outbound?: BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutbound | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -1411,15 +1439,15 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemDurableObjectNamesp
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string;
+  className?: string | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string;
+  dispatchNamespace?: string | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string;
+  environment?: string | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string;
+  namespaceId?: string | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string;
+  scriptName?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemHyperdriveType = "hyperdrive";
 export interface BetaWorkersVersionsCreateRequestBindingsItemHyperdrive {
@@ -1437,9 +1465,9 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemInherit {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string;
+  oldName?: string | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemImagesType = "images";
 export interface BetaWorkersVersionsCreateRequestBindingsItemImages {
@@ -1524,7 +1552,7 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemRatelimitSimple {
   /** The period in seconds. */
   period: number;
   /** Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero. */
-  mitigationTimeout?: number;
+  mitigationTimeout?: number | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemRatelimitType = "ratelimit";
 export interface BetaWorkersVersionsCreateRequestBindingsItemRatelimit {
@@ -1551,7 +1579,10 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemR2Bucket {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: BetaWorkersVersionsCreateRequestBindingsItemR2BucketJurisdiction | (string & {});
+  jurisdiction?:
+    | BetaWorkersVersionsCreateRequestBindingsItemR2BucketJurisdiction
+    | (string & {})
+    | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemSecretTextType = "secret_text";
 export interface BetaWorkersVersionsCreateRequestBindingsItemSecretText {
@@ -1573,11 +1604,15 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemSendEmail {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: BetaWorkersVersionsCreateRequestBindingsItemSendEmailAllowedDestinationAddressesList;
+  allowedDestinationAddresses?:
+    | BetaWorkersVersionsCreateRequestBindingsItemSendEmailAllowedDestinationAddressesList
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: BetaWorkersVersionsCreateRequestBindingsItemSendEmailAllowedSenderAddressesList;
+  allowedSenderAddresses?:
+    | BetaWorkersVersionsCreateRequestBindingsItemSendEmailAllowedSenderAddressesList
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string;
+  destinationAddress?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemServiceType = "service";
 export interface BetaWorkersVersionsCreateRequestBindingsItemService {
@@ -1588,9 +1623,9 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemService {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string;
+  entrypoint?: string | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string;
+  environment?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsCreateRequestBindingsItemTextBlob {
@@ -1668,9 +1703,9 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: BetaWorkersVersionsCreateRequestBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string;
+  keyBase64?: string | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown;
+  keyJwk?: unknown | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemWorkflowType = "workflow";
 export interface BetaWorkersVersionsCreateRequestBindingsItemWorkflow {
@@ -1681,9 +1716,9 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemWorkflow {
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string;
+  className?: string | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string;
+  scriptName?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItemWasmModuleType = "wasm_module";
 export interface BetaWorkersVersionsCreateRequestBindingsItemWasmModule {
@@ -1711,11 +1746,14 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemVPCNetwork {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkType;
   /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
-  identity?: BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkIdentity | (string & {});
+  identity?:
+    | BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkIdentity
+    | (string & {})
+    | undefined;
   /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string;
+  tunnelId?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestBindingsItem =
   | BetaWorkersVersionsCreateRequestBindingsItemAI
@@ -1765,8 +1803,8 @@ export type ContainerImageMap = { [key: string]: string | undefined };
 export interface BetaWorkersVersionsCreateRequestContainersItem {
   /** Select which Durable Object class should get this container attached. */
   className: string;
-  name?: string;
-  images?: ContainerImageMap;
+  name?: string | undefined;
+  images?: ContainerImageMap | undefined;
 }
 export type BetaWorkersVersionsCreateRequestContainersList =
   Array<BetaWorkersVersionsCreateRequestContainersItem>;
@@ -1780,9 +1818,9 @@ export interface BetaWorkersVersionsCreateRequestExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: BetaWorkersVersionsCreateRequestExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsCreateRequestExportsValueWorkerState | (string & {});
+  state?: BetaWorkersVersionsCreateRequestExportsValueWorkerState | (string & {}) | undefined;
 }
 export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -1798,11 +1836,12 @@ export interface BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjec
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string;
+  container?: string | undefined;
   /** Live export. May be omitted; defaults to `created`. */
   state?:
     | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportState
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -1857,7 +1896,7 @@ export interface BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjec
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string;
+  container?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestExportsValue =
   | BetaWorkersVersionsCreateRequestExportsValueWorker
@@ -1871,9 +1910,9 @@ export type BetaWorkersVersionsCreateRequestExportsMap = {
 };
 export interface BetaWorkersVersionsCreateRequestLimits {
   /** CPU time limit in milliseconds. */
-  cpuMs?: number;
+  cpuMs?: number | undefined;
   /** Subrequest limit per request. */
-  subrequests?: number;
+  subrequests?: number | undefined;
 }
 export type BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationDeletedClassesList =
   Array<string>;
@@ -1882,33 +1921,43 @@ export type BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationNewClas
 export type BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationNewSqliteClassesList =
   Array<string>;
 export interface BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationRenamedClassesItem {
-  from?: string;
-  to?: string;
+  from?: string | undefined;
+  to?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationRenamedClassesList =
   Array<BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationRenamedClassesItem>;
 export interface BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationTransferredClassesItem {
-  from?: string;
-  fromScript?: string;
-  to?: string;
+  from?: string | undefined;
+  fromScript?: string | undefined;
+  to?: string | undefined;
 }
 export type BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationTransferredClassesList =
   Array<BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsCreateRequestMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationDeletedClassesList;
+  deletedClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationDeletedClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationNewClassesList;
+  newClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationNewClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationNewSqliteClassesList;
+  newSqliteClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationNewSqliteClassesList
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string;
+  newTag?: string | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string;
+  oldTag?: string | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationRenamedClassesList;
+  renamedClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationRenamedClassesList
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationTransferredClassesList;
+  transferredClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationTransferredClassesList
+    | undefined;
 }
 export type BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -1926,25 +1975,37 @@ export type BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrati
   Array<BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList;
+  deletedClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList;
+  newClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList;
+  newSqliteClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList;
+  renamedClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList;
+  transferredClasses?:
+    | BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | undefined;
 }
 export type BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string;
+  newTag?: string | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string;
+  oldTag?: string | undefined;
   /** Migrations to apply in order. */
-  steps?: BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsList;
+  steps?:
+    | BetaWorkersVersionsCreateRequestMigrationsWorkersMultipleStepMigrationsStepsList
+    | undefined;
 }
 export type BetaWorkersVersionsCreateRequestMigrations =
   | BetaWorkersVersionsCreateRequestMigrationsSingleStepMigration
@@ -2036,46 +2097,46 @@ export interface CreateBetaWorkerVersionRequest {
   /** Identifier for the Worker, which can be ID or name. */
   workerId: string;
   /** If true, a deployment will be created that sends 100% of traffic to the new version. */
-  deploy?: boolean;
+  deploy?: boolean | undefined;
   /** Metadata about the version. */
-  annotations?: BetaWorkersVersionsCreateRequestAnnotations;
+  annotations?: BetaWorkersVersionsCreateRequestAnnotations | undefined;
   /** Configuration for assets within a Worker. */
-  assets?: BetaWorkersVersionsCreateRequestAssets;
+  assets?: BetaWorkersVersionsCreateRequestAssets | undefined;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: BetaWorkersVersionsCreateRequestBindingsList;
+  bindings?: BetaWorkersVersionsCreateRequestBindingsList | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions;
+  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string;
+  compatibilityDate?: string | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: BetaWorkersVersionsCreateRequestCompatibilityFlagsList;
+  compatibilityFlags?: BetaWorkersVersionsCreateRequestCompatibilityFlagsList | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
-  containers?: BetaWorkersVersionsCreateRequestContainersList;
+  containers?: BetaWorkersVersionsCreateRequestContainersList | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsCreateRequestExportsMap;
+  exports?: BetaWorkersVersionsCreateRequestExportsMap | undefined;
   /** Resource limits enforced at runtime. */
-  limits?: BetaWorkersVersionsCreateRequestLimits;
+  limits?: BetaWorkersVersionsCreateRequestLimits | undefined;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
-  mainModule?: string;
+  mainModule?: string | undefined;
   /** Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed. */
-  migrations?: BetaWorkersVersionsCreateRequestMigrations;
+  migrations?: BetaWorkersVersionsCreateRequestMigrations | undefined;
   /** Code, sourcemaps, and other content used at runtime. */
-  modules?: BetaWorkersVersionsCreateRequestModulesList;
+  modules?: BetaWorkersVersionsCreateRequestModulesList | undefined;
   /** The list of npm packages that were installed and used when this Worker version was built. */
-  packageDependencies?: BetaWorkersVersionsCreateRequestPackageDependenciesList;
+  packageDependencies?: BetaWorkersVersionsCreateRequestPackageDependenciesList | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: BetaWorkersVersionsCreateRequestPlacement;
+  placement?: BetaWorkersVersionsCreateRequestPlacement | undefined;
   /** Usage model for the version. */
-  usageModel?: BetaWorkersVersionsCreateRequestUsageModel | (string & {});
+  usageModel?: BetaWorkersVersionsCreateRequestUsageModel | (string & {}) | undefined;
 }
 export type BetaWorkersVersionsCreateResponseUrlsList = Array<string>;
 export interface BetaWorkersVersionsCreateResponseAnnotations {
   /** Human-readable message about the version. Truncated to 1000 bytes if longer. */
-  workersMessage?: string | null;
+  workersMessage?: string | null | undefined;
   /** User-provided identifier for the version. Maximum 100 bytes. */
-  workersTag?: string | null;
+  workersTag?: string | null | undefined;
   /** Operation that triggered the creation of the version. */
-  workersTriggeredBy?: string | null;
+  workersTriggeredBy?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseAssetsConfigHtmlHandling =
   | "auto-trailing-slash"
@@ -2092,19 +2153,22 @@ export type BetaWorkersVersionsCreateResponseAssetsConfigRunWorkerFirst =
   | BetaWorkersVersionsCreateResponseAssetsConfigRunWorkerFirstCase0List;
 export interface BetaWorkersVersionsCreateResponseAssetsConfig {
   /** The public URL path prefix under which assets are served. A null request value resets it to `/`; responses represent the root as `/`. All versions in a gradual deployment must use the same canonical value. To change it, first deploy the version containing the change at 100%. */
-  basePath?: string | null;
+  basePath?: string | null | undefined;
   /** Determines the redirects and rewrites of requests for HTML content. */
-  htmlHandling?: BetaWorkersVersionsCreateResponseAssetsConfigHtmlHandling | null;
+  htmlHandling?: BetaWorkersVersionsCreateResponseAssetsConfigHtmlHandling | null | undefined;
   /** Determines the response when a request does not match a static asset, and there is no Worker script. */
-  notFoundHandling?: BetaWorkersVersionsCreateResponseAssetsConfigNotFoundHandling | null;
+  notFoundHandling?:
+    | BetaWorkersVersionsCreateResponseAssetsConfigNotFoundHandling
+    | null
+    | undefined;
   /** Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules. */
-  runWorkerFirst?: BetaWorkersVersionsCreateResponseAssetsConfigRunWorkerFirst | null;
+  runWorkerFirst?: BetaWorkersVersionsCreateResponseAssetsConfigRunWorkerFirst | null | undefined;
 }
 export interface BetaWorkersVersionsCreateResponseAssets {
   /** Configuration for assets within a Worker. */
-  config?: BetaWorkersVersionsCreateResponseAssetsConfig | null;
+  config?: BetaWorkersVersionsCreateResponseAssetsConfig | null | undefined;
   /** Token provided upon successful upload of all files from a registered manifest. */
-  jwt?: string | null;
+  jwt?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemAIType = "ai";
 export interface BetaWorkersVersionsCreateResponseBindingsItemAI {
@@ -2122,7 +2186,7 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemAISearch {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -2184,7 +2248,7 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemDataBlobType = "data_blob";
 export interface BetaWorkersVersionsCreateResponseBindingsItemDataBlob {
@@ -2203,17 +2267,23 @@ export type BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutbou
   Array<BetaWorkersVersionsCreateRequestBindingsItemDispatchNamespaceOutboundParamsItem>;
 export interface BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker {
   /** Entrypoint to invoke on the outbound worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Environment of the outbound worker. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Name of the outbound worker. */
-  service?: string | null;
+  service?: string | null | undefined;
 }
 export interface BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -2223,7 +2293,10 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespace 
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutbound | null;
+  outbound?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutbound
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -2233,15 +2306,15 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemDurableObjectNames
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemHyperdriveType = "hyperdrive";
 export interface BetaWorkersVersionsCreateResponseBindingsItemHyperdrive {
@@ -2259,9 +2332,9 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemInherit {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemImagesType = "images";
 export interface BetaWorkersVersionsCreateResponseBindingsItemImages {
@@ -2346,7 +2419,7 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemRatelimitSimple {
   /** The period in seconds. */
   period: number;
   /** Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero. */
-  mitigationTimeout?: number | null;
+  mitigationTimeout?: number | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemRatelimitType = "ratelimit";
 export interface BetaWorkersVersionsCreateResponseBindingsItemRatelimit {
@@ -2373,7 +2446,10 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemR2Bucket {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: BetaWorkersVersionsCreateResponseBindingsItemR2BucketJurisdiction | null;
+  jurisdiction?:
+    | BetaWorkersVersionsCreateResponseBindingsItemR2BucketJurisdiction
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemSecretTextType = "secret_text";
 export interface BetaWorkersVersionsCreateResponseBindingsItemSecretText {
@@ -2395,11 +2471,17 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemSendEmail {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: BetaWorkersVersionsCreateResponseBindingsItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | BetaWorkersVersionsCreateResponseBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: BetaWorkersVersionsCreateResponseBindingsItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | BetaWorkersVersionsCreateResponseBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemServiceType = "service";
 export interface BetaWorkersVersionsCreateResponseBindingsItemService {
@@ -2410,9 +2492,9 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemService {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsCreateResponseBindingsItemTextBlob {
@@ -2489,9 +2571,9 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: BetaWorkersVersionsCreateResponseBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemWorkflowType = "workflow";
 export interface BetaWorkersVersionsCreateResponseBindingsItemWorkflow {
@@ -2502,9 +2584,9 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemWorkflow {
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItemWasmModuleType = "wasm_module";
 export interface BetaWorkersVersionsCreateResponseBindingsItemWasmModule {
@@ -2532,11 +2614,11 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemVPCNetwork {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkType;
   /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
-  identity?: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkIdentity | null;
+  identity?: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkIdentity | null | undefined;
   /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseBindingsItem =
   | BetaWorkersVersionsCreateResponseBindingsItemAI
@@ -2585,8 +2667,8 @@ export type BetaWorkersVersionsCreateResponseCompatibilityFlagsList = Array<stri
 export interface BetaWorkersVersionsCreateResponseContainersItem {
   /** Select which Durable Object class should get this container attached. */
   className: string;
-  name?: string | null;
-  images?: ContainerImageMap | null;
+  name?: string | null | undefined;
+  images?: ContainerImageMap | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseContainersList =
   Array<BetaWorkersVersionsCreateResponseContainersItem>;
@@ -2598,9 +2680,9 @@ export interface BetaWorkersVersionsCreateResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: BetaWorkersVersionsCreateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsCreateResponseExportsValueWorkerState | null;
+  state?: BetaWorkersVersionsCreateResponseExportsValueWorkerState | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -2615,9 +2697,12 @@ export interface BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObje
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -2670,7 +2755,7 @@ export interface BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObje
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseExportsValue =
   | BetaWorkersVersionsCreateResponseExportsValueWorker
@@ -2728,9 +2813,12 @@ export interface BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem 
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | BetaWorkersVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsCreateResponseExportsReconciliationInfoList =
   Array<BetaWorkersVersionsCreateResponseExportsReconciliationInfoItem>;
@@ -2807,7 +2895,7 @@ export interface BetaWorkersVersionsCreateResponseExportsReconciliationWarningsI
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseExportsReconciliationWarningsList =
   Array<BetaWorkersVersionsCreateResponseExportsReconciliationWarningsItem>;
@@ -2833,9 +2921,9 @@ export interface BetaWorkersVersionsCreateResponseExportsReconciliation {
 }
 export interface BetaWorkersVersionsCreateResponseLimits {
   /** CPU time limit in milliseconds. */
-  cpuMs?: number | null;
+  cpuMs?: number | null | undefined;
   /** Subrequest limit per request. */
-  subrequests?: number | null;
+  subrequests?: number | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationDeletedClassesList =
   Array<string>;
@@ -2844,33 +2932,48 @@ export type BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationNewCla
 export type BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationNewSqliteClassesList =
   Array<string>;
 export interface BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationRenamedClassesItem {
-  from?: string | null;
-  to?: string | null;
+  from?: string | null | undefined;
+  to?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationRenamedClassesList =
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationRenamedClassesItem>;
 export interface BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem {
-  from?: string | null;
-  fromScript?: string | null;
-  to?: string | null;
+  from?: string | null | undefined;
+  fromScript?: string | null | undefined;
+  to?: string | null | undefined;
 }
 export type BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesList =
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsCreateResponseMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationDeletedClassesList | null;
+  deletedClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationNewClassesList | null;
+  newClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationNewSqliteClassesList
+    | null
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationRenamedClassesList | null;
+  renamedClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesList | null;
+  transferredClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -2888,25 +2991,43 @@ export type BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrat
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList | null;
+  deletedClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList | null;
+  newClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | null
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList | null;
+  renamedClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList | null;
+  transferredClasses?:
+    | BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** Migrations to apply in order. */
-  steps?: BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsList | null;
+  steps?:
+    | BetaWorkersVersionsCreateResponseMigrationsWorkersMultipleStepMigrationsStepsList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsCreateResponseMigrations =
   | BetaWorkersVersionsCreateResponseMigrationsSingleStepMigration
@@ -2991,47 +3112,47 @@ export interface CreateBetaWorkerVersionResponse {
   /** All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version. */
   urls: BetaWorkersVersionsCreateResponseUrlsList;
   /** Metadata about the version. */
-  annotations?: BetaWorkersVersionsCreateResponseAnnotations | null;
+  annotations?: BetaWorkersVersionsCreateResponseAnnotations | null | undefined;
   /** Configuration for assets within a Worker. */
-  assets?: BetaWorkersVersionsCreateResponseAssets | null;
+  assets?: BetaWorkersVersionsCreateResponseAssets | null | undefined;
   /** Email of the user who created the version. */
-  authorEmail?: string | null;
+  authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
-  authorId?: string | null;
+  authorId?: string | null | undefined;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: BetaWorkersVersionsCreateResponseBindingsList | null;
+  bindings?: BetaWorkersVersionsCreateResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: BetaWorkersVersionsCreateResponseCompatibilityFlagsList | null;
+  compatibilityFlags?: BetaWorkersVersionsCreateResponseCompatibilityFlagsList | null | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
-  containers?: BetaWorkersVersionsCreateResponseContainersList | null;
+  containers?: BetaWorkersVersionsCreateResponseContainersList | null | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsCreateResponseExportsMap | null;
+  exports?: BetaWorkersVersionsCreateResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: BetaWorkersVersionsCreateResponseExportsReconciliation | null;
+  exportsReconciliation?: BetaWorkersVersionsCreateResponseExportsReconciliation | null | undefined;
   /** Resource limits enforced at runtime. */
-  limits?: BetaWorkersVersionsCreateResponseLimits | null;
+  limits?: BetaWorkersVersionsCreateResponseLimits | null | undefined;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
-  mainModule?: string | null;
+  mainModule?: string | null | undefined;
   /** Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed. */
-  migrations?: BetaWorkersVersionsCreateResponseMigrations | null;
+  migrations?: BetaWorkersVersionsCreateResponseMigrations | null | undefined;
   /** Code, sourcemaps, and other content used at runtime. */
-  modules?: BetaWorkersVersionsCreateResponseModulesList | null;
+  modules?: BetaWorkersVersionsCreateResponseModulesList | null | undefined;
   /** The list of npm packages that were installed and used when this Worker version was built. */
-  packageDependencies?: BetaWorkersVersionsCreateResponsePackageDependenciesList | null;
+  packageDependencies?: BetaWorkersVersionsCreateResponsePackageDependenciesList | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: BetaWorkersVersionsCreateResponsePlacement | null;
+  placement?: BetaWorkersVersionsCreateResponsePlacement | null | undefined;
   /** The client used to create the version. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time). */
-  startupTimeMs?: number | null;
+  startupTimeMs?: number | null | undefined;
   /** Usage model for the version. */
-  usageModel?: BetaWorkersVersionsCreateResponseUsageModel | null;
+  usageModel?: BetaWorkersVersionsCreateResponseUsageModel | null | undefined;
 }
 export type ObservabilityDestinationsCreateRequestConfigurationHeadersMap = {
   [key: string]: string | undefined;
@@ -3052,7 +3173,7 @@ export interface CreateObservabilityDestinationRequest {
   configuration: ObservabilityDestinationsCreateRequestConfiguration;
   enabled: boolean;
   name: string;
-  skipPreflightCheck?: boolean;
+  skipPreflightCheck?: boolean | undefined;
 }
 export type ObservabilityDestinationsCreateResponseConfigurationHeadersMap = {
   [key: string]: string | undefined;
@@ -3074,7 +3195,7 @@ export interface ObservabilityDestinationsCreateResponseConfiguration {
   type: ObservabilityDestinationsCreateResponseConfigurationType;
   url: string;
   /** The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
 }
 export type ObservabilityDestinationsCreateResponseScriptsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -3090,15 +3211,15 @@ export interface CreateObservabilityIssueAutomationRequest {
   /** Id of the notification policy to notify, normally one with alert type `workers_observability_real_time_issue`. Cloudflare does not validate that it exists. */
   policyId: string;
   /** Automation name (1-200 characters). Cloudflare generates one when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the automation is enabled. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Limit the automation to one Worker (script name). Omit for every Worker in the account. */
-  service?: string;
+  service?: string | undefined;
   /** Notify once an issue has occurred this many times. Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required. */
-  afterOccurrences?: number;
+  afterOccurrences?: number | undefined;
   /** Notify when an issue recurs after this many seconds of inactivity (3600-31536000). Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required. */
-  afterInactivitySeconds?: number;
+  afterInactivitySeconds?: number | undefined;
 }
 export type ObservabilityIssueAutomationScope = "account" | "service";
 export type ObservabilityIssueAutomationTriggerType =
@@ -3117,20 +3238,20 @@ export interface ObservabilityIssueAutomation {
   /** `service` when the automation is limited to one Worker, otherwise `account`. */
   scope: ObservabilityIssueAutomationScope;
   /** Service type of `service` (e.g. `workers`). */
-  serviceType?: string | null;
+  serviceType?: string | null | undefined;
   /** Worker the automation is limited to. */
-  service?: string | null;
+  service?: string | null | undefined;
   triggerType: ObservabilityIssueAutomationTriggerType;
   /** Occurrence count for an `occurrence_threshold` trigger. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Inactivity period for a `recurrence_after_inactivity` trigger. */
-  inactivitySeconds?: number | null;
-  createdByUserId?: string | null;
-  updatedByUserId?: string | null;
+  inactivitySeconds?: number | null | undefined;
+  createdByUserId?: string | null | undefined;
+  updatedByUserId?: string | null | undefined;
   /** Creation time, epoch milliseconds. */
-  created?: number | null;
+  created?: number | null | undefined;
   /** Last update time, epoch milliseconds. */
-  updated?: number | null;
+  updated?: number | null | undefined;
 }
 export interface ObservabilityIssueAutomationResponse {
   automation: ObservabilityIssueAutomation;
@@ -3146,9 +3267,12 @@ export interface ObservabilityQueriesCreateRequestParametersCalculationsItemCase
   operator:
     | ObservabilityQueriesCreateRequestParametersCalculationsItemCase0Operator
     | (string & {});
-  alias?: string;
-  key?: string;
-  keyType?: ObservabilityQueriesCreateRequestParametersCalculationsItemCase0KeyType | (string & {});
+  alias?: string | undefined;
+  key?: string | undefined;
+  keyType?:
+    | ObservabilityQueriesCreateRequestParametersCalculationsItemCase0KeyType
+    | (string & {})
+    | undefined;
 }
 export type ObservabilityQueriesCreateRequestParametersCalculationsItemCase1Operator =
   | "uniq"
@@ -3196,8 +3320,11 @@ export interface ObservabilityQueriesCreateRequestParametersCalculationsItemCase
   operator:
     | ObservabilityQueriesCreateRequestParametersCalculationsItemCase1Operator
     | (string & {});
-  alias?: string;
-  keyType?: ObservabilityQueriesCreateRequestParametersCalculationsItemCase1KeyType | (string & {});
+  alias?: string | undefined;
+  keyType?:
+    | ObservabilityQueriesCreateRequestParametersCalculationsItemCase1KeyType
+    | (string & {})
+    | undefined;
 }
 export type ObservabilityQueriesCreateRequestParametersCalculationsItem =
   | ObservabilityQueriesCreateRequestParametersCalculationsItemCase0
@@ -3279,9 +3406,12 @@ export interface ObservabilityQueriesCreateRequestParametersFiltersItemWorkersOb
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityQueriesCreateRequestParametersFiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityQueriesCreateRequestParametersFiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityQueriesCreateRequestParametersFiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityQueriesCreateRequestParametersFiltersItem =
   | ObservabilityQueriesCreateRequestParametersFiltersItemCase0
@@ -3315,35 +3445,38 @@ export type ObservabilityQueriesCreateRequestParametersHavingsList =
 export type ObservabilityQueriesCreateRequestParametersNeedleValue = string | number | boolean;
 export interface ObservabilityQueriesCreateRequestParametersNeedle {
   value: ObservabilityQueriesCreateRequestParametersNeedleValue;
-  isRegex?: boolean;
-  matchCase?: boolean;
+  isRegex?: boolean | undefined;
+  matchCase?: boolean | undefined;
 }
 export type ObservabilityQueriesCreateRequestParametersOrderByOrder = "asc" | "desc";
 export interface ObservabilityQueriesCreateRequestParametersOrderBy {
   /** Configure which Calculation to order the results by. */
   value: string;
   /** Set the order of the results */
-  order?: ObservabilityQueriesCreateRequestParametersOrderByOrder | (string & {});
+  order?: ObservabilityQueriesCreateRequestParametersOrderByOrder | (string & {}) | undefined;
 }
 export interface ObservabilityQueriesCreateRequestParameters {
   /** Create Calculations to compute as part of the query. */
-  calculations?: ObservabilityQueriesCreateRequestParametersCalculationsList;
+  calculations?: ObservabilityQueriesCreateRequestParametersCalculationsList | undefined;
   /** Set the Datasets to query. Leave it empty to query all the datasets. */
-  datasets?: ObservabilityQueriesCreateRequestParametersDatasetsList;
+  datasets?: ObservabilityQueriesCreateRequestParametersDatasetsList | undefined;
   /** Set a Flag to describe how to combine the filters on the query. */
-  filterCombination?: ObservabilityQueriesCreateRequestParametersFilterCombination | (string & {});
+  filterCombination?:
+    | ObservabilityQueriesCreateRequestParametersFilterCombination
+    | (string & {})
+    | undefined;
   /** Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. */
-  filters?: ObservabilityQueriesCreateRequestParametersFiltersList;
+  filters?: ObservabilityQueriesCreateRequestParametersFiltersList | undefined;
   /** Define how to group the results of the query. */
-  groupBys?: ObservabilityQueriesCreateRequestParametersGroupBysList;
+  groupBys?: ObservabilityQueriesCreateRequestParametersGroupBysList | undefined;
   /** Configure the Having clauses that filter on calculations in the query result. */
-  havings?: ObservabilityQueriesCreateRequestParametersHavingsList;
+  havings?: ObservabilityQueriesCreateRequestParametersHavingsList | undefined;
   /** Set a limit on the number of results / records returned by the query */
-  limit?: number;
+  limit?: number | undefined;
   /** Define an expression to search using full-text search. */
-  needle?: ObservabilityQueriesCreateRequestParametersNeedle;
+  needle?: ObservabilityQueriesCreateRequestParametersNeedle | undefined;
   /** Configure the order of the results returned by the query. */
-  orderBy?: ObservabilityQueriesCreateRequestParametersOrderBy;
+  orderBy?: ObservabilityQueriesCreateRequestParametersOrderBy | undefined;
 }
 export interface CreateObservabilityQueryRequest {
   accountId: string;
@@ -3361,9 +3494,12 @@ export type ObservabilityQueriesCreateResponseParametersCalculationsItemCase0Key
   | "boolean";
 export interface ObservabilityQueriesCreateResponseParametersCalculationsItemCase0 {
   operator: ObservabilityQueriesCreateResponseParametersCalculationsItemCase0Operator;
-  alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilityQueriesCreateResponseParametersCalculationsItemCase0KeyType | null;
+  alias?: string | null | undefined;
+  key?: string | null | undefined;
+  keyType?:
+    | ObservabilityQueriesCreateResponseParametersCalculationsItemCase0KeyType
+    | null
+    | undefined;
 }
 export type ObservabilityQueriesCreateResponseParametersCalculationsItemCase1Operator =
   | "uniq"
@@ -3409,8 +3545,11 @@ export type ObservabilityQueriesCreateResponseParametersCalculationsItemCase1Key
 export interface ObservabilityQueriesCreateResponseParametersCalculationsItemCase1 {
   key: string;
   operator: ObservabilityQueriesCreateResponseParametersCalculationsItemCase1Operator;
-  alias?: string | null;
-  keyType?: ObservabilityQueriesCreateResponseParametersCalculationsItemCase1KeyType | null;
+  alias?: string | null | undefined;
+  keyType?:
+    | ObservabilityQueriesCreateResponseParametersCalculationsItemCase1KeyType
+    | null
+    | undefined;
 }
 export type ObservabilityQueriesCreateResponseParametersCalculationsItem =
   | ObservabilityQueriesCreateResponseParametersCalculationsItemCase0
@@ -3485,9 +3624,15 @@ export interface ObservabilityQueriesCreateResponseParametersFiltersItemWorkersO
   /** Data type of the filter field. Must match the actual type of the key being filtered. */
   type: ObservabilityQueriesCreateResponseParametersFiltersItemWorkersObservabilityFilterLeafType;
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
-  kind?: ObservabilityQueriesCreateResponseParametersFiltersItemWorkersObservabilityFilterLeafKind | null;
+  kind?:
+    | ObservabilityQueriesCreateResponseParametersFiltersItemWorkersObservabilityFilterLeafKind
+    | null
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityQueriesCreateResponseParametersFiltersItemWorkersObservabilityFilterLeafValue | null;
+  value?:
+    | ObservabilityQueriesCreateResponseParametersFiltersItemWorkersObservabilityFilterLeafValue
+    | null
+    | undefined;
 }
 export type ObservabilityQueriesCreateResponseParametersFiltersItem =
   | ObservabilityQueriesCreateResponseParametersFiltersItemCase0
@@ -3521,35 +3666,38 @@ export type ObservabilityQueriesCreateResponseParametersHavingsList =
 export type ObservabilityQueriesCreateResponseParametersNeedleValue = string | number | boolean;
 export interface ObservabilityQueriesCreateResponseParametersNeedle {
   value: ObservabilityQueriesCreateResponseParametersNeedleValue;
-  isRegex?: boolean | null;
-  matchCase?: boolean | null;
+  isRegex?: boolean | null | undefined;
+  matchCase?: boolean | null | undefined;
 }
 export type ObservabilityQueriesCreateResponseParametersOrderByOrder = "asc" | "desc";
 export interface ObservabilityQueriesCreateResponseParametersOrderBy {
   /** Configure which Calculation to order the results by. */
   value: string;
   /** Set the order of the results */
-  order?: ObservabilityQueriesCreateResponseParametersOrderByOrder | null;
+  order?: ObservabilityQueriesCreateResponseParametersOrderByOrder | null | undefined;
 }
 export interface ObservabilityQueriesCreateResponseParameters {
   /** Create Calculations to compute as part of the query. */
-  calculations?: ObservabilityQueriesCreateResponseParametersCalculationsList | null;
+  calculations?: ObservabilityQueriesCreateResponseParametersCalculationsList | null | undefined;
   /** Set the Datasets to query. Leave it empty to query all the datasets. */
-  datasets?: ObservabilityQueriesCreateResponseParametersDatasetsList | null;
+  datasets?: ObservabilityQueriesCreateResponseParametersDatasetsList | null | undefined;
   /** Set a Flag to describe how to combine the filters on the query. */
-  filterCombination?: ObservabilityQueriesCreateResponseParametersFilterCombination | null;
+  filterCombination?:
+    | ObservabilityQueriesCreateResponseParametersFilterCombination
+    | null
+    | undefined;
   /** Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. */
-  filters?: ObservabilityQueriesCreateResponseParametersFiltersList | null;
+  filters?: ObservabilityQueriesCreateResponseParametersFiltersList | null | undefined;
   /** Define how to group the results of the query. */
-  groupBys?: ObservabilityQueriesCreateResponseParametersGroupBysList | null;
+  groupBys?: ObservabilityQueriesCreateResponseParametersGroupBysList | null | undefined;
   /** Configure the Having clauses that filter on calculations in the query result. */
-  havings?: ObservabilityQueriesCreateResponseParametersHavingsList | null;
+  havings?: ObservabilityQueriesCreateResponseParametersHavingsList | null | undefined;
   /** Set a limit on the number of results / records returned by the query */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Define an expression to search using full-text search. */
-  needle?: ObservabilityQueriesCreateResponseParametersNeedle | null;
+  needle?: ObservabilityQueriesCreateResponseParametersNeedle | null | undefined;
   /** Configure the order of the results returned by the query. */
-  orderBy?: ObservabilityQueriesCreateResponseParametersOrderBy | null;
+  orderBy?: ObservabilityQueriesCreateResponseParametersOrderBy | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateObservabilityQueryResponse {
@@ -3590,13 +3738,14 @@ export interface ObservabilitySharedQueriesCreateRequestParametersCalculationsIt
     | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0Operator
     | (string & {});
   /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
-  alias?: string;
+  alias?: string | undefined;
   /** Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except `count`, which aggregates whole rows and may omit it. */
-  key?: string;
+  key?: string | undefined;
   /** Data type of the key. Required when key is provided to ensure correct aggregation. */
   keyType?:
     | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0KeyType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1Operator =
   | "uniq"
@@ -3647,11 +3796,12 @@ export interface ObservabilitySharedQueriesCreateRequestParametersCalculationsIt
     | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1Operator
     | (string & {});
   /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
-  alias?: string;
+  alias?: string | undefined;
   /** Data type of the key. Required when key is provided to ensure correct aggregation. */
   keyType?:
     | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase1KeyType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type ObservabilitySharedQueriesCreateRequestParametersCalculationsItem =
   | ObservabilitySharedQueriesCreateRequestParametersCalculationsItemCase0
@@ -3740,9 +3890,12 @@ export interface ObservabilitySharedQueriesCreateRequestParametersFiltersItemCas
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilitySharedQueriesCreateRequestParametersFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilitySharedQueriesCreateRequestParametersFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilitySharedQueriesCreateRequestParametersFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilitySharedQueriesCreateRequestParametersFiltersItemCase0FiltersItem =
   | ObservabilitySharedQueriesCreateRequestParametersFiltersItemCase0FiltersItemCase0
@@ -3812,9 +3965,12 @@ export interface ObservabilitySharedQueriesCreateRequestParametersFiltersItemWor
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilitySharedQueriesCreateRequestParametersFiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilitySharedQueriesCreateRequestParametersFiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilitySharedQueriesCreateRequestParametersFiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilitySharedQueriesCreateRequestParametersFiltersItem =
   | ObservabilitySharedQueriesCreateRequestParametersFiltersItemCase0
@@ -3858,38 +4014,39 @@ export interface ObservabilitySharedQueriesCreateRequestParametersNeedle {
   /** The text or pattern to search for. */
   value: ObservabilitySharedQueriesCreateRequestParametersNeedleValue;
   /** When true, treats the value as a regular expression (RE2 syntax). */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** When true, performs a case-sensitive search. Defaults to case-insensitive. */
-  matchCase?: boolean;
+  matchCase?: boolean | undefined;
 }
 export type ObservabilitySharedQueriesCreateRequestParametersOrderByOrder = "asc" | "desc";
 export interface ObservabilitySharedQueriesCreateRequestParametersOrderBy {
   /** Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query. */
   value: string;
   /** Sort direction: 'asc' for ascending, 'desc' for descending. */
-  order?: ObservabilitySharedQueriesCreateRequestParametersOrderByOrder | (string & {});
+  order?: ObservabilitySharedQueriesCreateRequestParametersOrderByOrder | (string & {}) | undefined;
 }
 export interface ObservabilitySharedQueriesCreateRequestParameters {
   /** Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. */
-  calculations?: ObservabilitySharedQueriesCreateRequestParametersCalculationsList;
+  calculations?: ObservabilitySharedQueriesCreateRequestParametersCalculationsList | undefined;
   /** Datasets to query. Leave empty to query all available datasets. */
-  datasets?: ObservabilitySharedQueriesCreateRequestParametersDatasetsList;
+  datasets?: ObservabilitySharedQueriesCreateRequestParametersDatasetsList | undefined;
   /** Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'. */
   filterCombination?:
     | ObservabilitySharedQueriesCreateRequestParametersFilterCombination
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. */
-  filters?: ObservabilitySharedQueriesCreateRequestParametersFiltersList;
+  filters?: ObservabilitySharedQueriesCreateRequestParametersFiltersList | undefined;
   /** Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. */
-  groupBys?: ObservabilitySharedQueriesCreateRequestParametersGroupBysList;
+  groupBys?: ObservabilitySharedQueriesCreateRequestParametersGroupBysList | undefined;
   /** Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count &gt; 100). */
-  havings?: ObservabilitySharedQueriesCreateRequestParametersHavingsList;
+  havings?: ObservabilitySharedQueriesCreateRequestParametersHavingsList | undefined;
   /** Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases. */
-  limit?: number;
+  limit?: number | undefined;
   /** Full-text search expression applied across all event fields. Matches events containing the specified text. */
-  needle?: ObservabilitySharedQueriesCreateRequestParametersNeedle;
+  needle?: ObservabilitySharedQueriesCreateRequestParametersNeedle | undefined;
   /** Ordering for grouped calculation results. Only effective when a group-by is present. */
-  orderBy?: ObservabilitySharedQueriesCreateRequestParametersOrderBy;
+  orderBy?: ObservabilitySharedQueriesCreateRequestParametersOrderBy | undefined;
 }
 export type ObservabilitySharedQueriesCreateRequestView =
   | "traces"
@@ -3905,31 +4062,34 @@ export interface CreateObservabilitySharedQueryRequest {
   /** Timeframe for the query using Unix timestamps in milliseconds. 'from' must be earlier than 'to'. Narrower timeframes produce faster responses and more specific results. */
   timeframe: ObservabilitySharedQueriesCreateRequestTimeframe;
   /** When true, includes time-series data in the response. */
-  chart?: boolean;
+  chart?: boolean | undefined;
   /** Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour -- both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' -- combining them returns a 400. */
-  chartType?: ObservabilitySharedQueriesCreateRequestChartType | (string & {});
+  chartType?: ObservabilitySharedQueriesCreateRequestChartType | (string & {}) | undefined;
   /** When true, includes a comparison dataset from the previous time period of equal length. */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode. */
-  distributionScale?: ObservabilitySharedQueriesCreateRequestDistributionScale | (string & {});
+  distributionScale?:
+    | ObservabilitySharedQueriesCreateRequestDistributionScale
+    | (string & {})
+    | undefined;
   /** When true, executes the query without persisting the results. Useful for validation or previewing. */
-  dry?: boolean;
+  dry?: boolean | undefined;
   /** Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity. */
-  granularity?: number;
+  granularity?: number | undefined;
   /** When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed. */
-  ignoreSeries?: boolean;
+  ignoreSeries?: boolean | undefined;
   /** Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page. */
-  offset?: string;
+  offset?: string | undefined;
   /** Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination. */
-  offsetBy?: number;
+  offsetBy?: number | undefined;
   /** Pagination direction: 'next' for forward, 'prev' for backward. */
-  offsetDirection?: string;
+  offsetDirection?: string | undefined;
   /** Query parameters defining what data to retrieve -- filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters. */
-  parameters?: ObservabilitySharedQueriesCreateRequestParameters;
+  parameters?: ObservabilitySharedQueriesCreateRequestParameters | undefined;
   /** Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries. */
-  view?: ObservabilitySharedQueriesCreateRequestView | (string & {});
+  view?: ObservabilitySharedQueriesCreateRequestView | (string & {}) | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateObservabilitySharedQueryResponse {
@@ -3945,11 +4105,11 @@ export interface CreatePreviewRequest {
   /** Parent Worker id or script name. */
   workerId: string;
   /** Do not copy the parent's Previews Base configuration onto this Preview. */
-  ignoreBaseConfig?: boolean;
+  ignoreBaseConfig?: boolean | undefined;
   /** Preview name. Defaults to the git branch in wrangler; Alchemy defaults to the stage. */
   name: string;
-  logpush?: boolean;
-  tailConsumers?: PreviewTailConsumersList;
+  logpush?: boolean | undefined;
+  tailConsumers?: PreviewTailConsumersList | undefined;
 }
 export type PreviewUrlsList = Array<string>;
 export interface PreviewResource {
@@ -3962,29 +4122,29 @@ export interface PreviewResource {
   /** Parent Worker script name this Preview belongs to. */
   workerName: string;
   /** Stable Preview URLs (always the latest deployment). */
-  urls?: PreviewUrlsList | null;
-  tags?: PreviewUrlsList | null;
-  logpush?: boolean | null;
-  tailConsumers?: PreviewTailConsumersList | null;
-  createdOn?: string | null;
-  updatedOn?: string | null;
+  urls?: PreviewUrlsList | null | undefined;
+  tags?: PreviewUrlsList | null | undefined;
+  logpush?: boolean | null | undefined;
+  tailConsumers?: PreviewTailConsumersList | null | undefined;
+  createdOn?: string | null | undefined;
+  updatedOn?: string | null | undefined;
 }
 export interface CreatePreviewDeploymentMetadataAssets {
-  jwt?: string;
-  config?: unknown;
+  jwt?: string | undefined;
+  config?: unknown | undefined;
 }
 export type CreatePreviewDeploymentMetadataCompatibilityFlagsList = Array<string>;
 export interface CreatePreviewDeploymentMetadataContainer {
   className: string;
-  name?: string;
-  images?: ContainerImageMap;
+  name?: string | undefined;
+  images?: ContainerImageMap | undefined;
 }
 export type CreatePreviewDeploymentMetadataContainersList =
   Array<CreatePreviewDeploymentMetadataContainer>;
 export type PutScriptMetadataExportType = "worker" | "durable-object";
 export interface PutScriptMetadataCache {
-  enabled?: boolean;
-  crossVersionCache?: boolean;
+  enabled?: boolean | undefined;
+  crossVersionCache?: boolean | undefined;
 }
 export type PutScriptMetadataExportState =
   | "created"
@@ -3993,34 +4153,34 @@ export type PutScriptMetadataExportState =
   | "transferred"
   | "expecting-transfer";
 export interface PutScriptMetadataExport {
-  type?: PutScriptMetadataExportType | (string & {});
-  cache?: PutScriptMetadataCache;
-  storage?: string;
-  container?: string;
-  state?: PutScriptMetadataExportState | (string & {});
-  renamedTo?: string;
-  transferredTo?: string;
-  transferFrom?: string;
+  type?: PutScriptMetadataExportType | (string & {}) | undefined;
+  cache?: PutScriptMetadataCache | undefined;
+  storage?: string | undefined;
+  container?: string | undefined;
+  state?: PutScriptMetadataExportState | (string & {}) | undefined;
+  renamedTo?: string | undefined;
+  transferredTo?: string | undefined;
+  transferFrom?: string | undefined;
 }
 export type PutScriptMetadataExports = { [key: string]: PutScriptMetadataExport | undefined };
 export interface CreatePreviewDeploymentMetadata {
   /** Entrypoint module filename. */
-  mainModule?: string;
-  assets?: CreatePreviewDeploymentMetadataAssets;
-  compatibilityDate?: string;
-  compatibilityFlags?: CreatePreviewDeploymentMetadataCompatibilityFlagsList;
+  mainModule?: string | undefined;
+  assets?: CreatePreviewDeploymentMetadataAssets | undefined;
+  compatibilityDate?: string | undefined;
+  compatibilityFlags?: CreatePreviewDeploymentMetadataCompatibilityFlagsList | undefined;
   /** Version annotations (workers/message, workers/tag, ...). */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** Durable Object class migrations for this Preview's isolated namespaces. */
-  migrations?: unknown;
-  limits?: unknown;
-  placement?: unknown;
-  cacheOptions?: unknown;
+  migrations?: unknown | undefined;
+  limits?: unknown | undefined;
+  placement?: unknown | undefined;
+  cacheOptions?: unknown | undefined;
   /** Binding map keyed by runtime name (wrangler `env` format). */
-  env?: unknown;
-  containers?: CreatePreviewDeploymentMetadataContainersList;
+  env?: unknown | undefined;
+  containers?: CreatePreviewDeploymentMetadataContainersList | undefined;
   /** Per-export settings keyed by the verbatim export name (default for the default export). */
-  exports?: PutScriptMetadataExports;
+  exports?: PutScriptMetadataExports | undefined;
 }
 export interface CreatePreviewDeploymentRequest {
   accountId: string;
@@ -4030,17 +4190,17 @@ export interface CreatePreviewDeploymentRequest {
   /** JSON-encoded multipart `metadata` part. */
   metadata: CreatePreviewDeploymentMetadata;
   /** Module files comprising the Worker script, appended under their own filenames. */
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | undefined;
 }
 export interface PreviewDeploymentResource {
   id: string;
-  previewId?: string | null;
-  previewName?: string | null;
-  migrationTag?: string | null;
+  previewId?: string | null | undefined;
+  previewName?: string | null | undefined;
+  migrationTag?: string | null | undefined;
   /** Pinned deployment URLs for this exact deploy. */
-  urls?: PreviewUrlsList | null;
-  compatibilityDate?: string | null;
-  createdOn?: string | null;
+  urls?: PreviewUrlsList | null | undefined;
+  compatibilityDate?: string | null | undefined;
+  createdOn?: string | null | undefined;
 }
 export interface CreateRouteRequest {
   /** Identifier. */
@@ -4048,7 +4208,7 @@ export interface CreateRouteRequest {
   /** Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior). */
   pattern: string;
   /** Name of the script to run if the route matches. */
-  script?: string;
+  script?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRouteResponse {
@@ -4057,7 +4217,7 @@ export interface CreateRouteResponse {
   /** Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior). */
   pattern: string;
   /** Name of the script to run if the route matches. */
-  script?: string | null;
+  script?: string | null | undefined;
 }
 export interface ScriptsAssetsUploadCreateRequestManifestValue {
   /** The hash of the file. */
@@ -4082,9 +4242,9 @@ export type ScriptsAssetsUploadCreateResponseBucketsList =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateScriptAssetUploadResponse {
   /** The requests to make to upload assets. */
-  buckets?: ScriptsAssetsUploadCreateResponseBucketsList | null;
+  buckets?: ScriptsAssetsUploadCreateResponseBucketsList | null | undefined;
   /** A JWT to use as authentication for uploading assets. */
-  jwt?: string | null;
+  jwt?: string | null | undefined;
 }
 export type ScriptsDeploymentsCreateRequestStrategy = "percentage";
 export interface ScriptsDeploymentsCreateRequestVersionsItem {
@@ -4097,16 +4257,16 @@ export type ScriptsDeploymentsCreateRequestVersionsList =
   Array<ScriptsDeploymentsCreateRequestVersionsItem>;
 export interface ScriptsDeploymentsCreateRequestAnnotations {
   /** Human-readable message about the deployment. Truncated to 1000 bytes if longer. */
-  workersMessage?: string;
+  workersMessage?: string | undefined;
   /** Operation that triggered the creation of the deployment. */
-  workersTriggeredBy?: string;
+  workersTriggeredBy?: string | undefined;
 }
 export type CodeUpdateStrategyMode = "immediate" | "deferred";
 export interface CodeUpdateStrategy {
   /** `immediate` applies Durable Object code updates right away; `deferred` lets active Durable Objects hibernate before updating their code. */
   mode: CodeUpdateStrategyMode | (string & {});
   /** Maximum number of seconds (0-86400, millisecond precision) to wait before forcing the update. Only valid with mode `deferred`. When omitted, the default maximum delay (300) applies. */
-  maxDelay?: number;
+  maxDelay?: number | undefined;
 }
 export interface CreateScriptDeploymentRequest {
   /** Identifier. */
@@ -4114,13 +4274,13 @@ export interface CreateScriptDeploymentRequest {
   /** Name of the script. */
   scriptName: string;
   /** If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed. */
-  force?: boolean;
+  force?: boolean | undefined;
   strategy: ScriptsDeploymentsCreateRequestStrategy | (string & {});
   /** Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions '[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]'`, or from a JSON file with `--versions @versions.json`. */
   versions: ScriptsDeploymentsCreateRequestVersionsList;
-  annotations?: ScriptsDeploymentsCreateRequestAnnotations;
+  annotations?: ScriptsDeploymentsCreateRequestAnnotations | undefined;
   /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
-  codeUpdateStrategy?: CodeUpdateStrategy;
+  codeUpdateStrategy?: CodeUpdateStrategy | undefined;
 }
 export type ScriptsDeploymentsCreateResponseStrategy = "percentage";
 export type ScriptsDeploymentsCreateResponseVersionsItem =
@@ -4129,9 +4289,9 @@ export type ScriptsDeploymentsCreateResponseVersionsList =
   Array<ScriptsDeploymentsCreateRequestVersionsItem>;
 export interface ScriptsDeploymentsCreateResponseAnnotations {
   /** Human-readable message about the deployment. Truncated to 1000 bytes if longer. */
-  workersMessage?: string | null;
+  workersMessage?: string | null | undefined;
   /** Operation that triggered the creation of the deployment. */
-  workersTriggeredBy?: string | null;
+  workersTriggeredBy?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateScriptDeploymentResponse {
@@ -4141,21 +4301,21 @@ export interface CreateScriptDeploymentResponse {
   strategy: ScriptsDeploymentsCreateResponseStrategy;
   /** Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions '[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]'`, or from a JSON file with `--versions @versions.json`. */
   versions: ScriptsDeploymentsCreateResponseVersionsList;
-  annotations?: ScriptsDeploymentsCreateResponseAnnotations | null;
-  authorEmail?: string | null;
+  annotations?: ScriptsDeploymentsCreateResponseAnnotations | null | undefined;
+  authorEmail?: string | null | undefined;
   /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
-  codeUpdateStrategy?: unknown | null;
+  codeUpdateStrategy?: unknown | null | undefined;
 }
 export interface CreateScriptEdgePreviewWranglerSessionConfigWorkersDev {
   /** Route the preview through workers.dev. */
   workersDev: boolean;
-  minimalMode?: boolean;
+  minimalMode?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewWranglerSessionConfigRoutesList = Array<string>;
 export interface CreateScriptEdgePreviewWranglerSessionConfigRoutes {
   /** Routes to serve the preview on. */
   routes: CreateScriptEdgePreviewWranglerSessionConfigRoutesList;
-  minimalMode?: boolean;
+  minimalMode?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewWranglerSessionConfig =
   | CreateScriptEdgePreviewWranglerSessionConfigWorkersDev
@@ -4185,7 +4345,7 @@ export interface CreateScriptEdgePreviewMetadataBindingKvNamespace {
   type: CreateScriptEdgePreviewMetadataBindingKvNamespaceType;
   name: string;
   namespaceId: string;
-  raw?: boolean;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -4193,69 +4353,69 @@ export interface CreateScriptEdgePreviewMetadataBindingDurableObjectNamespace {
   type: CreateScriptEdgePreviewMetadataBindingDurableObjectNamespaceType;
   name: string;
   className: string;
-  scriptName?: string;
-  environment?: string;
-  namespaceId?: string;
+  scriptName?: string | undefined;
+  environment?: string | undefined;
+  namespaceId?: string | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingR2BucketType = "r2_bucket";
 export interface CreateScriptEdgePreviewMetadataBindingR2Bucket {
   type: CreateScriptEdgePreviewMetadataBindingR2BucketType;
   name: string;
   bucketName: string;
-  jurisdiction?: string;
-  raw?: boolean;
+  jurisdiction?: string | undefined;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingD1Type = "d1";
 export interface CreateScriptEdgePreviewMetadataBindingD1 {
   type: CreateScriptEdgePreviewMetadataBindingD1Type;
   name: string;
   id: string;
-  internalEnv?: string;
-  raw?: boolean;
+  internalEnv?: string | undefined;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingQueueType = "queue";
 export interface CreateScriptEdgePreviewMetadataBindingQueue {
   type: CreateScriptEdgePreviewMetadataBindingQueueType;
   name: string;
   queueName: string;
-  deliveryDelay?: number;
-  raw?: boolean;
+  deliveryDelay?: number | undefined;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingServiceType = "service";
 export interface CreateScriptEdgePreviewMetadataBindingService {
   type: CreateScriptEdgePreviewMetadataBindingServiceType;
   name: string;
   service: string;
-  environment?: string;
-  entrypoint?: string;
-  crossAccountGrant?: string;
+  environment?: string | undefined;
+  entrypoint?: string | undefined;
+  crossAccountGrant?: string | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingAiType = "ai";
 export interface CreateScriptEdgePreviewMetadataBindingAi {
   type: CreateScriptEdgePreviewMetadataBindingAiType;
   name: string;
-  staging?: boolean;
-  raw?: boolean;
+  staging?: boolean | undefined;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingBrowserType = "browser";
 export interface CreateScriptEdgePreviewMetadataBindingBrowser {
   type: CreateScriptEdgePreviewMetadataBindingBrowserType;
   name: string;
-  raw?: boolean;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingImagesType = "images";
 export interface CreateScriptEdgePreviewMetadataBindingImages {
   type: CreateScriptEdgePreviewMetadataBindingImagesType;
   name: string;
-  raw?: boolean;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingVectorizeType = "vectorize";
 export interface CreateScriptEdgePreviewMetadataBindingVectorize {
   type: CreateScriptEdgePreviewMetadataBindingVectorizeType;
   name: string;
   indexName: string;
-  internalEnv?: string;
-  raw?: boolean;
+  internalEnv?: string | undefined;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingWorkflowType = "workflow";
 export interface CreateScriptEdgePreviewMetadataBindingWorkflow {
@@ -4263,8 +4423,8 @@ export interface CreateScriptEdgePreviewMetadataBindingWorkflow {
   name: string;
   workflowName: string;
   className: string;
-  scriptName?: string;
-  raw?: boolean;
+  scriptName?: string | undefined;
+  raw?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingHyperdriveType = "hyperdrive";
 export interface CreateScriptEdgePreviewMetadataBindingHyperdrive {
@@ -4276,34 +4436,34 @@ export type CreateScriptEdgePreviewMetadataBindingAnalyticsEngineType = "analyti
 export interface CreateScriptEdgePreviewMetadataBindingAnalyticsEngine {
   type: CreateScriptEdgePreviewMetadataBindingAnalyticsEngineType;
   name: string;
-  dataset?: string;
+  dataset?: string | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingDispatchNamespaceType = "dispatch_namespace";
 export interface CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundWorker {
-  service?: string;
-  environment?: string;
+  service?: string | undefined;
+  environment?: string | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam =
   PreviewTailConsumer;
 export type CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParamsList =
   Array<PreviewTailConsumer>;
 export interface CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutbound {
-  worker?: CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundWorker;
-  params?: CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParamsList;
+  worker?: CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundWorker | undefined;
+  params?: CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParamsList | undefined;
 }
 export interface CreateScriptEdgePreviewMetadataBindingDispatchNamespace {
   type: CreateScriptEdgePreviewMetadataBindingDispatchNamespaceType;
   name: string;
   namespace: string;
-  outbound?: CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutbound;
+  outbound?: CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutbound | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingSendEmailType = "send_email";
 export interface CreateScriptEdgePreviewMetadataBindingSendEmail {
   type: CreateScriptEdgePreviewMetadataBindingSendEmailType;
   name: string;
-  destinationAddress?: string;
-  allowedDestinationAddresses?: CreateScriptEdgePreviewMetadataStringList;
-  allowedSenderAddresses?: CreateScriptEdgePreviewMetadataStringList;
+  destinationAddress?: string | undefined;
+  allowedDestinationAddresses?: CreateScriptEdgePreviewMetadataStringList | undefined;
+  allowedSenderAddresses?: CreateScriptEdgePreviewMetadataStringList | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingMtlsCertificateType = "mtls_certificate";
 export interface CreateScriptEdgePreviewMetadataBindingMtlsCertificate {
@@ -4407,7 +4567,7 @@ export type CreateScriptEdgePreviewMetadataBindingUnsafeHelloWorldType = "unsafe
 export interface CreateScriptEdgePreviewMetadataBindingUnsafeHelloWorld {
   type: CreateScriptEdgePreviewMetadataBindingUnsafeHelloWorldType;
   name: string;
-  enableTimer?: boolean;
+  enableTimer?: boolean | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingFlagshipType = "flagship";
 export interface CreateScriptEdgePreviewMetadataBindingFlagship {
@@ -4425,8 +4585,8 @@ export type CreateScriptEdgePreviewMetadataBindingVpcNetworkType = "vpc_network"
 export interface CreateScriptEdgePreviewMetadataBindingVpcNetwork {
   type: CreateScriptEdgePreviewMetadataBindingVpcNetworkType;
   name: string;
-  tunnelId?: string;
-  networkId?: string;
+  tunnelId?: string | undefined;
+  networkId?: string | undefined;
 }
 export type CreateScriptEdgePreviewMetadataBindingInheritType = "inherit";
 export interface CreateScriptEdgePreviewMetadataBindingInherit {
@@ -4480,22 +4640,22 @@ export type CreateScriptEdgePreviewMetadataMigrationRenamedClass =
 export type CreateScriptEdgePreviewMetadataMigrationRenamedClassesList =
   Array<BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationRenamedClassesItem>;
 export interface CreateScriptEdgePreviewMetadataMigrationStep {
-  newClasses?: CreateScriptEdgePreviewMetadataStringList;
-  newSqliteClasses?: CreateScriptEdgePreviewMetadataStringList;
-  renamedClasses?: CreateScriptEdgePreviewMetadataMigrationRenamedClassesList;
-  deletedClasses?: CreateScriptEdgePreviewMetadataStringList;
+  newClasses?: CreateScriptEdgePreviewMetadataStringList | undefined;
+  newSqliteClasses?: CreateScriptEdgePreviewMetadataStringList | undefined;
+  renamedClasses?: CreateScriptEdgePreviewMetadataMigrationRenamedClassesList | undefined;
+  deletedClasses?: CreateScriptEdgePreviewMetadataStringList | undefined;
 }
 export type CreateScriptEdgePreviewMetadataMigrationStepsList =
   Array<CreateScriptEdgePreviewMetadataMigrationStep>;
 export interface CreateScriptEdgePreviewMetadataMigrations {
-  oldTag?: string;
-  newTag?: string;
-  steps?: CreateScriptEdgePreviewMetadataMigrationStepsList;
+  oldTag?: string | undefined;
+  newTag?: string | undefined;
+  steps?: CreateScriptEdgePreviewMetadataMigrationStepsList | undefined;
 }
 export type CreateScriptEdgePreviewMetadataPlacementSmartMode = "smart";
 export interface CreateScriptEdgePreviewMetadataPlacementSmart {
   mode: CreateScriptEdgePreviewMetadataPlacementSmartMode;
-  hint?: string;
+  hint?: string | undefined;
 }
 export interface CreateScriptEdgePreviewMetadataPlacementRegion {
   region: string;
@@ -4513,13 +4673,13 @@ export type CreateScriptEdgePreviewMetadataPlacement =
   | CreateScriptEdgePreviewMetadataPlacementHostname;
 export interface CreateScriptEdgePreviewMetadataTailConsumer {
   service: string;
-  environment?: string;
+  environment?: string | undefined;
 }
 export type CreateScriptEdgePreviewMetadataTailConsumersList =
   Array<CreateScriptEdgePreviewMetadataTailConsumer>;
 export interface CreateScriptEdgePreviewMetadataLimits {
-  cpuMs?: number;
-  subrequests?: number;
+  cpuMs?: number | undefined;
+  subrequests?: number | undefined;
 }
 export type CreateScriptEdgePreviewMetadataAssetsConfigHtmlHandling =
   | "auto-trailing-slash"
@@ -4534,64 +4694,70 @@ export type CreateScriptEdgePreviewMetadataAssetsConfigRunWorkerFirst =
   | boolean
   | CreateScriptEdgePreviewMetadataStringList;
 export interface CreateScriptEdgePreviewMetadataAssetsConfig {
-  htmlHandling?: CreateScriptEdgePreviewMetadataAssetsConfigHtmlHandling | (string & {});
-  notFoundHandling?: CreateScriptEdgePreviewMetadataAssetsConfigNotFoundHandling | (string & {});
-  runWorkerFirst?: CreateScriptEdgePreviewMetadataAssetsConfigRunWorkerFirst;
-  redirects?: string;
-  headers?: string;
+  htmlHandling?:
+    | CreateScriptEdgePreviewMetadataAssetsConfigHtmlHandling
+    | (string & {})
+    | undefined;
+  notFoundHandling?:
+    | CreateScriptEdgePreviewMetadataAssetsConfigNotFoundHandling
+    | (string & {})
+    | undefined;
+  runWorkerFirst?: CreateScriptEdgePreviewMetadataAssetsConfigRunWorkerFirst | undefined;
+  redirects?: string | undefined;
+  headers?: string | undefined;
 }
 export interface CreateScriptEdgePreviewMetadataAssets {
-  jwt?: string;
-  config?: CreateScriptEdgePreviewMetadataAssetsConfig;
+  jwt?: string | undefined;
+  config?: CreateScriptEdgePreviewMetadataAssetsConfig | undefined;
 }
 export interface CreateScriptEdgePreviewMetadataObservabilityLogs {
-  enabled?: boolean;
-  headSamplingRate?: number;
-  invocationLogs?: boolean;
-  persist?: boolean;
-  destinations?: CreateScriptEdgePreviewMetadataStringList;
+  enabled?: boolean | undefined;
+  headSamplingRate?: number | undefined;
+  invocationLogs?: boolean | undefined;
+  persist?: boolean | undefined;
+  destinations?: CreateScriptEdgePreviewMetadataStringList | undefined;
 }
 export interface CreateScriptEdgePreviewMetadataObservabilityIssues {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateScriptEdgePreviewMetadataObservabilityTraces {
-  enabled?: boolean;
-  headSamplingRate?: number;
-  persist?: boolean;
-  destinations?: CreateScriptEdgePreviewMetadataStringList;
+  enabled?: boolean | undefined;
+  headSamplingRate?: number | undefined;
+  persist?: boolean | undefined;
+  destinations?: CreateScriptEdgePreviewMetadataStringList | undefined;
 }
 export interface CreateScriptEdgePreviewMetadataObservability {
-  enabled?: boolean;
-  headSamplingRate?: number;
-  logs?: CreateScriptEdgePreviewMetadataObservabilityLogs;
-  redactQueryString?: boolean;
-  issues?: CreateScriptEdgePreviewMetadataObservabilityIssues;
-  traces?: CreateScriptEdgePreviewMetadataObservabilityTraces;
+  enabled?: boolean | undefined;
+  headSamplingRate?: number | undefined;
+  logs?: CreateScriptEdgePreviewMetadataObservabilityLogs | undefined;
+  redactQueryString?: boolean | undefined;
+  issues?: CreateScriptEdgePreviewMetadataObservabilityIssues | undefined;
+  traces?: CreateScriptEdgePreviewMetadataObservabilityTraces | undefined;
 }
 export type CreateScriptEdgePreviewMetadataContainer = CreatePreviewDeploymentMetadataContainer;
 export type CreateScriptEdgePreviewMetadataContainersList =
   Array<CreatePreviewDeploymentMetadataContainer>;
 export interface CreateScriptEdgePreviewMetadata {
-  mainModule?: string;
-  bodyPart?: string;
-  compatibilityDate?: string;
-  compatibilityFlags?: CreateScriptEdgePreviewMetadataStringList;
-  usageModel?: CreateScriptEdgePreviewMetadataUsageModel | (string & {});
-  bindings?: CreateScriptEdgePreviewMetadataBindingsList;
-  keepBindings?: CreateScriptEdgePreviewMetadataStringList;
-  migrations?: CreateScriptEdgePreviewMetadataMigrations;
-  capnpSchema?: string;
-  logpush?: boolean;
-  placement?: CreateScriptEdgePreviewMetadataPlacement;
-  tailConsumers?: CreateScriptEdgePreviewMetadataTailConsumersList;
-  streamingTailConsumers?: CreateScriptEdgePreviewMetadataTailConsumersList;
-  limits?: CreateScriptEdgePreviewMetadataLimits;
-  assets?: CreateScriptEdgePreviewMetadataAssets;
-  observability?: CreateScriptEdgePreviewMetadataObservability;
-  containers?: CreateScriptEdgePreviewMetadataContainersList;
-  annotations?: unknown;
-  keepAssets?: boolean;
-  tags?: CreateScriptEdgePreviewMetadataStringList;
+  mainModule?: string | undefined;
+  bodyPart?: string | undefined;
+  compatibilityDate?: string | undefined;
+  compatibilityFlags?: CreateScriptEdgePreviewMetadataStringList | undefined;
+  usageModel?: CreateScriptEdgePreviewMetadataUsageModel | (string & {}) | undefined;
+  bindings?: CreateScriptEdgePreviewMetadataBindingsList | undefined;
+  keepBindings?: CreateScriptEdgePreviewMetadataStringList | undefined;
+  migrations?: CreateScriptEdgePreviewMetadataMigrations | undefined;
+  capnpSchema?: string | undefined;
+  logpush?: boolean | undefined;
+  placement?: CreateScriptEdgePreviewMetadataPlacement | undefined;
+  tailConsumers?: CreateScriptEdgePreviewMetadataTailConsumersList | undefined;
+  streamingTailConsumers?: CreateScriptEdgePreviewMetadataTailConsumersList | undefined;
+  limits?: CreateScriptEdgePreviewMetadataLimits | undefined;
+  assets?: CreateScriptEdgePreviewMetadataAssets | undefined;
+  observability?: CreateScriptEdgePreviewMetadataObservability | undefined;
+  containers?: CreateScriptEdgePreviewMetadataContainersList | undefined;
+  annotations?: unknown | undefined;
+  keepAssets?: boolean | undefined;
+  tags?: CreateScriptEdgePreviewMetadataStringList | undefined;
 }
 export interface CreateScriptEdgePreviewRequest {
   /** Identifier. */
@@ -4601,17 +4767,17 @@ export interface CreateScriptEdgePreviewRequest {
   /** The session token returned by createSubdomainEdgePreviewSession. */
   cfPreviewUploadConfigToken: string;
   /** Module files comprising the worker script, appended under their own filenames. */
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | undefined;
   /** JSON-encoded multipart part selecting how the preview is routed (workers.dev or explicit routes); without it edge previews cannot opt into workers.dev routing. */
-  wranglerSessionConfig?: CreateScriptEdgePreviewWranglerSessionConfig;
+  wranglerSessionConfig?: CreateScriptEdgePreviewWranglerSessionConfig | undefined;
   /** JSON-encoded multipart `metadata` part: the preview worker's modules, bindings and settings. */
-  metadata?: CreateScriptEdgePreviewMetadata;
+  metadata?: CreateScriptEdgePreviewMetadata | undefined;
 }
 export interface CreateScriptEdgePreviewResponse {
   /** Token to send as cf-workers-preview-token header when making requests to the preview host. */
   previewToken: string;
   /** URL for tailing live logs from the preview worker. */
-  tailUrl?: string | null;
+  tailUrl?: string | null | undefined;
 }
 export interface CreateScriptSubdomainRequest {
   /** Identifier. */
@@ -4621,7 +4787,7 @@ export interface CreateScriptSubdomainRequest {
   /** Whether the Worker should be available on the workers.dev subdomain. */
   enabled: boolean;
   /** Whether the Worker's Preview URLs should be available on the workers.dev subdomain. */
-  previewsEnabled?: boolean;
+  previewsEnabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateScriptSubdomainResponse {
@@ -4637,7 +4803,7 @@ export interface CreateScriptTailRequest {
   /** Name of the script. */
   scriptName: string;
   /** Tail event filters; an empty list tails everything. */
-  filters?: CreateScriptTailFiltersList;
+  filters?: CreateScriptTailFiltersList | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateScriptTailResponse {
@@ -4648,10 +4814,10 @@ export interface CreateScriptTailResponse {
 }
 export type ScriptsVersionsCreateRequestBindingsInherit = "strict";
 export interface PutScriptMetadataAnnotations {
-  workersMessage?: string;
-  workersTag?: string;
+  workersMessage?: string | undefined;
+  workersTag?: string | undefined;
   /** Alias to point at this version (e.g. for gradual deployments). */
-  workersAlias?: string;
+  workersAlias?: string | undefined;
 }
 export type PutScriptAssetsConfigHtmlHandling =
   | "auto-trailing-slash"
@@ -4662,16 +4828,16 @@ export type PutScriptAssetsConfigNotFoundHandling = "none" | "404-page" | "singl
 export type PutScriptMetadataStringList = Array<string>;
 export type PutScriptAssetsConfigRunWorkerFirst = PutScriptMetadataStringList | boolean;
 export interface PutScriptAssetsConfig {
-  htmlHandling?: PutScriptAssetsConfigHtmlHandling | (string & {});
-  notFoundHandling?: PutScriptAssetsConfigNotFoundHandling | (string & {});
-  runWorkerFirst?: PutScriptAssetsConfigRunWorkerFirst;
-  serveDirectly?: boolean;
-  headers?: string;
-  redirects?: string;
+  htmlHandling?: PutScriptAssetsConfigHtmlHandling | (string & {}) | undefined;
+  notFoundHandling?: PutScriptAssetsConfigNotFoundHandling | (string & {}) | undefined;
+  runWorkerFirst?: PutScriptAssetsConfigRunWorkerFirst | undefined;
+  serveDirectly?: boolean | undefined;
+  headers?: string | undefined;
+  redirects?: string | undefined;
 }
 export interface PutScriptMetadataAssets {
-  config?: PutScriptAssetsConfig;
-  jwt?: string;
+  config?: PutScriptAssetsConfig | undefined;
+  jwt?: string | undefined;
 }
 export type PutScriptBindingAiType = "ai";
 export interface PutScriptBindingAi {
@@ -4682,7 +4848,7 @@ export type PutScriptBindingAiSearchType = "ai_search";
 export interface PutScriptBindingAiSearch {
   instanceName: string;
   name: string;
-  namespace?: string;
+  namespace?: string | undefined;
   type: PutScriptBindingAiSearchType;
 }
 export type PutScriptBindingAiSearchNamespaceType = "ai_search_namespace";
@@ -4711,7 +4877,7 @@ export type PutScriptBindingD1Type = "d1";
 export interface PutScriptBindingD1 {
   databaseId: string;
   name: string;
-  id?: string;
+  id?: string | undefined;
   type: PutScriptBindingD1Type;
 }
 export type PutScriptBindingDataBlobType = "data_blob";
@@ -4723,29 +4889,29 @@ export interface PutScriptBindingDataBlob {
 export type PutScriptBindingDispatchNamespaceOutboundParam = PreviewTailConsumer;
 export type PutScriptBindingDispatchNamespaceOutboundParamsList = Array<PreviewTailConsumer>;
 export interface PutScriptBindingDispatchNamespaceOutboundWorker {
-  entrypoint?: string;
-  environment?: string;
-  service?: string;
+  entrypoint?: string | undefined;
+  environment?: string | undefined;
+  service?: string | undefined;
 }
 export interface PutScriptBindingDispatchNamespaceOutbound {
-  params?: PutScriptBindingDispatchNamespaceOutboundParamsList;
-  worker?: PutScriptBindingDispatchNamespaceOutboundWorker;
+  params?: PutScriptBindingDispatchNamespaceOutboundParamsList | undefined;
+  worker?: PutScriptBindingDispatchNamespaceOutboundWorker | undefined;
 }
 export type PutScriptBindingDispatchNamespaceType = "dispatch_namespace";
 export interface PutScriptBindingDispatchNamespace {
   name: string;
   namespace: string;
-  outbound?: PutScriptBindingDispatchNamespaceOutbound;
+  outbound?: PutScriptBindingDispatchNamespaceOutbound | undefined;
   type: PutScriptBindingDispatchNamespaceType;
 }
 export type PutScriptBindingDurableObjectNamespaceType = "durable_object_namespace";
 export interface PutScriptBindingDurableObjectNamespace {
   name: string;
   className: string;
-  dispatchNamespace?: string;
-  environment?: string;
-  namespaceId?: string;
-  scriptName?: string;
+  dispatchNamespace?: string | undefined;
+  environment?: string | undefined;
+  namespaceId?: string | undefined;
+  scriptName?: string | undefined;
   type: PutScriptBindingDurableObjectNamespaceType;
 }
 export type PutScriptBindingHyperdriveType = "hyperdrive";
@@ -4757,8 +4923,8 @@ export interface PutScriptBindingHyperdrive {
 export type PutScriptBindingInheritType = "inherit";
 export interface PutScriptBindingInherit {
   name: string;
-  oldName?: string;
-  versionId?: string;
+  oldName?: string | undefined;
+  versionId?: string | undefined;
   type: PutScriptBindingInheritType;
 }
 export type PutScriptBindingImagesType = "images";
@@ -4810,7 +4976,7 @@ export interface PutScriptBindingQueue {
 export interface PutScriptBindingRatelimitSimple {
   limit: number;
   period: number;
-  mitigationTimeout?: number;
+  mitigationTimeout?: number | undefined;
 }
 export type PutScriptBindingRatelimitType = "ratelimit";
 export interface PutScriptBindingRatelimit {
@@ -4824,7 +4990,7 @@ export type PutScriptBindingR2BucketType = "r2_bucket";
 export interface PutScriptBindingR2Bucket {
   bucketName: string;
   name: string;
-  jurisdiction?: PutScriptBindingR2BucketJurisdiction | (string & {});
+  jurisdiction?: PutScriptBindingR2BucketJurisdiction | (string & {}) | undefined;
   type: PutScriptBindingR2BucketType;
 }
 export type PutScriptBindingSecretTextType = "secret_text";
@@ -4836,17 +5002,17 @@ export interface PutScriptBindingSecretText {
 export type PutScriptBindingSendEmailType = "send_email";
 export interface PutScriptBindingSendEmail {
   name: string;
-  allowedDestinationAddresses?: PutScriptMetadataStringList;
-  allowedSenderAddresses?: PutScriptMetadataStringList;
-  destinationAddress?: string;
+  allowedDestinationAddresses?: PutScriptMetadataStringList | undefined;
+  allowedSenderAddresses?: PutScriptMetadataStringList | undefined;
+  destinationAddress?: string | undefined;
   type: PutScriptBindingSendEmailType;
 }
 export type PutScriptBindingServiceType = "service";
 export interface PutScriptBindingService {
   name: string;
   service: string;
-  entrypoint?: string;
-  environment?: string;
+  entrypoint?: string | undefined;
+  environment?: string | undefined;
   type: PutScriptBindingServiceType;
 }
 export type PutScriptBindingTextBlobType = "text_blob";
@@ -4898,8 +5064,8 @@ export interface PutScriptBindingSecretKey {
   format: PutScriptBindingSecretKeyFormat | (string & {});
   name: string;
   usages: PutScriptBindingSecretKeyUsagesList;
-  keyBase64?: string;
-  keyJwk?: unknown;
+  keyBase64?: string | undefined;
+  keyJwk?: unknown | undefined;
   type: PutScriptBindingSecretKeyType;
 }
 export type PutScriptBindingWorkflowType = "workflow";
@@ -4907,7 +5073,7 @@ export interface PutScriptBindingWorkflow {
   name: string;
   workflowName: string;
   className: string;
-  scriptName?: string;
+  scriptName?: string | undefined;
   type: PutScriptBindingWorkflowType;
 }
 export type PutScriptBindingWasmModuleType = "wasm_module";
@@ -4925,8 +5091,8 @@ export interface PutScriptBindingVpcService {
 export type PutScriptBindingVpcNetworkType = "vpc_network";
 export interface PutScriptBindingVpcNetwork {
   name: string;
-  networkId?: string;
-  tunnelId?: string;
+  networkId?: string | undefined;
+  tunnelId?: string | undefined;
   type: PutScriptBindingVpcNetworkType;
 }
 export type PutScriptBindingWorkerLoaderType = "worker_loader";
@@ -5005,26 +5171,26 @@ export type PutScriptMigrationTransferredClass =
 export type PutScriptMigrationTransferredClassesList =
   Array<BetaWorkersVersionsCreateRequestMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface PutScriptSingleStepMigration {
-  deletedClasses?: PutScriptMetadataStringList;
-  newClasses?: PutScriptMetadataStringList;
-  newSqliteClasses?: PutScriptMetadataStringList;
-  newTag?: string;
-  oldTag?: string;
-  renamedClasses?: PutScriptMigrationRenamedClassesList;
-  transferredClasses?: PutScriptMigrationTransferredClassesList;
+  deletedClasses?: PutScriptMetadataStringList | undefined;
+  newClasses?: PutScriptMetadataStringList | undefined;
+  newSqliteClasses?: PutScriptMetadataStringList | undefined;
+  newTag?: string | undefined;
+  oldTag?: string | undefined;
+  renamedClasses?: PutScriptMigrationRenamedClassesList | undefined;
+  transferredClasses?: PutScriptMigrationTransferredClassesList | undefined;
 }
 export interface PutScriptMigrationStep {
-  deletedClasses?: PutScriptMetadataStringList;
-  newClasses?: PutScriptMetadataStringList;
-  newSqliteClasses?: PutScriptMetadataStringList;
-  renamedClasses?: PutScriptMigrationRenamedClassesList;
-  transferredClasses?: PutScriptMigrationTransferredClassesList;
+  deletedClasses?: PutScriptMetadataStringList | undefined;
+  newClasses?: PutScriptMetadataStringList | undefined;
+  newSqliteClasses?: PutScriptMetadataStringList | undefined;
+  renamedClasses?: PutScriptMigrationRenamedClassesList | undefined;
+  transferredClasses?: PutScriptMigrationTransferredClassesList | undefined;
 }
 export type PutScriptMigrationStepsList = Array<PutScriptMigrationStep>;
 export interface PutScriptMultipleStepMigrations {
-  newTag?: string;
-  oldTag?: string;
-  steps?: PutScriptMigrationStepsList;
+  newTag?: string | undefined;
+  oldTag?: string | undefined;
+  steps?: PutScriptMigrationStepsList | undefined;
 }
 export type PutScriptMetadataMigrations =
   | PutScriptSingleStepMigration
@@ -5032,29 +5198,29 @@ export type PutScriptMetadataMigrations =
 export interface PutScriptObservabilityLogs {
   enabled: boolean;
   invocationLogs: boolean;
-  destinations?: PutScriptMetadataStringList;
-  headSamplingRate?: number | null;
-  persist?: boolean;
+  destinations?: PutScriptMetadataStringList | undefined;
+  headSamplingRate?: number | null | undefined;
+  persist?: boolean | undefined;
 }
 export type PutScriptObservabilityTracesPropagationPolicy = "authenticated" | "accept";
 export interface PutScriptObservabilityTraces {
-  destinations?: PutScriptMetadataStringList;
-  enabled?: boolean;
-  headSamplingRate?: number | null;
-  persist?: boolean;
-  propagationPolicy?: PutScriptObservabilityTracesPropagationPolicy | (string & {});
+  destinations?: PutScriptMetadataStringList | undefined;
+  enabled?: boolean | undefined;
+  headSamplingRate?: number | null | undefined;
+  persist?: boolean | undefined;
+  propagationPolicy?: PutScriptObservabilityTracesPropagationPolicy | (string & {}) | undefined;
 }
 export interface PutScriptObservabilityIssues {
   /** Whether Workers Issues error monitoring is enabled. */
   enabled: boolean;
 }
 export interface PutScriptMetadataObservability {
-  enabled?: boolean;
-  headSamplingRate?: number | null;
-  logs?: PutScriptObservabilityLogs | null;
-  traces?: PutScriptObservabilityTraces | null;
-  issues?: PutScriptObservabilityIssues;
-  redactQueryString?: boolean;
+  enabled?: boolean | undefined;
+  headSamplingRate?: number | null | undefined;
+  logs?: PutScriptObservabilityLogs | null | undefined;
+  traces?: PutScriptObservabilityTraces | null | undefined;
+  issues?: PutScriptObservabilityIssues | undefined;
+  redactQueryString?: boolean | undefined;
 }
 export type PutScriptPlacementSmartMode = "smart";
 export interface PutScriptPlacementSmart {
@@ -5099,37 +5265,37 @@ export type PutScriptMetadataPlacement =
   | PutScriptPlacementTargetedList;
 export interface PutScriptTailConsumer {
   service: string;
-  environment?: string;
-  namespace?: string;
+  environment?: string | undefined;
+  namespace?: string | undefined;
 }
 export type PutScriptMetadataTailConsumersList = Array<PutScriptTailConsumer>;
 export type PutScriptMetadataUsageModel = "standard" | "bundled" | "unbound";
 export type PutScriptMetadataStreamingTailConsumersList = Array<PutScriptTailConsumer>;
 export interface PutScriptMetadata {
-  annotations?: PutScriptMetadataAnnotations;
-  assets?: PutScriptMetadataAssets;
-  bindings?: PutScriptMetadataBindingsList;
-  bodyPart?: string;
-  compatibilityDate?: string;
-  compatibilityFlags?: PutScriptMetadataStringList;
-  containers?: PutScriptMetadataContainersList;
-  keepAssets?: boolean;
-  keepBindings?: PutScriptMetadataStringList;
-  limits?: CreateScriptEdgePreviewMetadataLimits;
-  logpush?: boolean;
-  mainModule?: string;
-  migrations?: PutScriptMetadataMigrations;
-  observability?: PutScriptMetadataObservability;
-  placement?: PutScriptMetadataPlacement;
-  tags?: PutScriptMetadataStringList;
-  tailConsumers?: PutScriptMetadataTailConsumersList | null;
-  usageModel?: PutScriptMetadataUsageModel | (string & {});
-  cacheOptions?: PutScriptMetadataCache;
-  streamingTailConsumers?: PutScriptMetadataStreamingTailConsumersList | null;
+  annotations?: PutScriptMetadataAnnotations | undefined;
+  assets?: PutScriptMetadataAssets | undefined;
+  bindings?: PutScriptMetadataBindingsList | undefined;
+  bodyPart?: string | undefined;
+  compatibilityDate?: string | undefined;
+  compatibilityFlags?: PutScriptMetadataStringList | undefined;
+  containers?: PutScriptMetadataContainersList | undefined;
+  keepAssets?: boolean | undefined;
+  keepBindings?: PutScriptMetadataStringList | undefined;
+  limits?: CreateScriptEdgePreviewMetadataLimits | undefined;
+  logpush?: boolean | undefined;
+  mainModule?: string | undefined;
+  migrations?: PutScriptMetadataMigrations | undefined;
+  observability?: PutScriptMetadataObservability | undefined;
+  placement?: PutScriptMetadataPlacement | undefined;
+  tags?: PutScriptMetadataStringList | undefined;
+  tailConsumers?: PutScriptMetadataTailConsumersList | null | undefined;
+  usageModel?: PutScriptMetadataUsageModel | (string & {}) | undefined;
+  cacheOptions?: PutScriptMetadataCache | undefined;
+  streamingTailConsumers?: PutScriptMetadataStreamingTailConsumersList | null | undefined;
   /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
-  codeUpdateStrategy?: CodeUpdateStrategy;
+  codeUpdateStrategy?: CodeUpdateStrategy | undefined;
   /** Per-export settings keyed by the verbatim export name (default for the default export). */
-  exports?: PutScriptMetadataExports;
+  exports?: PutScriptMetadataExports | undefined;
 }
 export interface CreateScriptVersionRequest {
   /** Identifier. */
@@ -5137,31 +5303,34 @@ export interface CreateScriptVersionRequest {
   /** Name of the script. */
   scriptName: string;
   /** When set to "strict", the upload will fail with error 10057 if any `inherit` type bindings cannot be resolved against the latest uploaded version of the Worker, which may not be the deployed version. Without this, unresolvable inherit bindings are silently dropped. */
-  bindingsInherit?: ScriptsVersionsCreateRequestBindingsInherit | (string & {});
+  bindingsInherit?: ScriptsVersionsCreateRequestBindingsInherit | (string & {}) | undefined;
   metadata: PutScriptMetadata;
   /** Module / asset file parts, appended under their own filenames. */
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | undefined;
 }
 export type ScriptsVersionsCreateResponseResourcesScriptHandlersList = Array<string>;
 export type ScriptsVersionsCreateResponseResourcesScriptNamedHandlersItemHandlersList =
   Array<string>;
 export interface ScriptsVersionsCreateResponseResourcesScriptNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: ScriptsVersionsCreateResponseResourcesScriptNamedHandlersItemHandlersList | null;
+  handlers?:
+    | ScriptsVersionsCreateResponseResourcesScriptNamedHandlersItemHandlersList
+    | null
+    | undefined;
   /** The name of the exported class or entrypoint. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ScriptsVersionsCreateResponseResourcesScriptNamedHandlersList =
   Array<ScriptsVersionsCreateResponseResourcesScriptNamedHandlersItem>;
 export interface ScriptsVersionsCreateResponseResourcesScript {
   /** Hashed script content */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: ScriptsVersionsCreateResponseResourcesScriptHandlersList | null;
+  handlers?: ScriptsVersionsCreateResponseResourcesScriptHandlersList | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: ScriptsVersionsCreateResponseResourcesScriptNamedHandlersList | null;
+  namedHandlers?: ScriptsVersionsCreateResponseResourcesScriptNamedHandlersList | null | undefined;
 }
 export type ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList =
   Array<string>;
@@ -5173,9 +5342,12 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue
   /** Marks this entry as a Worker entrypoint export. */
   type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerState | null;
+  state?:
+    | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerState
+    | null
+    | undefined;
 }
 export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -5190,9 +5362,12 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue
   /** Marks this entry as a Durable Object export. */
   type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -5245,7 +5420,7 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue
   /** Marks this entry as a Durable Object export. */
   type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue =
   | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorker
@@ -5259,7 +5434,7 @@ export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap = {
 };
 export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
-  cpuMs?: number | null;
+  cpuMs?: number | null | undefined;
 }
 export type ScriptsVersionsCreateResponseResourcesScriptRuntimeUsageModel =
   | "bundled"
@@ -5267,25 +5442,28 @@ export type ScriptsVersionsCreateResponseResourcesScriptRuntimeUsageModel =
   | "standard";
 export interface ScriptsVersionsCreateResponseResourcesScriptRuntime {
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. */
-  compatibilityFlags?: ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList
+    | null
+    | undefined;
   /** Declarative exports for this version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap | null;
+  exports?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap | null | undefined;
   /** Resource limits for the Worker. */
-  limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null;
+  limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: ScriptsVersionsCreateResponseResourcesScriptRuntimeUsageModel | null;
-  containers?: BetaWorkersVersionsCreateResponseContainersList | null;
+  usageModel?: ScriptsVersionsCreateResponseResourcesScriptRuntimeUsageModel | null | undefined;
+  containers?: BetaWorkersVersionsCreateResponseContainersList | null | undefined;
 }
 export interface ScriptsVersionsCreateResponseResources {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings: unknown;
-  script?: ScriptsVersionsCreateResponseResourcesScript | null;
+  script?: ScriptsVersionsCreateResponseResourcesScript | null | undefined;
   /** Runtime configuration for the Worker. */
-  scriptRuntime?: ScriptsVersionsCreateResponseResourcesScriptRuntime | null;
+  scriptRuntime?: ScriptsVersionsCreateResponseResourcesScriptRuntime | null | undefined;
 }
 export type ScriptsVersionsCreateResponseExportsReconciliationCreatedList = Array<string>;
 export type ScriptsVersionsCreateResponseExportsReconciliationDeletedList = Array<string>;
@@ -5333,9 +5511,12 @@ export interface ScriptsVersionsCreateResponseExportsReconciliationInfoItem {
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: ScriptsVersionsCreateResponseExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: ScriptsVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | ScriptsVersionsCreateResponseExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type ScriptsVersionsCreateResponseExportsReconciliationInfoList =
   Array<ScriptsVersionsCreateResponseExportsReconciliationInfoItem>;
@@ -5402,7 +5583,7 @@ export interface ScriptsVersionsCreateResponseExportsReconciliationWarningsItem 
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: ScriptsVersionsCreateResponseExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type ScriptsVersionsCreateResponseExportsReconciliationWarningsList =
   Array<ScriptsVersionsCreateResponseExportsReconciliationWarningsItem>;
@@ -5440,30 +5621,30 @@ export type ScriptsVersionsCreateResponseMetadataSource =
   | "workersci";
 export interface ScriptsVersionsCreateResponseMetadata {
   /** Email of the user who created the version. */
-  authorEmail?: string | null;
+  authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
-  authorId?: string | null;
+  authorId?: string | null | undefined;
   /** When the version was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Whether the version can be previewed. */
-  hasPreview?: boolean | null;
+  hasPreview?: boolean | null | undefined;
   /** When the version was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The source of the version upload. */
-  source?: ScriptsVersionsCreateResponseMetadataSource | null;
+  source?: ScriptsVersionsCreateResponseMetadataSource | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateScriptVersionResponse {
   resources: ScriptsVersionsCreateResponseResources;
   /** Unique identifier for the version. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: ScriptsVersionsCreateResponseExportsReconciliation | null;
-  metadata?: ScriptsVersionsCreateResponseMetadata | null;
+  exportsReconciliation?: ScriptsVersionsCreateResponseExportsReconciliation | null | undefined;
+  metadata?: ScriptsVersionsCreateResponseMetadata | null | undefined;
   /** Sequential version number. */
-  number?: number | null;
+  number?: number | null | undefined;
   /** Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time). */
-  startupTimeMs?: number | null;
+  startupTimeMs?: number | null | undefined;
 }
 export interface CreateServiceEdgePreviewRequest {
   /** Identifier. */
@@ -5475,17 +5656,17 @@ export interface CreateServiceEdgePreviewRequest {
   /** The session token returned by createSubdomainEdgePreviewSession. */
   cfPreviewUploadConfigToken: string;
   /** JSON-encoded multipart `metadata` part: the preview worker's modules, bindings and settings. */
-  metadata?: CreateScriptEdgePreviewMetadata;
+  metadata?: CreateScriptEdgePreviewMetadata | undefined;
   /** Module files comprising the worker script, appended under their own filenames. */
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | undefined;
   /** JSON-encoded multipart part selecting how the preview is routed (workers.dev or explicit routes); without it edge previews cannot opt into workers.dev routing. */
-  wranglerSessionConfig?: CreateScriptEdgePreviewWranglerSessionConfig;
+  wranglerSessionConfig?: CreateScriptEdgePreviewWranglerSessionConfig | undefined;
 }
 export interface CreateServiceEdgePreviewResponse {
   /** Token to send as cf-workers-preview-token header when making requests to the preview host. */
   previewToken: string;
   /** URL for tailing live logs from the preview worker. */
-  tailUrl?: string | null;
+  tailUrl?: string | null | undefined;
 }
 export interface CreateSubdomainEdgePreviewSessionRequest {
   /** Identifier. */
@@ -5495,7 +5676,7 @@ export interface CreateSubdomainEdgePreviewSessionResponse {
   /** Session token used as cf-preview-upload-config-token when uploading a preview worker. */
   token: string;
   /** Optional URL to exchange the token for a re-encoded version. */
-  exchangeUrl?: string | null;
+  exchangeUrl?: string | null | undefined;
 }
 export interface CreateZoneEdgePreviewSessionRequest {
   /** Identifier. */
@@ -5505,7 +5686,7 @@ export interface CreateZoneEdgePreviewSessionResponse {
   /** Session token used as cf-preview-upload-config-token when uploading a preview worker. */
   token: string;
   /** Optional URL to exchange the token for a re-encoded version. */
-  exchangeUrl?: string | null;
+  exchangeUrl?: string | null | undefined;
 }
 export interface DeleteBetaWorkerRequest {
   /** Identifier. */
@@ -5513,7 +5694,7 @@ export interface DeleteBetaWorkerRequest {
   /** Identifier for the Worker, which can be ID or name. */
   workerId: string;
   /** If true, delete the Worker even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted Worker are deleted even if other Workers reference them. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteBetaWorkerResponse {}
 export interface DeleteBetaWorkerVersionRequest {
@@ -5553,7 +5734,7 @@ export interface ObservabilityDestinationsDeleteResponseConfiguration {
   type: ObservabilityDestinationsDeleteResponseConfigurationType;
   url: string;
   /** The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
 }
 export type ObservabilityDestinationsDeleteResponseScriptsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -5583,7 +5764,7 @@ export interface DeleteRouteRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteRouteResponse {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteScriptRequest {
   /** Identifier. */
@@ -5591,7 +5772,7 @@ export interface DeleteScriptRequest {
   /** Name of the script. */
   scriptName: string;
   /** If true, delete the Worker even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted Worker are deleted even if other Workers reference them. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type DeleteScriptResponse = unknown;
 export interface DeleteScriptDeploymentRequest {
@@ -5610,7 +5791,7 @@ export interface DeleteScriptSecretRequest {
   /** A JavaScript variable name for the secret binding. */
   secretName: string;
   /** Flag that indicates whether the secret name is URL encoded. */
-  urlEncoded?: boolean;
+  urlEncoded?: boolean | undefined;
 }
 export type DeleteScriptSecretResponse = unknown;
 export interface DeleteScriptSubdomainRequest {
@@ -5646,8 +5827,8 @@ export interface GetAccountSettingRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAccountSettingResponse {
-  defaultUsageModel?: string | null;
-  greenCompute?: boolean | null;
+  defaultUsageModel?: string | null | undefined;
+  greenCompute?: boolean | null | undefined;
 }
 export interface GetBetaWorkerRequest {
   /** Identifier. */
@@ -5660,43 +5841,43 @@ export type BetaWorkersGetResponseObservabilityIssues =
 export type BetaWorkersGetResponseObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersGetResponseObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersGetResponseObservabilityLogsDestinationsList | null;
+  destinations?: BetaWorkersGetResponseObservabilityLogsDestinationsList | null | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersGetResponseObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersGetResponseObservabilityTracesPropagationPolicy = "authenticated" | "accept";
 export interface BetaWorkersGetResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersGetResponseObservabilityTracesDestinationsList | null;
+  destinations?: BetaWorkersGetResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersGetResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?: BetaWorkersGetResponseObservabilityTracesPropagationPolicy | null | undefined;
 }
 export interface BetaWorkersGetResponseObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersGetResponseObservabilityLogs | null;
+  logs?: BetaWorkersGetResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersGetResponseObservabilityTraces | null;
+  traces?: BetaWorkersGetResponseObservabilityTraces | null | undefined;
 }
 export type BetaWorkersGetResponseReferencesDispatchNamespaceOutboundsItem =
   BetaWorkersCreateResponseReferencesDispatchNamespaceOutboundsItem;
@@ -5751,15 +5932,18 @@ export type BetaWorkersGetResponsePreviewsBaseConfigObservabilityLogsDestination
   Array<string>;
 export interface BetaWorkersGetResponsePreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersGetResponsePreviewsBaseConfigObservabilityLogsDestinationsList | null;
+  destinations?:
+    | BetaWorkersGetResponsePreviewsBaseConfigObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersGetResponsePreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -5768,29 +5952,35 @@ export type BetaWorkersGetResponsePreviewsBaseConfigObservabilityTracesPropagati
   | "accept";
 export interface BetaWorkersGetResponsePreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersGetResponsePreviewsBaseConfigObservabilityTracesDestinationsList | null;
+  destinations?:
+    | BetaWorkersGetResponsePreviewsBaseConfigObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersGetResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersGetResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersGetResponsePreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersGetResponsePreviewsBaseConfigObservabilityLogs | null;
+  logs?: BetaWorkersGetResponsePreviewsBaseConfigObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersGetResponsePreviewsBaseConfigObservabilityTraces | null;
+  traces?: BetaWorkersGetResponsePreviewsBaseConfigObservabilityTraces | null | undefined;
 }
 export type BetaWorkersGetResponsePreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersGetResponsePreviewsBaseConfigPlacementMode {
@@ -5858,19 +6048,19 @@ export type BetaWorkersGetResponsePreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersGetResponsePreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersGetResponsePreviewsBaseConfigEnvMap | null;
+  env?: BetaWorkersGetResponsePreviewsBaseConfigEnvMap | null | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null;
+  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersGetResponsePreviewsBaseConfigObservability | null;
+  observability?: BetaWorkersGetResponsePreviewsBaseConfigObservability | null | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersGetResponsePreviewsBaseConfigPlacement | null;
+  placement?: BetaWorkersGetResponsePreviewsBaseConfigPlacement | null | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersGetResponsePreviewsBaseConfigTailConsumersList | null;
+  tailConsumers?: BetaWorkersGetResponsePreviewsBaseConfigTailConsumersList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBetaWorkerResponse {
@@ -5895,9 +6085,9 @@ export interface GetBetaWorkerResponse {
   /** When the Worker was most recently updated. */
   updatedOn: string;
   /** When the Worker's most recent deployment was created. `null` if the Worker has never been deployed. */
-  deployedOn?: string | null;
+  deployedOn?: string | null | undefined;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersGetResponsePreviewsBaseConfig | null;
+  previewsBaseConfig?: BetaWorkersGetResponsePreviewsBaseConfig | null | undefined;
 }
 export type BetaWorkersVersionsGetRequestInclude = "modules";
 export interface GetBetaWorkerVersionRequest {
@@ -5908,7 +6098,7 @@ export interface GetBetaWorkerVersionRequest {
   /** Identifier for the version, which can be a UUID, a UUID prefix (minimum length 8), or the literal "latest" to operate on the most recently created version. */
   versionId: string;
   /** Whether to include the `modules` property of the version in the response, which contains code and sourcemap content and may add several megabytes to the response size. */
-  include?: BetaWorkersVersionsGetRequestInclude | (string & {});
+  include?: BetaWorkersVersionsGetRequestInclude | (string & {}) | undefined;
 }
 export type BetaWorkersVersionsGetResponseUrlsList = Array<string>;
 export type BetaWorkersVersionsGetResponseAnnotations =
@@ -5928,19 +6118,19 @@ export type BetaWorkersVersionsGetResponseAssetsConfigRunWorkerFirst =
   | BetaWorkersVersionsGetResponseAssetsConfigRunWorkerFirstCase0List;
 export interface BetaWorkersVersionsGetResponseAssetsConfig {
   /** The public URL path prefix under which assets are served. A null request value resets it to `/`; responses represent the root as `/`. All versions in a gradual deployment must use the same canonical value. To change it, first deploy the version containing the change at 100%. */
-  basePath?: string | null;
+  basePath?: string | null | undefined;
   /** Determines the redirects and rewrites of requests for HTML content. */
-  htmlHandling?: BetaWorkersVersionsGetResponseAssetsConfigHtmlHandling | null;
+  htmlHandling?: BetaWorkersVersionsGetResponseAssetsConfigHtmlHandling | null | undefined;
   /** Determines the response when a request does not match a static asset, and there is no Worker script. */
-  notFoundHandling?: BetaWorkersVersionsGetResponseAssetsConfigNotFoundHandling | null;
+  notFoundHandling?: BetaWorkersVersionsGetResponseAssetsConfigNotFoundHandling | null | undefined;
   /** Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules. */
-  runWorkerFirst?: BetaWorkersVersionsGetResponseAssetsConfigRunWorkerFirst | null;
+  runWorkerFirst?: BetaWorkersVersionsGetResponseAssetsConfigRunWorkerFirst | null | undefined;
 }
 export interface BetaWorkersVersionsGetResponseAssets {
   /** Configuration for assets within a Worker. */
-  config?: BetaWorkersVersionsGetResponseAssetsConfig | null;
+  config?: BetaWorkersVersionsGetResponseAssetsConfig | null | undefined;
   /** Token provided upon successful upload of all files from a registered manifest. */
-  jwt?: string | null;
+  jwt?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemAIType = "ai";
 export interface BetaWorkersVersionsGetResponseBindingsItemAI {
@@ -5958,7 +6148,7 @@ export interface BetaWorkersVersionsGetResponseBindingsItemAISearch {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemAISearchNamespaceType = "ai_search_namespace";
 export interface BetaWorkersVersionsGetResponseBindingsItemAISearchNamespace {
@@ -6019,7 +6209,7 @@ export interface BetaWorkersVersionsGetResponseBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemDataBlobType = "data_blob";
 export interface BetaWorkersVersionsGetResponseBindingsItemDataBlob {
@@ -6039,9 +6229,15 @@ export type BetaWorkersVersionsGetResponseBindingsItemDispatchNamespaceOutboundW
   BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
 export interface BetaWorkersVersionsGetResponseBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: BetaWorkersVersionsGetResponseBindingsItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | BetaWorkersVersionsGetResponseBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface BetaWorkersVersionsGetResponseBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -6051,7 +6247,7 @@ export interface BetaWorkersVersionsGetResponseBindingsItemDispatchNamespace {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: BetaWorkersVersionsGetResponseBindingsItemDispatchNamespaceOutbound | null;
+  outbound?: BetaWorkersVersionsGetResponseBindingsItemDispatchNamespaceOutbound | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -6061,15 +6257,15 @@ export interface BetaWorkersVersionsGetResponseBindingsItemDurableObjectNamespac
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemHyperdriveType = "hyperdrive";
 export interface BetaWorkersVersionsGetResponseBindingsItemHyperdrive {
@@ -6087,9 +6283,9 @@ export interface BetaWorkersVersionsGetResponseBindingsItemInherit {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemImagesType = "images";
 export interface BetaWorkersVersionsGetResponseBindingsItemImages {
@@ -6195,7 +6391,7 @@ export interface BetaWorkersVersionsGetResponseBindingsItemR2Bucket {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: BetaWorkersVersionsGetResponseBindingsItemR2BucketJurisdiction | null;
+  jurisdiction?: BetaWorkersVersionsGetResponseBindingsItemR2BucketJurisdiction | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemSecretTextType = "secret_text";
 export interface BetaWorkersVersionsGetResponseBindingsItemSecretText {
@@ -6217,11 +6413,17 @@ export interface BetaWorkersVersionsGetResponseBindingsItemSendEmail {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: BetaWorkersVersionsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | BetaWorkersVersionsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: BetaWorkersVersionsGetResponseBindingsItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | BetaWorkersVersionsGetResponseBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemServiceType = "service";
 export interface BetaWorkersVersionsGetResponseBindingsItemService {
@@ -6232,9 +6434,9 @@ export interface BetaWorkersVersionsGetResponseBindingsItemService {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsGetResponseBindingsItemTextBlob {
@@ -6311,9 +6513,9 @@ export interface BetaWorkersVersionsGetResponseBindingsItemSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: BetaWorkersVersionsGetResponseBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemWorkflowType = "workflow";
 export interface BetaWorkersVersionsGetResponseBindingsItemWorkflow {
@@ -6324,9 +6526,9 @@ export interface BetaWorkersVersionsGetResponseBindingsItemWorkflow {
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItemWasmModuleType = "wasm_module";
 export interface BetaWorkersVersionsGetResponseBindingsItemWasmModule {
@@ -6354,11 +6556,11 @@ export interface BetaWorkersVersionsGetResponseBindingsItemVPCNetwork {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkType;
   /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
-  identity?: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkIdentity | null;
+  identity?: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkIdentity | null | undefined;
   /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseBindingsItem =
   | BetaWorkersVersionsGetResponseBindingsItemAI
@@ -6416,9 +6618,9 @@ export interface BetaWorkersVersionsGetResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: BetaWorkersVersionsGetResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsGetResponseExportsValueWorkerState | null;
+  state?: BetaWorkersVersionsGetResponseExportsValueWorkerState | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -6432,9 +6634,12 @@ export interface BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectE
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -6487,7 +6692,7 @@ export interface BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectE
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseExportsValue =
   | BetaWorkersVersionsGetResponseExportsValueWorker
@@ -6545,9 +6750,12 @@ export interface BetaWorkersVersionsGetResponseExportsReconciliationInfoItem {
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: BetaWorkersVersionsGetResponseExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: BetaWorkersVersionsGetResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | BetaWorkersVersionsGetResponseExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsGetResponseExportsReconciliationInfoList =
   Array<BetaWorkersVersionsGetResponseExportsReconciliationInfoItem>;
@@ -6614,7 +6822,7 @@ export interface BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: BetaWorkersVersionsGetResponseExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type BetaWorkersVersionsGetResponseExportsReconciliationWarningsList =
   Array<BetaWorkersVersionsGetResponseExportsReconciliationWarningsItem>;
@@ -6655,19 +6863,34 @@ export type BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationTransferr
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsGetResponseMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationDeletedClassesList | null;
+  deletedClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationNewClassesList | null;
+  newClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationNewSqliteClassesList
+    | null
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationRenamedClassesList | null;
+  renamedClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationTransferredClassesList | null;
+  transferredClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsSingleStepMigrationTransferredClassesList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -6685,25 +6908,43 @@ export type BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigration
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList | null;
+  deletedClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList | null;
+  newClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | null
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList | null;
+  renamedClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList | null;
+  transferredClasses?:
+    | BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** Migrations to apply in order. */
-  steps?: BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList | null;
+  steps?:
+    | BetaWorkersVersionsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsGetResponseMigrations =
   | BetaWorkersVersionsGetResponseMigrationsSingleStepMigration
@@ -6787,47 +7028,47 @@ export interface GetBetaWorkerVersionResponse {
   /** All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version. */
   urls: BetaWorkersVersionsGetResponseUrlsList;
   /** Metadata about the version. */
-  annotations?: BetaWorkersVersionsCreateResponseAnnotations | null;
+  annotations?: BetaWorkersVersionsCreateResponseAnnotations | null | undefined;
   /** Configuration for assets within a Worker. */
-  assets?: BetaWorkersVersionsGetResponseAssets | null;
+  assets?: BetaWorkersVersionsGetResponseAssets | null | undefined;
   /** Email of the user who created the version. */
-  authorEmail?: string | null;
+  authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
-  authorId?: string | null;
+  authorId?: string | null | undefined;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: BetaWorkersVersionsGetResponseBindingsList | null;
+  bindings?: BetaWorkersVersionsGetResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: BetaWorkersVersionsGetResponseCompatibilityFlagsList | null;
+  compatibilityFlags?: BetaWorkersVersionsGetResponseCompatibilityFlagsList | null | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
-  containers?: BetaWorkersVersionsGetResponseContainersList | null;
+  containers?: BetaWorkersVersionsGetResponseContainersList | null | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsGetResponseExportsMap | null;
+  exports?: BetaWorkersVersionsGetResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: BetaWorkersVersionsGetResponseExportsReconciliation | null;
+  exportsReconciliation?: BetaWorkersVersionsGetResponseExportsReconciliation | null | undefined;
   /** Resource limits enforced at runtime. */
-  limits?: BetaWorkersVersionsCreateResponseLimits | null;
+  limits?: BetaWorkersVersionsCreateResponseLimits | null | undefined;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
-  mainModule?: string | null;
+  mainModule?: string | null | undefined;
   /** Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed. */
-  migrations?: BetaWorkersVersionsGetResponseMigrations | null;
+  migrations?: BetaWorkersVersionsGetResponseMigrations | null | undefined;
   /** Code, sourcemaps, and other content used at runtime. */
-  modules?: BetaWorkersVersionsGetResponseModulesList | null;
+  modules?: BetaWorkersVersionsGetResponseModulesList | null | undefined;
   /** The list of npm packages that were installed and used when this Worker version was built. */
-  packageDependencies?: BetaWorkersVersionsGetResponsePackageDependenciesList | null;
+  packageDependencies?: BetaWorkersVersionsGetResponsePackageDependenciesList | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: BetaWorkersVersionsGetResponsePlacement | null;
+  placement?: BetaWorkersVersionsGetResponsePlacement | null | undefined;
   /** The client used to create the version. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time). */
-  startupTimeMs?: number | null;
+  startupTimeMs?: number | null | undefined;
   /** Usage model for the version. */
-  usageModel?: BetaWorkersVersionsGetResponseUsageModel | null;
+  usageModel?: BetaWorkersVersionsGetResponseUsageModel | null | undefined;
 }
 export interface GetDomainRequest {
   /** Identifier. */
@@ -6848,7 +7089,7 @@ export interface GetDomainResponse {
   /** Hostname of the domain. Can be either the zone apex or a subdomain of the zone. Requests to this hostname will be routed to the configured Worker. */
   hostname: string;
   /** Whether Worker Previews are served on this custom domain. */
-  previewsEnabled?: boolean | null;
+  previewsEnabled?: boolean | null | undefined;
   /** Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker. */
   service: string;
   /** ID of the zone containing the domain hostname. */
@@ -6866,7 +7107,7 @@ export interface GetObservabilitySharedQueryRequest {
   /** Specify the ID of the shared query. */
   id: string;
   /** Select the view of the query result to return, defaults to events. */
-  view?: ObservabilitySharedQueriesGetRequestView | (string & {});
+  view?: ObservabilitySharedQueriesGetRequestView | (string & {}) | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0Operator =
   | "count"
@@ -6877,9 +7118,12 @@ export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsI
   | "boolean";
 export interface ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0 {
   operator: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0Operator;
-  alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0KeyType | null;
+  alias?: string | null | undefined;
+  key?: string | null | undefined;
+  keyType?:
+    | ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0KeyType
+    | null
+    | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1Operator =
   | "uniq"
@@ -6925,8 +7169,11 @@ export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsI
 export interface ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1 {
   key: string;
   operator: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1Operator;
-  alias?: string | null;
-  keyType?: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1KeyType | null;
+  alias?: string | null | undefined;
+  keyType?:
+    | ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase1KeyType
+    | null
+    | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItem =
   | ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsItemCase0
@@ -7001,9 +7248,15 @@ export interface ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersI
   /** Data type of the filter field. Must match the actual type of the key being filtered. */
   type: ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafType;
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
-  kind?: ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafKind | null;
+  kind?:
+    | ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafKind
+    | null
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafValue | null;
+  value?:
+    | ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafValue
+    | null
+    | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItem =
   | ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersItemCase0
@@ -7036,35 +7289,41 @@ export type ObservabilitySharedQueriesGetResponseRunQueryParametersHavingsList =
   Array<ObservabilitySharedQueriesGetResponseRunQueryParametersHavingsItem>;
 export interface ObservabilitySharedQueriesGetResponseRunQueryParametersNeedle {
   value: unknown;
-  isRegex?: boolean | null;
-  matchCase?: boolean | null;
+  isRegex?: boolean | null | undefined;
+  matchCase?: boolean | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseRunQueryParametersOrderByOrder = "asc" | "desc";
 export interface ObservabilitySharedQueriesGetResponseRunQueryParametersOrderBy {
   /** Configure which Calculation to order the results by. */
   value: string;
   /** Set the order of the results */
-  order?: ObservabilitySharedQueriesGetResponseRunQueryParametersOrderByOrder | null;
+  order?: ObservabilitySharedQueriesGetResponseRunQueryParametersOrderByOrder | null | undefined;
 }
 export interface ObservabilitySharedQueriesGetResponseRunQueryParameters {
   /** Create Calculations to compute as part of the query. */
-  calculations?: ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsList | null;
+  calculations?:
+    | ObservabilitySharedQueriesGetResponseRunQueryParametersCalculationsList
+    | null
+    | undefined;
   /** Set the Datasets to query. Leave it empty to query all the datasets. */
-  datasets?: ObservabilitySharedQueriesGetResponseRunQueryParametersDatasetsList | null;
+  datasets?: ObservabilitySharedQueriesGetResponseRunQueryParametersDatasetsList | null | undefined;
   /** Set a Flag to describe how to combine the filters on the query. */
-  filterCombination?: ObservabilitySharedQueriesGetResponseRunQueryParametersFilterCombination | null;
+  filterCombination?:
+    | ObservabilitySharedQueriesGetResponseRunQueryParametersFilterCombination
+    | null
+    | undefined;
   /** Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. */
-  filters?: ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersList | null;
+  filters?: ObservabilitySharedQueriesGetResponseRunQueryParametersFiltersList | null | undefined;
   /** Define how to group the results of the query. */
-  groupBys?: ObservabilitySharedQueriesGetResponseRunQueryParametersGroupBysList | null;
+  groupBys?: ObservabilitySharedQueriesGetResponseRunQueryParametersGroupBysList | null | undefined;
   /** Configure the Having clauses that filter on calculations in the query result. */
-  havings?: ObservabilitySharedQueriesGetResponseRunQueryParametersHavingsList | null;
+  havings?: ObservabilitySharedQueriesGetResponseRunQueryParametersHavingsList | null | undefined;
   /** Set a limit on the number of results / records returned by the query */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Define an expression to search using full-text search. */
-  needle?: ObservabilitySharedQueriesGetResponseRunQueryParametersNeedle | null;
+  needle?: ObservabilitySharedQueriesGetResponseRunQueryParametersNeedle | null | undefined;
   /** Configure the order of the results returned by the query. */
-  orderBy?: ObservabilitySharedQueriesGetResponseRunQueryParametersOrderBy | null;
+  orderBy?: ObservabilitySharedQueriesGetResponseRunQueryParametersOrderBy | null | undefined;
 }
 export interface ObservabilitySharedQueriesGetResponseRunQuery {
   id: string;
@@ -7090,7 +7349,7 @@ export interface ObservabilitySharedQueriesGetResponseRunStatistics {
   /** Number of rows scanned from the table. */
   rowsRead: number;
   /** The level of Adaptive Bit Rate (ABR) sampling used for the query. If empty the ABR level is 1 */
-  abrLevel?: number | null;
+  abrLevel?: number | null | undefined;
 }
 export interface ObservabilitySharedQueriesGetResponseRun {
   /** Unique identifier for this query run. */
@@ -7110,11 +7369,11 @@ export interface ObservabilitySharedQueriesGetResponseRun {
   /** ID of the user who initiated the query run. */
   userId: string;
   /** ISO-8601 timestamp when the query run was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Query performance statistics from the database (does not include network latency). */
-  statistics?: ObservabilitySharedQueriesGetResponseRunStatistics | null;
+  statistics?: ObservabilitySharedQueriesGetResponseRunStatistics | null | undefined;
   /** ISO-8601 timestamp when the query run was last updated. */
-  updated?: string | null;
+  updated?: string | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseStatistics =
   ObservabilitySharedQueriesGetResponseRunStatistics;
@@ -7147,15 +7406,15 @@ export interface ObservabilitySharedQueriesGetResponseAgentsItem {
   /** Start of the run's trace as a Unix epoch in milliseconds. */
   traceStartMs: number;
   /** ID from the earliest agent invocation that provides one. */
-  agentId?: string | null;
+  agentId?: string | null | undefined;
   /** Name from the earliest agent invocation that provides one. */
-  agentName?: string | null;
+  agentName?: string | null | undefined;
   /** Conversation ID from the earliest invocation that provides one. */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
   /** Input tokens summed across chat spans in the run's trace; informational, not billing data. */
-  inputTokens?: number | null;
+  inputTokens?: number | null | undefined;
   /** Output tokens summed across chat spans in the run's trace; informational, not billing data. */
-  outputTokens?: number | null;
+  outputTokens?: number | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseAgentsList =
   Array<ObservabilitySharedQueriesGetResponseAgentsItem>;
@@ -7178,7 +7437,10 @@ export interface ObservabilitySharedQueriesGetResponseCalculationsItemAggregates
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  groups?: ObservabilitySharedQueriesGetResponseCalculationsItemAggregatesItemGroupsList | null;
+  groups?:
+    | ObservabilitySharedQueriesGetResponseCalculationsItemAggregatesItemGroupsList
+    | null
+    | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseCalculationsItemAggregatesList =
   Array<ObservabilitySharedQueriesGetResponseCalculationsItemAggregatesItem>;
@@ -7201,9 +7463,12 @@ export interface ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItem
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  firstSeen?: string | null;
-  groups?: ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItemDataItemGroupsList | null;
-  lastSeen?: string | null;
+  firstSeen?: string | null | undefined;
+  groups?:
+    | ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItemDataItemGroupsList
+    | null
+    | undefined;
+  lastSeen?: string | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItemDataList =
   Array<ObservabilitySharedQueriesGetResponseCalculationsItemSeriesItemDataItem>;
@@ -7217,7 +7482,7 @@ export interface ObservabilitySharedQueriesGetResponseCalculationsItem {
   aggregates: ObservabilitySharedQueriesGetResponseCalculationsItemAggregatesList;
   calculation: string;
   series: ObservabilitySharedQueriesGetResponseCalculationsItemSeriesList;
-  alias?: string | null;
+  alias?: string | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseCalculationsList =
   Array<ObservabilitySharedQueriesGetResponseCalculationsItem>;
@@ -7240,7 +7505,10 @@ export interface ObservabilitySharedQueriesGetResponseCompareItemAggregatesItem 
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  groups?: ObservabilitySharedQueriesGetResponseCompareItemAggregatesItemGroupsList | null;
+  groups?:
+    | ObservabilitySharedQueriesGetResponseCompareItemAggregatesItemGroupsList
+    | null
+    | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseCompareItemAggregatesList =
   Array<ObservabilitySharedQueriesGetResponseCompareItemAggregatesItem>;
@@ -7263,9 +7531,12 @@ export interface ObservabilitySharedQueriesGetResponseCompareItemSeriesItemDataI
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  firstSeen?: string | null;
-  groups?: ObservabilitySharedQueriesGetResponseCompareItemSeriesItemDataItemGroupsList | null;
-  lastSeen?: string | null;
+  firstSeen?: string | null | undefined;
+  groups?:
+    | ObservabilitySharedQueriesGetResponseCompareItemSeriesItemDataItemGroupsList
+    | null
+    | undefined;
+  lastSeen?: string | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseCompareItemSeriesItemDataList =
   Array<ObservabilitySharedQueriesGetResponseCompareItemSeriesItemDataItem>;
@@ -7279,7 +7550,7 @@ export interface ObservabilitySharedQueriesGetResponseCompareItem {
   aggregates: ObservabilitySharedQueriesGetResponseCompareItemAggregatesList;
   calculation: string;
   series: ObservabilitySharedQueriesGetResponseCompareItemSeriesList;
-  alias?: string | null;
+  alias?: string | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseCompareList =
   Array<ObservabilitySharedQueriesGetResponseCompareItem>;
@@ -7310,79 +7581,82 @@ export interface ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata {
   /** Unique event ID. Use as the cursor value for offset-based pagination. */
   id: string;
   /** Cloudflare account identifier. */
-  account?: string | null;
+  account?: string | null | undefined;
   /** Cloudflare product that generated this event (e.g. workers, pages). */
-  cloudService?: string | null;
+  cloudService?: string | null | undefined;
   /** exclusiveMinimum */
-  coldStart?: number | null;
+  coldStart?: number | null | undefined;
   /** Estimated cost units for this invocation. */
-  cost?: number | null;
+  cost?: number | null | undefined;
   /** Span duration in milliseconds. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Span end time as a Unix epoch in milliseconds. */
-  endTime?: number | null;
+  endTime?: number | null | undefined;
   /** Span end time as a Unix epoch in nanoseconds. */
-  endTimeNs?: string | null;
+  endTimeNs?: string | null | undefined;
   /** Error message, present when the log represents an error. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Templatized version of the error message used for grouping similar errors. */
-  errorTemplate?: string | null;
+  errorTemplate?: string | null | undefined;
   /** Size of the stored telemetry event in bytes. */
-  eventSize?: number | null;
+  eventSize?: number | null | undefined;
   /** Content-based fingerprint used to group similar events. */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** Log level (e.g. log, debug, info, warn, error). */
-  level?: string | null;
+  level?: string | null | undefined;
   /** Log message text. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Templatized version of the log message used for grouping similar messages. */
-  messageTemplate?: string | null;
+  messageTemplate?: string | null | undefined;
   /** Metric name when the event represents a metric data point. */
-  metricName?: string | null;
+  metricName?: string | null | undefined;
   /** Origin of the event (e.g. fetch, scheduled, queue). */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** Span ID of the parent span in the trace hierarchy. */
-  parentSpanId?: string | null;
+  parentSpanId?: string | null | undefined;
   /** Infrastructure provider identifier. */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
-  rayId?: string | null;
+  rayId?: string | null | undefined;
   /** Cloudflare data center / region that handled the request. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Cloudflare request ID that ties all logs from a single invocation together. */
-  requestId?: string | null;
+  requestId?: string | null | undefined;
   /** Worker script name that produced this event. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** Span ID for this individual unit of work within a trace. */
-  spanId?: string | null;
+  spanId?: string | null | undefined;
   /** Human-readable name for this span. */
-  spanName?: string | null;
+  spanName?: string | null | undefined;
   /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
-  spanStatus?: ObservabilitySharedQueriesGetResponseEventsEventsItemMetadataSpanStatus | null;
+  spanStatus?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemMetadataSpanStatus
+    | null
+    | undefined;
   /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
-  spanStatusMessage?: string | null;
+  spanStatusMessage?: string | null | undefined;
   /** Stack / deployment identifier. */
-  stackId?: string | null;
+  stackId?: string | null | undefined;
   /** Span start time as a Unix epoch in milliseconds. */
-  startTime?: number | null;
+  startTime?: number | null | undefined;
   /** Span start time as a Unix epoch in nanoseconds. */
-  startTimeNs?: string | null;
+  startTimeNs?: string | null | undefined;
   /** HTTP response status code returned by the Worker. */
-  statusCode?: number | null;
+  statusCode?: number | null | undefined;
   /** Event time as a Unix epoch in nanoseconds. */
-  timestampNs?: string | null;
+  timestampNs?: string | null | undefined;
   /** Total duration of the entire trace in milliseconds. */
-  traceDuration?: number | null;
+  traceDuration?: number | null | undefined;
   /** Distributed trace ID linking spans across services. */
-  traceId?: string | null;
+  traceId?: string | null | undefined;
   /** Logical transaction name for this request. */
-  transactionName?: string | null;
+  transactionName?: string | null | undefined;
   /** What triggered the invocation (e.g. GET /users, POST /orders, queue message). */
-  trigger?: string | null;
+  trigger?: string | null | undefined;
   /** Event type classifier (e.g. cf-worker-event, cf-worker-log). */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Request URL that triggered the Worker invocation. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseEventsEventsItemSourceCase1Map = {
   [key: string]: unknown | undefined;
@@ -7413,29 +7687,41 @@ export type ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Exe
   | "durableObject"
   | "stateless";
 export interface ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview {
-  id?: string | null;
-  name?: string | null;
-  slug?: string | null;
+  id?: string | null | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
 }
 export interface ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion {
-  id?: string | null;
-  message?: string | null;
-  tag?: string | null;
+  id?: string | null | undefined;
+  message?: string | null | undefined;
+  tag?: string | null | undefined;
 }
 export interface ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0 {
   eventType: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0EventType;
   scriptName: string;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0EventMap | null;
-  executionModel?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ExecutionModel | null;
-  outcome?: string | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ExecutionModel
+    | null
+    | undefined;
+  outcome?: string | null | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase1EventType =
   | "fetch"
@@ -7473,18 +7759,33 @@ export interface ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCas
   outcome: string;
   scriptName: string;
   wallTimeMs: number;
-  diagnosticsChannelEvents?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase1DiagnosticsChannelEventsList | null;
-  dispatchNamespace?: string | null;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase1EventMap | null;
-  executionModel?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase1ExecutionModel | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  diagnosticsChannelEvents?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase1DiagnosticsChannelEventsList
+    | null
+    | undefined;
+  dispatchNamespace?: string | null | undefined;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase1EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase1ExecutionModel
+    | null
+    | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseEventsEventsItemWorkers =
   | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0
@@ -7499,9 +7800,12 @@ export interface ObservabilitySharedQueriesGetResponseEventsEventsItem {
   /** Event timestamp as a Unix epoch in milliseconds. */
   timestamp: number;
   /** Cloudflare Containers event information that enriches your logs for identifying and debugging issues. */
-  containers?: ObservabilitySharedQueriesGetResponseEventsEventsItemContainersMap | null;
+  containers?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemContainersMap
+    | null
+    | undefined;
   /** Cloudflare Workers event information that enriches your logs for identifying and debugging issues. */
-  workers?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkers | null;
+  workers?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkers | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseEventsEventsList =
   Array<ObservabilitySharedQueriesGetResponseEventsEventsItem>;
@@ -7518,9 +7822,9 @@ export interface ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAg
   count: number;
   /** exclusiveMinimum */
   interval: number;
-  firstSeen?: string | null;
-  lastSeen?: string | null;
-  bin?: unknown | null;
+  firstSeen?: string | null | undefined;
+  lastSeen?: string | null | undefined;
+  bin?: unknown | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsValue =
   | string
@@ -7539,9 +7843,12 @@ export interface ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItem {
   interval: number;
   /** Average sample interval of the matched events. Each stored event has a sample interval of 1 / (the sampling rate applied when it was ingested): the Worker's head_sampling_rate multiplied by any platform sampling applied to the account or script. A value of 1 means none of the matched events were sampled. A value above 1 means count and value are estimated from sampled data, not exact. This is independent of statistics.abr_level. */
   sampleInterval: number;
-  errors?: number | null;
+  errors?: number | null | undefined;
   /** Groups in the query results. */
-  groups?: ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsMap | null;
+  groups?:
+    | ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsMap
+    | null
+    | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseEventsSeriesItemDataList =
   Array<ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItem>;
@@ -7553,13 +7860,13 @@ export type ObservabilitySharedQueriesGetResponseEventsSeriesList =
   Array<ObservabilitySharedQueriesGetResponseEventsSeriesItem>;
 export interface ObservabilitySharedQueriesGetResponseEvents {
   /** Total number of events matching the query (may exceed the number returned due to limits). */
-  count?: number | null;
+  count?: number | null | undefined;
   /** List of individual telemetry events matching the query. */
-  events?: ObservabilitySharedQueriesGetResponseEventsEventsList | null;
+  events?: ObservabilitySharedQueriesGetResponseEventsEventsList | null | undefined;
   /** List of fields discovered in the matched events. Useful for building dynamic UIs. */
-  fields?: ObservabilitySharedQueriesGetResponseEventsFieldsList | null;
+  fields?: ObservabilitySharedQueriesGetResponseEventsFieldsList | null | undefined;
   /** Time-series data for the matched events, bucketed by the query granularity. */
-  series?: ObservabilitySharedQueriesGetResponseEventsSeriesList | null;
+  series?: ObservabilitySharedQueriesGetResponseEventsSeriesList | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadataSpanStatus =
   | "unset"
@@ -7569,79 +7876,82 @@ export interface ObservabilitySharedQueriesGetResponseInvocationsValueItemMetada
   /** Unique event ID. Use as the cursor value for offset-based pagination. */
   id: string;
   /** Cloudflare account identifier. */
-  account?: string | null;
+  account?: string | null | undefined;
   /** Cloudflare product that generated this event (e.g. workers, pages). */
-  cloudService?: string | null;
+  cloudService?: string | null | undefined;
   /** exclusiveMinimum */
-  coldStart?: number | null;
+  coldStart?: number | null | undefined;
   /** Estimated cost units for this invocation. */
-  cost?: number | null;
+  cost?: number | null | undefined;
   /** Span duration in milliseconds. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Span end time as a Unix epoch in milliseconds. */
-  endTime?: number | null;
+  endTime?: number | null | undefined;
   /** Span end time as a Unix epoch in nanoseconds. */
-  endTimeNs?: string | null;
+  endTimeNs?: string | null | undefined;
   /** Error message, present when the log represents an error. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Templatized version of the error message used for grouping similar errors. */
-  errorTemplate?: string | null;
+  errorTemplate?: string | null | undefined;
   /** Size of the stored telemetry event in bytes. */
-  eventSize?: number | null;
+  eventSize?: number | null | undefined;
   /** Content-based fingerprint used to group similar events. */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** Log level (e.g. log, debug, info, warn, error). */
-  level?: string | null;
+  level?: string | null | undefined;
   /** Log message text. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Templatized version of the log message used for grouping similar messages. */
-  messageTemplate?: string | null;
+  messageTemplate?: string | null | undefined;
   /** Metric name when the event represents a metric data point. */
-  metricName?: string | null;
+  metricName?: string | null | undefined;
   /** Origin of the event (e.g. fetch, scheduled, queue). */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** Span ID of the parent span in the trace hierarchy. */
-  parentSpanId?: string | null;
+  parentSpanId?: string | null | undefined;
   /** Infrastructure provider identifier. */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
-  rayId?: string | null;
+  rayId?: string | null | undefined;
   /** Cloudflare data center / region that handled the request. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Cloudflare request ID that ties all logs from a single invocation together. */
-  requestId?: string | null;
+  requestId?: string | null | undefined;
   /** Worker script name that produced this event. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** Span ID for this individual unit of work within a trace. */
-  spanId?: string | null;
+  spanId?: string | null | undefined;
   /** Human-readable name for this span. */
-  spanName?: string | null;
+  spanName?: string | null | undefined;
   /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
-  spanStatus?: ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadataSpanStatus | null;
+  spanStatus?:
+    | ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadataSpanStatus
+    | null
+    | undefined;
   /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
-  spanStatusMessage?: string | null;
+  spanStatusMessage?: string | null | undefined;
   /** Stack / deployment identifier. */
-  stackId?: string | null;
+  stackId?: string | null | undefined;
   /** Span start time as a Unix epoch in milliseconds. */
-  startTime?: number | null;
+  startTime?: number | null | undefined;
   /** Span start time as a Unix epoch in nanoseconds. */
-  startTimeNs?: string | null;
+  startTimeNs?: string | null | undefined;
   /** HTTP response status code returned by the Worker. */
-  statusCode?: number | null;
+  statusCode?: number | null | undefined;
   /** Event time as a Unix epoch in nanoseconds. */
-  timestampNs?: string | null;
+  timestampNs?: string | null | undefined;
   /** Total duration of the entire trace in milliseconds. */
-  traceDuration?: number | null;
+  traceDuration?: number | null | undefined;
   /** Distributed trace ID linking spans across services. */
-  traceId?: string | null;
+  traceId?: string | null | undefined;
   /** Logical transaction name for this request. */
-  transactionName?: string | null;
+  transactionName?: string | null | undefined;
   /** What triggered the invocation (e.g. GET /users, POST /orders, queue message). */
-  trigger?: string | null;
+  trigger?: string | null | undefined;
   /** Event type classifier (e.g. cf-worker-event, cf-worker-log). */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Request URL that triggered the Worker invocation. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseInvocationsValueItemSourceCase1Map = {
   [key: string]: unknown | undefined;
@@ -7678,17 +7988,29 @@ export type ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase
 export interface ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase0 {
   eventType: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase0EventType;
   scriptName: string;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase0EventMap | null;
-  executionModel?: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase0ExecutionModel | null;
-  outcome?: string | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase0EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase0ExecutionModel
+    | null
+    | undefined;
+  outcome?: string | null | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1EventType =
   | "fetch"
@@ -7723,18 +8045,33 @@ export interface ObservabilitySharedQueriesGetResponseInvocationsValueItemWorker
   outcome: string;
   scriptName: string;
   wallTimeMs: number;
-  diagnosticsChannelEvents?: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1DiagnosticsChannelEventsList | null;
-  dispatchNamespace?: string | null;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1EventMap | null;
-  executionModel?: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1ExecutionModel | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  diagnosticsChannelEvents?:
+    | ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1DiagnosticsChannelEventsList
+    | null
+    | undefined;
+  dispatchNamespace?: string | null | undefined;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1ExecutionModel
+    | null
+    | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkers =
   | ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase0
@@ -7749,9 +8086,12 @@ export interface ObservabilitySharedQueriesGetResponseInvocationsValueItem {
   /** Event timestamp as a Unix epoch in milliseconds. */
   timestamp: number;
   /** Cloudflare Containers event information that enriches your logs for identifying and debugging issues. */
-  containers?: ObservabilitySharedQueriesGetResponseInvocationsValueItemContainersMap | null;
+  containers?:
+    | ObservabilitySharedQueriesGetResponseInvocationsValueItemContainersMap
+    | null
+    | undefined;
   /** Cloudflare Workers event information that enriches your logs for identifying and debugging issues. */
-  workers?: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkers | null;
+  workers?: ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkers | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseInvocationsValueList =
   Array<ObservabilitySharedQueriesGetResponseInvocationsValueItem>;
@@ -7778,7 +8118,7 @@ export interface ObservabilitySharedQueriesGetResponseTracesItem {
   /** Trace start time as a Unix epoch in milliseconds. */
   traceStartMs: number;
   /** Error messages encountered during the trace, if any. */
-  errors?: ObservabilitySharedQueriesGetResponseTracesItemErrorsList | null;
+  errors?: ObservabilitySharedQueriesGetResponseTracesItemErrorsList | null | undefined;
 }
 export type ObservabilitySharedQueriesGetResponseTracesList =
   Array<ObservabilitySharedQueriesGetResponseTracesItem>;
@@ -7789,19 +8129,19 @@ export interface GetObservabilitySharedQueryResponse {
   /** Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency. */
   statistics: ObservabilitySharedQueriesGetResponseRunStatistics;
   /** Agent run summaries. Present when the query view is 'agents'. Each entry represents one trace containing at least one agent invocation. */
-  agents?: ObservabilitySharedQueriesGetResponseAgentsList | null;
+  agents?: ObservabilitySharedQueriesGetResponseAgentsList | null | undefined;
   /** Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data. */
-  calculations?: ObservabilitySharedQueriesGetResponseCalculationsList | null;
+  calculations?: ObservabilitySharedQueriesGetResponseCalculationsList | null | undefined;
   /** Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations. */
-  compare?: ObservabilitySharedQueriesGetResponseCompareList | null;
+  compare?: ObservabilitySharedQueriesGetResponseCompareList | null | undefined;
   /** Bucketed 2D histogram of a numeric field over time. Present when chartType is 'distribution'. */
-  distribution?: ObservabilitySharedQueriesGetResponseDistribution | null;
+  distribution?: ObservabilitySharedQueriesGetResponseDistribution | null | undefined;
   /** Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata. */
-  events?: ObservabilitySharedQueriesGetResponseEvents | null;
+  events?: ObservabilitySharedQueriesGetResponseEvents | null | undefined;
   /** Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation. */
-  invocations?: ObservabilitySharedQueriesGetResponseInvocationsMap | null;
+  invocations?: ObservabilitySharedQueriesGetResponseInvocationsMap | null | undefined;
   /** Trace summaries matching the query. Present when the query view is 'traces'. Each entry represents a distributed trace with its spans, duration, and services involved. */
-  traces?: ObservabilitySharedQueriesGetResponseTracesList | null;
+  traces?: ObservabilitySharedQueriesGetResponseTracesList | null | undefined;
 }
 export interface GetPreviewRequest {
   accountId: string;
@@ -7830,7 +8170,7 @@ export interface GetRouteResponse {
   /** Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior). */
   pattern: string;
   /** Name of the script to run if the route matches. */
-  script?: string | null;
+  script?: string | null | undefined;
 }
 export interface GetScriptRequest {
   /** Identifier. */
@@ -7866,10 +8206,10 @@ export interface GetScriptDeploymentResponse {
   strategy: ScriptsDeploymentsGetResponseStrategy;
   /** Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions '[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]'`, or from a JSON file with `--versions @versions.json`. */
   versions: ScriptsDeploymentsGetResponseVersionsList;
-  annotations?: ScriptsDeploymentsCreateResponseAnnotations | null;
-  authorEmail?: string | null;
+  annotations?: ScriptsDeploymentsCreateResponseAnnotations | null | undefined;
+  authorEmail?: string | null | undefined;
   /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
-  codeUpdateStrategy?: unknown | null;
+  codeUpdateStrategy?: unknown | null | undefined;
 }
 export interface GetScriptEventTriggersRequest {
   /** Identifier. */
@@ -7879,9 +8219,9 @@ export interface GetScriptEventTriggersRequest {
 }
 export interface EventTriggerFilter {
   /** Only events from this Artifacts namespace. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
   /** Only events from this Artifacts repository. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export interface EventTriggerTarget {
   /** Target kind: `workflow`. */
@@ -7889,13 +8229,13 @@ export interface EventTriggerTarget {
   /** The Workflow that receives the event as an instance's params. */
   workflowName: string;
   /** The script that hosts the Workflow: the script the trigger belongs to. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type EventTriggerTargetList = Array<EventTriggerTarget>;
 export interface EventTrigger {
   /** Event type, e.g. `cf.artifacts.repo.pushed`. */
   type: string;
-  filter?: EventTriggerFilter | null;
+  filter?: EventTriggerFilter | null | undefined;
   targets: EventTriggerTargetList;
 }
 export type EventTriggerList = Array<EventTrigger>;
@@ -7912,8 +8252,8 @@ export interface GetScriptScheduleRequest {
 }
 export interface ScriptsSchedulesGetResponseSchedulesItem {
   cron: string;
-  createdOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export type ScriptsSchedulesGetResponseSchedulesList =
   Array<ScriptsSchedulesGetResponseSchedulesItem>;
@@ -7929,11 +8269,11 @@ export interface GetScriptScriptAndVersionSettingRequest {
 }
 export interface ScriptsScriptAndVersionSettingsGetResponseAnnotations {
   /** Human-readable message about the version. Truncated to 1000 bytes if longer. */
-  workersMessage?: string | null;
+  workersMessage?: string | null | undefined;
   /** User-provided identifier for the version. Maximum 100 bytes. */
-  workersTag?: string | null;
+  workersTag?: string | null | undefined;
   /** Operation that triggered the creation of the version. This is read-only and set by the server. */
-  workersTriggeredBy?: string | null;
+  workersTriggeredBy?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAIType = "ai";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAI {
@@ -7951,7 +8291,7 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearch 
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -8014,7 +8354,7 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlobType = "data_blob";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDataBlob {
@@ -8035,9 +8375,15 @@ export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamesp
   BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -8047,7 +8393,10 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchN
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutbound | null;
+  outbound?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemDispatchNamespaceOutbound
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -8057,15 +8406,15 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableOb
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdriveType = "hyperdrive";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemHyperdrive {
@@ -8083,9 +8432,9 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemInherit {
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemImagesType = "images";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemImages {
@@ -8192,7 +8541,10 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2Bucket 
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction | null;
+  jurisdiction?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemR2BucketJurisdiction
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretTextType = "secret_text";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretText {
@@ -8214,11 +8566,17 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmail
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemServiceType = "service";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemService {
@@ -8229,9 +8587,9 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemService {
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlobType = "text_blob";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemTextBlob {
@@ -8309,9 +8667,9 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKey
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: ScriptsScriptAndVersionSettingsGetResponseBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflowType = "workflow";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflow {
@@ -8322,9 +8680,9 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWorkflow 
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModuleType = "wasm_module";
 export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemWasmModule {
@@ -8353,11 +8711,14 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwor
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType;
   /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
-  identity?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity | null;
+  identity?:
+    | ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity
+    | null
+    | undefined;
   /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseBindingsItem =
   | ScriptsScriptAndVersionSettingsGetResponseBindingsItemAI
@@ -8411,9 +8772,9 @@ export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerState | null;
+  state?: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerState | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -8428,9 +8789,12 @@ export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDu
   /** Marks this entry as a Durable Object export. */
   type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -8483,7 +8847,7 @@ export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDu
   /** Marks this entry as a Durable Object export. */
   type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseExportsValue =
   | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorker
@@ -8543,9 +8907,12 @@ export interface ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoList =
   Array<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationInfoItem>;
@@ -8615,7 +8982,7 @@ export interface ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsList =
   Array<ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationWarningsItem>;
@@ -8657,19 +9024,34 @@ export type ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrat
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationDeletedClassesList | null;
+  deletedClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationNewClassesList | null;
+  newClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationNewSqliteClassesList
+    | null
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationRenamedClassesList | null;
+  renamedClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesList | null;
+  transferredClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -8687,25 +9069,43 @@ export type ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleS
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList | null;
+  deletedClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList | null;
+  newClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | null
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList | null;
+  renamedClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList | null;
+  transferredClasses?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** Migrations to apply in order. */
-  steps?: ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList | null;
+  steps?:
+    | ScriptsScriptAndVersionSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseMigrations =
   | ScriptsScriptAndVersionSettingsGetResponseMigrationsSingleStepMigration
@@ -8720,11 +9120,14 @@ export interface ScriptsScriptAndVersionSettingsGetResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsScriptAndVersionSettingsGetResponseObservabilityLogsDestinationsList | null;
+  destinations?:
+    | ScriptsScriptAndVersionSettingsGetResponseObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseObservabilityTracesDestinationsList =
   Array<string>;
@@ -8733,29 +9136,35 @@ export type ScriptsScriptAndVersionSettingsGetResponseObservabilityTracesPropaga
   | "accept";
 export interface ScriptsScriptAndVersionSettingsGetResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsScriptAndVersionSettingsGetResponseObservabilityTracesDestinationsList | null;
+  destinations?:
+    | ScriptsScriptAndVersionSettingsGetResponseObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: ScriptsScriptAndVersionSettingsGetResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | ScriptsScriptAndVersionSettingsGetResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface ScriptsScriptAndVersionSettingsGetResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsScriptAndVersionSettingsGetResponseObservabilityLogs | null;
+  logs?: ScriptsScriptAndVersionSettingsGetResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsScriptAndVersionSettingsGetResponseObservabilityTraces | null;
+  traces?: ScriptsScriptAndVersionSettingsGetResponseObservabilityTraces | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponsePlacementModeMode = "smart";
 export interface ScriptsScriptAndVersionSettingsGetResponsePlacementMode {
@@ -8822,9 +9231,9 @@ export interface ScriptsScriptAndVersionSettingsGetResponseTailConsumersItem {
   /** Name of Worker that is to be the consumer. */
   service: string;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Optional dispatch namespace the script belongs to. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsGetResponseTailConsumersList =
   Array<ScriptsScriptAndVersionSettingsGetResponseTailConsumersItem>;
@@ -8835,35 +9244,41 @@ export type ScriptsScriptAndVersionSettingsGetResponseUsageModel =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetScriptScriptAndVersionSettingResponse {
   /** Annotations for the Worker version. Annotations are not inherited across settings updates; omitting this field means the new version will have no annotations. */
-  annotations?: ScriptsScriptAndVersionSettingsGetResponseAnnotations | null;
+  annotations?: ScriptsScriptAndVersionSettingsGetResponseAnnotations | null | undefined;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: ScriptsScriptAndVersionSettingsGetResponseBindingsList | null;
+  bindings?: ScriptsScriptAndVersionSettingsGetResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList
+    | null
+    | undefined;
   /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
-  exports?: ScriptsScriptAndVersionSettingsGetResponseExportsMap | null;
+  exports?: ScriptsScriptAndVersionSettingsGetResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation | null;
+  exportsReconciliation?:
+    | ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation
+    | null
+    | undefined;
   /** Limits to apply for this Worker. */
-  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null;
+  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Migrations to apply for Durable Objects associated with this Worker. */
-  migrations?: ScriptsScriptAndVersionSettingsGetResponseMigrations | null;
+  migrations?: ScriptsScriptAndVersionSettingsGetResponseMigrations | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsScriptAndVersionSettingsGetResponseObservability | null;
+  observability?: ScriptsScriptAndVersionSettingsGetResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: ScriptsScriptAndVersionSettingsGetResponsePlacement | null;
+  placement?: ScriptsScriptAndVersionSettingsGetResponsePlacement | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsScriptAndVersionSettingsGetResponseTagsList | null;
+  tags?: ScriptsScriptAndVersionSettingsGetResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsScriptAndVersionSettingsGetResponseTailConsumersList | null;
+  tailConsumers?: ScriptsScriptAndVersionSettingsGetResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: ScriptsScriptAndVersionSettingsGetResponseUsageModel | null;
+  usageModel?: ScriptsScriptAndVersionSettingsGetResponseUsageModel | null | undefined;
 }
 export interface GetScriptSecretRequest {
   /** Identifier. */
@@ -8873,7 +9288,7 @@ export interface GetScriptSecretRequest {
   /** A JavaScript variable name for the secret binding. */
   secretName: string;
   /** Flag that indicates whether the secret name is URL encoded. */
-  urlEncoded?: boolean;
+  urlEncoded?: boolean | undefined;
 }
 export type ScriptsSecretsGetResultSecretTextType = "secret_text";
 export interface ScriptsSecretsGetResultSecretText {
@@ -8909,9 +9324,9 @@ export interface ScriptsSecretsGetResultSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: ScriptsSecretsGetResultSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type ScriptsSecretsGetResult =
   | ScriptsSecretsGetResultSecretText
@@ -8932,11 +9347,11 @@ export interface ScriptsSettingsGetResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsSettingsGetResponseObservabilityLogsDestinationsList | null;
+  destinations?: ScriptsSettingsGetResponseObservabilityLogsDestinationsList | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type ScriptsSettingsGetResponseObservabilityTracesDestinationsList = Array<string>;
 export type ScriptsSettingsGetResponseObservabilityTracesPropagationPolicy =
@@ -8944,29 +9359,32 @@ export type ScriptsSettingsGetResponseObservabilityTracesPropagationPolicy =
   | "accept";
 export interface ScriptsSettingsGetResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsSettingsGetResponseObservabilityTracesDestinationsList | null;
+  destinations?: ScriptsSettingsGetResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: ScriptsSettingsGetResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | ScriptsSettingsGetResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface ScriptsSettingsGetResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsSettingsGetResponseObservabilityLogs | null;
+  logs?: ScriptsSettingsGetResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsSettingsGetResponseObservabilityTraces | null;
+  traces?: ScriptsSettingsGetResponseObservabilityTraces | null | undefined;
 }
 export type ScriptsSettingsGetResponseTagsList = Array<string>;
 export type ScriptsSettingsGetResponseTailConsumersItem =
@@ -8976,13 +9394,13 @@ export type ScriptsSettingsGetResponseTailConsumersList =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetScriptSettingResponse {
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsSettingsGetResponseObservability | null;
+  observability?: ScriptsSettingsGetResponseObservability | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsSettingsGetResponseTagsList | null;
+  tags?: ScriptsSettingsGetResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsSettingsGetResponseTailConsumersList | null;
+  tailConsumers?: ScriptsSettingsGetResponseTailConsumersList | null | undefined;
 }
 export interface GetScriptSubdomainRequest {
   /** Identifier. */
@@ -9021,21 +9439,24 @@ export type ScriptsVersionsGetResponseResourcesScriptHandlersList = Array<string
 export type ScriptsVersionsGetResponseResourcesScriptNamedHandlersItemHandlersList = Array<string>;
 export interface ScriptsVersionsGetResponseResourcesScriptNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: ScriptsVersionsGetResponseResourcesScriptNamedHandlersItemHandlersList | null;
+  handlers?:
+    | ScriptsVersionsGetResponseResourcesScriptNamedHandlersItemHandlersList
+    | null
+    | undefined;
   /** The name of the exported class or entrypoint. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ScriptsVersionsGetResponseResourcesScriptNamedHandlersList =
   Array<ScriptsVersionsGetResponseResourcesScriptNamedHandlersItem>;
 export interface ScriptsVersionsGetResponseResourcesScript {
   /** Hashed script content */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: ScriptsVersionsGetResponseResourcesScriptHandlersList | null;
+  handlers?: ScriptsVersionsGetResponseResourcesScriptHandlersList | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: ScriptsVersionsGetResponseResourcesScriptNamedHandlersList | null;
+  namedHandlers?: ScriptsVersionsGetResponseResourcesScriptNamedHandlersList | null | undefined;
 }
 export type ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList = Array<string>;
 export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerType = "worker";
@@ -9046,9 +9467,12 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWor
   /** Marks this entry as a Worker entrypoint export. */
   type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerState | null;
+  state?:
+    | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerState
+    | null
+    | undefined;
 }
 export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -9063,9 +9487,12 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWor
   /** Marks this entry as a Durable Object export. */
   type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -9118,7 +9545,7 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWor
   /** Marks this entry as a Durable Object export. */
   type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValue =
   | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorker
@@ -9138,25 +9565,28 @@ export type ScriptsVersionsGetResponseResourcesScriptRuntimeUsageModel =
   | "standard";
 export interface ScriptsVersionsGetResponseResourcesScriptRuntime {
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. */
-  compatibilityFlags?: ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList
+    | null
+    | undefined;
   /** Declarative exports for this version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsMap | null;
+  exports?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsMap | null | undefined;
   /** Resource limits for the Worker. */
-  limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null;
+  limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: ScriptsVersionsGetResponseResourcesScriptRuntimeUsageModel | null;
-  containers?: BetaWorkersVersionsGetResponseContainersList | null;
+  usageModel?: ScriptsVersionsGetResponseResourcesScriptRuntimeUsageModel | null | undefined;
+  containers?: BetaWorkersVersionsGetResponseContainersList | null | undefined;
 }
 export interface ScriptsVersionsGetResponseResources {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
   bindings: unknown;
-  script?: ScriptsVersionsGetResponseResourcesScript | null;
+  script?: ScriptsVersionsGetResponseResourcesScript | null | undefined;
   /** Runtime configuration for the Worker. */
-  scriptRuntime?: ScriptsVersionsGetResponseResourcesScriptRuntime | null;
+  scriptRuntime?: ScriptsVersionsGetResponseResourcesScriptRuntime | null | undefined;
 }
 export type ScriptsVersionsGetResponseMetadataSource =
   | "unknown"
@@ -9172,26 +9602,26 @@ export type ScriptsVersionsGetResponseMetadataSource =
   | "workersci";
 export interface ScriptsVersionsGetResponseMetadata {
   /** Email of the user who created the version. */
-  authorEmail?: string | null;
+  authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
-  authorId?: string | null;
+  authorId?: string | null | undefined;
   /** When the version was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Whether the version can be previewed. */
-  hasPreview?: boolean | null;
+  hasPreview?: boolean | null | undefined;
   /** When the version was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The source of the version upload. */
-  source?: ScriptsVersionsGetResponseMetadataSource | null;
+  source?: ScriptsVersionsGetResponseMetadataSource | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetScriptVersionResponse {
   resources: ScriptsVersionsGetResponseResources;
   /** Unique identifier for the version. */
-  id?: string | null;
-  metadata?: ScriptsVersionsGetResponseMetadata | null;
+  id?: string | null | undefined;
+  metadata?: ScriptsVersionsGetResponseMetadata | null | undefined;
   /** Sequential version number. */
-  number?: number | null;
+  number?: number | null | undefined;
 }
 export interface GetSubdomainRequest {
   /** Identifier. */
@@ -9277,9 +9707,12 @@ export interface ObservabilityTelemetryKeysRequestFiltersItemCase0FiltersItemWor
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryKeysRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryKeysRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryKeysRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryKeysRequestFiltersItemCase0FiltersItem =
   | ObservabilityTelemetryKeysRequestFiltersItemCase0FiltersItemCase0
@@ -9349,9 +9782,12 @@ export interface ObservabilityTelemetryKeysRequestFiltersItemWorkersObservabilit
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryKeysRequestFiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryKeysRequestFiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryKeysRequestFiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryKeysRequestFiltersItem =
   | ObservabilityTelemetryKeysRequestFiltersItemCase0
@@ -9363,33 +9799,33 @@ export interface ObservabilityTelemetryKeysRequestKeyNeedle {
   /** The text or pattern to search for. */
   value: ObservabilityTelemetryKeysRequestKeyNeedleValue;
   /** When true, treats the value as a regular expression (RE2 syntax). */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** When true, performs a case-sensitive search. Defaults to case-insensitive. */
-  matchCase?: boolean;
+  matchCase?: boolean | undefined;
 }
 export type ObservabilityTelemetryKeysRequestNeedleValue = string | number | boolean;
 export interface ObservabilityTelemetryKeysRequestNeedle {
   /** The text or pattern to search for. */
   value: ObservabilityTelemetryKeysRequestNeedleValue;
   /** When true, treats the value as a regular expression (RE2 syntax). */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** When true, performs a case-sensitive search. Defaults to case-insensitive. */
-  matchCase?: boolean;
+  matchCase?: boolean | undefined;
 }
 export interface KeysObservabilityTelemetryRequest {
   accountId: string;
   /** Leave this empty to use the default datasets */
-  datasets?: ObservabilityTelemetryKeysRequestDatasetsList;
+  datasets?: ObservabilityTelemetryKeysRequestDatasetsList | undefined;
   /** Apply filters to narrow key discovery. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. */
-  filters?: ObservabilityTelemetryKeysRequestFiltersList;
-  from?: number;
+  filters?: ObservabilityTelemetryKeysRequestFiltersList | undefined;
+  from?: number | undefined;
   /** If the user suggests a key, use this to narrow down the list of keys returned. Make sure matchCase is false to avoid case sensitivity issues. */
-  keyNeedle?: ObservabilityTelemetryKeysRequestKeyNeedle;
+  keyNeedle?: ObservabilityTelemetryKeysRequestKeyNeedle | undefined;
   /** Advanced usage: set limit=1000+ to retrieve comprehensive key options without needing additional filtering. */
-  limit?: number;
+  limit?: number | undefined;
   /** Search for a specific substring in any of the events */
-  needle?: ObservabilityTelemetryKeysRequestNeedle;
-  to?: number;
+  needle?: ObservabilityTelemetryKeysRequestNeedle | undefined;
+  to?: number | undefined;
 }
 export type ObservabilityTelemetryKeysResultItemType = "string" | "boolean" | "number";
 export interface ObservabilityTelemetryKeysResultItem {
@@ -9410,28 +9846,28 @@ export interface ListBetaWorkersRequest {
   /** Identifier. */
   accountId: string;
   /** Sort direction. */
-  order?: BetaWorkersListRequestOrder | (string & {});
+  order?: BetaWorkersListRequestOrder | (string & {}) | undefined;
   /** Property to sort results by. */
-  orderBy?: BetaWorkersListRequestOrderBy | (string & {});
+  orderBy?: BetaWorkersListRequestOrderBy | (string & {}) | undefined;
   /** Current page. */
-  page?: number;
+  page?: number | undefined;
   /** Items per-page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type BetaWorkersListResultItemObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersListResultItemObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersListResultItemObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersListResultItemObservabilityLogsDestinationsList | null;
+  destinations?: BetaWorkersListResultItemObservabilityLogsDestinationsList | null | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersListResultItemObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersListResultItemObservabilityTracesPropagationPolicy =
@@ -9439,29 +9875,32 @@ export type BetaWorkersListResultItemObservabilityTracesPropagationPolicy =
   | "accept";
 export interface BetaWorkersListResultItemObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersListResultItemObservabilityTracesDestinationsList | null;
+  destinations?: BetaWorkersListResultItemObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersListResultItemObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersListResultItemObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersListResultItemObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersListResultItemObservabilityLogs | null;
+  logs?: BetaWorkersListResultItemObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersListResultItemObservabilityTraces | null;
+  traces?: BetaWorkersListResultItemObservabilityTraces | null | undefined;
 }
 export type BetaWorkersListResultItemReferencesDispatchNamespaceOutboundsItem =
   BetaWorkersCreateResponseReferencesDispatchNamespaceOutboundsItem;
@@ -9516,15 +9955,18 @@ export type BetaWorkersListResultItemPreviewsBaseConfigObservabilityLogsDestinat
   Array<string>;
 export interface BetaWorkersListResultItemPreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersListResultItemPreviewsBaseConfigObservabilityLogsDestinationsList | null;
+  destinations?:
+    | BetaWorkersListResultItemPreviewsBaseConfigObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersListResultItemPreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -9533,29 +9975,35 @@ export type BetaWorkersListResultItemPreviewsBaseConfigObservabilityTracesPropag
   | "accept";
 export interface BetaWorkersListResultItemPreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersListResultItemPreviewsBaseConfigObservabilityTracesDestinationsList | null;
+  destinations?:
+    | BetaWorkersListResultItemPreviewsBaseConfigObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersListResultItemPreviewsBaseConfigObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersListResultItemPreviewsBaseConfigObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersListResultItemPreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersListResultItemPreviewsBaseConfigObservabilityLogs | null;
+  logs?: BetaWorkersListResultItemPreviewsBaseConfigObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersListResultItemPreviewsBaseConfigObservabilityTraces | null;
+  traces?: BetaWorkersListResultItemPreviewsBaseConfigObservabilityTraces | null | undefined;
 }
 export type BetaWorkersListResultItemPreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersListResultItemPreviewsBaseConfigPlacementMode {
@@ -9623,19 +10071,19 @@ export type BetaWorkersListResultItemPreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersListResultItemPreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersListResultItemPreviewsBaseConfigEnvMap | null;
+  env?: BetaWorkersListResultItemPreviewsBaseConfigEnvMap | null | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null;
+  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersListResultItemPreviewsBaseConfigObservability | null;
+  observability?: BetaWorkersListResultItemPreviewsBaseConfigObservability | null | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersListResultItemPreviewsBaseConfigPlacement | null;
+  placement?: BetaWorkersListResultItemPreviewsBaseConfigPlacement | null | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersListResultItemPreviewsBaseConfigTailConsumersList | null;
+  tailConsumers?: BetaWorkersListResultItemPreviewsBaseConfigTailConsumersList | null | undefined;
 }
 export interface BetaWorkersListResultItem {
   /** Immutable ID of the Worker. */
@@ -9659,9 +10107,9 @@ export interface BetaWorkersListResultItem {
   /** When the Worker was most recently updated. */
   updatedOn: string;
   /** When the Worker's most recent deployment was created. `null` if the Worker has never been deployed. */
-  deployedOn?: string | null;
+  deployedOn?: string | null | undefined;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersListResultItemPreviewsBaseConfig | null;
+  previewsBaseConfig?: BetaWorkersListResultItemPreviewsBaseConfig | null | undefined;
 }
 export type BetaWorkersListResultList = Array<BetaWorkersListResultItem>;
 export interface ListBetaWorkersResponse {
@@ -9676,9 +10124,9 @@ export interface ListBetaWorkerVersionsRequest {
   /** Identifier for the Worker, which can be ID or name. */
   workerId: string;
   /** Current page. */
-  page?: number;
+  page?: number | undefined;
   /** Items per-page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type BetaWorkersVersionsListResultItemUrlsList = Array<string>;
 export type BetaWorkersVersionsListResultItemAnnotations =
@@ -9698,19 +10146,22 @@ export type BetaWorkersVersionsListResultItemAssetsConfigRunWorkerFirst =
   | BetaWorkersVersionsListResultItemAssetsConfigRunWorkerFirstCase0List;
 export interface BetaWorkersVersionsListResultItemAssetsConfig {
   /** The public URL path prefix under which assets are served. A null request value resets it to `/`; responses represent the root as `/`. All versions in a gradual deployment must use the same canonical value. To change it, first deploy the version containing the change at 100%. */
-  basePath?: string | null;
+  basePath?: string | null | undefined;
   /** Determines the redirects and rewrites of requests for HTML content. */
-  htmlHandling?: BetaWorkersVersionsListResultItemAssetsConfigHtmlHandling | null;
+  htmlHandling?: BetaWorkersVersionsListResultItemAssetsConfigHtmlHandling | null | undefined;
   /** Determines the response when a request does not match a static asset, and there is no Worker script. */
-  notFoundHandling?: BetaWorkersVersionsListResultItemAssetsConfigNotFoundHandling | null;
+  notFoundHandling?:
+    | BetaWorkersVersionsListResultItemAssetsConfigNotFoundHandling
+    | null
+    | undefined;
   /** Contains a list path rules to control routing to either the Worker or assets. Glob (*) and negative (!) rules are supported. Rules must start with either '/' or '!/'. At least one non-negative rule must be provided, and negative rules have higher precedence than non-negative rules. */
-  runWorkerFirst?: BetaWorkersVersionsListResultItemAssetsConfigRunWorkerFirst | null;
+  runWorkerFirst?: BetaWorkersVersionsListResultItemAssetsConfigRunWorkerFirst | null | undefined;
 }
 export interface BetaWorkersVersionsListResultItemAssets {
   /** Configuration for assets within a Worker. */
-  config?: BetaWorkersVersionsListResultItemAssetsConfig | null;
+  config?: BetaWorkersVersionsListResultItemAssetsConfig | null | undefined;
   /** Token provided upon successful upload of all files from a registered manifest. */
-  jwt?: string | null;
+  jwt?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemAIType = "ai";
 export interface BetaWorkersVersionsListResultItemBindingsItemAI {
@@ -9728,7 +10179,7 @@ export interface BetaWorkersVersionsListResultItemBindingsItemAISearch {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -9790,7 +10241,7 @@ export interface BetaWorkersVersionsListResultItemBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemDataBlobType = "data_blob";
 export interface BetaWorkersVersionsListResultItemBindingsItemDataBlob {
@@ -9811,9 +10262,15 @@ export type BetaWorkersVersionsListResultItemBindingsItemDispatchNamespaceOutbou
   BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
 export interface BetaWorkersVersionsListResultItemBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: BetaWorkersVersionsListResultItemBindingsItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | BetaWorkersVersionsListResultItemBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface BetaWorkersVersionsListResultItemBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -9823,7 +10280,10 @@ export interface BetaWorkersVersionsListResultItemBindingsItemDispatchNamespace 
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: BetaWorkersVersionsListResultItemBindingsItemDispatchNamespaceOutbound | null;
+  outbound?:
+    | BetaWorkersVersionsListResultItemBindingsItemDispatchNamespaceOutbound
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -9833,15 +10293,15 @@ export interface BetaWorkersVersionsListResultItemBindingsItemDurableObjectNames
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemHyperdriveType = "hyperdrive";
 export interface BetaWorkersVersionsListResultItemBindingsItemHyperdrive {
@@ -9859,9 +10319,9 @@ export interface BetaWorkersVersionsListResultItemBindingsItemInherit {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemImagesType = "images";
 export interface BetaWorkersVersionsListResultItemBindingsItemImages {
@@ -9967,7 +10427,10 @@ export interface BetaWorkersVersionsListResultItemBindingsItemR2Bucket {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: BetaWorkersVersionsListResultItemBindingsItemR2BucketJurisdiction | null;
+  jurisdiction?:
+    | BetaWorkersVersionsListResultItemBindingsItemR2BucketJurisdiction
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemSecretTextType = "secret_text";
 export interface BetaWorkersVersionsListResultItemBindingsItemSecretText {
@@ -9989,11 +10452,17 @@ export interface BetaWorkersVersionsListResultItemBindingsItemSendEmail {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: BetaWorkersVersionsListResultItemBindingsItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | BetaWorkersVersionsListResultItemBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: BetaWorkersVersionsListResultItemBindingsItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | BetaWorkersVersionsListResultItemBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemServiceType = "service";
 export interface BetaWorkersVersionsListResultItemBindingsItemService {
@@ -10004,9 +10473,9 @@ export interface BetaWorkersVersionsListResultItemBindingsItemService {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemTextBlobType = "text_blob";
 export interface BetaWorkersVersionsListResultItemBindingsItemTextBlob {
@@ -10083,9 +10552,9 @@ export interface BetaWorkersVersionsListResultItemBindingsItemSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: BetaWorkersVersionsListResultItemBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemWorkflowType = "workflow";
 export interface BetaWorkersVersionsListResultItemBindingsItemWorkflow {
@@ -10096,9 +10565,9 @@ export interface BetaWorkersVersionsListResultItemBindingsItemWorkflow {
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItemWasmModuleType = "wasm_module";
 export interface BetaWorkersVersionsListResultItemBindingsItemWasmModule {
@@ -10126,11 +10595,11 @@ export interface BetaWorkersVersionsListResultItemBindingsItemVPCNetwork {
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkType;
   /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
-  identity?: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkIdentity | null;
+  identity?: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkIdentity | null | undefined;
   /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemBindingsItem =
   | BetaWorkersVersionsListResultItemBindingsItemAI
@@ -10188,9 +10657,9 @@ export interface BetaWorkersVersionsListResultItemExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: BetaWorkersVersionsListResultItemExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsListResultItemExportsValueWorkerState | null;
+  state?: BetaWorkersVersionsListResultItemExportsValueWorkerState | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -10205,9 +10674,12 @@ export interface BetaWorkersVersionsListResultItemExportsValueWorkersDurableObje
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -10260,7 +10732,7 @@ export interface BetaWorkersVersionsListResultItemExportsValueWorkersDurableObje
   /** Marks this entry as a Durable Object export. */
   type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemExportsValue =
   | BetaWorkersVersionsListResultItemExportsValueWorker
@@ -10318,9 +10790,12 @@ export interface BetaWorkersVersionsListResultItemExportsReconciliationInfoItem 
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: BetaWorkersVersionsListResultItemExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: BetaWorkersVersionsListResultItemExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | BetaWorkersVersionsListResultItemExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsListResultItemExportsReconciliationInfoList =
   Array<BetaWorkersVersionsListResultItemExportsReconciliationInfoItem>;
@@ -10389,7 +10864,7 @@ export interface BetaWorkersVersionsListResultItemExportsReconciliationWarningsI
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: BetaWorkersVersionsListResultItemExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type BetaWorkersVersionsListResultItemExportsReconciliationWarningsList =
   Array<BetaWorkersVersionsListResultItemExportsReconciliationWarningsItem>;
@@ -10430,19 +10905,34 @@ export type BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationTransf
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsListResultItemMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationDeletedClassesList | null;
+  deletedClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationNewClassesList | null;
+  newClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationNewSqliteClassesList
+    | null
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationRenamedClassesList | null;
+  renamedClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationTransferredClassesList | null;
+  transferredClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsSingleStepMigrationTransferredClassesList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -10460,25 +10950,43 @@ export type BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrat
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList | null;
+  deletedClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList | null;
+  newClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | null
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList | null;
+  renamedClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList | null;
+  transferredClasses?:
+    | BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** Migrations to apply in order. */
-  steps?: BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsList | null;
+  steps?:
+    | BetaWorkersVersionsListResultItemMigrationsWorkersMultipleStepMigrationsStepsList
+    | null
+    | undefined;
 }
 export type BetaWorkersVersionsListResultItemMigrations =
   | BetaWorkersVersionsListResultItemMigrationsSingleStepMigration
@@ -10562,47 +11070,47 @@ export interface BetaWorkersVersionsListResultItem {
   /** All routable URLs that always point to this version. Does not include alias URLs, since aliases can be updated to point to a different version. */
   urls: BetaWorkersVersionsListResultItemUrlsList;
   /** Metadata about the version. */
-  annotations?: BetaWorkersVersionsCreateResponseAnnotations | null;
+  annotations?: BetaWorkersVersionsCreateResponseAnnotations | null | undefined;
   /** Configuration for assets within a Worker. */
-  assets?: BetaWorkersVersionsListResultItemAssets | null;
+  assets?: BetaWorkersVersionsListResultItemAssets | null | undefined;
   /** Email of the user who created the version. */
-  authorEmail?: string | null;
+  authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
-  authorId?: string | null;
+  authorId?: string | null | undefined;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: BetaWorkersVersionsListResultItemBindingsList | null;
+  bindings?: BetaWorkersVersionsListResultItemBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: BetaWorkersVersionsListResultItemCompatibilityFlagsList | null;
+  compatibilityFlags?: BetaWorkersVersionsListResultItemCompatibilityFlagsList | null | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
-  containers?: BetaWorkersVersionsListResultItemContainersList | null;
+  containers?: BetaWorkersVersionsListResultItemContainersList | null | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsListResultItemExportsMap | null;
+  exports?: BetaWorkersVersionsListResultItemExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: BetaWorkersVersionsListResultItemExportsReconciliation | null;
+  exportsReconciliation?: BetaWorkersVersionsListResultItemExportsReconciliation | null | undefined;
   /** Resource limits enforced at runtime. */
-  limits?: BetaWorkersVersionsCreateResponseLimits | null;
+  limits?: BetaWorkersVersionsCreateResponseLimits | null | undefined;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
-  mainModule?: string | null;
+  mainModule?: string | null | undefined;
   /** Durable Object migration tag. Set when the version is deployed. Omitted if the version has not been deployed or the Worker does not use Durable Objects. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** Migrations for Durable Objects associated with the version. Migrations are applied when the version is deployed. */
-  migrations?: BetaWorkersVersionsListResultItemMigrations | null;
+  migrations?: BetaWorkersVersionsListResultItemMigrations | null | undefined;
   /** Code, sourcemaps, and other content used at runtime. */
-  modules?: BetaWorkersVersionsListResultItemModulesList | null;
+  modules?: BetaWorkersVersionsListResultItemModulesList | null | undefined;
   /** The list of npm packages that were installed and used when this Worker version was built. */
-  packageDependencies?: BetaWorkersVersionsListResultItemPackageDependenciesList | null;
+  packageDependencies?: BetaWorkersVersionsListResultItemPackageDependenciesList | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: BetaWorkersVersionsListResultItemPlacement | null;
+  placement?: BetaWorkersVersionsListResultItemPlacement | null | undefined;
   /** The client used to create the version. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time). */
-  startupTimeMs?: number | null;
+  startupTimeMs?: number | null | undefined;
   /** Usage model for the version. */
-  usageModel?: BetaWorkersVersionsListResultItemUsageModel | null;
+  usageModel?: BetaWorkersVersionsListResultItemUsageModel | null | undefined;
 }
 export type BetaWorkersVersionsListResultList = Array<BetaWorkersVersionsListResultItem>;
 export interface ListBetaWorkerVersionsResponse {
@@ -10615,19 +11123,19 @@ export interface ListDomainsRequest {
   /** Identifier. */
   accountId: string;
   /** Whether the configured hostname is routable for the domain. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Worker environment associated with the domain. */
-  environment?: string;
+  environment?: string | undefined;
   /** Hostname of the domain. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Whether previews are routable for the domain. */
-  previewsEnabled?: boolean;
+  previewsEnabled?: boolean | undefined;
   /** Name of the Worker associated with the domain. */
-  service?: string;
+  service?: string | undefined;
   /** ID of the zone containing the domain hostname. */
-  zoneId?: string;
+  zoneId?: string | undefined;
   /** Name of the zone containing the domain hostname. */
-  zoneName?: string;
+  zoneName?: string | undefined;
 }
 export interface DomainsListResultItem {
   /** Immutable ID of the domain. */
@@ -10641,7 +11149,7 @@ export interface DomainsListResultItem {
   /** Hostname of the domain. Can be either the zone apex or a subdomain of the zone. Requests to this hostname will be routed to the configured Worker. */
   hostname: string;
   /** Whether Worker Previews are served on this custom domain. */
-  previewsEnabled?: boolean | null;
+  previewsEnabled?: boolean | null | undefined;
   /** Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker. */
   service: string;
   /** ID of the zone containing the domain hostname. */
@@ -10660,10 +11168,10 @@ export type ObservabilityDestinationsListRequestOrder = "asc" | "desc";
 export type ObservabilityDestinationsListRequestOrderBy = "created" | "updated";
 export interface ListObservabilityDestinationsRequest {
   accountId: string;
-  order?: ObservabilityDestinationsListRequestOrder | (string & {});
-  orderBy?: ObservabilityDestinationsListRequestOrderBy | (string & {});
-  page?: number;
-  perPage?: number;
+  order?: ObservabilityDestinationsListRequestOrder | (string & {}) | undefined;
+  orderBy?: ObservabilityDestinationsListRequestOrderBy | (string & {}) | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type ObservabilityDestinationsListResultItemConfigurationHeadersMap = {
   [key: string]: string | undefined;
@@ -10682,7 +11190,7 @@ export interface ObservabilityDestinationsListResultItemConfiguration {
   type: ObservabilityDestinationsListResultItemConfigurationType;
   url: string;
   /** The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
 }
 export type ObservabilityDestinationsListResultItemScriptsList = Array<string>;
 export interface ObservabilityDestinationsListResultItem {
@@ -10703,7 +11211,7 @@ export interface ListObservabilityDestinationsResponse {
 export interface ListObservabilityIssueAutomationsRequest {
   accountId: string;
   /** Only automations scoped to this Worker. */
-  service?: string;
+  service?: string | undefined;
 }
 export type ObservabilityIssueAutomationList = Array<ObservabilityIssueAutomation>;
 export interface ListObservabilityIssueAutomationsResponse {
@@ -10713,10 +11221,10 @@ export type ObservabilityQueriesListRequestOrder = "asc" | "desc";
 export type ObservabilityQueriesListRequestOrderBy = "created" | "updated";
 export interface ListObservabilityQueriesRequest {
   accountId: string;
-  order?: ObservabilityQueriesListRequestOrder | (string & {});
-  orderBy?: ObservabilityQueriesListRequestOrderBy | (string & {});
-  page?: number;
-  perPage?: number;
+  order?: ObservabilityQueriesListRequestOrder | (string & {}) | undefined;
+  orderBy?: ObservabilityQueriesListRequestOrderBy | (string & {}) | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type ObservabilityQueriesListResultItemParametersCalculationsItemCase0Operator =
   | "count"
@@ -10727,9 +11235,12 @@ export type ObservabilityQueriesListResultItemParametersCalculationsItemCase0Key
   | "boolean";
 export interface ObservabilityQueriesListResultItemParametersCalculationsItemCase0 {
   operator: ObservabilityQueriesListResultItemParametersCalculationsItemCase0Operator;
-  alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilityQueriesListResultItemParametersCalculationsItemCase0KeyType | null;
+  alias?: string | null | undefined;
+  key?: string | null | undefined;
+  keyType?:
+    | ObservabilityQueriesListResultItemParametersCalculationsItemCase0KeyType
+    | null
+    | undefined;
 }
 export type ObservabilityQueriesListResultItemParametersCalculationsItemCase1Operator =
   | "uniq"
@@ -10775,8 +11286,11 @@ export type ObservabilityQueriesListResultItemParametersCalculationsItemCase1Key
 export interface ObservabilityQueriesListResultItemParametersCalculationsItemCase1 {
   key: string;
   operator: ObservabilityQueriesListResultItemParametersCalculationsItemCase1Operator;
-  alias?: string | null;
-  keyType?: ObservabilityQueriesListResultItemParametersCalculationsItemCase1KeyType | null;
+  alias?: string | null | undefined;
+  keyType?:
+    | ObservabilityQueriesListResultItemParametersCalculationsItemCase1KeyType
+    | null
+    | undefined;
 }
 export type ObservabilityQueriesListResultItemParametersCalculationsItem =
   | ObservabilityQueriesListResultItemParametersCalculationsItemCase0
@@ -10851,9 +11365,15 @@ export interface ObservabilityQueriesListResultItemParametersFiltersItemWorkersO
   /** Data type of the filter field. Must match the actual type of the key being filtered. */
   type: ObservabilityQueriesListResultItemParametersFiltersItemWorkersObservabilityFilterLeafType;
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
-  kind?: ObservabilityQueriesListResultItemParametersFiltersItemWorkersObservabilityFilterLeafKind | null;
+  kind?:
+    | ObservabilityQueriesListResultItemParametersFiltersItemWorkersObservabilityFilterLeafKind
+    | null
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityQueriesListResultItemParametersFiltersItemWorkersObservabilityFilterLeafValue | null;
+  value?:
+    | ObservabilityQueriesListResultItemParametersFiltersItemWorkersObservabilityFilterLeafValue
+    | null
+    | undefined;
 }
 export type ObservabilityQueriesListResultItemParametersFiltersItem =
   | ObservabilityQueriesListResultItemParametersFiltersItemCase0
@@ -10887,35 +11407,38 @@ export type ObservabilityQueriesListResultItemParametersHavingsList =
 export type ObservabilityQueriesListResultItemParametersNeedleValue = string | number | boolean;
 export interface ObservabilityQueriesListResultItemParametersNeedle {
   value: ObservabilityQueriesListResultItemParametersNeedleValue;
-  isRegex?: boolean | null;
-  matchCase?: boolean | null;
+  isRegex?: boolean | null | undefined;
+  matchCase?: boolean | null | undefined;
 }
 export type ObservabilityQueriesListResultItemParametersOrderByOrder = "asc" | "desc";
 export interface ObservabilityQueriesListResultItemParametersOrderBy {
   /** Configure which Calculation to order the results by. */
   value: string;
   /** Set the order of the results */
-  order?: ObservabilityQueriesListResultItemParametersOrderByOrder | null;
+  order?: ObservabilityQueriesListResultItemParametersOrderByOrder | null | undefined;
 }
 export interface ObservabilityQueriesListResultItemParameters {
   /** Create Calculations to compute as part of the query. */
-  calculations?: ObservabilityQueriesListResultItemParametersCalculationsList | null;
+  calculations?: ObservabilityQueriesListResultItemParametersCalculationsList | null | undefined;
   /** Set the Datasets to query. Leave it empty to query all the datasets. */
-  datasets?: ObservabilityQueriesListResultItemParametersDatasetsList | null;
+  datasets?: ObservabilityQueriesListResultItemParametersDatasetsList | null | undefined;
   /** Set a Flag to describe how to combine the filters on the query. */
-  filterCombination?: ObservabilityQueriesListResultItemParametersFilterCombination | null;
+  filterCombination?:
+    | ObservabilityQueriesListResultItemParametersFilterCombination
+    | null
+    | undefined;
   /** Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. */
-  filters?: ObservabilityQueriesListResultItemParametersFiltersList | null;
+  filters?: ObservabilityQueriesListResultItemParametersFiltersList | null | undefined;
   /** Define how to group the results of the query. */
-  groupBys?: ObservabilityQueriesListResultItemParametersGroupBysList | null;
+  groupBys?: ObservabilityQueriesListResultItemParametersGroupBysList | null | undefined;
   /** Configure the Having clauses that filter on calculations in the query result. */
-  havings?: ObservabilityQueriesListResultItemParametersHavingsList | null;
+  havings?: ObservabilityQueriesListResultItemParametersHavingsList | null | undefined;
   /** Set a limit on the number of results / records returned by the query */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Define an expression to search using full-text search. */
-  needle?: ObservabilityQueriesListResultItemParametersNeedle | null;
+  needle?: ObservabilityQueriesListResultItemParametersNeedle | null | undefined;
   /** Configure the order of the results returned by the query. */
-  orderBy?: ObservabilityQueriesListResultItemParametersOrderBy | null;
+  orderBy?: ObservabilityQueriesListResultItemParametersOrderBy | null | undefined;
 }
 export interface ObservabilityQueriesListResultItem {
   id: string;
@@ -10947,7 +11470,7 @@ export interface RoutesListResultItem {
   /** Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior). */
   pattern: string;
   /** Name of the script to run if the route matches. */
-  script?: string | null;
+  script?: string | null | undefined;
 }
 export type RoutesListResultList = Array<RoutesListResultItem>;
 export interface ListRoutesResponse {
@@ -10962,13 +11485,13 @@ export interface ListScriptDeploymentsRequest {
   /** Name of the script. */
   scriptName: string;
   /** Current page. */
-  page?: number;
+  page?: number | undefined;
   /** Items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Start of the deployment creation time range, inclusive. */
-  since?: string;
+  since?: string | undefined;
   /** End of the deployment creation time range, inclusive. */
-  until?: string;
+  until?: string | undefined;
 }
 export type ScriptsDeploymentsListResponseDeploymentsItemStrategy = "percentage";
 export type ScriptsDeploymentsListResponseDeploymentsItemVersionsItem =
@@ -10984,10 +11507,10 @@ export interface ScriptsDeploymentsListResponseDeploymentsItem {
   strategy: ScriptsDeploymentsListResponseDeploymentsItemStrategy;
   /** Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions '[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]'`, or from a JSON file with `--versions @versions.json`. */
   versions: ScriptsDeploymentsListResponseDeploymentsItemVersionsList;
-  annotations?: ScriptsDeploymentsCreateResponseAnnotations | null;
-  authorEmail?: string | null;
+  annotations?: ScriptsDeploymentsCreateResponseAnnotations | null | undefined;
+  authorEmail?: string | null | undefined;
   /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
-  codeUpdateStrategy?: unknown | null;
+  codeUpdateStrategy?: unknown | null | undefined;
 }
 export type ScriptsDeploymentsListResponseDeploymentsList =
   Array<ScriptsDeploymentsListResponseDeploymentsItem>;
@@ -10999,7 +11522,7 @@ export interface ListScriptsRequest {
   /** Identifier. */
   accountId: string;
   /** Filter scripts by tags. Format: comma-separated list of tag:allowed pairs where allowed is 'yes' or 'no'. */
-  tags?: string;
+  tags?: string | undefined;
 }
 export type ScriptsListResultItemCacheOptions =
   BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions;
@@ -11012,9 +11535,9 @@ export interface ScriptsListResultItemExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: ScriptsListResultItemExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsListResultItemExportsValueWorkerState | null;
+  state?: ScriptsListResultItemExportsValueWorkerState | null | undefined;
 }
 export type ScriptsListResultItemExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -11027,9 +11550,9 @@ export interface ScriptsListResultItemExportsValueWorkersDurableObjectExport {
   /** Marks this entry as a Durable Object export. */
   type: ScriptsListResultItemExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsListResultItemExportsValueWorkersDurableObjectExportState | null;
+  state?: ScriptsListResultItemExportsValueWorkersDurableObjectExportState | null | undefined;
 }
 export type ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportState = "deleted";
 export type ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportType =
@@ -11080,7 +11603,7 @@ export interface ScriptsListResultItemExportsValueWorkersDurableObjectExpectingT
   /** Marks this entry as a Durable Object export. */
   type: ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type ScriptsListResultItemExportsValue =
   | ScriptsListResultItemExportsValueWorker
@@ -11096,9 +11619,9 @@ export type ScriptsListResultItemHandlersList = Array<string>;
 export type ScriptsListResultItemNamedHandlersItemHandlersList = Array<string>;
 export interface ScriptsListResultItemNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: ScriptsListResultItemNamedHandlersItemHandlersList | null;
+  handlers?: ScriptsListResultItemNamedHandlersItemHandlersList | null | undefined;
   /** The name of the export. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ScriptsListResultItemNamedHandlersList = Array<ScriptsListResultItemNamedHandlersItem>;
 export type ScriptsListResultItemObservabilityIssues = BetaWorkersCreateResponseObservabilityIssues;
@@ -11109,39 +11632,39 @@ export interface ScriptsListResultItemObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsListResultItemObservabilityLogsDestinationsList | null;
+  destinations?: ScriptsListResultItemObservabilityLogsDestinationsList | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type ScriptsListResultItemObservabilityTracesDestinationsList = Array<string>;
 export type ScriptsListResultItemObservabilityTracesPropagationPolicy = "authenticated" | "accept";
 export interface ScriptsListResultItemObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsListResultItemObservabilityTracesDestinationsList | null;
+  destinations?: ScriptsListResultItemObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: ScriptsListResultItemObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?: ScriptsListResultItemObservabilityTracesPropagationPolicy | null | undefined;
 }
 export interface ScriptsListResultItemObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsListResultItemObservabilityLogs | null;
+  logs?: ScriptsListResultItemObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsListResultItemObservabilityTraces | null;
+  traces?: ScriptsListResultItemObservabilityTraces | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase0Mode = "smart";
 export type ScriptsListResultItemPlacementCase0Status =
@@ -11152,9 +11675,9 @@ export interface ScriptsListResultItemPlacementCase0 {
   /** Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
   mode: ScriptsListResultItemPlacementCase0Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase0Status | null;
+  status?: ScriptsListResultItemPlacementCase0Status | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase1Status =
   | "SUCCESS"
@@ -11164,9 +11687,9 @@ export interface ScriptsListResultItemPlacementCase1 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase1Status | null;
+  status?: ScriptsListResultItemPlacementCase1Status | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase2Status =
   | "SUCCESS"
@@ -11176,9 +11699,9 @@ export interface ScriptsListResultItemPlacementCase2 {
   /** HTTP hostname for targeted placement. */
   hostname: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase2Status | null;
+  status?: ScriptsListResultItemPlacementCase2Status | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase3Status =
   | "SUCCESS"
@@ -11188,9 +11711,9 @@ export interface ScriptsListResultItemPlacementCase3 {
   /** TCP host and port for targeted placement. */
   host: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase3Status | null;
+  status?: ScriptsListResultItemPlacementCase3Status | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase4Mode = "targeted";
 export type ScriptsListResultItemPlacementCase4Status =
@@ -11203,9 +11726,9 @@ export interface ScriptsListResultItemPlacementCase4 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase4Status | null;
+  status?: ScriptsListResultItemPlacementCase4Status | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase5Mode = "targeted";
 export type ScriptsListResultItemPlacementCase5Status =
@@ -11218,9 +11741,9 @@ export interface ScriptsListResultItemPlacementCase5 {
   /** Targeted placement mode. */
   mode: ScriptsListResultItemPlacementCase5Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase5Status | null;
+  status?: ScriptsListResultItemPlacementCase5Status | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase6Mode = "targeted";
 export type ScriptsListResultItemPlacementCase6Status =
@@ -11233,9 +11756,9 @@ export interface ScriptsListResultItemPlacementCase6 {
   /** Targeted placement mode. */
   mode: ScriptsListResultItemPlacementCase6Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase6Status | null;
+  status?: ScriptsListResultItemPlacementCase6Status | null | undefined;
 }
 export type ScriptsListResultItemPlacementCase7Mode = "targeted";
 export type ScriptsListResultItemPlacementCase7TargetItemRegion =
@@ -11260,9 +11783,9 @@ export interface ScriptsListResultItemPlacementCase7 {
   /** Array of placement targets (currently limited to single target). */
   target: ScriptsListResultItemPlacementCase7TargetList;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsListResultItemPlacementCase7Status | null;
+  status?: ScriptsListResultItemPlacementCase7Status | null | undefined;
 }
 export type ScriptsListResultItemPlacement =
   | ScriptsListResultItemPlacementCase0
@@ -11288,51 +11811,51 @@ export type ScriptsListResultItemTailConsumersList =
 export type ScriptsListResultItemUsageModel = "standard" | "bundled" | "unbound";
 export interface ScriptsListResultItem {
   /** The name used to identify the script. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: ScriptsListResultItemCompatibilityFlagsList | null;
+  compatibilityFlags?: ScriptsListResultItemCompatibilityFlagsList | null | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsListResultItemExportsMap | null;
+  exports?: ScriptsListResultItemExportsMap | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: ScriptsListResultItemHandlersList | null;
+  handlers?: ScriptsListResultItemHandlersList | null | undefined;
   /** Whether a Worker contains assets. */
-  hasAssets?: boolean | null;
+  hasAssets?: boolean | null | undefined;
   /** Whether a Worker contains modules. */
-  hasModules?: boolean | null;
+  hasModules?: boolean | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: ScriptsListResultItemNamedHandlersList | null;
+  namedHandlers?: ScriptsListResultItemNamedHandlersList | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsListResultItemObservability | null;
+  observability?: ScriptsListResultItemObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: ScriptsListResultItemPlacement | null;
-  placementMode?: ScriptsListResultItemPlacementMode | null;
-  placementStatus?: ScriptsListResultItemPlacementStatus | null;
+  placement?: ScriptsListResultItemPlacement | null | undefined;
+  placementMode?: ScriptsListResultItemPlacementMode | null | undefined;
+  placementStatus?: ScriptsListResultItemPlacementStatus | null | undefined;
   /** Routes associated with the Worker. */
-  routes?: ScriptsListResultItemRoutesList | null;
+  routes?: ScriptsListResultItemRoutesList | null | undefined;
   /** The immutable ID of the script. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsListResultItemTagsList | null;
+  tags?: ScriptsListResultItemTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsListResultItemTailConsumersList | null;
+  tailConsumers?: ScriptsListResultItemTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: ScriptsListResultItemUsageModel | null;
+  usageModel?: ScriptsListResultItemUsageModel | null | undefined;
 }
 export type ScriptsListResultList = Array<ScriptsListResultItem>;
 export interface ListScriptsResponse {
@@ -11381,9 +11904,9 @@ export interface ScriptsSecretsListResultItemSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: ScriptsSecretsListResultItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type ScriptsSecretsListResultItem =
   | ScriptsSecretsListResultItemSecretText
@@ -11401,11 +11924,11 @@ export interface ListScriptVersionsRequest {
   /** Name of the script. */
   scriptName: string;
   /** Only return versions that can be used in a deployment. Ignores pagination. */
-  deployable?: boolean;
+  deployable?: boolean | undefined;
   /** Current page. */
-  page?: number;
+  page?: number | undefined;
   /** Items per-page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ScriptsVersionsListResponseItemsItemMetadataSource =
   | "unknown"
@@ -11421,33 +11944,33 @@ export type ScriptsVersionsListResponseItemsItemMetadataSource =
   | "workersci";
 export interface ScriptsVersionsListResponseItemsItemMetadata {
   /** Email of the user who created the version. */
-  authorEmail?: string | null;
+  authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
-  authorId?: string | null;
+  authorId?: string | null | undefined;
   /** When the version was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Whether the version can be previewed. */
-  hasPreview?: boolean | null;
+  hasPreview?: boolean | null | undefined;
   /** When the version was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The source of the version upload. */
-  source?: ScriptsVersionsListResponseItemsItemMetadataSource | null;
+  source?: ScriptsVersionsListResponseItemsItemMetadataSource | null | undefined;
 }
 export interface ScriptsVersionsListResponseItemsItem {
   /** Unique identifier for the version. */
-  id?: string | null;
-  metadata?: ScriptsVersionsListResponseItemsItemMetadata | null;
+  id?: string | null | undefined;
+  metadata?: ScriptsVersionsListResponseItemsItemMetadata | null | undefined;
   /** Sequential version number. */
-  number?: number | null;
+  number?: number | null | undefined;
 }
 export type ScriptsVersionsListResponseItemsList = Array<ScriptsVersionsListResponseItemsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListScriptVersionsResponse {
-  items?: ScriptsVersionsListResponseItemsList | null;
+  items?: ScriptsVersionsListResponseItemsList | null | undefined;
 }
 export interface LiveTailHeartbeatObservabilityTelemetryRequest {
   accountId: string;
-  scriptId?: string;
+  scriptId?: string | undefined;
 }
 export type LiveTailHeartbeatObservabilityTelemetryResponse = unknown;
 export type ObservabilityTelemetryLiveTailRequestFilterCombination = "and" | "or" | "AND" | "OR";
@@ -11526,9 +12049,12 @@ export interface ObservabilityTelemetryLiveTailRequestFiltersItemCase0FiltersIte
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryLiveTailRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryLiveTailRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryLiveTailRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryLiveTailRequestFiltersItemCase0FiltersItem =
   | ObservabilityTelemetryLiveTailRequestFiltersItemCase0FiltersItemCase0
@@ -11598,9 +12124,12 @@ export interface ObservabilityTelemetryLiveTailRequestFiltersItemWorkersObservab
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryLiveTailRequestFiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryLiveTailRequestFiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryLiveTailRequestFiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryLiveTailRequestFiltersItem =
   | ObservabilityTelemetryLiveTailRequestFiltersItemCase0
@@ -11610,10 +12139,13 @@ export type ObservabilityTelemetryLiveTailRequestFiltersList =
 export interface LiveTailObservabilityTelemetryRequest {
   accountId: string;
   /** Set a flag to describe how to combine the filters on the query. */
-  filterCombination?: ObservabilityTelemetryLiveTailRequestFilterCombination | (string & {});
+  filterCombination?:
+    | ObservabilityTelemetryLiveTailRequestFilterCombination
+    | (string & {})
+    | undefined;
   /** Apply filters to the query. Supports nested groups via kind: 'group'. */
-  filters?: ObservabilityTelemetryLiveTailRequestFiltersList;
-  scriptId?: string;
+  filters?: ObservabilityTelemetryLiveTailRequestFiltersList | undefined;
+  scriptId?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface LiveTailObservabilityTelemetryResponse {
@@ -11624,43 +12156,46 @@ export type BetaWorkersEditRequestObservabilityIssues = BetaWorkersCreateRequest
 export type BetaWorkersEditRequestObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersEditRequestObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersEditRequestObservabilityLogsDestinationsList;
+  destinations?: BetaWorkersEditRequestObservabilityLogsDestinationsList | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean;
+  invocationLogs?: boolean | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type BetaWorkersEditRequestObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersEditRequestObservabilityTracesPropagationPolicy = "authenticated" | "accept";
 export interface BetaWorkersEditRequestObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersEditRequestObservabilityTracesDestinationsList;
+  destinations?: BetaWorkersEditRequestObservabilityTracesDestinationsList | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersEditRequestObservabilityTracesPropagationPolicy | (string & {});
+  propagationPolicy?:
+    | BetaWorkersEditRequestObservabilityTracesPropagationPolicy
+    | (string & {})
+    | undefined;
 }
 export interface BetaWorkersEditRequestObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateRequestObservabilityIssues;
+  issues?: BetaWorkersCreateRequestObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersEditRequestObservabilityLogs;
+  logs?: BetaWorkersEditRequestObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersEditRequestObservabilityTraces;
+  traces?: BetaWorkersEditRequestObservabilityTraces | undefined;
 }
 export type BetaWorkersEditRequestSubdomain = BetaWorkersCreateRequestSubdomain;
 export type BetaWorkersEditRequestTagsList = Array<string>;
@@ -11683,15 +12218,17 @@ export type BetaWorkersEditRequestPreviewsBaseConfigObservabilityLogsDestination
   Array<string>;
 export interface BetaWorkersEditRequestPreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersEditRequestPreviewsBaseConfigObservabilityLogsDestinationsList;
+  destinations?:
+    | BetaWorkersEditRequestPreviewsBaseConfigObservabilityLogsDestinationsList
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean;
+  invocationLogs?: boolean | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type BetaWorkersEditRequestPreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -11700,31 +12237,34 @@ export type BetaWorkersEditRequestPreviewsBaseConfigObservabilityTracesPropagati
   | "accept";
 export interface BetaWorkersEditRequestPreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersEditRequestPreviewsBaseConfigObservabilityTracesDestinationsList;
+  destinations?:
+    | BetaWorkersEditRequestPreviewsBaseConfigObservabilityTracesDestinationsList
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | BetaWorkersEditRequestPreviewsBaseConfigObservabilityTracesPropagationPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface BetaWorkersEditRequestPreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateRequestObservabilityIssues;
+  issues?: BetaWorkersCreateRequestObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersEditRequestPreviewsBaseConfigObservabilityLogs;
+  logs?: BetaWorkersEditRequestPreviewsBaseConfigObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersEditRequestPreviewsBaseConfigObservabilityTraces;
+  traces?: BetaWorkersEditRequestPreviewsBaseConfigObservabilityTraces | undefined;
 }
 export type BetaWorkersEditRequestPreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersEditRequestPreviewsBaseConfigPlacementMode {
@@ -11792,19 +12332,19 @@ export type BetaWorkersEditRequestPreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersEditRequestPreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions;
+  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersEditRequestPreviewsBaseConfigEnvMap;
+  env?: BetaWorkersEditRequestPreviewsBaseConfigEnvMap | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateRequestPreviewsBaseConfigLimits;
+  limits?: BetaWorkersCreateRequestPreviewsBaseConfigLimits | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean;
+  logpush?: boolean | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersEditRequestPreviewsBaseConfigObservability;
+  observability?: BetaWorkersEditRequestPreviewsBaseConfigObservability | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersEditRequestPreviewsBaseConfigPlacement;
+  placement?: BetaWorkersEditRequestPreviewsBaseConfigPlacement | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersEditRequestPreviewsBaseConfigTailConsumersList;
+  tailConsumers?: BetaWorkersEditRequestPreviewsBaseConfigTailConsumersList | undefined;
 }
 export interface PatchBetaWorkerRequest {
   /** Identifier. */
@@ -11824,22 +12364,22 @@ export interface PatchBetaWorkerRequest {
   /** Other Workers that should consume logs from the Worker. */
   tailConsumers: BetaWorkersEditRequestTailConsumersList;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersEditRequestPreviewsBaseConfig;
+  previewsBaseConfig?: BetaWorkersEditRequestPreviewsBaseConfig | undefined;
 }
 export type BetaWorkersEditResponseObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersEditResponseObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersEditResponseObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersEditResponseObservabilityLogsDestinationsList | null;
+  destinations?: BetaWorkersEditResponseObservabilityLogsDestinationsList | null | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersEditResponseObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersEditResponseObservabilityTracesPropagationPolicy =
@@ -11847,29 +12387,32 @@ export type BetaWorkersEditResponseObservabilityTracesPropagationPolicy =
   | "accept";
 export interface BetaWorkersEditResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersEditResponseObservabilityTracesDestinationsList | null;
+  destinations?: BetaWorkersEditResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersEditResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersEditResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersEditResponseObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersEditResponseObservabilityLogs | null;
+  logs?: BetaWorkersEditResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersEditResponseObservabilityTraces | null;
+  traces?: BetaWorkersEditResponseObservabilityTraces | null | undefined;
 }
 export type BetaWorkersEditResponseReferencesDispatchNamespaceOutboundsItem =
   BetaWorkersCreateResponseReferencesDispatchNamespaceOutboundsItem;
@@ -11924,15 +12467,18 @@ export type BetaWorkersEditResponsePreviewsBaseConfigObservabilityLogsDestinatio
   Array<string>;
 export interface BetaWorkersEditResponsePreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersEditResponsePreviewsBaseConfigObservabilityLogsDestinationsList | null;
+  destinations?:
+    | BetaWorkersEditResponsePreviewsBaseConfigObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersEditResponsePreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -11941,29 +12487,35 @@ export type BetaWorkersEditResponsePreviewsBaseConfigObservabilityTracesPropagat
   | "accept";
 export interface BetaWorkersEditResponsePreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersEditResponsePreviewsBaseConfigObservabilityTracesDestinationsList | null;
+  destinations?:
+    | BetaWorkersEditResponsePreviewsBaseConfigObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersEditResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersEditResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersEditResponsePreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersEditResponsePreviewsBaseConfigObservabilityLogs | null;
+  logs?: BetaWorkersEditResponsePreviewsBaseConfigObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersEditResponsePreviewsBaseConfigObservabilityTraces | null;
+  traces?: BetaWorkersEditResponsePreviewsBaseConfigObservabilityTraces | null | undefined;
 }
 export type BetaWorkersEditResponsePreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersEditResponsePreviewsBaseConfigPlacementMode {
@@ -12031,19 +12583,19 @@ export type BetaWorkersEditResponsePreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersEditResponsePreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersEditResponsePreviewsBaseConfigEnvMap | null;
+  env?: BetaWorkersEditResponsePreviewsBaseConfigEnvMap | null | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null;
+  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersEditResponsePreviewsBaseConfigObservability | null;
+  observability?: BetaWorkersEditResponsePreviewsBaseConfigObservability | null | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersEditResponsePreviewsBaseConfigPlacement | null;
+  placement?: BetaWorkersEditResponsePreviewsBaseConfigPlacement | null | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersEditResponsePreviewsBaseConfigTailConsumersList | null;
+  tailConsumers?: BetaWorkersEditResponsePreviewsBaseConfigTailConsumersList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchBetaWorkerResponse {
@@ -12068,9 +12620,9 @@ export interface PatchBetaWorkerResponse {
   /** When the Worker was most recently updated. */
   updatedOn: string;
   /** When the Worker's most recent deployment was created. `null` if the Worker has never been deployed. */
-  deployedOn?: string | null;
+  deployedOn?: string | null | undefined;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersEditResponsePreviewsBaseConfig | null;
+  previewsBaseConfig?: BetaWorkersEditResponsePreviewsBaseConfig | null | undefined;
 }
 export type ObservabilityDestinationsUpdateRequestConfigurationHeadersMap = {
   [key: string]: string | undefined;
@@ -12080,13 +12632,13 @@ export interface ObservabilityDestinationsUpdateRequestConfiguration {
   headers: ObservabilityDestinationsUpdateRequestConfigurationHeadersMap;
   type: ObservabilityDestinationsUpdateRequestConfigurationType | (string & {});
   url: string;
-  replaceHeaders?: boolean;
+  replaceHeaders?: boolean | undefined;
 }
 export interface PatchObservabilityDestinationRequest {
   accountId: string;
   slug: string;
   enabled: boolean;
-  configuration?: ObservabilityDestinationsUpdateRequestConfiguration;
+  configuration?: ObservabilityDestinationsUpdateRequestConfiguration | undefined;
 }
 export type ObservabilityDestinationsUpdateResponseConfigurationHeadersMap = {
   [key: string]: string | undefined;
@@ -12105,7 +12657,7 @@ export interface ObservabilityDestinationsUpdateResponseConfiguration {
   type: ObservabilityDestinationsUpdateResponseConfigurationType;
   url: string;
   /** The underlying Logpush destination string: the URL with the configured headers encoded as query parameters, so it can carry credentials. Optional: the 2026-10-21 spec omits it. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
 }
 export type ObservabilityDestinationsUpdateResponseScriptsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -12122,7 +12674,7 @@ export interface PatchScriptScriptAndVersionSettingRequest {
   /** Name of the script. */
   scriptName: string;
   /** Worker settings to patch (bindings, tags, tail consumers, ...), JSON-encoded as the multipart `settings` part. */
-  settings?: unknown;
+  settings?: unknown | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseAnnotations =
   ScriptsScriptAndVersionSettingsGetResponseAnnotations;
@@ -12142,7 +12694,7 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearch
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -12205,7 +12757,7 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemDataBlobType = "data_blob";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemDataBlob {
@@ -12226,9 +12778,15 @@ export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNames
   BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker;
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | BetaWorkersVersionsCreateResponseBindingsItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -12238,7 +12796,10 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatch
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNamespaceOutbound | null;
+  outbound?:
+    | ScriptsScriptAndVersionSettingsEditResponseBindingsItemDispatchNamespaceOutbound
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -12248,15 +12809,15 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemDurableO
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemHyperdriveType = "hyperdrive";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemHyperdrive {
@@ -12274,9 +12835,9 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemInherit 
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemImagesType = "images";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemImages {
@@ -12383,7 +12944,10 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemR2Bucket
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemR2BucketJurisdiction | null;
+  jurisdiction?:
+    | ScriptsScriptAndVersionSettingsEditResponseBindingsItemR2BucketJurisdiction
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemSecretTextType = "secret_text";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemSecretText {
@@ -12405,11 +12969,17 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemSendEmai
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | ScriptsScriptAndVersionSettingsEditResponseBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | ScriptsScriptAndVersionSettingsEditResponseBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemServiceType = "service";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemService {
@@ -12420,9 +12990,9 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemService 
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemTextBlobType = "text_blob";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemTextBlob {
@@ -12500,9 +13070,9 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemSecretKe
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: ScriptsScriptAndVersionSettingsEditResponseBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemWorkflowType = "workflow";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemWorkflow {
@@ -12513,9 +13083,9 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemWorkflow
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItemWasmModuleType = "wasm_module";
 export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemWasmModule {
@@ -12544,11 +13114,14 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetwo
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkType;
   /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
-  identity?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkIdentity | null;
+  identity?:
+    | ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkIdentity
+    | null
+    | undefined;
   /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseBindingsItem =
   | ScriptsScriptAndVersionSettingsEditResponseBindingsItemAI
@@ -12602,9 +13175,9 @@ export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerState | null;
+  state?: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerState | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -12619,9 +13192,12 @@ export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersD
   /** Marks this entry as a Durable Object export. */
   type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -12674,7 +13250,7 @@ export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersD
   /** Marks this entry as a Durable Object export. */
   type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseExportsValue =
   | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorker
@@ -12734,9 +13310,12 @@ export interface ScriptsScriptAndVersionSettingsEditResponseExportsReconciliatio
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoList =
   Array<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationInfoItem>;
@@ -12806,7 +13385,7 @@ export interface ScriptsScriptAndVersionSettingsEditResponseExportsReconciliatio
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsList =
   Array<ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationWarningsItem>;
@@ -12848,19 +13427,34 @@ export type ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigra
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationDeletedClassesList | null;
+  deletedClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationNewClassesList | null;
+  newClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationNewSqliteClassesList
+    | null
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationRenamedClassesList | null;
+  renamedClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationTransferredClassesList | null;
+  transferredClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigrationTransferredClassesList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -12878,25 +13472,43 @@ export type ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultiple
   Array<BetaWorkersVersionsCreateResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList | null;
+  deletedClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList | null;
+  newClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | null
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList | null;
+  renamedClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList | null;
+  transferredClasses?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** Migrations to apply in order. */
-  steps?: ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsList | null;
+  steps?:
+    | ScriptsScriptAndVersionSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsList
+    | null
+    | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseMigrations =
   | ScriptsScriptAndVersionSettingsEditResponseMigrationsSingleStepMigration
@@ -12911,11 +13523,14 @@ export interface ScriptsScriptAndVersionSettingsEditResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsScriptAndVersionSettingsEditResponseObservabilityLogsDestinationsList | null;
+  destinations?:
+    | ScriptsScriptAndVersionSettingsEditResponseObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponseObservabilityTracesDestinationsList =
   Array<string>;
@@ -12924,29 +13539,35 @@ export type ScriptsScriptAndVersionSettingsEditResponseObservabilityTracesPropag
   | "accept";
 export interface ScriptsScriptAndVersionSettingsEditResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsScriptAndVersionSettingsEditResponseObservabilityTracesDestinationsList | null;
+  destinations?:
+    | ScriptsScriptAndVersionSettingsEditResponseObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: ScriptsScriptAndVersionSettingsEditResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | ScriptsScriptAndVersionSettingsEditResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface ScriptsScriptAndVersionSettingsEditResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsScriptAndVersionSettingsEditResponseObservabilityLogs | null;
+  logs?: ScriptsScriptAndVersionSettingsEditResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsScriptAndVersionSettingsEditResponseObservabilityTraces | null;
+  traces?: ScriptsScriptAndVersionSettingsEditResponseObservabilityTraces | null | undefined;
 }
 export type ScriptsScriptAndVersionSettingsEditResponsePlacementModeMode = "smart";
 export interface ScriptsScriptAndVersionSettingsEditResponsePlacementMode {
@@ -13020,35 +13641,41 @@ export type ScriptsScriptAndVersionSettingsEditResponseUsageModel =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchScriptScriptAndVersionSettingResponse {
   /** Annotations for the Worker version. Annotations are not inherited across settings updates; omitting this field means the new version will have no annotations. */
-  annotations?: ScriptsScriptAndVersionSettingsGetResponseAnnotations | null;
+  annotations?: ScriptsScriptAndVersionSettingsGetResponseAnnotations | null | undefined;
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: ScriptsScriptAndVersionSettingsEditResponseBindingsList | null;
+  bindings?: ScriptsScriptAndVersionSettingsEditResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList
+    | null
+    | undefined;
   /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
-  exports?: ScriptsScriptAndVersionSettingsEditResponseExportsMap | null;
+  exports?: ScriptsScriptAndVersionSettingsEditResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation | null;
+  exportsReconciliation?:
+    | ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation
+    | null
+    | undefined;
   /** Limits to apply for this Worker. */
-  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null;
+  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Migrations to apply for Durable Objects associated with this Worker. */
-  migrations?: ScriptsScriptAndVersionSettingsEditResponseMigrations | null;
+  migrations?: ScriptsScriptAndVersionSettingsEditResponseMigrations | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsScriptAndVersionSettingsEditResponseObservability | null;
+  observability?: ScriptsScriptAndVersionSettingsEditResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: ScriptsScriptAndVersionSettingsEditResponsePlacement | null;
+  placement?: ScriptsScriptAndVersionSettingsEditResponsePlacement | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsScriptAndVersionSettingsEditResponseTagsList | null;
+  tags?: ScriptsScriptAndVersionSettingsEditResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsScriptAndVersionSettingsEditResponseTailConsumersList | null;
+  tailConsumers?: ScriptsScriptAndVersionSettingsEditResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: ScriptsScriptAndVersionSettingsEditResponseUsageModel | null;
+  usageModel?: ScriptsScriptAndVersionSettingsEditResponseUsageModel | null | undefined;
 }
 export type ScriptsSettingsEditRequestObservabilityIssues =
   BetaWorkersCreateRequestObservabilityIssues;
@@ -13059,11 +13686,11 @@ export interface ScriptsSettingsEditRequestObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsSettingsEditRequestObservabilityLogsDestinationsList;
+  destinations?: ScriptsSettingsEditRequestObservabilityLogsDestinationsList | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type ScriptsSettingsEditRequestObservabilityTracesDestinationsList = Array<string>;
 export type ScriptsSettingsEditRequestObservabilityTracesPropagationPolicy =
@@ -13071,40 +13698,41 @@ export type ScriptsSettingsEditRequestObservabilityTracesPropagationPolicy =
   | "accept";
 export interface ScriptsSettingsEditRequestObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsSettingsEditRequestObservabilityTracesDestinationsList;
+  destinations?: ScriptsSettingsEditRequestObservabilityTracesDestinationsList | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | ScriptsSettingsEditRequestObservabilityTracesPropagationPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ScriptsSettingsEditRequestObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateRequestObservabilityIssues;
+  issues?: BetaWorkersCreateRequestObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsSettingsEditRequestObservabilityLogs;
+  logs?: ScriptsSettingsEditRequestObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsSettingsEditRequestObservabilityTraces;
+  traces?: ScriptsSettingsEditRequestObservabilityTraces | undefined;
 }
 export type ScriptsSettingsEditRequestTagsList = Array<string>;
 export interface ScriptsSettingsEditRequestTailConsumersItem {
   /** Name of Worker that is to be the consumer. */
   service: string;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string;
+  environment?: string | undefined;
   /** Optional dispatch namespace the script belongs to. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type ScriptsSettingsEditRequestTailConsumersList =
   Array<ScriptsSettingsEditRequestTailConsumersItem>;
@@ -13114,13 +13742,13 @@ export interface PatchScriptSettingRequest {
   /** Name of the script. */
   scriptName: string;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean;
+  logpush?: boolean | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsSettingsEditRequestObservability;
+  observability?: ScriptsSettingsEditRequestObservability | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsSettingsEditRequestTagsList;
+  tags?: ScriptsSettingsEditRequestTagsList | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsSettingsEditRequestTailConsumersList;
+  tailConsumers?: ScriptsSettingsEditRequestTailConsumersList | undefined;
 }
 export type ScriptsSettingsEditResponseObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
@@ -13131,11 +13759,11 @@ export interface ScriptsSettingsEditResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsSettingsEditResponseObservabilityLogsDestinationsList | null;
+  destinations?: ScriptsSettingsEditResponseObservabilityLogsDestinationsList | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type ScriptsSettingsEditResponseObservabilityTracesDestinationsList = Array<string>;
 export type ScriptsSettingsEditResponseObservabilityTracesPropagationPolicy =
@@ -13143,29 +13771,32 @@ export type ScriptsSettingsEditResponseObservabilityTracesPropagationPolicy =
   | "accept";
 export interface ScriptsSettingsEditResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsSettingsEditResponseObservabilityTracesDestinationsList | null;
+  destinations?: ScriptsSettingsEditResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: ScriptsSettingsEditResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | ScriptsSettingsEditResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface ScriptsSettingsEditResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsSettingsEditResponseObservabilityLogs | null;
+  logs?: ScriptsSettingsEditResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsSettingsEditResponseObservabilityTraces | null;
+  traces?: ScriptsSettingsEditResponseObservabilityTraces | null | undefined;
 }
 export type ScriptsSettingsEditResponseTagsList = Array<string>;
 export type ScriptsSettingsEditResponseTailConsumersItem =
@@ -13175,24 +13806,24 @@ export type ScriptsSettingsEditResponseTailConsumersList =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchScriptSettingResponse {
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsSettingsEditResponseObservability | null;
+  observability?: ScriptsSettingsEditResponseObservability | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsSettingsEditResponseTagsList | null;
+  tags?: ScriptsSettingsEditResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsSettingsEditResponseTailConsumersList | null;
+  tailConsumers?: ScriptsSettingsEditResponseTailConsumersList | null | undefined;
 }
 export interface PutAccountSettingRequest {
   /** Identifier. */
   accountId: string;
-  defaultUsageModel?: string;
-  greenCompute?: boolean;
+  defaultUsageModel?: string | undefined;
+  greenCompute?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutAccountSettingResponse {
-  defaultUsageModel?: string | null;
-  greenCompute?: boolean | null;
+  defaultUsageModel?: string | null | undefined;
+  greenCompute?: boolean | null | undefined;
 }
 export interface PutDomainRequest {
   /** Identifier. */
@@ -13202,13 +13833,13 @@ export interface PutDomainRequest {
   /** Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker. */
   service: string;
   /** Whether the configured hostname is routable for the domain. If disabled, then requests to the configured hostname will not be routed to the configured Worker. If disabled, then preview routing must be enabled, and only subdomains of the configured hostname will be routable. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Serve Worker Previews on this custom domain as `<preview-name>.<hostname>`. */
-  previewsEnabled?: boolean;
+  previewsEnabled?: boolean | undefined;
   /** ID of the zone containing the domain hostname. */
-  zoneId?: string;
+  zoneId?: string | undefined;
   /** Name of the zone containing the domain hostname. */
-  zoneName?: string;
+  zoneName?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutDomainResponse {
@@ -13223,7 +13854,7 @@ export interface PutDomainResponse {
   /** Hostname of the domain. Can be either the zone apex or a subdomain of the zone. Requests to this hostname will be routed to the configured Worker. */
   hostname: string;
   /** Whether Worker Previews are served on this custom domain. */
-  previewsEnabled?: boolean | null;
+  previewsEnabled?: boolean | null | undefined;
   /** Name of the Worker associated with the domain. Requests to the configured hostname will be routed to this Worker. */
   service: string;
   /** ID of the zone containing the domain hostname. */
@@ -13238,10 +13869,10 @@ export interface PutScriptRequest {
   /** Name of the script. */
   scriptName: string;
   /** When set to "strict", the upload will fail with error 10057 if any `inherit` type bindings cannot be resolved against the latest uploaded version of the Worker, which may not be the deployed version. Without this, unresolvable inherit bindings are silently dropped. */
-  bindingsInherit?: ScriptsUpdateRequestBindingsInherit | (string & {});
+  bindingsInherit?: ScriptsUpdateRequestBindingsInherit | (string & {}) | undefined;
   metadata: PutScriptMetadata;
   /** Module / asset file parts, appended under their own filenames. */
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | undefined;
 }
 export type ScriptsUpdateResponseCacheOptions =
   BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions;
@@ -13254,9 +13885,9 @@ export interface ScriptsUpdateResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: ScriptsUpdateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsUpdateResponseExportsValueWorkerState | null;
+  state?: ScriptsUpdateResponseExportsValueWorkerState | null | undefined;
 }
 export type ScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -13269,9 +13900,9 @@ export interface ScriptsUpdateResponseExportsValueWorkersDurableObjectExport {
   /** Marks this entry as a Durable Object export. */
   type: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportState | null;
+  state?: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportState | null | undefined;
 }
 export type ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState = "deleted";
 export type ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportType =
@@ -13322,7 +13953,7 @@ export interface ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingT
   /** Marks this entry as a Durable Object export. */
   type: ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type ScriptsUpdateResponseExportsValue =
   | ScriptsUpdateResponseExportsValueWorker
@@ -13338,9 +13969,9 @@ export type ScriptsUpdateResponseHandlersList = Array<string>;
 export type ScriptsUpdateResponseNamedHandlersItemHandlersList = Array<string>;
 export interface ScriptsUpdateResponseNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: ScriptsUpdateResponseNamedHandlersItemHandlersList | null;
+  handlers?: ScriptsUpdateResponseNamedHandlersItemHandlersList | null | undefined;
   /** The name of the export. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ScriptsUpdateResponseNamedHandlersList = Array<ScriptsUpdateResponseNamedHandlersItem>;
 export type ScriptsUpdateResponseObservabilityIssues = BetaWorkersCreateResponseObservabilityIssues;
@@ -13351,39 +13982,39 @@ export interface ScriptsUpdateResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsUpdateResponseObservabilityLogsDestinationsList | null;
+  destinations?: ScriptsUpdateResponseObservabilityLogsDestinationsList | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type ScriptsUpdateResponseObservabilityTracesDestinationsList = Array<string>;
 export type ScriptsUpdateResponseObservabilityTracesPropagationPolicy = "authenticated" | "accept";
 export interface ScriptsUpdateResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsUpdateResponseObservabilityTracesDestinationsList | null;
+  destinations?: ScriptsUpdateResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: ScriptsUpdateResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?: ScriptsUpdateResponseObservabilityTracesPropagationPolicy | null | undefined;
 }
 export interface ScriptsUpdateResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsUpdateResponseObservabilityLogs | null;
+  logs?: ScriptsUpdateResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsUpdateResponseObservabilityTraces | null;
+  traces?: ScriptsUpdateResponseObservabilityTraces | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase0Mode = "smart";
 export type ScriptsUpdateResponsePlacementCase0Status =
@@ -13394,9 +14025,9 @@ export interface ScriptsUpdateResponsePlacementCase0 {
   /** Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
   mode: ScriptsUpdateResponsePlacementCase0Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase0Status | null;
+  status?: ScriptsUpdateResponsePlacementCase0Status | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase1Status =
   | "SUCCESS"
@@ -13406,9 +14037,9 @@ export interface ScriptsUpdateResponsePlacementCase1 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase1Status | null;
+  status?: ScriptsUpdateResponsePlacementCase1Status | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase2Status =
   | "SUCCESS"
@@ -13418,9 +14049,9 @@ export interface ScriptsUpdateResponsePlacementCase2 {
   /** HTTP hostname for targeted placement. */
   hostname: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase2Status | null;
+  status?: ScriptsUpdateResponsePlacementCase2Status | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase3Status =
   | "SUCCESS"
@@ -13430,9 +14061,9 @@ export interface ScriptsUpdateResponsePlacementCase3 {
   /** TCP host and port for targeted placement. */
   host: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase3Status | null;
+  status?: ScriptsUpdateResponsePlacementCase3Status | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase4Mode = "targeted";
 export type ScriptsUpdateResponsePlacementCase4Status =
@@ -13445,9 +14076,9 @@ export interface ScriptsUpdateResponsePlacementCase4 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase4Status | null;
+  status?: ScriptsUpdateResponsePlacementCase4Status | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase5Mode = "targeted";
 export type ScriptsUpdateResponsePlacementCase5Status =
@@ -13460,9 +14091,9 @@ export interface ScriptsUpdateResponsePlacementCase5 {
   /** Targeted placement mode. */
   mode: ScriptsUpdateResponsePlacementCase5Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase5Status | null;
+  status?: ScriptsUpdateResponsePlacementCase5Status | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase6Mode = "targeted";
 export type ScriptsUpdateResponsePlacementCase6Status =
@@ -13475,9 +14106,9 @@ export interface ScriptsUpdateResponsePlacementCase6 {
   /** Targeted placement mode. */
   mode: ScriptsUpdateResponsePlacementCase6Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase6Status | null;
+  status?: ScriptsUpdateResponsePlacementCase6Status | null | undefined;
 }
 export type ScriptsUpdateResponsePlacementCase7Mode = "targeted";
 export type ScriptsUpdateResponsePlacementCase7TargetItemRegion =
@@ -13502,9 +14133,9 @@ export interface ScriptsUpdateResponsePlacementCase7 {
   /** Array of placement targets (currently limited to single target). */
   target: ScriptsUpdateResponsePlacementCase7TargetList;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsUpdateResponsePlacementCase7Status | null;
+  status?: ScriptsUpdateResponsePlacementCase7Status | null | undefined;
 }
 export interface ScriptsUpdateResponsePlacementCase8 {
   /** Targeted placement mode (no target echoed). */
@@ -13535,57 +14166,57 @@ export type ScriptsUpdateResponseUsageModel = "standard" | "bundled" | "unbound"
 export interface PutScriptResponse {
   startupTimeMs: number;
   /** The name used to identify the script. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: ScriptsUpdateResponseCompatibilityFlagsList | null;
+  compatibilityFlags?: ScriptsUpdateResponseCompatibilityFlagsList | null | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The entry point for the script. */
-  entryPoint?: string | null;
+  entryPoint?: string | null | undefined;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsUpdateResponseExportsMap | null;
+  exports?: ScriptsUpdateResponseExportsMap | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: ScriptsUpdateResponseHandlersList | null;
+  handlers?: ScriptsUpdateResponseHandlersList | null | undefined;
   /** Whether a Worker contains assets. */
-  hasAssets?: boolean | null;
+  hasAssets?: boolean | null | undefined;
   /** Whether a Worker contains modules. */
-  hasModules?: boolean | null;
+  hasModules?: boolean | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: ScriptsUpdateResponseNamedHandlersList | null;
+  namedHandlers?: ScriptsUpdateResponseNamedHandlersList | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsUpdateResponseObservability | null;
+  observability?: ScriptsUpdateResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: ScriptsUpdateResponsePlacement | null;
-  placementMode?: ScriptsUpdateResponsePlacementMode | null;
-  placementStatus?: ScriptsUpdateResponsePlacementStatus | null;
+  placement?: ScriptsUpdateResponsePlacement | null | undefined;
+  placementMode?: ScriptsUpdateResponsePlacementMode | null | undefined;
+  placementStatus?: ScriptsUpdateResponsePlacementStatus | null | undefined;
   /** The immutable ID of the script. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsUpdateResponseTagsList | null;
+  tags?: ScriptsUpdateResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsUpdateResponseTailConsumersList | null;
+  tailConsumers?: ScriptsUpdateResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: ScriptsUpdateResponseUsageModel | null;
+  usageModel?: ScriptsUpdateResponseUsageModel | null | undefined;
 }
 export interface ScriptsContentUpdateRequestMetadata {
   /** Name of the uploaded file that contains the Worker script (e.g. the file adding a listener to the `fetch` event). Indicates a `service worker syntax` Worker. */
-  bodyPart?: string;
+  bodyPart?: string | undefined;
   /** Name of the uploaded file that contains the main module (e.g. the file exporting a `fetch` handler). Indicates a `module syntax` Worker. */
-  mainModule?: string;
+  mainModule?: string | undefined;
 }
 export type ScriptsContentUpdateRequestFilesList = Array<string>;
 export interface PutScriptContentRequest {
@@ -13596,9 +14227,9 @@ export interface PutScriptContentRequest {
   /** JSON-encoded metadata about the uploaded parts and Worker configuration. */
   metadata: ScriptsContentUpdateRequestMetadata;
   /** An array of modules (often JavaScript files) comprising a Worker script. At least one module must be present and referenced in the metadata as `main_module` or `body_part` by filename. Possible Content-Type(s) are: `application/javascript+module`, `text/javascript+module`, `application/javascript`, `text/javascript`, `text/x-python`, `text/x-python-requirement`, `application/wasm`, `text/plain`, `application/octet-stream`, `application/source-map`. */
-  files?: ScriptsContentUpdateRequestFilesList;
-  cfworkerbodypart?: string;
-  cfworkermainmodulepart?: string;
+  files?: ScriptsContentUpdateRequestFilesList | undefined;
+  cfworkerbodypart?: string | undefined;
+  cfworkermainmodulepart?: string | undefined;
 }
 export type ScriptsContentUpdateResponseCacheOptions =
   BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions;
@@ -13611,9 +14242,9 @@ export interface ScriptsContentUpdateResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: ScriptsContentUpdateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsContentUpdateResponseExportsValueWorkerState | null;
+  state?: ScriptsContentUpdateResponseExportsValueWorkerState | null | undefined;
 }
 export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -13627,9 +14258,12 @@ export interface ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExp
   /** Marks this entry as a Durable Object export. */
   type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -13682,7 +14316,7 @@ export interface ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExp
   /** Marks this entry as a Durable Object export. */
   type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type ScriptsContentUpdateResponseExportsValue =
   | ScriptsContentUpdateResponseExportsValueWorker
@@ -13698,9 +14332,9 @@ export type ScriptsContentUpdateResponseHandlersList = Array<string>;
 export type ScriptsContentUpdateResponseNamedHandlersItemHandlersList = Array<string>;
 export interface ScriptsContentUpdateResponseNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: ScriptsContentUpdateResponseNamedHandlersItemHandlersList | null;
+  handlers?: ScriptsContentUpdateResponseNamedHandlersItemHandlersList | null | undefined;
   /** The name of the export. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ScriptsContentUpdateResponseNamedHandlersList =
   Array<ScriptsContentUpdateResponseNamedHandlersItem>;
@@ -13713,11 +14347,11 @@ export interface ScriptsContentUpdateResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: ScriptsContentUpdateResponseObservabilityLogsDestinationsList | null;
+  destinations?: ScriptsContentUpdateResponseObservabilityLogsDestinationsList | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type ScriptsContentUpdateResponseObservabilityTracesDestinationsList = Array<string>;
 export type ScriptsContentUpdateResponseObservabilityTracesPropagationPolicy =
@@ -13725,29 +14359,32 @@ export type ScriptsContentUpdateResponseObservabilityTracesPropagationPolicy =
   | "accept";
 export interface ScriptsContentUpdateResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: ScriptsContentUpdateResponseObservabilityTracesDestinationsList | null;
+  destinations?: ScriptsContentUpdateResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: ScriptsContentUpdateResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | ScriptsContentUpdateResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface ScriptsContentUpdateResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: ScriptsContentUpdateResponseObservabilityLogs | null;
+  logs?: ScriptsContentUpdateResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: ScriptsContentUpdateResponseObservabilityTraces | null;
+  traces?: ScriptsContentUpdateResponseObservabilityTraces | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase0Mode = "smart";
 export type ScriptsContentUpdateResponsePlacementCase0Status =
@@ -13758,9 +14395,9 @@ export interface ScriptsContentUpdateResponsePlacementCase0 {
   /** Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
   mode: ScriptsContentUpdateResponsePlacementCase0Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase0Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase0Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase1Status =
   | "SUCCESS"
@@ -13770,9 +14407,9 @@ export interface ScriptsContentUpdateResponsePlacementCase1 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase1Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase1Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase2Status =
   | "SUCCESS"
@@ -13782,9 +14419,9 @@ export interface ScriptsContentUpdateResponsePlacementCase2 {
   /** HTTP hostname for targeted placement. */
   hostname: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase2Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase2Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase3Status =
   | "SUCCESS"
@@ -13794,9 +14431,9 @@ export interface ScriptsContentUpdateResponsePlacementCase3 {
   /** TCP host and port for targeted placement. */
   host: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase3Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase3Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase4Mode = "targeted";
 export type ScriptsContentUpdateResponsePlacementCase4Status =
@@ -13809,9 +14446,9 @@ export interface ScriptsContentUpdateResponsePlacementCase4 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase4Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase4Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase5Mode = "targeted";
 export type ScriptsContentUpdateResponsePlacementCase5Status =
@@ -13824,9 +14461,9 @@ export interface ScriptsContentUpdateResponsePlacementCase5 {
   /** Targeted placement mode. */
   mode: ScriptsContentUpdateResponsePlacementCase5Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase5Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase5Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase6Mode = "targeted";
 export type ScriptsContentUpdateResponsePlacementCase6Status =
@@ -13839,9 +14476,9 @@ export interface ScriptsContentUpdateResponsePlacementCase6 {
   /** Targeted placement mode. */
   mode: ScriptsContentUpdateResponsePlacementCase6Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase6Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase6Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacementCase7Mode = "targeted";
 export type ScriptsContentUpdateResponsePlacementCase7TargetItemRegion =
@@ -13866,9 +14503,9 @@ export interface ScriptsContentUpdateResponsePlacementCase7 {
   /** Array of placement targets (currently limited to single target). */
   target: ScriptsContentUpdateResponsePlacementCase7TargetList;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: ScriptsContentUpdateResponsePlacementCase7Status | null;
+  status?: ScriptsContentUpdateResponsePlacementCase7Status | null | undefined;
 }
 export type ScriptsContentUpdateResponsePlacement =
   | ScriptsContentUpdateResponsePlacementCase0
@@ -13893,51 +14530,51 @@ export type ScriptsContentUpdateResponseUsageModel = "standard" | "bundled" | "u
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutScriptContentResponse {
   /** The name used to identify the script. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: ScriptsContentUpdateResponseCompatibilityFlagsList | null;
+  compatibilityFlags?: ScriptsContentUpdateResponseCompatibilityFlagsList | null | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsContentUpdateResponseExportsMap | null;
+  exports?: ScriptsContentUpdateResponseExportsMap | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: ScriptsContentUpdateResponseHandlersList | null;
+  handlers?: ScriptsContentUpdateResponseHandlersList | null | undefined;
   /** Whether a Worker contains assets. */
-  hasAssets?: boolean | null;
+  hasAssets?: boolean | null | undefined;
   /** Whether a Worker contains modules. */
-  hasModules?: boolean | null;
+  hasModules?: boolean | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: ScriptsContentUpdateResponseNamedHandlersList | null;
+  namedHandlers?: ScriptsContentUpdateResponseNamedHandlersList | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: ScriptsContentUpdateResponseObservability | null;
+  observability?: ScriptsContentUpdateResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: ScriptsContentUpdateResponsePlacement | null;
+  placement?: ScriptsContentUpdateResponsePlacement | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placementMode?: ScriptsContentUpdateResponsePlacementMode | null;
+  placementMode?: ScriptsContentUpdateResponsePlacementMode | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placementStatus?: ScriptsContentUpdateResponsePlacementStatus | null;
+  placementStatus?: ScriptsContentUpdateResponsePlacementStatus | null | undefined;
   /** The immutable ID of the script. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: ScriptsContentUpdateResponseTagsList | null;
+  tags?: ScriptsContentUpdateResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: ScriptsContentUpdateResponseTailConsumersList | null;
+  tailConsumers?: ScriptsContentUpdateResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: ScriptsContentUpdateResponseUsageModel | null;
+  usageModel?: ScriptsContentUpdateResponseUsageModel | null | undefined;
 }
 export interface PutScriptEventTriggersRequest {
   /** Identifier. */
@@ -13949,8 +14586,8 @@ export interface PutScriptEventTriggersRequest {
 export type PutScriptEventTriggersResponse = ScriptEventTriggers;
 export interface ScriptsSchedulesUpdateRequestBodyItem {
   cron: string;
-  createdOn?: string;
-  modifiedOn?: string;
+  createdOn?: string | undefined;
+  modifiedOn?: string | undefined;
 }
 export type ScriptsSchedulesUpdateRequestBodyList = Array<ScriptsSchedulesUpdateRequestBodyItem>;
 export interface PutScriptScheduleRequest {
@@ -13989,19 +14626,19 @@ export interface PutScriptSecretRequest {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The secret value to use. */
-  text?: string;
+  text?: string | undefined;
   /** The kind of resource that the binding provides. */
   type: ScriptsSecretsUpdateRequestType | (string & {});
   /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
-  algorithm?: unknown;
+  algorithm?: unknown | undefined;
   /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
-  format?: ScriptsSecretsUpdateRequestFormat | (string & {});
+  format?: ScriptsSecretsUpdateRequestFormat | (string & {}) | undefined;
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
-  usages?: ScriptsSecretsUpdateRequestUsagesList;
+  usages?: ScriptsSecretsUpdateRequestUsagesList | undefined;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string;
+  keyBase64?: string | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown;
+  keyJwk?: unknown | undefined;
 }
 export type ScriptsSecretsUpdateResultSecretTextType = "secret_text";
 export interface ScriptsSecretsUpdateResultSecretText {
@@ -14037,9 +14674,9 @@ export interface ScriptsSecretsUpdateResultSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: ScriptsSecretsUpdateResultSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type ScriptsSecretsUpdateResult =
   | ScriptsSecretsUpdateResultSecretText
@@ -14075,13 +14712,14 @@ export interface ObservabilityTelemetryQueryRequestParametersCalculationsItemCas
     | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0Operator
     | (string & {});
   /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
-  alias?: string;
+  alias?: string | undefined;
   /** Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except `count`, which aggregates whole rows and may omit it. */
-  key?: string;
+  key?: string | undefined;
   /** Data type of the key. Required when key is provided to ensure correct aggregation. */
   keyType?:
     | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0KeyType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1Operator =
   | "uniq"
@@ -14132,11 +14770,12 @@ export interface ObservabilityTelemetryQueryRequestParametersCalculationsItemCas
     | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1Operator
     | (string & {});
   /** Custom label for this calculation in the results. Useful for distinguishing multiple calculations. */
-  alias?: string;
+  alias?: string | undefined;
   /** Data type of the key. Required when key is provided to ensure correct aggregation. */
   keyType?:
     | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase1KeyType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type ObservabilityTelemetryQueryRequestParametersCalculationsItem =
   | ObservabilityTelemetryQueryRequestParametersCalculationsItemCase0
@@ -14225,9 +14864,12 @@ export interface ObservabilityTelemetryQueryRequestParametersFiltersItemCase0Fil
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryQueryRequestParametersFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryQueryRequestParametersFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryQueryRequestParametersFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryQueryRequestParametersFiltersItemCase0FiltersItem =
   | ObservabilityTelemetryQueryRequestParametersFiltersItemCase0FiltersItemCase0
@@ -14297,9 +14939,12 @@ export interface ObservabilityTelemetryQueryRequestParametersFiltersItemWorkersO
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryQueryRequestParametersFiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryQueryRequestParametersFiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryQueryRequestParametersFiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryQueryRequestParametersFiltersItem =
   | ObservabilityTelemetryQueryRequestParametersFiltersItemCase0
@@ -14340,36 +14985,39 @@ export interface ObservabilityTelemetryQueryRequestParametersNeedle {
   /** The text or pattern to search for. */
   value: ObservabilityTelemetryQueryRequestParametersNeedleValue;
   /** When true, treats the value as a regular expression (RE2 syntax). */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** When true, performs a case-sensitive search. Defaults to case-insensitive. */
-  matchCase?: boolean;
+  matchCase?: boolean | undefined;
 }
 export type ObservabilityTelemetryQueryRequestParametersOrderByOrder = "asc" | "desc";
 export interface ObservabilityTelemetryQueryRequestParametersOrderBy {
   /** Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query. */
   value: string;
   /** Sort direction: 'asc' for ascending, 'desc' for descending. */
-  order?: ObservabilityTelemetryQueryRequestParametersOrderByOrder | (string & {});
+  order?: ObservabilityTelemetryQueryRequestParametersOrderByOrder | (string & {}) | undefined;
 }
 export interface ObservabilityTelemetryQueryRequestParameters {
   /** Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. */
-  calculations?: ObservabilityTelemetryQueryRequestParametersCalculationsList;
+  calculations?: ObservabilityTelemetryQueryRequestParametersCalculationsList | undefined;
   /** Datasets to query. Leave empty to query all available datasets. */
-  datasets?: ObservabilityTelemetryQueryRequestParametersDatasetsList;
+  datasets?: ObservabilityTelemetryQueryRequestParametersDatasetsList | undefined;
   /** Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'. */
-  filterCombination?: ObservabilityTelemetryQueryRequestParametersFilterCombination | (string & {});
+  filterCombination?:
+    | ObservabilityTelemetryQueryRequestParametersFilterCombination
+    | (string & {})
+    | undefined;
   /** Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. */
-  filters?: ObservabilityTelemetryQueryRequestParametersFiltersList;
+  filters?: ObservabilityTelemetryQueryRequestParametersFiltersList | undefined;
   /** Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. */
-  groupBys?: ObservabilityTelemetryQueryRequestParametersGroupBysList;
+  groupBys?: ObservabilityTelemetryQueryRequestParametersGroupBysList | undefined;
   /** Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count &gt; 100). */
-  havings?: ObservabilityTelemetryQueryRequestParametersHavingsList;
+  havings?: ObservabilityTelemetryQueryRequestParametersHavingsList | undefined;
   /** Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases. */
-  limit?: number;
+  limit?: number | undefined;
   /** Full-text search expression applied across all event fields. Matches events containing the specified text. */
-  needle?: ObservabilityTelemetryQueryRequestParametersNeedle;
+  needle?: ObservabilityTelemetryQueryRequestParametersNeedle | undefined;
   /** Ordering for grouped calculation results. Only effective when a group-by is present. */
-  orderBy?: ObservabilityTelemetryQueryRequestParametersOrderBy;
+  orderBy?: ObservabilityTelemetryQueryRequestParametersOrderBy | undefined;
 }
 export type ObservabilityTelemetryQueryRequestView =
   | "traces"
@@ -14385,31 +15033,34 @@ export interface QueryObservabilityTelemetryRequest {
   /** Timeframe for the query using Unix timestamps in milliseconds. 'from' must be earlier than 'to'. Narrower timeframes produce faster responses and more specific results. */
   timeframe: ObservabilitySharedQueriesCreateRequestTimeframe;
   /** When true, includes time-series data in the response. */
-  chart?: boolean;
+  chart?: boolean | undefined;
   /** Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour -- both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' -- combining them returns a 400. */
-  chartType?: ObservabilityTelemetryQueryRequestChartType | (string & {});
+  chartType?: ObservabilityTelemetryQueryRequestChartType | (string & {}) | undefined;
   /** When true, includes a comparison dataset from the previous time period of equal length. */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode. */
-  distributionScale?: ObservabilityTelemetryQueryRequestDistributionScale | (string & {});
+  distributionScale?:
+    | ObservabilityTelemetryQueryRequestDistributionScale
+    | (string & {})
+    | undefined;
   /** When true, executes the query without persisting the results. Useful for validation or previewing. */
-  dry?: boolean;
+  dry?: boolean | undefined;
   /** Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity. */
-  granularity?: number;
+  granularity?: number | undefined;
   /** When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed. */
-  ignoreSeries?: boolean;
+  ignoreSeries?: boolean | undefined;
   /** Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page. */
-  offset?: string;
+  offset?: string | undefined;
   /** Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination. */
-  offsetBy?: number;
+  offsetBy?: number | undefined;
   /** Pagination direction: 'next' for forward, 'prev' for backward. */
-  offsetDirection?: string;
+  offsetDirection?: string | undefined;
   /** Query parameters defining what data to retrieve -- filters, calculations, group-bys, and ordering. In practice this should always be provided for ad-hoc queries. Only omit when executing a previously saved query by queryId. Use the keys and values endpoints to discover available fields before building filters. */
-  parameters?: ObservabilityTelemetryQueryRequestParameters;
+  parameters?: ObservabilityTelemetryQueryRequestParameters | undefined;
   /** Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries. */
-  view?: ObservabilityTelemetryQueryRequestView | (string & {});
+  view?: ObservabilityTelemetryQueryRequestView | (string & {}) | undefined;
 }
 export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0Operator =
   | "count"
@@ -14420,9 +15071,12 @@ export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsIte
   | "boolean";
 export interface ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0 {
   operator: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0Operator;
-  alias?: string | null;
-  key?: string | null;
-  keyType?: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0KeyType | null;
+  alias?: string | null | undefined;
+  key?: string | null | undefined;
+  keyType?:
+    | ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0KeyType
+    | null
+    | undefined;
 }
 export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1Operator =
   | "uniq"
@@ -14468,8 +15122,11 @@ export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsIte
 export interface ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1 {
   key: string;
   operator: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1Operator;
-  alias?: string | null;
-  keyType?: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1KeyType | null;
+  alias?: string | null | undefined;
+  keyType?:
+    | ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase1KeyType
+    | null
+    | undefined;
 }
 export type ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItem =
   | ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsItemCase0
@@ -14544,9 +15201,15 @@ export interface ObservabilityTelemetryQueryResponseRunQueryParametersFiltersIte
   /** Data type of the filter field. Must match the actual type of the key being filtered. */
   type: ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafType;
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
-  kind?: ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafKind | null;
+  kind?:
+    | ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafKind
+    | null
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafValue | null;
+  value?:
+    | ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItemWorkersObservabilityFilterLeafValue
+    | null
+    | undefined;
 }
 export type ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItem =
   | ObservabilityTelemetryQueryResponseRunQueryParametersFiltersItemCase0
@@ -14584,27 +15247,33 @@ export interface ObservabilityTelemetryQueryResponseRunQueryParametersOrderBy {
   /** Configure which Calculation to order the results by. */
   value: string;
   /** Set the order of the results */
-  order?: ObservabilityTelemetryQueryResponseRunQueryParametersOrderByOrder | null;
+  order?: ObservabilityTelemetryQueryResponseRunQueryParametersOrderByOrder | null | undefined;
 }
 export interface ObservabilityTelemetryQueryResponseRunQueryParameters {
   /** Create Calculations to compute as part of the query. */
-  calculations?: ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsList | null;
+  calculations?:
+    | ObservabilityTelemetryQueryResponseRunQueryParametersCalculationsList
+    | null
+    | undefined;
   /** Set the Datasets to query. Leave it empty to query all the datasets. */
-  datasets?: ObservabilityTelemetryQueryResponseRunQueryParametersDatasetsList | null;
+  datasets?: ObservabilityTelemetryQueryResponseRunQueryParametersDatasetsList | null | undefined;
   /** Set a Flag to describe how to combine the filters on the query. */
-  filterCombination?: ObservabilityTelemetryQueryResponseRunQueryParametersFilterCombination | null;
+  filterCombination?:
+    | ObservabilityTelemetryQueryResponseRunQueryParametersFilterCombination
+    | null
+    | undefined;
   /** Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. */
-  filters?: ObservabilityTelemetryQueryResponseRunQueryParametersFiltersList | null;
+  filters?: ObservabilityTelemetryQueryResponseRunQueryParametersFiltersList | null | undefined;
   /** Define how to group the results of the query. */
-  groupBys?: ObservabilityTelemetryQueryResponseRunQueryParametersGroupBysList | null;
+  groupBys?: ObservabilityTelemetryQueryResponseRunQueryParametersGroupBysList | null | undefined;
   /** Configure the Having clauses that filter on calculations in the query result. */
-  havings?: ObservabilityTelemetryQueryResponseRunQueryParametersHavingsList | null;
+  havings?: ObservabilityTelemetryQueryResponseRunQueryParametersHavingsList | null | undefined;
   /** Set a limit on the number of results / records returned by the query */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Define an expression to search using full-text search. */
-  needle?: ObservabilitySharedQueriesGetResponseRunQueryParametersNeedle | null;
+  needle?: ObservabilitySharedQueriesGetResponseRunQueryParametersNeedle | null | undefined;
   /** Configure the order of the results returned by the query. */
-  orderBy?: ObservabilityTelemetryQueryResponseRunQueryParametersOrderBy | null;
+  orderBy?: ObservabilityTelemetryQueryResponseRunQueryParametersOrderBy | null | undefined;
 }
 export interface ObservabilityTelemetryQueryResponseRunQuery {
   id: string;
@@ -14642,11 +15311,11 @@ export interface ObservabilityTelemetryQueryResponseRun {
   /** ID of the user who initiated the query run. */
   userId: string;
   /** ISO-8601 timestamp when the query run was created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Query performance statistics from the database (does not include network latency). */
-  statistics?: ObservabilitySharedQueriesGetResponseRunStatistics | null;
+  statistics?: ObservabilitySharedQueriesGetResponseRunStatistics | null | undefined;
   /** ISO-8601 timestamp when the query run was last updated. */
-  updated?: string | null;
+  updated?: string | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseStatistics =
   ObservabilitySharedQueriesGetResponseRunStatistics;
@@ -14679,15 +15348,15 @@ export interface ObservabilityTelemetryQueryResponseAgentsItem {
   /** Start of the run's trace as a Unix epoch in milliseconds. */
   traceStartMs: number;
   /** ID from the earliest agent invocation that provides one. */
-  agentId?: string | null;
+  agentId?: string | null | undefined;
   /** Name from the earliest agent invocation that provides one. */
-  agentName?: string | null;
+  agentName?: string | null | undefined;
   /** Conversation ID from the earliest invocation that provides one. */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
   /** Input tokens summed across chat spans in the run's trace; informational, not billing data. */
-  inputTokens?: number | null;
+  inputTokens?: number | null | undefined;
   /** Output tokens summed across chat spans in the run's trace; informational, not billing data. */
-  outputTokens?: number | null;
+  outputTokens?: number | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseAgentsList =
   Array<ObservabilityTelemetryQueryResponseAgentsItem>;
@@ -14710,7 +15379,10 @@ export interface ObservabilityTelemetryQueryResponseCalculationsItemAggregatesIt
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  groups?: ObservabilityTelemetryQueryResponseCalculationsItemAggregatesItemGroupsList | null;
+  groups?:
+    | ObservabilityTelemetryQueryResponseCalculationsItemAggregatesItemGroupsList
+    | null
+    | undefined;
 }
 export type ObservabilityTelemetryQueryResponseCalculationsItemAggregatesList =
   Array<ObservabilityTelemetryQueryResponseCalculationsItemAggregatesItem>;
@@ -14733,9 +15405,12 @@ export interface ObservabilityTelemetryQueryResponseCalculationsItemSeriesItemDa
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  firstSeen?: string | null;
-  groups?: ObservabilityTelemetryQueryResponseCalculationsItemSeriesItemDataItemGroupsList | null;
-  lastSeen?: string | null;
+  firstSeen?: string | null | undefined;
+  groups?:
+    | ObservabilityTelemetryQueryResponseCalculationsItemSeriesItemDataItemGroupsList
+    | null
+    | undefined;
+  lastSeen?: string | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseCalculationsItemSeriesItemDataList =
   Array<ObservabilityTelemetryQueryResponseCalculationsItemSeriesItemDataItem>;
@@ -14749,7 +15424,7 @@ export interface ObservabilityTelemetryQueryResponseCalculationsItem {
   aggregates: ObservabilityTelemetryQueryResponseCalculationsItemAggregatesList;
   calculation: string;
   series: ObservabilityTelemetryQueryResponseCalculationsItemSeriesList;
-  alias?: string | null;
+  alias?: string | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseCalculationsList =
   Array<ObservabilityTelemetryQueryResponseCalculationsItem>;
@@ -14772,7 +15447,10 @@ export interface ObservabilityTelemetryQueryResponseCompareItemAggregatesItem {
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  groups?: ObservabilityTelemetryQueryResponseCompareItemAggregatesItemGroupsList | null;
+  groups?:
+    | ObservabilityTelemetryQueryResponseCompareItemAggregatesItemGroupsList
+    | null
+    | undefined;
 }
 export type ObservabilityTelemetryQueryResponseCompareItemAggregatesList =
   Array<ObservabilityTelemetryQueryResponseCompareItemAggregatesItem>;
@@ -14795,9 +15473,12 @@ export interface ObservabilityTelemetryQueryResponseCompareItemSeriesItemDataIte
   sampleInterval: number;
   /** Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval */
   value: number;
-  firstSeen?: string | null;
-  groups?: ObservabilityTelemetryQueryResponseCompareItemSeriesItemDataItemGroupsList | null;
-  lastSeen?: string | null;
+  firstSeen?: string | null | undefined;
+  groups?:
+    | ObservabilityTelemetryQueryResponseCompareItemSeriesItemDataItemGroupsList
+    | null
+    | undefined;
+  lastSeen?: string | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseCompareItemSeriesItemDataList =
   Array<ObservabilityTelemetryQueryResponseCompareItemSeriesItemDataItem>;
@@ -14811,7 +15492,7 @@ export interface ObservabilityTelemetryQueryResponseCompareItem {
   aggregates: ObservabilityTelemetryQueryResponseCompareItemAggregatesList;
   calculation: string;
   series: ObservabilityTelemetryQueryResponseCompareItemSeriesList;
-  alias?: string | null;
+  alias?: string | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseCompareList =
   Array<ObservabilityTelemetryQueryResponseCompareItem>;
@@ -14842,79 +15523,82 @@ export interface ObservabilityTelemetryQueryResponseEventsEventsItemMetadata {
   /** Unique event ID. Use as the cursor value for offset-based pagination. */
   id: string;
   /** Cloudflare account identifier. */
-  account?: string | null;
+  account?: string | null | undefined;
   /** Cloudflare product that generated this event (e.g. workers, pages). */
-  cloudService?: string | null;
+  cloudService?: string | null | undefined;
   /** exclusiveMinimum */
-  coldStart?: number | null;
+  coldStart?: number | null | undefined;
   /** Estimated cost units for this invocation. */
-  cost?: number | null;
+  cost?: number | null | undefined;
   /** Span duration in milliseconds. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Span end time as a Unix epoch in milliseconds. */
-  endTime?: number | null;
+  endTime?: number | null | undefined;
   /** Span end time as a Unix epoch in nanoseconds. */
-  endTimeNs?: string | null;
+  endTimeNs?: string | null | undefined;
   /** Error message, present when the log represents an error. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Templatized version of the error message used for grouping similar errors. */
-  errorTemplate?: string | null;
+  errorTemplate?: string | null | undefined;
   /** Size of the stored telemetry event in bytes. */
-  eventSize?: number | null;
+  eventSize?: number | null | undefined;
   /** Content-based fingerprint used to group similar events. */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** Log level (e.g. log, debug, info, warn, error). */
-  level?: string | null;
+  level?: string | null | undefined;
   /** Log message text. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Templatized version of the log message used for grouping similar messages. */
-  messageTemplate?: string | null;
+  messageTemplate?: string | null | undefined;
   /** Metric name when the event represents a metric data point. */
-  metricName?: string | null;
+  metricName?: string | null | undefined;
   /** Origin of the event (e.g. fetch, scheduled, queue). */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** Span ID of the parent span in the trace hierarchy. */
-  parentSpanId?: string | null;
+  parentSpanId?: string | null | undefined;
   /** Infrastructure provider identifier. */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
-  rayId?: string | null;
+  rayId?: string | null | undefined;
   /** Cloudflare data center / region that handled the request. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Cloudflare request ID that ties all logs from a single invocation together. */
-  requestId?: string | null;
+  requestId?: string | null | undefined;
   /** Worker script name that produced this event. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** Span ID for this individual unit of work within a trace. */
-  spanId?: string | null;
+  spanId?: string | null | undefined;
   /** Human-readable name for this span. */
-  spanName?: string | null;
+  spanName?: string | null | undefined;
   /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
-  spanStatus?: ObservabilityTelemetryQueryResponseEventsEventsItemMetadataSpanStatus | null;
+  spanStatus?:
+    | ObservabilityTelemetryQueryResponseEventsEventsItemMetadataSpanStatus
+    | null
+    | undefined;
   /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
-  spanStatusMessage?: string | null;
+  spanStatusMessage?: string | null | undefined;
   /** Stack / deployment identifier. */
-  stackId?: string | null;
+  stackId?: string | null | undefined;
   /** Span start time as a Unix epoch in milliseconds. */
-  startTime?: number | null;
+  startTime?: number | null | undefined;
   /** Span start time as a Unix epoch in nanoseconds. */
-  startTimeNs?: string | null;
+  startTimeNs?: string | null | undefined;
   /** HTTP response status code returned by the Worker. */
-  statusCode?: number | null;
+  statusCode?: number | null | undefined;
   /** Event time as a Unix epoch in nanoseconds. */
-  timestampNs?: string | null;
+  timestampNs?: string | null | undefined;
   /** Total duration of the entire trace in milliseconds. */
-  traceDuration?: number | null;
+  traceDuration?: number | null | undefined;
   /** Distributed trace ID linking spans across services. */
-  traceId?: string | null;
+  traceId?: string | null | undefined;
   /** Logical transaction name for this request. */
-  transactionName?: string | null;
+  transactionName?: string | null | undefined;
   /** What triggered the invocation (e.g. GET /users, POST /orders, queue message). */
-  trigger?: string | null;
+  trigger?: string | null | undefined;
   /** Event type classifier (e.g. cf-worker-event, cf-worker-log). */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Request URL that triggered the Worker invocation. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseEventsEventsItemSourceCase1Map = {
   [key: string]: unknown | undefined;
@@ -14951,17 +15635,29 @@ export type ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0Scrip
 export interface ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0 {
   eventType: ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0EventType;
   scriptName: string;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0EventMap | null;
-  executionModel?: ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0ExecutionModel | null;
-  outcome?: string | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0ExecutionModel
+    | null
+    | undefined;
+  outcome?: string | null | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1EventType =
   | "fetch"
@@ -14996,18 +15692,33 @@ export interface ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1
   outcome: string;
   scriptName: string;
   wallTimeMs: number;
-  diagnosticsChannelEvents?: ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1DiagnosticsChannelEventsList | null;
-  dispatchNamespace?: string | null;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1EventMap | null;
-  executionModel?: ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1ExecutionModel | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  diagnosticsChannelEvents?:
+    | ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1DiagnosticsChannelEventsList
+    | null
+    | undefined;
+  dispatchNamespace?: string | null | undefined;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1ExecutionModel
+    | null
+    | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseEventsEventsItemWorkers =
   | ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase0
@@ -15022,9 +15733,9 @@ export interface ObservabilityTelemetryQueryResponseEventsEventsItem {
   /** Event timestamp as a Unix epoch in milliseconds. */
   timestamp: number;
   /** Cloudflare Containers event information that enriches your logs for identifying and debugging issues. */
-  containers?: ObservabilityTelemetryQueryResponseEventsEventsItemContainersMap | null;
+  containers?: ObservabilityTelemetryQueryResponseEventsEventsItemContainersMap | null | undefined;
   /** Cloudflare Workers event information that enriches your logs for identifying and debugging issues. */
-  workers?: ObservabilityTelemetryQueryResponseEventsEventsItemWorkers | null;
+  workers?: ObservabilityTelemetryQueryResponseEventsEventsItemWorkers | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseEventsEventsList =
   Array<ObservabilityTelemetryQueryResponseEventsEventsItem>;
@@ -15049,9 +15760,9 @@ export interface ObservabilityTelemetryQueryResponseEventsSeriesItemDataItem {
   interval: number;
   /** Average sample interval of the matched events. Each stored event has a sample interval of 1 / (the sampling rate applied when it was ingested): the Worker's head_sampling_rate multiplied by any platform sampling applied to the account or script. A value of 1 means none of the matched events were sampled. A value above 1 means count and value are estimated from sampled data, not exact. This is independent of statistics.abr_level. */
   sampleInterval: number;
-  errors?: number | null;
+  errors?: number | null | undefined;
   /** Groups in the query results. */
-  groups?: ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsMap | null;
+  groups?: ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsMap | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseEventsSeriesItemDataList =
   Array<ObservabilityTelemetryQueryResponseEventsSeriesItemDataItem>;
@@ -15063,13 +15774,13 @@ export type ObservabilityTelemetryQueryResponseEventsSeriesList =
   Array<ObservabilityTelemetryQueryResponseEventsSeriesItem>;
 export interface ObservabilityTelemetryQueryResponseEvents {
   /** Total number of events matching the query (may exceed the number returned due to limits). */
-  count?: number | null;
+  count?: number | null | undefined;
   /** List of individual telemetry events matching the query. */
-  events?: ObservabilityTelemetryQueryResponseEventsEventsList | null;
+  events?: ObservabilityTelemetryQueryResponseEventsEventsList | null | undefined;
   /** List of fields discovered in the matched events. Useful for building dynamic UIs. */
-  fields?: ObservabilityTelemetryQueryResponseEventsFieldsList | null;
+  fields?: ObservabilityTelemetryQueryResponseEventsFieldsList | null | undefined;
   /** Time-series data for the matched events, bucketed by the query granularity. */
-  series?: ObservabilityTelemetryQueryResponseEventsSeriesList | null;
+  series?: ObservabilityTelemetryQueryResponseEventsSeriesList | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseInvocationsValueItemMetadataSpanStatus =
   | "unset"
@@ -15079,79 +15790,82 @@ export interface ObservabilityTelemetryQueryResponseInvocationsValueItemMetadata
   /** Unique event ID. Use as the cursor value for offset-based pagination. */
   id: string;
   /** Cloudflare account identifier. */
-  account?: string | null;
+  account?: string | null | undefined;
   /** Cloudflare product that generated this event (e.g. workers, pages). */
-  cloudService?: string | null;
+  cloudService?: string | null | undefined;
   /** exclusiveMinimum */
-  coldStart?: number | null;
+  coldStart?: number | null | undefined;
   /** Estimated cost units for this invocation. */
-  cost?: number | null;
+  cost?: number | null | undefined;
   /** Span duration in milliseconds. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Span end time as a Unix epoch in milliseconds. */
-  endTime?: number | null;
+  endTime?: number | null | undefined;
   /** Span end time as a Unix epoch in nanoseconds. */
-  endTimeNs?: string | null;
+  endTimeNs?: string | null | undefined;
   /** Error message, present when the log represents an error. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Templatized version of the error message used for grouping similar errors. */
-  errorTemplate?: string | null;
+  errorTemplate?: string | null | undefined;
   /** Size of the stored telemetry event in bytes. */
-  eventSize?: number | null;
+  eventSize?: number | null | undefined;
   /** Content-based fingerprint used to group similar events. */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** Log level (e.g. log, debug, info, warn, error). */
-  level?: string | null;
+  level?: string | null | undefined;
   /** Log message text. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Templatized version of the log message used for grouping similar messages. */
-  messageTemplate?: string | null;
+  messageTemplate?: string | null | undefined;
   /** Metric name when the event represents a metric data point. */
-  metricName?: string | null;
+  metricName?: string | null | undefined;
   /** Origin of the event (e.g. fetch, scheduled, queue). */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** Span ID of the parent span in the trace hierarchy. */
-  parentSpanId?: string | null;
+  parentSpanId?: string | null | undefined;
   /** Infrastructure provider identifier. */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
-  rayId?: string | null;
+  rayId?: string | null | undefined;
   /** Cloudflare data center / region that handled the request. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Cloudflare request ID that ties all logs from a single invocation together. */
-  requestId?: string | null;
+  requestId?: string | null | undefined;
   /** Worker script name that produced this event. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** Span ID for this individual unit of work within a trace. */
-  spanId?: string | null;
+  spanId?: string | null | undefined;
   /** Human-readable name for this span. */
-  spanName?: string | null;
+  spanName?: string | null | undefined;
   /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
-  spanStatus?: ObservabilityTelemetryQueryResponseInvocationsValueItemMetadataSpanStatus | null;
+  spanStatus?:
+    | ObservabilityTelemetryQueryResponseInvocationsValueItemMetadataSpanStatus
+    | null
+    | undefined;
   /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
-  spanStatusMessage?: string | null;
+  spanStatusMessage?: string | null | undefined;
   /** Stack / deployment identifier. */
-  stackId?: string | null;
+  stackId?: string | null | undefined;
   /** Span start time as a Unix epoch in milliseconds. */
-  startTime?: number | null;
+  startTime?: number | null | undefined;
   /** Span start time as a Unix epoch in nanoseconds. */
-  startTimeNs?: string | null;
+  startTimeNs?: string | null | undefined;
   /** HTTP response status code returned by the Worker. */
-  statusCode?: number | null;
+  statusCode?: number | null | undefined;
   /** Event time as a Unix epoch in nanoseconds. */
-  timestampNs?: string | null;
+  timestampNs?: string | null | undefined;
   /** Total duration of the entire trace in milliseconds. */
-  traceDuration?: number | null;
+  traceDuration?: number | null | undefined;
   /** Distributed trace ID linking spans across services. */
-  traceId?: string | null;
+  traceId?: string | null | undefined;
   /** Logical transaction name for this request. */
-  transactionName?: string | null;
+  transactionName?: string | null | undefined;
   /** What triggered the invocation (e.g. GET /users, POST /orders, queue message). */
-  trigger?: string | null;
+  trigger?: string | null | undefined;
   /** Event type classifier (e.g. cf-worker-event, cf-worker-log). */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Request URL that triggered the Worker invocation. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseInvocationsValueItemSourceCase1Map = {
   [key: string]: unknown | undefined;
@@ -15188,17 +15902,29 @@ export type ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0S
 export interface ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0 {
   eventType: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0EventType;
   scriptName: string;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0EventMap | null;
-  executionModel?: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0ExecutionModel | null;
-  outcome?: string | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0ExecutionModel
+    | null
+    | undefined;
+  outcome?: string | null | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1EventType =
   | "fetch"
@@ -15233,18 +15959,33 @@ export interface ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersC
   outcome: string;
   scriptName: string;
   wallTimeMs: number;
-  diagnosticsChannelEvents?: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1DiagnosticsChannelEventsList | null;
-  dispatchNamespace?: string | null;
-  durableObjectId?: string | null;
-  entrypoint?: string | null;
-  event?: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1EventMap | null;
-  executionModel?: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1ExecutionModel | null;
-  preview?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview | null;
-  requestId?: string | null;
-  scriptVersion?: ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion | null;
-  spanId?: string | null;
-  traceId?: string | null;
-  truncated?: boolean | null;
+  diagnosticsChannelEvents?:
+    | ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1DiagnosticsChannelEventsList
+    | null
+    | undefined;
+  dispatchNamespace?: string | null | undefined;
+  durableObjectId?: string | null | undefined;
+  entrypoint?: string | null | undefined;
+  event?:
+    | ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1EventMap
+    | null
+    | undefined;
+  executionModel?:
+    | ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1ExecutionModel
+    | null
+    | undefined;
+  preview?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0Preview
+    | null
+    | undefined;
+  requestId?: string | null | undefined;
+  scriptVersion?:
+    | ObservabilitySharedQueriesGetResponseEventsEventsItemWorkersCase0ScriptVersion
+    | null
+    | undefined;
+  spanId?: string | null | undefined;
+  traceId?: string | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseInvocationsValueItemWorkers =
   | ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase0
@@ -15259,9 +16000,12 @@ export interface ObservabilityTelemetryQueryResponseInvocationsValueItem {
   /** Event timestamp as a Unix epoch in milliseconds. */
   timestamp: number;
   /** Cloudflare Containers event information that enriches your logs for identifying and debugging issues. */
-  containers?: ObservabilityTelemetryQueryResponseInvocationsValueItemContainersMap | null;
+  containers?:
+    | ObservabilityTelemetryQueryResponseInvocationsValueItemContainersMap
+    | null
+    | undefined;
   /** Cloudflare Workers event information that enriches your logs for identifying and debugging issues. */
-  workers?: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkers | null;
+  workers?: ObservabilityTelemetryQueryResponseInvocationsValueItemWorkers | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseInvocationsValueList =
   Array<ObservabilityTelemetryQueryResponseInvocationsValueItem>;
@@ -15288,7 +16032,7 @@ export interface ObservabilityTelemetryQueryResponseTracesItem {
   /** Trace start time as a Unix epoch in milliseconds. */
   traceStartMs: number;
   /** Error messages encountered during the trace, if any. */
-  errors?: ObservabilityTelemetryQueryResponseTracesItemErrorsList | null;
+  errors?: ObservabilityTelemetryQueryResponseTracesItemErrorsList | null | undefined;
 }
 export type ObservabilityTelemetryQueryResponseTracesList =
   Array<ObservabilityTelemetryQueryResponseTracesItem>;
@@ -15299,34 +16043,34 @@ export interface QueryObservabilityTelemetryResponse {
   /** Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency. */
   statistics: ObservabilitySharedQueriesGetResponseRunStatistics;
   /** Agent run summaries. Present when the query view is 'agents'. Each entry represents one trace containing at least one agent invocation. */
-  agents?: ObservabilityTelemetryQueryResponseAgentsList | null;
+  agents?: ObservabilityTelemetryQueryResponseAgentsList | null | undefined;
   /** Aggregated calculation results. Present when the query view is 'calculations'. Contains computed metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series data. */
-  calculations?: ObservabilityTelemetryQueryResponseCalculationsList | null;
+  calculations?: ObservabilityTelemetryQueryResponseCalculationsList | null | undefined;
   /** Comparison calculation results from the previous time period. Present when the compare option is enabled. Same structure as calculations. */
-  compare?: ObservabilityTelemetryQueryResponseCompareList | null;
+  compare?: ObservabilityTelemetryQueryResponseCompareList | null | undefined;
   /** Bucketed 2D histogram of a numeric field over time. Present when chartType is 'distribution'. */
-  distribution?: ObservabilityTelemetryQueryResponseDistribution | null;
+  distribution?: ObservabilityTelemetryQueryResponseDistribution | null | undefined;
   /** Individual event results. Present when the query view is 'events'. Contains the matching log lines and their metadata. */
-  events?: ObservabilityTelemetryQueryResponseEvents | null;
+  events?: ObservabilityTelemetryQueryResponseEvents | null | undefined;
   /** Events grouped by invocation (request ID). Present when the query view is 'invocations'. Each key is a request ID mapping to all events from that invocation. */
-  invocations?: ObservabilityTelemetryQueryResponseInvocationsMap | null;
+  invocations?: ObservabilityTelemetryQueryResponseInvocationsMap | null | undefined;
   /** Trace summaries matching the query. Present when the query view is 'traces'. Each entry represents a distributed trace with its spans, duration, and services involved. */
-  traces?: ObservabilityTelemetryQueryResponseTracesList | null;
+  traces?: ObservabilityTelemetryQueryResponseTracesList | null | undefined;
 }
 export type ScriptsSearchRequestOrderBy = "created_on" | "modified_on" | "name";
 export interface SearchScriptRequest {
   /** Identifier. */
   accountId: string;
   /** Worker ID (also called tag) to search for. Only exact matches are returned. */
-  id?: string;
+  id?: string | undefined;
   /** Worker name to search for. Both exact and partial matches are returned. */
-  name?: string;
+  name?: string | undefined;
   /** Property to sort results by. Results are sorted in ascending order. */
-  orderBy?: ScriptsSearchRequestOrderBy | (string & {});
+  orderBy?: ScriptsSearchRequestOrderBy | (string & {}) | undefined;
   /** Current page. */
-  page?: number;
+  page?: number | undefined;
   /** Items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface ScriptsSearchResultItem {
   /** Identifier. */
@@ -15338,11 +16082,11 @@ export interface ScriptsSearchResultItem {
   /** Name of the script. */
   scriptName: string;
   /** Whether the environment is the default environment. */
-  environmentIsDefault?: boolean | null;
+  environmentIsDefault?: boolean | null | undefined;
   /** Name of the environment. */
-  environmentName?: string | null;
+  environmentName?: string | null | undefined;
   /** Name of the service. */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
 }
 export type ScriptsSearchResultList = Array<ScriptsSearchResultItem>;
 export type SearchScriptResponse = ScriptsSearchResultList;
@@ -15351,15 +16095,15 @@ export type BetaWorkersUpdateRequestObservabilityIssues =
 export type BetaWorkersUpdateRequestObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersUpdateRequestObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersUpdateRequestObservabilityLogsDestinationsList;
+  destinations?: BetaWorkersUpdateRequestObservabilityLogsDestinationsList | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean;
+  invocationLogs?: boolean | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type BetaWorkersUpdateRequestObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersUpdateRequestObservabilityTracesPropagationPolicy =
@@ -15367,29 +16111,32 @@ export type BetaWorkersUpdateRequestObservabilityTracesPropagationPolicy =
   | "accept";
 export interface BetaWorkersUpdateRequestObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersUpdateRequestObservabilityTracesDestinationsList;
+  destinations?: BetaWorkersUpdateRequestObservabilityTracesDestinationsList | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersUpdateRequestObservabilityTracesPropagationPolicy | (string & {});
+  propagationPolicy?:
+    | BetaWorkersUpdateRequestObservabilityTracesPropagationPolicy
+    | (string & {})
+    | undefined;
 }
 export interface BetaWorkersUpdateRequestObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateRequestObservabilityIssues;
+  issues?: BetaWorkersCreateRequestObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersUpdateRequestObservabilityLogs;
+  logs?: BetaWorkersUpdateRequestObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersUpdateRequestObservabilityTraces;
+  traces?: BetaWorkersUpdateRequestObservabilityTraces | undefined;
 }
 export type BetaWorkersUpdateRequestPreviewsBaseConfigCacheOptions =
   BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions;
@@ -15406,15 +16153,17 @@ export type BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityLogsDestinati
   Array<string>;
 export interface BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityLogsDestinationsList;
+  destinations?:
+    | BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityLogsDestinationsList
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean;
+  invocationLogs?: boolean | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -15423,31 +16172,34 @@ export type BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTracesPropaga
   | "accept";
 export interface BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTracesDestinationsList;
+  destinations?:
+    | BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTracesDestinationsList
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTracesPropagationPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface BetaWorkersUpdateRequestPreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateRequestObservabilityIssues;
+  issues?: BetaWorkersCreateRequestObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityLogs;
+  logs?: BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTraces;
+  traces?: BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTraces | undefined;
 }
 export type BetaWorkersUpdateRequestPreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersUpdateRequestPreviewsBaseConfigPlacementMode {
@@ -15515,19 +16267,19 @@ export type BetaWorkersUpdateRequestPreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersUpdateRequestPreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions;
+  cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersUpdateRequestPreviewsBaseConfigEnvMap;
+  env?: BetaWorkersUpdateRequestPreviewsBaseConfigEnvMap | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateRequestPreviewsBaseConfigLimits;
+  limits?: BetaWorkersCreateRequestPreviewsBaseConfigLimits | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean;
+  logpush?: boolean | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersUpdateRequestPreviewsBaseConfigObservability;
+  observability?: BetaWorkersUpdateRequestPreviewsBaseConfigObservability | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersUpdateRequestPreviewsBaseConfigPlacement;
+  placement?: BetaWorkersUpdateRequestPreviewsBaseConfigPlacement | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersUpdateRequestPreviewsBaseConfigTailConsumersList;
+  tailConsumers?: BetaWorkersUpdateRequestPreviewsBaseConfigTailConsumersList | undefined;
 }
 export type BetaWorkersUpdateRequestSubdomain = BetaWorkersCreateRequestSubdomain;
 export type BetaWorkersUpdateRequestTagsList = Array<string>;
@@ -15543,32 +16295,32 @@ export interface UpdateBetaWorkerRequest {
   /** Name of the Worker. */
   name: string;
   /** Whether logpush is enabled for the Worker. */
-  logpush?: boolean;
+  logpush?: boolean | undefined;
   /** Observability settings for the Worker. */
-  observability?: BetaWorkersUpdateRequestObservability;
+  observability?: BetaWorkersUpdateRequestObservability | undefined;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersUpdateRequestPreviewsBaseConfig;
+  previewsBaseConfig?: BetaWorkersUpdateRequestPreviewsBaseConfig | undefined;
   /** Subdomain settings for the Worker. */
-  subdomain?: BetaWorkersCreateRequestSubdomain;
+  subdomain?: BetaWorkersCreateRequestSubdomain | undefined;
   /** Tags associated with the Worker. */
-  tags?: BetaWorkersUpdateRequestTagsList;
+  tags?: BetaWorkersUpdateRequestTagsList | undefined;
   /** Other Workers that should consume logs from the Worker. */
-  tailConsumers?: BetaWorkersUpdateRequestTailConsumersList;
+  tailConsumers?: BetaWorkersUpdateRequestTailConsumersList | undefined;
 }
 export type BetaWorkersUpdateResponseObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersUpdateResponseObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersUpdateResponseObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersUpdateResponseObservabilityLogsDestinationsList | null;
+  destinations?: BetaWorkersUpdateResponseObservabilityLogsDestinationsList | null | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersUpdateResponseObservabilityTracesDestinationsList = Array<string>;
 export type BetaWorkersUpdateResponseObservabilityTracesPropagationPolicy =
@@ -15576,29 +16328,32 @@ export type BetaWorkersUpdateResponseObservabilityTracesPropagationPolicy =
   | "accept";
 export interface BetaWorkersUpdateResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersUpdateResponseObservabilityTracesDestinationsList | null;
+  destinations?: BetaWorkersUpdateResponseObservabilityTracesDestinationsList | null | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersUpdateResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersUpdateResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersUpdateResponseObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersUpdateResponseObservabilityLogs | null;
+  logs?: BetaWorkersUpdateResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersUpdateResponseObservabilityTraces | null;
+  traces?: BetaWorkersUpdateResponseObservabilityTraces | null | undefined;
 }
 export type BetaWorkersUpdateResponseReferencesDispatchNamespaceOutboundsItem =
   BetaWorkersCreateResponseReferencesDispatchNamespaceOutboundsItem;
@@ -15653,15 +16408,18 @@ export type BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityLogsDestinat
   Array<string>;
 export interface BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityLogs {
   /** A list of destinations where logs will be exported to. */
-  destinations?: BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityLogsDestinationsList | null;
+  destinations?:
+    | BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** Whether logs are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
-  invocationLogs?: boolean | null;
+  invocationLogs?: boolean | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTracesDestinationsList =
   Array<string>;
@@ -15670,29 +16428,35 @@ export type BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTracesPropag
   | "accept";
 export interface BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTracesDestinationsList | null;
+  destinations?:
+    | BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface BetaWorkersUpdateResponsePreviewsBaseConfigObservability {
   /** Whether observability is enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: BetaWorkersCreateResponseObservabilityIssues | null;
+  issues?: BetaWorkersCreateResponseObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityLogs | null;
+  logs?: BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTraces | null;
+  traces?: BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTraces | null | undefined;
 }
 export type BetaWorkersUpdateResponsePreviewsBaseConfigPlacementModeMode = "smart";
 export interface BetaWorkersUpdateResponsePreviewsBaseConfigPlacementMode {
@@ -15760,19 +16524,19 @@ export type BetaWorkersUpdateResponsePreviewsBaseConfigTailConsumersList =
   Array<BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem>;
 export interface BetaWorkersUpdateResponsePreviewsBaseConfig {
   /** Cache options used when creating new Previews. */
-  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null;
+  cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
   /** Bindings used when creating new Previews, keyed by binding name. */
-  env?: BetaWorkersUpdateResponsePreviewsBaseConfigEnvMap | null;
+  env?: BetaWorkersUpdateResponsePreviewsBaseConfigEnvMap | null | undefined;
   /** Resource limits enforced at runtime for newly created Previews. */
-  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null;
+  limits?: BetaWorkersCreateResponsePreviewsBaseConfigLimits | null | undefined;
   /** Whether logpush is enabled when creating new Previews. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Observability settings used when creating new Previews. */
-  observability?: BetaWorkersUpdateResponsePreviewsBaseConfigObservability | null;
+  observability?: BetaWorkersUpdateResponsePreviewsBaseConfigObservability | null | undefined;
   /** Placement configuration used when creating new Previews. */
-  placement?: BetaWorkersUpdateResponsePreviewsBaseConfigPlacement | null;
+  placement?: BetaWorkersUpdateResponsePreviewsBaseConfigPlacement | null | undefined;
   /** Other Workers that should consume logs from newly created Previews. */
-  tailConsumers?: BetaWorkersUpdateResponsePreviewsBaseConfigTailConsumersList | null;
+  tailConsumers?: BetaWorkersUpdateResponsePreviewsBaseConfigTailConsumersList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateBetaWorkerResponse {
@@ -15797,9 +16561,9 @@ export interface UpdateBetaWorkerResponse {
   /** When the Worker was most recently updated. */
   updatedOn: string;
   /** When the Worker's most recent deployment was created. `null` if the Worker has never been deployed. */
-  deployedOn?: string | null;
+  deployedOn?: string | null | undefined;
   /** Template configuration used when creating new Previews for this Worker. */
-  previewsBaseConfig?: BetaWorkersUpdateResponsePreviewsBaseConfig | null;
+  previewsBaseConfig?: BetaWorkersUpdateResponsePreviewsBaseConfig | null | undefined;
 }
 export interface UpdateObservabilityIssueAutomationRequest {
   accountId: string;
@@ -15807,15 +16571,15 @@ export interface UpdateObservabilityIssueAutomationRequest {
   /** Id of the notification policy to notify, normally one with alert type `workers_observability_real_time_issue`. Cloudflare does not validate that it exists. */
   policyId: string;
   /** Automation name (1-200 characters). Cloudflare generates one when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the automation is enabled. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Limit the automation to one Worker (script name). Omit for every Worker in the account. */
-  service?: string;
+  service?: string | undefined;
   /** Notify once an issue has occurred this many times. Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required. */
-  afterOccurrences?: number;
+  afterOccurrences?: number | undefined;
   /** Notify when an issue recurs after this many seconds of inactivity (3600-31536000). Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required. */
-  afterInactivitySeconds?: number;
+  afterInactivitySeconds?: number | undefined;
 }
 export interface UpdateRouteRequest {
   /** Identifier. */
@@ -15825,7 +16589,7 @@ export interface UpdateRouteRequest {
   /** Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior). */
   pattern: string;
   /** Name of the script to run if the route matches. */
-  script?: string;
+  script?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateRouteResponse {
@@ -15834,7 +16598,7 @@ export interface UpdateRouteResponse {
   /** Pattern to match incoming requests against. [Learn more](https://developers.cloudflare.com/workers/configuration/routing/routes/#matching-behavior). */
   pattern: string;
   /** Name of the script to run if the route matches. */
-  script?: string | null;
+  script?: string | null | undefined;
 }
 export type ObservabilityTelemetryValuesRequestDatasetsList = Array<string>;
 export interface ObservabilityTelemetryValuesRequestTimeframe {
@@ -15917,9 +16681,12 @@ export interface ObservabilityTelemetryValuesRequestFiltersItemCase0FiltersItemW
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryValuesRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryValuesRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryValuesRequestFiltersItemCase0FiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryValuesRequestFiltersItemCase0FiltersItem =
   | ObservabilityTelemetryValuesRequestFiltersItemCase0FiltersItemCase0
@@ -15989,9 +16756,12 @@ export interface ObservabilityTelemetryValuesRequestFiltersItemWorkersObservabil
   /** Discriminator for leaf filter nodes. Always 'filter' when present; may be omitted. */
   kind?:
     | ObservabilityTelemetryValuesRequestFiltersItemWorkersObservabilityFilterLeafKind
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Comparison value. Must match actual values in your data -- verify with the values endpoint. Ensure the value type (string/number/boolean) matches the field type. String comparisons are case-sensitive. Regex uses RE2 syntax (no lookaheads/lookbehinds). */
-  value?: ObservabilityTelemetryValuesRequestFiltersItemWorkersObservabilityFilterLeafValue;
+  value?:
+    | ObservabilityTelemetryValuesRequestFiltersItemWorkersObservabilityFilterLeafValue
+    | undefined;
 }
 export type ObservabilityTelemetryValuesRequestFiltersItem =
   | ObservabilityTelemetryValuesRequestFiltersItemCase0
@@ -16003,9 +16773,9 @@ export interface ObservabilityTelemetryValuesRequestNeedle {
   /** The text or pattern to search for. */
   value: ObservabilityTelemetryValuesRequestNeedleValue;
   /** When true, treats the value as a regular expression (RE2 syntax). */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** When true, performs a case-sensitive search. Defaults to case-insensitive. */
-  matchCase?: boolean;
+  matchCase?: boolean | undefined;
 }
 export interface ValuesObservabilityTelemetryRequest {
   accountId: string;
@@ -16015,10 +16785,10 @@ export interface ValuesObservabilityTelemetryRequest {
   timeframe: ObservabilityTelemetryValuesRequestTimeframe;
   type: ObservabilityTelemetryValuesRequestType | (string & {});
   /** Apply filters before listing values. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. */
-  filters?: ObservabilityTelemetryValuesRequestFiltersList;
-  limit?: number;
+  filters?: ObservabilityTelemetryValuesRequestFiltersList | undefined;
+  limit?: number | undefined;
   /** Full-text search expression to match events containing the specified text or pattern. */
-  needle?: ObservabilityTelemetryValuesRequestNeedle;
+  needle?: ObservabilityTelemetryValuesRequestNeedle | undefined;
 }
 export type ObservabilityTelemetryValuesResultItemType = "string" | "boolean" | "number";
 export type ObservabilityTelemetryValuesResultItemValue = string | number | boolean;

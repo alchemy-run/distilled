@@ -122,24 +122,24 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateContainerInput {
   ContainerName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type Endpoint = string;
 export type ContainerARN = string;
 export type ContainerStatus = "ACTIVE" | "CREATING" | "DELETING" | (string & {});
 export type ContainerAccessLoggingEnabled = boolean;
 export interface Container {
-  Endpoint?: string;
-  CreationTime?: Date;
-  ARN?: string;
-  Name?: string;
-  Status?: ContainerStatus;
-  AccessLoggingEnabled?: boolean;
+  Endpoint?: string | undefined;
+  CreationTime?: Date | undefined;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  Status?: ContainerStatus | undefined;
+  AccessLoggingEnabled?: boolean | undefined;
 }
 export interface CreateContainerOutput {
   Container: Container;
@@ -165,10 +165,10 @@ export interface DeleteMetricPolicyInput {
 }
 export interface DeleteMetricPolicyOutput {}
 export interface DescribeContainerInput {
-  ContainerName?: string;
+  ContainerName?: string | undefined;
 }
 export interface DescribeContainerOutput {
-  Container?: Container;
+  Container?: Container | undefined;
 }
 export interface GetContainerPolicyInput {
   ContainerName: string;
@@ -190,10 +190,10 @@ export type MaxAgeSeconds = number;
 export type ExposeHeaders = string[];
 export interface CorsRule {
   AllowedOrigins: string[];
-  AllowedMethods?: MethodName[];
+  AllowedMethods?: MethodName[] | undefined;
   AllowedHeaders: string[];
-  MaxAgeSeconds?: number;
-  ExposeHeaders?: string[];
+  MaxAgeSeconds?: number | undefined;
+  ExposeHeaders?: string[] | undefined;
 }
 export type CorsPolicy = CorsRule[];
 export interface GetCorsPolicyOutput {
@@ -219,7 +219,7 @@ export interface MetricPolicyRule {
 export type MetricPolicyRules = MetricPolicyRule[];
 export interface MetricPolicy {
   ContainerLevelMetrics: ContainerLevelMetrics;
-  MetricPolicyRules?: MetricPolicyRule[];
+  MetricPolicyRules?: MetricPolicyRule[] | undefined;
 }
 export interface GetMetricPolicyOutput {
   MetricPolicy: MetricPolicy;
@@ -227,19 +227,19 @@ export interface GetMetricPolicyOutput {
 export type PaginationToken = string;
 export type ContainerListLimit = number;
 export interface ListContainersInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ContainerList = Container[];
 export interface ListContainersOutput {
   Containers: Container[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   Resource: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutContainerPolicyInput {
   ContainerName: string;

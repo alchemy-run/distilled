@@ -186,7 +186,7 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateEmailContactRequest {
   name: string | redacted.Redacted<string>;
   emailAddress: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEmailContactResponse {
   arn: string;
@@ -214,19 +214,19 @@ export interface GetEmailContactResponse {
   emailContact: EmailContact;
 }
 export interface ListEmailContactsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EmailContacts = EmailContact[];
 export interface ListEmailContactsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   emailContacts: EmailContact[];
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SendActivationCodeRequest {
   arn: string;

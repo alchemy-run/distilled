@@ -98,9 +98,9 @@ export type TagMap = { [key: string]: string | undefined };
 export interface AcceptConnectionProposalRequest {
   attachPoint: AttachPoint;
   activationKey: string | redacted.Redacted<string>;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type ConnectionId = string;
 export type ConnectionBandwidth = string;
@@ -137,31 +137,31 @@ export interface Connection {
   type: string;
   state: ConnectionState;
   sharedId: string;
-  billingTier?: number;
+  billingTier?: number | undefined;
   ownerAccount: string;
   activationKey: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface AcceptConnectionProposalResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export type RemoteOwnerAccount = string;
 export type RemoteAccountIdentifier = { identifier: string };
 export interface CreateConnectionRequest {
-  description?: string;
+  description?: string | undefined;
   bandwidth: string;
   attachPoint: AttachPoint;
   environmentId: string;
-  remoteAccount?: RemoteAccountIdentifier;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  remoteAccount?: RemoteAccountIdentifier | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateConnectionResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export interface DeleteConnectionRequest {
   identifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteConnectionResponse {
   connection: Connection;
@@ -179,7 +179,7 @@ export interface GetConnectionRequest {
   identifier: string;
 }
 export interface GetConnectionResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export interface GetEnvironmentRequest {
   id: string;
@@ -187,8 +187,8 @@ export interface GetEnvironmentRequest {
 export type EnvironmentState = "available" | "limited" | "unavailable" | (string & {});
 export type BandwidthList = string[];
 export interface Bandwidths {
-  available?: string[];
-  supported?: string[];
+  available?: string[] | undefined;
+  supported?: string[] | undefined;
 }
 export type RemoteAccountIdentifierType = "account" | "email" | (string & {});
 export interface Environment {
@@ -198,8 +198,8 @@ export interface Environment {
   state: EnvironmentState;
   bandwidths: Bandwidths;
   type: string;
-  activationPageUrl?: string;
-  remoteIdentifierType?: RemoteAccountIdentifierType;
+  activationPageUrl?: string | undefined;
+  remoteIdentifierType?: RemoteAccountIdentifierType | undefined;
 }
 export interface GetEnvironmentResponse {
   environment: Environment;
@@ -208,8 +208,8 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface ListAttachPointsRequest {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AttachPointType = "DirectConnectGateway" | (string & {});
 export interface AttachPointDescriptor {
@@ -220,15 +220,15 @@ export interface AttachPointDescriptor {
 export type AttachPointDescriptorList = AttachPointDescriptor[];
 export interface ListAttachPointsResponse {
   attachPoints: AttachPointDescriptor[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListConnectionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  state?: ConnectionState;
-  environmentId?: string;
-  provider?: Provider;
-  attachPoint?: AttachPoint;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  state?: ConnectionState | undefined;
+  environmentId?: string | undefined;
+  provider?: Provider | undefined;
+  attachPoint?: AttachPoint | undefined;
 }
 export interface ConnectionSummary {
   id: string;
@@ -242,29 +242,29 @@ export interface ConnectionSummary {
   type: string;
   state: ConnectionState;
   sharedId: string;
-  billingTier?: number;
+  billingTier?: number | undefined;
 }
 export type ConnectionSummariesList = ConnectionSummary[];
 export interface ListConnectionsResponse {
-  connections?: ConnectionSummary[];
-  nextToken?: string;
+  connections?: ConnectionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  provider?: Provider;
-  location?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  provider?: Provider | undefined;
+  location?: string | undefined;
 }
 export type EnvironmentList = Environment[];
 export interface ListEnvironmentsResponse {
   environments: Environment[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   arn: string;
@@ -279,12 +279,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateConnectionRequest {
   identifier: string;
-  description?: string;
-  bandwidth?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  bandwidth?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateConnectionResponse {
-  connection?: Connection;
+  connection?: Connection | undefined;
 }
 export type AcceptConnectionProposalError = CommonErrors;
 /**

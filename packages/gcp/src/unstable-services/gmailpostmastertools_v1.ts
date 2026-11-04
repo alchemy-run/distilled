@@ -65,11 +65,11 @@ export type DomainPermissionEnum = "PERMISSION_UNSPECIFIED" | "OWNER" | "READER"
 /** A registered domain resource in the Postmaster API. */
 export interface Domain {
   /** Timestamp when the user registered this domain. Assigned by the server. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The resource name of the Domain. Domain names have the form `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
-  name?: string;
+  name?: string | undefined;
   /** User's permission for this domain. Assigned by the server. */
-  permission?: DomainPermissionEnum;
+  permission?: DomainPermissionEnum | undefined;
 }
 export interface GetDomainsTrafficStatsRequest {
   /** The resource name of the traffic statistics to get. E.g., domains/mymail.mydomain.com/trafficStats/20160807. */
@@ -78,9 +78,9 @@ export interface GetDomainsTrafficStatsRequest {
 /** [Feedback loop](https://support.google.com/mail/answer/6254652) identifier information. */
 export interface FeedbackLoop {
   /** The ratio of user marked spam messages with the identifier vs the total number of inboxed messages with that identifier. */
-  spamRatio?: number;
+  spamRatio?: number | undefined;
   /** Feedback loop identifier that uniquely identifies individual campaigns. */
-  id?: string;
+  id?: string | undefined;
 }
 export type FeedbackLoopList = Array<FeedbackLoop>;
 export type TrafficStatsDomainReputationEnum =
@@ -108,11 +108,11 @@ export type DeliveryErrorErrorClassEnum =
 /** Metric on a particular delivery error type. */
 export interface DeliveryError {
   /** The type of delivery error. */
-  errorType?: DeliveryErrorErrorTypeEnum;
+  errorType?: DeliveryErrorErrorTypeEnum | undefined;
   /** The class of delivery error. */
-  errorClass?: DeliveryErrorErrorClassEnum;
+  errorClass?: DeliveryErrorErrorClassEnum | undefined;
   /** The ratio of messages where the error occurred vs all authenticated traffic. */
-  errorRatio?: number;
+  errorRatio?: number | undefined;
 }
 export type DeliveryErrorList = Array<DeliveryError>;
 export type IpReputationReputationEnum =
@@ -125,83 +125,83 @@ export type StringList = Array<string>;
 /** IP Reputation information for a set of IPs in a specific reputation category. */
 export interface IpReputation {
   /** The reputation category this IP reputation represents. */
-  reputation?: IpReputationReputationEnum;
+  reputation?: IpReputationReputationEnum | undefined;
   /** A sample of IPs in this reputation category. */
-  sampleIps?: StringList;
+  sampleIps?: StringList | undefined;
   /** Total number of unique IPs in this reputation category. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  ipCount?: string;
+  ipCount?: string | undefined;
 }
 export type IpReputationList = Array<IpReputation>;
 /** Email traffic statistics pertaining to a specific date. */
 export interface TrafficStats {
   /** The ratio of mail that passed [DMARC](https://dmarc.org/) alignment checks vs all mail received from the domain that successfully authenticated with either of [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  dmarcSuccessRatio?: number;
+  dmarcSuccessRatio?: number | undefined;
   /** Spammy [Feedback loop identifiers] (https://support.google.com/mail/answer/6254652) with their individual spam rates. This metric only pertains to traffic that is authenticated by [DKIM](http://www.dkim.org/). */
-  spammyFeedbackLoops?: FeedbackLoopList;
+  spammyFeedbackLoops?: FeedbackLoopList | undefined;
   /** Reputation of the domain. */
-  domainReputation?: TrafficStatsDomainReputationEnum;
+  domainReputation?: TrafficStatsDomainReputationEnum | undefined;
   /** Delivery errors for the domain. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  deliveryErrors?: DeliveryErrorList;
+  deliveryErrors?: DeliveryErrorList | undefined;
   /** Reputation information pertaining to the IP addresses of the email servers for the domain. There is exactly one entry for each reputation category except REPUTATION_CATEGORY_UNSPECIFIED. */
-  ipReputations?: IpReputationList;
+  ipReputations?: IpReputationList | undefined;
   /** The ratio of outgoing mail (from Gmail) that was accepted over secure transport (TLS). */
-  outboundEncryptionRatio?: number;
+  outboundEncryptionRatio?: number | undefined;
   /** The lower bound of the confidence interval for the user reported spam ratio. If this field is set, then the value of userReportedSpamRatio is set to the midpoint of this interval and is thus inexact. However, the true ratio is guaranteed to be in between this lower bound and the corresponding upper bound 95% of the time. This metric only pertains to emails authenticated by [DKIM](http://www.dkim.org/). */
-  userReportedSpamRatioLowerBound?: number;
+  userReportedSpamRatioLowerBound?: number | undefined;
   /** The resource name of the traffic statistics. Traffic statistic names have the form `domains/{domain}/trafficStats/{date}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com) of the domain this traffic statistics pertains to and date is the date in yyyymmdd format that these statistics corresponds to. For example: domains/mymail.mydomain.com/trafficStats/20160807 */
-  name?: string;
+  name?: string | undefined;
   /** The ratio of incoming mail (to Gmail), that passed secure transport (TLS) vs all mail received from that domain. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  inboundEncryptionRatio?: number;
+  inboundEncryptionRatio?: number | undefined;
   /** The ratio of user-report spam vs. email that was sent to the inbox. This is potentially inexact -- users may want to refer to the description of the interval fields userReportedSpamRatioLowerBound and userReportedSpamRatioUpperBound for more explicit accuracy guarantees. This metric only pertains to emails authenticated by [DKIM](http://www.dkim.org/). */
-  userReportedSpamRatio?: number;
+  userReportedSpamRatio?: number | undefined;
   /** The ratio of mail that successfully authenticated with SPF vs. all mail that attempted to authenticate with [SPF](http://www.openspf.org/). Spoofed mail is excluded. */
-  spfSuccessRatio?: number;
+  spfSuccessRatio?: number | undefined;
   /** The upper bound of the confidence interval for the user reported spam ratio. If this field is set, then the value of userReportedSpamRatio is set to the midpoint of this interval and is thus inexact. However, the true ratio is guaranteed to be in between this upper bound and the corresponding lower bound 95% of the time. This metric only pertains to emails authenticated by [DKIM](http://www.dkim.org/). */
-  userReportedSpamRatioUpperBound?: number;
+  userReportedSpamRatioUpperBound?: number | undefined;
   /** The ratio of mail that successfully authenticated with DKIM vs. all mail that attempted to authenticate with [DKIM](http://www.dkim.org/). Spoofed mail is excluded. */
-  dkimSuccessRatio?: number;
+  dkimSuccessRatio?: number | undefined;
 }
 export interface ListDomainsRequest {
   /** Requested page size. Server may return fewer domains than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The next_page_token value returned from a previous List request, if any. This is the value of ListDomainsResponse.next_page_token returned from the previous call to `ListDomains` method. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DomainList = Array<Domain>;
 /** Response message for ListDomains. */
 export interface ListDomainsResponse {
   /** The list of domains. */
-  domains?: DomainList;
+  domains?: DomainList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListDomainsTrafficStatsRequest {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  "startDate.month"?: number | undefined;
   /** Requested page size. Server may return fewer TrafficStats than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The next_page_token value returned from a previous List request, if any. This is the value of ListTrafficStatsResponse.next_page_token returned from the previous call to `ListTrafficStats` method. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  "endDate.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "startDate.year"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  "endDate.day"?: number | undefined;
   /** The resource name of the domain whose traffic statistics we'd like to list. It should have the form `domains/{domain_name}`, where domain_name is the fully qualified domain name. */
   parent: string;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "endDate.year"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "startDate.day"?: number | undefined;
 }
 export type TrafficStatsList = Array<TrafficStats>;
 /** Response message for ListTrafficStats. */
 export interface ListTrafficStatsResponse {
   /** The list of TrafficStats. */
-  trafficStats?: TrafficStatsList;
+  trafficStats?: TrafficStatsList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type GetDomainsError = NotFound | Forbidden | GcpOpError;
 /** Gets a specific domain registered by the client. Returns NOT_FOUND if the domain does not exist. */

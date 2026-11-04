@@ -308,9 +308,9 @@ export type Field =
     };
 export type TypeHint = "JSON" | "UUID" | "TIMESTAMP" | "DATE" | "TIME" | "DECIMAL" | (string & {});
 export interface SqlParameter {
-  name?: string;
-  value?: Field;
-  typeHint?: TypeHint;
+  name?: string | undefined;
+  value?: Field | undefined;
+  typeHint?: TypeHint | undefined;
 }
 export type SqlParametersList = SqlParameter[];
 export type SqlParameterSets = SqlParameter[][];
@@ -319,27 +319,27 @@ export interface BatchExecuteStatementRequest {
   resourceArn: string;
   secretArn: string;
   sql: string;
-  database?: string;
-  schema?: string;
-  parameterSets?: SqlParameter[][];
-  transactionId?: string;
+  database?: string | undefined;
+  schema?: string | undefined;
+  parameterSets?: SqlParameter[][] | undefined;
+  transactionId?: string | undefined;
 }
 export type FieldList = Field[];
 export interface UpdateResult {
-  generatedFields?: Field[];
+  generatedFields?: Field[] | undefined;
 }
 export type UpdateResults = UpdateResult[];
 export interface BatchExecuteStatementResponse {
-  updateResults?: UpdateResult[];
+  updateResults?: UpdateResult[] | undefined;
 }
 export interface BeginTransactionRequest {
   resourceArn: string;
   secretArn: string;
-  database?: string;
-  schema?: string;
+  database?: string | undefined;
+  schema?: string | undefined;
 }
 export interface BeginTransactionResponse {
-  transactionId?: string;
+  transactionId?: string | undefined;
 }
 export interface CommitTransactionRequest {
   resourceArn: string;
@@ -348,41 +348,41 @@ export interface CommitTransactionRequest {
 }
 export type TransactionStatus = string;
 export interface CommitTransactionResponse {
-  transactionStatus?: string;
+  transactionStatus?: string | undefined;
 }
 export interface ExecuteSqlRequest {
   dbClusterOrInstanceArn: string;
   awsSecretStoreArn: string;
   sqlStatements: string;
-  database?: string;
-  schema?: string;
+  database?: string | undefined;
+  schema?: string | undefined;
 }
 export interface ColumnMetadata {
-  name?: string;
-  type?: number;
-  typeName?: string;
-  label?: string;
-  schemaName?: string;
-  tableName?: string;
-  isAutoIncrement?: boolean;
-  isSigned?: boolean;
-  isCurrency?: boolean;
-  isCaseSensitive?: boolean;
-  nullable?: number;
-  precision?: number;
-  scale?: number;
-  arrayBaseColumnType?: number;
+  name?: string | undefined;
+  type?: number | undefined;
+  typeName?: string | undefined;
+  label?: string | undefined;
+  schemaName?: string | undefined;
+  tableName?: string | undefined;
+  isAutoIncrement?: boolean | undefined;
+  isSigned?: boolean | undefined;
+  isCurrency?: boolean | undefined;
+  isCaseSensitive?: boolean | undefined;
+  nullable?: number | undefined;
+  precision?: number | undefined;
+  scale?: number | undefined;
+  arrayBaseColumnType?: number | undefined;
 }
 export type Metadata = ColumnMetadata[];
 export interface ResultSetMetadata {
-  columnCount?: number;
-  columnMetadata?: ColumnMetadata[];
+  columnCount?: number | undefined;
+  columnMetadata?: ColumnMetadata[] | undefined;
 }
 export type BoxedInteger = number;
 export type BoxedFloat = number;
 export type ArrayValueList = Value[];
 export interface StructValue {
-  attributes?: Value[];
+  attributes?: Value[] | undefined;
 }
 export type Value =
   | {
@@ -507,50 +507,50 @@ export type Value =
     };
 export type Row = Value[];
 export interface Record {
-  values?: Value[];
+  values?: Value[] | undefined;
 }
 export type Records = Record[];
 export interface ResultFrame {
-  resultSetMetadata?: ResultSetMetadata;
-  records?: Record[];
+  resultSetMetadata?: ResultSetMetadata | undefined;
+  records?: Record[] | undefined;
 }
 export type RecordsUpdated = number;
 export interface SqlStatementResult {
-  resultFrame?: ResultFrame;
-  numberOfRecordsUpdated?: number;
+  resultFrame?: ResultFrame | undefined;
+  numberOfRecordsUpdated?: number | undefined;
 }
 export type SqlStatementResults = SqlStatementResult[];
 export interface ExecuteSqlResponse {
-  sqlStatementResults?: SqlStatementResult[];
+  sqlStatementResults?: SqlStatementResult[] | undefined;
 }
 export type DecimalReturnType = "STRING" | "DOUBLE_OR_LONG" | (string & {});
 export type LongReturnType = "STRING" | "LONG" | (string & {});
 export interface ResultSetOptions {
-  decimalReturnType?: DecimalReturnType;
-  longReturnType?: LongReturnType;
+  decimalReturnType?: DecimalReturnType | undefined;
+  longReturnType?: LongReturnType | undefined;
 }
 export type RecordsFormatType = "NONE" | "JSON" | (string & {});
 export interface ExecuteStatementRequest {
   resourceArn: string;
   secretArn: string;
   sql: string;
-  database?: string;
-  schema?: string;
-  parameters?: SqlParameter[];
-  transactionId?: string;
-  includeResultMetadata?: boolean;
-  continueAfterTimeout?: boolean;
-  resultSetOptions?: ResultSetOptions;
-  formatRecordsAs?: RecordsFormatType;
+  database?: string | undefined;
+  schema?: string | undefined;
+  parameters?: SqlParameter[] | undefined;
+  transactionId?: string | undefined;
+  includeResultMetadata?: boolean | undefined;
+  continueAfterTimeout?: boolean | undefined;
+  resultSetOptions?: ResultSetOptions | undefined;
+  formatRecordsAs?: RecordsFormatType | undefined;
 }
 export type SqlRecords = Field[][];
 export type FormattedSqlRecords = string;
 export interface ExecuteStatementResponse {
-  records?: Field[][];
-  columnMetadata?: ColumnMetadata[];
-  numberOfRecordsUpdated?: number;
-  generatedFields?: Field[];
-  formattedRecords?: string;
+  records?: Field[][] | undefined;
+  columnMetadata?: ColumnMetadata[] | undefined;
+  numberOfRecordsUpdated?: number | undefined;
+  generatedFields?: Field[] | undefined;
+  formattedRecords?: string | undefined;
 }
 export interface RollbackTransactionRequest {
   resourceArn: string;
@@ -558,7 +558,7 @@ export interface RollbackTransactionRequest {
   transactionId: string;
 }
 export interface RollbackTransactionResponse {
-  transactionStatus?: string;
+  transactionStatus?: string | undefined;
 }
 export type ErrorMessage = string;
 export type BatchExecuteStatementError =

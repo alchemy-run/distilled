@@ -82,9 +82,9 @@ export class Forbidden
 export type CreateRequestUpstreamIpsList = Array<string>;
 export interface CreateRequestAttackMitigation {
   /** When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Only mitigate attacks when upstream servers seem unhealthy */
-  onlyWhenUpstreamUnhealthy?: boolean;
+  onlyWhenUpstreamUnhealthy?: boolean | undefined;
 }
 export interface CreateDnsFirewallRequest {
   /** Identifier. */
@@ -93,31 +93,31 @@ export interface CreateDnsFirewallRequest {
   name: string;
   upstreamIps: CreateRequestUpstreamIpsList;
   /** Attack mitigation settings */
-  attackMitigation?: CreateRequestAttackMitigation;
+  attackMitigation?: CreateRequestAttackMitigation | undefined;
   /** Whether to refuse to answer queries for the ANY type */
-  deprecateAnyRequests?: boolean;
+  deprecateAnyRequests?: boolean | undefined;
   /** Number of IPv4 addresses to assign to the DNS Firewall cluster. Only used during cluster creation and cannot be changed later. */
-  dnsFirewallIpCount?: number;
+  dnsFirewallIpCount?: number | undefined;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
-  ecsFallback?: boolean;
+  ecsFallback?: boolean | undefined;
   /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
-  maximumCacheTtl?: number;
+  maximumCacheTtl?: number | undefined;
   /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
-  minimumCacheTtl?: number;
+  minimumCacheTtl?: number | undefined;
   /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
-  negativeCacheTtl?: number | null;
+  negativeCacheTtl?: number | null | undefined;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
-  ratelimit?: number | null;
+  ratelimit?: number | null | undefined;
   /** Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt) */
-  retries?: number;
+  retries?: number | undefined;
 }
 export type CreateResponseDnsFirewallIpsList = Array<string>;
 export type CreateResponseUpstreamIpsList = Array<string>;
 export interface CreateResponseAttackMitigation {
   /** When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Only mitigate attacks when upstream servers seem unhealthy */
-  onlyWhenUpstreamUnhealthy?: boolean | null;
+  onlyWhenUpstreamUnhealthy?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDnsFirewallResponse {
@@ -144,7 +144,7 @@ export interface CreateDnsFirewallResponse {
   retries: number;
   upstreamIps: CreateResponseUpstreamIpsList;
   /** Attack mitigation settings */
-  attackMitigation?: CreateResponseAttackMitigation | null;
+  attackMitigation?: CreateResponseAttackMitigation | null | undefined;
 }
 export interface DeleteDnsFirewallRequest {
   /** Identifier. */
@@ -155,7 +155,7 @@ export interface DeleteDnsFirewallRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteDnsFirewallResponse {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface GetAnalyticReportRequest {
   /** Identifier. */
@@ -163,19 +163,19 @@ export interface GetAnalyticReportRequest {
   /** Identifier. */
   dnsFirewallId: string;
   /** A comma-separated list of dimensions to group results by. */
-  dimensions?: string;
+  dimensions?: string | undefined;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string;
+  filters?: string | undefined;
   /** Limit number of returned metrics. */
-  limit?: number;
+  limit?: number | undefined;
   /** A comma-separated list of metrics to query. */
-  metrics?: string;
+  metrics?: string | undefined;
   /** Start date and time of requesting data period in ISO 8601 format. */
-  since?: string;
+  since?: string | undefined;
   /** A comma-separated list of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: string;
+  sort?: string | undefined;
   /** End date and time of requesting data period in ISO 8601 format. */
-  until?: string;
+  until?: string | undefined;
 }
 export type AnalyticsReportsGetResponseDataItemDimensionsList = Array<string>;
 export type AnalyticsReportsGetResponseDataItemMetricsList = Array<number>;
@@ -201,9 +201,9 @@ export interface AnalyticsReportsGetResponseQuery {
   /** End date and time of requesting data period in ISO 8601 format. */
   until: string;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string | null;
+  filters?: string | null | undefined;
   /** Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: AnalyticsReportsGetResponseQuerySortList | null;
+  sort?: AnalyticsReportsGetResponseQuerySortList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAnalyticReportResponse {
@@ -238,21 +238,21 @@ export interface GetAnalyticReportBytimeRequest {
   /** Identifier. */
   dnsFirewallId: string;
   /** A comma-separated list of dimensions to group results by. */
-  dimensions?: string;
+  dimensions?: string | undefined;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string;
+  filters?: string | undefined;
   /** Limit number of returned metrics. */
-  limit?: number;
+  limit?: number | undefined;
   /** A comma-separated list of metrics to query. */
-  metrics?: string;
+  metrics?: string | undefined;
   /** Start date and time of requesting data period in ISO 8601 format. */
-  since?: string;
+  since?: string | undefined;
   /** A comma-separated list of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: string;
+  sort?: string | undefined;
   /** Unit of time to group data by. */
-  timeDelta?: AnalyticsReportsBytimesGetRequestTimeDelta | (string & {});
+  timeDelta?: AnalyticsReportsBytimesGetRequestTimeDelta | (string & {}) | undefined;
   /** End date and time of requesting data period in ISO 8601 format. */
-  until?: string;
+  until?: string | undefined;
 }
 export type AnalyticsReportsBytimesGetResponseDataItemDimensionsList = Array<string>;
 export type AnalyticsReportsBytimesGetResponseDataItemMetricsItemList = Array<number>;
@@ -294,9 +294,9 @@ export interface AnalyticsReportsBytimesGetResponseQuery {
   /** End date and time of requesting data period in ISO 8601 format. */
   until: string;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string | null;
+  filters?: string | null | undefined;
   /** Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: AnalyticsReportsBytimesGetResponseQuerySortList | null;
+  sort?: AnalyticsReportsBytimesGetResponseQuerySortList | null | undefined;
 }
 export type AnalyticsReportsBytimesGetResponseTimeIntervalsItemList = Array<string>;
 export type AnalyticsReportsBytimesGetResponseTimeIntervalsList =
@@ -353,7 +353,7 @@ export interface GetDnsFirewallResponse {
   retries: number;
   upstreamIps: GetResponseUpstreamIpsList;
   /** Attack mitigation settings */
-  attackMitigation?: CreateResponseAttackMitigation | null;
+  attackMitigation?: CreateResponseAttackMitigation | null | undefined;
 }
 export interface GetReverseDnRequest {
   /** Identifier. */
@@ -371,9 +371,9 @@ export interface ListDnsFirewallsRequest {
   /** Identifier. */
   accountId: string;
   /** Page number of paginated results */
-  page?: number;
+  page?: number | undefined;
   /** Number of clusters per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListResultItemDnsFirewallIpsList = Array<string>;
 export type ListResultItemUpstreamIpsList = Array<string>;
@@ -402,7 +402,7 @@ export interface ListResultItem {
   retries: number;
   upstreamIps: ListResultItemUpstreamIpsList;
   /** Attack mitigation settings */
-  attackMitigation?: CreateResponseAttackMitigation | null;
+  attackMitigation?: CreateResponseAttackMitigation | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListDnsFirewallsResponse {
@@ -419,24 +419,24 @@ export interface PatchDnsFirewallRequest {
   /** Identifier. */
   dnsFirewallId: string;
   /** Attack mitigation settings */
-  attackMitigation?: CreateRequestAttackMitigation;
+  attackMitigation?: CreateRequestAttackMitigation | undefined;
   /** Whether to refuse to answer queries for the ANY type */
-  deprecateAnyRequests?: boolean;
+  deprecateAnyRequests?: boolean | undefined;
   /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
-  ecsFallback?: boolean;
+  ecsFallback?: boolean | undefined;
   /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, higher TTLs will be decreased to the maximum value defined by this setting. */
-  maximumCacheTtl?: number;
+  maximumCacheTtl?: number | undefined;
   /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower TTLs will be increased to the minimum value defined by this setting. */
-  minimumCacheTtl?: number;
+  minimumCacheTtl?: number | undefined;
   /** DNS Firewall cluster name */
-  name?: string;
+  name?: string | undefined;
   /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers. */
-  negativeCacheTtl?: number | null;
+  negativeCacheTtl?: number | null | undefined;
   /** Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting. */
-  ratelimit?: number | null;
+  ratelimit?: number | null | undefined;
   /** Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt) */
-  retries?: number;
-  upstreamIps?: EditRequestUpstreamIpsList;
+  retries?: number | undefined;
+  upstreamIps?: EditRequestUpstreamIpsList | undefined;
 }
 export type EditResponseDnsFirewallIpsList = Array<string>;
 export type EditResponseUpstreamIpsList = Array<string>;
@@ -466,7 +466,7 @@ export interface PatchDnsFirewallResponse {
   retries: number;
   upstreamIps: EditResponseUpstreamIpsList;
   /** Attack mitigation settings */
-  attackMitigation?: CreateResponseAttackMitigation | null;
+  attackMitigation?: CreateResponseAttackMitigation | null | undefined;
 }
 export type ReverseDnsEditRequestPtrMap = { [key: string]: string | undefined };
 export interface PatchReverseDnRequest {
@@ -475,7 +475,7 @@ export interface PatchReverseDnRequest {
   /** Identifier. */
   dnsFirewallId: string;
   /** Map of cluster IP addresses to PTR record contents */
-  ptr?: ReverseDnsEditRequestPtrMap;
+  ptr?: ReverseDnsEditRequestPtrMap | undefined;
 }
 export type ReverseDnsEditResponsePtrMap = { [key: string]: string | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */

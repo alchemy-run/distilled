@@ -149,9 +149,9 @@ export interface LabelsUserBulkCreateRequestBodyItem {
   /** The name of the label */
   name: string;
   /** The description of the label */
-  description?: string;
+  description?: string | undefined;
   /** Metadata for the label */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type LabelsUserBulkCreateRequestBodyList = Array<LabelsUserBulkCreateRequestBodyItem>;
 export interface BulkCreateLabelUsersRequest {
@@ -189,20 +189,20 @@ export interface OperationsLabelsBulkCreateRequestSelector {
 export type OperationsLabelsBulkCreateRequestManagedLabelsList = Array<string>;
 export interface OperationsLabelsBulkCreateRequestManaged {
   /** List of managed label names. */
-  labels?: OperationsLabelsBulkCreateRequestManagedLabelsList;
+  labels?: OperationsLabelsBulkCreateRequestManagedLabelsList | undefined;
 }
 export type OperationsLabelsBulkCreateRequestUserLabelsList = Array<string>;
 export interface OperationsLabelsBulkCreateRequestUser {
   /** List of user label names. */
-  labels?: OperationsLabelsBulkCreateRequestUserLabelsList;
+  labels?: OperationsLabelsBulkCreateRequestUserLabelsList | undefined;
 }
 export interface BulkCreateOperationLabelsRequest {
   /** Identifier. */
   zoneId: string;
   /** Operation IDs selector */
   selector: OperationsLabelsBulkCreateRequestSelector;
-  managed?: OperationsLabelsBulkCreateRequestManaged;
-  user?: OperationsLabelsBulkCreateRequestUser;
+  managed?: OperationsLabelsBulkCreateRequestManaged | undefined;
+  user?: OperationsLabelsBulkCreateRequestUser | undefined;
 }
 export type OperationsLabelsBulkCreateResultItemMethod =
   | "GET"
@@ -239,7 +239,7 @@ export interface OperationsLabelsBulkCreateResultItem {
   method: OperationsLabelsBulkCreateResultItemMethod;
   /** UUID. */
   operationId: string;
-  labels?: OperationsLabelsBulkCreateResultItemLabelsList | null;
+  labels?: OperationsLabelsBulkCreateResultItemLabelsList | null | undefined;
 }
 export type OperationsLabelsBulkCreateResultList = Array<OperationsLabelsBulkCreateResultItem>;
 export interface BulkCreateOperationLabelsResponse {
@@ -284,56 +284,68 @@ export type OperationsBulkCreateResultItemMethod =
   | "TRACE";
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds {
   /** The total number of auth-ids seen across this calculation. */
-  authIdTokens?: number | null;
+  authIdTokens?: number | null | undefined;
   /** The number of data points used for the threshold suggestion calculation. */
-  dataPoints?: number | null;
-  lastUpdated?: string | null;
+  dataPoints?: number | null | undefined;
+  lastUpdated?: string | null | undefined;
   /** The p50 quantile of requests (in period_seconds). */
-  p50?: number | null;
+  p50?: number | null | undefined;
   /** The p90 quantile of requests (in period_seconds). */
-  p90?: number | null;
+  p90?: number | null | undefined;
   /** The p99 quantile of requests (in period_seconds). */
-  p99?: number | null;
+  p99?: number | null | undefined;
   /** The period over which this threshold is suggested. */
-  periodSeconds?: number | null;
+  periodSeconds?: number | null | undefined;
   /** The estimated number of requests covered by these calculations. */
-  requests?: number | null;
+  requests?: number | null | undefined;
   /** The suggested threshold in requests done by the same auth_id or period_seconds. */
-  suggestedThreshold?: number | null;
+  suggestedThreshold?: number | null | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholds {
-  thresholds?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds | null;
+  thresholds?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds
+    | null
+    | undefined;
 }
 export type OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList =
   Array<unknown>;
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas {
   /** An array containing the learned parameter schemas. */
-  parameters?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList | null;
+  parameters?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList
+    | null
+    | undefined;
   /** An empty response object. This field is required to yield a valid operation schema. */
-  responses?: unknown | null;
+  responses?: unknown | null | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas {
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** An operation schema object containing a response. */
-  parameterSchemas?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas | null;
+  parameterSchemas?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas
+    | null
+    | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemas {
   parameterSchemas: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureAPIRoutingApiRouting {
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** Target route. */
-  route?: string | null;
+  route?: string | null | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureAPIRouting {
   /** API Routing settings on endpoint. */
-  apiRouting?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureAPIRoutingApiRouting | null;
+  apiRouting?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureAPIRoutingApiRouting
+    | null
+    | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90 {
   /** Lower bound for percentile estimate */
-  lower?: number | null;
+  lower?: number | null | undefined;
   /** Upper bound for percentile estimate */
-  upper?: number | null;
+  upper?: number | null | undefined;
 }
 export type OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP95 =
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90;
@@ -341,30 +353,48 @@ export type OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfi
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90;
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervals {
   /** Upper and lower bound for percentile estimate */
-  p90?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90 | null;
+  p90?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90
+    | null
+    | undefined;
   /** Upper and lower bound for percentile estimate */
-  p95?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90 | null;
+  p95?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90
+    | null
+    | undefined;
   /** Upper and lower bound for percentile estimate */
-  p99?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90 | null;
+  p99?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervalsP90
+    | null
+    | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThreshold {
-  confidenceIntervals?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervals | null;
+  confidenceIntervals?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThresholdConfidenceIntervals
+    | null
+    | undefined;
   /** Suggested threshold. */
-  mean?: number | null;
+  mean?: number | null | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervals {
-  lastUpdated?: string | null;
-  suggestedThreshold?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThreshold | null;
+  lastUpdated?: string | null | undefined;
+  suggestedThreshold?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervalsSuggestedThreshold
+    | null
+    | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervals {
-  confidenceIntervals?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervals | null;
+  confidenceIntervals?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureConfidenceIntervalsConfidenceIntervals
+    | null
+    | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema {
   /** UUID. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Schema file name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
   | "none"
@@ -372,12 +402,21 @@ export type OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchem
   | "block";
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
-  activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
+  activeSchema?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema
+    | null
+    | undefined;
   /** Action taken on requests failing validation. */
-  mitigationAction?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
+  mitigationAction?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction
+    | null
+    | undefined;
 }
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfo {
-  schemaInfo?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo | null;
+  schemaInfo?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo
+    | null
+    | undefined;
 }
 export type OperationsBulkCreateResultItemFeatures =
   | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholds
@@ -395,7 +434,7 @@ export interface OperationsBulkCreateResultItem {
   method: OperationsBulkCreateResultItemMethod;
   /** UUID. */
   operationId: string;
-  features?: OperationsBulkCreateResultItemFeatures | null;
+  features?: OperationsBulkCreateResultItemFeatures | null | undefined;
 }
 export type OperationsBulkCreateResultList = Array<OperationsBulkCreateResultItem>;
 export interface BulkCreateOperationsResponse {
@@ -467,7 +506,7 @@ export interface OperationsLabelsBulkDeleteResultItem {
   method: OperationsLabelsBulkDeleteResultItemMethod;
   /** UUID. */
   operationId: string;
-  labels?: OperationsLabelsBulkDeleteResultItemLabelsList | null;
+  labels?: OperationsLabelsBulkDeleteResultItemLabelsList | null | undefined;
 }
 export type OperationsLabelsBulkDeleteResultList = Array<OperationsLabelsBulkDeleteResultItem>;
 export interface BulkDeleteOperationLabelsResponse {
@@ -484,7 +523,7 @@ export interface BulkDeleteOperationsResponse {}
 export type DiscoveryOperationsBulkEditRequestBodyValueState = "review" | "ignored";
 export interface DiscoveryOperationsBulkEditRequestBodyValue {
   /** Mark state of operation in API Discovery */
-  state?: DiscoveryOperationsBulkEditRequestBodyValueState | (string & {});
+  state?: DiscoveryOperationsBulkEditRequestBodyValueState | (string & {}) | undefined;
 }
 export type DiscoveryOperationsBulkEditRequestBodyMap = {
   [key: string]: DiscoveryOperationsBulkEditRequestBodyValue | undefined;
@@ -497,7 +536,7 @@ export interface BulkPatchDiscoveryOperationsRequest {
 export type DiscoveryOperationsBulkEditResultValueState = "review" | "ignored";
 export interface DiscoveryOperationsBulkEditResultValue {
   /** Mark state of operation in API Discovery */
-  state?: DiscoveryOperationsBulkEditResultValueState | null;
+  state?: DiscoveryOperationsBulkEditResultValueState | null | undefined;
 }
 export type DiscoveryOperationsBulkEditResultMap = {
   [key: string]: DiscoveryOperationsBulkEditResultValue | undefined;
@@ -565,7 +604,7 @@ export interface OperationsLabelsBulkUpdateResultItem {
   method: OperationsLabelsBulkUpdateResultItemMethod;
   /** UUID. */
   operationId: string;
-  labels?: OperationsLabelsBulkUpdateResultItemLabelsList | null;
+  labels?: OperationsLabelsBulkUpdateResultItemLabelsList | null | undefined;
 }
 export type OperationsLabelsBulkUpdateResultList = Array<OperationsLabelsBulkUpdateResultItem>;
 export interface BulkUpdateOperationLabelsResponse {
@@ -626,14 +665,20 @@ export type OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSc
   Array<unknown>;
 export interface OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas {
   /** An array containing the learned parameter schemas. */
-  parameters?: OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList | null;
+  parameters?:
+    | OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList
+    | null
+    | undefined;
   /** An empty response object. This field is required to yield a valid operation schema. */
-  responses?: unknown | null;
+  responses?: unknown | null | undefined;
 }
 export interface OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas {
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** An operation schema object containing a response. */
-  parameterSchemas?: OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas | null;
+  parameterSchemas?:
+    | OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas
+    | null
+    | undefined;
 }
 export interface OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemas {
   parameterSchemas: OperationsCreateResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas;
@@ -664,12 +709,21 @@ export type OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoS
   | "block";
 export interface OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
-  activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
+  activeSchema?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema
+    | null
+    | undefined;
   /** Action taken on requests failing validation. */
-  mitigationAction?: OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
+  mitigationAction?:
+    | OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction
+    | null
+    | undefined;
 }
 export interface OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfo {
-  schemaInfo?: OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo | null;
+  schemaInfo?:
+    | OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo
+    | null
+    | undefined;
 }
 export type OperationsCreateResponseFeatures =
   | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholds
@@ -687,9 +741,9 @@ export type OperationsCreateResponseSchemasLearnedRequestBodyMap = {
 };
 export interface OperationsCreateResponseSchemasLearned {
   /** OpenAPI parameter objects describing path, query, header, or cookie parameters. */
-  parameters?: OperationsCreateResponseSchemasLearnedParametersList | null;
+  parameters?: OperationsCreateResponseSchemasLearnedParametersList | null | undefined;
   /** OpenAPI request body object describing the expected request payload. */
-  requestBody?: OperationsCreateResponseSchemasLearnedRequestBodyMap | null;
+  requestBody?: OperationsCreateResponseSchemasLearnedRequestBodyMap | null | undefined;
 }
 export type OperationsCreateResponseSchemasUploadedParametersItemMap = {
   [key: string]: unknown | undefined;
@@ -701,15 +755,15 @@ export type OperationsCreateResponseSchemasUploadedRequestBodyMap = {
 };
 export interface OperationsCreateResponseSchemasUploaded {
   /** OpenAPI parameter objects describing path, query, header, or cookie parameters. */
-  parameters?: OperationsCreateResponseSchemasUploadedParametersList | null;
+  parameters?: OperationsCreateResponseSchemasUploadedParametersList | null | undefined;
   /** OpenAPI request body object describing the expected request payload. */
-  requestBody?: OperationsCreateResponseSchemasUploadedRequestBodyMap | null;
+  requestBody?: OperationsCreateResponseSchemasUploadedRequestBodyMap | null | undefined;
 }
 export interface OperationsCreateResponseSchemas {
   /** An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension. */
-  learned?: OperationsCreateResponseSchemasLearned | null;
+  learned?: OperationsCreateResponseSchemasLearned | null | undefined;
   /** An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension. */
-  uploaded?: OperationsCreateResponseSchemasUploaded | null;
+  uploaded?: OperationsCreateResponseSchemasUploaded | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOperationResponse {
@@ -722,9 +776,9 @@ export interface CreateOperationResponse {
   method: OperationsCreateResponseMethod;
   /** UUID. */
   operationId: string;
-  features?: OperationsCreateResponseFeatures | null;
+  features?: OperationsCreateResponseFeatures | null | undefined;
   /** OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas. */
-  schemas?: OperationsCreateResponseSchemas | null;
+  schemas?: OperationsCreateResponseSchemas | null | undefined;
 }
 export type OperationsLabelsCreateRequestManagedList = Array<string>;
 export type OperationsLabelsCreateRequestUserList = Array<string>;
@@ -734,9 +788,9 @@ export interface CreateOperationLabelRequest {
   /** UUID. */
   operationId: string;
   /** List of managed label names. */
-  managed?: OperationsLabelsCreateRequestManagedList;
+  managed?: OperationsLabelsCreateRequestManagedList | undefined;
   /** List of user label names. */
-  user?: OperationsLabelsCreateRequestUserList;
+  user?: OperationsLabelsCreateRequestUserList | undefined;
 }
 export type OperationsLabelsCreateResponseMethod =
   | "GET"
@@ -774,7 +828,7 @@ export interface CreateOperationLabelResponse {
   method: OperationsLabelsCreateResponseMethod;
   /** UUID. */
   operationId: string;
-  labels?: OperationsLabelsCreateResponseLabelsList | null;
+  labels?: OperationsLabelsCreateResponseLabelsList | null | undefined;
 }
 export interface CreateUserSchemaRequest {
   /** Identifier. */
@@ -784,9 +838,9 @@ export interface CreateUserSchemaRequest {
   /** Kind of schema (openapi_v3). */
   kind: string;
   /** Name of the schema. */
-  name?: string;
+  name?: string | undefined;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | undefined;
 }
 export type UserSchemasCreateResponseSchemaKind = "openapi_v3";
 export interface UserSchemasCreateResponseSchema {
@@ -798,29 +852,29 @@ export interface UserSchemasCreateResponseSchema {
   /** UUID. */
   schemaId: string;
   /** Source of the schema */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export type UserSchemasCreateResponseUploadDetailsWarningsItemLocationsList = Array<string>;
 export interface UserSchemasCreateResponseUploadDetailsWarningsItem {
   /** Code that identifies the event that occurred. */
   code: number;
   /** JSONPath location(s) in the schema where these events were encountered. See https://goessner.net/articles/JsonPath/ for JSONPath specification. */
-  locations?: UserSchemasCreateResponseUploadDetailsWarningsItemLocationsList | null;
+  locations?: UserSchemasCreateResponseUploadDetailsWarningsItemLocationsList | null | undefined;
   /** Diagnostic message that describes the event. */
-  message?: string | null;
+  message?: string | null | undefined;
 }
 export type UserSchemasCreateResponseUploadDetailsWarningsList =
   Array<UserSchemasCreateResponseUploadDetailsWarningsItem>;
 export interface UserSchemasCreateResponseUploadDetails {
   /** Diagnostic warning events that occurred during processing. These events are non-critical errors found within the schema. */
-  warnings?: UserSchemasCreateResponseUploadDetailsWarningsList | null;
+  warnings?: UserSchemasCreateResponseUploadDetailsWarningsList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateUserSchemaResponse {
   schema: UserSchemasCreateResponseSchema;
-  uploadDetails?: UserSchemasCreateResponseUploadDetails | null;
+  uploadDetails?: UserSchemasCreateResponseUploadDetails | null | undefined;
 }
 export interface DeleteLabelUserRequest {
   /** Identifier. */
@@ -891,7 +945,7 @@ export interface DeleteOperationLabelResponse {
   method: OperationsLabelsDeleteResponseMethod;
   /** UUID. */
   operationId: string;
-  labels?: OperationsLabelsDeleteResponseLabelsList | null;
+  labels?: OperationsLabelsDeleteResponseLabelsList | null | undefined;
 }
 export interface DeleteUserSchemaRequest {
   /** Identifier. */
@@ -906,19 +960,19 @@ export interface EditDiscoveryOperationRequest {
   /** UUID. */
   discoveryId: string;
   /** Mark state of operation in API Discovery */
-  state?: EditDiscoveryOperationRequestState | (string & {});
+  state?: EditDiscoveryOperationRequestState | (string & {}) | undefined;
 }
 export type EditDiscoveryOperationResponseState = "review" | "saved" | "ignored";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditDiscoveryOperationResponse {
   /** State of operation in API Discovery */
-  state?: EditDiscoveryOperationResponseState | null;
+  state?: EditDiscoveryOperationResponseState | null | undefined;
 }
 export interface GetConfigurationRequest {
   /** Identifier. */
   zoneId: string;
   /** Ensures that the configuration is written or retrieved in normalized fashion */
-  normalize?: boolean;
+  normalize?: boolean | undefined;
 }
 export type ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
   | "header"
@@ -962,7 +1016,7 @@ export interface GetLabelManagedRequest {
   /** The name of the label */
   name: string;
   /** Include `mapped_resources` for each label */
-  withMappedResourceCounts?: boolean;
+  withMappedResourceCounts?: boolean | undefined;
 }
 export type LabelsManagedGetResponseSource = "user" | "managed";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -978,7 +1032,7 @@ export interface GetLabelManagedResponse {
   /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsManagedGetResponseSource;
   /** Provides counts of what resources are linked to this label */
-  mappedResources?: unknown | null;
+  mappedResources?: unknown | null | undefined;
 }
 export interface GetLabelUserRequest {
   /** Identifier. */
@@ -986,7 +1040,7 @@ export interface GetLabelUserRequest {
   /** The name of the label */
   name: string;
   /** Include `mapped_resources` for each label */
-  withMappedResourceCounts?: boolean;
+  withMappedResourceCounts?: boolean | undefined;
 }
 export type LabelsUserGetResponseSource = "user" | "managed";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1002,7 +1056,7 @@ export interface GetLabelUserResponse {
   /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserGetResponseSource;
   /** Provides counts of what resources are linked to this label */
-  mappedResources?: unknown | null;
+  mappedResources?: unknown | null | undefined;
 }
 export type OperationsGetRequestFeature =
   | "thresholds"
@@ -1016,9 +1070,9 @@ export interface GetOperationRequest {
   /** UUID. */
   operationId: string;
   /** Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning. */
-  feature?: OperationsGetRequestFeatureList;
+  feature?: OperationsGetRequestFeatureList | undefined;
   /** When true, includes OpenAPI schemas (both uploaded and learned) for the operation in the response. Due to the conversion overhead, this parameter is only supported on single-operation retrieval. */
-  withSchemas?: boolean;
+  withSchemas?: boolean | undefined;
 }
 export type OperationsGetResponseMethod =
   | "GET"
@@ -1038,14 +1092,20 @@ export type OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchem
   Array<unknown>;
 export interface OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas {
   /** An array containing the learned parameter schemas. */
-  parameters?: OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList | null;
+  parameters?:
+    | OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList
+    | null
+    | undefined;
   /** An empty response object. This field is required to yield a valid operation schema. */
-  responses?: unknown | null;
+  responses?: unknown | null | undefined;
 }
 export interface OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas {
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** An operation schema object containing a response. */
-  parameterSchemas?: OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas | null;
+  parameterSchemas?:
+    | OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas
+    | null
+    | undefined;
 }
 export interface OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemas {
   parameterSchemas: OperationsGetResponseFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas;
@@ -1076,12 +1136,21 @@ export type OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSche
   | "block";
 export interface OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
-  activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
+  activeSchema?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema
+    | null
+    | undefined;
   /** Action taken on requests failing validation. */
-  mitigationAction?: OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
+  mitigationAction?:
+    | OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction
+    | null
+    | undefined;
 }
 export interface OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfo {
-  schemaInfo?: OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo | null;
+  schemaInfo?:
+    | OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo
+    | null
+    | undefined;
 }
 export type OperationsGetResponseFeatures =
   | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholds
@@ -1099,9 +1168,9 @@ export type OperationsGetResponseSchemasLearnedRequestBodyMap = {
 };
 export interface OperationsGetResponseSchemasLearned {
   /** OpenAPI parameter objects describing path, query, header, or cookie parameters. */
-  parameters?: OperationsGetResponseSchemasLearnedParametersList | null;
+  parameters?: OperationsGetResponseSchemasLearnedParametersList | null | undefined;
   /** OpenAPI request body object describing the expected request payload. */
-  requestBody?: OperationsGetResponseSchemasLearnedRequestBodyMap | null;
+  requestBody?: OperationsGetResponseSchemasLearnedRequestBodyMap | null | undefined;
 }
 export type OperationsGetResponseSchemasUploadedParametersItemMap = {
   [key: string]: unknown | undefined;
@@ -1113,15 +1182,15 @@ export type OperationsGetResponseSchemasUploadedRequestBodyMap = {
 };
 export interface OperationsGetResponseSchemasUploaded {
   /** OpenAPI parameter objects describing path, query, header, or cookie parameters. */
-  parameters?: OperationsGetResponseSchemasUploadedParametersList | null;
+  parameters?: OperationsGetResponseSchemasUploadedParametersList | null | undefined;
   /** OpenAPI request body object describing the expected request payload. */
-  requestBody?: OperationsGetResponseSchemasUploadedRequestBodyMap | null;
+  requestBody?: OperationsGetResponseSchemasUploadedRequestBodyMap | null | undefined;
 }
 export interface OperationsGetResponseSchemas {
   /** An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension. */
-  learned?: OperationsGetResponseSchemasLearned | null;
+  learned?: OperationsGetResponseSchemasLearned | null | undefined;
   /** An OpenAPI operation object fragment containing schema information for an operation. May include parameter definitions, request body specifications, and a component schema extension. */
-  uploaded?: OperationsGetResponseSchemasUploaded | null;
+  uploaded?: OperationsGetResponseSchemasUploaded | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOperationResponse {
@@ -1134,9 +1203,9 @@ export interface GetOperationResponse {
   method: OperationsGetResponseMethod;
   /** UUID. */
   operationId: string;
-  features?: OperationsGetResponseFeatures | null;
+  features?: OperationsGetResponseFeatures | null | undefined;
   /** OpenAPI JSON schemas for an operation, including both user-uploaded and Cloudflare-learned schemas. */
-  schemas?: OperationsGetResponseSchemas | null;
+  schemas?: OperationsGetResponseSchemas | null | undefined;
 }
 export interface GetOperationSchemaValidationRequest {
   /** Identifier. */
@@ -1148,9 +1217,9 @@ export type OperationsSchemaValidationGetResponseMitigationAction = "log" | "blo
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetOperationSchemaValidationResponse {
   /** When set, this applies a mitigation action to this operation */
-  mitigationAction?: OperationsSchemaValidationGetResponseMitigationAction | null;
+  mitigationAction?: OperationsSchemaValidationGetResponseMitigationAction | null | undefined;
   /** UUID. */
-  operationId?: string | null;
+  operationId?: string | null | undefined;
 }
 export interface GetSettingSchemaValidationRequest {
   /** Identifier. */
@@ -1163,7 +1232,7 @@ export interface GetUserSchemaRequest {
   zoneId: string;
   schemaId: string;
   /** Omit the source-files of schemas and only retrieve their meta-data. */
-  omitSource?: boolean;
+  omitSource?: boolean | undefined;
 }
 export type UserSchemasGetResponseKind = "openapi_v3";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1176,9 +1245,9 @@ export interface GetUserSchemaResponse {
   /** UUID. */
   schemaId: string;
   /** Source of the schema */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export type DiscoveryOperationsListRequestDirection = "asc" | "desc";
 export type DiscoveryOperationsListRequestHostList = Array<string>;
@@ -1195,25 +1264,25 @@ export interface ListDiscoveryOperationsRequest {
   /** Identifier. */
   zoneId: string;
   /** When `true`, only return API Discovery results that are not saved into API Shield Endpoint Management */
-  diff?: boolean;
+  diff?: boolean | undefined;
   /** Direction to order results. */
-  direction?: DiscoveryOperationsListRequestDirection | (string & {});
+  direction?: DiscoveryOperationsListRequestDirection | (string & {}) | undefined;
   /** Filter results to only include endpoints containing this pattern. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Filter results to only include the specified hosts. */
-  host?: DiscoveryOperationsListRequestHostList;
+  host?: DiscoveryOperationsListRequestHostList | undefined;
   /** Filter results to only include the specified HTTP methods. */
-  method?: DiscoveryOperationsListRequestMethodList;
+  method?: DiscoveryOperationsListRequestMethodList | undefined;
   /** Field to order by */
-  order?: DiscoveryOperationsListRequestOrder | (string & {});
+  order?: DiscoveryOperationsListRequestOrder | (string & {}) | undefined;
   /** Filter results to only include discovery results sourced from a particular discovery engine */
-  origin?: DiscoveryOperationsListRequestOrigin | (string & {});
+  origin?: DiscoveryOperationsListRequestOrigin | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter results to only include discovery results in a particular state. States are as follows */
-  state?: DiscoveryOperationsListRequestState | (string & {});
+  state?: DiscoveryOperationsListRequestState | (string & {}) | undefined;
 }
 export type DiscoveryOperationsListResultItemMethod =
   | "GET"
@@ -1240,7 +1309,7 @@ export interface DiscoveryOperationsListResultItemFeaturesTrafficStats {
   requests: number;
 }
 export interface DiscoveryOperationsListResultItemFeatures {
-  trafficStats?: DiscoveryOperationsListResultItemFeaturesTrafficStats | null;
+  trafficStats?: DiscoveryOperationsListResultItemFeaturesTrafficStats | null | undefined;
 }
 export interface DiscoveryOperationsListResultItem {
   /** UUID. */
@@ -1256,7 +1325,7 @@ export interface DiscoveryOperationsListResultItem {
   origin: DiscoveryOperationsListResultItemOriginList;
   /** State of operation in API Discovery */
   state: DiscoveryOperationsListResultItemState;
-  features?: DiscoveryOperationsListResultItemFeatures | null;
+  features?: DiscoveryOperationsListResultItemFeatures | null | undefined;
 }
 export type DiscoveryOperationsListResultList = Array<DiscoveryOperationsListResultItem>;
 export interface ListDiscoveryOperationsResponse {
@@ -1277,19 +1346,19 @@ export interface ListLabelsRequest {
   /** Identifier. */
   zoneId: string;
   /** Direction to order results. */
-  direction?: LabelsListRequestDirection | (string & {});
+  direction?: LabelsListRequestDirection | (string & {}) | undefined;
   /** Filter for labels where the name or description matches using substring match */
-  filter?: string;
+  filter?: string | undefined;
   /** Field to order by */
-  order?: LabelsListRequestOrder | (string & {});
+  order?: LabelsListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter for labels with source */
-  source?: LabelsListRequestSource | (string & {});
+  source?: LabelsListRequestSource | (string & {}) | undefined;
   /** Include `mapped_resources` for each label */
-  withMappedResourceCounts?: boolean;
+  withMappedResourceCounts?: boolean | undefined;
 }
 export type LabelsListResultItemSource = "user" | "managed";
 export interface LabelsListResultItem {
@@ -1304,7 +1373,7 @@ export interface LabelsListResultItem {
   /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsListResultItemSource;
   /** Provides counts of what resources are linked to this label */
-  mappedResources?: unknown | null;
+  mappedResources?: unknown | null | undefined;
 }
 export type LabelsListResultList = Array<LabelsListResultItem>;
 export interface ListLabelsResponse {
@@ -1327,21 +1396,21 @@ export interface ListOperationsRequest {
   /** Identifier. */
   zoneId: string;
   /** Direction to order results. */
-  direction?: OperationsListRequestDirection | (string & {});
+  direction?: OperationsListRequestDirection | (string & {}) | undefined;
   /** Filter results to only include endpoints containing this pattern. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning. */
-  feature?: OperationsListRequestFeatureList;
+  feature?: OperationsListRequestFeatureList | undefined;
   /** Filter results to only include the specified hosts. */
-  host?: OperationsListRequestHostList;
+  host?: OperationsListRequestHostList | undefined;
   /** Filter results to only include the specified HTTP methods. */
-  method?: OperationsListRequestMethodList;
+  method?: OperationsListRequestMethodList | undefined;
   /** Field to order by. When requesting a feature, the feature keys are available for ordering as well, e.g., `thresholds.suggested_threshold`. */
-  order?: OperationsListRequestOrder | (string & {});
+  order?: OperationsListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type OperationsListResultItemMethod =
   | "GET"
@@ -1361,14 +1430,20 @@ export type OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSc
   Array<unknown>;
 export interface OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas {
   /** An array containing the learned parameter schemas. */
-  parameters?: OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList | null;
+  parameters?:
+    | OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList
+    | null
+    | undefined;
   /** An empty response object. This field is required to yield a valid operation schema. */
-  responses?: unknown | null;
+  responses?: unknown | null | undefined;
 }
 export interface OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas {
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** An operation schema object containing a response. */
-  parameterSchemas?: OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas | null;
+  parameterSchemas?:
+    | OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas
+    | null
+    | undefined;
 }
 export interface OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemas {
   parameterSchemas: OperationsListResultItemFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas;
@@ -1399,12 +1474,21 @@ export type OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoS
   | "block";
 export interface OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
-  activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
+  activeSchema?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema
+    | null
+    | undefined;
   /** Action taken on requests failing validation. */
-  mitigationAction?: OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
+  mitigationAction?:
+    | OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction
+    | null
+    | undefined;
 }
 export interface OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfo {
-  schemaInfo?: OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo | null;
+  schemaInfo?:
+    | OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo
+    | null
+    | undefined;
 }
 export type OperationsListResultItemFeatures =
   | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholds
@@ -1422,7 +1506,7 @@ export interface OperationsListResultItem {
   method: OperationsListResultItemMethod;
   /** UUID. */
   operationId: string;
-  features?: OperationsListResultItemFeatures | null;
+  features?: OperationsListResultItemFeatures | null | undefined;
 }
 export type OperationsListResultList = Array<OperationsListResultItem>;
 export interface ListOperationsResponse {
@@ -1446,25 +1530,25 @@ export interface ListSchemasRequest {
   /** Identifier. */
   zoneId: string;
   /** Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning. */
-  feature?: SchemasListRequestFeatureList;
+  feature?: SchemasListRequestFeatureList | undefined;
   /** Receive schema only for the given host(s). */
-  host?: SchemasListRequestHostList;
+  host?: SchemasListRequestHostList | undefined;
   /** Schema kinds to include in exported OpenAPI schemas. */
-  includeSchemaKind?: SchemasListRequestIncludeSchemaKindList;
+  includeSchemaKind?: SchemasListRequestIncludeSchemaKindList | undefined;
 }
 export type SchemasListResponseSchemasList = Array<unknown>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListSchemasResponse {
-  schemas?: SchemasListResponseSchemasList | null;
-  timestamp?: string | null;
+  schemas?: SchemasListResponseSchemasList | null | undefined;
+  timestamp?: string | null | undefined;
 }
 export interface ListUserSchemaHostsRequest {
   /** Identifier. */
   zoneId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type UserSchemasHostsListResultItemHostsList = Array<string>;
 export interface UserSchemasHostsListResultItem {
@@ -1499,19 +1583,19 @@ export interface ListUserSchemaOperationsRequest {
   zoneId: string;
   schemaId: string;
   /** Filter results to only include endpoints containing this pattern. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning. */
-  feature?: UserSchemasOperationsListRequestFeatureList;
+  feature?: UserSchemasOperationsListRequestFeatureList | undefined;
   /** Filter results to only include the specified hosts. */
-  host?: UserSchemasOperationsListRequestHostList;
+  host?: UserSchemasOperationsListRequestHostList | undefined;
   /** Filter results to only include the specified HTTP methods. */
-  method?: UserSchemasOperationsListRequestMethodList;
+  method?: UserSchemasOperationsListRequestMethodList | undefined;
   /** Filter results by whether operations exist in API Shield Endpoint Management or not. `new` will just return operations from the schema that do not exist in API Shield Endpoint Management. `existing` will just return operations from the schema that already exist in API Shield Endpoint Management. */
-  operationStatus?: UserSchemasOperationsListRequestOperationStatus | (string & {});
+  operationStatus?: UserSchemasOperationsListRequestOperationStatus | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type UserSchemasOperationsListResultItemAPIShieldOperationMethod =
   | "GET"
@@ -1531,14 +1615,20 @@ export type UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShie
   Array<unknown>;
 export interface UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas {
   /** An array containing the learned parameter schemas. */
-  parameters?: UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList | null;
+  parameters?:
+    | UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemasParametersList
+    | null
+    | undefined;
   /** An empty response object. This field is required to yield a valid operation schema. */
-  responses?: unknown | null;
+  responses?: unknown | null | undefined;
 }
 export interface UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas {
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** An operation schema object containing a response. */
-  parameterSchemas?: UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas | null;
+  parameterSchemas?:
+    | UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemasParameterSchemas
+    | null
+    | undefined;
 }
 export interface UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemas {
   parameterSchemas: UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureParameterSchemasParameterSchemas;
@@ -1569,12 +1659,21 @@ export type UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShie
   | "block";
 export interface UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
-  activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
+  activeSchema?:
+    | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema
+    | null
+    | undefined;
   /** Action taken on requests failing validation. */
-  mitigationAction?: UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
+  mitigationAction?:
+    | UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction
+    | null
+    | undefined;
 }
 export interface UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfo {
-  schemaInfo?: UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo | null;
+  schemaInfo?:
+    | UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo
+    | null
+    | undefined;
 }
 export type UserSchemasOperationsListResultItemAPIShieldOperationFeatures =
   | OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholds
@@ -1592,7 +1691,7 @@ export interface UserSchemasOperationsListResultItemAPIShieldOperation {
   method: UserSchemasOperationsListResultItemAPIShieldOperationMethod;
   /** UUID. */
   operationId: string;
-  features?: UserSchemasOperationsListResultItemAPIShieldOperationFeatures | null;
+  features?: UserSchemasOperationsListResultItemAPIShieldOperationFeatures | null | undefined;
 }
 export type UserSchemasOperationsListResultItemAPIShieldBasicOperationMethod =
   | "GET"
@@ -1626,13 +1725,13 @@ export interface ListUserSchemasRequest {
   /** Identifier. */
   zoneId: string;
   /** Omit the source-files of schemas and only retrieve their meta-data. */
-  omitSource?: boolean;
+  omitSource?: boolean | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | undefined;
 }
 export type UserSchemasListResultItemKind = "openapi_v3";
 export interface UserSchemasListResultItem {
@@ -1644,9 +1743,9 @@ export interface UserSchemasListResultItem {
   /** UUID. */
   schemaId: string;
   /** Source of the schema */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export type UserSchemasListResultList = Array<UserSchemasListResultItem>;
 export interface ListUserSchemasResponse {
@@ -1661,9 +1760,9 @@ export interface PatchLabelUserRequest {
   /** The name of the label */
   name: string;
   /** The description of the label */
-  description?: string;
+  description?: string | undefined;
   /** Metadata for the label */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type LabelsUserEditResponseSource = "user" | "managed";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1687,7 +1786,8 @@ export interface OperationsSchemaValidationEditRequestSettingsMultipleRequest {
   /** When set, this applies a mitigation action to this operation */
   mitigationAction?:
     | OperationsSchemaValidationEditRequestSettingsMultipleRequestMitigationAction
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PatchOperationSchemaValidationRequest {
   /** Identifier. */
@@ -1698,7 +1798,7 @@ export type OperationsSchemaValidationEditResponseMitigationAction = "log" | "bl
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchOperationSchemaValidationResponse {
   /** When set, this applies a mitigation action to this operation */
-  mitigationAction?: OperationsSchemaValidationEditResponseMitigationAction | null;
+  mitigationAction?: OperationsSchemaValidationEditResponseMitigationAction | null | undefined;
 }
 export type SettingsSchemaValidationEditRequestValidationDefaultMitigationAction =
   | "none"
@@ -1713,11 +1813,13 @@ export interface PatchSettingSchemaValidationRequest {
   /** The default mitigation action used when there is no mitigation action defined on the operation Mitigation actions are as follows: */
   validationDefaultMitigationAction?:
     | SettingsSchemaValidationEditRequestValidationDefaultMitigationAction
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When set, this overrides both zone level and operation level mitigation actions. */
   validationOverrideMitigationAction?:
     | SettingsSchemaValidationEditRequestValidationOverrideMitigationAction
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PatchSettingSchemaValidationResponse {}
@@ -1726,7 +1828,7 @@ export interface PatchUserSchemaRequest {
   zoneId: string;
   schemaId: string;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | undefined;
 }
 export type UserSchemasEditResponseKind = "openapi_v3";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1739,9 +1841,9 @@ export interface PatchUserSchemaResponse {
   /** UUID. */
   schemaId: string;
   /** Source of the schema */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: boolean | null;
+  validationEnabled?: boolean | null | undefined;
 }
 export type ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
   | "header"
@@ -1771,7 +1873,7 @@ export interface PutConfigurationRequest {
   /** Identifier. */
   zoneId: string;
   /** Ensures that the configuration is written or retrieved in normalized fashion */
-  normalize?: boolean;
+  normalize?: boolean | undefined;
   authIdCharacteristics: ConfigurationsUpdateRequestAuthIdCharacteristicsList;
 }
 export type ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
@@ -1830,7 +1932,7 @@ export interface PutLabelManagedResourceOperationResponse {
   /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsManagedResourcesOperationUpdateResponseSource;
   /** Provides counts of what resources are linked to this label */
-  mappedResources?: unknown | null;
+  mappedResources?: unknown | null | undefined;
 }
 export interface PutLabelUserRequest {
   /** Identifier. */
@@ -1838,9 +1940,9 @@ export interface PutLabelUserRequest {
   /** The name of the label */
   name: string;
   /** The description of the label */
-  description?: string;
+  description?: string | undefined;
   /** Metadata for the label */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type LabelsUserUpdateResponseSource = "user" | "managed";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1886,7 +1988,7 @@ export interface PutLabelUserResourceOperationResponse {
   /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserResourcesOperationUpdateResponseSource;
   /** Provides counts of what resources are linked to this label */
-  mappedResources?: unknown | null;
+  mappedResources?: unknown | null | undefined;
 }
 export type OperationsSchemaValidationUpdateRequestMitigationAction = "log" | "block" | "none";
 export interface PutOperationSchemaValidationRequest {
@@ -1895,15 +1997,18 @@ export interface PutOperationSchemaValidationRequest {
   /** UUID. */
   operationId: string;
   /** When set, this applies a mitigation action to this operation */
-  mitigationAction?: OperationsSchemaValidationUpdateRequestMitigationAction | (string & {});
+  mitigationAction?:
+    | OperationsSchemaValidationUpdateRequestMitigationAction
+    | (string & {})
+    | undefined;
 }
 export type OperationsSchemaValidationUpdateResponseMitigationAction = "log" | "block" | "none";
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PutOperationSchemaValidationResponse {
   /** When set, this applies a mitigation action to this operation */
-  mitigationAction?: OperationsSchemaValidationUpdateResponseMitigationAction | null;
+  mitigationAction?: OperationsSchemaValidationUpdateResponseMitigationAction | null | undefined;
   /** UUID. */
-  operationId?: string | null;
+  operationId?: string | null | undefined;
 }
 export type SettingsSchemaValidationUpdateRequestValidationDefaultMitigationAction =
   | "none"
@@ -1922,7 +2027,8 @@ export interface PutSettingSchemaValidationRequest {
   /** When set, this overrides both zone level and operation level mitigation actions. */
   validationOverrideMitigationAction?:
     | SettingsSchemaValidationUpdateRequestValidationOverrideMitigationAction
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PutSettingSchemaValidationResponse {}
@@ -1934,9 +2040,9 @@ export interface UpdateOperationLabelRequest {
   /** UUID. */
   operationId: string;
   /** List of managed label names. Omitting this property or passing an empty array will result in all managed labels being removed from the operation */
-  managed?: OperationsLabelsUpdateRequestManagedList;
+  managed?: OperationsLabelsUpdateRequestManagedList | undefined;
   /** List of user label names. Omitting this property or passing an empty array will result in all user labels being removed from the operation */
-  user?: OperationsLabelsUpdateRequestUserList;
+  user?: OperationsLabelsUpdateRequestUserList | undefined;
 }
 export type OperationsLabelsUpdateResponseMethod =
   | "GET"
@@ -1974,7 +2080,7 @@ export interface UpdateOperationLabelResponse {
   method: OperationsLabelsUpdateResponseMethod;
   /** UUID. */
   operationId: string;
-  labels?: OperationsLabelsUpdateResponseLabelsList | null;
+  labels?: OperationsLabelsUpdateResponseLabelsList | null | undefined;
 }
 export type BulkCreateLabelUsersError = LabelAlreadyExists | Forbidden | CloudflareOpError;
 /** Creates one or more user-defined labels for classifying web and API operations. */

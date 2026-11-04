@@ -98,11 +98,11 @@ export type ComputeFoldersContactsNotificationCategoriesEnumList = Array<
 >;
 export interface ComputeFoldersContactsRequest {
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
-  notificationCategories?: ComputeFoldersContactsNotificationCategoriesEnumList;
+  notificationCategories?: ComputeFoldersContactsNotificationCategoriesEnumList | undefined;
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
 }
@@ -127,26 +127,31 @@ export type GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptio
 /** A contact that will receive notifications from Google Cloud. */
 export interface GoogleCloudEssentialcontactsV1Contact {
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
-  name?: string;
+  name?: string | undefined;
   /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string;
+  email?: string | undefined;
   /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?: GoogleCloudEssentialcontactsV1ContactValidationStateEnum | (string & {});
+  validationState?:
+    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
+    | (string & {})
+    | undefined;
   /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string;
+  validateTime?: string | undefined;
   /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?: GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList;
+  notificationCategorySubscriptions?:
+    | GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList
+    | undefined;
   /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string;
+  languageTag?: string | undefined;
 }
 export type GoogleCloudEssentialcontactsV1ContactList =
   Array<GoogleCloudEssentialcontactsV1Contact>;
 /** Response message for the ComputeContacts method. */
 export interface GoogleCloudEssentialcontactsV1ComputeContactsResponse {
   /** All contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
-  contacts?: GoogleCloudEssentialcontactsV1ContactList;
+  contacts?: GoogleCloudEssentialcontactsV1ContactList | undefined;
   /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token` and the rest of the parameters the same as the original request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ComputeOrganizationsContactsNotificationCategoriesEnum =
   | "NOTIFICATION_CATEGORY_UNSPECIFIED"
@@ -165,11 +170,11 @@ export interface ComputeOrganizationsContactsRequest {
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
-  notificationCategories?: ComputeOrganizationsContactsNotificationCategoriesEnumList;
+  notificationCategories?: ComputeOrganizationsContactsNotificationCategoriesEnumList | undefined;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ComputeProjectsContactsNotificationCategoriesEnum =
   | "NOTIFICATION_CATEGORY_UNSPECIFIED"
@@ -186,31 +191,31 @@ export type ComputeProjectsContactsNotificationCategoriesEnumList = Array<
 >;
 export interface ComputeProjectsContactsRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
-  notificationCategories?: ComputeProjectsContactsNotificationCategoriesEnumList;
+  notificationCategories?: ComputeProjectsContactsNotificationCategoriesEnumList | undefined;
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface CreateFoldersContactsRequest {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact;
+  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export interface CreateOrganizationsContactsRequest {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact;
+  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export interface CreateProjectsContactsRequest {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact;
+  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export interface DeleteFoldersContactsRequest {
   /** Required. The name of the contact to delete. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
@@ -240,58 +245,58 @@ export interface GetProjectsContactsRequest {
 }
 export interface ListFoldersContactsRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource name. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
 }
 /** Response message for the ListContacts method. */
 export interface GoogleCloudEssentialcontactsV1ListContactsResponse {
   /** The contacts for the specified resource. */
-  contacts?: GoogleCloudEssentialcontactsV1ContactList;
+  contacts?: GoogleCloudEssentialcontactsV1ContactList | undefined;
   /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token` and the rest of the parameters the same as the original request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsContactsRequest {
   /** Required. The parent resource name. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsContactsRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface PatchFoldersContactsRequest {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact;
+  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export interface PatchOrganizationsContactsRequest {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact;
+  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export interface PatchProjectsContactsRequest {
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact;
+  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export type StringList = Array<string>;
 export type GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum =
@@ -307,29 +312,30 @@ export type GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCate
 /** Request message for the SendTestMessage method. */
 export interface GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The list of names of the contacts to send a test message to. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
-  contacts?: StringList;
+  contacts?: StringList | undefined;
   /** Required. The notification category to send the test message for. All contacts must be subscribed to this category. */
   notificationCategory?:
     | GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface SendTestMessageFoldersContactsRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest;
+  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest | undefined;
 }
 export interface SendTestMessageOrganizationsContactsRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest;
+  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest | undefined;
 }
 export interface SendTestMessageProjectsContactsRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
   /** Request body */
-  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest;
+  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest | undefined;
 }
 export type ComputeFoldersContactsError = NotFound | Forbidden | GcpOpError;
 /** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */

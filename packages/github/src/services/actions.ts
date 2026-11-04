@@ -99,11 +99,11 @@ export type RunnerLabelType = "read-only" | "custom";
 /** A label for a self hosted runner */
 export interface RunnerLabel {
   /** Unique identifier of the label. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the label. */
   name: string;
   /** The type of label. Read-only labels are applied automatically when the runner is configured. */
-  type?: RunnerLabelType;
+  type?: RunnerLabelType | undefined;
 }
 export type AddCustomLabelsToSelfHostedRunnerForOrgResponseLabelsList = Array<RunnerLabel>;
 export interface AddCustomLabelsToSelfHostedRunnerForOrgResponse {
@@ -197,11 +197,11 @@ export type CreateHostedRunnerForOrgRequestImageSource = "github" | "partner" | 
 /** The image of runner. To list all available images, use `GET /actions/hosted-runners/images/github-owned` or `GET /actions/hosted-runners/images/partner`. */
 export interface CreateHostedRunnerForOrgRequestImage {
   /** The unique identifier of the runner image. */
-  id?: string;
+  id?: string | undefined;
   /** The source of the runner image. */
-  source?: CreateHostedRunnerForOrgRequestImageSource | (string & {});
+  source?: CreateHostedRunnerForOrgRequestImageSource | (string & {}) | undefined;
   /** The version of the runner image to deploy. This is relevant only for runners using custom images. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export interface CreateHostedRunnerForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -215,11 +215,11 @@ export interface CreateHostedRunnerForOrgRequest {
   /** The existing runner group to add this runner to. */
   runner_group_id: number;
   /** The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost. */
-  maximum_runners?: number;
+  maximum_runners?: number | undefined;
   /** Whether this runner should be created with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits` */
-  enable_static_ip?: boolean;
+  enable_static_ip?: boolean | undefined;
   /** Whether this runner should be used to generate custom images. */
-  image_gen?: boolean;
+  image_gen?: boolean | undefined;
 }
 /** The image provider. */
 export type NullableActionsHostedRunnerPoolImageSource = "github" | "partner" | "custom";
@@ -234,7 +234,7 @@ export interface NullableActionsHostedRunnerPoolImage {
   /** The image provider. */
   source: NullableActionsHostedRunnerPoolImageSource;
   /** The image version of the hosted runner pool. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Provides details of a particular machine spec. */
 export interface ActionsHostedRunnerMachineSpec {
@@ -257,11 +257,11 @@ export type ActionsHostedRunnerStatus =
 /** Provides details of Public IP for a GitHub-hosted larger runners */
 export interface PublicIp {
   /** Whether public IP is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The prefix for the public IP. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The length of the IP prefix. */
-  length?: number;
+  length?: number | undefined;
 }
 /** The public IP ranges when public IP is enabled for the hosted runners. */
 export type ActionsHostedRunnerPublicIpsList = Array<PublicIp>;
@@ -272,7 +272,7 @@ export interface ActionsHostedRunner {
   /** The name of the hosted runner. */
   name: string;
   /** The unique identifier of the group that the hosted runner belongs to. */
-  runner_group_id?: number;
+  runner_group_id?: number | undefined;
   image_details: NullableActionsHostedRunnerPoolImage | null;
   machine_size_details: ActionsHostedRunnerMachineSpec;
   /** The status of the runner. */
@@ -280,15 +280,15 @@ export interface ActionsHostedRunner {
   /** The operating system of the image. */
   platform: string;
   /** The maximum amount of hosted runners. Runners will not scale automatically above this number. Use this setting to limit your cost. */
-  maximum_runners?: number;
+  maximum_runners?: number | undefined;
   /** Whether public IP is enabled for the hosted runners. */
   public_ip_enabled: boolean;
   /** The public IP ranges when public IP is enabled for the hosted runners. */
-  public_ips?: ActionsHostedRunnerPublicIpsList;
+  public_ips?: ActionsHostedRunnerPublicIpsList | undefined;
   /** The time at which the runner was last used, in ISO 8601 format. */
-  last_active_on?: string | null;
+  last_active_on?: string | null | undefined;
   /** Whether custom image generation is enabled for the hosted runners. */
-  image_gen?: boolean;
+  image_gen?: boolean | undefined;
 }
 /** The enforcement level of the ruleset. `evaluate` allows admins to test rules before enforcing them. Admins can view insights on the Rule Insights page (`evaluate` is only available with GitHub Enterprise). */
 export type RepositoryRuleEnforcement = "disabled" | "active" | "evaluate";
@@ -298,11 +298,11 @@ export type ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList = Array<str
 export type ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList = Array<string>;
 export interface ActionsPolicyOrgConditionsCase0RepositoryName {
   /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
-  include?: ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList;
+  include?: ActionsPolicyOrgConditionsCase0RepositoryNameIncludeList | undefined;
   /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList;
+  exclude?: ActionsPolicyOrgConditionsCase0RepositoryNameExcludeList | undefined;
   /** Whether renaming of target repositories is prevented. */
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyOrgConditionsCase0WorkflowPathIncludeList = Array<string>;
@@ -316,13 +316,13 @@ export interface ActionsPolicyOrgConditionsCase0WorkflowPath {
 }
 export interface ActionsPolicyOrgConditionsCase0 {
   repository_name: ActionsPolicyOrgConditionsCase0RepositoryName;
-  workflow_path?: ActionsPolicyOrgConditionsCase0WorkflowPath;
+  workflow_path?: ActionsPolicyOrgConditionsCase0WorkflowPath | undefined;
 }
 /** The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
 export type ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList = Array<number>;
 export interface ActionsPolicyOrgConditionsCase1RepositoryId {
   /** The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
-  repository_ids?: ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList;
+  repository_ids?: ActionsPolicyOrgConditionsCase1RepositoryIdRepositoryIdsList | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyOrgConditionsCase1WorkflowPathIncludeList = Array<string>;
@@ -336,7 +336,7 @@ export interface ActionsPolicyOrgConditionsCase1WorkflowPath {
 }
 export interface ActionsPolicyOrgConditionsCase1 {
   repository_id: ActionsPolicyOrgConditionsCase1RepositoryId;
-  workflow_path?: ActionsPolicyOrgConditionsCase1WorkflowPath;
+  workflow_path?: ActionsPolicyOrgConditionsCase1WorkflowPath | undefined;
 }
 /** The values to match for the repository property */
 export type RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList = Array<string>;
@@ -349,7 +349,7 @@ export interface RepositoryRulesetConditionsRepositoryPropertySpec {
   /** The values to match for the repository property */
   property_values: RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList;
   /** The source of the repository property. Defaults to 'custom' if not specified. */
-  source?: RepositoryRulesetConditionsRepositoryPropertySpecSource | (string & {});
+  source?: RepositoryRulesetConditionsRepositoryPropertySpecSource | (string & {}) | undefined;
 }
 /** The repository properties and values to include. All of these properties must match for the condition to pass. */
 export type ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList =
@@ -359,9 +359,9 @@ export type ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList =
   Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
 export interface ActionsPolicyOrgConditionsCase2RepositoryProperty {
   /** The repository properties and values to include. All of these properties must match for the condition to pass. */
-  include?: ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList;
+  include?: ActionsPolicyOrgConditionsCase2RepositoryPropertyIncludeList | undefined;
   /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
-  exclude?: ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList;
+  exclude?: ActionsPolicyOrgConditionsCase2RepositoryPropertyExcludeList | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyOrgConditionsCase2WorkflowPathIncludeList = Array<string>;
@@ -375,7 +375,7 @@ export interface ActionsPolicyOrgConditionsCase2WorkflowPath {
 }
 export interface ActionsPolicyOrgConditionsCase2 {
   repository_property: ActionsPolicyOrgConditionsCase2RepositoryProperty;
-  workflow_path?: ActionsPolicyOrgConditionsCase2WorkflowPath;
+  workflow_path?: ActionsPolicyOrgConditionsCase2WorkflowPath | undefined;
 }
 /** Conditions for an organization Actions policy. The conditions object should contain one of `repository_name`, `repository_id`, or `repository_property`, and may also contain `workflow_path`. */
 export type ActionsPolicyOrgConditions =
@@ -410,7 +410,7 @@ export interface ActionsRuleRestrictActionsActorsParameters {
 /** Choose specific actors that are authorized to trigger Actions workflows. */
 export interface ActionsRuleRestrictActionsActors {
   type: ActionsRuleRestrictActionsActorsType;
-  parameters?: ActionsRuleRestrictActionsActorsParameters;
+  parameters?: ActionsRuleRestrictActionsActorsParameters | undefined;
 }
 export type ActionsRuleRestrictActionEventsType = "restrict_action_events";
 export type ActionsRuleRestrictActionEventsParametersAllowedEventsItem =
@@ -461,7 +461,7 @@ export interface ActionsRuleRestrictActionEventsParameters {
 /** Choose specific GitHub events that will trigger Actions workflows. */
 export interface ActionsRuleRestrictActionEvents {
   type: ActionsRuleRestrictActionEventsType;
-  parameters?: ActionsRuleRestrictActionEventsParameters;
+  parameters?: ActionsRuleRestrictActionEventsParameters | undefined;
 }
 /** An actions rule. */
 export type ActionsRule = ActionsRuleRestrictActionsActors | ActionsRuleRestrictActionEvents;
@@ -473,9 +473,9 @@ export interface CreateOrgActionsPolicyRequest {
   /** The name of the policy. */
   name: string;
   enforcement: RepositoryRuleEnforcement | (string & {});
-  conditions?: ActionsPolicyOrgConditions;
+  conditions?: ActionsPolicyOrgConditions | undefined;
   /** An array of rules within the policy. */
-  rules?: CreateOrgActionsPolicyRequestRulesList;
+  rules?: CreateOrgActionsPolicyRequestRulesList | undefined;
 }
 /** The target of the policy */
 export type ActionsPolicyTarget = "actions";
@@ -493,7 +493,7 @@ export interface ActionsPolicyWorkflowPathConditionWorkflowPath {
 }
 /** Parameters for an Actions policy workflow path condition. Omitting `workflow_path` when creating a policy targets all workflows without storing an explicit condition. Omitting it when updating a policy preserves the existing workflow targeting. For new or changed workflow conditions, the API requires at least one included or excluded pattern. This is validated server-side rather than by this schema, which can also describe existing stored conditions. */
 export interface ActionsPolicyWorkflowPathCondition {
-  workflow_path?: ActionsPolicyWorkflowPathConditionWorkflowPath;
+  workflow_path?: ActionsPolicyWorkflowPathConditionWorkflowPath | undefined;
 }
 /** Conditions for a repository Actions policy. The object may be empty to preserve or use the default workflow targeting, or contain only `workflow_path`. */
 export type ActionsPolicyRepoConditions = unknown | ActionsPolicyWorkflowPathCondition;
@@ -503,9 +503,9 @@ export type ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList = 
 export type ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList = Array<string>;
 export interface ActionsPolicyEnterpriseConditionsCase0OrganizationName {
   /** Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts. */
-  include?: ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase0OrganizationNameIncludeList | undefined;
   /** Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase0OrganizationNameExcludeList | undefined;
 }
 /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
 export type ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList = Array<string>;
@@ -513,11 +513,11 @@ export type ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList = Ar
 export type ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList = Array<string>;
 export interface ActionsPolicyEnterpriseConditionsCase0RepositoryName {
   /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
-  include?: ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase0RepositoryNameIncludeList | undefined;
   /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase0RepositoryNameExcludeList | undefined;
   /** Whether renaming of target repositories is prevented. */
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyEnterpriseConditionsCase0WorkflowPathIncludeList = Array<string>;
@@ -533,7 +533,7 @@ export interface ActionsPolicyEnterpriseConditionsCase0WorkflowPath {
 export interface ActionsPolicyEnterpriseConditionsCase0 {
   organization_name: ActionsPolicyEnterpriseConditionsCase0OrganizationName;
   repository_name: ActionsPolicyEnterpriseConditionsCase0RepositoryName;
-  workflow_path?: ActionsPolicyEnterpriseConditionsCase0WorkflowPath;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase0WorkflowPath | undefined;
 }
 /** Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts. */
 export type ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList = Array<string>;
@@ -541,9 +541,9 @@ export type ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList = 
 export type ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList = Array<string>;
 export interface ActionsPolicyEnterpriseConditionsCase1OrganizationName {
   /** Array of organization names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all organizations and ~EMUS to target all enterprise managed user accounts. */
-  include?: ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase1OrganizationNameIncludeList | undefined;
   /** Array of organization names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase1OrganizationNameExcludeList | undefined;
 }
 /** The repository properties and values to include. All of these properties must match for the condition to pass. */
 export type ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList =
@@ -553,9 +553,9 @@ export type ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList 
   Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
 export interface ActionsPolicyEnterpriseConditionsCase1RepositoryProperty {
   /** The repository properties and values to include. All of these properties must match for the condition to pass. */
-  include?: ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyIncludeList | undefined;
   /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase1RepositoryPropertyExcludeList | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyEnterpriseConditionsCase1WorkflowPathIncludeList = Array<string>;
@@ -571,13 +571,15 @@ export interface ActionsPolicyEnterpriseConditionsCase1WorkflowPath {
 export interface ActionsPolicyEnterpriseConditionsCase1 {
   organization_name: ActionsPolicyEnterpriseConditionsCase1OrganizationName;
   repository_property: ActionsPolicyEnterpriseConditionsCase1RepositoryProperty;
-  workflow_path?: ActionsPolicyEnterpriseConditionsCase1WorkflowPath;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase1WorkflowPath | undefined;
 }
 /** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
 export type ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList = Array<number>;
 export interface ActionsPolicyEnterpriseConditionsCase2OrganizationId {
   /** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
-  organization_ids?: ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList;
+  organization_ids?:
+    | ActionsPolicyEnterpriseConditionsCase2OrganizationIdOrganizationIdsList
+    | undefined;
 }
 /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
 export type ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList = Array<string>;
@@ -585,11 +587,11 @@ export type ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList = Ar
 export type ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList = Array<string>;
 export interface ActionsPolicyEnterpriseConditionsCase2RepositoryName {
   /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
-  include?: ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase2RepositoryNameIncludeList | undefined;
   /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase2RepositoryNameExcludeList | undefined;
   /** Whether renaming of target repositories is prevented. */
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyEnterpriseConditionsCase2WorkflowPathIncludeList = Array<string>;
@@ -605,13 +607,15 @@ export interface ActionsPolicyEnterpriseConditionsCase2WorkflowPath {
 export interface ActionsPolicyEnterpriseConditionsCase2 {
   organization_id: ActionsPolicyEnterpriseConditionsCase2OrganizationId;
   repository_name: ActionsPolicyEnterpriseConditionsCase2RepositoryName;
-  workflow_path?: ActionsPolicyEnterpriseConditionsCase2WorkflowPath;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase2WorkflowPath | undefined;
 }
 /** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
 export type ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList = Array<number>;
 export interface ActionsPolicyEnterpriseConditionsCase3OrganizationId {
   /** The organization IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
-  organization_ids?: ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList;
+  organization_ids?:
+    | ActionsPolicyEnterpriseConditionsCase3OrganizationIdOrganizationIdsList
+    | undefined;
 }
 /** The repository properties and values to include. All of these properties must match for the condition to pass. */
 export type ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList =
@@ -621,9 +625,9 @@ export type ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList 
   Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
 export interface ActionsPolicyEnterpriseConditionsCase3RepositoryProperty {
   /** The repository properties and values to include. All of these properties must match for the condition to pass. */
-  include?: ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyIncludeList | undefined;
   /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase3RepositoryPropertyExcludeList | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyEnterpriseConditionsCase3WorkflowPathIncludeList = Array<string>;
@@ -639,7 +643,7 @@ export interface ActionsPolicyEnterpriseConditionsCase3WorkflowPath {
 export interface ActionsPolicyEnterpriseConditionsCase3 {
   organization_id: ActionsPolicyEnterpriseConditionsCase3OrganizationId;
   repository_property: ActionsPolicyEnterpriseConditionsCase3RepositoryProperty;
-  workflow_path?: ActionsPolicyEnterpriseConditionsCase3WorkflowPath;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase3WorkflowPath | undefined;
 }
 /** The values to match for the organization property */
 export type EnterpriseRulesetConditionsOrganizationPropertySpecPropertyValuesList = Array<string>;
@@ -658,9 +662,9 @@ export type ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeLis
   Array<EnterpriseRulesetConditionsOrganizationPropertySpec>;
 export interface ActionsPolicyEnterpriseConditionsCase4OrganizationProperty {
   /** The organization properties and values to include. All of these properties must match for the condition to pass. */
-  include?: ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyIncludeList | undefined;
   /** The organization properties and values to exclude. The condition will not pass if any of these properties match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase4OrganizationPropertyExcludeList | undefined;
 }
 /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
 export type ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList = Array<string>;
@@ -668,11 +672,11 @@ export type ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList = Ar
 export type ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList = Array<string>;
 export interface ActionsPolicyEnterpriseConditionsCase4RepositoryName {
   /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
-  include?: ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase4RepositoryNameIncludeList | undefined;
   /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase4RepositoryNameExcludeList | undefined;
   /** Whether renaming of target repositories is prevented. */
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyEnterpriseConditionsCase4WorkflowPathIncludeList = Array<string>;
@@ -688,7 +692,7 @@ export interface ActionsPolicyEnterpriseConditionsCase4WorkflowPath {
 export interface ActionsPolicyEnterpriseConditionsCase4 {
   organization_property: ActionsPolicyEnterpriseConditionsCase4OrganizationProperty;
   repository_name: ActionsPolicyEnterpriseConditionsCase4RepositoryName;
-  workflow_path?: ActionsPolicyEnterpriseConditionsCase4WorkflowPath;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase4WorkflowPath | undefined;
 }
 /** The organization properties and values to include. All of these properties must match for the condition to pass. */
 export type ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList =
@@ -698,9 +702,9 @@ export type ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeLis
   Array<EnterpriseRulesetConditionsOrganizationPropertySpec>;
 export interface ActionsPolicyEnterpriseConditionsCase5OrganizationProperty {
   /** The organization properties and values to include. All of these properties must match for the condition to pass. */
-  include?: ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyIncludeList | undefined;
   /** The organization properties and values to exclude. The condition will not pass if any of these properties match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase5OrganizationPropertyExcludeList | undefined;
 }
 /** The repository properties and values to include. All of these properties must match for the condition to pass. */
 export type ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList =
@@ -710,9 +714,9 @@ export type ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList 
   Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
 export interface ActionsPolicyEnterpriseConditionsCase5RepositoryProperty {
   /** The repository properties and values to include. All of these properties must match for the condition to pass. */
-  include?: ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList;
+  include?: ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyIncludeList | undefined;
   /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
-  exclude?: ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList;
+  exclude?: ActionsPolicyEnterpriseConditionsCase5RepositoryPropertyExcludeList | undefined;
 }
 /** Array of workflow file paths or glob patterns to include. An empty array includes all workflows not matched by an excluded pattern. Use `~ALL` by itself to include all workflows. `~ALL` cannot be combined with other included patterns. */
 export type ActionsPolicyEnterpriseConditionsCase5WorkflowPathIncludeList = Array<string>;
@@ -728,7 +732,7 @@ export interface ActionsPolicyEnterpriseConditionsCase5WorkflowPath {
 export interface ActionsPolicyEnterpriseConditionsCase5 {
   organization_property: ActionsPolicyEnterpriseConditionsCase5OrganizationProperty;
   repository_property: ActionsPolicyEnterpriseConditionsCase5RepositoryProperty;
-  workflow_path?: ActionsPolicyEnterpriseConditionsCase5WorkflowPath;
+  workflow_path?: ActionsPolicyEnterpriseConditionsCase5WorkflowPath | undefined;
 }
 /** Conditions for an enterprise Actions policy. The conditions object supports one organization target (`organization_name`, `organization_id`, or `organization_property`) combined with one repository target (`repository_name` or `repository_property`), and may also contain `workflow_path`. */
 export type ActionsPolicyEnterpriseConditions =
@@ -747,15 +751,15 @@ export type ActionsPolicyConditions =
 export type ActionsPolicyRulesList = Array<ActionsRule>;
 export interface ActionsPolicyLinksSelf {
   /** The URL of the policy */
-  href?: string;
+  href?: string | undefined;
 }
 export interface ActionsPolicyLinksHtml {
   /** The html URL of the policy */
-  href?: string;
+  href?: string | undefined;
 }
 export interface ActionsPolicyLinks {
-  self?: ActionsPolicyLinksSelf;
-  html?: ActionsPolicyLinksHtml;
+  self?: ActionsPolicyLinksSelf | undefined;
+  html?: ActionsPolicyLinksHtml | undefined;
 }
 /** An Actions policy defines rules for workflow execution protection. */
 export interface ActionsPolicy {
@@ -771,13 +775,13 @@ export interface ActionsPolicy {
   source: string;
   enforcement: RepositoryRuleEnforcement;
   /** When workflow path targeting is available, detailed responses represent an omitted stored workflow condition as `workflow_path` with `include` set to `["~ALL"]` and `exclude` set to `[]`. When workflow path targeting is unavailable, an omitted stored condition remains omitted. */
-  conditions?: ActionsPolicyConditions | null;
+  conditions?: ActionsPolicyConditions | null | undefined;
   /** An array of rules within the policy */
-  rules?: ActionsPolicyRulesList;
-  node_id?: string;
-  _links?: ActionsPolicyLinks;
-  created_at?: string;
-  updated_at?: string;
+  rules?: ActionsPolicyRulesList | undefined;
+  node_id?: string | undefined;
+  _links?: ActionsPolicyLinks | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** The type of repositories in the organization that can access the variable. `selected` means only the repositories specified by `selected_repository_ids` can access the variable. */
 export type CreateOrgVariableRequestVisibility = "all" | "private" | "selected";
@@ -793,7 +797,7 @@ export interface CreateOrgVariableRequest {
   /** The type of repositories in the organization that can access the variable. `selected` means only the repositories specified by `selected_repository_ids` can access the variable. */
   visibility: CreateOrgVariableRequestVisibility | (string & {});
   /** An array of repository ids that can access the organization variable. You can only provide a list of repository ids when the `visibility` is set to `selected`. */
-  selected_repository_ids?: CreateOrgVariableRequestSelectedRepositoryIdsList;
+  selected_repository_ids?: CreateOrgVariableRequestSelectedRepositoryIdsList | undefined;
 }
 export type CreateOrgVariableResponse = unknown;
 export interface CreateOrUpdateEnvironmentSecretRequest {
@@ -827,7 +831,7 @@ export interface CreateOrUpdateOrgSecretRequest {
   /** Which type of organization repositories have access to the organization secret. `selected` means only the repositories specified by `selected_repository_ids` can access the secret. */
   visibility: CreateOrUpdateOrgSecretRequestVisibility | (string & {});
   /** An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can manage the list of selected repositories using the [List selected repositories for an organization secret](https://docs.github.com/rest/actions/secrets#list-selected-repositories-for-an-organization-secret), [Set selected repositories for an organization secret](https://docs.github.com/rest/actions/secrets#set-selected-repositories-for-an-organization-secret), and [Remove selected repository from an organization secret](https://docs.github.com/rest/actions/secrets#remove-selected-repository-from-an-organization-secret) endpoints. */
-  selected_repository_ids?: CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList;
+  selected_repository_ids?: CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList | undefined;
 }
 export type CreateOrUpdateOrgSecretResponse = unknown;
 export interface CreateOrUpdateRepoSecretRequest {
@@ -854,19 +858,19 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -885,8 +889,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -901,8 +905,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -914,7 +918,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: SimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -974,8 +978,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -986,55 +990,55 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 /** The repositories this token has access to */
 export type AuthenticationTokenRepositoriesList = Array<Repository>;
@@ -1046,12 +1050,12 @@ export interface AuthenticationToken {
   token: string;
   /** The time this token expires */
   expires_at: string;
-  permissions?: unknown;
+  permissions?: unknown | undefined;
   /** The repositories this token has access to */
-  repositories?: AuthenticationTokenRepositoriesList;
-  single_file?: string | null;
+  repositories?: AuthenticationTokenRepositoriesList | undefined;
+  single_file?: string | null | undefined;
   /** Describe whether all repositories have been selected or there's a selection involved */
-  repository_selection?: AuthenticationTokenRepositorySelection;
+  repository_selection?: AuthenticationTokenRepositorySelection | undefined;
 }
 export interface CreateRegistrationTokenForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1079,9 +1083,9 @@ export interface CreateRepoActionsPolicyRequest {
   /** The name of the policy. */
   name: string;
   enforcement: RepositoryRuleEnforcement | (string & {});
-  conditions?: ActionsPolicyRepoConditions;
+  conditions?: ActionsPolicyRepoConditions | undefined;
   /** An array of rules within the policy. */
-  rules?: CreateRepoActionsPolicyRequestRulesList;
+  rules?: CreateRepoActionsPolicyRequestRulesList | undefined;
 }
 export interface CreateRepoVariableRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1108,19 +1112,21 @@ export interface CreateSelfHostedRunnerGroupForOrgRequest {
   /** Name of the runner group. */
   name: string;
   /** Visibility of a runner group. You can select all repositories, select individual repositories, or limit access to private repositories. */
-  visibility?: CreateSelfHostedRunnerGroupForOrgRequestVisibility | (string & {});
+  visibility?: CreateSelfHostedRunnerGroupForOrgRequestVisibility | (string & {}) | undefined;
   /** List of repository IDs that can access the runner group. */
-  selected_repository_ids?: CreateSelfHostedRunnerGroupForOrgRequestSelectedRepositoryIdsList;
+  selected_repository_ids?:
+    | CreateSelfHostedRunnerGroupForOrgRequestSelectedRepositoryIdsList
+    | undefined;
   /** List of runner IDs to add to the runner group. */
-  runners?: CreateSelfHostedRunnerGroupForOrgRequestRunnersList;
+  runners?: CreateSelfHostedRunnerGroupForOrgRequestRunnersList | undefined;
   /** Whether the runner group can be used by `public` repositories. */
-  allows_public_repositories?: boolean;
+  allows_public_repositories?: boolean | undefined;
   /** If `true`, the runner group will be restricted to running only the workflows specified in the `selected_workflows` array. */
-  restricted_to_workflows?: boolean;
+  restricted_to_workflows?: boolean | undefined;
   /** List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
-  selected_workflows?: CreateSelfHostedRunnerGroupForOrgRequestSelectedWorkflowsList;
+  selected_workflows?: CreateSelfHostedRunnerGroupForOrgRequestSelectedWorkflowsList | undefined;
   /** The identifier of a hosted compute network configuration. */
-  network_configuration_id?: string;
+  network_configuration_id?: string | undefined;
 }
 /** List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
 export type RunnerGroupsOrgSelectedWorkflowsList = Array<string>;
@@ -1130,20 +1136,20 @@ export interface RunnerGroupsOrg {
   visibility: string;
   default: boolean;
   /** Link to the selected repositories resource for this runner group. Not present unless visibility was set to `selected` */
-  selected_repositories_url?: string;
+  selected_repositories_url?: string | undefined;
   runners_url: string;
-  hosted_runners_url?: string;
+  hosted_runners_url?: string | undefined;
   /** The identifier of a hosted compute network configuration. */
-  network_configuration_id?: string;
+  network_configuration_id?: string | undefined;
   inherited: boolean;
-  inherited_allows_public_repositories?: boolean;
+  inherited_allows_public_repositories?: boolean | undefined;
   allows_public_repositories: boolean;
   /** If `true`, the `restricted_to_workflows` and `selected_workflows` fields cannot be modified. */
-  workflow_restrictions_read_only?: boolean;
+  workflow_restrictions_read_only?: boolean | undefined;
   /** If `true`, the runner group will be restricted to running only the workflows specified in the `selected_workflows` array. */
-  restricted_to_workflows?: boolean;
+  restricted_to_workflows?: boolean | undefined;
   /** List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
-  selected_workflows?: RunnerGroupsOrgSelectedWorkflowsList;
+  selected_workflows?: RunnerGroupsOrgSelectedWorkflowsList | undefined;
 }
 /** Input keys and values configured in the workflow file. The maximum number of properties is 25. Any default properties configured in the workflow file will be used when `inputs` are omitted. */
 export type CreateWorkflowDispatchRequestInputsMap = { [key: string]: unknown | undefined };
@@ -1157,9 +1163,9 @@ export interface CreateWorkflowDispatchRequest {
   /** The git reference for the workflow. The reference can be a branch or tag name. */
   ref: string;
   /** Input keys and values configured in the workflow file. The maximum number of properties is 25. Any default properties configured in the workflow file will be used when `inputs` are omitted. */
-  inputs?: CreateWorkflowDispatchRequestInputsMap;
+  inputs?: CreateWorkflowDispatchRequestInputsMap | undefined;
   /** Whether the response should include the workflow run ID and URLs. */
-  return_run_details?: boolean;
+  return_run_details?: boolean | undefined;
 }
 /** Response containing the workflow run ID and URLs. */
 export interface WorkflowDispatchResponse {
@@ -1185,16 +1191,16 @@ export interface DeleteActionsCacheByKeyRequest {
   /** A key for identifying the cache. */
   key: string;
   /** The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface ActionsCacheListActionsCachesItem {
-  id?: number;
-  ref?: string;
-  key?: string;
-  version?: string;
-  last_accessed_at?: string;
-  created_at?: string;
-  size_in_bytes?: number;
+  id?: number | undefined;
+  ref?: string | undefined;
+  key?: string | undefined;
+  version?: string | undefined;
+  last_accessed_at?: string | undefined;
+  created_at?: string | undefined;
+  size_in_bytes?: number | undefined;
 }
 /** Array of caches */
 export type ActionsCacheListActionsCachesList = Array<ActionsCacheListActionsCachesItem>;
@@ -1465,7 +1471,7 @@ export interface GenerateRunnerJitconfigForOrgRequest {
   /** The names of the custom labels to add to the runner. **Minimum items**: 1. **Maximum items**: 100. */
   labels: GenerateRunnerJitconfigForOrgRequestLabelsList;
   /** The working directory to be used for job execution, relative to the runner install directory. */
-  work_folder?: string;
+  work_folder?: string | undefined;
 }
 export type RunnerLabelsList = Array<RunnerLabel>;
 /** A self hosted runner */
@@ -1473,7 +1479,7 @@ export interface Runner {
   /** The ID of the runner. */
   id: number;
   /** The ID of the runner group. */
-  runner_group_id?: number;
+  runner_group_id?: number | undefined;
   /** The name of the runner. */
   name: string;
   /** The Operating System of the runner. */
@@ -1482,9 +1488,9 @@ export interface Runner {
   status: string;
   busy: boolean;
   labels: RunnerLabelsList;
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** The version of the GitHub Actions Runner software. This is only set if the runner has connected to the service at least once. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export interface GenerateRunnerJitconfigForOrgResponse {
   runner: Runner;
@@ -1505,7 +1511,7 @@ export interface GenerateRunnerJitconfigForRepoRequest {
   /** The names of the custom labels to add to the runner. **Minimum items**: 1. **Maximum items**: 100. */
   labels: GenerateRunnerJitconfigForRepoRequestLabelsList;
   /** The working directory to be used for job execution, relative to the runner install directory. */
-  work_folder?: string;
+  work_folder?: string | undefined;
 }
 export interface GenerateRunnerJitconfigForRepoResponse {
   runner: Runner;
@@ -1520,17 +1526,17 @@ export interface GetActionsCacheListRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
-  ref?: string;
+  ref?: string | undefined;
   /** An explicit key or prefix for identifying the cache */
-  key?: string;
+  key?: string | undefined;
   /** The property to sort the results by. `created_at` means when the cache was created. `last_accessed_at` means when the cache was last accessed. `size_in_bytes` is the size of the cache in bytes. */
-  sort?: GetActionsCacheListRequestSort | (string & {});
+  sort?: GetActionsCacheListRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: GetActionsCacheListRequestDirection | (string & {});
+  direction?: GetActionsCacheListRequestDirection | (string & {}) | undefined;
 }
 export interface GetActionsCacheRetentionLimitForEnterpriseRequest {
   /** The slug version of the enterprise name. */
@@ -1539,7 +1545,7 @@ export interface GetActionsCacheRetentionLimitForEnterpriseRequest {
 /** GitHub Actions cache retention policy for an enterprise. */
 export interface ActionsCacheRetentionLimitForEnterprise {
   /** For repositories & organizations in an enterprise, the maximum duration, in days, for which caches in a repository may be retained. */
-  max_cache_retention_days?: number;
+  max_cache_retention_days?: number | undefined;
 }
 export interface GetActionsCacheRetentionLimitForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1548,7 +1554,7 @@ export interface GetActionsCacheRetentionLimitForOrganizationRequest {
 /** GitHub Actions cache retention policy for an organization. */
 export interface ActionsCacheRetentionLimitForOrganization {
   /** For repositories in this organization, the maximum duration, in days, for which caches in a repository may be retained. */
-  max_cache_retention_days?: number;
+  max_cache_retention_days?: number | undefined;
 }
 export interface GetActionsCacheRetentionLimitForRepositoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1559,7 +1565,7 @@ export interface GetActionsCacheRetentionLimitForRepositoryRequest {
 /** GitHub Actions cache retention policy for a repository. */
 export interface ActionsCacheRetentionLimitForRepository {
   /** The maximum number of days to keep caches in this repository. */
-  max_cache_retention_days?: number;
+  max_cache_retention_days?: number | undefined;
 }
 export interface GetActionsCacheStorageLimitForEnterpriseRequest {
   /** The slug version of the enterprise name. */
@@ -1568,7 +1574,7 @@ export interface GetActionsCacheStorageLimitForEnterpriseRequest {
 /** GitHub Actions cache storage policy for an enterprise. */
 export interface ActionsCacheStorageLimitForEnterprise {
   /** For repositories & organizations in an enterprise, the maximum size limit for the sum of all caches in a repository, in gigabytes. */
-  max_cache_size_gb?: number;
+  max_cache_size_gb?: number | undefined;
 }
 export interface GetActionsCacheStorageLimitForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1577,7 +1583,7 @@ export interface GetActionsCacheStorageLimitForOrganizationRequest {
 /** GitHub Actions cache storage policy for an organization. */
 export interface ActionsCacheStorageLimitForOrganization {
   /** For repositories in the organization, the maximum size limit for the sum of all caches in a repository, in gigabytes. */
-  max_cache_size_gb?: number;
+  max_cache_size_gb?: number | undefined;
 }
 export interface GetActionsCacheStorageLimitForRepositoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1588,7 +1594,7 @@ export interface GetActionsCacheStorageLimitForRepositoryRequest {
 /** GitHub Actions cache storage policy for a repository. */
 export interface ActionsCacheStorageLimitForRepository {
   /** The maximum total cache size for this repository, in gigabytes. */
-  max_cache_size_gb?: number;
+  max_cache_size_gb?: number | undefined;
 }
 export interface GetActionsCacheUsageRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1609,9 +1615,9 @@ export interface GetActionsCacheUsageByRepoForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type GetActionsCacheUsageByRepoForOrgResponseRepositoryCacheUsagesList =
   Array<ActionsCacheUsageByRepository>;
@@ -1637,11 +1643,11 @@ export interface GetAllowedActionsOrganizationRequest {
 export type SelectedActionsPatternsAllowedList = Array<string>;
 export interface SelectedActions {
   /** Whether GitHub-owned actions are allowed. For example, this includes the actions in the `actions` organization. */
-  github_owned_allowed?: boolean;
+  github_owned_allowed?: boolean | undefined;
   /** Whether actions from GitHub Marketplace verified creators are allowed. Set to `true` to allow all actions by GitHub Marketplace verified creators. */
-  verified_allowed?: boolean;
+  verified_allowed?: boolean | undefined;
   /** Specifies a list of string-matching patterns to allow specific action(s) and reusable workflow(s). Wildcards, tags, and SHAs are allowed. For example, `monalisa/octocat@*`, `monalisa/octocat@v2`, `monalisa/*`. > [!NOTE] > The `patterns_allowed` setting only applies to public repositories. */
-  patterns_allowed?: SelectedActionsPatternsAllowedList;
+  patterns_allowed?: SelectedActionsPatternsAllowedList | undefined;
 }
 export interface GetAllowedActionsRepositoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1658,11 +1664,11 @@ export interface GetArtifactRequest {
   artifact_id: number;
 }
 export interface ArtifactWorkflowRun {
-  id?: number;
-  repository_id?: number;
-  head_repository_id?: number;
-  head_branch?: string;
-  head_sha?: string;
+  id?: number | undefined;
+  repository_id?: number | undefined;
+  head_repository_id?: number | undefined;
+  head_branch?: string | undefined;
+  head_sha?: string | undefined;
 }
 /** An artifact */
 export interface Artifact {
@@ -1680,8 +1686,8 @@ export interface Artifact {
   expires_at: string | null;
   updated_at: string | null;
   /** The SHA256 digest of the artifact. This field will only be populated on artifacts uploaded with upload-artifact v4 or newer. For older versions, this field will be null. */
-  digest?: string | null;
-  workflow_run?: ArtifactWorkflowRun | null;
+  digest?: string | null | undefined;
+  workflow_run?: ArtifactWorkflowRun | null | undefined;
 }
 export interface GetArtifactAndLogRetentionSettingsOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1707,9 +1713,9 @@ export interface GetConcurrencyGroupForRepositoryRequest {
   /** The name of the concurrency group. */
   concurrency_group_name: string;
   /** Filter to items ahead of this workflow run ID in the queue, plus the run itself. Matches workflow-level concurrency and reusable-workflow leases held on behalf of the run. Mutually exclusive with `ahead_of_job`. */
-  ahead_of_run?: number;
+  ahead_of_run?: number | undefined;
   /** Filter to items ahead of this job ID in the queue, plus the job itself. Matches job-level concurrency and reusable-workflow leases on the job's ancestor paths. Mutually exclusive with `ahead_of_run`. */
-  ahead_of_job?: number;
+  ahead_of_job?: number | undefined;
 }
 export type ConcurrencyGroupGroupMembersItemStatus = "in_progress" | "pending";
 export interface ConcurrencyGroupGroupMembersItem {
@@ -1722,13 +1728,13 @@ export interface ConcurrencyGroupGroupMembersItem {
   /** Web URL for the workflow run. */
   run_html_url: string | null;
   /** The ID of the job, when the item represents a job-level or reusable-workflow-level lease. */
-  job_id?: number;
+  job_id?: number | undefined;
   /** The display name of the job, when the item represents a job-level or reusable-workflow-level lease. */
-  job_name?: string;
+  job_name?: string | undefined;
   /** API URL for the job. */
-  job_url?: string | null;
+  job_url?: string | null | undefined;
   /** Web URL for the job. */
-  job_html_url?: string | null;
+  job_html_url?: string | null | undefined;
   status: ConcurrencyGroupGroupMembersItemStatus;
 }
 export type ConcurrencyGroupGroupMembersList = Array<ConcurrencyGroupGroupMembersItem>;
@@ -1800,11 +1806,11 @@ export interface OidcCustomSubRepo {
   /** Whether to use the default template or not. If `true`, the `include_claim_keys` field is ignored. */
   use_default: boolean;
   /** Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
-  include_claim_keys?: OidcCustomSubRepoIncludeClaimKeysList;
+  include_claim_keys?: OidcCustomSubRepoIncludeClaimKeysList | undefined;
   /** Whether the repository has opted in to the immutable OIDC subject claim format. When `true`, OIDC tokens will use a stable, repository-ID-based `sub` claim. If not set at the repository level, falls back to the organization-level setting. */
-  use_immutable_subject?: boolean;
+  use_immutable_subject?: boolean | undefined;
   /** The current `sub` claim prefix for this repository. */
-  sub_claim_prefix?: string;
+  sub_claim_prefix?: string | undefined;
 }
 export interface GetEnvironmentPublicKeyRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1820,10 +1826,10 @@ export interface ActionsPublicKey {
   key_id: string;
   /** The Base64 encoded public key. */
   key: string;
-  id?: number;
-  url?: string;
-  title?: string;
-  created_at?: string;
+  id?: number | undefined;
+  url?: string | undefined;
+  title?: string | undefined;
+  created_at?: string | undefined;
 }
 export interface GetEnvironmentSecretRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1908,10 +1914,10 @@ export type AllowedActions = "all" | "local_only" | "selected";
 export interface ActionsOrganizationPermissions {
   enabled_repositories: EnabledRepositories;
   /** The API URL to use to get or set the selected repositories that are allowed to run GitHub Actions, when `enabled_repositories` is set to `selected`. */
-  selected_repositories_url?: string;
-  allowed_actions?: AllowedActions;
-  selected_actions_url?: string;
-  sha_pinning_required?: boolean;
+  selected_repositories_url?: string | undefined;
+  allowed_actions?: AllowedActions | undefined;
+  selected_actions_url?: string | undefined;
+  sha_pinning_required?: boolean | undefined;
 }
 export interface GetGithubActionsPermissionsRepositoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1921,9 +1927,9 @@ export interface GetGithubActionsPermissionsRepositoryRequest {
 }
 export interface ActionsRepositoryPermissions {
   enabled: boolean;
-  allowed_actions?: AllowedActions;
-  selected_actions_url?: string;
-  sha_pinning_required?: boolean;
+  allowed_actions?: AllowedActions | undefined;
+  selected_actions_url?: string | undefined;
+  sha_pinning_required?: boolean | undefined;
 }
 export interface GetHostedRunnerForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2036,9 +2042,9 @@ export interface JobStepsItem {
   name: string;
   number: number;
   /** The time that the step started, in ISO 8601 format. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** The time that the job finished, in ISO 8601 format. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
 }
 /** Steps in this job. */
 export type JobStepsList = Array<JobStepsItem>;
@@ -2052,7 +2058,7 @@ export interface Job {
   run_id: number;
   run_url: string;
   /** Attempt number of the associated workflow run, 1 for first attempt and higher if the workflow was re-run. */
-  run_attempt?: number;
+  run_attempt?: number | undefined;
   node_id: string;
   /** The SHA of the commit that is being run. */
   head_sha: string;
@@ -2071,7 +2077,7 @@ export interface Job {
   /** The name of the job. */
   name: string;
   /** Steps in this job. */
-  steps?: JobStepsList;
+  steps?: JobStepsList | undefined;
   check_run_url: string;
   /** Labels for the workflow job. Specified by the "runs_on" attribute in the action's workflow file. */
   labels: JobLabelsList;
@@ -2092,11 +2098,11 @@ export interface GetOrgActionsPoliciesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Include policies configured at higher levels that apply to this organization */
-  has_parents?: boolean;
+  has_parents?: boolean | undefined;
 }
 /** An array of Actions policies. */
 export type GetOrgActionsPoliciesResponsePoliciesList = Array<ActionsPolicy>;
@@ -2132,7 +2138,7 @@ export interface OrganizationActionsSecret {
   updated_at: string;
   /** Visibility of a secret */
   visibility: OrganizationActionsSecretVisibility;
-  selected_repositories_url?: string;
+  selected_repositories_url?: string | undefined;
 }
 export interface GetOrgVariableRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2154,7 +2160,7 @@ export interface OrganizationActionsVariable {
   updated_at: string;
   /** Visibility of a variable */
   visibility: OrganizationActionsVariableVisibility;
-  selected_repositories_url?: string;
+  selected_repositories_url?: string | undefined;
 }
 export interface GetPendingDeploymentsForRunRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2166,12 +2172,12 @@ export interface GetPendingDeploymentsForRunRequest {
 }
 export interface PendingDeploymentEnvironment {
   /** The id of the environment. */
-  id?: number;
-  node_id?: string;
+  id?: number | undefined;
+  node_id?: string | undefined;
   /** The name of the environment. */
-  name?: string;
-  url?: string;
-  html_url?: string;
+  name?: string | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
 }
 /** The type of reviewer. */
 export type DeploymentReviewerType = "User" | "Team";
@@ -2203,20 +2209,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -2225,10 +2231,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -2236,17 +2242,17 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export type PendingDeploymentReviewersItemReviewer = SimpleUser | Team;
 export interface PendingDeploymentReviewersItem {
-  type?: DeploymentReviewerType;
-  reviewer?: PendingDeploymentReviewersItemReviewer;
+  type?: DeploymentReviewerType | undefined;
+  reviewer?: PendingDeploymentReviewersItemReviewer | undefined;
 }
 /** The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
 export type PendingDeploymentReviewersList = Array<PendingDeploymentReviewersItem>;
@@ -2290,11 +2296,11 @@ export interface GetRepoActionsPoliciesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Include policies configured at higher levels that apply to this repository */
-  has_parents?: boolean;
+  has_parents?: boolean | undefined;
 }
 /** An array of Actions policies. */
 export type GetRepoActionsPoliciesResponsePoliciesList = Array<ActionsPolicy>;
@@ -2344,16 +2350,16 @@ export interface GetReviewsForRunRequest {
 }
 export interface EnvironmentApprovalsEnvironmentsItem {
   /** The id of the environment. */
-  id?: number;
-  node_id?: string;
+  id?: number | undefined;
+  node_id?: string | undefined;
   /** The name of the environment. */
-  name?: string;
-  url?: string;
-  html_url?: string;
+  name?: string | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
   /** The time that the environment was created, in ISO 8601 format. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time that the environment was last updated, in ISO 8601 format. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The list of environments that were approved or rejected */
 export type EnvironmentApprovalsEnvironmentsList = Array<EnvironmentApprovalsEnvironmentsItem>;
@@ -2381,9 +2387,9 @@ export interface GetRunnerVersionDeprecationForOrgResponse {
   /** The runner version string. */
   runner_version: string;
   /** The date after which this runner version can no longer register. Null if no schedule is set. */
-  registration_deprecates_at?: string | null;
+  registration_deprecates_at?: string | null | undefined;
   /** The date after which jobs will no longer be dispatched to runners on this version. */
-  runtime_deprecates_at?: string | null;
+  runtime_deprecates_at?: string | null | undefined;
 }
 export interface GetRunnerVersionDeprecationForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2397,9 +2403,9 @@ export interface GetRunnerVersionDeprecationForRepoResponse {
   /** The runner version string. */
   runner_version: string;
   /** The date after which this runner version can no longer register. Null if no schedule is set. */
-  registration_deprecates_at?: string | null;
+  registration_deprecates_at?: string | null | undefined;
   /** The date after which jobs will no longer be dispatched to runners on this version. */
-  runtime_deprecates_at?: string | null;
+  runtime_deprecates_at?: string | null | undefined;
 }
 export interface GetSelfHostedRunnerForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2431,7 +2437,7 @@ export interface SelfHostedRunnersSettings {
   /** The policy that controls whether self-hosted runners can be used by repositories in the organization */
   enabled_repositories: SelfHostedRunnersSettingsEnabledRepositories;
   /** The URL to the endpoint for managing selected repositories for self-hosted runners in the organization */
-  selected_repositories_url?: string;
+  selected_repositories_url?: string | undefined;
 }
 export interface GetWorkflowRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2459,7 +2465,7 @@ export interface Workflow {
   url: string;
   html_url: string;
   badge_url: string;
-  deleted_at?: string;
+  deleted_at?: string | undefined;
 }
 export interface GetWorkflowAccessToRepositoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2481,13 +2487,13 @@ export interface GetWorkflowRunRequest {
   /** The unique identifier of the workflow run. */
   run_id: number;
   /** If `true` pull requests are omitted from the response (empty array). */
-  exclude_pull_requests?: boolean;
+  exclude_pull_requests?: boolean | undefined;
 }
 /** A workflow referenced/reused by the initial caller workflow */
 export interface ReferencedWorkflow {
   path: string;
   sha: string;
-  ref?: string;
+  ref?: string | undefined;
 }
 export type WorkflowRunReferencedWorkflowsList = Array<ReferencedWorkflow>;
 export interface PullRequestMinimalHeadRepo {
@@ -2544,66 +2550,66 @@ export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -2619,28 +2625,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -2673,7 +2685,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -2685,7 +2697,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -2693,64 +2705,64 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 /** An invocation of a workflow */
 export interface WorkflowRun {
   /** The ID of the workflow run. */
   id: number;
   /** The name of the workflow run. */
-  name?: string | null;
+  name?: string | null | undefined;
   node_id: string;
   /** The ID of the associated check suite. */
-  check_suite_id?: number;
+  check_suite_id?: number | undefined;
   /** The node ID of the associated check suite. */
-  check_suite_node_id?: string;
+  check_suite_node_id?: string | undefined;
   head_branch: string | null;
   /** The SHA of the head commit that points to the version of the workflow being run. */
   head_sha: string;
@@ -2759,8 +2771,8 @@ export interface WorkflowRun {
   /** The auto incrementing run number for the workflow run. */
   run_number: number;
   /** Attempt number of the run, 1 for first attempt and higher if the workflow was re-run. */
-  run_attempt?: number;
-  referenced_workflows?: WorkflowRunReferencedWorkflowsList | null;
+  run_attempt?: number | undefined;
+  referenced_workflows?: WorkflowRunReferencedWorkflowsList | null | undefined;
   event: string;
   status: string | null;
   conclusion: string | null;
@@ -2773,10 +2785,10 @@ export interface WorkflowRun {
   pull_requests: WorkflowRunPullRequestsList | null;
   created_at: string;
   updated_at: string;
-  actor?: SimpleUser;
-  triggering_actor?: SimpleUser;
+  actor?: SimpleUser | undefined;
+  triggering_actor?: SimpleUser | undefined;
   /** The start time of the latest run. Resets on re-run. */
-  run_started_at?: string;
+  run_started_at?: string | undefined;
   /** The URL to the jobs for the workflow run. */
   jobs_url: string;
   /** The URL to download the logs for the workflow run. */
@@ -2790,13 +2802,13 @@ export interface WorkflowRun {
   /** The URL to rerun the workflow run. */
   rerun_url: string;
   /** The URL to the previous attempted run of this workflow, if one exists. */
-  previous_attempt_url?: string | null;
+  previous_attempt_url?: string | null | undefined;
   /** The URL to the workflow. */
   workflow_url: string;
   head_commit: NullableSimpleCommit | null;
   repository: MinimalRepository;
   head_repository: MinimalRepository;
-  head_repository_id?: number;
+  head_repository_id?: number | undefined;
   /** The event-specific title associated with the run or the run-name if set, or the value of `run-name` if it is set in the workflow. */
   display_title: string;
 }
@@ -2810,7 +2822,7 @@ export interface GetWorkflowRunAttemptRequest {
   /** The attempt number of the workflow run. */
   attempt_number: number;
   /** If `true` pull requests are omitted from the response (empty array). */
-  exclude_pull_requests?: boolean;
+  exclude_pull_requests?: boolean | undefined;
 }
 export interface GetWorkflowRunUsageRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2829,7 +2841,7 @@ export type WorkflowRunUsageBillableUBUNTUJobRunsList =
 export interface WorkflowRunUsageBillableUBUNTU {
   total_ms: number;
   jobs: number;
-  job_runs?: WorkflowRunUsageBillableUBUNTUJobRunsList;
+  job_runs?: WorkflowRunUsageBillableUBUNTUJobRunsList | undefined;
 }
 export type WorkflowRunUsageBillableMACOSJobRunsItem = WorkflowRunUsageBillableUBUNTUJobRunsItem;
 export type WorkflowRunUsageBillableMACOSJobRunsList =
@@ -2837,7 +2849,7 @@ export type WorkflowRunUsageBillableMACOSJobRunsList =
 export interface WorkflowRunUsageBillableMACOS {
   total_ms: number;
   jobs: number;
-  job_runs?: WorkflowRunUsageBillableMACOSJobRunsList;
+  job_runs?: WorkflowRunUsageBillableMACOSJobRunsList | undefined;
 }
 export type WorkflowRunUsageBillableWINDOWSJobRunsItem = WorkflowRunUsageBillableUBUNTUJobRunsItem;
 export type WorkflowRunUsageBillableWINDOWSJobRunsList =
@@ -2845,17 +2857,17 @@ export type WorkflowRunUsageBillableWINDOWSJobRunsList =
 export interface WorkflowRunUsageBillableWINDOWS {
   total_ms: number;
   jobs: number;
-  job_runs?: WorkflowRunUsageBillableWINDOWSJobRunsList;
+  job_runs?: WorkflowRunUsageBillableWINDOWSJobRunsList | undefined;
 }
 export interface WorkflowRunUsageBillable {
-  UBUNTU?: WorkflowRunUsageBillableUBUNTU;
-  MACOS?: WorkflowRunUsageBillableMACOS;
-  WINDOWS?: WorkflowRunUsageBillableWINDOWS;
+  UBUNTU?: WorkflowRunUsageBillableUBUNTU | undefined;
+  MACOS?: WorkflowRunUsageBillableMACOS | undefined;
+  WINDOWS?: WorkflowRunUsageBillableWINDOWS | undefined;
 }
 /** Workflow Run Usage */
 export interface WorkflowRunUsage {
   billable: WorkflowRunUsageBillable;
-  run_duration_ms?: number;
+  run_duration_ms?: number | undefined;
 }
 export interface GetWorkflowUsageRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2866,14 +2878,14 @@ export interface GetWorkflowUsageRequest {
   workflow_id: string;
 }
 export interface WorkflowUsageBillableUBUNTU {
-  total_ms?: number;
+  total_ms?: number | undefined;
 }
 export type WorkflowUsageBillableMACOS = WorkflowUsageBillableUBUNTU;
 export type WorkflowUsageBillableWINDOWS = WorkflowUsageBillableUBUNTU;
 export interface WorkflowUsageBillable {
-  UBUNTU?: WorkflowUsageBillableUBUNTU;
-  MACOS?: WorkflowUsageBillableUBUNTU;
-  WINDOWS?: WorkflowUsageBillableUBUNTU;
+  UBUNTU?: WorkflowUsageBillableUBUNTU | undefined;
+  MACOS?: WorkflowUsageBillableUBUNTU | undefined;
+  WINDOWS?: WorkflowUsageBillableUBUNTU | undefined;
 }
 /** Workflow Usage */
 export interface WorkflowUsage {
@@ -2885,11 +2897,11 @@ export interface ListArtifactsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The name field of an artifact. When specified, only artifacts with this name will be returned. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListArtifactsForRepoResponseArtifactsList = Array<Artifact>;
 export interface ListArtifactsForRepoResponse {
@@ -2902,9 +2914,9 @@ export interface ListConcurrencyGroupsForRepositoryRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export interface ConcurrencyGroupListConcurrencyGroupsItem {
   /** The name of the concurrency group. */
@@ -2928,11 +2940,11 @@ export interface ListConcurrencyGroupsForWorkflowRunRequest {
   /** The unique identifier of the workflow run. */
   run_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export type ConcurrencyGroupRunListConcurrencyGroupsItemGroupMembersItemStatus =
   | "in_progress"
@@ -2951,13 +2963,13 @@ export interface ConcurrencyGroupRunListConcurrencyGroupsItemGroupMembersItem {
   /** API URL to get items ahead of this item in the concurrency group. */
   position_url: string;
   /** The ID of the job, when the item represents a job-level or reusable-workflow-level lease. */
-  job_id?: number | null;
+  job_id?: number | null | undefined;
   /** The display name of the job, when the item represents a job-level or reusable-workflow-level lease. */
-  job_name?: string | null;
+  job_name?: string | null | undefined;
   /** API URL for the job. */
-  job_url?: string | null;
+  job_url?: string | null | undefined;
   /** Web URL for the job. */
-  job_html_url?: string | null;
+  job_html_url?: string | null | undefined;
   status: ConcurrencyGroupRunListConcurrencyGroupsItemGroupMembersItemStatus;
 }
 /** Items belonging to this workflow run that are either currently holding or waiting for the concurrency group lease. May be empty if the run no longer has any active or queued items in this group. */
@@ -3008,9 +3020,9 @@ export interface ListEnvironmentSecretsRequest {
   /** The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`. */
   environment_name: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListEnvironmentSecretsResponseSecretsList = Array<ActionsSecret>;
 export interface ListEnvironmentSecretsResponse {
@@ -3025,9 +3037,9 @@ export interface ListEnvironmentVariablesRequest {
   /** The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`. */
   environment_name: string;
   /** The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListEnvironmentVariablesResponseVariablesList = Array<ActionsVariable>;
 export interface ListEnvironmentVariablesResponse {
@@ -3040,9 +3052,9 @@ export interface ListGithubHostedRunnersInGroupForOrgRequest {
   /** Unique identifier of the self-hosted runner group. */
   runner_group_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListGithubHostedRunnersInGroupForOrgResponseRunnersList = Array<ActionsHostedRunner>;
 export interface ListGithubHostedRunnersInGroupForOrgResponse {
@@ -3053,9 +3065,9 @@ export interface ListHostedRunnersForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListHostedRunnersForOrgResponseRunnersList = Array<ActionsHostedRunner>;
 export interface ListHostedRunnersForOrgResponse {
@@ -3071,11 +3083,11 @@ export interface ListJobsForWorkflowRunRequest {
   /** The unique identifier of the workflow run. */
   run_id: number;
   /** Filters jobs by their `completed_at` timestamp. `latest` returns jobs from the most recent execution of the workflow run. `all` returns all jobs for a workflow run, including from old executions of the workflow run. */
-  filter?: ListJobsForWorkflowRunRequestFilter | (string & {});
+  filter?: ListJobsForWorkflowRunRequestFilter | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListJobsForWorkflowRunResponseJobsList = Array<Job>;
 export interface ListJobsForWorkflowRunResponse {
@@ -3092,9 +3104,9 @@ export interface ListJobsForWorkflowRunAttemptRequest {
   /** The attempt number of the workflow run. */
   attempt_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListJobsForWorkflowRunAttemptResponseJobsList = Array<Job>;
 export interface ListJobsForWorkflowRunAttemptResponse {
@@ -3129,9 +3141,9 @@ export interface ListOrgSecretsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListOrgSecretsResponseSecretsList = Array<OrganizationActionsSecret>;
 export interface ListOrgSecretsResponse {
@@ -3142,9 +3154,9 @@ export interface ListOrgVariablesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListOrgVariablesResponseVariablesList = Array<OrganizationActionsVariable>;
 export interface ListOrgVariablesResponse {
@@ -3157,9 +3169,9 @@ export interface ListRepoAccessToSelfHostedRunnerGroupInOrgRequest {
   /** Unique identifier of the self-hosted runner group. */
   runner_group_id: number;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListRepoAccessToSelfHostedRunnerGroupInOrgResponseRepositoriesList =
   Array<MinimalRepository>;
@@ -3173,9 +3185,9 @@ export interface ListRepoOrganizationSecretsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoOrganizationSecretsResponseSecretsList = Array<ActionsSecret>;
 export interface ListRepoOrganizationSecretsResponse {
@@ -3188,9 +3200,9 @@ export interface ListRepoOrganizationVariablesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoOrganizationVariablesResponseVariablesList = Array<ActionsVariable>;
 export interface ListRepoOrganizationVariablesResponse {
@@ -3203,9 +3215,9 @@ export interface ListRepoSecretsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoSecretsResponseSecretsList = Array<ActionsSecret>;
 export interface ListRepoSecretsResponse {
@@ -3218,9 +3230,9 @@ export interface ListRepoVariablesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoVariablesResponseVariablesList = Array<ActionsVariable>;
 export interface ListRepoVariablesResponse {
@@ -3233,9 +3245,9 @@ export interface ListRepoWorkflowsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoWorkflowsResponseWorkflowsList = Array<Workflow>;
 export interface ListRepoWorkflowsResponse {
@@ -3253,8 +3265,8 @@ export interface RunnerApplication {
   download_url: string;
   filename: string;
   /** A short lived bearer token used to download the runner, if needed. */
-  temp_download_token?: string;
-  sha256_checksum?: string;
+  temp_download_token?: string | undefined;
+  sha256_checksum?: string | undefined;
 }
 export type ListRunnerApplicationsForOrgResponseBodyList = Array<RunnerApplication>;
 export type ListRunnerApplicationsForOrgResponse = ListRunnerApplicationsForOrgResponseBodyList;
@@ -3272,9 +3284,9 @@ export interface ListSelectedReposForOrgSecretRequest {
   /** The name of the secret. */
   secret_name: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListSelectedReposForOrgSecretResponseRepositoriesList = Array<MinimalRepository>;
 export interface ListSelectedReposForOrgSecretResponse {
@@ -3287,9 +3299,9 @@ export interface ListSelectedReposForOrgVariableRequest {
   /** The name of the variable. */
   name: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListSelectedReposForOrgVariableResponseRepositoriesList = Array<MinimalRepository>;
 export interface ListSelectedReposForOrgVariableResponse {
@@ -3300,9 +3312,9 @@ export interface ListSelectedRepositoriesEnabledGithubActionsOrganizationRequest
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSelectedRepositoriesEnabledGithubActionsOrganizationResponseRepositoriesList =
   Array<Repository>;
@@ -3314,25 +3326,25 @@ export interface ListSelectedRepositoriesSelfHostedRunnersOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSelectedRepositoriesSelfHostedRunnersOrganizationResponseRepositoriesList =
   Array<Repository>;
 export interface ListSelectedRepositoriesSelfHostedRunnersOrganizationResponse {
-  total_count?: number;
+  total_count?: number | undefined;
   repositories: ListSelectedRepositoriesSelfHostedRunnersOrganizationResponseRepositoriesList;
 }
 export interface ListSelfHostedRunnerGroupsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Only return runner groups that are allowed to be used by this repository. */
-  visible_to_repository?: string;
+  visible_to_repository?: string | undefined;
 }
 export type ListSelfHostedRunnerGroupsForOrgResponseRunnerGroupsList = Array<RunnerGroupsOrg>;
 export interface ListSelfHostedRunnerGroupsForOrgResponse {
@@ -3343,11 +3355,11 @@ export interface ListSelfHostedRunnersForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The name of a self-hosted runner. */
-  name?: string;
+  name?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSelfHostedRunnersForOrgResponseRunnersList = Array<Runner>;
 export interface ListSelfHostedRunnersForOrgResponse {
@@ -3360,11 +3372,11 @@ export interface ListSelfHostedRunnersForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The name of a self-hosted runner. */
-  name?: string;
+  name?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSelfHostedRunnersForRepoResponseRunnersList = Array<Runner>;
 export interface ListSelfHostedRunnersForRepoResponse {
@@ -3377,9 +3389,9 @@ export interface ListSelfHostedRunnersInGroupForOrgRequest {
   /** Unique identifier of the self-hosted runner group. */
   runner_group_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSelfHostedRunnersInGroupForOrgResponseRunnersList = Array<Runner>;
 export interface ListSelfHostedRunnersInGroupForOrgResponse {
@@ -3395,13 +3407,13 @@ export interface ListWorkflowRunArtifactsRequest {
   /** The unique identifier of the workflow run. */
   run_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The name field of an artifact. When specified, only artifacts with this name will be returned. */
-  name?: string;
+  name?: string | undefined;
   /** The direction to sort the results by. */
-  direction?: ListWorkflowRunArtifactsRequestDirection | (string & {});
+  direction?: ListWorkflowRunArtifactsRequestDirection | (string & {}) | undefined;
 }
 export type ListWorkflowRunArtifactsResponseArtifactsList = Array<Artifact>;
 export interface ListWorkflowRunArtifactsResponse {
@@ -3431,25 +3443,25 @@ export interface ListWorkflowRunsRequest {
   /** The ID of the workflow. You can also pass the workflow file name as a string. */
   workflow_id: string;
   /** Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run. */
-  actor?: string;
+  actor?: string | undefined;
   /** Returns workflow runs associated with a branch. Use the name of the branch of the `push`. */
-  branch?: string;
+  branch?: string | undefined;
   /** Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)." */
-  event?: string;
+  event?: string | undefined;
   /** Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub Actions can set a status of `waiting`, `pending`, or `requested`. */
-  status?: ListWorkflowRunsRequestStatus | (string & {});
+  status?: ListWorkflowRunsRequestStatus | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)." */
-  created?: string;
+  created?: string | undefined;
   /** If `true` pull requests are omitted from the response (empty array). */
-  exclude_pull_requests?: boolean;
+  exclude_pull_requests?: boolean | undefined;
   /** Returns workflow runs with the `check_suite_id` that you specify. */
-  check_suite_id?: number;
+  check_suite_id?: number | undefined;
   /** Only returns workflow runs that are associated with the specified `head_sha`. */
-  head_sha?: string;
+  head_sha?: string | undefined;
 }
 export type ListWorkflowRunsResponseWorkflowRunsList = Array<WorkflowRun>;
 export interface ListWorkflowRunsResponse {
@@ -3477,25 +3489,25 @@ export interface ListWorkflowRunsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run. */
-  actor?: string;
+  actor?: string | undefined;
   /** Returns workflow runs associated with a branch. Use the name of the branch of the `push`. */
-  branch?: string;
+  branch?: string | undefined;
   /** Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)." */
-  event?: string;
+  event?: string | undefined;
   /** Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub Actions can set a status of `waiting`, `pending`, or `requested`. */
-  status?: ListWorkflowRunsForRepoRequestStatus | (string & {});
+  status?: ListWorkflowRunsForRepoRequestStatus | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)." */
-  created?: string;
+  created?: string | undefined;
   /** If `true` pull requests are omitted from the response (empty array). */
-  exclude_pull_requests?: boolean;
+  exclude_pull_requests?: boolean | undefined;
   /** Returns workflow runs with the `check_suite_id` that you specify. */
-  check_suite_id?: number;
+  check_suite_id?: number | undefined;
   /** Only returns workflow runs that are associated with the specified `head_sha`. */
-  head_sha?: string;
+  head_sha?: string | undefined;
 }
 export type ListWorkflowRunsForRepoResponseWorkflowRunsList = Array<WorkflowRun>;
 export interface ListWorkflowRunsForRepoResponse {
@@ -3596,7 +3608,7 @@ export interface ReRunWorkflowRequest {
   /** The unique identifier of the workflow run. */
   run_id: number;
   /** Whether to enable debug logging for the re-run. */
-  enable_debug_logging?: boolean;
+  enable_debug_logging?: boolean | undefined;
 }
 export type ReRunWorkflowResponse = unknown;
 export interface ReRunWorkflowFailedJobsRequest {
@@ -3607,7 +3619,7 @@ export interface ReRunWorkflowFailedJobsRequest {
   /** The unique identifier of the workflow run. */
   run_id: number;
   /** Whether to enable debug logging for the re-run. */
-  enable_debug_logging?: boolean;
+  enable_debug_logging?: boolean | undefined;
 }
 export type ReRunWorkflowFailedJobsResponse = unknown;
 export interface ReviewCustomGatesCommentRequired {
@@ -3624,7 +3636,7 @@ export interface ReviewCustomGatesStateRequired {
   /** Whether to approve or reject deployment to the specified environments. */
   state: ReviewCustomGatesStateRequiredState | (string & {});
   /** Optional comment to include with the review. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type ReviewCustomGatesForRunRequestBody =
   | ReviewCustomGatesCommentRequired
@@ -3664,10 +3676,10 @@ export type NullableSimpleUser = SimpleUser;
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -3682,11 +3694,11 @@ export interface Enterprise {
 export type NullableIntegrationOwner = SimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface NullableIntegrationPermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -3696,9 +3708,9 @@ export interface NullableIntegration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: NullableIntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -3712,7 +3724,7 @@ export interface NullableIntegration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: NullableIntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** A request for a specific ref(branch,sha,tag) to be deployed */
 export interface Deployment {
@@ -3726,7 +3738,7 @@ export interface Deployment {
   /** Parameter to specify a task to execute */
   task: string;
   payload: DeploymentPayload;
-  original_environment?: string;
+  original_environment?: string | undefined;
   /** Name for the target deployment environment. */
   environment: string;
   description: string | null;
@@ -3736,10 +3748,10 @@ export interface Deployment {
   statuses_url: string;
   repository_url: string;
   /** Specifies if the given environment is will no longer exist at some point in the future. Default: false. */
-  transient_environment?: boolean;
+  transient_environment?: boolean | undefined;
   /** Specifies if the given environment is one that end-users directly interact with. Default: false. */
-  production_environment?: boolean;
-  performed_via_github_app?: NullableIntegration | null;
+  production_environment?: boolean | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
 }
 export type ReviewPendingDeploymentsForRunResponseBodyList = Array<Deployment>;
 export type ReviewPendingDeploymentsForRunResponse = ReviewPendingDeploymentsForRunResponseBodyList;
@@ -3751,23 +3763,23 @@ export interface RunReRunJobForWorkflowRequest {
   /** The unique identifier of the job. */
   job_id: number;
   /** Whether to enable debug logging for the re-run. */
-  enable_debug_logging?: boolean;
+  enable_debug_logging?: boolean | undefined;
   /** Whether to enable the debugger for the re-run of this job. */
-  enable_debugger?: boolean;
+  enable_debugger?: boolean | undefined;
 }
 export type RunReRunJobForWorkflowResponse = unknown;
 export interface SetActionsCacheRetentionLimitForEnterpriseRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
   /** For repositories & organizations in an enterprise, the maximum duration, in days, for which caches in a repository may be retained. */
-  max_cache_retention_days?: number;
+  max_cache_retention_days?: number | undefined;
 }
 export interface SetActionsCacheRetentionLimitForEnterpriseResponse {}
 export interface SetActionsCacheRetentionLimitForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** For repositories in this organization, the maximum duration, in days, for which caches in a repository may be retained. */
-  max_cache_retention_days?: number;
+  max_cache_retention_days?: number | undefined;
 }
 export interface SetActionsCacheRetentionLimitForOrganizationResponse {}
 export interface SetActionsCacheRetentionLimitForRepositoryRequest {
@@ -3776,21 +3788,21 @@ export interface SetActionsCacheRetentionLimitForRepositoryRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The maximum number of days to keep caches in this repository. */
-  max_cache_retention_days?: number;
+  max_cache_retention_days?: number | undefined;
 }
 export interface SetActionsCacheRetentionLimitForRepositoryResponse {}
 export interface SetActionsCacheStorageLimitForEnterpriseRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
   /** For repositories & organizations in an enterprise, the maximum size limit for the sum of all caches in a repository, in gigabytes. */
-  max_cache_size_gb?: number;
+  max_cache_size_gb?: number | undefined;
 }
 export interface SetActionsCacheStorageLimitForEnterpriseResponse {}
 export interface SetActionsCacheStorageLimitForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** For repositories in the organization, the maximum size limit for the sum of all caches in a repository, in gigabytes. */
-  max_cache_size_gb?: number;
+  max_cache_size_gb?: number | undefined;
 }
 export interface SetActionsCacheStorageLimitForOrganizationResponse {}
 export interface SetActionsCacheStorageLimitForRepositoryRequest {
@@ -3799,7 +3811,7 @@ export interface SetActionsCacheStorageLimitForRepositoryRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The maximum total cache size for this repository, in gigabytes. */
-  max_cache_size_gb?: number;
+  max_cache_size_gb?: number | undefined;
 }
 export interface SetActionsCacheStorageLimitForRepositoryResponse {}
 /** Specifies a list of string-matching patterns to allow specific action(s) and reusable workflow(s). Wildcards, tags, and SHAs are allowed. For example, `monalisa/octocat@*`, `monalisa/octocat@v2`, `monalisa/*`. > [!NOTE] > The `patterns_allowed` setting only applies to public repositories. */
@@ -3808,11 +3820,11 @@ export interface SetAllowedActionsOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Whether GitHub-owned actions are allowed. For example, this includes the actions in the `actions` organization. */
-  github_owned_allowed?: boolean;
+  github_owned_allowed?: boolean | undefined;
   /** Whether actions from GitHub Marketplace verified creators are allowed. Set to `true` to allow all actions by GitHub Marketplace verified creators. */
-  verified_allowed?: boolean;
+  verified_allowed?: boolean | undefined;
   /** Specifies a list of string-matching patterns to allow specific action(s) and reusable workflow(s). Wildcards, tags, and SHAs are allowed. For example, `monalisa/octocat@*`, `monalisa/octocat@v2`, `monalisa/*`. > [!NOTE] > The `patterns_allowed` setting only applies to public repositories. */
-  patterns_allowed?: SetAllowedActionsOrganizationRequestPatternsAllowedList;
+  patterns_allowed?: SetAllowedActionsOrganizationRequestPatternsAllowedList | undefined;
 }
 export interface SetAllowedActionsOrganizationResponse {}
 /** Specifies a list of string-matching patterns to allow specific action(s) and reusable workflow(s). Wildcards, tags, and SHAs are allowed. For example, `monalisa/octocat@*`, `monalisa/octocat@v2`, `monalisa/*`. > [!NOTE] > The `patterns_allowed` setting only applies to public repositories. */
@@ -3823,11 +3835,11 @@ export interface SetAllowedActionsRepositoryRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Whether GitHub-owned actions are allowed. For example, this includes the actions in the `actions` organization. */
-  github_owned_allowed?: boolean;
+  github_owned_allowed?: boolean | undefined;
   /** Whether actions from GitHub Marketplace verified creators are allowed. Set to `true` to allow all actions by GitHub Marketplace verified creators. */
-  verified_allowed?: boolean;
+  verified_allowed?: boolean | undefined;
   /** Specifies a list of string-matching patterns to allow specific action(s) and reusable workflow(s). Wildcards, tags, and SHAs are allowed. For example, `monalisa/octocat@*`, `monalisa/octocat@v2`, `monalisa/*`. > [!NOTE] > The `patterns_allowed` setting only applies to public repositories. */
-  patterns_allowed?: SetAllowedActionsRepositoryRequestPatternsAllowedList;
+  patterns_allowed?: SetAllowedActionsRepositoryRequestPatternsAllowedList | undefined;
 }
 export interface SetAllowedActionsRepositoryResponse {}
 export interface SetArtifactAndLogRetentionSettingsOrganizationRequest {
@@ -3888,9 +3900,9 @@ export interface SetCustomOidcSubClaimForRepoRequest {
   /** Whether to use the default template or not. If `true`, the `include_claim_keys` field is ignored. */
   use_default: boolean;
   /** Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
-  include_claim_keys?: SetCustomOidcSubClaimForRepoRequestIncludeClaimKeysList;
+  include_claim_keys?: SetCustomOidcSubClaimForRepoRequestIncludeClaimKeysList | undefined;
   /** Whether to opt in to the immutable OIDC subject claim format for this repository. When `true`, OIDC tokens will use a stable, repository-ID-based `sub` claim. */
-  use_immutable_subject?: boolean;
+  use_immutable_subject?: boolean | undefined;
 }
 export type SetCustomOidcSubClaimForRepoResponse = unknown;
 /** The policy that controls when fork PR workflows require approval from a maintainer. */
@@ -3926,8 +3938,8 @@ export interface SetForkPrContributorApprovalPermissionsRepositoryResponse {}
 export interface SetGithubActionsDefaultWorkflowPermissionsOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
-  default_workflow_permissions?: ActionsDefaultWorkflowPermissions | (string & {});
-  can_approve_pull_request_reviews?: boolean;
+  default_workflow_permissions?: ActionsDefaultWorkflowPermissions | (string & {}) | undefined;
+  can_approve_pull_request_reviews?: boolean | undefined;
 }
 export interface SetGithubActionsDefaultWorkflowPermissionsOrganizationResponse {}
 export interface SetGithubActionsDefaultWorkflowPermissionsRepositoryRequest {
@@ -3935,16 +3947,16 @@ export interface SetGithubActionsDefaultWorkflowPermissionsRepositoryRequest {
   owner: string;
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
-  default_workflow_permissions?: ActionsDefaultWorkflowPermissions | (string & {});
-  can_approve_pull_request_reviews?: boolean;
+  default_workflow_permissions?: ActionsDefaultWorkflowPermissions | (string & {}) | undefined;
+  can_approve_pull_request_reviews?: boolean | undefined;
 }
 export interface SetGithubActionsDefaultWorkflowPermissionsRepositoryResponse {}
 export interface SetGithubActionsPermissionsOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   enabled_repositories: EnabledRepositories | (string & {});
-  allowed_actions?: AllowedActions | (string & {});
-  sha_pinning_required?: boolean;
+  allowed_actions?: AllowedActions | (string & {}) | undefined;
+  sha_pinning_required?: boolean | undefined;
 }
 export interface SetGithubActionsPermissionsOrganizationResponse {}
 export interface SetGithubActionsPermissionsRepositoryRequest {
@@ -3953,8 +3965,8 @@ export interface SetGithubActionsPermissionsRepositoryRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   enabled: boolean;
-  allowed_actions?: AllowedActions | (string & {});
-  sha_pinning_required?: boolean;
+  allowed_actions?: AllowedActions | (string & {}) | undefined;
+  sha_pinning_required?: boolean | undefined;
 }
 export interface SetGithubActionsPermissionsRepositoryResponse {}
 export interface SetPrivateRepoForkPrWorkflowsSettingsOrganizationRequest {
@@ -3963,11 +3975,11 @@ export interface SetPrivateRepoForkPrWorkflowsSettingsOrganizationRequest {
   /** Whether workflows triggered by pull requests from forks are allowed to run on private repositories. */
   run_workflows_from_fork_pull_requests: boolean;
   /** Whether GitHub Actions can create pull requests or submit approving pull request reviews from a workflow triggered by a fork pull request. */
-  send_write_tokens_to_workflows?: boolean;
+  send_write_tokens_to_workflows?: boolean | undefined;
   /** Whether to make secrets and variables available to workflows triggered by pull requests from forks. */
-  send_secrets_and_variables?: boolean;
+  send_secrets_and_variables?: boolean | undefined;
   /** Whether workflows triggered by pull requests from forks require approval from a repository administrator to run. */
-  require_approval_for_fork_pr_workflows?: boolean;
+  require_approval_for_fork_pr_workflows?: boolean | undefined;
 }
 export interface SetPrivateRepoForkPrWorkflowsSettingsOrganizationResponse {}
 export interface SetPrivateRepoForkPrWorkflowsSettingsRepositoryRequest {
@@ -3978,11 +3990,11 @@ export interface SetPrivateRepoForkPrWorkflowsSettingsRepositoryRequest {
   /** Whether workflows triggered by pull requests from forks are allowed to run on private repositories. */
   run_workflows_from_fork_pull_requests: boolean;
   /** Whether GitHub Actions can create pull requests or submit approving pull request reviews from a workflow triggered by a fork pull request. */
-  send_write_tokens_to_workflows?: boolean;
+  send_write_tokens_to_workflows?: boolean | undefined;
   /** Whether to make secrets and variables available to workflows triggered by pull requests from forks. */
-  send_secrets_and_variables?: boolean;
+  send_secrets_and_variables?: boolean | undefined;
   /** Whether workflows triggered by pull requests from forks require approval from a repository administrator to run. */
-  require_approval_for_fork_pr_workflows?: boolean;
+  require_approval_for_fork_pr_workflows?: boolean | undefined;
 }
 export interface SetPrivateRepoForkPrWorkflowsSettingsRepositoryResponse {}
 /** List of repository IDs that can access the runner group. */
@@ -4085,7 +4097,7 @@ export interface UpdateEnvironmentVariableRequest {
   /** The name of the variable. */
   name: string;
   /** The value of the variable. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface UpdateEnvironmentVariableResponse {}
 /** The source type of the runner image to use. Must match the source of the image specified by `image_id`. Can be one of `github`, `partner`, or `custom`. */
@@ -4096,23 +4108,23 @@ export interface UpdateHostedRunnerForOrgRequest {
   /** Unique identifier of the GitHub-hosted runner. */
   hosted_runner_id: number;
   /** Name of the runner. Must be between 1 and 64 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'. */
-  name?: string;
+  name?: string | undefined;
   /** The existing runner group to add this runner to. */
-  runner_group_id?: number;
+  runner_group_id?: number | undefined;
   /** The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost. */
-  maximum_runners?: number;
+  maximum_runners?: number | undefined;
   /** Whether this runner should be updated with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits` */
-  enable_static_ip?: boolean;
+  enable_static_ip?: boolean | undefined;
   /** The machine size of the runner. To list available sizes, use `GET actions/hosted-runners/machine-sizes` */
-  size?: string;
+  size?: string | undefined;
   /** The source type of the runner image to use. Must match the source of the image specified by `image_id`. Can be one of `github`, `partner`, or `custom`. */
-  image_source?: UpdateHostedRunnerForOrgRequestImageSource | (string & {});
+  image_source?: UpdateHostedRunnerForOrgRequestImageSource | (string & {}) | undefined;
   /** The unique identifier of the runner image. To list available images, use `GET /actions/hosted-runners/images/github-owned`, `GET /actions/hosted-runners/images/partner`, or `GET /actions/hosted-runners/images/custom`. */
-  image_id?: string;
+  image_id?: string | undefined;
   /** The version of the runner image to deploy. This is relevant only for runners using custom images. */
-  image_version?: string | null;
+  image_version?: string | null | undefined;
   /** Whether to enable image generation for this runner pool. When enabled, the runner pool is used to build and publish custom runner images. */
-  image_gen?: boolean;
+  image_gen?: boolean | undefined;
 }
 /** An array of rules within the policy. */
 export type UpdateOrgActionsPolicyRequestRulesList = Array<ActionsRule>;
@@ -4122,11 +4134,11 @@ export interface UpdateOrgActionsPolicyRequest {
   /** The ID of the policy. */
   policy_id: number;
   /** The name of the policy. */
-  name?: string;
-  enforcement?: RepositoryRuleEnforcement | (string & {});
-  conditions?: ActionsPolicyOrgConditions;
+  name?: string | undefined;
+  enforcement?: RepositoryRuleEnforcement | (string & {}) | undefined;
+  conditions?: ActionsPolicyOrgConditions | undefined;
   /** An array of rules within the policy. */
-  rules?: UpdateOrgActionsPolicyRequestRulesList;
+  rules?: UpdateOrgActionsPolicyRequestRulesList | undefined;
 }
 /** The type of repositories in the organization that can access the variable. `selected` means only the repositories specified by `selected_repository_ids` can access the variable. */
 export type UpdateOrgVariableRequestVisibility = "all" | "private" | "selected";
@@ -4138,11 +4150,11 @@ export interface UpdateOrgVariableRequest {
   /** The name of the variable. */
   name: string;
   /** The value of the variable. */
-  value?: string;
+  value?: string | undefined;
   /** The type of repositories in the organization that can access the variable. `selected` means only the repositories specified by `selected_repository_ids` can access the variable. */
-  visibility?: UpdateOrgVariableRequestVisibility | (string & {});
+  visibility?: UpdateOrgVariableRequestVisibility | (string & {}) | undefined;
   /** An array of repository ids that can access the organization variable. You can only provide a list of repository ids when the `visibility` is set to `selected`. */
-  selected_repository_ids?: UpdateOrgVariableRequestSelectedRepositoryIdsList;
+  selected_repository_ids?: UpdateOrgVariableRequestSelectedRepositoryIdsList | undefined;
 }
 export interface UpdateOrgVariableResponse {}
 /** An array of rules within the policy. */
@@ -4155,11 +4167,11 @@ export interface UpdateRepoActionsPolicyRequest {
   /** The ID of the policy. */
   policy_id: number;
   /** The name of the policy. */
-  name?: string;
-  enforcement?: RepositoryRuleEnforcement | (string & {});
-  conditions?: ActionsPolicyRepoConditions;
+  name?: string | undefined;
+  enforcement?: RepositoryRuleEnforcement | (string & {}) | undefined;
+  conditions?: ActionsPolicyRepoConditions | undefined;
   /** An array of rules within the policy. */
-  rules?: UpdateRepoActionsPolicyRequestRulesList;
+  rules?: UpdateRepoActionsPolicyRequestRulesList | undefined;
 }
 export interface UpdateRepoVariableRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4169,7 +4181,7 @@ export interface UpdateRepoVariableRequest {
   /** The name of the variable. */
   name: string;
   /** The value of the variable. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface UpdateRepoVariableResponse {}
 /** Visibility of a runner group. You can select all repositories, select individual repositories, or all private repositories. */
@@ -4184,15 +4196,15 @@ export interface UpdateSelfHostedRunnerGroupForOrgRequest {
   /** Name of the runner group. */
   name: string;
   /** Visibility of a runner group. You can select all repositories, select individual repositories, or all private repositories. */
-  visibility?: UpdateSelfHostedRunnerGroupForOrgRequestVisibility | (string & {});
+  visibility?: UpdateSelfHostedRunnerGroupForOrgRequestVisibility | (string & {}) | undefined;
   /** Whether the runner group can be used by `public` repositories. */
-  allows_public_repositories?: boolean;
+  allows_public_repositories?: boolean | undefined;
   /** If `true`, the runner group will be restricted to running only the workflows specified in the `selected_workflows` array. */
-  restricted_to_workflows?: boolean;
+  restricted_to_workflows?: boolean | undefined;
   /** List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
-  selected_workflows?: UpdateSelfHostedRunnerGroupForOrgRequestSelectedWorkflowsList;
+  selected_workflows?: UpdateSelfHostedRunnerGroupForOrgRequestSelectedWorkflowsList | undefined;
   /** The identifier of a hosted compute network configuration. */
-  network_configuration_id?: string | null;
+  network_configuration_id?: string | null | undefined;
 }
 export type AddCustomLabelsToSelfHostedRunnerForOrgError =
   | NotFound

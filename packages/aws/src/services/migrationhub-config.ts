@@ -131,24 +131,24 @@ export type TargetType = "ACCOUNT" | (string & {});
 export type TargetId = string;
 export interface Target {
   Type: TargetType;
-  Id?: string;
+  Id?: string | undefined;
 }
 export type DryRun = boolean;
 export interface CreateHomeRegionControlRequest {
   HomeRegion: string;
   Target: Target;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export type ControlId = string;
 export type RequestedTime = Date;
 export interface HomeRegionControl {
-  ControlId?: string;
-  HomeRegion?: string;
-  Target?: Target;
-  RequestedTime?: Date;
+  ControlId?: string | undefined;
+  HomeRegion?: string | undefined;
+  Target?: Target | undefined;
+  RequestedTime?: Date | undefined;
 }
 export interface CreateHomeRegionControlResult {
-  HomeRegionControl?: HomeRegionControl;
+  HomeRegionControl?: HomeRegionControl | undefined;
 }
 export interface DeleteHomeRegionControlRequest {
   ControlId: string;
@@ -157,20 +157,20 @@ export interface DeleteHomeRegionControlResult {}
 export type DescribeHomeRegionControlsMaxResults = number;
 export type Token = string;
 export interface DescribeHomeRegionControlsRequest {
-  ControlId?: string;
-  HomeRegion?: string;
-  Target?: Target;
-  MaxResults?: number;
-  NextToken?: string;
+  ControlId?: string | undefined;
+  HomeRegion?: string | undefined;
+  Target?: Target | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type HomeRegionControls = HomeRegionControl[];
 export interface DescribeHomeRegionControlsResult {
-  HomeRegionControls?: HomeRegionControl[];
-  NextToken?: string;
+  HomeRegionControls?: HomeRegionControl[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetHomeRegionRequest {}
 export interface GetHomeRegionResult {
-  HomeRegion?: string;
+  HomeRegion?: string | undefined;
 }
 export type ErrorMessage = string;
 export type RetryAfterSeconds = number;

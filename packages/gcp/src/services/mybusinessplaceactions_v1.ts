@@ -100,27 +100,27 @@ export type PlaceActionLinkPlaceActionTypeEnum =
 /** Represents a place action link and its attributes. */
 export interface PlaceActionLink {
   /** Output only. Specifies the provider type. */
-  providerType?: PlaceActionLinkProviderTypeEnum | (string & {});
+  providerType?: PlaceActionLinkProviderTypeEnum | (string & {}) | undefined;
   /** Required. The type of place action that can be performed using this link. */
-  placeActionType?: PlaceActionLinkPlaceActionTypeEnum | (string & {});
+  placeActionType?: PlaceActionLinkPlaceActionTypeEnum | (string & {}) | undefined;
   /** Output only. The time when the place action link was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The time when the place action link was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Indicates whether this link can be edited by the client. */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Optional. The resource name, in the format `locations/{location_id}/placeActionLinks/{place_action_link_id}`. The name field will only be considered in UpdatePlaceActionLink and DeletePlaceActionLink requests for updating and deleting links respectively. However, it will be ignored in CreatePlaceActionLink request, where `place_action_link_id` will be assigned by the server on successful creation of a new link and returned as part of the response. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The link uri. The same uri can be reused for different action types across different locations. However, only one place action link is allowed for each unique combination of (uri, place action type, location). */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. Whether this link is preferred by the merchant. Only one link can be marked as preferred per place action type at a location. If a future request marks a different link as preferred for the same place action type, then the current preferred link (if any exists) will lose its preference. */
-  isPreferred?: boolean;
+  isPreferred?: boolean | undefined;
 }
 export interface CreateLocationsPlaceActionLinksRequest {
   /** Required. The resource name of the location where to create this place action link. `locations/{location_id}`. */
   parent: string;
   /** Request body */
-  body?: PlaceActionLink;
+  body?: PlaceActionLink | undefined;
 }
 export interface DeleteLocationsPlaceActionLinksRequest {
   /** Required. The resource name of the place action link to remove from the location. */
@@ -134,31 +134,31 @@ export interface GetLocationsPlaceActionLinksRequest {
 }
 export interface ListLocationsPlaceActionLinksRequest {
   /** Optional. A filter constraining the place action links to return. The response includes entries that match the filter. We support only the following filter: 1. place_action_type=XYZ where XYZ is a valid PlaceActionType. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. How many place action links to return per page. Default of 10. The minimum is 1. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the location whose place action links will be listed. `locations/{location_id}`. */
   parent: string;
   /** Optional. If specified, returns the next page of place action links. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type PlaceActionLinkList = Array<PlaceActionLink>;
 /** Response message for PlaceActions.ListPlaceActionLinks. */
 export interface ListPlaceActionLinksResponse {
   /** If there are more place action links than the requested page size, then this field is populated with a token to fetch the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The returned list of place action links. */
-  placeActionLinks?: PlaceActionLinkList;
+  placeActionLinks?: PlaceActionLinkList | undefined;
 }
 export interface ListPlaceActionTypeMetadataRequest {
   /** Optional. How many action types to include per page. Default is 10, minimum is 1. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If specified, the next page of place action type metadata is retrieved. The `pageToken` is returned when a call to `placeActionTypeMetadata.list` returns more results than can fit into the requested page size. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A filter constraining the place action types to return metadata for. The response includes entries that match the filter. We support only the following filters: 1. location=XYZ where XYZ is a string indicating the resource name of a location, in the format `locations/{location_id}`. 2. region_code=XYZ where XYZ is a Unicode CLDR region code to find available action types. If no filter is provided, all place action types are returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The IETF BCP-47 code of language to get display names in. If this language is not available, they will be provided in English. */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type PlaceActionTypeMetadataPlaceActionTypeEnum =
   | "PLACE_ACTION_TYPE_UNSPECIFIED"
@@ -173,25 +173,25 @@ export type PlaceActionTypeMetadataPlaceActionTypeEnum =
 /** Metadata for supported place action types. */
 export interface PlaceActionTypeMetadata {
   /** The place action type. */
-  placeActionType?: PlaceActionTypeMetadataPlaceActionTypeEnum;
+  placeActionType?: PlaceActionTypeMetadataPlaceActionTypeEnum | undefined;
   /** The localized display name for the attribute, if available; otherwise, the English display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type PlaceActionTypeMetadataList = Array<PlaceActionTypeMetadata>;
 /** Response message for PlaceActions.ListPlaceActionTypeMetadata. */
 export interface ListPlaceActionTypeMetadataResponse {
   /** If the number of action types exceeded the requested page size, this field will be populated with a token to fetch the next page on a subsequent call to `placeActionTypeMetadata.list`. If there are no more results, this field will not be present in the response. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A collection of metadata for the available place action types. */
-  placeActionTypeMetadata?: PlaceActionTypeMetadataList;
+  placeActionTypeMetadata?: PlaceActionTypeMetadataList | undefined;
 }
 export interface PatchLocationsPlaceActionLinksRequest {
   /** Optional. The resource name, in the format `locations/{location_id}/placeActionLinks/{place_action_link_id}`. The name field will only be considered in UpdatePlaceActionLink and DeletePlaceActionLink requests for updating and deleting links respectively. However, it will be ignored in CreatePlaceActionLink request, where `place_action_link_id` will be assigned by the server on successful creation of a new link and returned as part of the response. */
   name: string;
   /** Required. The specific fields to update. The only editable fields are `uri`, `place_action_type` and `is_preferred`. If the updated link already exists at the same location with the same `place_action_type` and `uri`, fails with an `ALREADY_EXISTS` error. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: PlaceActionLink;
+  body?: PlaceActionLink | undefined;
 }
 export type CreateLocationsPlaceActionLinksError =
   | NotFound

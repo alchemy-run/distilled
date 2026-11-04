@@ -39,86 +39,86 @@ const TELEMETRY = {
 
 export interface ListRequestAction {
   /** Filters by the action type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface ListRequestActor {
   /** Filters by the email address of the actor that made the change. */
-  email?: string;
+  email?: string | undefined;
   /** Filters by the IP address of the request that made the change by specific IP address or valid CIDR Range. */
-  ip?: string;
+  ip?: string | undefined;
 }
 export type ListRequestDirection = "desc" | "asc";
 export interface ListRequestZone {
   /** Filters by the name of the zone associated to the change. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ListAuditLogsRequest {
   /** Identifier */
   accountId: string;
   /** Finds a specific log by its ID. */
-  id?: string;
-  action?: ListRequestAction;
-  actor?: ListRequestActor;
+  id?: string | undefined;
+  action?: ListRequestAction | undefined;
+  actor?: ListRequestActor | undefined;
   /** Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339. */
-  before?: string;
+  before?: string | undefined;
   /** Changes the direction of the chronological sorting. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Indicates that this request is an export of logs in CSV format. */
-  export?: boolean;
+  export?: boolean | undefined;
   /** Indicates whether or not to hide user level audit logs. */
-  hideUserLogs?: boolean;
+  hideUserLogs?: boolean | undefined;
   /** Defines which page of results to return. */
-  page?: number;
+  page?: number | undefined;
   /** Sets the number of results to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339. */
-  since?: string;
-  zone?: ListRequestZone;
+  since?: string | undefined;
+  zone?: ListRequestZone | undefined;
 }
 export interface ListResultItemAction {
   /** A boolean that indicates if the action attempted was successful. */
-  result?: boolean | null;
+  result?: boolean | null | undefined;
   /** A short string that describes the action that was performed. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type ListResultItemActorType = "user" | "admin" | "Cloudflare";
 export interface ListResultItemActor {
   /** The ID of the actor that performed the action. If a user performed the action, this will be their User ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The email of the user that performed the action. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The IP address of the request that performed the action. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** The type of actor, whether a User, Cloudflare Admin, or an Automated System. */
-  type?: ListResultItemActorType | null;
+  type?: ListResultItemActorType | null | undefined;
 }
 export interface ListResultItemOwner {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface ListResultItemResource {
   /** An identifier for the resource that was affected by the action. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A short string that describes the resource that was affected by the action. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface ListResultItem {
   /** A string that uniquely identifies the audit log. */
-  id?: string | null;
-  action?: ListResultItemAction | null;
-  actor?: ListResultItemActor | null;
+  id?: string | null | undefined;
+  action?: ListResultItemAction | null | undefined;
+  actor?: ListResultItemActor | null | undefined;
   /** The source of the event. */
-  interface?: string | null;
+  interface?: string | null | undefined;
   /** An object which can lend more context to the action being logged. This is a flexible value and varies between different actions. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** The new value of the resource that was modified. */
-  newValue?: string | null;
+  newValue?: string | null | undefined;
   /** The value of the resource before it was modified. */
-  oldValue?: string | null;
-  owner?: ListResultItemOwner | null;
-  resource?: ListResultItemResource | null;
+  oldValue?: string | null | undefined;
+  owner?: ListResultItemOwner | null | undefined;
+  resource?: ListResultItemResource | null | undefined;
   /** A UTC RFC3339 timestamp that specifies when the action being logged occured. */
-  when?: string | null;
+  when?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListAuditLogsResponse {

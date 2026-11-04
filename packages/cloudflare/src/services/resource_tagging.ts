@@ -71,25 +71,25 @@ export class ZoneTagResourceNotFound
 export interface DeleteAccountTagRequest {
   /** Identifier. */
   accountId: string;
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   /** Identifier of the resource to remove tags from. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Type of the resource to remove tags from. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Identifier of the Worker to remove tags from. */
-  workerId?: string;
+  workerId?: string | undefined;
 }
 export interface DeleteAccountTagResponse {}
 export interface DeleteZoneTagRequest {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   /** Identifier of the resource to remove tags from. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Type of the resource to remove tags from. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Identifier of the Access application to remove tags from. */
-  accessApplicationId?: string;
+  accessApplicationId?: string | undefined;
 }
 export interface DeleteZoneTagResponse {}
 export type AccountTagsGetRequestResourceType =
@@ -136,7 +136,7 @@ export interface GetAccountTagRequest {
   /** The type of the resource. */
   resourceType: AccountTagsGetRequestResourceType | (string & {});
   /** Worker identifier. Required for worker_version resources. */
-  workerId?: string;
+  workerId?: string | undefined;
 }
 export type AccountTagsGetResultAccessApplicationTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAccessApplicationType = "access_application";
@@ -151,7 +151,7 @@ export interface AccountTagsGetResultAccessApplication {
   tags: AccountTagsGetResultAccessApplicationTagsMap;
   type: AccountTagsGetResultAccessApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAccessApplicationPolicyTagsMap = {
   [key: string]: string | undefined;
@@ -172,7 +172,7 @@ export interface AccountTagsGetResultAccessApplicationPolicy {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAccessGroupTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAccessGroupType = "access_group";
@@ -187,7 +187,7 @@ export interface AccountTagsGetResultAccessGroup {
   tags: AccountTagsGetResultAccessGroupTagsMap;
   type: AccountTagsGetResultAccessGroupType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAccessServiceTokenTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAccessServiceTokenType = "access_service_token";
@@ -202,7 +202,7 @@ export interface AccountTagsGetResultAccessServiceToken {
   tags: AccountTagsGetResultAccessServiceTokenTagsMap;
   type: AccountTagsGetResultAccessServiceTokenType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAccountTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAccountType = "account";
@@ -217,7 +217,7 @@ export interface AccountTagsGetResultAccount {
   tags: AccountTagsGetResultAccountTagsMap;
   type: AccountTagsGetResultAccountType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAccountRulesetTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAccountRulesetType = "account_ruleset";
@@ -232,7 +232,7 @@ export interface AccountTagsGetResultAccountRuleset {
   tags: AccountTagsGetResultAccountRulesetTagsMap;
   type: AccountTagsGetResultAccountRulesetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAIGatewayTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAIGatewayType = "ai_gateway";
@@ -247,7 +247,7 @@ export interface AccountTagsGetResultAIGateway {
   tags: AccountTagsGetResultAIGatewayTagsMap;
   type: AccountTagsGetResultAIGatewayType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAISearchInstanceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAISearchInstanceType = "ai_search_instance";
@@ -262,7 +262,7 @@ export interface AccountTagsGetResultAISearchInstance {
   tags: AccountTagsGetResultAISearchInstanceTagsMap;
   type: AccountTagsGetResultAISearchInstanceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAISearchNamespaceType = "ai_search_namespace";
@@ -277,7 +277,7 @@ export interface AccountTagsGetResultAISearchNamespace {
   tags: AccountTagsGetResultAISearchNamespaceTagsMap;
   type: AccountTagsGetResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAlertingPolicyTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAlertingPolicyType = "alerting_policy";
@@ -292,7 +292,7 @@ export interface AccountTagsGetResultAlertingPolicy {
   tags: AccountTagsGetResultAlertingPolicyTagsMap;
   type: AccountTagsGetResultAlertingPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAlertingWebhookTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAlertingWebhookType = "alerting_webhook";
@@ -307,7 +307,7 @@ export interface AccountTagsGetResultAlertingWebhook {
   tags: AccountTagsGetResultAlertingWebhookTagsMap;
   type: AccountTagsGetResultAlertingWebhookType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultAPIGatewayOperationTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultAPIGatewayOperationType = "api_gateway_operation";
@@ -324,7 +324,7 @@ export interface AccountTagsGetResultAPIGatewayOperation {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultCloudflaredTunnelTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultCloudflaredTunnelType = "cloudflared_tunnel";
@@ -339,7 +339,7 @@ export interface AccountTagsGetResultCloudflaredTunnel {
   tags: AccountTagsGetResultCloudflaredTunnelTagsMap;
   type: AccountTagsGetResultCloudflaredTunnelType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultCustomCertificateTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultCustomCertificateType = "custom_certificate";
@@ -356,7 +356,7 @@ export interface AccountTagsGetResultCustomCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultCustomHostnameTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultCustomHostnameType = "custom_hostname";
@@ -373,7 +373,7 @@ export interface AccountTagsGetResultCustomHostname {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultCWSDeploymentTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultCWSDeploymentType = "cws_deployment";
@@ -388,7 +388,7 @@ export interface AccountTagsGetResultCWSDeployment {
   tags: AccountTagsGetResultCWSDeploymentTagsMap;
   type: AccountTagsGetResultCWSDeploymentType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultCWSPolicyTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultCWSPolicyType = "cws_policy";
@@ -403,7 +403,7 @@ export interface AccountTagsGetResultCWSPolicy {
   tags: AccountTagsGetResultCWSPolicyTagsMap;
   type: AccountTagsGetResultCWSPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultCWSPolicySetTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultCWSPolicySetType = "cws_policy_set";
@@ -418,7 +418,7 @@ export interface AccountTagsGetResultCWSPolicySet {
   tags: AccountTagsGetResultCWSPolicySetTagsMap;
   type: AccountTagsGetResultCWSPolicySetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultCWSWorkloadTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultCWSWorkloadType = "cws_workload";
@@ -433,7 +433,7 @@ export interface AccountTagsGetResultCWSWorkload {
   tags: AccountTagsGetResultCWSWorkloadTagsMap;
   type: AccountTagsGetResultCWSWorkloadType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultD1DatabaseTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultD1DatabaseType = "d1_database";
@@ -448,7 +448,7 @@ export interface AccountTagsGetResultD1Database {
   tags: AccountTagsGetResultD1DatabaseTagsMap;
   type: AccountTagsGetResultD1DatabaseType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultDeviceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultDeviceType = "device";
@@ -463,7 +463,7 @@ export interface AccountTagsGetResultDevice {
   tags: AccountTagsGetResultDeviceTagsMap;
   type: AccountTagsGetResultDeviceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultDNSRecordTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultDNSRecordType = "dns_record";
@@ -480,7 +480,7 @@ export interface AccountTagsGetResultDNSRecord {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultDurableObjectNamespaceTagsMap = {
   [key: string]: string | undefined;
@@ -497,7 +497,7 @@ export interface AccountTagsGetResultDurableObjectNamespace {
   tags: AccountTagsGetResultDurableObjectNamespaceTagsMap;
   type: AccountTagsGetResultDurableObjectNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultGatewayListTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultGatewayListType = "gateway_list";
@@ -512,7 +512,7 @@ export interface AccountTagsGetResultGatewayList {
   tags: AccountTagsGetResultGatewayListTagsMap;
   type: AccountTagsGetResultGatewayListType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultGatewayRuleTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultGatewayRuleType = "gateway_rule";
@@ -527,7 +527,7 @@ export interface AccountTagsGetResultGatewayRule {
   tags: AccountTagsGetResultGatewayRuleTagsMap;
   type: AccountTagsGetResultGatewayRuleType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultHealthcheckTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultHealthcheckType = "healthcheck";
@@ -544,7 +544,7 @@ export interface AccountTagsGetResultHealthcheck {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultImageTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultImageType = "image";
@@ -559,7 +559,7 @@ export interface AccountTagsGetResultImage {
   tags: AccountTagsGetResultImageTagsMap;
   type: AccountTagsGetResultImageType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultInfrastructureTargetTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultInfrastructureTargetType = "infrastructure_target";
@@ -574,7 +574,7 @@ export interface AccountTagsGetResultInfrastructureTarget {
   tags: AccountTagsGetResultInfrastructureTargetTagsMap;
   type: AccountTagsGetResultInfrastructureTargetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultKVNamespaceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultKVNamespaceType = "kv_namespace";
@@ -589,7 +589,7 @@ export interface AccountTagsGetResultKVNamespace {
   tags: AccountTagsGetResultKVNamespaceTagsMap;
   type: AccountTagsGetResultKVNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultLoadBalancerTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultLoadBalancerType = "load_balancer";
@@ -606,7 +606,7 @@ export interface AccountTagsGetResultLoadBalancer {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultLoadBalancerMonitorTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultLoadBalancerMonitorType = "load_balancer_monitor";
@@ -621,7 +621,7 @@ export interface AccountTagsGetResultLoadBalancerMonitor {
   tags: AccountTagsGetResultLoadBalancerMonitorTagsMap;
   type: AccountTagsGetResultLoadBalancerMonitorType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultLoadBalancerPoolTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultLoadBalancerPoolType = "load_balancer_pool";
@@ -636,7 +636,7 @@ export interface AccountTagsGetResultLoadBalancerPool {
   tags: AccountTagsGetResultLoadBalancerPoolTagsMap;
   type: AccountTagsGetResultLoadBalancerPoolType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultManagedClientCertificateTagsMap = {
   [key: string]: string | undefined;
@@ -655,7 +655,7 @@ export interface AccountTagsGetResultManagedClientCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultNamespaceWorkerTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultNamespaceWorkerType = "namespace_worker";
@@ -675,9 +675,9 @@ export interface AccountTagsGetResultNamespaceWorker {
   tags: AccountTagsGetResultNamespaceWorkerTagsMap;
   type: AccountTagsGetResultNamespaceWorkerType;
   /** Read-only routing metadata resolved from EWC using the account and immutable namespace Worker ID. Returned only by tagged-resource lists requested with include_navigation=true. Omitted when lookup is unavailable or the child has been deleted. Never supplied on tag writes or stored as extra_data. */
-  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null;
+  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null | undefined;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultPagesProjectTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultPagesProjectType = "pages_project";
@@ -692,7 +692,7 @@ export interface AccountTagsGetResultPagesProject {
   tags: AccountTagsGetResultPagesProjectTagsMap;
   type: AccountTagsGetResultPagesProjectType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultQueueTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultQueueType = "queue";
@@ -707,7 +707,7 @@ export interface AccountTagsGetResultQueue {
   tags: AccountTagsGetResultQueueTagsMap;
   type: AccountTagsGetResultQueueType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultR2BucketTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultR2BucketType = "r2_bucket";
@@ -722,7 +722,7 @@ export interface AccountTagsGetResultR2Bucket {
   tags: AccountTagsGetResultR2BucketTagsMap;
   type: AccountTagsGetResultR2BucketType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultResourceShareTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultResourceShareType = "resource_share";
@@ -737,7 +737,7 @@ export interface AccountTagsGetResultResourceShare {
   tags: AccountTagsGetResultResourceShareTagsMap;
   type: AccountTagsGetResultResourceShareType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultStreamLiveInputTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultStreamLiveInputType = "stream_live_input";
@@ -752,7 +752,7 @@ export interface AccountTagsGetResultStreamLiveInput {
   tags: AccountTagsGetResultStreamLiveInputTagsMap;
   type: AccountTagsGetResultStreamLiveInputType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultStreamVideoTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultStreamVideoType = "stream_video";
@@ -767,7 +767,7 @@ export interface AccountTagsGetResultStreamVideo {
   tags: AccountTagsGetResultStreamVideoTagsMap;
   type: AccountTagsGetResultStreamVideoType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultVectorizeIndexTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultVectorizeIndexType = "vectorize_index";
@@ -782,7 +782,7 @@ export interface AccountTagsGetResultVectorizeIndex {
   tags: AccountTagsGetResultVectorizeIndexTagsMap;
   type: AccountTagsGetResultVectorizeIndexType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultWorkerTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultWorkerType = "worker";
@@ -797,7 +797,7 @@ export interface AccountTagsGetResultWorker {
   tags: AccountTagsGetResultWorkerTagsMap;
   type: AccountTagsGetResultWorkerType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultWorkerRouteTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultWorkerRouteType = "worker_route";
@@ -814,7 +814,7 @@ export interface AccountTagsGetResultWorkerRoute {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultWorkerVersionTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultWorkerVersionType = "worker_version";
@@ -831,7 +831,7 @@ export interface AccountTagsGetResultWorkerVersion {
   /** Worker ID is required only for worker_version resources */
   workerId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultZoneTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultZoneType = "zone";
@@ -848,7 +848,7 @@ export interface AccountTagsGetResultZone {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResultZoneRulesetTagsMap = { [key: string]: string | undefined };
 export type AccountTagsGetResultZoneRulesetType = "zone_ruleset";
@@ -865,7 +865,7 @@ export interface AccountTagsGetResultZoneRuleset {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsGetResult =
   | AccountTagsGetResultAccessApplication
@@ -919,7 +919,7 @@ export interface GetSummaryRequest {
   /** Identifier. */
   accountId: string;
   /** Cursor for pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type GetSummaryResultItemValuesList = Array<string>;
 export interface GetSummaryResultItem {
@@ -950,7 +950,7 @@ export interface GetZoneTagRequest {
   /** The type of the resource. */
   resourceType: ZoneTagsGetRequestResourceType | (string & {});
   /** Access application ID identifier. Required for access_application_policy resources. */
-  accessApplicationId?: string;
+  accessApplicationId?: string | undefined;
 }
 export type ZoneTagsGetResultAccessApplicationTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAccessApplicationType = "access_application";
@@ -965,7 +965,7 @@ export interface ZoneTagsGetResultAccessApplication {
   tags: ZoneTagsGetResultAccessApplicationTagsMap;
   type: ZoneTagsGetResultAccessApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAccessApplicationPolicyTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAccessApplicationPolicyType = "access_application_policy";
@@ -984,7 +984,7 @@ export interface ZoneTagsGetResultAccessApplicationPolicy {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAccessGroupTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAccessGroupType = "access_group";
@@ -999,7 +999,7 @@ export interface ZoneTagsGetResultAccessGroup {
   tags: ZoneTagsGetResultAccessGroupTagsMap;
   type: ZoneTagsGetResultAccessGroupType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAccessServiceTokenTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAccessServiceTokenType = "access_service_token";
@@ -1014,7 +1014,7 @@ export interface ZoneTagsGetResultAccessServiceToken {
   tags: ZoneTagsGetResultAccessServiceTokenTagsMap;
   type: ZoneTagsGetResultAccessServiceTokenType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAccountTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAccountType = "account";
@@ -1029,7 +1029,7 @@ export interface ZoneTagsGetResultAccount {
   tags: ZoneTagsGetResultAccountTagsMap;
   type: ZoneTagsGetResultAccountType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAccountRulesetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAccountRulesetType = "account_ruleset";
@@ -1044,7 +1044,7 @@ export interface ZoneTagsGetResultAccountRuleset {
   tags: ZoneTagsGetResultAccountRulesetTagsMap;
   type: ZoneTagsGetResultAccountRulesetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAIGatewayTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAIGatewayType = "ai_gateway";
@@ -1059,7 +1059,7 @@ export interface ZoneTagsGetResultAIGateway {
   tags: ZoneTagsGetResultAIGatewayTagsMap;
   type: ZoneTagsGetResultAIGatewayType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAISearchInstanceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAISearchInstanceType = "ai_search_instance";
@@ -1074,7 +1074,7 @@ export interface ZoneTagsGetResultAISearchInstance {
   tags: ZoneTagsGetResultAISearchInstanceTagsMap;
   type: ZoneTagsGetResultAISearchInstanceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAISearchNamespaceType = "ai_search_namespace";
@@ -1089,7 +1089,7 @@ export interface ZoneTagsGetResultAISearchNamespace {
   tags: ZoneTagsGetResultAISearchNamespaceTagsMap;
   type: ZoneTagsGetResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAlertingPolicyTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAlertingPolicyType = "alerting_policy";
@@ -1104,7 +1104,7 @@ export interface ZoneTagsGetResultAlertingPolicy {
   tags: ZoneTagsGetResultAlertingPolicyTagsMap;
   type: ZoneTagsGetResultAlertingPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAlertingWebhookTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAlertingWebhookType = "alerting_webhook";
@@ -1119,7 +1119,7 @@ export interface ZoneTagsGetResultAlertingWebhook {
   tags: ZoneTagsGetResultAlertingWebhookTagsMap;
   type: ZoneTagsGetResultAlertingWebhookType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultAPIGatewayOperationTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultAPIGatewayOperationType = "api_gateway_operation";
@@ -1136,7 +1136,7 @@ export interface ZoneTagsGetResultAPIGatewayOperation {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultCloudflaredTunnelTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultCloudflaredTunnelType = "cloudflared_tunnel";
@@ -1151,7 +1151,7 @@ export interface ZoneTagsGetResultCloudflaredTunnel {
   tags: ZoneTagsGetResultCloudflaredTunnelTagsMap;
   type: ZoneTagsGetResultCloudflaredTunnelType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultCustomCertificateTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultCustomCertificateType = "custom_certificate";
@@ -1168,7 +1168,7 @@ export interface ZoneTagsGetResultCustomCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultCustomHostnameTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultCustomHostnameType = "custom_hostname";
@@ -1185,7 +1185,7 @@ export interface ZoneTagsGetResultCustomHostname {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultCWSDeploymentTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultCWSDeploymentType = "cws_deployment";
@@ -1200,7 +1200,7 @@ export interface ZoneTagsGetResultCWSDeployment {
   tags: ZoneTagsGetResultCWSDeploymentTagsMap;
   type: ZoneTagsGetResultCWSDeploymentType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultCWSPolicyTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultCWSPolicyType = "cws_policy";
@@ -1215,7 +1215,7 @@ export interface ZoneTagsGetResultCWSPolicy {
   tags: ZoneTagsGetResultCWSPolicyTagsMap;
   type: ZoneTagsGetResultCWSPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultCWSPolicySetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultCWSPolicySetType = "cws_policy_set";
@@ -1230,7 +1230,7 @@ export interface ZoneTagsGetResultCWSPolicySet {
   tags: ZoneTagsGetResultCWSPolicySetTagsMap;
   type: ZoneTagsGetResultCWSPolicySetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultCWSWorkloadTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultCWSWorkloadType = "cws_workload";
@@ -1245,7 +1245,7 @@ export interface ZoneTagsGetResultCWSWorkload {
   tags: ZoneTagsGetResultCWSWorkloadTagsMap;
   type: ZoneTagsGetResultCWSWorkloadType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultD1DatabaseTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultD1DatabaseType = "d1_database";
@@ -1260,7 +1260,7 @@ export interface ZoneTagsGetResultD1Database {
   tags: ZoneTagsGetResultD1DatabaseTagsMap;
   type: ZoneTagsGetResultD1DatabaseType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultDeviceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultDeviceType = "device";
@@ -1275,7 +1275,7 @@ export interface ZoneTagsGetResultDevice {
   tags: ZoneTagsGetResultDeviceTagsMap;
   type: ZoneTagsGetResultDeviceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultDNSRecordTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultDNSRecordType = "dns_record";
@@ -1292,7 +1292,7 @@ export interface ZoneTagsGetResultDNSRecord {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultDurableObjectNamespaceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultDurableObjectNamespaceType = "durable_object_namespace";
@@ -1307,7 +1307,7 @@ export interface ZoneTagsGetResultDurableObjectNamespace {
   tags: ZoneTagsGetResultDurableObjectNamespaceTagsMap;
   type: ZoneTagsGetResultDurableObjectNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultGatewayListTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultGatewayListType = "gateway_list";
@@ -1322,7 +1322,7 @@ export interface ZoneTagsGetResultGatewayList {
   tags: ZoneTagsGetResultGatewayListTagsMap;
   type: ZoneTagsGetResultGatewayListType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultGatewayRuleTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultGatewayRuleType = "gateway_rule";
@@ -1337,7 +1337,7 @@ export interface ZoneTagsGetResultGatewayRule {
   tags: ZoneTagsGetResultGatewayRuleTagsMap;
   type: ZoneTagsGetResultGatewayRuleType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultHealthcheckTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultHealthcheckType = "healthcheck";
@@ -1354,7 +1354,7 @@ export interface ZoneTagsGetResultHealthcheck {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultImageTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultImageType = "image";
@@ -1369,7 +1369,7 @@ export interface ZoneTagsGetResultImage {
   tags: ZoneTagsGetResultImageTagsMap;
   type: ZoneTagsGetResultImageType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultInfrastructureTargetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultInfrastructureTargetType = "infrastructure_target";
@@ -1384,7 +1384,7 @@ export interface ZoneTagsGetResultInfrastructureTarget {
   tags: ZoneTagsGetResultInfrastructureTargetTagsMap;
   type: ZoneTagsGetResultInfrastructureTargetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultKVNamespaceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultKVNamespaceType = "kv_namespace";
@@ -1399,7 +1399,7 @@ export interface ZoneTagsGetResultKVNamespace {
   tags: ZoneTagsGetResultKVNamespaceTagsMap;
   type: ZoneTagsGetResultKVNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultLoadBalancerTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultLoadBalancerType = "load_balancer";
@@ -1416,7 +1416,7 @@ export interface ZoneTagsGetResultLoadBalancer {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultLoadBalancerMonitorTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultLoadBalancerMonitorType = "load_balancer_monitor";
@@ -1431,7 +1431,7 @@ export interface ZoneTagsGetResultLoadBalancerMonitor {
   tags: ZoneTagsGetResultLoadBalancerMonitorTagsMap;
   type: ZoneTagsGetResultLoadBalancerMonitorType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultLoadBalancerPoolTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultLoadBalancerPoolType = "load_balancer_pool";
@@ -1446,7 +1446,7 @@ export interface ZoneTagsGetResultLoadBalancerPool {
   tags: ZoneTagsGetResultLoadBalancerPoolTagsMap;
   type: ZoneTagsGetResultLoadBalancerPoolType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultManagedClientCertificateTagsMap = {
   [key: string]: string | undefined;
@@ -1465,7 +1465,7 @@ export interface ZoneTagsGetResultManagedClientCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultNamespaceWorkerTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultNamespaceWorkerType = "namespace_worker";
@@ -1482,9 +1482,9 @@ export interface ZoneTagsGetResultNamespaceWorker {
   tags: ZoneTagsGetResultNamespaceWorkerTagsMap;
   type: ZoneTagsGetResultNamespaceWorkerType;
   /** Read-only routing metadata resolved from EWC using the account and immutable namespace Worker ID. Returned only by tagged-resource lists requested with include_navigation=true. Omitted when lookup is unavailable or the child has been deleted. Never supplied on tag writes or stored as extra_data. */
-  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null;
+  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null | undefined;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultPagesProjectTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultPagesProjectType = "pages_project";
@@ -1499,7 +1499,7 @@ export interface ZoneTagsGetResultPagesProject {
   tags: ZoneTagsGetResultPagesProjectTagsMap;
   type: ZoneTagsGetResultPagesProjectType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultQueueTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultQueueType = "queue";
@@ -1514,7 +1514,7 @@ export interface ZoneTagsGetResultQueue {
   tags: ZoneTagsGetResultQueueTagsMap;
   type: ZoneTagsGetResultQueueType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultR2BucketTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultR2BucketType = "r2_bucket";
@@ -1529,7 +1529,7 @@ export interface ZoneTagsGetResultR2Bucket {
   tags: ZoneTagsGetResultR2BucketTagsMap;
   type: ZoneTagsGetResultR2BucketType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultResourceShareTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultResourceShareType = "resource_share";
@@ -1544,7 +1544,7 @@ export interface ZoneTagsGetResultResourceShare {
   tags: ZoneTagsGetResultResourceShareTagsMap;
   type: ZoneTagsGetResultResourceShareType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultStreamLiveInputTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultStreamLiveInputType = "stream_live_input";
@@ -1559,7 +1559,7 @@ export interface ZoneTagsGetResultStreamLiveInput {
   tags: ZoneTagsGetResultStreamLiveInputTagsMap;
   type: ZoneTagsGetResultStreamLiveInputType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultStreamVideoTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultStreamVideoType = "stream_video";
@@ -1574,7 +1574,7 @@ export interface ZoneTagsGetResultStreamVideo {
   tags: ZoneTagsGetResultStreamVideoTagsMap;
   type: ZoneTagsGetResultStreamVideoType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultVectorizeIndexTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultVectorizeIndexType = "vectorize_index";
@@ -1589,7 +1589,7 @@ export interface ZoneTagsGetResultVectorizeIndex {
   tags: ZoneTagsGetResultVectorizeIndexTagsMap;
   type: ZoneTagsGetResultVectorizeIndexType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultWorkerTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultWorkerType = "worker";
@@ -1604,7 +1604,7 @@ export interface ZoneTagsGetResultWorker {
   tags: ZoneTagsGetResultWorkerTagsMap;
   type: ZoneTagsGetResultWorkerType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultWorkerRouteTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultWorkerRouteType = "worker_route";
@@ -1621,7 +1621,7 @@ export interface ZoneTagsGetResultWorkerRoute {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultWorkerVersionTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultWorkerVersionType = "worker_version";
@@ -1638,7 +1638,7 @@ export interface ZoneTagsGetResultWorkerVersion {
   /** Worker ID is required only for worker_version resources */
   workerId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultZoneTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultZoneType = "zone";
@@ -1655,7 +1655,7 @@ export interface ZoneTagsGetResultZone {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResultZoneRulesetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsGetResultZoneRulesetType = "zone_ruleset";
@@ -1672,7 +1672,7 @@ export interface ZoneTagsGetResultZoneRuleset {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsGetResult =
   | ZoneTagsGetResultAccessApplication
@@ -1726,7 +1726,7 @@ export interface ListKeysRequest {
   /** Identifier. */
   accountId: string;
   /** Cursor for pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type KeysListResultList = Array<string>;
 export interface ListKeysResponse {
@@ -1789,19 +1789,19 @@ export interface ListResourceTaggingsRequest {
   /** Identifier. */
   accountId: string;
   /** Filter by resource ID. Can be repeated up to 50 times to filter by multiple IDs. Example: ?id=abc&id=def */
-  id?: ListRequestIdList;
+  id?: ListRequestIdList | undefined;
   /** Match `tag` keys and values case-insensitively. Stored casing is unchanged. Example: ?tag=environment=production&case_insensitive=true */
-  caseInsensitive?: boolean;
+  caseInsensitive?: boolean | undefined;
   /** Cursor for pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Resolve current namespace Worker navigation by immutable child tag. Optional read-only navigation is omitted for deleted or unresolved children. Lookups are limited to this page, at most five concurrently, with a shared two-second budget. Tag identity, ETag, filters and pagination are unchanged; name filtering still uses the stored resource name. Defaults to false. */
-  includeNavigation?: boolean;
+  includeNavigation?: boolean | undefined;
   /** Filter by resource name. Performs a case-insensitive substring match. Example: ?name=my-zone */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by tag criteria. This parameter can be repeated multiple times, with AND logic between parameters. */
-  tag?: ListRequestTagList;
+  tag?: ListRequestTagList | undefined;
   /** Filter by resource type. Can be repeated to filter by multiple types (OR logic). Example: ?type=zone&amp;type=worker */
-  type?: ListRequestTypeList;
+  type?: ListRequestTypeList | undefined;
 }
 export type ListResultItemAccessApplicationTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAccessApplicationType = "access_application";
@@ -1816,7 +1816,7 @@ export interface ListResultItemAccessApplication {
   tags: ListResultItemAccessApplicationTagsMap;
   type: ListResultItemAccessApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAccessApplicationPolicyTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAccessApplicationPolicyType = "access_application_policy";
@@ -1835,7 +1835,7 @@ export interface ListResultItemAccessApplicationPolicy {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAccessGroupTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAccessGroupType = "access_group";
@@ -1850,7 +1850,7 @@ export interface ListResultItemAccessGroup {
   tags: ListResultItemAccessGroupTagsMap;
   type: ListResultItemAccessGroupType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAccessServiceTokenTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAccessServiceTokenType = "access_service_token";
@@ -1865,7 +1865,7 @@ export interface ListResultItemAccessServiceToken {
   tags: ListResultItemAccessServiceTokenTagsMap;
   type: ListResultItemAccessServiceTokenType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAccountTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAccountType = "account";
@@ -1880,7 +1880,7 @@ export interface ListResultItemAccount {
   tags: ListResultItemAccountTagsMap;
   type: ListResultItemAccountType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAccountRulesetTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAccountRulesetType = "account_ruleset";
@@ -1895,7 +1895,7 @@ export interface ListResultItemAccountRuleset {
   tags: ListResultItemAccountRulesetTagsMap;
   type: ListResultItemAccountRulesetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAIGatewayTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAIGatewayType = "ai_gateway";
@@ -1910,7 +1910,7 @@ export interface ListResultItemAIGateway {
   tags: ListResultItemAIGatewayTagsMap;
   type: ListResultItemAIGatewayType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAISearchInstanceTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAISearchInstanceType = "ai_search_instance";
@@ -1925,7 +1925,7 @@ export interface ListResultItemAISearchInstance {
   tags: ListResultItemAISearchInstanceTagsMap;
   type: ListResultItemAISearchInstanceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAISearchNamespaceTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAISearchNamespaceType = "ai_search_namespace";
@@ -1940,7 +1940,7 @@ export interface ListResultItemAISearchNamespace {
   tags: ListResultItemAISearchNamespaceTagsMap;
   type: ListResultItemAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAlertingPolicyTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAlertingPolicyType = "alerting_policy";
@@ -1955,7 +1955,7 @@ export interface ListResultItemAlertingPolicy {
   tags: ListResultItemAlertingPolicyTagsMap;
   type: ListResultItemAlertingPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAlertingWebhookTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAlertingWebhookType = "alerting_webhook";
@@ -1970,7 +1970,7 @@ export interface ListResultItemAlertingWebhook {
   tags: ListResultItemAlertingWebhookTagsMap;
   type: ListResultItemAlertingWebhookType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemAPIGatewayOperationTagsMap = { [key: string]: string | undefined };
 export type ListResultItemAPIGatewayOperationType = "api_gateway_operation";
@@ -1987,7 +1987,7 @@ export interface ListResultItemAPIGatewayOperation {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemCloudflaredTunnelTagsMap = { [key: string]: string | undefined };
 export type ListResultItemCloudflaredTunnelType = "cloudflared_tunnel";
@@ -2002,7 +2002,7 @@ export interface ListResultItemCloudflaredTunnel {
   tags: ListResultItemCloudflaredTunnelTagsMap;
   type: ListResultItemCloudflaredTunnelType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemCustomCertificateTagsMap = { [key: string]: string | undefined };
 export type ListResultItemCustomCertificateType = "custom_certificate";
@@ -2019,7 +2019,7 @@ export interface ListResultItemCustomCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemCustomHostnameTagsMap = { [key: string]: string | undefined };
 export type ListResultItemCustomHostnameType = "custom_hostname";
@@ -2036,7 +2036,7 @@ export interface ListResultItemCustomHostname {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemCWSDeploymentTagsMap = { [key: string]: string | undefined };
 export type ListResultItemCWSDeploymentType = "cws_deployment";
@@ -2051,7 +2051,7 @@ export interface ListResultItemCWSDeployment {
   tags: ListResultItemCWSDeploymentTagsMap;
   type: ListResultItemCWSDeploymentType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemCWSPolicyTagsMap = { [key: string]: string | undefined };
 export type ListResultItemCWSPolicyType = "cws_policy";
@@ -2066,7 +2066,7 @@ export interface ListResultItemCWSPolicy {
   tags: ListResultItemCWSPolicyTagsMap;
   type: ListResultItemCWSPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemCWSPolicySetTagsMap = { [key: string]: string | undefined };
 export type ListResultItemCWSPolicySetType = "cws_policy_set";
@@ -2081,7 +2081,7 @@ export interface ListResultItemCWSPolicySet {
   tags: ListResultItemCWSPolicySetTagsMap;
   type: ListResultItemCWSPolicySetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemCWSWorkloadTagsMap = { [key: string]: string | undefined };
 export type ListResultItemCWSWorkloadType = "cws_workload";
@@ -2096,7 +2096,7 @@ export interface ListResultItemCWSWorkload {
   tags: ListResultItemCWSWorkloadTagsMap;
   type: ListResultItemCWSWorkloadType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemD1DatabaseTagsMap = { [key: string]: string | undefined };
 export type ListResultItemD1DatabaseType = "d1_database";
@@ -2111,7 +2111,7 @@ export interface ListResultItemD1Database {
   tags: ListResultItemD1DatabaseTagsMap;
   type: ListResultItemD1DatabaseType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemDeviceTagsMap = { [key: string]: string | undefined };
 export type ListResultItemDeviceType = "device";
@@ -2126,7 +2126,7 @@ export interface ListResultItemDevice {
   tags: ListResultItemDeviceTagsMap;
   type: ListResultItemDeviceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemDNSRecordTagsMap = { [key: string]: string | undefined };
 export type ListResultItemDNSRecordType = "dns_record";
@@ -2143,7 +2143,7 @@ export interface ListResultItemDNSRecord {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemDurableObjectNamespaceTagsMap = { [key: string]: string | undefined };
 export type ListResultItemDurableObjectNamespaceType = "durable_object_namespace";
@@ -2158,7 +2158,7 @@ export interface ListResultItemDurableObjectNamespace {
   tags: ListResultItemDurableObjectNamespaceTagsMap;
   type: ListResultItemDurableObjectNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemGatewayListTagsMap = { [key: string]: string | undefined };
 export type ListResultItemGatewayListType = "gateway_list";
@@ -2173,7 +2173,7 @@ export interface ListResultItemGatewayList {
   tags: ListResultItemGatewayListTagsMap;
   type: ListResultItemGatewayListType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemGatewayRuleTagsMap = { [key: string]: string | undefined };
 export type ListResultItemGatewayRuleType = "gateway_rule";
@@ -2188,7 +2188,7 @@ export interface ListResultItemGatewayRule {
   tags: ListResultItemGatewayRuleTagsMap;
   type: ListResultItemGatewayRuleType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemHealthcheckTagsMap = { [key: string]: string | undefined };
 export type ListResultItemHealthcheckType = "healthcheck";
@@ -2205,7 +2205,7 @@ export interface ListResultItemHealthcheck {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemImageTagsMap = { [key: string]: string | undefined };
 export type ListResultItemImageType = "image";
@@ -2220,7 +2220,7 @@ export interface ListResultItemImage {
   tags: ListResultItemImageTagsMap;
   type: ListResultItemImageType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemInfrastructureTargetTagsMap = { [key: string]: string | undefined };
 export type ListResultItemInfrastructureTargetType = "infrastructure_target";
@@ -2235,7 +2235,7 @@ export interface ListResultItemInfrastructureTarget {
   tags: ListResultItemInfrastructureTargetTagsMap;
   type: ListResultItemInfrastructureTargetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemKVNamespaceTagsMap = { [key: string]: string | undefined };
 export type ListResultItemKVNamespaceType = "kv_namespace";
@@ -2250,7 +2250,7 @@ export interface ListResultItemKVNamespace {
   tags: ListResultItemKVNamespaceTagsMap;
   type: ListResultItemKVNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemLoadBalancerTagsMap = { [key: string]: string | undefined };
 export type ListResultItemLoadBalancerType = "load_balancer";
@@ -2267,7 +2267,7 @@ export interface ListResultItemLoadBalancer {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemLoadBalancerMonitorTagsMap = { [key: string]: string | undefined };
 export type ListResultItemLoadBalancerMonitorType = "load_balancer_monitor";
@@ -2282,7 +2282,7 @@ export interface ListResultItemLoadBalancerMonitor {
   tags: ListResultItemLoadBalancerMonitorTagsMap;
   type: ListResultItemLoadBalancerMonitorType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemLoadBalancerPoolTagsMap = { [key: string]: string | undefined };
 export type ListResultItemLoadBalancerPoolType = "load_balancer_pool";
@@ -2297,7 +2297,7 @@ export interface ListResultItemLoadBalancerPool {
   tags: ListResultItemLoadBalancerPoolTagsMap;
   type: ListResultItemLoadBalancerPoolType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemManagedClientCertificateTagsMap = { [key: string]: string | undefined };
 export type ListResultItemManagedClientCertificateType = "managed_client_certificate";
@@ -2314,7 +2314,7 @@ export interface ListResultItemManagedClientCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemNamespaceWorkerTagsMap = { [key: string]: string | undefined };
 export type ListResultItemNamespaceWorkerType = "namespace_worker";
@@ -2330,9 +2330,9 @@ export interface ListResultItemNamespaceWorker {
   tags: ListResultItemNamespaceWorkerTagsMap;
   type: ListResultItemNamespaceWorkerType;
   /** Read-only routing metadata resolved from EWC using the account and immutable namespace Worker ID. Returned only by tagged-resource lists requested with include_navigation=true. Omitted when lookup is unavailable or the child has been deleted. Never supplied on tag writes or stored as extra_data. */
-  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null;
+  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null | undefined;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemPagesProjectTagsMap = { [key: string]: string | undefined };
 export type ListResultItemPagesProjectType = "pages_project";
@@ -2347,7 +2347,7 @@ export interface ListResultItemPagesProject {
   tags: ListResultItemPagesProjectTagsMap;
   type: ListResultItemPagesProjectType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemQueueTagsMap = { [key: string]: string | undefined };
 export type ListResultItemQueueType = "queue";
@@ -2362,7 +2362,7 @@ export interface ListResultItemQueue {
   tags: ListResultItemQueueTagsMap;
   type: ListResultItemQueueType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemR2BucketTagsMap = { [key: string]: string | undefined };
 export type ListResultItemR2BucketType = "r2_bucket";
@@ -2377,7 +2377,7 @@ export interface ListResultItemR2Bucket {
   tags: ListResultItemR2BucketTagsMap;
   type: ListResultItemR2BucketType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemResourceShareTagsMap = { [key: string]: string | undefined };
 export type ListResultItemResourceShareType = "resource_share";
@@ -2392,7 +2392,7 @@ export interface ListResultItemResourceShare {
   tags: ListResultItemResourceShareTagsMap;
   type: ListResultItemResourceShareType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemStreamLiveInputTagsMap = { [key: string]: string | undefined };
 export type ListResultItemStreamLiveInputType = "stream_live_input";
@@ -2407,7 +2407,7 @@ export interface ListResultItemStreamLiveInput {
   tags: ListResultItemStreamLiveInputTagsMap;
   type: ListResultItemStreamLiveInputType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemStreamVideoTagsMap = { [key: string]: string | undefined };
 export type ListResultItemStreamVideoType = "stream_video";
@@ -2422,7 +2422,7 @@ export interface ListResultItemStreamVideo {
   tags: ListResultItemStreamVideoTagsMap;
   type: ListResultItemStreamVideoType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemVectorizeIndexTagsMap = { [key: string]: string | undefined };
 export type ListResultItemVectorizeIndexType = "vectorize_index";
@@ -2437,7 +2437,7 @@ export interface ListResultItemVectorizeIndex {
   tags: ListResultItemVectorizeIndexTagsMap;
   type: ListResultItemVectorizeIndexType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemWorkerTagsMap = { [key: string]: string | undefined };
 export type ListResultItemWorkerType = "worker";
@@ -2452,7 +2452,7 @@ export interface ListResultItemWorker {
   tags: ListResultItemWorkerTagsMap;
   type: ListResultItemWorkerType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemWorkerRouteTagsMap = { [key: string]: string | undefined };
 export type ListResultItemWorkerRouteType = "worker_route";
@@ -2469,7 +2469,7 @@ export interface ListResultItemWorkerRoute {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemWorkerVersionTagsMap = { [key: string]: string | undefined };
 export type ListResultItemWorkerVersionType = "worker_version";
@@ -2486,7 +2486,7 @@ export interface ListResultItemWorkerVersion {
   /** Worker ID is required only for worker_version resources */
   workerId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemZoneTagsMap = { [key: string]: string | undefined };
 export type ListResultItemZoneType = "zone";
@@ -2503,7 +2503,7 @@ export interface ListResultItemZone {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItemZoneRulesetTagsMap = { [key: string]: string | undefined };
 export type ListResultItemZoneRulesetType = "zone_ruleset";
@@ -2520,7 +2520,7 @@ export interface ListResultItemZoneRuleset {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ListResultItem =
   | ListResultItemAccessApplication
@@ -2628,9 +2628,9 @@ export interface ListValuesRequest {
   accountId: string;
   tagKey: string;
   /** Cursor for pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by resource type. */
-  type?: ValuesListRequestType | (string & {});
+  type?: ValuesListRequestType | (string & {}) | undefined;
 }
 export type ValuesListResultList = Array<string>;
 export interface ListValuesResponse {
@@ -2684,10 +2684,10 @@ export interface PutAccountTagRequest {
   /** Enum for worker_version resource type. */
   resourceType: AccountTagsUpdateRequestResourceType | (string & {});
   /** Worker ID is required only for worker_version resources */
-  workerId?: string;
+  workerId?: string | undefined;
   /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
-  tags?: AccountTagsUpdateRequestTagsMap;
-  ifMatch?: string;
+  tags?: AccountTagsUpdateRequestTagsMap | undefined;
+  ifMatch?: string | undefined;
 }
 export type AccountTagsUpdateResultAccessApplicationTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAccessApplicationType = "access_application";
@@ -2702,7 +2702,7 @@ export interface AccountTagsUpdateResultAccessApplication {
   tags: AccountTagsUpdateResultAccessApplicationTagsMap;
   type: AccountTagsUpdateResultAccessApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAccessApplicationPolicyTagsMap = {
   [key: string]: string | undefined;
@@ -2723,7 +2723,7 @@ export interface AccountTagsUpdateResultAccessApplicationPolicy {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAccessGroupTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAccessGroupType = "access_group";
@@ -2738,7 +2738,7 @@ export interface AccountTagsUpdateResultAccessGroup {
   tags: AccountTagsUpdateResultAccessGroupTagsMap;
   type: AccountTagsUpdateResultAccessGroupType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAccessServiceTokenTagsMap = {
   [key: string]: string | undefined;
@@ -2755,7 +2755,7 @@ export interface AccountTagsUpdateResultAccessServiceToken {
   tags: AccountTagsUpdateResultAccessServiceTokenTagsMap;
   type: AccountTagsUpdateResultAccessServiceTokenType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAccountTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAccountType = "account";
@@ -2770,7 +2770,7 @@ export interface AccountTagsUpdateResultAccount {
   tags: AccountTagsUpdateResultAccountTagsMap;
   type: AccountTagsUpdateResultAccountType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAccountRulesetTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAccountRulesetType = "account_ruleset";
@@ -2785,7 +2785,7 @@ export interface AccountTagsUpdateResultAccountRuleset {
   tags: AccountTagsUpdateResultAccountRulesetTagsMap;
   type: AccountTagsUpdateResultAccountRulesetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAIGatewayTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAIGatewayType = "ai_gateway";
@@ -2800,7 +2800,7 @@ export interface AccountTagsUpdateResultAIGateway {
   tags: AccountTagsUpdateResultAIGatewayTagsMap;
   type: AccountTagsUpdateResultAIGatewayType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAISearchInstanceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAISearchInstanceType = "ai_search_instance";
@@ -2815,7 +2815,7 @@ export interface AccountTagsUpdateResultAISearchInstance {
   tags: AccountTagsUpdateResultAISearchInstanceTagsMap;
   type: AccountTagsUpdateResultAISearchInstanceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAISearchNamespaceType = "ai_search_namespace";
@@ -2830,7 +2830,7 @@ export interface AccountTagsUpdateResultAISearchNamespace {
   tags: AccountTagsUpdateResultAISearchNamespaceTagsMap;
   type: AccountTagsUpdateResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAlertingPolicyTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAlertingPolicyType = "alerting_policy";
@@ -2845,7 +2845,7 @@ export interface AccountTagsUpdateResultAlertingPolicy {
   tags: AccountTagsUpdateResultAlertingPolicyTagsMap;
   type: AccountTagsUpdateResultAlertingPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAlertingWebhookTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultAlertingWebhookType = "alerting_webhook";
@@ -2860,7 +2860,7 @@ export interface AccountTagsUpdateResultAlertingWebhook {
   tags: AccountTagsUpdateResultAlertingWebhookTagsMap;
   type: AccountTagsUpdateResultAlertingWebhookType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultAPIGatewayOperationTagsMap = {
   [key: string]: string | undefined;
@@ -2879,7 +2879,7 @@ export interface AccountTagsUpdateResultAPIGatewayOperation {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultCloudflaredTunnelTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultCloudflaredTunnelType = "cloudflared_tunnel";
@@ -2894,7 +2894,7 @@ export interface AccountTagsUpdateResultCloudflaredTunnel {
   tags: AccountTagsUpdateResultCloudflaredTunnelTagsMap;
   type: AccountTagsUpdateResultCloudflaredTunnelType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultCustomCertificateTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultCustomCertificateType = "custom_certificate";
@@ -2911,7 +2911,7 @@ export interface AccountTagsUpdateResultCustomCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultCustomHostnameTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultCustomHostnameType = "custom_hostname";
@@ -2928,7 +2928,7 @@ export interface AccountTagsUpdateResultCustomHostname {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultCWSDeploymentTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultCWSDeploymentType = "cws_deployment";
@@ -2943,7 +2943,7 @@ export interface AccountTagsUpdateResultCWSDeployment {
   tags: AccountTagsUpdateResultCWSDeploymentTagsMap;
   type: AccountTagsUpdateResultCWSDeploymentType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultCWSPolicyTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultCWSPolicyType = "cws_policy";
@@ -2958,7 +2958,7 @@ export interface AccountTagsUpdateResultCWSPolicy {
   tags: AccountTagsUpdateResultCWSPolicyTagsMap;
   type: AccountTagsUpdateResultCWSPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultCWSPolicySetTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultCWSPolicySetType = "cws_policy_set";
@@ -2973,7 +2973,7 @@ export interface AccountTagsUpdateResultCWSPolicySet {
   tags: AccountTagsUpdateResultCWSPolicySetTagsMap;
   type: AccountTagsUpdateResultCWSPolicySetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultCWSWorkloadTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultCWSWorkloadType = "cws_workload";
@@ -2988,7 +2988,7 @@ export interface AccountTagsUpdateResultCWSWorkload {
   tags: AccountTagsUpdateResultCWSWorkloadTagsMap;
   type: AccountTagsUpdateResultCWSWorkloadType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultD1DatabaseTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultD1DatabaseType = "d1_database";
@@ -3003,7 +3003,7 @@ export interface AccountTagsUpdateResultD1Database {
   tags: AccountTagsUpdateResultD1DatabaseTagsMap;
   type: AccountTagsUpdateResultD1DatabaseType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultDeviceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultDeviceType = "device";
@@ -3018,7 +3018,7 @@ export interface AccountTagsUpdateResultDevice {
   tags: AccountTagsUpdateResultDeviceTagsMap;
   type: AccountTagsUpdateResultDeviceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultDNSRecordTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultDNSRecordType = "dns_record";
@@ -3035,7 +3035,7 @@ export interface AccountTagsUpdateResultDNSRecord {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultDurableObjectNamespaceTagsMap = {
   [key: string]: string | undefined;
@@ -3052,7 +3052,7 @@ export interface AccountTagsUpdateResultDurableObjectNamespace {
   tags: AccountTagsUpdateResultDurableObjectNamespaceTagsMap;
   type: AccountTagsUpdateResultDurableObjectNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultGatewayListTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultGatewayListType = "gateway_list";
@@ -3067,7 +3067,7 @@ export interface AccountTagsUpdateResultGatewayList {
   tags: AccountTagsUpdateResultGatewayListTagsMap;
   type: AccountTagsUpdateResultGatewayListType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultGatewayRuleTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultGatewayRuleType = "gateway_rule";
@@ -3082,7 +3082,7 @@ export interface AccountTagsUpdateResultGatewayRule {
   tags: AccountTagsUpdateResultGatewayRuleTagsMap;
   type: AccountTagsUpdateResultGatewayRuleType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultHealthcheckTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultHealthcheckType = "healthcheck";
@@ -3099,7 +3099,7 @@ export interface AccountTagsUpdateResultHealthcheck {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultImageTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultImageType = "image";
@@ -3114,7 +3114,7 @@ export interface AccountTagsUpdateResultImage {
   tags: AccountTagsUpdateResultImageTagsMap;
   type: AccountTagsUpdateResultImageType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultInfrastructureTargetTagsMap = {
   [key: string]: string | undefined;
@@ -3131,7 +3131,7 @@ export interface AccountTagsUpdateResultInfrastructureTarget {
   tags: AccountTagsUpdateResultInfrastructureTargetTagsMap;
   type: AccountTagsUpdateResultInfrastructureTargetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultKVNamespaceTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultKVNamespaceType = "kv_namespace";
@@ -3146,7 +3146,7 @@ export interface AccountTagsUpdateResultKVNamespace {
   tags: AccountTagsUpdateResultKVNamespaceTagsMap;
   type: AccountTagsUpdateResultKVNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultLoadBalancerTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultLoadBalancerType = "load_balancer";
@@ -3163,7 +3163,7 @@ export interface AccountTagsUpdateResultLoadBalancer {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultLoadBalancerMonitorTagsMap = {
   [key: string]: string | undefined;
@@ -3180,7 +3180,7 @@ export interface AccountTagsUpdateResultLoadBalancerMonitor {
   tags: AccountTagsUpdateResultLoadBalancerMonitorTagsMap;
   type: AccountTagsUpdateResultLoadBalancerMonitorType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultLoadBalancerPoolTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultLoadBalancerPoolType = "load_balancer_pool";
@@ -3195,7 +3195,7 @@ export interface AccountTagsUpdateResultLoadBalancerPool {
   tags: AccountTagsUpdateResultLoadBalancerPoolTagsMap;
   type: AccountTagsUpdateResultLoadBalancerPoolType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultManagedClientCertificateTagsMap = {
   [key: string]: string | undefined;
@@ -3214,7 +3214,7 @@ export interface AccountTagsUpdateResultManagedClientCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultNamespaceWorkerTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultNamespaceWorkerType = "namespace_worker";
@@ -3231,9 +3231,9 @@ export interface AccountTagsUpdateResultNamespaceWorker {
   tags: AccountTagsUpdateResultNamespaceWorkerTagsMap;
   type: AccountTagsUpdateResultNamespaceWorkerType;
   /** Read-only routing metadata resolved from EWC using the account and immutable namespace Worker ID. Returned only by tagged-resource lists requested with include_navigation=true. Omitted when lookup is unavailable or the child has been deleted. Never supplied on tag writes or stored as extra_data. */
-  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null;
+  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null | undefined;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultPagesProjectTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultPagesProjectType = "pages_project";
@@ -3248,7 +3248,7 @@ export interface AccountTagsUpdateResultPagesProject {
   tags: AccountTagsUpdateResultPagesProjectTagsMap;
   type: AccountTagsUpdateResultPagesProjectType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultQueueTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultQueueType = "queue";
@@ -3263,7 +3263,7 @@ export interface AccountTagsUpdateResultQueue {
   tags: AccountTagsUpdateResultQueueTagsMap;
   type: AccountTagsUpdateResultQueueType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultR2BucketTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultR2BucketType = "r2_bucket";
@@ -3278,7 +3278,7 @@ export interface AccountTagsUpdateResultR2Bucket {
   tags: AccountTagsUpdateResultR2BucketTagsMap;
   type: AccountTagsUpdateResultR2BucketType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultResourceShareTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultResourceShareType = "resource_share";
@@ -3293,7 +3293,7 @@ export interface AccountTagsUpdateResultResourceShare {
   tags: AccountTagsUpdateResultResourceShareTagsMap;
   type: AccountTagsUpdateResultResourceShareType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultStreamLiveInputTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultStreamLiveInputType = "stream_live_input";
@@ -3308,7 +3308,7 @@ export interface AccountTagsUpdateResultStreamLiveInput {
   tags: AccountTagsUpdateResultStreamLiveInputTagsMap;
   type: AccountTagsUpdateResultStreamLiveInputType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultStreamVideoTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultStreamVideoType = "stream_video";
@@ -3323,7 +3323,7 @@ export interface AccountTagsUpdateResultStreamVideo {
   tags: AccountTagsUpdateResultStreamVideoTagsMap;
   type: AccountTagsUpdateResultStreamVideoType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultVectorizeIndexTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultVectorizeIndexType = "vectorize_index";
@@ -3338,7 +3338,7 @@ export interface AccountTagsUpdateResultVectorizeIndex {
   tags: AccountTagsUpdateResultVectorizeIndexTagsMap;
   type: AccountTagsUpdateResultVectorizeIndexType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultWorkerTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultWorkerType = "worker";
@@ -3353,7 +3353,7 @@ export interface AccountTagsUpdateResultWorker {
   tags: AccountTagsUpdateResultWorkerTagsMap;
   type: AccountTagsUpdateResultWorkerType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultWorkerRouteTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultWorkerRouteType = "worker_route";
@@ -3370,7 +3370,7 @@ export interface AccountTagsUpdateResultWorkerRoute {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultWorkerVersionTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultWorkerVersionType = "worker_version";
@@ -3387,7 +3387,7 @@ export interface AccountTagsUpdateResultWorkerVersion {
   /** Worker ID is required only for worker_version resources */
   workerId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultZoneTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultZoneType = "zone";
@@ -3404,7 +3404,7 @@ export interface AccountTagsUpdateResultZone {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResultZoneRulesetTagsMap = { [key: string]: string | undefined };
 export type AccountTagsUpdateResultZoneRulesetType = "zone_ruleset";
@@ -3421,7 +3421,7 @@ export interface AccountTagsUpdateResultZoneRuleset {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type AccountTagsUpdateResult =
   | AccountTagsUpdateResultAccessApplication
@@ -3492,10 +3492,10 @@ export interface PutZoneTagRequest {
   /** Enum for base zone-level resource types (those with no extra required fields). */
   resourceType: ZoneTagsUpdateRequestResourceType | (string & {});
   /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
-  tags?: ZoneTagsUpdateRequestTagsMap;
+  tags?: ZoneTagsUpdateRequestTagsMap | undefined;
   /** Access application ID is required only for access_application_policy resources */
-  accessApplicationId?: string;
-  ifMatch?: string;
+  accessApplicationId?: string | undefined;
+  ifMatch?: string | undefined;
 }
 export type ZoneTagsUpdateResultAccessApplicationTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAccessApplicationType = "access_application";
@@ -3510,7 +3510,7 @@ export interface ZoneTagsUpdateResultAccessApplication {
   tags: ZoneTagsUpdateResultAccessApplicationTagsMap;
   type: ZoneTagsUpdateResultAccessApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAccessApplicationPolicyTagsMap = {
   [key: string]: string | undefined;
@@ -3531,7 +3531,7 @@ export interface ZoneTagsUpdateResultAccessApplicationPolicy {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAccessGroupTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAccessGroupType = "access_group";
@@ -3546,7 +3546,7 @@ export interface ZoneTagsUpdateResultAccessGroup {
   tags: ZoneTagsUpdateResultAccessGroupTagsMap;
   type: ZoneTagsUpdateResultAccessGroupType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAccessServiceTokenTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAccessServiceTokenType = "access_service_token";
@@ -3561,7 +3561,7 @@ export interface ZoneTagsUpdateResultAccessServiceToken {
   tags: ZoneTagsUpdateResultAccessServiceTokenTagsMap;
   type: ZoneTagsUpdateResultAccessServiceTokenType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAccountTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAccountType = "account";
@@ -3576,7 +3576,7 @@ export interface ZoneTagsUpdateResultAccount {
   tags: ZoneTagsUpdateResultAccountTagsMap;
   type: ZoneTagsUpdateResultAccountType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAccountRulesetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAccountRulesetType = "account_ruleset";
@@ -3591,7 +3591,7 @@ export interface ZoneTagsUpdateResultAccountRuleset {
   tags: ZoneTagsUpdateResultAccountRulesetTagsMap;
   type: ZoneTagsUpdateResultAccountRulesetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAIGatewayTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAIGatewayType = "ai_gateway";
@@ -3606,7 +3606,7 @@ export interface ZoneTagsUpdateResultAIGateway {
   tags: ZoneTagsUpdateResultAIGatewayTagsMap;
   type: ZoneTagsUpdateResultAIGatewayType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAISearchInstanceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAISearchInstanceType = "ai_search_instance";
@@ -3621,7 +3621,7 @@ export interface ZoneTagsUpdateResultAISearchInstance {
   tags: ZoneTagsUpdateResultAISearchInstanceTagsMap;
   type: ZoneTagsUpdateResultAISearchInstanceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAISearchNamespaceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAISearchNamespaceType = "ai_search_namespace";
@@ -3636,7 +3636,7 @@ export interface ZoneTagsUpdateResultAISearchNamespace {
   tags: ZoneTagsUpdateResultAISearchNamespaceTagsMap;
   type: ZoneTagsUpdateResultAISearchNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAlertingPolicyTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAlertingPolicyType = "alerting_policy";
@@ -3651,7 +3651,7 @@ export interface ZoneTagsUpdateResultAlertingPolicy {
   tags: ZoneTagsUpdateResultAlertingPolicyTagsMap;
   type: ZoneTagsUpdateResultAlertingPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAlertingWebhookTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAlertingWebhookType = "alerting_webhook";
@@ -3666,7 +3666,7 @@ export interface ZoneTagsUpdateResultAlertingWebhook {
   tags: ZoneTagsUpdateResultAlertingWebhookTagsMap;
   type: ZoneTagsUpdateResultAlertingWebhookType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultAPIGatewayOperationTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultAPIGatewayOperationType = "api_gateway_operation";
@@ -3683,7 +3683,7 @@ export interface ZoneTagsUpdateResultAPIGatewayOperation {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultCloudflaredTunnelTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultCloudflaredTunnelType = "cloudflared_tunnel";
@@ -3698,7 +3698,7 @@ export interface ZoneTagsUpdateResultCloudflaredTunnel {
   tags: ZoneTagsUpdateResultCloudflaredTunnelTagsMap;
   type: ZoneTagsUpdateResultCloudflaredTunnelType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultCustomCertificateTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultCustomCertificateType = "custom_certificate";
@@ -3715,7 +3715,7 @@ export interface ZoneTagsUpdateResultCustomCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultCustomHostnameTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultCustomHostnameType = "custom_hostname";
@@ -3732,7 +3732,7 @@ export interface ZoneTagsUpdateResultCustomHostname {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultCWSDeploymentTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultCWSDeploymentType = "cws_deployment";
@@ -3747,7 +3747,7 @@ export interface ZoneTagsUpdateResultCWSDeployment {
   tags: ZoneTagsUpdateResultCWSDeploymentTagsMap;
   type: ZoneTagsUpdateResultCWSDeploymentType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultCWSPolicyTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultCWSPolicyType = "cws_policy";
@@ -3762,7 +3762,7 @@ export interface ZoneTagsUpdateResultCWSPolicy {
   tags: ZoneTagsUpdateResultCWSPolicyTagsMap;
   type: ZoneTagsUpdateResultCWSPolicyType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultCWSPolicySetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultCWSPolicySetType = "cws_policy_set";
@@ -3777,7 +3777,7 @@ export interface ZoneTagsUpdateResultCWSPolicySet {
   tags: ZoneTagsUpdateResultCWSPolicySetTagsMap;
   type: ZoneTagsUpdateResultCWSPolicySetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultCWSWorkloadTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultCWSWorkloadType = "cws_workload";
@@ -3792,7 +3792,7 @@ export interface ZoneTagsUpdateResultCWSWorkload {
   tags: ZoneTagsUpdateResultCWSWorkloadTagsMap;
   type: ZoneTagsUpdateResultCWSWorkloadType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultD1DatabaseTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultD1DatabaseType = "d1_database";
@@ -3807,7 +3807,7 @@ export interface ZoneTagsUpdateResultD1Database {
   tags: ZoneTagsUpdateResultD1DatabaseTagsMap;
   type: ZoneTagsUpdateResultD1DatabaseType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultDeviceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultDeviceType = "device";
@@ -3822,7 +3822,7 @@ export interface ZoneTagsUpdateResultDevice {
   tags: ZoneTagsUpdateResultDeviceTagsMap;
   type: ZoneTagsUpdateResultDeviceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultDNSRecordTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultDNSRecordType = "dns_record";
@@ -3839,7 +3839,7 @@ export interface ZoneTagsUpdateResultDNSRecord {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultDurableObjectNamespaceTagsMap = {
   [key: string]: string | undefined;
@@ -3856,7 +3856,7 @@ export interface ZoneTagsUpdateResultDurableObjectNamespace {
   tags: ZoneTagsUpdateResultDurableObjectNamespaceTagsMap;
   type: ZoneTagsUpdateResultDurableObjectNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultGatewayListTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultGatewayListType = "gateway_list";
@@ -3871,7 +3871,7 @@ export interface ZoneTagsUpdateResultGatewayList {
   tags: ZoneTagsUpdateResultGatewayListTagsMap;
   type: ZoneTagsUpdateResultGatewayListType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultGatewayRuleTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultGatewayRuleType = "gateway_rule";
@@ -3886,7 +3886,7 @@ export interface ZoneTagsUpdateResultGatewayRule {
   tags: ZoneTagsUpdateResultGatewayRuleTagsMap;
   type: ZoneTagsUpdateResultGatewayRuleType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultHealthcheckTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultHealthcheckType = "healthcheck";
@@ -3903,7 +3903,7 @@ export interface ZoneTagsUpdateResultHealthcheck {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultImageTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultImageType = "image";
@@ -3918,7 +3918,7 @@ export interface ZoneTagsUpdateResultImage {
   tags: ZoneTagsUpdateResultImageTagsMap;
   type: ZoneTagsUpdateResultImageType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultInfrastructureTargetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultInfrastructureTargetType = "infrastructure_target";
@@ -3933,7 +3933,7 @@ export interface ZoneTagsUpdateResultInfrastructureTarget {
   tags: ZoneTagsUpdateResultInfrastructureTargetTagsMap;
   type: ZoneTagsUpdateResultInfrastructureTargetType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultKVNamespaceTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultKVNamespaceType = "kv_namespace";
@@ -3948,7 +3948,7 @@ export interface ZoneTagsUpdateResultKVNamespace {
   tags: ZoneTagsUpdateResultKVNamespaceTagsMap;
   type: ZoneTagsUpdateResultKVNamespaceType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultLoadBalancerTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultLoadBalancerType = "load_balancer";
@@ -3965,7 +3965,7 @@ export interface ZoneTagsUpdateResultLoadBalancer {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultLoadBalancerMonitorTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultLoadBalancerMonitorType = "load_balancer_monitor";
@@ -3980,7 +3980,7 @@ export interface ZoneTagsUpdateResultLoadBalancerMonitor {
   tags: ZoneTagsUpdateResultLoadBalancerMonitorTagsMap;
   type: ZoneTagsUpdateResultLoadBalancerMonitorType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultLoadBalancerPoolTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultLoadBalancerPoolType = "load_balancer_pool";
@@ -3995,7 +3995,7 @@ export interface ZoneTagsUpdateResultLoadBalancerPool {
   tags: ZoneTagsUpdateResultLoadBalancerPoolTagsMap;
   type: ZoneTagsUpdateResultLoadBalancerPoolType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultManagedClientCertificateTagsMap = {
   [key: string]: string | undefined;
@@ -4014,7 +4014,7 @@ export interface ZoneTagsUpdateResultManagedClientCertificate {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultNamespaceWorkerTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultNamespaceWorkerType = "namespace_worker";
@@ -4031,9 +4031,9 @@ export interface ZoneTagsUpdateResultNamespaceWorker {
   tags: ZoneTagsUpdateResultNamespaceWorkerTagsMap;
   type: ZoneTagsUpdateResultNamespaceWorkerType;
   /** Read-only routing metadata resolved from EWC using the account and immutable namespace Worker ID. Returned only by tagged-resource lists requested with include_navigation=true. Omitted when lookup is unavailable or the child has been deleted. Never supplied on tag writes or stored as extra_data. */
-  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null;
+  navigation?: AccountTagsGetResultNamespaceWorkerNavigation | null | undefined;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultPagesProjectTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultPagesProjectType = "pages_project";
@@ -4048,7 +4048,7 @@ export interface ZoneTagsUpdateResultPagesProject {
   tags: ZoneTagsUpdateResultPagesProjectTagsMap;
   type: ZoneTagsUpdateResultPagesProjectType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultQueueTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultQueueType = "queue";
@@ -4063,7 +4063,7 @@ export interface ZoneTagsUpdateResultQueue {
   tags: ZoneTagsUpdateResultQueueTagsMap;
   type: ZoneTagsUpdateResultQueueType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultR2BucketTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultR2BucketType = "r2_bucket";
@@ -4078,7 +4078,7 @@ export interface ZoneTagsUpdateResultR2Bucket {
   tags: ZoneTagsUpdateResultR2BucketTagsMap;
   type: ZoneTagsUpdateResultR2BucketType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultResourceShareTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultResourceShareType = "resource_share";
@@ -4093,7 +4093,7 @@ export interface ZoneTagsUpdateResultResourceShare {
   tags: ZoneTagsUpdateResultResourceShareTagsMap;
   type: ZoneTagsUpdateResultResourceShareType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultStreamLiveInputTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultStreamLiveInputType = "stream_live_input";
@@ -4108,7 +4108,7 @@ export interface ZoneTagsUpdateResultStreamLiveInput {
   tags: ZoneTagsUpdateResultStreamLiveInputTagsMap;
   type: ZoneTagsUpdateResultStreamLiveInputType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultStreamVideoTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultStreamVideoType = "stream_video";
@@ -4123,7 +4123,7 @@ export interface ZoneTagsUpdateResultStreamVideo {
   tags: ZoneTagsUpdateResultStreamVideoTagsMap;
   type: ZoneTagsUpdateResultStreamVideoType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultVectorizeIndexTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultVectorizeIndexType = "vectorize_index";
@@ -4138,7 +4138,7 @@ export interface ZoneTagsUpdateResultVectorizeIndex {
   tags: ZoneTagsUpdateResultVectorizeIndexTagsMap;
   type: ZoneTagsUpdateResultVectorizeIndexType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultWorkerTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultWorkerType = "worker";
@@ -4153,7 +4153,7 @@ export interface ZoneTagsUpdateResultWorker {
   tags: ZoneTagsUpdateResultWorkerTagsMap;
   type: ZoneTagsUpdateResultWorkerType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultWorkerRouteTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultWorkerRouteType = "worker_route";
@@ -4170,7 +4170,7 @@ export interface ZoneTagsUpdateResultWorkerRoute {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultWorkerVersionTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultWorkerVersionType = "worker_version";
@@ -4187,7 +4187,7 @@ export interface ZoneTagsUpdateResultWorkerVersion {
   /** Worker ID is required only for worker_version resources */
   workerId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultZoneTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultZoneType = "zone";
@@ -4204,7 +4204,7 @@ export interface ZoneTagsUpdateResultZone {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResultZoneRulesetTagsMap = { [key: string]: string | undefined };
 export type ZoneTagsUpdateResultZoneRulesetType = "zone_ruleset";
@@ -4221,7 +4221,7 @@ export interface ZoneTagsUpdateResultZoneRuleset {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
-  tagsUpdatedAt?: string | null;
+  tagsUpdatedAt?: string | null | undefined;
 }
 export type ZoneTagsUpdateResult =
   | ZoneTagsUpdateResultAccessApplication

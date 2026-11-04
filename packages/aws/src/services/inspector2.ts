@@ -191,20 +191,20 @@ export type AssociationResultStatusCode =
   | (string & {});
 export type AssociationResultStatusMessage = string;
 export interface FailedAssociationResult {
-  scanConfigurationArn?: string;
-  resource?: CodeSecurityResource;
-  statusCode?: AssociationResultStatusCode;
-  statusMessage?: string;
+  scanConfigurationArn?: string | undefined;
+  resource?: CodeSecurityResource | undefined;
+  statusCode?: AssociationResultStatusCode | undefined;
+  statusMessage?: string | undefined;
 }
 export type FailedAssociationResultList = FailedAssociationResult[];
 export interface SuccessfulAssociationResult {
-  scanConfigurationArn?: string;
-  resource?: CodeSecurityResource;
+  scanConfigurationArn?: string | undefined;
+  resource?: CodeSecurityResource | undefined;
 }
 export type SuccessfulAssociationResultList = SuccessfulAssociationResult[];
 export interface BatchAssociateCodeSecurityScanConfigurationResponse {
-  failedAssociations?: FailedAssociationResult[];
-  successfulAssociations?: SuccessfulAssociationResult[];
+  failedAssociations?: FailedAssociationResult[] | undefined;
+  successfulAssociations?: SuccessfulAssociationResult[] | undefined;
 }
 export interface DisassociateConfigurationRequest {
   scanConfigurationArn: string;
@@ -215,27 +215,27 @@ export interface BatchDisassociateCodeSecurityScanConfigurationRequest {
   disassociateConfigurationRequests: DisassociateConfigurationRequest[];
 }
 export interface BatchDisassociateCodeSecurityScanConfigurationResponse {
-  failedAssociations?: FailedAssociationResult[];
-  successfulAssociations?: SuccessfulAssociationResult[];
+  failedAssociations?: FailedAssociationResult[] | undefined;
+  successfulAssociations?: SuccessfulAssociationResult[] | undefined;
 }
 export type AccountIdSet = string[];
 export interface BatchGetAccountStatusRequest {
-  accountIds?: string[];
+  accountIds?: string[] | undefined;
 }
 export type Status = string;
 export type ErrorCode = string;
 export type NonEmptyString = string;
 export interface State {
   status: string;
-  errorCode?: string;
-  errorMessage?: string;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface ResourceState {
   ec2: State;
   ecr: State;
-  lambda?: State;
-  lambdaCode?: State;
-  codeRepository?: State;
+  lambda?: State | undefined;
+  lambdaCode?: State | undefined;
+  codeRepository?: State | undefined;
 }
 export interface AccountState {
   accountId: string;
@@ -244,23 +244,23 @@ export interface AccountState {
 }
 export type AccountStateList = AccountState[];
 export interface ResourceStatus {
-  ec2?: string;
-  ecr?: string;
-  lambda?: string;
-  lambdaCode?: string;
-  codeRepository?: string;
+  ec2?: string | undefined;
+  ecr?: string | undefined;
+  lambda?: string | undefined;
+  lambdaCode?: string | undefined;
+  codeRepository?: string | undefined;
 }
 export interface FailedAccount {
   accountId: string;
-  status?: string;
-  resourceStatus?: ResourceStatus;
-  errorCode?: string;
-  errorMessage?: string;
+  status?: string | undefined;
+  resourceStatus?: ResourceStatus | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type FailedAccountList = FailedAccount[];
 export interface BatchGetAccountStatusResponse {
   accounts: AccountState[];
-  failedAccounts?: FailedAccount[];
+  failedAccounts?: FailedAccount[] | undefined;
 }
 export type FindingArn = string;
 export type FindingArns = string[];
@@ -273,16 +273,16 @@ export interface CodeLine {
 }
 export type CodeLineList = CodeLine[];
 export interface SuggestedFix {
-  description?: string;
-  code?: string;
+  description?: string | undefined;
+  code?: string | undefined;
 }
 export type SuggestedFixes = SuggestedFix[];
 export interface CodeSnippetResult {
-  findingArn?: string;
-  startLine?: number;
-  endLine?: number;
-  codeSnippet?: CodeLine[];
-  suggestedFixes?: SuggestedFix[];
+  findingArn?: string | undefined;
+  startLine?: number | undefined;
+  endLine?: number | undefined;
+  codeSnippet?: CodeLine[] | undefined;
+  suggestedFixes?: SuggestedFix[] | undefined;
 }
 export type CodeSnippetResultList = CodeSnippetResult[];
 export type CodeSnippetErrorCode = string;
@@ -293,8 +293,8 @@ export interface CodeSnippetError {
 }
 export type CodeSnippetErrorList = CodeSnippetError[];
 export interface BatchGetCodeSnippetResponse {
-  codeSnippetResults?: CodeSnippetResult[];
-  errors?: CodeSnippetError[];
+  codeSnippetResults?: CodeSnippetResult[] | undefined;
+  errors?: CodeSnippetError[] | undefined;
 }
 export type FindingArnList = string[];
 export interface BatchGetFindingDetailsRequest {
@@ -304,18 +304,18 @@ export type CisaDateAdded = Date;
 export type CisaDateDue = Date;
 export type CisaAction = string;
 export interface CisaData {
-  dateAdded?: Date;
-  dateDue?: Date;
-  action?: string;
+  dateAdded?: Date | undefined;
+  dateDue?: Date | undefined;
+  action?: string | undefined;
 }
 export type RiskScore = number;
 export type EvidenceRule = string;
 export type EvidenceDetail = string;
 export type EvidenceSeverity = string;
 export interface Evidence {
-  evidenceRule?: string;
-  evidenceDetail?: string;
-  severity?: string;
+  evidenceRule?: string | undefined;
+  evidenceDetail?: string | undefined;
+  severity?: string | undefined;
 }
 export type EvidenceList = Evidence[];
 export type Ttp = string;
@@ -325,24 +325,24 @@ export type Tools = string[];
 export type LastSeen = Date;
 export type FirstSeen = Date;
 export interface ExploitObserved {
-  lastSeen?: Date;
-  firstSeen?: Date;
+  lastSeen?: Date | undefined;
+  firstSeen?: Date | undefined;
 }
 export type VulnerabilityReferenceUrl = string;
 export type VulnerabilityReferenceUrls = string[];
 export type Cwe = string;
 export type Cwes = string[];
 export interface FindingDetail {
-  findingArn?: string;
-  cisaData?: CisaData;
-  riskScore?: number;
-  evidences?: Evidence[];
-  ttps?: string[];
-  tools?: string[];
-  exploitObserved?: ExploitObserved;
-  referenceUrls?: string[];
-  cwes?: string[];
-  epssScore?: number;
+  findingArn?: string | undefined;
+  cisaData?: CisaData | undefined;
+  riskScore?: number | undefined;
+  evidences?: Evidence[] | undefined;
+  ttps?: string[] | undefined;
+  tools?: string[] | undefined;
+  exploitObserved?: ExploitObserved | undefined;
+  referenceUrls?: string[] | undefined;
+  cwes?: string[] | undefined;
+  epssScore?: number | undefined;
 }
 export type FindingDetails = FindingDetail[];
 export type FindingDetailsErrorCode = string;
@@ -353,8 +353,8 @@ export interface FindingDetailsError {
 }
 export type FindingDetailsErrorList = FindingDetailsError[];
 export interface BatchGetFindingDetailsResponse {
-  findingDetails?: FindingDetail[];
-  errors?: FindingDetailsError[];
+  findingDetails?: FindingDetail[] | undefined;
+  errors?: FindingDetailsError[] | undefined;
 }
 export type MeteringAccountId = string;
 export type MeteringAccountIdList = string[];
@@ -369,7 +369,7 @@ export interface FreeTrialInfo {
   start: Date;
   end: Date;
   status: string;
-  cloudProvider?: string;
+  cloudProvider?: string | undefined;
 }
 export type FreeTrialInfoList = FreeTrialInfo[];
 export interface FreeTrialAccountInfo {
@@ -389,26 +389,26 @@ export interface BatchGetFreeTrialInfoResponse {
   failedAccounts: FreeTrialInfoError[];
 }
 export interface BatchGetMemberEc2DeepInspectionStatusRequest {
-  accountIds?: string[];
+  accountIds?: string[] | undefined;
 }
 export type Ec2DeepInspectionStatus = string;
 export interface MemberAccountEc2DeepInspectionStatusState {
   accountId: string;
-  status?: string;
-  errorMessage?: string;
+  status?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type MemberAccountEc2DeepInspectionStatusStateList =
   MemberAccountEc2DeepInspectionStatusState[];
 export interface FailedMemberAccountEc2DeepInspectionStatusState {
   accountId: string;
-  ec2ScanStatus?: string;
-  errorMessage?: string;
+  ec2ScanStatus?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type FailedMemberAccountEc2DeepInspectionStatusStateList =
   FailedMemberAccountEc2DeepInspectionStatusState[];
 export interface BatchGetMemberEc2DeepInspectionStatusResponse {
-  accountIds?: MemberAccountEc2DeepInspectionStatusState[];
-  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusState[];
+  accountIds?: MemberAccountEc2DeepInspectionStatusState[] | undefined;
+  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusState[] | undefined;
 }
 export interface MemberAccountEc2DeepInspectionStatus {
   accountId: string;
@@ -419,8 +419,8 @@ export interface BatchUpdateMemberEc2DeepInspectionStatusRequest {
   accountIds: MemberAccountEc2DeepInspectionStatus[];
 }
 export interface BatchUpdateMemberEc2DeepInspectionStatusResponse {
-  accountIds?: MemberAccountEc2DeepInspectionStatusState[];
-  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusState[];
+  accountIds?: MemberAccountEc2DeepInspectionStatusState[] | undefined;
+  failedAccountIds?: FailedMemberAccountEc2DeepInspectionStatusState[] | undefined;
 }
 export type ReportId = string;
 export interface CancelFindingsReportRequest {
@@ -433,7 +433,7 @@ export interface CancelSbomExportRequest {
   reportId: string;
 }
 export interface CancelSbomExportResponse {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export type CisScanName = string;
 export type CisSecurityLevel = "LEVEL_1" | "LEVEL_2" | (string & {});
@@ -480,11 +480,11 @@ export interface CreateCisScanConfigurationRequest {
   securityLevel: CisSecurityLevel;
   schedule: Schedule;
   targets: CreateCisTargets;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CisScanConfigurationArn = string;
 export interface CreateCisScanConfigurationResponse {
-  scanConfigurationArn?: string;
+  scanConfigurationArn?: string | undefined;
 }
 export type IntegrationName = string;
 export type IntegrationType = "GITLAB_SELF_MANAGED" | "GITHUB" | (string & {});
@@ -501,8 +501,8 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateCodeSecurityIntegrationRequest {
   name: string;
   type: IntegrationType;
-  details?: CreateIntegrationDetail;
-  tags?: { [key: string]: string | undefined };
+  details?: CreateIntegrationDetail | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CodeSecurityIntegrationArn = string;
 export type IntegrationStatus =
@@ -516,15 +516,15 @@ export type AuthorizationUrl = string | redacted.Redacted<string>;
 export interface CreateCodeSecurityIntegrationResponse {
   integrationArn: string;
   status: IntegrationStatus;
-  authorizationUrl?: string | redacted.Redacted<string>;
+  authorizationUrl?: string | redacted.Redacted<string> | undefined;
 }
 export type ScanConfigurationName = string;
 export type ConfigurationLevel = "ORGANIZATION" | "ACCOUNT" | (string & {});
 export type PeriodicScanFrequency = "WEEKLY" | "MONTHLY" | "NEVER" | (string & {});
 export type FrequencyExpression = string;
 export interface PeriodicScanConfiguration {
-  frequency?: PeriodicScanFrequency;
-  frequencyExpression?: string;
+  frequency?: PeriodicScanFrequency | undefined;
+  frequencyExpression?: string | undefined;
 }
 export type ContinuousIntegrationScanEvent = "PULL_REQUEST" | "PUSH" | (string & {});
 export type ContinuousIntegrationScanSupportedEvents = ContinuousIntegrationScanEvent[];
@@ -534,20 +534,20 @@ export interface ContinuousIntegrationScanConfiguration {
 export type RuleSetCategory = "SAST" | "IAC" | "SCA" | (string & {});
 export type RuleSetCategories = RuleSetCategory[];
 export interface CodeSecurityScanConfiguration {
-  periodicScanConfiguration?: PeriodicScanConfiguration;
-  continuousIntegrationScanConfiguration?: ContinuousIntegrationScanConfiguration;
+  periodicScanConfiguration?: PeriodicScanConfiguration | undefined;
+  continuousIntegrationScanConfiguration?: ContinuousIntegrationScanConfiguration | undefined;
   ruleSetCategories: RuleSetCategory[];
 }
 export type ProjectSelectionScope = "ALL" | (string & {});
 export interface ScopeSettings {
-  projectSelectionScope?: ProjectSelectionScope;
+  projectSelectionScope?: ProjectSelectionScope | undefined;
 }
 export interface CreateCodeSecurityScanConfigurationRequest {
   name: string;
   level: ConfigurationLevel;
   configuration: CodeSecurityScanConfiguration;
-  scopeSettings?: ScopeSettings;
-  tags?: { [key: string]: string | undefined };
+  scopeSettings?: ScopeSettings | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCodeSecurityScanConfigurationResponse {
   scanConfigurationArn: string;
@@ -561,12 +561,12 @@ export type ScopeValue = string;
 export type ScopeValueList = string[];
 export interface ScopeConfigurationInput {
   scopeType: ScopeType;
-  scopeValues?: string[];
+  scopeValues?: string[] | undefined;
 }
 export interface AzureScopeConfigurationInput {
-  vmScanning?: ScopeConfigurationInput;
-  containerImageScanning?: ScopeConfigurationInput;
-  serverlessScanning?: ScopeConfigurationInput;
+  vmScanning?: ScopeConfigurationInput | undefined;
+  containerImageScanning?: ScopeConfigurationInput | undefined;
+  serverlessScanning?: ScopeConfigurationInput | undefined;
 }
 export type AzureRegion = string;
 export type AzureRegionList = string[];
@@ -574,19 +574,19 @@ export interface AzureProviderDetailCreate {
   awsConfigConnectorArn: string;
   scopeConfiguration: AzureScopeConfigurationInput;
   azureRegions: string[];
-  autoInstallVMScanner?: boolean;
+  autoInstallVMScanner?: boolean | undefined;
 }
 export type ProviderDetailCreate = { azure: AzureProviderDetailCreate };
 export type ConnectorTagKey = string;
 export type ConnectorTagValue = string;
 export type ConnectorTagMap = { [key: string]: string | undefined };
 export interface CreateConnectorRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
   provider: ConnectorCloudProvider;
-  description?: string;
+  description?: string | undefined;
   providerDetail: ProviderDetailCreate;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConnectorArn = string;
 export interface CreateConnectorResponse {
@@ -602,115 +602,115 @@ export interface StringFilter {
 }
 export type StringFilterList = StringFilter[];
 export interface DateFilter {
-  startInclusive?: Date;
-  endInclusive?: Date;
+  startInclusive?: Date | undefined;
+  endInclusive?: Date | undefined;
 }
 export type DateFilterList = DateFilter[];
 export interface NumberFilter {
-  upperInclusive?: number;
-  lowerInclusive?: number;
+  upperInclusive?: number | undefined;
+  lowerInclusive?: number | undefined;
 }
 export type NumberFilterList = NumberFilter[];
 export type MapComparison = string;
 export interface MapFilter {
   comparison: string;
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type MapFilterList = MapFilter[];
 export type Port = number;
 export interface PortRangeFilter {
-  beginInclusive?: number;
-  endInclusive?: number;
+  beginInclusive?: number | undefined;
+  endInclusive?: number | undefined;
 }
 export type PortRangeFilterList = PortRangeFilter[];
 export interface PackageFilter {
-  name?: StringFilter;
-  version?: StringFilter;
-  epoch?: NumberFilter;
-  release?: StringFilter;
-  architecture?: StringFilter;
-  sourceLayerHash?: StringFilter;
-  sourceLambdaLayerArn?: StringFilter;
-  filePath?: StringFilter;
+  name?: StringFilter | undefined;
+  version?: StringFilter | undefined;
+  epoch?: NumberFilter | undefined;
+  release?: StringFilter | undefined;
+  architecture?: StringFilter | undefined;
+  sourceLayerHash?: StringFilter | undefined;
+  sourceLambdaLayerArn?: StringFilter | undefined;
+  filePath?: StringFilter | undefined;
 }
 export type PackageFilterList = PackageFilter[];
 export interface FilterCriteria {
-  findingArn?: StringFilter[];
-  awsAccountId?: StringFilter[];
-  findingType?: StringFilter[];
-  severity?: StringFilter[];
-  firstObservedAt?: DateFilter[];
-  lastObservedAt?: DateFilter[];
-  updatedAt?: DateFilter[];
-  findingStatus?: StringFilter[];
-  title?: StringFilter[];
-  inspectorScore?: NumberFilter[];
-  resourceType?: StringFilter[];
-  resourceId?: StringFilter[];
-  resourceTags?: MapFilter[];
-  ec2InstanceImageId?: StringFilter[];
-  ec2InstanceVpcId?: StringFilter[];
-  ec2InstanceSubnetId?: StringFilter[];
-  ecrImagePushedAt?: DateFilter[];
-  ecrImageArchitecture?: StringFilter[];
-  ecrImageRegistry?: StringFilter[];
-  ecrImageRepositoryName?: StringFilter[];
-  ecrImageTags?: StringFilter[];
-  ecrImageHash?: StringFilter[];
-  ecrImageLastInUseAt?: DateFilter[];
-  ecrImageInUseCount?: NumberFilter[];
-  portRange?: PortRangeFilter[];
-  networkProtocol?: StringFilter[];
-  componentId?: StringFilter[];
-  componentType?: StringFilter[];
-  vulnerabilityId?: StringFilter[];
-  vulnerabilitySource?: StringFilter[];
-  vendorSeverity?: StringFilter[];
-  vulnerablePackages?: PackageFilter[];
-  relatedVulnerabilities?: StringFilter[];
-  fixAvailable?: StringFilter[];
-  lambdaFunctionName?: StringFilter[];
-  lambdaFunctionLayers?: StringFilter[];
-  lambdaFunctionRuntime?: StringFilter[];
-  lambdaFunctionLastModifiedAt?: DateFilter[];
-  lambdaFunctionExecutionRoleArn?: StringFilter[];
-  exploitAvailable?: StringFilter[];
-  codeVulnerabilityDetectorName?: StringFilter[];
-  codeVulnerabilityDetectorTags?: StringFilter[];
-  codeVulnerabilityFilePath?: StringFilter[];
-  epssScore?: NumberFilter[];
-  codeRepositoryProjectName?: StringFilter[];
-  codeRepositoryProviderType?: StringFilter[];
-  cloudProvider?: StringFilter[];
-  cloudProviderRegion?: StringFilter[];
-  cloudProviderAccountId?: StringFilter[];
-  cloudProviderOrgId?: StringFilter[];
-  cloudVmImageReference?: StringFilter[];
-  cloudVmNetworkId?: StringFilter[];
-  cloudVmSubnetIds?: StringFilter[];
-  cloudImageRepositoryName?: StringFilter[];
-  cloudImageRegistry?: StringFilter[];
-  cloudImageDigest?: StringFilter[];
-  cloudImageTags?: StringFilter[];
-  cloudImagePushedAt?: DateFilter[];
-  cloudImageArchitecture?: StringFilter[];
-  cloudImageLastInUseAt?: DateFilter[];
-  cloudImageInUseCount?: NumberFilter[];
-  cloudServerlessFunctionName?: StringFilter[];
-  cloudServerlessFunctionRuntime?: StringFilter[];
-  cloudServerlessFunctionLastModifiedAt?: DateFilter[];
-  cloudServerlessFunctionExecutionRole?: StringFilter[];
+  findingArn?: StringFilter[] | undefined;
+  awsAccountId?: StringFilter[] | undefined;
+  findingType?: StringFilter[] | undefined;
+  severity?: StringFilter[] | undefined;
+  firstObservedAt?: DateFilter[] | undefined;
+  lastObservedAt?: DateFilter[] | undefined;
+  updatedAt?: DateFilter[] | undefined;
+  findingStatus?: StringFilter[] | undefined;
+  title?: StringFilter[] | undefined;
+  inspectorScore?: NumberFilter[] | undefined;
+  resourceType?: StringFilter[] | undefined;
+  resourceId?: StringFilter[] | undefined;
+  resourceTags?: MapFilter[] | undefined;
+  ec2InstanceImageId?: StringFilter[] | undefined;
+  ec2InstanceVpcId?: StringFilter[] | undefined;
+  ec2InstanceSubnetId?: StringFilter[] | undefined;
+  ecrImagePushedAt?: DateFilter[] | undefined;
+  ecrImageArchitecture?: StringFilter[] | undefined;
+  ecrImageRegistry?: StringFilter[] | undefined;
+  ecrImageRepositoryName?: StringFilter[] | undefined;
+  ecrImageTags?: StringFilter[] | undefined;
+  ecrImageHash?: StringFilter[] | undefined;
+  ecrImageLastInUseAt?: DateFilter[] | undefined;
+  ecrImageInUseCount?: NumberFilter[] | undefined;
+  portRange?: PortRangeFilter[] | undefined;
+  networkProtocol?: StringFilter[] | undefined;
+  componentId?: StringFilter[] | undefined;
+  componentType?: StringFilter[] | undefined;
+  vulnerabilityId?: StringFilter[] | undefined;
+  vulnerabilitySource?: StringFilter[] | undefined;
+  vendorSeverity?: StringFilter[] | undefined;
+  vulnerablePackages?: PackageFilter[] | undefined;
+  relatedVulnerabilities?: StringFilter[] | undefined;
+  fixAvailable?: StringFilter[] | undefined;
+  lambdaFunctionName?: StringFilter[] | undefined;
+  lambdaFunctionLayers?: StringFilter[] | undefined;
+  lambdaFunctionRuntime?: StringFilter[] | undefined;
+  lambdaFunctionLastModifiedAt?: DateFilter[] | undefined;
+  lambdaFunctionExecutionRoleArn?: StringFilter[] | undefined;
+  exploitAvailable?: StringFilter[] | undefined;
+  codeVulnerabilityDetectorName?: StringFilter[] | undefined;
+  codeVulnerabilityDetectorTags?: StringFilter[] | undefined;
+  codeVulnerabilityFilePath?: StringFilter[] | undefined;
+  epssScore?: NumberFilter[] | undefined;
+  codeRepositoryProjectName?: StringFilter[] | undefined;
+  codeRepositoryProviderType?: StringFilter[] | undefined;
+  cloudProvider?: StringFilter[] | undefined;
+  cloudProviderRegion?: StringFilter[] | undefined;
+  cloudProviderAccountId?: StringFilter[] | undefined;
+  cloudProviderOrgId?: StringFilter[] | undefined;
+  cloudVmImageReference?: StringFilter[] | undefined;
+  cloudVmNetworkId?: StringFilter[] | undefined;
+  cloudVmSubnetIds?: StringFilter[] | undefined;
+  cloudImageRepositoryName?: StringFilter[] | undefined;
+  cloudImageRegistry?: StringFilter[] | undefined;
+  cloudImageDigest?: StringFilter[] | undefined;
+  cloudImageTags?: StringFilter[] | undefined;
+  cloudImagePushedAt?: DateFilter[] | undefined;
+  cloudImageArchitecture?: StringFilter[] | undefined;
+  cloudImageLastInUseAt?: DateFilter[] | undefined;
+  cloudImageInUseCount?: NumberFilter[] | undefined;
+  cloudServerlessFunctionName?: StringFilter[] | undefined;
+  cloudServerlessFunctionRuntime?: StringFilter[] | undefined;
+  cloudServerlessFunctionLastModifiedAt?: DateFilter[] | undefined;
+  cloudServerlessFunctionExecutionRole?: StringFilter[] | undefined;
 }
 export type FilterName = string;
 export type FilterReason = string;
 export interface CreateFilterRequest {
   action: string;
-  description?: string;
+  description?: string | undefined;
   filterCriteria: FilterCriteria;
   name: string;
-  tags?: { [key: string]: string | undefined };
-  reason?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  reason?: string | undefined;
 }
 export type FilterArn = string;
 export interface CreateFilterResponse {
@@ -719,16 +719,16 @@ export interface CreateFilterResponse {
 export type ReportFormat = string;
 export interface Destination {
   bucketName: string;
-  keyPrefix?: string;
+  keyPrefix?: string | undefined;
   kmsKeyArn: string;
 }
 export interface CreateFindingsReportRequest {
-  filterCriteria?: FilterCriteria;
+  filterCriteria?: FilterCriteria | undefined;
   reportFormat: string;
   s3Destination: Destination;
 }
 export interface CreateFindingsReportResponse {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export type ResourceStringComparison = string;
 export type ResourceStringInput = string;
@@ -741,38 +741,38 @@ export type ResourceMapComparison = string;
 export interface ResourceMapFilter {
   comparison: string;
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type ResourceMapFilterList = ResourceMapFilter[];
 export interface ResourceFilterCriteria {
-  accountId?: ResourceStringFilter[];
-  resourceId?: ResourceStringFilter[];
-  resourceType?: ResourceStringFilter[];
-  ecrRepositoryName?: ResourceStringFilter[];
-  lambdaFunctionName?: ResourceStringFilter[];
-  ecrImageTags?: ResourceStringFilter[];
-  ec2InstanceTags?: ResourceMapFilter[];
-  lambdaFunctionTags?: ResourceMapFilter[];
-  cloudProvider?: ResourceStringFilter[];
-  cloudProviderAccountId?: ResourceStringFilter[];
-  cloudProviderOrgId?: ResourceStringFilter[];
-  cloudProviderRegion?: ResourceStringFilter[];
-  cloudVmInstanceTags?: ResourceMapFilter[];
-  cloudContainerImageTags?: ResourceStringFilter[];
-  cloudContainerRepositoryName?: ResourceStringFilter[];
-  cloudContainerRegistryName?: ResourceStringFilter[];
-  cloudServerlessFunctionName?: ResourceStringFilter[];
-  cloudServerlessFunctionRuntime?: ResourceStringFilter[];
-  cloudServerlessFunctionTags?: ResourceMapFilter[];
+  accountId?: ResourceStringFilter[] | undefined;
+  resourceId?: ResourceStringFilter[] | undefined;
+  resourceType?: ResourceStringFilter[] | undefined;
+  ecrRepositoryName?: ResourceStringFilter[] | undefined;
+  lambdaFunctionName?: ResourceStringFilter[] | undefined;
+  ecrImageTags?: ResourceStringFilter[] | undefined;
+  ec2InstanceTags?: ResourceMapFilter[] | undefined;
+  lambdaFunctionTags?: ResourceMapFilter[] | undefined;
+  cloudProvider?: ResourceStringFilter[] | undefined;
+  cloudProviderAccountId?: ResourceStringFilter[] | undefined;
+  cloudProviderOrgId?: ResourceStringFilter[] | undefined;
+  cloudProviderRegion?: ResourceStringFilter[] | undefined;
+  cloudVmInstanceTags?: ResourceMapFilter[] | undefined;
+  cloudContainerImageTags?: ResourceStringFilter[] | undefined;
+  cloudContainerRepositoryName?: ResourceStringFilter[] | undefined;
+  cloudContainerRegistryName?: ResourceStringFilter[] | undefined;
+  cloudServerlessFunctionName?: ResourceStringFilter[] | undefined;
+  cloudServerlessFunctionRuntime?: ResourceStringFilter[] | undefined;
+  cloudServerlessFunctionTags?: ResourceMapFilter[] | undefined;
 }
 export type SbomReportFormat = string;
 export interface CreateSbomExportRequest {
-  resourceFilterCriteria?: ResourceFilterCriteria;
+  resourceFilterCriteria?: ResourceFilterCriteria | undefined;
   reportFormat: string;
   s3Destination: Destination;
 }
 export interface CreateSbomExportResponse {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export interface DeleteCisScanConfigurationRequest {
   scanConfigurationArn: string;
@@ -784,13 +784,13 @@ export interface DeleteCodeSecurityIntegrationRequest {
   integrationArn: string;
 }
 export interface DeleteCodeSecurityIntegrationResponse {
-  integrationArn?: string;
+  integrationArn?: string | undefined;
 }
 export interface DeleteCodeSecurityScanConfigurationRequest {
   scanConfigurationArn: string;
 }
 export interface DeleteCodeSecurityScanConfigurationResponse {
-  scanConfigurationArn?: string;
+  scanConfigurationArn?: string | undefined;
 }
 export interface DeleteConnectorRequest {
   connectorArn: string;
@@ -806,19 +806,19 @@ export interface DescribeOrganizationConfigurationRequest {}
 export interface AutoEnable {
   ec2: boolean;
   ecr: boolean;
-  lambda?: boolean;
-  lambdaCode?: boolean;
-  codeRepository?: boolean;
+  lambda?: boolean | undefined;
+  lambdaCode?: boolean | undefined;
+  codeRepository?: boolean | undefined;
 }
 export interface DescribeOrganizationConfigurationResponse {
-  autoEnable?: AutoEnable;
-  maxAccountLimitReached?: boolean;
+  autoEnable?: AutoEnable | undefined;
+  maxAccountLimitReached?: boolean | undefined;
 }
 export type ResourceScanType = string;
 export type DisableResourceTypeList = string[];
 export interface DisableRequest {
-  accountIds?: string[];
-  resourceTypes?: string[];
+  accountIds?: string[] | undefined;
+  resourceTypes?: string[] | undefined;
 }
 export interface Account {
   accountId: string;
@@ -828,7 +828,7 @@ export interface Account {
 export type AccountList = Account[];
 export interface DisableResponse {
   accounts: Account[];
-  failedAccounts?: FailedAccount[];
+  failedAccounts?: FailedAccount[] | undefined;
 }
 export interface DisableDelegatedAdminAccountRequest {
   delegatedAdminAccountId: string;
@@ -845,17 +845,17 @@ export interface DisassociateMemberResponse {
 export type EnableResourceTypeList = string[];
 export type ClientToken = string;
 export interface EnableRequest {
-  accountIds?: string[];
+  accountIds?: string[] | undefined;
   resourceTypes: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface EnableResponse {
   accounts: Account[];
-  failedAccounts?: FailedAccount[];
+  failedAccounts?: FailedAccount[] | undefined;
 }
 export interface EnableDelegatedAdminAccountRequest {
   delegatedAdminAccountId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface EnableDelegatedAdminAccountResponse {
   delegatedAdminAccountId: string;
@@ -865,13 +865,13 @@ export type ReportTargetAccounts = string[];
 export type CisReportFormat = "PDF" | "CSV" | (string & {});
 export interface GetCisScanReportRequest {
   scanArn: string;
-  targetAccounts?: string[];
-  reportFormat?: CisReportFormat;
+  targetAccounts?: string[] | undefined;
+  reportFormat?: CisReportFormat | undefined;
 }
 export type CisReportStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS" | (string & {});
 export interface GetCisScanReportResponse {
-  url?: string;
-  status?: CisReportStatus;
+  url?: string | undefined;
+  status?: CisReportStatus | undefined;
 }
 export type ResourceId = string;
 export type CisFindingStatusComparison = "EQUALS" | (string & {});
@@ -896,11 +896,11 @@ export interface CisSecurityLevelFilter {
 export type CisSecurityLevelFilterList = CisSecurityLevelFilter[];
 export type CisFindingArnFilterList = CisStringFilter[];
 export interface CisScanResultDetailsFilterCriteria {
-  findingStatusFilters?: CisFindingStatusFilter[];
-  checkIdFilters?: CisStringFilter[];
-  titleFilters?: CisStringFilter[];
-  securityLevelFilters?: CisSecurityLevelFilter[];
-  findingArnFilters?: CisStringFilter[];
+  findingStatusFilters?: CisFindingStatusFilter[] | undefined;
+  checkIdFilters?: CisStringFilter[] | undefined;
+  titleFilters?: CisStringFilter[] | undefined;
+  securityLevelFilters?: CisSecurityLevelFilter[] | undefined;
+  findingArnFilters?: CisStringFilter[] | undefined;
 }
 export type CisScanResultDetailsSortBy = "CHECK_ID" | "STATUS" | (string & {});
 export type CisSortOrder = "ASC" | "DESC" | (string & {});
@@ -910,31 +910,31 @@ export interface GetCisScanResultDetailsRequest {
   scanArn: string;
   targetResourceId: string;
   accountId: string;
-  filterCriteria?: CisScanResultDetailsFilterCriteria;
-  sortBy?: CisScanResultDetailsSortBy;
-  sortOrder?: CisSortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  filterCriteria?: CisScanResultDetailsFilterCriteria | undefined;
+  sortBy?: CisScanResultDetailsSortBy | undefined;
+  sortOrder?: CisSortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type CisFindingArn = string;
 export interface CisScanResultDetails {
   scanArn: string;
-  accountId?: string;
-  targetResourceId?: string;
-  platform?: string;
-  status?: CisFindingStatus;
-  statusReason?: string;
-  checkId?: string;
-  title?: string;
-  checkDescription?: string;
-  remediation?: string;
-  level?: CisSecurityLevel;
-  findingArn?: string;
+  accountId?: string | undefined;
+  targetResourceId?: string | undefined;
+  platform?: string | undefined;
+  status?: CisFindingStatus | undefined;
+  statusReason?: string | undefined;
+  checkId?: string | undefined;
+  title?: string | undefined;
+  checkDescription?: string | undefined;
+  remediation?: string | undefined;
+  level?: CisSecurityLevel | undefined;
+  findingArn?: string | undefined;
 }
 export type CisScanResultDetailsList = CisScanResultDetails[];
 export interface GetCisScanResultDetailsResponse {
-  scanResultDetails?: CisScanResultDetails[];
-  nextToken?: string;
+  scanResultDetails?: CisScanResultDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ClusterForImageFilterCriteria {
   resourceId: string;
@@ -942,8 +942,8 @@ export interface ClusterForImageFilterCriteria {
 export type GetClustersForImageNextToken = string;
 export interface GetClustersForImageRequest {
   filter: ClusterForImageFilterCriteria;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AwsEcsMetadataDetails {
   detailsGroup: string;
@@ -955,31 +955,31 @@ export interface AwsEksWorkloadInfo {
 }
 export type AwsEksWorkloadInfoList = AwsEksWorkloadInfo[];
 export interface AwsEksMetadataDetails {
-  namespace?: string;
-  workloadInfoList?: AwsEksWorkloadInfo[];
+  namespace?: string | undefined;
+  workloadInfoList?: AwsEksWorkloadInfo[] | undefined;
 }
 export type ClusterMetadata =
   | { awsEcsMetadataDetails: AwsEcsMetadataDetails; awsEksMetadataDetails?: never }
   | { awsEcsMetadataDetails?: never; awsEksMetadataDetails: AwsEksMetadataDetails };
 export interface ClusterDetails {
   lastInUse: Date;
-  runningUnitCount?: number;
-  stoppedUnitCount?: number;
+  runningUnitCount?: number | undefined;
+  stoppedUnitCount?: number | undefined;
   clusterMetadata: ClusterMetadata;
 }
 export type ClusterDetailsList = ClusterDetails[];
 export interface ClusterInformation {
   clusterArn: string;
-  clusterDetails?: ClusterDetails[];
+  clusterDetails?: ClusterDetails[] | undefined;
 }
 export type ClusterInformationList = ClusterInformation[];
 export interface GetClustersForImageResponse {
   cluster: ClusterInformation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetCodeSecurityIntegrationRequest {
   integrationArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCodeSecurityIntegrationResponse {
   integrationArn: string;
@@ -989,8 +989,8 @@ export interface GetCodeSecurityIntegrationResponse {
   statusReason: string;
   createdOn: Date;
   lastUpdateOn: Date;
-  authorizationUrl?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  authorizationUrl?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CodeSecurityUuid = string;
 export interface GetCodeSecurityScanRequest {
@@ -999,30 +999,30 @@ export interface GetCodeSecurityScanRequest {
 }
 export type CodeScanStatus = "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "SKIPPED" | (string & {});
 export interface GetCodeSecurityScanResponse {
-  scanId?: string;
-  resource?: CodeSecurityResource;
-  accountId?: string;
-  status?: CodeScanStatus;
-  statusReason?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  lastCommitId?: string;
+  scanId?: string | undefined;
+  resource?: CodeSecurityResource | undefined;
+  accountId?: string | undefined;
+  status?: CodeScanStatus | undefined;
+  statusReason?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  lastCommitId?: string | undefined;
 }
 export interface GetCodeSecurityScanConfigurationRequest {
   scanConfigurationArn: string;
 }
 export interface GetCodeSecurityScanConfigurationResponse {
-  scanConfigurationArn?: string;
-  name?: string;
-  configuration?: CodeSecurityScanConfiguration;
-  level?: ConfigurationLevel;
-  scopeSettings?: ScopeSettings;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  scanConfigurationArn?: string | undefined;
+  name?: string | undefined;
+  configuration?: CodeSecurityScanConfiguration | undefined;
+  level?: ConfigurationLevel | undefined;
+  scopeSettings?: ScopeSettings | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetConfigurationRequest {
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export type EcrRescanDuration = string;
 export type EcrRescanDurationStatus = string;
@@ -1030,52 +1030,52 @@ export type DateTimeTimestamp = Date;
 export type EcrPullDateRescanDuration = string;
 export type EcrPullDateRescanMode = string;
 export interface EcrRescanDurationState {
-  rescanDuration?: string;
-  status?: string;
-  updatedAt?: Date;
-  pullDateRescanDuration?: string;
-  pullDateRescanMode?: string;
+  rescanDuration?: string | undefined;
+  status?: string | undefined;
+  updatedAt?: Date | undefined;
+  pullDateRescanDuration?: string | undefined;
+  pullDateRescanMode?: string | undefined;
 }
 export interface EcrConfigurationState {
-  rescanDurationState?: EcrRescanDurationState;
+  rescanDurationState?: EcrRescanDurationState | undefined;
 }
 export type Ec2ScanMode = string;
 export type Ec2ScanModeStatus = string;
 export interface Ec2ScanModeState {
-  scanMode?: string;
-  scanModeStatus?: string;
+  scanMode?: string | undefined;
+  scanModeStatus?: string | undefined;
 }
 export type VMScannerStatus = string;
 export interface VMScannerState {
-  activated?: boolean;
-  activatedAt?: Date;
-  status?: string;
+  activated?: boolean | undefined;
+  activatedAt?: Date | undefined;
+  status?: string | undefined;
 }
 export interface Ec2ConfigurationState {
-  scanModeState?: Ec2ScanModeState;
-  vmScannerState?: VMScannerState;
+  scanModeState?: Ec2ScanModeState | undefined;
+  vmScannerState?: VMScannerState | undefined;
 }
 export interface GetConfigurationResponse {
-  ecrConfiguration?: EcrConfigurationState;
-  ec2Configuration?: Ec2ConfigurationState;
+  ecrConfiguration?: EcrConfigurationState | undefined;
+  ec2Configuration?: Ec2ConfigurationState | undefined;
 }
 export interface GetDelegatedAdminAccountRequest {}
 export type RelationshipStatus = string;
 export interface DelegatedAdmin {
-  accountId?: string;
-  relationshipStatus?: string;
+  accountId?: string | undefined;
+  relationshipStatus?: string | undefined;
 }
 export interface GetDelegatedAdminAccountResponse {
-  delegatedAdmin?: DelegatedAdmin;
+  delegatedAdmin?: DelegatedAdmin | undefined;
 }
 export interface GetEc2DeepInspectionConfigurationRequest {}
 export type Path = string;
 export type PathList = string[];
 export interface GetEc2DeepInspectionConfigurationResponse {
-  packagePaths?: string[];
-  orgPackagePaths?: string[];
-  status?: string;
-  errorMessage?: string;
+  packagePaths?: string[] | undefined;
+  orgPackagePaths?: string[] | undefined;
+  status?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type ScanType = string;
 export type ResourceType = string;
@@ -1088,49 +1088,49 @@ export interface GetEncryptionKeyResponse {
   kmsKeyId: string;
 }
 export interface GetFindingsReportStatusRequest {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export type ExternalReportStatus = string;
 export type ReportingErrorCode = string;
 export type ErrorMessage = string;
 export interface GetFindingsReportStatusResponse {
-  reportId?: string;
-  status?: string;
-  errorCode?: string;
-  errorMessage?: string;
-  destination?: Destination;
-  filterCriteria?: FilterCriteria;
+  reportId?: string | undefined;
+  status?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  destination?: Destination | undefined;
+  filterCriteria?: FilterCriteria | undefined;
 }
 export interface GetMemberRequest {
   accountId: string;
 }
 export interface Member {
-  accountId?: string;
-  relationshipStatus?: string;
-  delegatedAdminAccountId?: string;
-  updatedAt?: Date;
+  accountId?: string | undefined;
+  relationshipStatus?: string | undefined;
+  delegatedAdminAccountId?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetMemberResponse {
-  member?: Member;
+  member?: Member | undefined;
 }
 export interface GetSbomExportRequest {
   reportId: string;
 }
 export interface GetSbomExportResponse {
-  reportId?: string;
-  format?: string;
-  status?: string;
-  errorCode?: string;
-  errorMessage?: string;
-  s3Destination?: Destination;
-  filterCriteria?: ResourceFilterCriteria;
+  reportId?: string | undefined;
+  format?: string | undefined;
+  status?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  s3Destination?: Destination | undefined;
+  filterCriteria?: ResourceFilterCriteria | undefined;
 }
 export type Service = string;
 export type ListAccountPermissionsMaxResults = number;
 export interface ListAccountPermissionsRequest {
-  service?: string;
-  maxResults?: number;
-  nextToken?: string;
+  service?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Operation = string;
 export interface Permission {
@@ -1140,7 +1140,7 @@ export interface Permission {
 export type Permissions = Permission[];
 export interface ListAccountPermissionsResponse {
   permissions: Permission[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type CisScanNameFilterList = CisStringFilter[];
 export type TagComparison = "EQUALS" | (string & {});
@@ -1152,53 +1152,53 @@ export interface TagFilter {
 export type ResourceTagFilterList = TagFilter[];
 export type CisScanConfigurationArnFilterList = CisStringFilter[];
 export interface ListCisScanConfigurationsFilterCriteria {
-  scanNameFilters?: CisStringFilter[];
-  targetResourceTagFilters?: TagFilter[];
-  scanConfigurationArnFilters?: CisStringFilter[];
+  scanNameFilters?: CisStringFilter[] | undefined;
+  targetResourceTagFilters?: TagFilter[] | undefined;
+  scanConfigurationArnFilters?: CisStringFilter[] | undefined;
 }
 export type CisScanConfigurationsSortBy = "SCAN_NAME" | "SCAN_CONFIGURATION_ARN" | (string & {});
 export type ListCisScanConfigurationsMaxResults = number;
 export interface ListCisScanConfigurationsRequest {
-  filterCriteria?: ListCisScanConfigurationsFilterCriteria;
-  sortBy?: CisScanConfigurationsSortBy;
-  sortOrder?: CisSortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  filterCriteria?: ListCisScanConfigurationsFilterCriteria | undefined;
+  sortBy?: CisScanConfigurationsSortBy | undefined;
+  sortOrder?: CisSortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type CisOwnerId = string;
 export type CisAccountIdList = string[];
 export interface CisTargets {
-  accountIds?: string[];
-  targetResourceTags?: { [key: string]: string[] | undefined };
+  accountIds?: string[] | undefined;
+  targetResourceTags?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface CisScanConfiguration {
   scanConfigurationArn: string;
-  ownerId?: string;
-  scanName?: string;
-  securityLevel?: CisSecurityLevel;
-  schedule?: Schedule;
-  targets?: CisTargets;
-  tags?: { [key: string]: string | undefined };
+  ownerId?: string | undefined;
+  scanName?: string | undefined;
+  securityLevel?: CisSecurityLevel | undefined;
+  schedule?: Schedule | undefined;
+  targets?: CisTargets | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CisScanConfigurationList = CisScanConfiguration[];
 export interface ListCisScanConfigurationsResponse {
-  scanConfigurations?: CisScanConfiguration[];
-  nextToken?: string;
+  scanConfigurations?: CisScanConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export type OneAccountIdFilterList = CisStringFilter[];
 export type PlatformFilterList = CisStringFilter[];
 export interface CisNumberFilter {
-  upperInclusive?: number;
-  lowerInclusive?: number;
+  upperInclusive?: number | undefined;
+  lowerInclusive?: number | undefined;
 }
 export type CisNumberFilterList = CisNumberFilter[];
 export interface CisScanResultsAggregatedByChecksFilterCriteria {
-  accountIdFilters?: CisStringFilter[];
-  checkIdFilters?: CisStringFilter[];
-  titleFilters?: CisStringFilter[];
-  platformFilters?: CisStringFilter[];
-  failedResourcesFilters?: CisNumberFilter[];
-  securityLevelFilters?: CisSecurityLevelFilter[];
+  accountIdFilters?: CisStringFilter[] | undefined;
+  checkIdFilters?: CisStringFilter[] | undefined;
+  titleFilters?: CisStringFilter[] | undefined;
+  platformFilters?: CisStringFilter[] | undefined;
+  failedResourcesFilters?: CisNumberFilter[] | undefined;
+  securityLevelFilters?: CisSecurityLevelFilter[] | undefined;
 }
 export type CisScanResultsAggregatedByChecksSortBy =
   | "CHECK_ID"
@@ -1210,31 +1210,31 @@ export type CisScanResultsAggregatedByChecksSortBy =
 export type CisScanResultsMaxResults = number;
 export interface ListCisScanResultsAggregatedByChecksRequest {
   scanArn: string;
-  filterCriteria?: CisScanResultsAggregatedByChecksFilterCriteria;
-  sortBy?: CisScanResultsAggregatedByChecksSortBy;
-  sortOrder?: CisSortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  filterCriteria?: CisScanResultsAggregatedByChecksFilterCriteria | undefined;
+  sortBy?: CisScanResultsAggregatedByChecksSortBy | undefined;
+  sortOrder?: CisSortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StatusCounts {
-  failed?: number;
-  skipped?: number;
-  passed?: number;
+  failed?: number | undefined;
+  skipped?: number | undefined;
+  passed?: number | undefined;
 }
 export interface CisCheckAggregation {
   scanArn: string;
-  checkId?: string;
-  title?: string;
-  checkDescription?: string;
-  level?: CisSecurityLevel;
-  accountId?: string;
-  statusCounts?: StatusCounts;
-  platform?: string;
+  checkId?: string | undefined;
+  title?: string | undefined;
+  checkDescription?: string | undefined;
+  level?: CisSecurityLevel | undefined;
+  accountId?: string | undefined;
+  statusCounts?: StatusCounts | undefined;
+  platform?: string | undefined;
 }
 export type CisCheckAggregationList = CisCheckAggregation[];
 export interface ListCisScanResultsAggregatedByChecksResponse {
-  checkAggregations?: CisCheckAggregation[];
-  nextToken?: string;
+  checkAggregations?: CisCheckAggregation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountIdFilterList = CisStringFilter[];
 export type CisResultStatusComparison = "EQUALS" | (string & {});
@@ -1263,15 +1263,15 @@ export interface CisTargetStatusReasonFilter {
 }
 export type TargetStatusReasonFilterList = CisTargetStatusReasonFilter[];
 export interface CisScanResultsAggregatedByTargetResourceFilterCriteria {
-  accountIdFilters?: CisStringFilter[];
-  statusFilters?: CisResultStatusFilter[];
-  checkIdFilters?: CisStringFilter[];
-  targetResourceIdFilters?: CisStringFilter[];
-  targetResourceTagFilters?: TagFilter[];
-  platformFilters?: CisStringFilter[];
-  targetStatusFilters?: CisTargetStatusFilter[];
-  targetStatusReasonFilters?: CisTargetStatusReasonFilter[];
-  failedChecksFilters?: CisNumberFilter[];
+  accountIdFilters?: CisStringFilter[] | undefined;
+  statusFilters?: CisResultStatusFilter[] | undefined;
+  checkIdFilters?: CisStringFilter[] | undefined;
+  targetResourceIdFilters?: CisStringFilter[] | undefined;
+  targetResourceTagFilters?: TagFilter[] | undefined;
+  platformFilters?: CisStringFilter[] | undefined;
+  targetStatusFilters?: CisTargetStatusFilter[] | undefined;
+  targetStatusReasonFilters?: CisTargetStatusReasonFilter[] | undefined;
+  failedChecksFilters?: CisNumberFilter[] | undefined;
 }
 export type CisScanResultsAggregatedByTargetResourceSortBy =
   | "RESOURCE_ID"
@@ -1283,26 +1283,26 @@ export type CisScanResultsAggregatedByTargetResourceSortBy =
   | (string & {});
 export interface ListCisScanResultsAggregatedByTargetResourceRequest {
   scanArn: string;
-  filterCriteria?: CisScanResultsAggregatedByTargetResourceFilterCriteria;
-  sortBy?: CisScanResultsAggregatedByTargetResourceSortBy;
-  sortOrder?: CisSortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  filterCriteria?: CisScanResultsAggregatedByTargetResourceFilterCriteria | undefined;
+  sortBy?: CisScanResultsAggregatedByTargetResourceSortBy | undefined;
+  sortOrder?: CisSortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CisTargetResourceAggregation {
   scanArn: string;
-  targetResourceId?: string;
-  accountId?: string;
-  targetResourceTags?: { [key: string]: string[] | undefined };
-  statusCounts?: StatusCounts;
-  platform?: string;
-  targetStatus?: CisTargetStatus;
-  targetStatusReason?: CisTargetStatusReason;
+  targetResourceId?: string | undefined;
+  accountId?: string | undefined;
+  targetResourceTags?: { [key: string]: string[] | undefined } | undefined;
+  statusCounts?: StatusCounts | undefined;
+  platform?: string | undefined;
+  targetStatus?: CisTargetStatus | undefined;
+  targetStatusReason?: CisTargetStatusReason | undefined;
 }
 export type CisTargetResourceAggregationList = CisTargetResourceAggregation[];
 export interface ListCisScanResultsAggregatedByTargetResourceResponse {
-  targetResourceAggregations?: CisTargetResourceAggregation[];
-  nextToken?: string;
+  targetResourceAggregations?: CisTargetResourceAggregation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type CisScanStatusComparison = "EQUALS" | (string & {});
 export type CisScanStatus = "FAILED" | "COMPLETED" | "CANCELLED" | "IN_PROGRESS" | (string & {});
@@ -1312,23 +1312,23 @@ export interface CisScanStatusFilter {
 }
 export type CisScanStatusFilterList = CisScanStatusFilter[];
 export interface CisDateFilter {
-  earliestScanStartTime?: Date;
-  latestScanStartTime?: Date;
+  earliestScanStartTime?: Date | undefined;
+  latestScanStartTime?: Date | undefined;
 }
 export type CisScanDateFilterList = CisDateFilter[];
 export type CisScanArnFilterList = CisStringFilter[];
 export type CisScheduledByFilterList = CisStringFilter[];
 export interface ListCisScansFilterCriteria {
-  scanNameFilters?: CisStringFilter[];
-  targetResourceTagFilters?: TagFilter[];
-  targetResourceIdFilters?: CisStringFilter[];
-  scanStatusFilters?: CisScanStatusFilter[];
-  scanAtFilters?: CisDateFilter[];
-  scanConfigurationArnFilters?: CisStringFilter[];
-  scanArnFilters?: CisStringFilter[];
-  scheduledByFilters?: CisStringFilter[];
-  failedChecksFilters?: CisNumberFilter[];
-  targetAccountIdFilters?: CisStringFilter[];
+  scanNameFilters?: CisStringFilter[] | undefined;
+  targetResourceTagFilters?: TagFilter[] | undefined;
+  targetResourceIdFilters?: CisStringFilter[] | undefined;
+  scanStatusFilters?: CisScanStatusFilter[] | undefined;
+  scanAtFilters?: CisDateFilter[] | undefined;
+  scanConfigurationArnFilters?: CisStringFilter[] | undefined;
+  scanArnFilters?: CisStringFilter[] | undefined;
+  scheduledByFilters?: CisStringFilter[] | undefined;
+  failedChecksFilters?: CisNumberFilter[] | undefined;
+  targetAccountIdFilters?: CisStringFilter[] | undefined;
 }
 export type ListCisScansDetailLevel = "ORGANIZATION" | "MEMBER" | (string & {});
 export type ListCisScansSortBy =
@@ -1339,33 +1339,33 @@ export type ListCisScansSortBy =
   | (string & {});
 export type ListCisScansMaxResults = number;
 export interface ListCisScansRequest {
-  filterCriteria?: ListCisScansFilterCriteria;
-  detailLevel?: ListCisScansDetailLevel;
-  sortBy?: ListCisScansSortBy;
-  sortOrder?: CisSortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  filterCriteria?: ListCisScansFilterCriteria | undefined;
+  detailLevel?: ListCisScansDetailLevel | undefined;
+  sortBy?: ListCisScansSortBy | undefined;
+  sortOrder?: CisSortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CisScan {
   scanArn: string;
   scanConfigurationArn: string;
-  status?: CisScanStatus;
-  scanName?: string;
-  scanDate?: Date;
-  failedChecks?: number;
-  totalChecks?: number;
-  targets?: CisTargets;
-  scheduledBy?: string;
-  securityLevel?: CisSecurityLevel;
+  status?: CisScanStatus | undefined;
+  scanName?: string | undefined;
+  scanDate?: Date | undefined;
+  failedChecks?: number | undefined;
+  totalChecks?: number | undefined;
+  targets?: CisTargets | undefined;
+  scheduledBy?: string | undefined;
+  securityLevel?: CisSecurityLevel | undefined;
 }
 export type CisScanList = CisScan[];
 export interface ListCisScansResponse {
-  scans?: CisScan[];
-  nextToken?: string;
+  scans?: CisScan[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCodeSecurityIntegrationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CodeSecurityIntegrationSummary {
   integrationArn: string;
@@ -1378,42 +1378,42 @@ export interface CodeSecurityIntegrationSummary {
 }
 export type IntegrationSummaries = CodeSecurityIntegrationSummary[];
 export interface ListCodeSecurityIntegrationsResponse {
-  integrations?: CodeSecurityIntegrationSummary[];
-  nextToken?: string;
+  integrations?: CodeSecurityIntegrationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCodeSecurityScanConfigurationAssociationsRequest {
   scanConfigurationArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CodeSecurityScanConfigurationAssociationSummary {
-  resource?: CodeSecurityResource;
+  resource?: CodeSecurityResource | undefined;
 }
 export type CodeSecurityScanConfigurationAssociationSummaries =
   CodeSecurityScanConfigurationAssociationSummary[];
 export interface ListCodeSecurityScanConfigurationAssociationsResponse {
-  associations?: CodeSecurityScanConfigurationAssociationSummary[];
-  nextToken?: string;
+  associations?: CodeSecurityScanConfigurationAssociationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCodeSecurityScanConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type OwnerId = string;
 export interface CodeSecurityScanConfigurationSummary {
   scanConfigurationArn: string;
   name: string;
   ownerAccountId: string;
-  periodicScanFrequency?: PeriodicScanFrequency;
-  frequencyExpression?: string;
-  continuousIntegrationScanSupportedEvents?: ContinuousIntegrationScanEvent[];
+  periodicScanFrequency?: PeriodicScanFrequency | undefined;
+  frequencyExpression?: string | undefined;
+  continuousIntegrationScanSupportedEvents?: ContinuousIntegrationScanEvent[] | undefined;
   ruleSetCategories: RuleSetCategory[];
-  scopeSettings?: ScopeSettings;
+  scopeSettings?: ScopeSettings | undefined;
 }
 export type CodeSecurityScanConfigurationSummaries = CodeSecurityScanConfigurationSummary[];
 export interface ListCodeSecurityScanConfigurationsResponse {
-  configurations?: CodeSecurityScanConfigurationSummary[];
-  nextToken?: string;
+  configurations?: CodeSecurityScanConfigurationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ConnectorNextToken = string | redacted.Redacted<string>;
 export type ConnectorArnComparison = "EQUALS" | (string & {});
@@ -1442,16 +1442,16 @@ export interface ProviderFilter {
 }
 export type ProviderFilterList = ProviderFilter[];
 export interface ConnectorFilterCriteria {
-  connectorArns?: ConnectorArnFilter[];
-  accounts?: StringFilter[];
-  awsConfigConnectorArns?: AwsConfigConnectorArnFilter[];
-  connectorType?: ConnectorTypeFilter[];
-  provider?: ProviderFilter[];
+  connectorArns?: ConnectorArnFilter[] | undefined;
+  accounts?: StringFilter[] | undefined;
+  awsConfigConnectorArns?: AwsConfigConnectorArnFilter[] | undefined;
+  connectorType?: ConnectorTypeFilter[] | undefined;
+  provider?: ProviderFilter[] | undefined;
 }
 export interface ListConnectorsRequest {
-  maxResults?: number;
-  nextToken?: string | redacted.Redacted<string>;
-  filterCriteria?: ConnectorFilterCriteria;
+  maxResults?: number | undefined;
+  nextToken?: string | redacted.Redacted<string> | undefined;
+  filterCriteria?: ConnectorFilterCriteria | undefined;
 }
 export type EnablementStatus =
   | "ENABLED"
@@ -1474,57 +1474,57 @@ export type ConnectorHealthStatus =
 export interface ConnectorHealth {
   connectorStatus: ConnectorHealthStatus;
   lastCheckedAt: Date;
-  message?: string;
+  message?: string | undefined;
 }
 export type ScopeState = "ACTIVE" | "PENDING" | "ERROR" | "DISABLED" | (string & {});
 export interface ScopeConfiguration {
   scopeType: ScopeType;
-  scopeValues?: string[];
-  state?: ScopeState;
-  stateReason?: string;
+  scopeValues?: string[] | undefined;
+  state?: ScopeState | undefined;
+  stateReason?: string | undefined;
 }
 export interface AzureScopeConfiguration {
-  vmScanning?: ScopeConfiguration;
-  containerImageScanning?: ScopeConfiguration;
-  serverlessScanning?: ScopeConfiguration;
+  vmScanning?: ScopeConfiguration | undefined;
+  containerImageScanning?: ScopeConfiguration | undefined;
+  serverlessScanning?: ScopeConfiguration | undefined;
 }
 export interface Connector {
   connectorArn: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   provider: ConnectorCloudProvider;
-  enablementStatus?: EnablementStatus;
-  enablementStatusReason?: string;
-  health?: ConnectorHealth;
+  enablementStatus?: EnablementStatus | undefined;
+  enablementStatusReason?: string | undefined;
+  health?: ConnectorHealth | undefined;
   createdAt: Date;
   updatedAt: Date;
-  azureRegions?: string[];
-  awsConfigConnectorArn?: string;
-  scopeConfiguration?: AzureScopeConfiguration;
-  tags?: { [key: string]: string | undefined };
-  autoInstallVMScanner?: boolean;
+  azureRegions?: string[] | undefined;
+  awsConfigConnectorArn?: string | undefined;
+  scopeConfiguration?: AzureScopeConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  autoInstallVMScanner?: boolean | undefined;
 }
 export type ConnectorList = Connector[];
 export interface ListConnectorsResponse {
   items: Connector[];
-  nextToken?: string | redacted.Redacted<string>;
+  nextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type AwsConfigConnectorArnList = string[];
 export type ListConnectorScanConfigurationsMaxResults = number;
 export interface ListConnectorScanConfigurationsRequest {
-  awsConfigConnectorArns?: string[];
-  maxResults?: number;
-  nextToken?: string | redacted.Redacted<string>;
+  awsConfigConnectorArns?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type ConnectorArnList = string[];
 export type ContainerImageRescanDuration = string;
 export type ContainerImagePullDateRescanDuration = string;
 export interface ConnectorContainerImageScanConfiguration {
-  pushDuration?: string;
-  pullDuration?: string;
+  pushDuration?: string | undefined;
+  pullDuration?: string | undefined;
 }
 export interface ConnectorScanConfiguration {
-  containerImageScanning?: ConnectorContainerImageScanConfiguration;
+  containerImageScanning?: ConnectorContainerImageScanConfiguration | undefined;
 }
 export interface ConnectorScanConfigurationItem {
   awsConfigConnectorArn: string;
@@ -1534,7 +1534,7 @@ export interface ConnectorScanConfigurationItem {
 export type ConnectorScanConfigurationItemList = ConnectorScanConfigurationItem[];
 export interface ListConnectorScanConfigurationsResponse {
   scanConfigurations: ConnectorScanConfigurationItem[];
-  nextToken?: string | redacted.Redacted<string>;
+  nextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type ListCoverageMaxResults = number;
 export type CoverageStringComparison = string;
@@ -1548,57 +1548,57 @@ export type CoverageMapComparison = string;
 export interface CoverageMapFilter {
   comparison: string;
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type CoverageMapFilterList = CoverageMapFilter[];
 export interface CoverageDateFilter {
-  startInclusive?: Date;
-  endInclusive?: Date;
+  startInclusive?: Date | undefined;
+  endInclusive?: Date | undefined;
 }
 export type CoverageDateFilterList = CoverageDateFilter[];
 export interface CoverageNumberFilter {
-  upperInclusive?: number;
-  lowerInclusive?: number;
+  upperInclusive?: number | undefined;
+  lowerInclusive?: number | undefined;
 }
 export type CoverageNumberFilterList = CoverageNumberFilter[];
 export interface CoverageFilterCriteria {
-  scanStatusCode?: CoverageStringFilter[];
-  scanStatusReason?: CoverageStringFilter[];
-  accountId?: CoverageStringFilter[];
-  resourceId?: CoverageStringFilter[];
-  resourceType?: CoverageStringFilter[];
-  scanType?: CoverageStringFilter[];
-  ecrRepositoryName?: CoverageStringFilter[];
-  ecrImageTags?: CoverageStringFilter[];
-  ec2InstanceTags?: CoverageMapFilter[];
-  lambdaFunctionName?: CoverageStringFilter[];
-  lambdaFunctionTags?: CoverageMapFilter[];
-  lambdaFunctionRuntime?: CoverageStringFilter[];
-  lastScannedAt?: CoverageDateFilter[];
-  scanMode?: CoverageStringFilter[];
-  imagePulledAt?: CoverageDateFilter[];
-  ecrImageLastInUseAt?: CoverageDateFilter[];
-  ecrImageInUseCount?: CoverageNumberFilter[];
-  codeRepositoryProjectName?: CoverageStringFilter[];
-  codeRepositoryProviderType?: CoverageStringFilter[];
-  codeRepositoryProviderTypeVisibility?: CoverageStringFilter[];
-  lastScannedCommitId?: CoverageStringFilter[];
-  cloudProvider?: CoverageStringFilter[];
-  cloudProviderAccountId?: CoverageStringFilter[];
-  cloudProviderRegion?: CoverageStringFilter[];
-  cloudVmInstanceTags?: CoverageMapFilter[];
-  cloudContainerImageTags?: CoverageStringFilter[];
-  cloudContainerRepositoryName?: CoverageStringFilter[];
-  cloudContainerRegistryName?: CoverageStringFilter[];
-  cloudServerlessFunctionName?: CoverageStringFilter[];
-  cloudServerlessFunctionRuntime?: CoverageStringFilter[];
-  cloudServerlessFunctionTags?: CoverageMapFilter[];
-  cloudProviderOrgId?: CoverageStringFilter[];
+  scanStatusCode?: CoverageStringFilter[] | undefined;
+  scanStatusReason?: CoverageStringFilter[] | undefined;
+  accountId?: CoverageStringFilter[] | undefined;
+  resourceId?: CoverageStringFilter[] | undefined;
+  resourceType?: CoverageStringFilter[] | undefined;
+  scanType?: CoverageStringFilter[] | undefined;
+  ecrRepositoryName?: CoverageStringFilter[] | undefined;
+  ecrImageTags?: CoverageStringFilter[] | undefined;
+  ec2InstanceTags?: CoverageMapFilter[] | undefined;
+  lambdaFunctionName?: CoverageStringFilter[] | undefined;
+  lambdaFunctionTags?: CoverageMapFilter[] | undefined;
+  lambdaFunctionRuntime?: CoverageStringFilter[] | undefined;
+  lastScannedAt?: CoverageDateFilter[] | undefined;
+  scanMode?: CoverageStringFilter[] | undefined;
+  imagePulledAt?: CoverageDateFilter[] | undefined;
+  ecrImageLastInUseAt?: CoverageDateFilter[] | undefined;
+  ecrImageInUseCount?: CoverageNumberFilter[] | undefined;
+  codeRepositoryProjectName?: CoverageStringFilter[] | undefined;
+  codeRepositoryProviderType?: CoverageStringFilter[] | undefined;
+  codeRepositoryProviderTypeVisibility?: CoverageStringFilter[] | undefined;
+  lastScannedCommitId?: CoverageStringFilter[] | undefined;
+  cloudProvider?: CoverageStringFilter[] | undefined;
+  cloudProviderAccountId?: CoverageStringFilter[] | undefined;
+  cloudProviderRegion?: CoverageStringFilter[] | undefined;
+  cloudVmInstanceTags?: CoverageMapFilter[] | undefined;
+  cloudContainerImageTags?: CoverageStringFilter[] | undefined;
+  cloudContainerRepositoryName?: CoverageStringFilter[] | undefined;
+  cloudContainerRegistryName?: CoverageStringFilter[] | undefined;
+  cloudServerlessFunctionName?: CoverageStringFilter[] | undefined;
+  cloudServerlessFunctionRuntime?: CoverageStringFilter[] | undefined;
+  cloudServerlessFunctionTags?: CoverageMapFilter[] | undefined;
+  cloudProviderOrgId?: CoverageStringFilter[] | undefined;
 }
 export interface ListCoverageRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filterCriteria?: CoverageFilterCriteria;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filterCriteria?: CoverageFilterCriteria | undefined;
 }
 export type CoverageResourceType = string;
 export type ScanStatusCode = string;
@@ -1609,98 +1609,100 @@ export interface ScanStatus {
 }
 export type EcrScanFrequency = string;
 export interface EcrRepositoryMetadata {
-  name?: string;
-  scanFrequency?: string;
+  name?: string | undefined;
+  scanFrequency?: string | undefined;
 }
 export type TagList = string[];
 export interface EcrContainerImageMetadata {
-  tags?: string[];
-  imagePulledAt?: Date;
-  lastInUseAt?: Date;
-  inUseCount?: number;
+  tags?: string[] | undefined;
+  imagePulledAt?: Date | undefined;
+  lastInUseAt?: Date | undefined;
+  inUseCount?: number | undefined;
 }
 export type AmiId = string;
 export type Ec2Platform = string;
 export interface Ec2Metadata {
-  tags?: { [key: string]: string | undefined };
-  amiId?: string;
-  platform?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  amiId?: string | undefined;
+  platform?: string | undefined;
 }
 export type LambdaLayerList = string[];
 export type Runtime = string;
 export interface LambdaFunctionMetadata {
-  functionTags?: { [key: string]: string | undefined };
-  layers?: string[];
-  functionName?: string;
-  runtime?: string;
+  functionTags?: { [key: string]: string | undefined } | undefined;
+  layers?: string[] | undefined;
+  functionName?: string | undefined;
+  runtime?: string | undefined;
 }
 export type CodeRepositoryIntegrationArn = string;
 export type CommitId = string;
 export interface ProjectPeriodicScanConfiguration {
-  frequencyExpression?: string;
-  ruleSetCategories?: RuleSetCategory[];
+  frequencyExpression?: string | undefined;
+  ruleSetCategories?: RuleSetCategory[] | undefined;
 }
 export type ProjectPeriodicScanConfigurationList = ProjectPeriodicScanConfiguration[];
 export interface ProjectContinuousIntegrationScanConfiguration {
-  supportedEvent?: ContinuousIntegrationScanEvent;
-  ruleSetCategories?: RuleSetCategory[];
+  supportedEvent?: ContinuousIntegrationScanEvent | undefined;
+  ruleSetCategories?: RuleSetCategory[] | undefined;
 }
 export type ProjectContinuousIntegrationScanConfigurationList =
   ProjectContinuousIntegrationScanConfiguration[];
 export interface ProjectCodeSecurityScanConfiguration {
-  periodicScanConfigurations?: ProjectPeriodicScanConfiguration[];
-  continuousIntegrationScanConfigurations?: ProjectContinuousIntegrationScanConfiguration[];
+  periodicScanConfigurations?: ProjectPeriodicScanConfiguration[] | undefined;
+  continuousIntegrationScanConfigurations?:
+    | ProjectContinuousIntegrationScanConfiguration[]
+    | undefined;
 }
 export interface CodeRepositoryOnDemandScan {
-  lastScannedCommitId?: string;
-  lastScanAt?: Date;
-  scanStatus?: ScanStatus;
+  lastScannedCommitId?: string | undefined;
+  lastScanAt?: Date | undefined;
+  scanStatus?: ScanStatus | undefined;
 }
 export interface CodeRepositoryMetadata {
   projectName: string;
-  integrationArn?: string;
+  integrationArn?: string | undefined;
   providerType: string;
   providerTypeVisibility: string;
-  lastScannedCommitId?: string;
-  scanConfiguration?: ProjectCodeSecurityScanConfiguration;
-  onDemandScan?: CodeRepositoryOnDemandScan;
+  lastScannedCommitId?: string | undefined;
+  scanConfiguration?: ProjectCodeSecurityScanConfiguration | undefined;
+  onDemandScan?: CodeRepositoryOnDemandScan | undefined;
 }
 export type VmPlatform = string;
 export interface VmInstanceMetadata {
-  tags?: { [key: string]: string | undefined };
-  platform?: string;
-  inventoryHash?: string;
-  vmImageReference?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  platform?: string | undefined;
+  inventoryHash?: string | undefined;
+  vmImageReference?: string | undefined;
 }
 export interface ContainerImageMetadata {
-  imageTags?: string[];
-  imagePulledAt?: Date;
-  lastInUseAt?: Date;
-  inUseCount?: number;
+  imageTags?: string[] | undefined;
+  imagePulledAt?: Date | undefined;
+  lastInUseAt?: Date | undefined;
+  inUseCount?: number | undefined;
 }
 export interface ContainerRepositoryMetadata {
-  name?: string;
-  scanFrequency?: string;
+  name?: string | undefined;
+  scanFrequency?: string | undefined;
 }
 export interface ContainerRegistryMetadata {
-  name?: string;
+  name?: string | undefined;
 }
 export interface ServerlessFunctionMetadata {
-  serverlessFunctionName?: string;
-  runtime?: string;
-  functionTags?: { [key: string]: string | undefined };
+  serverlessFunctionName?: string | undefined;
+  runtime?: string | undefined;
+  functionTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ResourceScanMetadata {
-  ecrRepository?: EcrRepositoryMetadata;
-  ecrImage?: EcrContainerImageMetadata;
-  ec2?: Ec2Metadata;
-  lambdaFunction?: LambdaFunctionMetadata;
-  codeRepository?: CodeRepositoryMetadata;
-  vmInstance?: VmInstanceMetadata;
-  containerImage?: ContainerImageMetadata;
-  containerRepository?: ContainerRepositoryMetadata;
-  containerRegistry?: ContainerRegistryMetadata;
-  serverlessFunction?: ServerlessFunctionMetadata;
+  ecrRepository?: EcrRepositoryMetadata | undefined;
+  ecrImage?: EcrContainerImageMetadata | undefined;
+  ec2?: Ec2Metadata | undefined;
+  lambdaFunction?: LambdaFunctionMetadata | undefined;
+  codeRepository?: CodeRepositoryMetadata | undefined;
+  vmInstance?: VmInstanceMetadata | undefined;
+  containerImage?: ContainerImageMetadata | undefined;
+  containerRepository?: ContainerRepositoryMetadata | undefined;
+  containerRegistry?: ContainerRegistryMetadata | undefined;
+  serverlessFunction?: ServerlessFunctionMetadata | undefined;
 }
 export type ScanMode = string;
 export type Provider = string;
@@ -1713,60 +1715,60 @@ export interface CoveredResource {
   resourceId: string;
   accountId: string;
   scanType: string;
-  scanStatus?: ScanStatus;
-  resourceMetadata?: ResourceScanMetadata;
-  lastScannedAt?: Date;
-  scanMode?: string;
-  provider?: string;
-  providerAccountId?: string;
-  providerOrgId?: string;
-  providerRegion?: string;
-  providerPartition?: string;
+  scanStatus?: ScanStatus | undefined;
+  resourceMetadata?: ResourceScanMetadata | undefined;
+  lastScannedAt?: Date | undefined;
+  scanMode?: string | undefined;
+  provider?: string | undefined;
+  providerAccountId?: string | undefined;
+  providerOrgId?: string | undefined;
+  providerRegion?: string | undefined;
+  providerPartition?: string | undefined;
 }
 export type CoveredResources = CoveredResource[];
 export interface ListCoverageResponse {
-  nextToken?: string;
-  coveredResources?: CoveredResource[];
+  nextToken?: string | undefined;
+  coveredResources?: CoveredResource[] | undefined;
 }
 export type GroupKey = string;
 export interface ListCoverageStatisticsRequest {
-  filterCriteria?: CoverageFilterCriteria;
-  groupBy?: string;
-  nextToken?: string;
+  filterCriteria?: CoverageFilterCriteria | undefined;
+  groupBy?: string | undefined;
+  nextToken?: string | undefined;
 }
 export type AggCounts = number;
 export interface Counts {
-  count?: number;
-  groupKey?: string;
+  count?: number | undefined;
+  groupKey?: string | undefined;
 }
 export type CountsList = Counts[];
 export interface ListCoverageStatisticsResponse {
-  countsByGroup?: Counts[];
+  countsByGroup?: Counts[] | undefined;
   totalCounts: number;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListDelegatedAdminMaxResults = number;
 export interface ListDelegatedAdminAccountsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DelegatedAdminStatus = string;
 export interface DelegatedAdminAccount {
-  accountId?: string;
-  status?: string;
+  accountId?: string | undefined;
+  status?: string | undefined;
 }
 export type DelegatedAdminAccountList = DelegatedAdminAccount[];
 export interface ListDelegatedAdminAccountsResponse {
-  delegatedAdminAccounts?: DelegatedAdminAccount[];
-  nextToken?: string;
+  delegatedAdminAccounts?: DelegatedAdminAccount[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FilterArnList = string[];
 export type ListFilterMaxResults = number;
 export interface ListFiltersRequest {
-  arns?: string[];
-  action?: string;
-  nextToken?: string;
-  maxResults?: number;
+  arns?: string[] | undefined;
+  action?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Filter {
   arn: string;
@@ -1776,14 +1778,14 @@ export interface Filter {
   action: string;
   createdAt: Date;
   updatedAt: Date;
-  description?: string;
-  reason?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  reason?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FilterList = Filter[];
 export interface ListFiltersResponse {
   filters: Filter[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AggregationType = string;
 export type ListFindingAggregationsMaxResults = number;
@@ -1792,149 +1794,149 @@ export type AggregationResourceType = string;
 export type SortOrder = string;
 export type AccountSortBy = string;
 export interface AccountAggregation {
-  findingType?: string;
-  resourceType?: string;
-  sortOrder?: string;
-  sortBy?: string;
+  findingType?: string | undefined;
+  resourceType?: string | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type AmiSortBy = string;
 export interface AmiAggregation {
-  amis?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  amis?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type AwsEcrContainerSortBy = string;
 export interface AwsEcrContainerAggregation {
-  resourceIds?: StringFilter[];
-  imageShas?: StringFilter[];
-  repositories?: StringFilter[];
-  architectures?: StringFilter[];
-  imageTags?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
-  lastInUseAt?: DateFilter[];
-  inUseCount?: NumberFilter[];
+  resourceIds?: StringFilter[] | undefined;
+  imageShas?: StringFilter[] | undefined;
+  repositories?: StringFilter[] | undefined;
+  architectures?: StringFilter[] | undefined;
+  imageTags?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
+  lastInUseAt?: DateFilter[] | undefined;
+  inUseCount?: NumberFilter[] | undefined;
 }
 export type Ec2InstanceSortBy = string;
 export interface Ec2InstanceAggregation {
-  amis?: StringFilter[];
-  operatingSystems?: StringFilter[];
-  instanceIds?: StringFilter[];
-  instanceTags?: MapFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  amis?: StringFilter[] | undefined;
+  operatingSystems?: StringFilter[] | undefined;
+  instanceIds?: StringFilter[] | undefined;
+  instanceTags?: MapFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type FindingTypeSortBy = string;
 export interface FindingTypeAggregation {
-  findingType?: string;
-  resourceType?: string;
-  sortOrder?: string;
-  sortBy?: string;
+  findingType?: string | undefined;
+  resourceType?: string | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type ImageLayerSortBy = string;
 export interface ImageLayerAggregation {
-  repositories?: StringFilter[];
-  resourceIds?: StringFilter[];
-  layerHashes?: StringFilter[];
-  cloudProviders?: StringFilter[];
-  cloudAccountIds?: StringFilter[];
-  cloudOrgIds?: StringFilter[];
-  cloudRegions?: StringFilter[];
-  cloudPartitions?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  repositories?: StringFilter[] | undefined;
+  resourceIds?: StringFilter[] | undefined;
+  layerHashes?: StringFilter[] | undefined;
+  cloudProviders?: StringFilter[] | undefined;
+  cloudAccountIds?: StringFilter[] | undefined;
+  cloudOrgIds?: StringFilter[] | undefined;
+  cloudRegions?: StringFilter[] | undefined;
+  cloudPartitions?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type PackageSortBy = string;
 export interface PackageAggregation {
-  packageNames?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  packageNames?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type RepositorySortBy = string;
 export interface RepositoryAggregation {
-  repositories?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  repositories?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type TitleSortBy = string;
 export interface TitleAggregation {
-  titles?: StringFilter[];
-  vulnerabilityIds?: StringFilter[];
-  resourceType?: string;
-  findingType?: string;
-  sortOrder?: string;
-  sortBy?: string;
+  titles?: StringFilter[] | undefined;
+  vulnerabilityIds?: StringFilter[] | undefined;
+  resourceType?: string | undefined;
+  findingType?: string | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type LambdaLayerSortBy = string;
 export interface LambdaLayerAggregation {
-  functionNames?: StringFilter[];
-  resourceIds?: StringFilter[];
-  layerArns?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  functionNames?: StringFilter[] | undefined;
+  resourceIds?: StringFilter[] | undefined;
+  layerArns?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type LambdaFunctionSortBy = string;
 export interface LambdaFunctionAggregation {
-  resourceIds?: StringFilter[];
-  functionNames?: StringFilter[];
-  runtimes?: StringFilter[];
-  functionTags?: MapFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  resourceIds?: StringFilter[] | undefined;
+  functionNames?: StringFilter[] | undefined;
+  runtimes?: StringFilter[] | undefined;
+  functionTags?: MapFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type CodeRepositorySortBy = string;
 export interface CodeRepositoryAggregation {
-  projectNames?: StringFilter[];
-  providerTypes?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
-  resourceIds?: StringFilter[];
+  projectNames?: StringFilter[] | undefined;
+  providerTypes?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
+  resourceIds?: StringFilter[] | undefined;
 }
 export type VmInstanceSortBy = string;
 export interface VmInstanceAggregation {
-  resourceIds?: StringFilter[];
-  operatingSystems?: StringFilter[];
-  instanceTags?: MapFilter[];
-  vmImageReferences?: StringFilter[];
-  cloudProviders?: StringFilter[];
-  cloudPartitions?: StringFilter[];
-  cloudRegions?: StringFilter[];
-  cloudOrgIds?: StringFilter[];
-  cloudAccountIds?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  resourceIds?: StringFilter[] | undefined;
+  operatingSystems?: StringFilter[] | undefined;
+  instanceTags?: MapFilter[] | undefined;
+  vmImageReferences?: StringFilter[] | undefined;
+  cloudProviders?: StringFilter[] | undefined;
+  cloudPartitions?: StringFilter[] | undefined;
+  cloudRegions?: StringFilter[] | undefined;
+  cloudOrgIds?: StringFilter[] | undefined;
+  cloudAccountIds?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type ContainerImageSortBy = string;
 export interface ContainerImageAggregation {
-  resourceIds?: StringFilter[];
-  imageDigests?: StringFilter[];
-  repositories?: StringFilter[];
-  registries?: StringFilter[];
-  architectures?: StringFilter[];
-  imageTags?: StringFilter[];
-  cloudProviders?: StringFilter[];
-  cloudPartitions?: StringFilter[];
-  cloudRegions?: StringFilter[];
-  cloudOrgIds?: StringFilter[];
-  cloudAccountIds?: StringFilter[];
-  lastInUseAt?: DateFilter[];
-  inUseCount?: NumberFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  resourceIds?: StringFilter[] | undefined;
+  imageDigests?: StringFilter[] | undefined;
+  repositories?: StringFilter[] | undefined;
+  registries?: StringFilter[] | undefined;
+  architectures?: StringFilter[] | undefined;
+  imageTags?: StringFilter[] | undefined;
+  cloudProviders?: StringFilter[] | undefined;
+  cloudPartitions?: StringFilter[] | undefined;
+  cloudRegions?: StringFilter[] | undefined;
+  cloudOrgIds?: StringFilter[] | undefined;
+  cloudAccountIds?: StringFilter[] | undefined;
+  lastInUseAt?: DateFilter[] | undefined;
+  inUseCount?: NumberFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type ServerlessFunctionSortBy = string;
 export interface ServerlessFunctionAggregation {
-  resourceIds?: StringFilter[];
-  functionNames?: StringFilter[];
-  runtimes?: StringFilter[];
-  functionTags?: MapFilter[];
-  cloudProviders?: StringFilter[];
-  cloudPartitions?: StringFilter[];
-  cloudRegions?: StringFilter[];
-  cloudOrgIds?: StringFilter[];
-  cloudAccountIds?: StringFilter[];
-  sortOrder?: string;
-  sortBy?: string;
+  resourceIds?: StringFilter[] | undefined;
+  functionNames?: StringFilter[] | undefined;
+  runtimes?: StringFilter[] | undefined;
+  functionTags?: MapFilter[] | undefined;
+  cloudProviders?: StringFilter[] | undefined;
+  cloudPartitions?: StringFilter[] | undefined;
+  cloudRegions?: StringFilter[] | undefined;
+  cloudOrgIds?: StringFilter[] | undefined;
+  cloudAccountIds?: StringFilter[] | undefined;
+  sortOrder?: string | undefined;
+  sortBy?: string | undefined;
 }
 export type AggregationRequest =
   | {
@@ -2194,178 +2196,178 @@ export type AggregationRequest =
     };
 export interface ListFindingAggregationsRequest {
   aggregationType: string;
-  nextToken?: string;
-  maxResults?: number;
-  accountIds?: StringFilter[];
-  aggregationRequest?: AggregationRequest;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  accountIds?: StringFilter[] | undefined;
+  aggregationRequest?: AggregationRequest | undefined;
 }
 export interface SeverityCounts {
-  all?: number;
-  medium?: number;
-  high?: number;
-  critical?: number;
-  low?: number;
-  informational?: number;
-  untriaged?: number;
+  all?: number | undefined;
+  medium?: number | undefined;
+  high?: number | undefined;
+  critical?: number | undefined;
+  low?: number | undefined;
+  informational?: number | undefined;
+  untriaged?: number | undefined;
 }
 export interface AccountAggregationResponse {
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  exploitAvailableCount?: number;
-  fixAvailableCount?: number;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  exploitAvailableCount?: number | undefined;
+  fixAvailableCount?: number | undefined;
 }
 export interface AmiAggregationResponse {
   ami: string;
-  accountId?: string;
-  cloudProvider?: string;
-  cloudPartition?: string;
-  cloudRegion?: string;
-  cloudOrgId?: string;
-  cloudAccountId?: string;
-  severityCounts?: SeverityCounts;
-  affectedInstances?: number;
+  accountId?: string | undefined;
+  cloudProvider?: string | undefined;
+  cloudPartition?: string | undefined;
+  cloudRegion?: string | undefined;
+  cloudOrgId?: string | undefined;
+  cloudAccountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  affectedInstances?: number | undefined;
 }
 export type StringList = string[];
 export interface AwsEcrContainerAggregationResponse {
   resourceId: string;
-  imageSha?: string;
-  repository?: string;
-  architecture?: string;
-  imageTags?: string[];
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  lastInUseAt?: Date;
-  inUseCount?: number;
+  imageSha?: string | undefined;
+  repository?: string | undefined;
+  architecture?: string | undefined;
+  imageTags?: string[] | undefined;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  lastInUseAt?: Date | undefined;
+  inUseCount?: number | undefined;
 }
 export interface Ec2InstanceAggregationResponse {
   instanceId: string;
-  ami?: string;
-  operatingSystem?: string;
-  instanceTags?: { [key: string]: string | undefined };
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  networkFindings?: number;
+  ami?: string | undefined;
+  operatingSystem?: string | undefined;
+  instanceTags?: { [key: string]: string | undefined } | undefined;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  networkFindings?: number | undefined;
 }
 export interface FindingTypeAggregationResponse {
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  exploitAvailableCount?: number;
-  fixAvailableCount?: number;
-  cloudProvider?: string;
-  cloudAccountId?: string;
-  cloudOrgId?: string;
-  cloudRegion?: string;
-  cloudPartition?: string;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  exploitAvailableCount?: number | undefined;
+  fixAvailableCount?: number | undefined;
+  cloudProvider?: string | undefined;
+  cloudAccountId?: string | undefined;
+  cloudOrgId?: string | undefined;
+  cloudRegion?: string | undefined;
+  cloudPartition?: string | undefined;
 }
 export interface ImageLayerAggregationResponse {
   repository: string;
   resourceId: string;
   layerHash: string;
   accountId: string;
-  cloudProvider?: string;
-  cloudAccountId?: string;
-  cloudOrgId?: string;
-  cloudRegion?: string;
-  cloudPartition?: string;
-  severityCounts?: SeverityCounts;
+  cloudProvider?: string | undefined;
+  cloudAccountId?: string | undefined;
+  cloudOrgId?: string | undefined;
+  cloudRegion?: string | undefined;
+  cloudPartition?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface PackageAggregationResponse {
   packageName: string;
-  accountId?: string;
-  severityCounts?: SeverityCounts;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface RepositoryAggregationResponse {
   repository: string;
-  accountId?: string;
-  cloudProvider?: string;
-  cloudPartition?: string;
-  cloudRegion?: string;
-  cloudOrgId?: string;
-  cloudAccountId?: string;
-  severityCounts?: SeverityCounts;
-  affectedImages?: number;
+  accountId?: string | undefined;
+  cloudProvider?: string | undefined;
+  cloudPartition?: string | undefined;
+  cloudRegion?: string | undefined;
+  cloudOrgId?: string | undefined;
+  cloudAccountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  affectedImages?: number | undefined;
 }
 export interface TitleAggregationResponse {
   title: string;
-  vulnerabilityId?: string;
-  accountId?: string;
-  severityCounts?: SeverityCounts;
+  vulnerabilityId?: string | undefined;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface LambdaLayerAggregationResponse {
   functionName: string;
   resourceId: string;
   layerArn: string;
   accountId: string;
-  severityCounts?: SeverityCounts;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface LambdaFunctionAggregationResponse {
   resourceId: string;
-  functionName?: string;
-  runtime?: string;
-  lambdaTags?: { [key: string]: string | undefined };
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  lastModifiedAt?: Date;
+  functionName?: string | undefined;
+  runtime?: string | undefined;
+  lambdaTags?: { [key: string]: string | undefined } | undefined;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export interface CodeRepositoryAggregationResponse {
   projectNames: string;
-  providerType?: string;
-  severityCounts?: SeverityCounts;
-  exploitAvailableActiveFindingsCount?: number;
-  fixAvailableActiveFindingsCount?: number;
-  accountId?: string;
-  resourceId?: string;
+  providerType?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  exploitAvailableActiveFindingsCount?: number | undefined;
+  fixAvailableActiveFindingsCount?: number | undefined;
+  accountId?: string | undefined;
+  resourceId?: string | undefined;
 }
 export interface VmInstanceAggregationResponse {
   resourceId: string;
-  cloudProvider?: string;
-  cloudAccountId?: string;
-  cloudPartition?: string;
-  cloudRegion?: string;
-  cloudOrgId?: string;
-  vmImageReference?: string;
-  operatingSystem?: string;
-  tags?: { [key: string]: string | undefined };
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  networkFindings?: number;
-  exploitAvailableActiveFindingsCount?: number;
-  fixAvailableActiveFindingsCount?: number;
+  cloudProvider?: string | undefined;
+  cloudAccountId?: string | undefined;
+  cloudPartition?: string | undefined;
+  cloudRegion?: string | undefined;
+  cloudOrgId?: string | undefined;
+  vmImageReference?: string | undefined;
+  operatingSystem?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  networkFindings?: number | undefined;
+  exploitAvailableActiveFindingsCount?: number | undefined;
+  fixAvailableActiveFindingsCount?: number | undefined;
 }
 export interface ContainerImageAggregationResponse {
   resourceId: string;
-  cloudProvider?: string;
-  cloudAccountId?: string;
-  cloudPartition?: string;
-  cloudRegion?: string;
-  cloudOrgId?: string;
-  imageDigest?: string;
-  repository?: string;
-  registry?: string;
-  architecture?: string;
-  imageTags?: string[];
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  lastInUseAt?: Date;
-  inUseCount?: number;
-  exploitAvailableActiveFindingsCount?: number;
-  fixAvailableActiveFindingsCount?: number;
+  cloudProvider?: string | undefined;
+  cloudAccountId?: string | undefined;
+  cloudPartition?: string | undefined;
+  cloudRegion?: string | undefined;
+  cloudOrgId?: string | undefined;
+  imageDigest?: string | undefined;
+  repository?: string | undefined;
+  registry?: string | undefined;
+  architecture?: string | undefined;
+  imageTags?: string[] | undefined;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  lastInUseAt?: Date | undefined;
+  inUseCount?: number | undefined;
+  exploitAvailableActiveFindingsCount?: number | undefined;
+  fixAvailableActiveFindingsCount?: number | undefined;
 }
 export interface ServerlessFunctionAggregationResponse {
   resourceId: string;
-  cloudProvider?: string;
-  cloudAccountId?: string;
-  cloudPartition?: string;
-  cloudRegion?: string;
-  cloudOrgId?: string;
-  functionName?: string;
-  runtime?: string;
-  tags?: { [key: string]: string | undefined };
-  accountId?: string;
-  severityCounts?: SeverityCounts;
-  lastModifiedAt?: Date;
-  exploitAvailableActiveFindingsCount?: number;
-  fixAvailableActiveFindingsCount?: number;
+  cloudProvider?: string | undefined;
+  cloudAccountId?: string | undefined;
+  cloudPartition?: string | undefined;
+  cloudRegion?: string | undefined;
+  cloudOrgId?: string | undefined;
+  functionName?: string | undefined;
+  runtime?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
+  lastModifiedAt?: Date | undefined;
+  exploitAvailableActiveFindingsCount?: number | undefined;
+  fixAvailableActiveFindingsCount?: number | undefined;
 }
 export type AggregationResponse =
   | {
@@ -2626,8 +2628,8 @@ export type AggregationResponse =
 export type AggregationResponseList = AggregationResponse[];
 export interface ListFindingAggregationsResponse {
   aggregationType: string;
-  responses?: AggregationResponse[];
-  nextToken?: string;
+  responses?: AggregationResponse[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListFindingsMaxResults = number;
 export type SortField = string;
@@ -2636,20 +2638,20 @@ export interface SortCriteria {
   sortOrder: string;
 }
 export interface ListFindingsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filterCriteria?: FilterCriteria;
-  sortCriteria?: SortCriteria;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filterCriteria?: FilterCriteria | undefined;
+  sortCriteria?: SortCriteria | undefined;
 }
 export type FindingType = string;
 export type FindingDescription = string;
 export type FindingTitle = string;
 export interface Recommendation {
-  text?: string;
-  Url?: string;
+  text?: string | undefined;
+  Url?: string | undefined;
 }
 export interface Remediation {
-  recommendation?: Recommendation;
+  recommendation?: Recommendation | undefined;
 }
 export type Severity = string;
 export type FindingStatus = string;
@@ -2659,30 +2661,30 @@ export type IpV6Address = string;
 export type IpV6AddressList = string[];
 export type Platform = string;
 export interface AwsEc2InstanceDetails {
-  type?: string;
-  imageId?: string;
-  ipV4Addresses?: string[];
-  ipV6Addresses?: string[];
-  keyName?: string;
-  iamInstanceProfileArn?: string;
-  vpcId?: string;
-  subnetId?: string;
-  launchedAt?: Date;
-  platform?: string;
+  type?: string | undefined;
+  imageId?: string | undefined;
+  ipV4Addresses?: string[] | undefined;
+  ipV6Addresses?: string[] | undefined;
+  keyName?: string | undefined;
+  iamInstanceProfileArn?: string | undefined;
+  vpcId?: string | undefined;
+  subnetId?: string | undefined;
+  launchedAt?: Date | undefined;
+  platform?: string | undefined;
 }
 export type ImageTagList = string[];
 export type ImageHash = string;
 export interface AwsEcrContainerImageDetails {
   repositoryName: string;
-  imageTags?: string[];
-  pushedAt?: Date;
-  author?: string;
-  architecture?: string;
+  imageTags?: string[] | undefined;
+  pushedAt?: Date | undefined;
+  author?: string | undefined;
+  architecture?: string | undefined;
   imageHash: string;
   registry: string;
-  platform?: string;
-  lastInUseAt?: Date;
-  inUseCount?: number;
+  platform?: string | undefined;
+  lastInUseAt?: Date | undefined;
+  inUseCount?: number | undefined;
 }
 export type FunctionName = string;
 export type Version = string;
@@ -2695,9 +2697,9 @@ export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
 export type VpcId = string;
 export interface LambdaVpcConfig {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  vpcId?: string;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  vpcId?: string | undefined;
 }
 export type PackageType = string;
 export type Architecture = string;
@@ -2708,82 +2710,82 @@ export interface AwsLambdaFunctionDetails {
   codeSha256: string;
   version: string;
   executionRoleArn: string;
-  layers?: string[];
-  vpcConfig?: LambdaVpcConfig;
-  packageType?: string;
-  architectures?: string[];
-  lastModifiedAt?: Date;
+  layers?: string[] | undefined;
+  vpcConfig?: LambdaVpcConfig | undefined;
+  packageType?: string | undefined;
+  architectures?: string[] | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type CodeRepositoryProjectName = string;
 export type CodeRepositoryProviderType = string;
 export interface CodeRepositoryDetails {
-  projectName?: string;
-  integrationArn?: string;
-  providerType?: string;
+  projectName?: string | undefined;
+  integrationArn?: string | undefined;
+  providerType?: string | undefined;
 }
 export type CloudSubnetIdList = string[];
 export type CloudSecurityGroupIdList = string[];
 export interface Vm {
-  type?: string;
-  vmName?: string;
-  vmImageReference?: string;
-  ipV4Addresses?: string[];
-  ipV6Addresses?: string[];
-  networkId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  launchedAt?: Date;
-  platform?: string;
-  executionRole?: string;
-  keyName?: string;
+  type?: string | undefined;
+  vmName?: string | undefined;
+  vmImageReference?: string | undefined;
+  ipV4Addresses?: string[] | undefined;
+  ipV6Addresses?: string[] | undefined;
+  networkId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  launchedAt?: Date | undefined;
+  platform?: string | undefined;
+  executionRole?: string | undefined;
+  keyName?: string | undefined;
 }
 export interface Image {
-  repositoryName?: string;
-  registry?: string;
-  imageTags?: string[];
-  imageDigest?: string;
-  pushedAt?: Date;
-  architecture?: string;
-  author?: string;
-  inUseCount?: number;
-  lastInUseAt?: Date;
-  platform?: string;
+  repositoryName?: string | undefined;
+  registry?: string | undefined;
+  imageTags?: string[] | undefined;
+  imageDigest?: string | undefined;
+  pushedAt?: Date | undefined;
+  architecture?: string | undefined;
+  author?: string | undefined;
+  inUseCount?: number | undefined;
+  lastInUseAt?: Date | undefined;
+  platform?: string | undefined;
 }
 export type ServerlessFunctionLayerUrn = string;
 export type ServerlessFunctionLayerList = string[];
 export interface ServerlessFunction {
-  serverlessFunctionName?: string;
-  runtime?: string;
-  version?: string;
-  codeDigest?: string;
-  lastModifiedAt?: Date;
-  networkId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  executionRole?: string;
-  packageType?: string;
-  architectures?: string[];
-  layers?: string[];
+  serverlessFunctionName?: string | undefined;
+  runtime?: string | undefined;
+  version?: string | undefined;
+  codeDigest?: string | undefined;
+  lastModifiedAt?: Date | undefined;
+  networkId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  executionRole?: string | undefined;
+  packageType?: string | undefined;
+  architectures?: string[] | undefined;
+  layers?: string[] | undefined;
 }
 export interface ResourceDetails {
-  awsEc2Instance?: AwsEc2InstanceDetails;
-  awsEcrContainerImage?: AwsEcrContainerImageDetails;
-  awsLambdaFunction?: AwsLambdaFunctionDetails;
-  codeRepository?: CodeRepositoryDetails;
-  vm?: Vm;
-  image?: Image;
-  serverlessFunction?: ServerlessFunction;
+  awsEc2Instance?: AwsEc2InstanceDetails | undefined;
+  awsEcrContainerImage?: AwsEcrContainerImageDetails | undefined;
+  awsLambdaFunction?: AwsLambdaFunctionDetails | undefined;
+  codeRepository?: CodeRepositoryDetails | undefined;
+  vm?: Vm | undefined;
+  image?: Image | undefined;
+  serverlessFunction?: ServerlessFunction | undefined;
 }
 export interface Resource {
   type: string;
   id: string;
-  partition?: string;
-  region?: string;
-  tags?: { [key: string]: string | undefined };
-  details?: ResourceDetails;
-  provider?: string;
-  providerAccountId?: string;
-  providerOrgId?: string;
+  partition?: string | undefined;
+  region?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  details?: ResourceDetails | undefined;
+  provider?: string | undefined;
+  providerAccountId?: string | undefined;
+  providerOrgId?: string | undefined;
 }
 export type ResourceList = Resource[];
 export interface CvssScoreAdjustment {
@@ -2793,14 +2795,14 @@ export interface CvssScoreAdjustment {
 export type CvssScoreAdjustmentList = CvssScoreAdjustment[];
 export interface CvssScoreDetails {
   scoreSource: string;
-  cvssSource?: string;
+  cvssSource?: string | undefined;
   version: string;
   score: number;
   scoringVector: string;
-  adjustments?: CvssScoreAdjustment[];
+  adjustments?: CvssScoreAdjustment[] | undefined;
 }
 export interface InspectorScoreDetails {
-  adjustedCvss?: CvssScoreDetails;
+  adjustedCvss?: CvssScoreDetails | undefined;
 }
 export interface PortRange {
   begin: number;
@@ -2813,11 +2815,11 @@ export type ComponentArn = string;
 export interface Step {
   componentId: string;
   componentType: string;
-  componentArn?: string;
+  componentArn?: string | undefined;
 }
 export type StepList = Step[];
 export interface NetworkPath {
-  steps?: Step[];
+  steps?: Step[] | undefined;
 }
 export interface NetworkReachabilityDetails {
   openPortRange: PortRange;
@@ -2837,15 +2839,15 @@ export type VulnerablePackageRemediation = string;
 export interface VulnerablePackage {
   name: string;
   version: string;
-  sourceLayerHash?: string;
-  epoch?: number;
-  release?: string;
-  arch?: string;
-  packageManager?: string;
-  filePath?: string;
-  fixedInVersion?: string;
-  remediation?: string;
-  sourceLambdaLayerArn?: string;
+  sourceLayerHash?: string | undefined;
+  epoch?: number | undefined;
+  release?: string | undefined;
+  arch?: string | undefined;
+  packageManager?: string | undefined;
+  filePath?: string | undefined;
+  fixedInVersion?: string | undefined;
+  remediation?: string | undefined;
+  sourceLambdaLayerArn?: string | undefined;
 }
 export type VulnerablePackageList = VulnerablePackage[];
 export interface CvssScore {
@@ -2859,20 +2861,20 @@ export type VulnerabilityIdList = string[];
 export type NonEmptyStringList = string[];
 export interface PackageVulnerabilityDetails {
   vulnerabilityId: string;
-  vulnerablePackages?: VulnerablePackage[];
+  vulnerablePackages?: VulnerablePackage[] | undefined;
   source: string;
-  cvss?: CvssScore[];
-  relatedVulnerabilities?: string[];
-  sourceUrl?: string;
-  vendorSeverity?: string;
-  vendorCreatedAt?: Date;
-  vendorUpdatedAt?: Date;
-  referenceUrls?: string[];
+  cvss?: CvssScore[] | undefined;
+  relatedVulnerabilities?: string[] | undefined;
+  sourceUrl?: string | undefined;
+  vendorSeverity?: string | undefined;
+  vendorCreatedAt?: Date | undefined;
+  vendorUpdatedAt?: Date | undefined;
+  referenceUrls?: string[] | undefined;
 }
 export type FixAvailable = string;
 export type ExploitAvailable = string;
 export interface ExploitabilityDetails {
-  lastKnownExploitAt?: Date;
+  lastKnownExploitAt?: Date | undefined;
 }
 export interface CodeFilePath {
   fileName: string;
@@ -2885,93 +2887,93 @@ export type ReferenceUrls = string[];
 export type CweList = string[];
 export interface CodeVulnerabilityDetails {
   filePath: CodeFilePath;
-  detectorTags?: string[];
-  referenceUrls?: string[];
-  ruleId?: string;
-  sourceLambdaLayerArn?: string;
+  detectorTags?: string[] | undefined;
+  referenceUrls?: string[] | undefined;
+  ruleId?: string | undefined;
+  sourceLambdaLayerArn?: string | undefined;
   detectorId: string;
   detectorName: string;
   cwes: string[];
 }
 export type EpssScoreValue = number;
 export interface EpssDetails {
-  score?: number;
+  score?: number | undefined;
 }
 export interface Finding {
   findingArn: string;
   awsAccountId: string;
   type: string;
   description: string;
-  title?: string;
+  title?: string | undefined;
   remediation: Remediation;
   severity: string;
   firstObservedAt: Date;
   lastObservedAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
   status: string;
   resources: Resource[];
-  inspectorScore?: number;
-  inspectorScoreDetails?: InspectorScoreDetails;
-  networkReachabilityDetails?: NetworkReachabilityDetails;
-  packageVulnerabilityDetails?: PackageVulnerabilityDetails;
-  fixAvailable?: string;
-  exploitAvailable?: string;
-  exploitabilityDetails?: ExploitabilityDetails;
-  codeVulnerabilityDetails?: CodeVulnerabilityDetails;
-  epss?: EpssDetails;
+  inspectorScore?: number | undefined;
+  inspectorScoreDetails?: InspectorScoreDetails | undefined;
+  networkReachabilityDetails?: NetworkReachabilityDetails | undefined;
+  packageVulnerabilityDetails?: PackageVulnerabilityDetails | undefined;
+  fixAvailable?: string | undefined;
+  exploitAvailable?: string | undefined;
+  exploitabilityDetails?: ExploitabilityDetails | undefined;
+  codeVulnerabilityDetails?: CodeVulnerabilityDetails | undefined;
+  epss?: EpssDetails | undefined;
 }
 export type FindingList = Finding[];
 export interface ListFindingsResponse {
-  nextToken?: string;
-  findings?: Finding[];
+  nextToken?: string | undefined;
+  findings?: Finding[] | undefined;
 }
 export type ListMembersMaxResults = number;
 export interface ListMembersRequest {
-  onlyAssociated?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  onlyAssociated?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type MemberList = Member[];
 export interface ListMembersResponse {
-  members?: Member[];
-  nextToken?: string;
+  members?: Member[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListUsageTotalsMaxResults = number;
 export type ListUsageTotalsNextToken = string;
 export type UsageAccountId = string;
 export type UsageAccountIdList = string[];
 export interface ListUsageTotalsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  accountIds?: string[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accountIds?: string[] | undefined;
 }
 export type UsageType = string;
 export type UsageValue = number;
 export type MonthlyCostEstimate = number;
 export type Currency = string;
 export interface Usage {
-  type?: string;
-  total?: number;
-  estimatedMonthlyCost?: number;
-  currency?: string;
-  cloudProvider?: string;
+  type?: string | undefined;
+  total?: number | undefined;
+  estimatedMonthlyCost?: number | undefined;
+  currency?: string | undefined;
+  cloudProvider?: string | undefined;
 }
 export type UsageList = Usage[];
 export interface UsageTotal {
-  accountId?: string;
-  usage?: Usage[];
+  accountId?: string | undefined;
+  usage?: Usage[] | undefined;
 }
 export type UsageTotalList = UsageTotal[];
 export interface ListUsageTotalsResponse {
-  nextToken?: string;
-  totals?: UsageTotal[];
+  nextToken?: string | undefined;
+  totals?: UsageTotal[] | undefined;
 }
 export interface ResetEncryptionKeyRequest {
   scanType: string;
@@ -2985,34 +2987,34 @@ export interface SearchVulnerabilitiesFilterCriteria {
 }
 export interface SearchVulnerabilitiesRequest {
   filterCriteria: SearchVulnerabilitiesFilterCriteria;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type VulnerabilitySource = string;
 export type VulnerabilityDescription = string;
 export type Target = string;
 export type Targets = string[];
 export interface AtigData {
-  firstSeen?: Date;
-  lastSeen?: Date;
-  targets?: string[];
-  ttps?: string[];
+  firstSeen?: Date | undefined;
+  lastSeen?: Date | undefined;
+  targets?: string[] | undefined;
+  ttps?: string[] | undefined;
 }
 export type VendorSeverity = string;
 export type CvssBaseScore = number;
 export type CvssScoringVector = string;
 export interface Cvss4 {
-  baseScore?: number;
-  scoringVector?: string;
+  baseScore?: number | undefined;
+  scoringVector?: string | undefined;
 }
 export interface Cvss3 {
-  baseScore?: number;
-  scoringVector?: string;
+  baseScore?: number | undefined;
+  scoringVector?: string | undefined;
 }
 export type RelatedVulnerability = string;
 export type RelatedVulnerabilities = string[];
 export interface Cvss2 {
-  baseScore?: number;
-  scoringVector?: string;
+  baseScore?: number | undefined;
+  scoringVector?: string | undefined;
 }
 export type VendorCreatedAt = Date;
 export type VendorUpdatedAt = Date;
@@ -3020,32 +3022,32 @@ export type VulnerabilitySourceUrl = string;
 export type DetectionPlatforms = string[];
 export type EpssScore = number;
 export interface Epss {
-  score?: number;
+  score?: number | undefined;
 }
 export interface Vulnerability {
   id: string;
-  cwes?: string[];
-  cisaData?: CisaData;
-  source?: string;
-  description?: string;
-  atigData?: AtigData;
-  vendorSeverity?: string;
-  cvss4?: Cvss4;
-  cvss3?: Cvss3;
-  relatedVulnerabilities?: string[];
-  cvss2?: Cvss2;
-  vendorCreatedAt?: Date;
-  vendorUpdatedAt?: Date;
-  sourceUrl?: string;
-  referenceUrls?: string[];
-  exploitObserved?: ExploitObserved;
-  detectionPlatforms?: string[];
-  epss?: Epss;
+  cwes?: string[] | undefined;
+  cisaData?: CisaData | undefined;
+  source?: string | undefined;
+  description?: string | undefined;
+  atigData?: AtigData | undefined;
+  vendorSeverity?: string | undefined;
+  cvss4?: Cvss4 | undefined;
+  cvss3?: Cvss3 | undefined;
+  relatedVulnerabilities?: string[] | undefined;
+  cvss2?: Cvss2 | undefined;
+  vendorCreatedAt?: Date | undefined;
+  vendorUpdatedAt?: Date | undefined;
+  sourceUrl?: string | undefined;
+  referenceUrls?: string[] | undefined;
+  exploitObserved?: ExploitObserved | undefined;
+  detectionPlatforms?: string[] | undefined;
+  epss?: Epss | undefined;
 }
 export type Vulnerabilities = Vulnerability[];
 export interface SearchVulnerabilitiesResponse {
   vulnerabilities: Vulnerability[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type UUID = string;
 export interface SendCisSessionHealthRequest {
@@ -3086,12 +3088,12 @@ export interface StartCisSessionRequest {
 export interface StartCisSessionResponse {}
 export type CodeSecurityClientToken = string;
 export interface StartCodeSecurityScanRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   resource: CodeSecurityResource;
 }
 export interface StartCodeSecurityScanResponse {
-  scanId?: string;
-  status?: CodeScanStatus;
+  scanId?: string | undefined;
+  status?: CodeScanStatus | undefined;
 }
 export type StopCisSessionStatus =
   | "SUCCESS"
@@ -3102,32 +3104,32 @@ export type StopCisSessionStatus =
 export type Reason = string;
 export type CheckCount = number;
 export interface StopCisMessageProgress {
-  totalChecks?: number;
-  successfulChecks?: number;
-  failedChecks?: number;
-  notEvaluatedChecks?: number;
-  unknownChecks?: number;
-  notApplicableChecks?: number;
-  informationalChecks?: number;
-  errorChecks?: number;
+  totalChecks?: number | undefined;
+  successfulChecks?: number | undefined;
+  failedChecks?: number | undefined;
+  notEvaluatedChecks?: number | undefined;
+  unknownChecks?: number | undefined;
+  notApplicableChecks?: number | undefined;
+  informationalChecks?: number | undefined;
+  errorChecks?: number | undefined;
 }
 export type Vendor = string;
 export type Product = string;
 export type PlatformVersion = string;
 export interface ComputePlatform {
-  vendor?: string;
-  product?: string;
-  version?: string;
+  vendor?: string | undefined;
+  product?: string | undefined;
+  version?: string | undefined;
 }
 export type BenchmarkVersion = string;
 export type BenchmarkProfile = string;
 export interface StopCisSessionMessage {
   status: StopCisSessionStatus;
-  reason?: string;
+  reason?: string | undefined;
   progress: StopCisMessageProgress;
-  computePlatform?: ComputePlatform;
-  benchmarkVersion?: string;
-  benchmarkProfile?: string;
+  computePlatform?: ComputePlatform | undefined;
+  benchmarkVersion?: string | undefined;
+  benchmarkProfile?: string | undefined;
 }
 export interface StopCisSessionRequest {
   scanJobId: string;
@@ -3148,15 +3150,15 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateCisTargets {
-  accountIds?: string[];
-  targetResourceTags?: { [key: string]: string[] | undefined };
+  accountIds?: string[] | undefined;
+  targetResourceTags?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateCisScanConfigurationRequest {
   scanConfigurationArn: string;
-  scanName?: string;
-  securityLevel?: CisSecurityLevel;
-  schedule?: Schedule;
-  targets?: UpdateCisTargets;
+  scanName?: string | undefined;
+  securityLevel?: CisSecurityLevel | undefined;
+  schedule?: Schedule | undefined;
+  targets?: UpdateCisTargets | undefined;
 }
 export interface UpdateCisScanConfigurationResponse {
   scanConfigurationArn: string;
@@ -3187,42 +3189,42 @@ export interface UpdateCodeSecurityScanConfigurationRequest {
   configuration: CodeSecurityScanConfiguration;
 }
 export interface UpdateCodeSecurityScanConfigurationResponse {
-  scanConfigurationArn?: string;
+  scanConfigurationArn?: string | undefined;
 }
 export interface EcrConfiguration {
   rescanDuration: string;
-  pullDateRescanDuration?: string;
-  pullDateRescanMode?: string;
+  pullDateRescanDuration?: string | undefined;
+  pullDateRescanMode?: string | undefined;
 }
 export interface Ec2Configuration {
   scanMode: string;
-  activateVMScanner?: boolean;
+  activateVMScanner?: boolean | undefined;
 }
 export type InheritanceMode = string;
 export interface UpdateConfigurationInheritance {
-  ec2Configuration?: string;
-  ecrConfiguration?: string;
+  ec2Configuration?: string | undefined;
+  ecrConfiguration?: string | undefined;
 }
 export interface UpdateConfigurationRequest {
-  accountId?: string;
-  ecrConfiguration?: EcrConfiguration;
-  ec2Configuration?: Ec2Configuration;
-  updateConfigurationInheritance?: UpdateConfigurationInheritance;
+  accountId?: string | undefined;
+  ecrConfiguration?: EcrConfiguration | undefined;
+  ec2Configuration?: Ec2Configuration | undefined;
+  updateConfigurationInheritance?: UpdateConfigurationInheritance | undefined;
 }
 export interface UpdateConfigurationResponse {}
 export interface AzureProviderDetailUpdate {
-  azureRegions?: string[];
-  scopeConfiguration?: AzureScopeConfigurationInput;
-  autoInstallVMScanner?: boolean;
+  azureRegions?: string[] | undefined;
+  scopeConfiguration?: AzureScopeConfigurationInput | undefined;
+  autoInstallVMScanner?: boolean | undefined;
 }
 export type ProviderDetailUpdate = { azure: AzureProviderDetailUpdate };
 export interface UpdateConnectorRequest {
   connectorArn: string;
-  description?: string;
-  providerDetail?: ProviderDetailUpdate;
+  description?: string | undefined;
+  providerDetail?: ProviderDetailUpdate | undefined;
 }
 export interface UpdateConnectorResponse {
-  connectorArn?: string;
+  connectorArn?: string | undefined;
 }
 export interface UpdateConnectorScanConfigurationRequest {
   awsConfigConnectorArn: string;
@@ -3230,14 +3232,14 @@ export interface UpdateConnectorScanConfigurationRequest {
 }
 export interface UpdateConnectorScanConfigurationResponse {}
 export interface UpdateEc2DeepInspectionConfigurationRequest {
-  activateDeepInspection?: boolean;
-  packagePaths?: string[];
+  activateDeepInspection?: boolean | undefined;
+  packagePaths?: string[] | undefined;
 }
 export interface UpdateEc2DeepInspectionConfigurationResponse {
-  packagePaths?: string[];
-  orgPackagePaths?: string[];
-  status?: string;
-  errorMessage?: string;
+  packagePaths?: string[] | undefined;
+  orgPackagePaths?: string[] | undefined;
+  status?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface UpdateEncryptionKeyRequest {
   kmsKeyId: string;
@@ -3246,12 +3248,12 @@ export interface UpdateEncryptionKeyRequest {
 }
 export interface UpdateEncryptionKeyResponse {}
 export interface UpdateFilterRequest {
-  action?: string;
-  description?: string;
-  filterCriteria?: FilterCriteria;
-  name?: string;
+  action?: string | undefined;
+  description?: string | undefined;
+  filterCriteria?: FilterCriteria | undefined;
+  name?: string | undefined;
   filterArn: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface UpdateFilterResponse {
   arn: string;

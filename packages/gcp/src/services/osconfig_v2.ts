@@ -103,7 +103,7 @@ export interface CancelFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -111,13 +111,13 @@ export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type GoogleCloudOsconfigV2_PolicyOrchestrator_IterationStateStateEnum =
   | "STATE_UNSPECIFIED"
@@ -131,44 +131,47 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** Describes the state of a single iteration of the orchestrator. */
 export interface GoogleCloudOsconfigV2_PolicyOrchestrator_IterationState {
   /** Output only. Start time of the wave iteration. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Number of orchestration actions which failed so far. For more details, query the Cloud Logs. */
-  failedActions?: string;
+  failedActions?: string | undefined;
   /** Output only. Unique identifier of the iteration. */
-  iterationId?: string;
+  iterationId?: string | undefined;
   /** Output only. An estimated percentage of the progress. Number between 0 and 100. */
-  progress?: number;
+  progress?: number | undefined;
   /** Output only. Overall number of actions done by the orchestrator so far. */
-  performedActions?: string;
+  performedActions?: string | undefined;
   /** Output only. Finish time of the wave iteration. */
-  finishTime?: string;
+  finishTime?: string | undefined;
   /** Output only. State of the iteration. */
-  state?: GoogleCloudOsconfigV2_PolicyOrchestrator_IterationStateStateEnum | (string & {});
+  state?:
+    | GoogleCloudOsconfigV2_PolicyOrchestrator_IterationStateStateEnum
+    | (string & {})
+    | undefined;
   /** Output only. Error thrown in the wave iteration. */
-  error?: Status;
+  error?: Status | undefined;
 }
 /** Describes the state of the orchestration process. */
 export interface GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState {
   /** Output only. Current Wave iteration state. */
-  currentIterationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_IterationState;
+  currentIterationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_IterationState | undefined;
   /** Output only. Previous Wave iteration state. */
-  previousIterationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_IterationState;
+  previousIterationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_IterationState | undefined;
 }
 /** VM inventory details. */
 export interface OSPolicyAssignmentInstanceFilterInventory {
   /** The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of `7`, specify the following value for this field `7.*` An empty string matches all OS versions. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Required. The OS short name */
-  osShortName?: string;
+  osShortName?: string | undefined;
 }
 export type OSPolicyAssignmentInstanceFilterInventoryList =
   Array<OSPolicyAssignmentInstanceFilterInventory>;
@@ -176,68 +179,68 @@ export type StringMap = { [key: string]: string | undefined };
 /** Message representing label set. * A label is a key value pair set for a VM. * A LabelSet is a set of labels. * Labels within a LabelSet are ANDed. In other words, a LabelSet is applicable for a VM only if it matches all the labels in the LabelSet. * Example: A LabelSet with 2 labels: `env=prod` and `type=webserver` will only be applicable for those VMs with both labels present. */
 export interface OSPolicyAssignmentLabelSet {
   /** Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type OSPolicyAssignmentLabelSetList = Array<OSPolicyAssignmentLabelSet>;
 /** Filters to select target VMs for an assignment. If more than one filter criteria is specified below, a VM will be selected if and only if it satisfies all of them. */
 export interface OSPolicyAssignmentInstanceFilter {
   /** Target all VMs in the project. If true, no other criteria is permitted. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** List of inventories to select VMs. A VM is selected if its inventory data matches at least one of the following inventories. */
-  inventories?: OSPolicyAssignmentInstanceFilterInventoryList;
+  inventories?: OSPolicyAssignmentInstanceFilterInventoryList | undefined;
   /** List of label sets used for VM inclusion. If the list has more than one `LabelSet`, the VM is included if any of the label sets are applicable for the VM. */
-  inclusionLabels?: OSPolicyAssignmentLabelSetList;
+  inclusionLabels?: OSPolicyAssignmentLabelSetList | undefined;
   /** List of label sets used for VM exclusion. If the list has more than one label set, the VM is excluded if any of the label sets are applicable for the VM. */
-  exclusionLabels?: OSPolicyAssignmentLabelSetList;
+  exclusionLabels?: OSPolicyAssignmentLabelSetList | undefined;
 }
 /** Message encapsulating a value that can be either absolute ("fixed") or relative ("percent") to a value. */
 export interface FixedOrPercent {
   /** Specifies a fixed value. */
-  fixed?: number;
+  fixed?: number | undefined;
   /** Specifies the relative value defined as a percentage, which will be multiplied by a reference value. */
-  percent?: number;
+  percent?: number | undefined;
 }
 /** Message to configure the rollout at the zonal level for the OS policy assignment. */
 export interface OSPolicyAssignmentRollout {
   /** Required. This determines the minimum duration of time to wait after the configuration changes are applied through the current rollout. A VM continues to count towards the `disruption_budget` at least until this duration of time has passed after configuration changes are applied. */
-  minWaitDuration?: string;
+  minWaitDuration?: string | undefined;
   /** Required. The maximum number (or percentage) of VMs per zone to disrupt at any given moment. */
-  disruptionBudget?: FixedOrPercent;
+  disruptionBudget?: FixedOrPercent | undefined;
 }
 /** Filtering criteria to select VMs based on inventory details. */
 export interface OSPolicyInventoryFilter {
   /** Required. The OS short name */
-  osShortName?: string;
+  osShortName?: string | undefined;
   /** The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of `7`, specify the following value for this field `7.*` An empty string matches all OS versions. */
-  osVersion?: string;
+  osVersion?: string | undefined;
 }
 export type OSPolicyInventoryFilterList = Array<OSPolicyInventoryFilter>;
 /** Specifies a file available via some URI. */
 export interface OSPolicyResourceFileRemote {
   /** Required. URI from which to fetch the object. It should contain both the protocol and path following the format `{protocol}://{location}`. */
-  uri?: string;
+  uri?: string | undefined;
   /** SHA256 checksum of the remote file. */
-  sha256Checksum?: string;
+  sha256Checksum?: string | undefined;
 }
 /** Specifies a file available as a Cloud Storage Object. */
 export interface OSPolicyResourceFileGcs {
   /** Generation number of the Cloud Storage object. */
-  generation?: string;
+  generation?: string | undefined;
   /** Required. Name of the Cloud Storage object. */
-  object?: string;
+  object?: string | undefined;
   /** Required. Bucket of the Cloud Storage object. */
-  bucket?: string;
+  bucket?: string | undefined;
 }
 /** A remote or local file. */
 export interface OSPolicyResourceFile {
   /** A generic remote file. */
-  remote?: OSPolicyResourceFileRemote;
+  remote?: OSPolicyResourceFileRemote | undefined;
   /** Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified. */
-  allowInsecure?: boolean;
+  allowInsecure?: boolean | undefined;
   /** A local path within the VM to use. */
-  localPath?: string;
+  localPath?: string | undefined;
   /** A Cloud Storage object. */
-  gcs?: OSPolicyResourceFileGcs;
+  gcs?: OSPolicyResourceFileGcs | undefined;
 }
 export type OSPolicyResourceFileResourceStateEnum =
   | "DESIRED_STATE_UNSPECIFIED"
@@ -247,38 +250,38 @@ export type OSPolicyResourceFileResourceStateEnum =
 /** A resource that manages the state of a file. */
 export interface OSPolicyResourceFileResource {
   /** A remote or local source. */
-  file?: OSPolicyResourceFile;
+  file?: OSPolicyResourceFile | undefined;
   /** Consists of three octal digits which represent, in order, the permissions of the owner, group, and other users for the file (similarly to the numeric mode used in the linux chmod utility). Each digit represents a three bit number with the 4 bit corresponding to the read permissions, the 2 bit corresponds to the write bit, and the one bit corresponds to the execute permission. Default behavior is 755. Below are some examples of permissions and their associated values: read, write, and execute: 7 read and execute: 5 read and write: 6 read only: 4 */
-  permissions?: string;
+  permissions?: string | undefined;
   /** Required. Desired state of the file. */
-  state?: OSPolicyResourceFileResourceStateEnum | (string & {});
+  state?: OSPolicyResourceFileResourceStateEnum | (string & {}) | undefined;
   /** A file with this content. The size of the content is limited to 32KiB. */
-  content?: string;
+  content?: string | undefined;
   /** Required. The absolute path of the file within the VM. */
-  path?: string;
+  path?: string | undefined;
 }
 export type StringList = Array<string>;
 /** Represents a single zypper package repository. These are added to a repo file that is managed at `/etc/zypp/repos.d/google_osconfig.repo`. */
 export interface OSPolicyResourceRepositoryResourceZypperRepository {
   /** Required. The location of the repository directory. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** URIs of GPG keys. */
-  gpgKeys?: StringList;
+  gpgKeys?: StringList | undefined;
   /** The display name of the repository. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. A one word, unique name for this repository. This is the `repo id` in the zypper config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Represents a single yum package repository. These are added to a repo file that is managed at `/etc/yum.repos.d/google_osconfig.repo`. */
 export interface OSPolicyResourceRepositoryResourceYumRepository {
   /** Required. A one word, unique name for this repository. This is the `repo id` in the yum config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for resource conflicts. */
-  id?: string;
+  id?: string | undefined;
   /** The display name of the repository. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. The location of the repository directory. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** URIs of GPG keys. */
-  gpgKeys?: StringList;
+  gpgKeys?: StringList | undefined;
 }
 export type OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum =
   | "ARCHIVE_TYPE_UNSPECIFIED"
@@ -287,33 +290,36 @@ export type OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum =
 /** Represents a single apt package repository. These will be added to a repo file that will be managed at `/etc/apt/sources.list.d/google_osconfig.list`. */
 export interface OSPolicyResourceRepositoryResourceAptRepository {
   /** Required. Type of archive files in this repository. */
-  archiveType?: OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum | (string & {});
+  archiveType?:
+    | OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum
+    | (string & {})
+    | undefined;
   /** Required. Distribution of this repository. */
-  distribution?: string;
+  distribution?: string | undefined;
   /** Required. List of components for this repository. Must contain at least one item. */
-  components?: StringList;
+  components?: StringList | undefined;
   /** URI of the key file for this repository. The agent maintains a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg`. */
-  gpgKey?: string;
+  gpgKey?: string | undefined;
   /** Required. URI for this repository. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Represents a Goo package repository. These are added to a repo file that is managed at `C:/ProgramData/GooGet/repos/google_osconfig.repo`. */
 export interface OSPolicyResourceRepositoryResourceGooRepository {
   /** Required. The name of the repository. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The url of the repository. */
-  url?: string;
+  url?: string | undefined;
 }
 /** A resource that manages a package repository. */
 export interface OSPolicyResourceRepositoryResource {
   /** A Zypper Repository. */
-  zypper?: OSPolicyResourceRepositoryResourceZypperRepository;
+  zypper?: OSPolicyResourceRepositoryResourceZypperRepository | undefined;
   /** A Yum Repository. */
-  yum?: OSPolicyResourceRepositoryResourceYumRepository;
+  yum?: OSPolicyResourceRepositoryResourceYumRepository | undefined;
   /** An Apt Repository. */
-  apt?: OSPolicyResourceRepositoryResourceAptRepository;
+  apt?: OSPolicyResourceRepositoryResourceAptRepository | undefined;
   /** A Goo Repository. */
-  goo?: OSPolicyResourceRepositoryResourceGooRepository;
+  goo?: OSPolicyResourceRepositoryResourceGooRepository | undefined;
 }
 export type OSPolicyResourceExecResourceExecInterpreterEnum =
   | "INTERPRETER_UNSPECIFIED"
@@ -323,34 +329,34 @@ export type OSPolicyResourceExecResourceExecInterpreterEnum =
 /** A file or script to execute. */
 export interface OSPolicyResourceExecResourceExec {
   /** Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 500K bytes. */
-  outputFilePath?: string;
+  outputFilePath?: string | undefined;
   /** Optional arguments to pass to the source during execution. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Required. The script interpreter to use. */
-  interpreter?: OSPolicyResourceExecResourceExecInterpreterEnum | (string & {});
+  interpreter?: OSPolicyResourceExecResourceExecInterpreterEnum | (string & {}) | undefined;
   /** A remote or local file. */
-  file?: OSPolicyResourceFile;
+  file?: OSPolicyResourceFile | undefined;
   /** An inline script. The size of the script is limited to 32KiB. */
-  script?: string;
+  script?: string | undefined;
 }
 /** A resource that allows executing scripts on the VM. The `ExecResource` has 2 stages: `validate` and `enforce` and both stages accept a script as an argument to execute. When the `ExecResource` is applied by the agent, it first executes the script in the `validate` stage. The `validate` stage can signal that the `ExecResource` is already in the desired state by returning an exit code of `100`. If the `ExecResource` is not in the desired state, it should return an exit code of `101`. Any other exit code returned by this stage is considered an error. If the `ExecResource` is not in the desired state based on the exit code from the `validate` stage, the agent proceeds to execute the script from the `enforce` stage. If the `ExecResource` is already in the desired state, the `enforce` stage will not be run. Similar to `validate` stage, the `enforce` stage should return an exit code of `100` to indicate that the resource in now in its desired state. Any other exit code is considered an error. NOTE: An exit code of `100` was chosen over `0` (and `101` vs `1`) to have an explicit indicator of `in desired state`, `not in desired state` and errors. Because, for example, Powershell will always return an exit code of `0` unless an `exit` statement is provided in the script. So, for reasons of consistency and being explicit, exit codes `100` and `101` were chosen. */
 export interface OSPolicyResourceExecResource {
   /** What to run to bring this resource into the desired state. An exit code of 100 indicates "success", any other exit code indicates a failure running enforce. */
-  enforce?: OSPolicyResourceExecResourceExec;
+  enforce?: OSPolicyResourceExecResourceExec | undefined;
   /** Required. What to run to validate this resource is in the desired state. An exit code of 100 indicates "in desired state", and exit code of 101 indicates "not in desired state". Any other exit code indicates a failure running validate. */
-  validate?: OSPolicyResourceExecResourceExec;
+  validate?: OSPolicyResourceExecResourceExec | undefined;
 }
 /** A deb package file. dpkg packages only support INSTALLED state. */
 export interface OSPolicyResourcePackageResourceDeb {
   /** Whether dependencies should also be installed. - install when false: `dpkg -i package` - install when true: `apt-get update && apt-get -y install package.deb` */
-  pullDeps?: boolean;
+  pullDeps?: boolean | undefined;
   /** Required. A deb package. */
-  source?: OSPolicyResourceFile;
+  source?: OSPolicyResourceFile | undefined;
 }
 /** A package managed by Zypper. - install: `zypper -y install package` - remove: `zypper -y rm package` */
 export interface OSPolicyResourcePackageResourceZypper {
   /** Required. Package name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A package managed by GooGet. - install: `googet -noconfirm install package` - remove: `googet -noconfirm remove package` */
 export type OSPolicyResourcePackageResourceGooGet = OSPolicyResourcePackageResourceZypper;
@@ -359,16 +365,16 @@ export type OSPolicyResourcePackageResourceYUM = OSPolicyResourcePackageResource
 /** An RPM package file. RPM packages only support INSTALLED state. */
 export interface OSPolicyResourcePackageResourceRPM {
   /** Whether dependencies should also be installed. - install when false: `rpm --upgrade --replacepkgs package.rpm` - install when true: `yum -y install package.rpm` or `zypper -y install package.rpm` */
-  pullDeps?: boolean;
+  pullDeps?: boolean | undefined;
   /** Required. An rpm package. */
-  source?: OSPolicyResourceFile;
+  source?: OSPolicyResourceFile | undefined;
 }
 /** An MSI package. MSI packages only support INSTALLED state. */
 export interface OSPolicyResourcePackageResourceMSI {
   /** Additional properties to use during installation. This should be in the format of Property=Setting. Appended to the defaults of `ACTION=INSTALL REBOOT=ReallySuppress`. */
-  properties?: StringList;
+  properties?: StringList | undefined;
   /** Required. The MSI package. */
-  source?: OSPolicyResourceFile;
+  source?: OSPolicyResourceFile | undefined;
 }
 export type OSPolicyResourcePackageResourceDesiredStateEnum =
   | "DESIRED_STATE_UNSPECIFIED"
@@ -379,57 +385,57 @@ export type OSPolicyResourcePackageResourceAPT = OSPolicyResourcePackageResource
 /** A resource that manages a system package. */
 export interface OSPolicyResourcePackageResource {
   /** A deb package file. */
-  deb?: OSPolicyResourcePackageResourceDeb;
+  deb?: OSPolicyResourcePackageResourceDeb | undefined;
   /** A package managed by Zypper. */
-  zypper?: OSPolicyResourcePackageResourceZypper;
+  zypper?: OSPolicyResourcePackageResourceZypper | undefined;
   /** A package managed by GooGet. */
-  googet?: OSPolicyResourcePackageResourceZypper;
+  googet?: OSPolicyResourcePackageResourceZypper | undefined;
   /** A package managed by YUM. */
-  yum?: OSPolicyResourcePackageResourceZypper;
+  yum?: OSPolicyResourcePackageResourceZypper | undefined;
   /** An rpm package file. */
-  rpm?: OSPolicyResourcePackageResourceRPM;
+  rpm?: OSPolicyResourcePackageResourceRPM | undefined;
   /** An MSI package. */
-  msi?: OSPolicyResourcePackageResourceMSI;
+  msi?: OSPolicyResourcePackageResourceMSI | undefined;
   /** Required. The desired state the agent should maintain for this package. */
-  desiredState?: OSPolicyResourcePackageResourceDesiredStateEnum | (string & {});
+  desiredState?: OSPolicyResourcePackageResourceDesiredStateEnum | (string & {}) | undefined;
   /** A package managed by Apt. */
-  apt?: OSPolicyResourcePackageResourceZypper;
+  apt?: OSPolicyResourcePackageResourceZypper | undefined;
 }
 /** An OS policy resource is used to define the desired state configuration and provides a specific functionality like installing/removing packages, executing a script etc. The system ensures that resources are always in their desired state by taking necessary actions if they have drifted from their desired state. */
 export interface OSPolicyResource {
   /** File resource */
-  file?: OSPolicyResourceFileResource;
+  file?: OSPolicyResourceFileResource | undefined;
   /** Package repository resource */
-  repository?: OSPolicyResourceRepositoryResource;
+  repository?: OSPolicyResourceRepositoryResource | undefined;
   /** Exec resource */
-  exec?: OSPolicyResourceExecResource;
+  exec?: OSPolicyResourceExecResource | undefined;
   /** Required. The id of the resource with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the OS policy. */
-  id?: string;
+  id?: string | undefined;
   /** Package resource */
-  pkg?: OSPolicyResourcePackageResource;
+  pkg?: OSPolicyResourcePackageResource | undefined;
 }
 export type OSPolicyResourceList = Array<OSPolicyResource>;
 /** Resource groups provide a mechanism to group OS policy resources. Resource groups enable OS policy authors to create a single OS policy to be applied to VMs running different operating Systems. When the OS policy is applied to a target VM, the appropriate resource group within the OS policy is selected based on the `OSFilter` specified within the resource group. */
 export interface OSPolicyResourceGroup {
   /** List of inventory filters for the resource group. The resources in this resource group are applied to the target VM if it satisfies at least one of the following inventory filters. For example, to apply this resource group to VMs running either `RHEL` or `CentOS` operating systems, specify 2 items for the list with following values: inventory_filters[0].os_short_name='rhel' and inventory_filters[1].os_short_name='centos' If the list is empty, this resource group will be applied to the target VM unconditionally. */
-  inventoryFilters?: OSPolicyInventoryFilterList;
+  inventoryFilters?: OSPolicyInventoryFilterList | undefined;
   /** Required. List of resources configured for this resource group. The resources are executed in the exact order specified here. */
-  resources?: OSPolicyResourceList;
+  resources?: OSPolicyResourceList | undefined;
 }
 export type OSPolicyResourceGroupList = Array<OSPolicyResourceGroup>;
 export type OSPolicyModeEnum = "MODE_UNSPECIFIED" | "VALIDATION" | "ENFORCEMENT";
 /** An OS policy defines the desired state configuration for a VM. */
 export interface OSPolicy {
   /** Required. List of resource groups for the policy. For a particular VM, resource groups are evaluated in the order specified and the first resource group that is applicable is selected and the rest are ignored. If none of the resource groups are applicable for a VM, the VM is considered to be non-compliant w.r.t this policy. This behavior can be toggled by the flag `allow_no_resource_group_match` */
-  resourceGroups?: OSPolicyResourceGroupList;
+  resourceGroups?: OSPolicyResourceGroupList | undefined;
   /** Policy description. Length of the description is limited to 1024 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Required. Policy mode */
-  mode?: OSPolicyModeEnum | (string & {});
+  mode?: OSPolicyModeEnum | (string & {}) | undefined;
   /** Required. The id of the OS policy with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the assignment. */
-  id?: string;
+  id?: string | undefined;
   /** This flag determines the OS policy compliance status when none of the resource groups within the policy are applicable for a VM. Set this value to `true` if the policy needs to be reported as compliant even if the policy has nothing to validate or enforce. */
-  allowNoResourceGroupMatch?: boolean;
+  allowNoResourceGroupMatch?: boolean | undefined;
 }
 export type OSPolicyList = Array<OSPolicy>;
 export type OSPolicyAssignmentRolloutStateEnum =
@@ -441,140 +447,142 @@ export type OSPolicyAssignmentRolloutStateEnum =
 /** OS policy assignment is an API resource that is used to apply a set of OS policies to a dynamically targeted group of Compute Engine VM instances. An OS policy is used to define the desired state configuration for a Compute Engine VM instance through a set of configuration resources that provide capabilities such as installing or removing software packages, or executing a script. For more information about the OS policy resource definitions and examples, see [OS policy and OS policy assignment](https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies). */
 export interface OSPolicyAssignment {
   /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Required. Filter to select VMs. */
-  instanceFilter?: OSPolicyAssignmentInstanceFilter;
+  instanceFilter?: OSPolicyAssignmentInstanceFilter | undefined;
   /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
-  baseline?: boolean;
+  baseline?: boolean | undefined;
   /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string;
+  revisionCreateTime?: string | undefined;
   /** OS policy assignment description. Length of the description is limited to 1024 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
-  rollout?: OSPolicyAssignmentRollout;
+  rollout?: OSPolicyAssignmentRollout | undefined;
   /** Output only. Server generated unique id for the OS policy assignment resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Indicates that this revision deletes the OS policy assignment. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Required. List of OS policies to be applied to the VMs. */
-  osPolicies?: OSPolicyList;
+  osPolicies?: OSPolicyList | undefined;
   /** Output only. OS policy assignment rollout state */
-  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {});
+  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {}) | undefined;
 }
 /** Represents a resource that is being orchestrated by the policy orchestrator. */
 export interface GoogleCloudOsconfigV2__OrchestratedResource {
   /** Optional. ID of the resource to be used while generating set of affected resources. For UPSERT action the value is auto-generated during PolicyOrchestrator creation when not set. When the value is set it should following next restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. For DELETE action, ID must be specified explicitly during PolicyOrchestrator creation. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. OSPolicyAssignment resource to be created, updated or deleted. Name field is ignored and replace with a generated value. With this field set, orchestrator will perform actions on `project/{project}/locations/{zone}/osPolicyAssignments/{resource_id}` resources, where `project` and `zone` pairs come from the expanded scope, and `resource_id` comes from the `resource_id` field of orchestrator resource. */
-  osPolicyAssignmentV1Payload?: OSPolicyAssignment;
+  osPolicyAssignmentV1Payload?: OSPolicyAssignment | undefined;
 }
 /** Selector containing locations in scope. */
 export interface GoogleCloudOsconfigV2_OrchestrationScope_LocationSelector {
   /** Optional. Names of the locations in scope. Format: `us-central1-a` */
-  includedLocations?: StringList;
+  includedLocations?: StringList | undefined;
 }
 /** Selector containing Cloud Resource Manager resource hierarchy nodes. */
 export interface GoogleCloudOsconfigV2_OrchestrationScope_ResourceHierarchySelector {
   /** Optional. Names of the projects in scope. Format: `projects/{project_number}` */
-  includedProjects?: StringList;
+  includedProjects?: StringList | undefined;
   /** Optional. Names of the folders in scope. Format: `folders/{folder_id}` */
-  includedFolders?: StringList;
+  includedFolders?: StringList | undefined;
 }
 /** Selector for the resources in scope of orchestration. */
 export interface GoogleCloudOsconfigV2_OrchestrationScope_Selector {
   /** Selector for selecting locations. */
-  locationSelector?: GoogleCloudOsconfigV2_OrchestrationScope_LocationSelector;
+  locationSelector?: GoogleCloudOsconfigV2_OrchestrationScope_LocationSelector | undefined;
   /** Selector for selecting resource hierarchy. */
-  resourceHierarchySelector?: GoogleCloudOsconfigV2_OrchestrationScope_ResourceHierarchySelector;
+  resourceHierarchySelector?:
+    | GoogleCloudOsconfigV2_OrchestrationScope_ResourceHierarchySelector
+    | undefined;
 }
 export type GoogleCloudOsconfigV2_OrchestrationScope_SelectorList =
   Array<GoogleCloudOsconfigV2_OrchestrationScope_Selector>;
 /** Defines a set of selectors which drive which resources are in scope of policy orchestration. */
 export interface GoogleCloudOsconfigV2__OrchestrationScope {
   /** Optional. Selectors of the orchestration scope. Each `Selector` entry can specify either a `ResourceHierarchySelector` or a `LocationSelector`, but not both. To filter by both resource hierarchy and location, specify separate `Selector` entries for each selector type. There is a logical AND between each selector defined. When there is no explicit `ResourceHierarchySelector` selector specified, the scope is by default bounded to the parent of the policy orchestrator resource. */
-  selectors?: GoogleCloudOsconfigV2_OrchestrationScope_SelectorList;
+  selectors?: GoogleCloudOsconfigV2_OrchestrationScope_SelectorList | undefined;
 }
 /** A policy orchestrator manages project-level and zone-level policy resources, such as OS policy assignments. It provides methods to create, update, and delete these resources across projects and locations at scale. The policy orchestrator operates as a continuous loop. In each iteration, the orchestrator identifies the set of resources to be modified and progressively applies changes. If the set of resources changes over time (for example, if you add new projects), subsequent iterations address those changes. The orchestrator can either upsert or delete policy resources. For more details, see the `action` and `orchestrated_resource` fields. The policy orchestrator does not manage the lifecycle of the resources it creates. Each iteration is independent and, besides Cloud Logging, the orchestrator retains only a minimal history of past actions. Deleting the orchestrator does not affect previously created resources; these resources remain in their current state. Similarly, removing projects from the orchestrator's scope does not affect existing resources. */
 export interface GoogleCloudOsconfigV2__PolicyOrchestrator {
   /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
-  state?: string;
+  state?: string | undefined;
   /** Output only. State of the orchestration. */
-  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState;
+  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState | undefined;
   /** Required. Resource to be orchestrated by the policy orchestrator. */
-  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource;
+  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource | undefined;
   /** Output only. Timestamp when the policy orchestrator resource was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Set to true, if there are ongoing changes being applied by the orchestrator. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Freeform text describing the purpose of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
-  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope;
+  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Timestamp when the policy orchestrator resource was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. Action to be done by the orchestrator in `projects/{project_id}/zones/{zone_id}` locations defined by the `orchestration_scope`. Allowed values: - `UPSERT` - Orchestrator will create or update target resources. - `DELETE` - Orchestrator will delete target resources, if they exist */
-  action?: string;
+  action?: string | undefined;
 }
 export interface CreateFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
-  policyOrchestratorId?: string;
+  policyOrchestratorId?: string | undefined;
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator;
+  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
-  policyOrchestratorId?: string;
+  policyOrchestratorId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator;
+  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 export interface CreateProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
-  policyOrchestratorId?: string;
+  policyOrchestratorId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator;
+  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 export interface DeleteFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The current etag of the policy orchestrator. If an etag is provided and does not match the current etag of the policy orchestrator, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. Name of the resource to be deleted. */
   name: string;
 }
@@ -584,11 +592,11 @@ export interface DeleteFoldersLocationsOperationsRequest {
 }
 export interface DeleteOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the resource to be deleted. */
   name: string;
   /** Optional. The current etag of the policy orchestrator. If an etag is provided and does not match the current etag of the policy orchestrator, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -598,9 +606,9 @@ export interface DeleteProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. Name of the resource to be deleted. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The current etag of the policy orchestrator. If an etag is provided and does not match the current etag of the policy orchestrator, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -632,58 +640,58 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface ListFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name. */
   parent: string;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type GoogleCloudOsconfigV2__PolicyOrchestratorList =
   Array<GoogleCloudOsconfigV2__PolicyOrchestrator>;
 /** Response for the list policy orchestrator resources. */
 export interface GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The policy orchestrators for the specified parent resource. */
-  policyOrchestrators?: GoogleCloudOsconfigV2__PolicyOrchestratorList;
+  policyOrchestrators?: GoogleCloudOsconfigV2__PolicyOrchestratorList | undefined;
 }
 export interface ListFoldersLocationsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource name. */
   parent: string;
 }
@@ -691,35 +699,35 @@ export interface ListOrganizationsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent resource name. */
   parent: string;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -727,25 +735,25 @@ export interface PatchFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator;
+  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 export interface PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator;
+  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 export interface PatchProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator;
+  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 export type CancelFoldersLocationsOperationsError =
   | NotFound

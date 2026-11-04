@@ -161,8 +161,8 @@ export type ResourceType =
 export type ScopeName = "Organization" | "AccountId" | "ResourceArn" | (string & {});
 export type ScopeValue = string;
 export interface Scope {
-  name?: ScopeName;
-  value?: string;
+  name?: ScopeName | undefined;
+  value?: string | undefined;
 }
 export type RecommendationPreferenceName =
   | "EnhancedInfrastructureMetrics"
@@ -175,7 +175,7 @@ export type RecommendationPreferenceName =
 export type RecommendationPreferenceNames = RecommendationPreferenceName[];
 export interface DeleteRecommendationPreferencesRequest {
   resourceType: ResourceType;
-  scope?: Scope;
+  scope?: Scope | undefined;
   recommendationPreferenceNames: RecommendationPreferenceName[];
 }
 export interface DeleteRecommendationPreferencesResponse {}
@@ -185,46 +185,46 @@ export type JobFilterName = "ResourceType" | "JobStatus" | (string & {});
 export type FilterValue = string;
 export type FilterValues = string[];
 export interface JobFilter {
-  name?: JobFilterName;
-  values?: string[];
+  name?: JobFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type JobFilters = JobFilter[];
 export type NextToken = string;
 export type MaxResults = number;
 export interface DescribeRecommendationExportJobsRequest {
-  jobIds?: string[];
-  filters?: JobFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  jobIds?: string[] | undefined;
+  filters?: JobFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DestinationBucket = string;
 export type DestinationKey = string;
 export type MetadataKey = string;
 export interface S3Destination {
-  bucket?: string;
-  key?: string;
-  metadataKey?: string;
+  bucket?: string | undefined;
+  key?: string | undefined;
+  metadataKey?: string | undefined;
 }
 export interface ExportDestination {
-  s3?: S3Destination;
+  s3?: S3Destination | undefined;
 }
 export type JobStatus = "Queued" | "InProgress" | "Complete" | "Failed" | (string & {});
 export type CreationTimestamp = Date;
 export type LastUpdatedTimestamp = Date;
 export type FailureReason = string;
 export interface RecommendationExportJob {
-  jobId?: string;
-  destination?: ExportDestination;
-  resourceType?: ResourceType;
-  status?: JobStatus;
-  creationTimestamp?: Date;
-  lastUpdatedTimestamp?: Date;
-  failureReason?: string;
+  jobId?: string | undefined;
+  destination?: ExportDestination | undefined;
+  resourceType?: ResourceType | undefined;
+  status?: JobStatus | undefined;
+  creationTimestamp?: Date | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export type RecommendationExportJobs = RecommendationExportJob[];
 export interface DescribeRecommendationExportJobsResponse {
-  recommendationExportJobs?: RecommendationExportJob[];
-  nextToken?: string;
+  recommendationExportJobs?: RecommendationExportJob[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountId = string;
 export type AccountIds = string[];
@@ -235,8 +235,8 @@ export type FilterName =
   | "InferredWorkloadTypes"
   | (string & {});
 export interface Filter {
-  name?: FilterName;
-  values?: string[];
+  name?: FilterName | undefined;
+  values?: string[] | undefined;
 }
 export type Filters = Filter[];
 export type ExportableAutoScalingGroupField =
@@ -317,33 +317,33 @@ export type ExportableAutoScalingGroupField =
 export type ExportableAutoScalingGroupFields = ExportableAutoScalingGroupField[];
 export type DestinationKeyPrefix = string;
 export interface S3DestinationConfig {
-  bucket?: string;
-  keyPrefix?: string;
+  bucket?: string | undefined;
+  keyPrefix?: string | undefined;
 }
 export type FileFormat = "Csv" | (string & {});
 export type IncludeMemberAccounts = boolean;
 export type CpuVendorArchitecture = "AWS_ARM64" | "CURRENT" | (string & {});
 export type CpuVendorArchitectures = CpuVendorArchitecture[];
 export interface RecommendationPreferences {
-  cpuVendorArchitectures?: CpuVendorArchitecture[];
+  cpuVendorArchitectures?: CpuVendorArchitecture[] | undefined;
 }
 export interface ExportAutoScalingGroupRecommendationsRequest {
-  accountIds?: string[];
-  filters?: Filter[];
-  fieldsToExport?: ExportableAutoScalingGroupField[];
+  accountIds?: string[] | undefined;
+  filters?: Filter[] | undefined;
+  fieldsToExport?: ExportableAutoScalingGroupField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
-  recommendationPreferences?: RecommendationPreferences;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export interface ExportAutoScalingGroupRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type EBSFilterName = "Finding" | (string & {});
 export interface EBSFilter {
-  name?: EBSFilterName;
-  values?: string[];
+  name?: EBSFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type EBSFilters = EBSFilter[];
 export type ExportableVolumeField =
@@ -388,16 +388,16 @@ export type ExportableVolumeField =
   | (string & {});
 export type ExportableVolumeFields = ExportableVolumeField[];
 export interface ExportEBSVolumeRecommendationsRequest {
-  accountIds?: string[];
-  filters?: EBSFilter[];
-  fieldsToExport?: ExportableVolumeField[];
+  accountIds?: string[] | undefined;
+  filters?: EBSFilter[] | undefined;
+  fieldsToExport?: ExportableVolumeField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
 }
 export interface ExportEBSVolumeRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type ExportableInstanceField =
   | "AccountId"
@@ -474,22 +474,22 @@ export type ExportableInstanceField =
   | (string & {});
 export type ExportableInstanceFields = ExportableInstanceField[];
 export interface ExportEC2InstanceRecommendationsRequest {
-  accountIds?: string[];
-  filters?: Filter[];
-  fieldsToExport?: ExportableInstanceField[];
+  accountIds?: string[] | undefined;
+  filters?: Filter[] | undefined;
+  fieldsToExport?: ExportableInstanceField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
-  recommendationPreferences?: RecommendationPreferences;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export interface ExportEC2InstanceRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type ECSServiceRecommendationFilterName = "Finding" | "FindingReasonCode" | (string & {});
 export interface ECSServiceRecommendationFilter {
-  name?: ECSServiceRecommendationFilterName;
-  values?: string[];
+  name?: ECSServiceRecommendationFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type ECSServiceRecommendationFilters = ECSServiceRecommendationFilter[];
 export type ExportableECSServiceField =
@@ -525,21 +525,21 @@ export type ExportableECSServiceField =
   | (string & {});
 export type ExportableECSServiceFields = ExportableECSServiceField[];
 export interface ExportECSServiceRecommendationsRequest {
-  accountIds?: string[];
-  filters?: ECSServiceRecommendationFilter[];
-  fieldsToExport?: ExportableECSServiceField[];
+  accountIds?: string[] | undefined;
+  filters?: ECSServiceRecommendationFilter[] | undefined;
+  fieldsToExport?: ExportableECSServiceField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
 }
 export interface ExportECSServiceRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type IdleRecommendationFilterName = "Finding" | "ResourceType" | (string & {});
 export interface IdleRecommendationFilter {
-  name?: IdleRecommendationFilterName;
-  values?: string[];
+  name?: IdleRecommendationFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type IdleRecommendationFilters = IdleRecommendationFilter[];
 export type ExportableIdleField =
@@ -585,24 +585,24 @@ export type ExportableIdleField =
   | (string & {});
 export type ExportableIdleFields = ExportableIdleField[];
 export interface ExportIdleRecommendationsRequest {
-  accountIds?: string[];
-  filters?: IdleRecommendationFilter[];
-  fieldsToExport?: ExportableIdleField[];
+  accountIds?: string[] | undefined;
+  filters?: IdleRecommendationFilter[] | undefined;
+  fieldsToExport?: ExportableIdleField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
 }
 export interface ExportIdleRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type LambdaFunctionRecommendationFilterName =
   | "Finding"
   | "FindingReasonCode"
   | (string & {});
 export interface LambdaFunctionRecommendationFilter {
-  name?: LambdaFunctionRecommendationFilterName;
-  values?: string[];
+  name?: LambdaFunctionRecommendationFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type LambdaFunctionRecommendationFilters = LambdaFunctionRecommendationFilter[];
 export type ExportableLambdaFunctionField =
@@ -640,16 +640,16 @@ export type ExportableLambdaFunctionField =
   | (string & {});
 export type ExportableLambdaFunctionFields = ExportableLambdaFunctionField[];
 export interface ExportLambdaFunctionRecommendationsRequest {
-  accountIds?: string[];
-  filters?: LambdaFunctionRecommendationFilter[];
-  fieldsToExport?: ExportableLambdaFunctionField[];
+  accountIds?: string[] | undefined;
+  filters?: LambdaFunctionRecommendationFilter[] | undefined;
+  fieldsToExport?: ExportableLambdaFunctionField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
 }
 export interface ExportLambdaFunctionRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type LicenseRecommendationFilterName =
   | "Finding"
@@ -657,8 +657,8 @@ export type LicenseRecommendationFilterName =
   | "LicenseName"
   | (string & {});
 export interface LicenseRecommendationFilter {
-  name?: LicenseRecommendationFilterName;
-  values?: string[];
+  name?: LicenseRecommendationFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type LicenseRecommendationFilters = LicenseRecommendationFilter[];
 export type ExportableLicenseField =
@@ -686,16 +686,16 @@ export type ExportableLicenseField =
   | (string & {});
 export type ExportableLicenseFields = ExportableLicenseField[];
 export interface ExportLicenseRecommendationsRequest {
-  accountIds?: string[];
-  filters?: LicenseRecommendationFilter[];
-  fieldsToExport?: ExportableLicenseField[];
+  accountIds?: string[] | undefined;
+  filters?: LicenseRecommendationFilter[] | undefined;
+  fieldsToExport?: ExportableLicenseField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
 }
 export interface ExportLicenseRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type RDSDBRecommendationFilterName =
   | "InstanceFinding"
@@ -705,8 +705,8 @@ export type RDSDBRecommendationFilterName =
   | "Idle"
   | (string & {});
 export interface RDSDBRecommendationFilter {
-  name?: RDSDBRecommendationFilterName;
-  values?: string[];
+  name?: RDSDBRecommendationFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type RDSDBRecommendationFilters = RDSDBRecommendationFilter[];
 export type ExportableRDSDBField =
@@ -795,27 +795,27 @@ export type ExportableRDSDBField =
   | (string & {});
 export type ExportableRDSDBFields = ExportableRDSDBField[];
 export interface ExportRDSDatabaseRecommendationsRequest {
-  accountIds?: string[];
-  filters?: RDSDBRecommendationFilter[];
-  fieldsToExport?: ExportableRDSDBField[];
+  accountIds?: string[] | undefined;
+  filters?: RDSDBRecommendationFilter[] | undefined;
+  fieldsToExport?: ExportableRDSDBField[] | undefined;
   s3DestinationConfig: S3DestinationConfig;
-  fileFormat?: FileFormat;
-  includeMemberAccounts?: boolean;
-  recommendationPreferences?: RecommendationPreferences;
+  fileFormat?: FileFormat | undefined;
+  includeMemberAccounts?: boolean | undefined;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export interface ExportRDSDatabaseRecommendationsResponse {
-  jobId?: string;
-  s3Destination?: S3Destination;
+  jobId?: string | undefined;
+  s3Destination?: S3Destination | undefined;
 }
 export type AutoScalingGroupArn = string;
 export type AutoScalingGroupArns = string[];
 export interface GetAutoScalingGroupRecommendationsRequest {
-  accountIds?: string[];
-  autoScalingGroupArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  filters?: Filter[];
-  recommendationPreferences?: RecommendationPreferences;
+  accountIds?: string[] | undefined;
+  autoScalingGroupArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: Filter[] | undefined;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export type AutoScalingGroupName = string;
 export type Finding =
@@ -845,9 +845,9 @@ export type MetricName =
 export type MetricStatistic = "Maximum" | "Average" | (string & {});
 export type MetricValue = number;
 export interface UtilizationMetric {
-  name?: MetricName;
-  statistic?: MetricStatistic;
-  value?: number;
+  name?: MetricName | undefined;
+  statistic?: MetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type UtilizationMetrics = UtilizationMetric[];
 export type LookBackPeriodInDays = number;
@@ -861,24 +861,24 @@ export type AsgType = "SingleInstanceType" | "MixedInstanceTypes" | (string & {}
 export type MixedInstanceType = string;
 export type MixedInstanceTypes = string[];
 export interface AutoScalingGroupConfiguration {
-  desiredCapacity?: number;
-  minSize?: number;
-  maxSize?: number;
-  instanceType?: string;
-  allocationStrategy?: AllocationStrategy;
-  estimatedInstanceHourReductionPercentage?: number;
-  type?: AsgType;
-  mixedInstanceTypes?: string[];
+  desiredCapacity?: number | undefined;
+  minSize?: number | undefined;
+  maxSize?: number | undefined;
+  instanceType?: string | undefined;
+  allocationStrategy?: AllocationStrategy | undefined;
+  estimatedInstanceHourReductionPercentage?: number | undefined;
+  type?: AsgType | undefined;
+  mixedInstanceTypes?: string[] | undefined;
 }
 export type GpuCount = number;
 export type GpuMemorySizeInMiB = number;
 export interface Gpu {
-  gpuCount?: number;
-  gpuMemorySizeInMiB?: number;
+  gpuCount?: number | undefined;
+  gpuMemorySizeInMiB?: number | undefined;
 }
 export type Gpus = Gpu[];
 export interface GpuInfo {
-  gpus?: Gpu[];
+  gpus?: Gpu[] | undefined;
 }
 export type ProjectedUtilizationMetrics = UtilizationMetric[];
 export type PerformanceRisk = number;
@@ -887,31 +887,31 @@ export type SavingsOpportunityPercentage = number;
 export type Currency = "USD" | "CNY" | (string & {});
 export type Value = number;
 export interface EstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface SavingsOpportunity {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
 }
 export interface AutoScalingGroupEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface AutoScalingGroupSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: AutoScalingGroupEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: AutoScalingGroupEstimatedMonthlySavings | undefined;
 }
 export type MigrationEffort = "VeryLow" | "Low" | "Medium" | "High" | (string & {});
 export interface AutoScalingGroupRecommendationOption {
-  configuration?: AutoScalingGroupConfiguration;
-  instanceGpuInfo?: GpuInfo;
-  projectedUtilizationMetrics?: UtilizationMetric[];
-  performanceRisk?: number;
-  rank?: number;
-  savingsOpportunity?: SavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: AutoScalingGroupSavingsOpportunityAfterDiscounts;
-  migrationEffort?: MigrationEffort;
+  configuration?: AutoScalingGroupConfiguration | undefined;
+  instanceGpuInfo?: GpuInfo | undefined;
+  projectedUtilizationMetrics?: UtilizationMetric[] | undefined;
+  performanceRisk?: number | undefined;
+  rank?: number | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: AutoScalingGroupSavingsOpportunityAfterDiscounts | undefined;
+  migrationEffort?: MigrationEffort | undefined;
 }
 export type AutoScalingGroupRecommendationOptions = AutoScalingGroupRecommendationOption[];
 export type LastRefreshTimestamp = Date;
@@ -925,7 +925,7 @@ export type ExternalMetricsSource =
   | "Instana"
   | (string & {});
 export interface ExternalMetricsPreference {
-  source?: ExternalMetricsSource;
+  source?: ExternalMetricsSource | undefined;
 }
 export type LookBackPeriodPreference = "DAYS_14" | "DAYS_32" | "DAYS_93" | (string & {});
 export type CustomizableMetricName = "CpuUtilization" | "MemoryUtilization" | (string & {});
@@ -937,22 +937,22 @@ export type CustomizableMetricHeadroom =
   | "PERCENT_0"
   | (string & {});
 export interface CustomizableMetricParameters {
-  threshold?: CustomizableMetricThreshold;
-  headroom?: CustomizableMetricHeadroom;
+  threshold?: CustomizableMetricThreshold | undefined;
+  headroom?: CustomizableMetricHeadroom | undefined;
 }
 export interface UtilizationPreference {
-  metricName?: CustomizableMetricName;
-  metricParameters?: CustomizableMetricParameters;
+  metricName?: CustomizableMetricName | undefined;
+  metricParameters?: CustomizableMetricParameters | undefined;
 }
 export type UtilizationPreferences = UtilizationPreference[];
 export type PreferredResourceName = "Ec2InstanceTypes" | (string & {});
 export type PreferredResourceValue = string;
 export type PreferredResourceValues = string[];
 export interface EffectivePreferredResource {
-  name?: PreferredResourceName;
-  includeList?: string[];
-  effectiveIncludeList?: string[];
-  excludeList?: string[];
+  name?: PreferredResourceName | undefined;
+  includeList?: string[] | undefined;
+  effectiveIncludeList?: string[] | undefined;
+  excludeList?: string[] | undefined;
 }
 export type EffectivePreferredResources = EffectivePreferredResource[];
 export type InstanceSavingsEstimationModeSource =
@@ -961,17 +961,17 @@ export type InstanceSavingsEstimationModeSource =
   | "CostOptimizationHub"
   | (string & {});
 export interface InstanceSavingsEstimationMode {
-  source?: InstanceSavingsEstimationModeSource;
+  source?: InstanceSavingsEstimationModeSource | undefined;
 }
 export interface EffectiveRecommendationPreferences {
-  cpuVendorArchitectures?: CpuVendorArchitecture[];
-  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics;
-  inferredWorkloadTypes?: InferredWorkloadTypesPreference;
-  externalMetricsPreference?: ExternalMetricsPreference;
-  lookBackPeriod?: LookBackPeriodPreference;
-  utilizationPreferences?: UtilizationPreference[];
-  preferredResources?: EffectivePreferredResource[];
-  savingsEstimationMode?: InstanceSavingsEstimationMode;
+  cpuVendorArchitectures?: CpuVendorArchitecture[] | undefined;
+  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics | undefined;
+  inferredWorkloadTypes?: InferredWorkloadTypesPreference | undefined;
+  externalMetricsPreference?: ExternalMetricsPreference | undefined;
+  lookBackPeriod?: LookBackPeriodPreference | undefined;
+  utilizationPreferences?: UtilizationPreference[] | undefined;
+  preferredResources?: EffectivePreferredResource[] | undefined;
+  savingsEstimationMode?: InstanceSavingsEstimationMode | undefined;
 }
 export type InferredWorkloadType =
   | "AmazonEmr"
@@ -986,43 +986,43 @@ export type InferredWorkloadType =
   | (string & {});
 export type InferredWorkloadTypes = InferredWorkloadType[];
 export interface AutoScalingGroupRecommendation {
-  accountId?: string;
-  autoScalingGroupArn?: string;
-  autoScalingGroupName?: string;
-  finding?: Finding;
-  utilizationMetrics?: UtilizationMetric[];
-  lookBackPeriodInDays?: number;
-  currentConfiguration?: AutoScalingGroupConfiguration;
-  currentInstanceGpuInfo?: GpuInfo;
-  recommendationOptions?: AutoScalingGroupRecommendationOption[];
-  lastRefreshTimestamp?: Date;
-  currentPerformanceRisk?: CurrentPerformanceRisk;
-  effectiveRecommendationPreferences?: EffectiveRecommendationPreferences;
-  inferredWorkloadTypes?: InferredWorkloadType[];
+  accountId?: string | undefined;
+  autoScalingGroupArn?: string | undefined;
+  autoScalingGroupName?: string | undefined;
+  finding?: Finding | undefined;
+  utilizationMetrics?: UtilizationMetric[] | undefined;
+  lookBackPeriodInDays?: number | undefined;
+  currentConfiguration?: AutoScalingGroupConfiguration | undefined;
+  currentInstanceGpuInfo?: GpuInfo | undefined;
+  recommendationOptions?: AutoScalingGroupRecommendationOption[] | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  currentPerformanceRisk?: CurrentPerformanceRisk | undefined;
+  effectiveRecommendationPreferences?: EffectiveRecommendationPreferences | undefined;
+  inferredWorkloadTypes?: InferredWorkloadType[] | undefined;
 }
 export type AutoScalingGroupRecommendations = AutoScalingGroupRecommendation[];
 export type Identifier = string;
 export type Code = string;
 export type Message = string;
 export interface GetRecommendationError {
-  identifier?: string;
-  code?: string;
-  message?: string;
+  identifier?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type GetRecommendationErrors = GetRecommendationError[];
 export interface GetAutoScalingGroupRecommendationsResponse {
-  nextToken?: string;
-  autoScalingGroupRecommendations?: AutoScalingGroupRecommendation[];
-  errors?: GetRecommendationError[];
+  nextToken?: string | undefined;
+  autoScalingGroupRecommendations?: AutoScalingGroupRecommendation[] | undefined;
+  errors?: GetRecommendationError[] | undefined;
 }
 export type VolumeArn = string;
 export type VolumeArns = string[];
 export interface GetEBSVolumeRecommendationsRequest {
-  volumeArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  filters?: EBSFilter[];
-  accountIds?: string[];
+  volumeArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: EBSFilter[] | undefined;
+  accountIds?: string[] | undefined;
 }
 export type VolumeType = string;
 export type VolumeSize = number;
@@ -1032,13 +1032,13 @@ export type VolumeBaselineThroughput = number;
 export type VolumeBurstThroughput = number;
 export type RootVolume = boolean;
 export interface VolumeConfiguration {
-  volumeType?: string;
-  volumeSize?: number;
-  volumeBaselineIOPS?: number;
-  volumeBurstIOPS?: number;
-  volumeBaselineThroughput?: number;
-  volumeBurstThroughput?: number;
-  rootVolume?: boolean;
+  volumeType?: string | undefined;
+  volumeSize?: number | undefined;
+  volumeBaselineIOPS?: number | undefined;
+  volumeBurstIOPS?: number | undefined;
+  volumeBaselineThroughput?: number | undefined;
+  volumeBurstThroughput?: number | undefined;
+  rootVolume?: boolean | undefined;
 }
 export type EBSFinding = "Optimized" | "NotOptimized" | (string & {});
 export type EBSMetricName =
@@ -1050,25 +1050,25 @@ export type EBSMetricName =
   | "VolumeThroughputExceeded"
   | (string & {});
 export interface EBSUtilizationMetric {
-  name?: EBSMetricName;
-  statistic?: MetricStatistic;
-  value?: number;
+  name?: EBSMetricName | undefined;
+  statistic?: MetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type EBSUtilizationMetrics = EBSUtilizationMetric[];
 export interface EBSEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface EBSSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: EBSEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: EBSEstimatedMonthlySavings | undefined;
 }
 export interface VolumeRecommendationOption {
-  configuration?: VolumeConfiguration;
-  performanceRisk?: number;
-  rank?: number;
-  savingsOpportunity?: SavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: EBSSavingsOpportunityAfterDiscounts;
+  configuration?: VolumeConfiguration | undefined;
+  performanceRisk?: number | undefined;
+  rank?: number | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: EBSSavingsOpportunityAfterDiscounts | undefined;
 }
 export type VolumeRecommendationOptions = VolumeRecommendationOption[];
 export type EBSSavingsEstimationModeSource =
@@ -1077,47 +1077,47 @@ export type EBSSavingsEstimationModeSource =
   | "CostOptimizationHub"
   | (string & {});
 export interface EBSSavingsEstimationMode {
-  source?: EBSSavingsEstimationModeSource;
+  source?: EBSSavingsEstimationModeSource | undefined;
 }
 export interface EBSEffectiveRecommendationPreferences {
-  savingsEstimationMode?: EBSSavingsEstimationMode;
-  lookBackPeriod?: LookBackPeriodPreference;
+  savingsEstimationMode?: EBSSavingsEstimationMode | undefined;
+  lookBackPeriod?: LookBackPeriodPreference | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface VolumeRecommendation {
-  volumeArn?: string;
-  accountId?: string;
-  currentConfiguration?: VolumeConfiguration;
-  finding?: EBSFinding;
-  utilizationMetrics?: EBSUtilizationMetric[];
-  lookBackPeriodInDays?: number;
-  volumeRecommendationOptions?: VolumeRecommendationOption[];
-  lastRefreshTimestamp?: Date;
-  currentPerformanceRisk?: CurrentPerformanceRisk;
-  effectiveRecommendationPreferences?: EBSEffectiveRecommendationPreferences;
-  tags?: Tag[];
+  volumeArn?: string | undefined;
+  accountId?: string | undefined;
+  currentConfiguration?: VolumeConfiguration | undefined;
+  finding?: EBSFinding | undefined;
+  utilizationMetrics?: EBSUtilizationMetric[] | undefined;
+  lookBackPeriodInDays?: number | undefined;
+  volumeRecommendationOptions?: VolumeRecommendationOption[] | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  currentPerformanceRisk?: CurrentPerformanceRisk | undefined;
+  effectiveRecommendationPreferences?: EBSEffectiveRecommendationPreferences | undefined;
+  tags?: Tag[] | undefined;
 }
 export type VolumeRecommendations = VolumeRecommendation[];
 export interface GetEBSVolumeRecommendationsResponse {
-  nextToken?: string;
-  volumeRecommendations?: VolumeRecommendation[];
-  errors?: GetRecommendationError[];
+  nextToken?: string | undefined;
+  volumeRecommendations?: VolumeRecommendation[] | undefined;
+  errors?: GetRecommendationError[] | undefined;
 }
 export type InstanceArn = string;
 export type InstanceArns = string[];
 export interface GetEC2InstanceRecommendationsRequest {
-  instanceArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  filters?: Filter[];
-  accountIds?: string[];
-  recommendationPreferences?: RecommendationPreferences;
+  instanceArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: Filter[] | undefined;
+  accountIds?: string[] | undefined;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export type InstanceName = string;
 export type CurrentInstanceType = string;
@@ -1155,23 +1155,23 @@ export type PlatformDifference =
   | (string & {});
 export type PlatformDifferences = PlatformDifference[];
 export interface InstanceEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface InstanceSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: InstanceEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: InstanceEstimatedMonthlySavings | undefined;
 }
 export interface InstanceRecommendationOption {
-  instanceType?: string;
-  instanceGpuInfo?: GpuInfo;
-  projectedUtilizationMetrics?: UtilizationMetric[];
-  platformDifferences?: PlatformDifference[];
-  performanceRisk?: number;
-  rank?: number;
-  savingsOpportunity?: SavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: InstanceSavingsOpportunityAfterDiscounts;
-  migrationEffort?: MigrationEffort;
+  instanceType?: string | undefined;
+  instanceGpuInfo?: GpuInfo | undefined;
+  projectedUtilizationMetrics?: UtilizationMetric[] | undefined;
+  platformDifferences?: PlatformDifference[] | undefined;
+  performanceRisk?: number | undefined;
+  rank?: number | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: InstanceSavingsOpportunityAfterDiscounts | undefined;
+  migrationEffort?: MigrationEffort | undefined;
 }
 export type RecommendationOptions = InstanceRecommendationOption[];
 export type RecommendationSourceArn = string;
@@ -1194,8 +1194,8 @@ export type RecommendationSourceType =
   | "SageMakerEndpoint"
   | (string & {});
 export interface RecommendationSource {
-  recommendationSourceArn?: string;
-  recommendationSourceType?: RecommendationSourceType;
+  recommendationSourceArn?: string | undefined;
+  recommendationSourceType?: RecommendationSourceType | undefined;
 }
 export type RecommendationSources = RecommendationSource[];
 export type InstanceState =
@@ -1220,36 +1220,36 @@ export type ExternalMetricStatusCode =
   | (string & {});
 export type ExternalMetricStatusReason = string;
 export interface ExternalMetricStatus {
-  statusCode?: ExternalMetricStatusCode;
-  statusReason?: string;
+  statusCode?: ExternalMetricStatusCode | undefined;
+  statusReason?: string | undefined;
 }
 export type InstanceIdle = "True" | "False" | (string & {});
 export interface InstanceRecommendation {
-  instanceArn?: string;
-  accountId?: string;
-  instanceName?: string;
-  currentInstanceType?: string;
-  finding?: Finding;
-  findingReasonCodes?: InstanceRecommendationFindingReasonCode[];
-  utilizationMetrics?: UtilizationMetric[];
-  lookBackPeriodInDays?: number;
-  recommendationOptions?: InstanceRecommendationOption[];
-  recommendationSources?: RecommendationSource[];
-  lastRefreshTimestamp?: Date;
-  currentPerformanceRisk?: CurrentPerformanceRisk;
-  effectiveRecommendationPreferences?: EffectiveRecommendationPreferences;
-  inferredWorkloadTypes?: InferredWorkloadType[];
-  instanceState?: InstanceState;
-  tags?: Tag[];
-  externalMetricStatus?: ExternalMetricStatus;
-  currentInstanceGpuInfo?: GpuInfo;
-  idle?: InstanceIdle;
+  instanceArn?: string | undefined;
+  accountId?: string | undefined;
+  instanceName?: string | undefined;
+  currentInstanceType?: string | undefined;
+  finding?: Finding | undefined;
+  findingReasonCodes?: InstanceRecommendationFindingReasonCode[] | undefined;
+  utilizationMetrics?: UtilizationMetric[] | undefined;
+  lookBackPeriodInDays?: number | undefined;
+  recommendationOptions?: InstanceRecommendationOption[] | undefined;
+  recommendationSources?: RecommendationSource[] | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  currentPerformanceRisk?: CurrentPerformanceRisk | undefined;
+  effectiveRecommendationPreferences?: EffectiveRecommendationPreferences | undefined;
+  inferredWorkloadTypes?: InferredWorkloadType[] | undefined;
+  instanceState?: InstanceState | undefined;
+  tags?: Tag[] | undefined;
+  externalMetricStatus?: ExternalMetricStatus | undefined;
+  currentInstanceGpuInfo?: GpuInfo | undefined;
+  idle?: InstanceIdle | undefined;
 }
 export type InstanceRecommendations = InstanceRecommendation[];
 export interface GetEC2InstanceRecommendationsResponse {
-  nextToken?: string;
-  instanceRecommendations?: InstanceRecommendation[];
-  errors?: GetRecommendationError[];
+  nextToken?: string | undefined;
+  instanceRecommendations?: InstanceRecommendation[] | undefined;
+  errors?: GetRecommendationError[] | undefined;
 }
 export type Period = number;
 export interface GetEC2RecommendationProjectedMetricsRequest {
@@ -1258,25 +1258,25 @@ export interface GetEC2RecommendationProjectedMetricsRequest {
   period: number;
   startTime: Date;
   endTime: Date;
-  recommendationPreferences?: RecommendationPreferences;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export type RecommendedInstanceType = string;
 export type Timestamps = Date[];
 export type MetricValues = number[];
 export interface ProjectedMetric {
-  name?: MetricName;
-  timestamps?: Date[];
-  values?: number[];
+  name?: MetricName | undefined;
+  timestamps?: Date[] | undefined;
+  values?: number[] | undefined;
 }
 export type ProjectedMetrics = ProjectedMetric[];
 export interface RecommendedOptionProjectedMetric {
-  recommendedInstanceType?: string;
-  rank?: number;
-  projectedMetrics?: ProjectedMetric[];
+  recommendedInstanceType?: string | undefined;
+  rank?: number | undefined;
+  projectedMetrics?: ProjectedMetric[] | undefined;
 }
 export type RecommendedOptionProjectedMetrics = RecommendedOptionProjectedMetric[];
 export interface GetEC2RecommendationProjectedMetricsResponse {
-  recommendedOptionProjectedMetrics?: RecommendedOptionProjectedMetric[];
+  recommendedOptionProjectedMetrics?: RecommendedOptionProjectedMetric[] | undefined;
 }
 export type ServiceArn = string;
 export interface GetECSServiceRecommendationProjectedMetricsRequest {
@@ -1290,42 +1290,42 @@ export type CpuSize = number;
 export type MemorySize = number;
 export type ECSServiceMetricName = "Cpu" | "Memory" | (string & {});
 export interface ECSServiceProjectedMetric {
-  name?: ECSServiceMetricName;
-  timestamps?: Date[];
-  upperBoundValues?: number[];
-  lowerBoundValues?: number[];
+  name?: ECSServiceMetricName | undefined;
+  timestamps?: Date[] | undefined;
+  upperBoundValues?: number[] | undefined;
+  lowerBoundValues?: number[] | undefined;
 }
 export type ECSServiceProjectedMetrics = ECSServiceProjectedMetric[];
 export interface ECSServiceRecommendedOptionProjectedMetric {
-  recommendedCpuUnits?: number;
-  recommendedMemorySize?: number;
-  projectedMetrics?: ECSServiceProjectedMetric[];
+  recommendedCpuUnits?: number | undefined;
+  recommendedMemorySize?: number | undefined;
+  projectedMetrics?: ECSServiceProjectedMetric[] | undefined;
 }
 export type ECSServiceRecommendedOptionProjectedMetrics =
   ECSServiceRecommendedOptionProjectedMetric[];
 export interface GetECSServiceRecommendationProjectedMetricsResponse {
-  recommendedOptionProjectedMetrics?: ECSServiceRecommendedOptionProjectedMetric[];
+  recommendedOptionProjectedMetrics?: ECSServiceRecommendedOptionProjectedMetric[] | undefined;
 }
 export type ServiceArns = string[];
 export interface GetECSServiceRecommendationsRequest {
-  serviceArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  filters?: ECSServiceRecommendationFilter[];
-  accountIds?: string[];
+  serviceArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: ECSServiceRecommendationFilter[] | undefined;
+  accountIds?: string[] | undefined;
 }
 export type NullableMemory = number;
 export type NullableCpu = number;
 export type ContainerName = string;
 export type NullableMemoryReservation = number;
 export interface MemorySizeConfiguration {
-  memory?: number;
-  memoryReservation?: number;
+  memory?: number | undefined;
+  memoryReservation?: number | undefined;
 }
 export interface ContainerConfiguration {
-  containerName?: string;
-  memorySizeConfiguration?: MemorySizeConfiguration;
-  cpu?: number;
+  containerName?: string | undefined;
+  memorySizeConfiguration?: MemorySizeConfiguration | undefined;
+  cpu?: number | undefined;
 }
 export type ContainerConfigurations = ContainerConfiguration[];
 export type AutoScalingConfiguration =
@@ -1334,17 +1334,17 @@ export type AutoScalingConfiguration =
   | (string & {});
 export type TaskDefinitionArn = string;
 export interface ServiceConfiguration {
-  memory?: number;
-  cpu?: number;
-  containerConfigurations?: ContainerConfiguration[];
-  autoScalingConfiguration?: AutoScalingConfiguration;
-  taskDefinitionArn?: string;
+  memory?: number | undefined;
+  cpu?: number | undefined;
+  containerConfigurations?: ContainerConfiguration[] | undefined;
+  autoScalingConfiguration?: AutoScalingConfiguration | undefined;
+  taskDefinitionArn?: string | undefined;
 }
 export type ECSServiceMetricStatistic = "Maximum" | "Average" | (string & {});
 export interface ECSServiceUtilizationMetric {
-  name?: ECSServiceMetricName;
-  statistic?: ECSServiceMetricStatistic;
-  value?: number;
+  name?: ECSServiceMetricName | undefined;
+  statistic?: ECSServiceMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type ECSServiceUtilizationMetrics = ECSServiceUtilizationMetric[];
 export type ECSServiceLaunchType = "EC2" | "Fargate" | (string & {});
@@ -1362,35 +1362,35 @@ export type ECSServiceRecommendationFindingReasonCode =
 export type ECSServiceRecommendationFindingReasonCodes =
   ECSServiceRecommendationFindingReasonCode[];
 export interface ECSEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface ECSSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: ECSEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: ECSEstimatedMonthlySavings | undefined;
 }
 export type LowerBoundValue = number;
 export type UpperBoundValue = number;
 export interface ECSServiceProjectedUtilizationMetric {
-  name?: ECSServiceMetricName;
-  statistic?: ECSServiceMetricStatistic;
-  lowerBoundValue?: number;
-  upperBoundValue?: number;
+  name?: ECSServiceMetricName | undefined;
+  statistic?: ECSServiceMetricStatistic | undefined;
+  lowerBoundValue?: number | undefined;
+  upperBoundValue?: number | undefined;
 }
 export type ECSServiceProjectedUtilizationMetrics = ECSServiceProjectedUtilizationMetric[];
 export interface ContainerRecommendation {
-  containerName?: string;
-  memorySizeConfiguration?: MemorySizeConfiguration;
-  cpu?: number;
+  containerName?: string | undefined;
+  memorySizeConfiguration?: MemorySizeConfiguration | undefined;
+  cpu?: number | undefined;
 }
 export type ContainerRecommendations = ContainerRecommendation[];
 export interface ECSServiceRecommendationOption {
-  memory?: number;
-  cpu?: number;
-  savingsOpportunity?: SavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: ECSSavingsOpportunityAfterDiscounts;
-  projectedUtilizationMetrics?: ECSServiceProjectedUtilizationMetric[];
-  containerRecommendations?: ContainerRecommendation[];
+  memory?: number | undefined;
+  cpu?: number | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: ECSSavingsOpportunityAfterDiscounts | undefined;
+  projectedUtilizationMetrics?: ECSServiceProjectedUtilizationMetric[] | undefined;
+  containerRecommendations?: ContainerRecommendation[] | undefined;
 }
 export type ECSServiceRecommendationOptions = ECSServiceRecommendationOption[];
 export type ECSSavingsEstimationModeSource =
@@ -1399,43 +1399,43 @@ export type ECSSavingsEstimationModeSource =
   | "CostOptimizationHub"
   | (string & {});
 export interface ECSSavingsEstimationMode {
-  source?: ECSSavingsEstimationModeSource;
+  source?: ECSSavingsEstimationModeSource | undefined;
 }
 export interface ECSEffectiveRecommendationPreferences {
-  savingsEstimationMode?: ECSSavingsEstimationMode;
-  lookBackPeriod?: LookBackPeriodPreference;
+  savingsEstimationMode?: ECSSavingsEstimationMode | undefined;
+  lookBackPeriod?: LookBackPeriodPreference | undefined;
 }
 export interface ECSServiceRecommendation {
-  serviceArn?: string;
-  accountId?: string;
-  currentServiceConfiguration?: ServiceConfiguration;
-  utilizationMetrics?: ECSServiceUtilizationMetric[];
-  lookbackPeriodInDays?: number;
-  launchType?: ECSServiceLaunchType;
-  lastRefreshTimestamp?: Date;
-  finding?: ECSServiceRecommendationFinding;
-  findingReasonCodes?: ECSServiceRecommendationFindingReasonCode[];
-  serviceRecommendationOptions?: ECSServiceRecommendationOption[];
-  currentPerformanceRisk?: CurrentPerformanceRisk;
-  effectiveRecommendationPreferences?: ECSEffectiveRecommendationPreferences;
-  tags?: Tag[];
+  serviceArn?: string | undefined;
+  accountId?: string | undefined;
+  currentServiceConfiguration?: ServiceConfiguration | undefined;
+  utilizationMetrics?: ECSServiceUtilizationMetric[] | undefined;
+  lookbackPeriodInDays?: number | undefined;
+  launchType?: ECSServiceLaunchType | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  finding?: ECSServiceRecommendationFinding | undefined;
+  findingReasonCodes?: ECSServiceRecommendationFindingReasonCode[] | undefined;
+  serviceRecommendationOptions?: ECSServiceRecommendationOption[] | undefined;
+  currentPerformanceRisk?: CurrentPerformanceRisk | undefined;
+  effectiveRecommendationPreferences?: ECSEffectiveRecommendationPreferences | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ECSServiceRecommendations = ECSServiceRecommendation[];
 export interface GetECSServiceRecommendationsResponse {
-  nextToken?: string;
-  ecsServiceRecommendations?: ECSServiceRecommendation[];
-  errors?: GetRecommendationError[];
+  nextToken?: string | undefined;
+  ecsServiceRecommendations?: ECSServiceRecommendation[] | undefined;
+  errors?: GetRecommendationError[] | undefined;
 }
 export type ResourceArn = string;
 export interface GetEffectiveRecommendationPreferencesRequest {
   resourceArn: string;
 }
 export interface GetEffectiveRecommendationPreferencesResponse {
-  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics;
-  externalMetricsPreference?: ExternalMetricsPreference;
-  lookBackPeriod?: LookBackPeriodPreference;
-  utilizationPreferences?: UtilizationPreference[];
-  preferredResources?: EffectivePreferredResource[];
+  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics | undefined;
+  externalMetricsPreference?: ExternalMetricsPreference | undefined;
+  lookBackPeriod?: LookBackPeriodPreference | undefined;
+  utilizationPreferences?: UtilizationPreference[] | undefined;
+  preferredResources?: EffectivePreferredResource[] | undefined;
 }
 export interface GetEnrollmentStatusRequest {}
 export type Status = "Active" | "Inactive" | "Pending" | "Failed" | (string & {});
@@ -1443,49 +1443,49 @@ export type StatusReason = string;
 export type MemberAccountsEnrolled = boolean;
 export type NumberOfMemberAccountsOptedIn = number;
 export interface GetEnrollmentStatusResponse {
-  status?: Status;
-  statusReason?: string;
-  memberAccountsEnrolled?: boolean;
-  lastUpdatedTimestamp?: Date;
-  numberOfMemberAccountsOptedIn?: number;
+  status?: Status | undefined;
+  statusReason?: string | undefined;
+  memberAccountsEnrolled?: boolean | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
+  numberOfMemberAccountsOptedIn?: number | undefined;
 }
 export type EnrollmentFilterName = "Status" | (string & {});
 export interface EnrollmentFilter {
-  name?: EnrollmentFilterName;
-  values?: string[];
+  name?: EnrollmentFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type EnrollmentFilters = EnrollmentFilter[];
 export interface GetEnrollmentStatusesForOrganizationRequest {
-  filters?: EnrollmentFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: EnrollmentFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AccountEnrollmentStatus {
-  accountId?: string;
-  status?: Status;
-  statusReason?: string;
-  lastUpdatedTimestamp?: Date;
+  accountId?: string | undefined;
+  status?: Status | undefined;
+  statusReason?: string | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
 }
 export type AccountEnrollmentStatuses = AccountEnrollmentStatus[];
 export interface GetEnrollmentStatusesForOrganizationResponse {
-  accountEnrollmentStatuses?: AccountEnrollmentStatus[];
-  nextToken?: string;
+  accountEnrollmentStatuses?: AccountEnrollmentStatus[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceArns = string[];
 export type IdleMaxResults = number;
 export type Dimension = "SavingsValue" | "SavingsValueAfterDiscount" | (string & {});
 export type Order = "Asc" | "Desc" | (string & {});
 export interface OrderBy {
-  dimension?: Dimension;
-  order?: Order;
+  dimension?: Dimension | undefined;
+  order?: Order | undefined;
 }
 export interface GetIdleRecommendationsRequest {
-  resourceArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  filters?: IdleRecommendationFilter[];
-  accountIds?: string[];
-  orderBy?: OrderBy;
+  resourceArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: IdleRecommendationFilter[] | undefined;
+  accountIds?: string[] | undefined;
+  orderBy?: OrderBy | undefined;
 }
 export type ResourceId = string;
 export type IdleRecommendationResourceType =
@@ -1505,16 +1505,16 @@ export type IdleRecommendationResourceType =
 export type IdleFinding = "Idle" | "Unattached" | "Unused" | (string & {});
 export type IdleFindingDescription = string;
 export interface IdleEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface IdleSavingsOpportunity {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: IdleEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: IdleEstimatedMonthlySavings | undefined;
 }
 export interface IdleSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: IdleEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: IdleEstimatedMonthlySavings | undefined;
 }
 export type IdleMetricName =
   | "CPU"
@@ -1550,61 +1550,61 @@ export type IdleDimensionKey = string;
 export type IdleDimensionValue = string;
 export type IdleDimensionValues = string[];
 export interface IdleDimension {
-  key?: string;
-  values?: string[];
+  key?: string | undefined;
+  values?: string[] | undefined;
 }
 export type IdleDimensions = IdleDimension[];
 export interface IdleUtilizationMetric {
-  name?: IdleMetricName;
-  statistic?: MetricStatistic;
-  value?: number;
-  dimensions?: IdleDimension[];
+  name?: IdleMetricName | undefined;
+  statistic?: MetricStatistic | undefined;
+  value?: number | undefined;
+  dimensions?: IdleDimension[] | undefined;
 }
 export type IdleUtilizationMetrics = IdleUtilizationMetric[];
 export interface IdleRecommendation {
-  resourceArn?: string;
-  resourceId?: string;
-  resourceType?: IdleRecommendationResourceType;
-  accountId?: string;
-  finding?: IdleFinding;
-  findingDescription?: string;
-  savingsOpportunity?: IdleSavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: IdleSavingsOpportunityAfterDiscounts;
-  utilizationMetrics?: IdleUtilizationMetric[];
-  lookBackPeriodInDays?: number;
-  lastRefreshTimestamp?: Date;
-  tags?: Tag[];
+  resourceArn?: string | undefined;
+  resourceId?: string | undefined;
+  resourceType?: IdleRecommendationResourceType | undefined;
+  accountId?: string | undefined;
+  finding?: IdleFinding | undefined;
+  findingDescription?: string | undefined;
+  savingsOpportunity?: IdleSavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: IdleSavingsOpportunityAfterDiscounts | undefined;
+  utilizationMetrics?: IdleUtilizationMetric[] | undefined;
+  lookBackPeriodInDays?: number | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  tags?: Tag[] | undefined;
 }
 export type IdleRecommendations = IdleRecommendation[];
 export interface IdleRecommendationError {
-  identifier?: string;
-  code?: string;
-  message?: string;
-  resourceType?: IdleRecommendationResourceType;
+  identifier?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
+  resourceType?: IdleRecommendationResourceType | undefined;
 }
 export type IdleRecommendationErrors = IdleRecommendationError[];
 export interface GetIdleRecommendationsResponse {
-  nextToken?: string;
-  idleRecommendations?: IdleRecommendation[];
-  errors?: IdleRecommendationError[];
+  nextToken?: string | undefined;
+  idleRecommendations?: IdleRecommendation[] | undefined;
+  errors?: IdleRecommendationError[] | undefined;
 }
 export type FunctionArn = string;
 export type FunctionArns = string[];
 export interface GetLambdaFunctionRecommendationsRequest {
-  functionArns?: string[];
-  accountIds?: string[];
-  filters?: LambdaFunctionRecommendationFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  functionArns?: string[] | undefined;
+  accountIds?: string[] | undefined;
+  filters?: LambdaFunctionRecommendationFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FunctionVersion = string;
 export type NumberOfInvocations = number;
 export type LambdaFunctionMetricName = "Duration" | "Memory" | (string & {});
 export type LambdaFunctionMetricStatistic = "Maximum" | "Average" | (string & {});
 export interface LambdaFunctionUtilizationMetric {
-  name?: LambdaFunctionMetricName;
-  statistic?: LambdaFunctionMetricStatistic;
-  value?: number;
+  name?: LambdaFunctionMetricName | undefined;
+  statistic?: LambdaFunctionMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type LambdaFunctionUtilizationMetrics = LambdaFunctionUtilizationMetric[];
 export type LambdaFunctionRecommendationFinding =
@@ -1627,25 +1627,25 @@ export type LambdaFunctionMemoryMetricStatistic =
   | "Expected"
   | (string & {});
 export interface LambdaFunctionMemoryProjectedMetric {
-  name?: LambdaFunctionMemoryMetricName;
-  statistic?: LambdaFunctionMemoryMetricStatistic;
-  value?: number;
+  name?: LambdaFunctionMemoryMetricName | undefined;
+  statistic?: LambdaFunctionMemoryMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type LambdaFunctionMemoryProjectedMetrics = LambdaFunctionMemoryProjectedMetric[];
 export interface LambdaEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface LambdaSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: LambdaEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: LambdaEstimatedMonthlySavings | undefined;
 }
 export interface LambdaFunctionMemoryRecommendationOption {
-  rank?: number;
-  memorySize?: number;
-  projectedUtilizationMetrics?: LambdaFunctionMemoryProjectedMetric[];
-  savingsOpportunity?: SavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: LambdaSavingsOpportunityAfterDiscounts;
+  rank?: number | undefined;
+  memorySize?: number | undefined;
+  projectedUtilizationMetrics?: LambdaFunctionMemoryProjectedMetric[] | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: LambdaSavingsOpportunityAfterDiscounts | undefined;
 }
 export type LambdaFunctionMemoryRecommendationOptions = LambdaFunctionMemoryRecommendationOption[];
 export type LambdaSavingsEstimationModeSource =
@@ -1654,38 +1654,38 @@ export type LambdaSavingsEstimationModeSource =
   | "CostOptimizationHub"
   | (string & {});
 export interface LambdaSavingsEstimationMode {
-  source?: LambdaSavingsEstimationModeSource;
+  source?: LambdaSavingsEstimationModeSource | undefined;
 }
 export interface LambdaEffectiveRecommendationPreferences {
-  savingsEstimationMode?: LambdaSavingsEstimationMode;
+  savingsEstimationMode?: LambdaSavingsEstimationMode | undefined;
 }
 export interface LambdaFunctionRecommendation {
-  functionArn?: string;
-  functionVersion?: string;
-  accountId?: string;
-  currentMemorySize?: number;
-  numberOfInvocations?: number;
-  utilizationMetrics?: LambdaFunctionUtilizationMetric[];
-  lookbackPeriodInDays?: number;
-  lastRefreshTimestamp?: Date;
-  finding?: LambdaFunctionRecommendationFinding;
-  findingReasonCodes?: LambdaFunctionRecommendationFindingReasonCode[];
-  memorySizeRecommendationOptions?: LambdaFunctionMemoryRecommendationOption[];
-  currentPerformanceRisk?: CurrentPerformanceRisk;
-  effectiveRecommendationPreferences?: LambdaEffectiveRecommendationPreferences;
-  tags?: Tag[];
+  functionArn?: string | undefined;
+  functionVersion?: string | undefined;
+  accountId?: string | undefined;
+  currentMemorySize?: number | undefined;
+  numberOfInvocations?: number | undefined;
+  utilizationMetrics?: LambdaFunctionUtilizationMetric[] | undefined;
+  lookbackPeriodInDays?: number | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  finding?: LambdaFunctionRecommendationFinding | undefined;
+  findingReasonCodes?: LambdaFunctionRecommendationFindingReasonCode[] | undefined;
+  memorySizeRecommendationOptions?: LambdaFunctionMemoryRecommendationOption[] | undefined;
+  currentPerformanceRisk?: CurrentPerformanceRisk | undefined;
+  effectiveRecommendationPreferences?: LambdaEffectiveRecommendationPreferences | undefined;
+  tags?: Tag[] | undefined;
 }
 export type LambdaFunctionRecommendations = LambdaFunctionRecommendation[];
 export interface GetLambdaFunctionRecommendationsResponse {
-  nextToken?: string;
-  lambdaFunctionRecommendations?: LambdaFunctionRecommendation[];
+  nextToken?: string | undefined;
+  lambdaFunctionRecommendations?: LambdaFunctionRecommendation[] | undefined;
 }
 export interface GetLicenseRecommendationsRequest {
-  resourceArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  filters?: LicenseRecommendationFilter[];
-  accountIds?: string[];
+  resourceArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: LicenseRecommendationFilter[] | undefined;
+  accountIds?: string[] | undefined;
 }
 export type NumberOfCores = number;
 export type OperatingSystem = string;
@@ -1701,19 +1701,19 @@ export type LicenseVersion = string;
 export type MetricSourceProvider = "CloudWatchApplicationInsights" | (string & {});
 export type MetricProviderArn = string;
 export interface MetricSource {
-  provider?: MetricSourceProvider;
-  providerArn?: string;
+  provider?: MetricSourceProvider | undefined;
+  providerArn?: string | undefined;
 }
 export type MetricsSource = MetricSource[];
 export interface LicenseConfiguration {
-  numberOfCores?: number;
-  instanceType?: string;
-  operatingSystem?: string;
-  licenseEdition?: LicenseEdition;
-  licenseName?: LicenseName;
-  licenseModel?: LicenseModel;
-  licenseVersion?: string;
-  metricsSource?: MetricSource[];
+  numberOfCores?: number | undefined;
+  instanceType?: string | undefined;
+  operatingSystem?: string | undefined;
+  licenseEdition?: LicenseEdition | undefined;
+  licenseName?: LicenseName | undefined;
+  licenseModel?: LicenseModel | undefined;
+  licenseVersion?: string | undefined;
+  metricsSource?: MetricSource[] | undefined;
 }
 export type LicenseFinding = "InsufficientMetrics" | "Optimized" | "NotOptimized" | (string & {});
 export type LicenseFindingReasonCode =
@@ -1724,29 +1724,29 @@ export type LicenseFindingReasonCode =
   | (string & {});
 export type LicenseFindingReasonCodes = LicenseFindingReasonCode[];
 export interface LicenseRecommendationOption {
-  rank?: number;
-  operatingSystem?: string;
-  licenseEdition?: LicenseEdition;
-  licenseModel?: LicenseModel;
-  savingsOpportunity?: SavingsOpportunity;
+  rank?: number | undefined;
+  operatingSystem?: string | undefined;
+  licenseEdition?: LicenseEdition | undefined;
+  licenseModel?: LicenseModel | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
 }
 export type LicenseRecommendationOptions = LicenseRecommendationOption[];
 export interface LicenseRecommendation {
-  resourceArn?: string;
-  accountId?: string;
-  currentLicenseConfiguration?: LicenseConfiguration;
-  lookbackPeriodInDays?: number;
-  lastRefreshTimestamp?: Date;
-  finding?: LicenseFinding;
-  findingReasonCodes?: LicenseFindingReasonCode[];
-  licenseRecommendationOptions?: LicenseRecommendationOption[];
-  tags?: Tag[];
+  resourceArn?: string | undefined;
+  accountId?: string | undefined;
+  currentLicenseConfiguration?: LicenseConfiguration | undefined;
+  lookbackPeriodInDays?: number | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  finding?: LicenseFinding | undefined;
+  findingReasonCodes?: LicenseFindingReasonCode[] | undefined;
+  licenseRecommendationOptions?: LicenseRecommendationOption[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export type LicenseRecommendations = LicenseRecommendation[];
 export interface GetLicenseRecommendationsResponse {
-  nextToken?: string;
-  licenseRecommendations?: LicenseRecommendation[];
-  errors?: GetRecommendationError[];
+  nextToken?: string | undefined;
+  licenseRecommendations?: LicenseRecommendation[] | undefined;
+  errors?: GetRecommendationError[] | undefined;
 }
 export interface GetRDSDatabaseRecommendationProjectedMetricsRequest {
   resourceArn: string;
@@ -1754,7 +1754,7 @@ export interface GetRDSDatabaseRecommendationProjectedMetricsRequest {
   period: number;
   startTime: Date;
   endTime: Date;
-  recommendationPreferences?: RecommendationPreferences;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export type RecommendedDBInstanceClass = string;
 export type RDSDBMetricName =
@@ -1781,28 +1781,28 @@ export type RDSDBMetricName =
   | "VolumeWriteIOPs"
   | (string & {});
 export interface RDSDatabaseProjectedMetric {
-  name?: RDSDBMetricName;
-  timestamps?: Date[];
-  values?: number[];
+  name?: RDSDBMetricName | undefined;
+  timestamps?: Date[] | undefined;
+  values?: number[] | undefined;
 }
 export type RDSDatabaseProjectedMetrics = RDSDatabaseProjectedMetric[];
 export interface RDSDatabaseRecommendedOptionProjectedMetric {
-  recommendedDBInstanceClass?: string;
-  rank?: number;
-  projectedMetrics?: RDSDatabaseProjectedMetric[];
+  recommendedDBInstanceClass?: string | undefined;
+  rank?: number | undefined;
+  projectedMetrics?: RDSDatabaseProjectedMetric[] | undefined;
 }
 export type RDSDatabaseRecommendedOptionProjectedMetrics =
   RDSDatabaseRecommendedOptionProjectedMetric[];
 export interface GetRDSDatabaseRecommendationProjectedMetricsResponse {
-  recommendedOptionProjectedMetrics?: RDSDatabaseRecommendedOptionProjectedMetric[];
+  recommendedOptionProjectedMetrics?: RDSDatabaseRecommendedOptionProjectedMetric[] | undefined;
 }
 export interface GetRDSDatabaseRecommendationsRequest {
-  resourceArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  filters?: RDSDBRecommendationFilter[];
-  accountIds?: string[];
-  recommendationPreferences?: RecommendationPreferences;
+  resourceArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: RDSDBRecommendationFilter[] | undefined;
+  accountIds?: string[] | undefined;
+  recommendationPreferences?: RecommendationPreferences | undefined;
 }
 export type Engine = string;
 export type EngineVersion = string;
@@ -1814,11 +1814,11 @@ export type NullableIOPS = number;
 export type NullableMaxAllocatedStorage = number;
 export type NullableStorageThroughput = number;
 export interface DBStorageConfiguration {
-  storageType?: string;
-  allocatedStorage?: number;
-  iops?: number;
-  maxAllocatedStorage?: number;
-  storageThroughput?: number;
+  storageType?: string | undefined;
+  allocatedStorage?: number | undefined;
+  iops?: number | undefined;
+  maxAllocatedStorage?: number | undefined;
+  storageThroughput?: number | undefined;
 }
 export type DBClusterIdentifier = string;
 export type Idle = "True" | "False" | (string & {});
@@ -1875,42 +1875,42 @@ export type RDSStorageFindingReasonCodes = RDSStorageFindingReasonCode[];
 export type DBInstanceClass = string;
 export type RDSDBMetricStatistic = "Maximum" | "Minimum" | "Average" | (string & {});
 export interface RDSDBUtilizationMetric {
-  name?: RDSDBMetricName;
-  statistic?: RDSDBMetricStatistic;
-  value?: number;
+  name?: RDSDBMetricName | undefined;
+  statistic?: RDSDBMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type RDSDBProjectedUtilizationMetrics = RDSDBUtilizationMetric[];
 export interface RDSInstanceEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface RDSInstanceSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: RDSInstanceEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: RDSInstanceEstimatedMonthlySavings | undefined;
 }
 export interface RDSDBInstanceRecommendationOption {
-  dbInstanceClass?: string;
-  projectedUtilizationMetrics?: RDSDBUtilizationMetric[];
-  performanceRisk?: number;
-  rank?: number;
-  savingsOpportunity?: SavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: RDSInstanceSavingsOpportunityAfterDiscounts;
+  dbInstanceClass?: string | undefined;
+  projectedUtilizationMetrics?: RDSDBUtilizationMetric[] | undefined;
+  performanceRisk?: number | undefined;
+  rank?: number | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: RDSInstanceSavingsOpportunityAfterDiscounts | undefined;
 }
 export type RDSDBInstanceRecommendationOptions = RDSDBInstanceRecommendationOption[];
 export interface RDSStorageEstimatedMonthlySavings {
-  currency?: Currency;
-  value?: number;
+  currency?: Currency | undefined;
+  value?: number | undefined;
 }
 export interface RDSStorageSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number;
-  estimatedMonthlySavings?: RDSStorageEstimatedMonthlySavings;
+  savingsOpportunityPercentage?: number | undefined;
+  estimatedMonthlySavings?: RDSStorageEstimatedMonthlySavings | undefined;
 }
 export interface RDSDBStorageRecommendationOption {
-  storageConfiguration?: DBStorageConfiguration;
-  rank?: number;
-  savingsOpportunity?: SavingsOpportunity;
-  savingsOpportunityAfterDiscounts?: RDSStorageSavingsOpportunityAfterDiscounts;
-  estimatedMonthlyVolumeIOPsCostVariation?: RDSEstimatedMonthlyVolumeIOPsCostVariation;
+  storageConfiguration?: DBStorageConfiguration | undefined;
+  rank?: number | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  savingsOpportunityAfterDiscounts?: RDSStorageSavingsOpportunityAfterDiscounts | undefined;
+  estimatedMonthlyVolumeIOPsCostVariation?: RDSEstimatedMonthlyVolumeIOPsCostVariation | undefined;
 }
 export type RDSDBStorageRecommendationOptions = RDSDBStorageRecommendationOption[];
 export type RDSDBUtilizationMetrics = RDSDBUtilizationMetric[];
@@ -1920,88 +1920,90 @@ export type RDSSavingsEstimationModeSource =
   | "CostOptimizationHub"
   | (string & {});
 export interface RDSSavingsEstimationMode {
-  source?: RDSSavingsEstimationModeSource;
+  source?: RDSSavingsEstimationModeSource | undefined;
 }
 export interface RDSEffectiveRecommendationPreferences {
-  cpuVendorArchitectures?: CpuVendorArchitecture[];
-  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics;
-  lookBackPeriod?: LookBackPeriodPreference;
-  savingsEstimationMode?: RDSSavingsEstimationMode;
+  cpuVendorArchitectures?: CpuVendorArchitecture[] | undefined;
+  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics | undefined;
+  lookBackPeriod?: LookBackPeriodPreference | undefined;
+  savingsEstimationMode?: RDSSavingsEstimationMode | undefined;
 }
 export interface RDSDBRecommendation {
-  resourceArn?: string;
-  accountId?: string;
-  engine?: string;
-  engineVersion?: string;
-  promotionTier?: number;
-  currentDBInstanceClass?: string;
-  currentStorageConfiguration?: DBStorageConfiguration;
-  dbClusterIdentifier?: string;
-  idle?: Idle;
-  instanceFinding?: RDSInstanceFinding;
-  storageFinding?: RDSStorageFinding;
-  instanceFindingReasonCodes?: RDSInstanceFindingReasonCode[];
-  currentInstancePerformanceRisk?: RDSCurrentInstancePerformanceRisk;
-  currentStorageEstimatedMonthlyVolumeIOPsCostVariation?: RDSEstimatedMonthlyVolumeIOPsCostVariation;
-  storageFindingReasonCodes?: RDSStorageFindingReasonCode[];
-  instanceRecommendationOptions?: RDSDBInstanceRecommendationOption[];
-  storageRecommendationOptions?: RDSDBStorageRecommendationOption[];
-  utilizationMetrics?: RDSDBUtilizationMetric[];
-  effectiveRecommendationPreferences?: RDSEffectiveRecommendationPreferences;
-  lookbackPeriodInDays?: number;
-  lastRefreshTimestamp?: Date;
-  tags?: Tag[];
+  resourceArn?: string | undefined;
+  accountId?: string | undefined;
+  engine?: string | undefined;
+  engineVersion?: string | undefined;
+  promotionTier?: number | undefined;
+  currentDBInstanceClass?: string | undefined;
+  currentStorageConfiguration?: DBStorageConfiguration | undefined;
+  dbClusterIdentifier?: string | undefined;
+  idle?: Idle | undefined;
+  instanceFinding?: RDSInstanceFinding | undefined;
+  storageFinding?: RDSStorageFinding | undefined;
+  instanceFindingReasonCodes?: RDSInstanceFindingReasonCode[] | undefined;
+  currentInstancePerformanceRisk?: RDSCurrentInstancePerformanceRisk | undefined;
+  currentStorageEstimatedMonthlyVolumeIOPsCostVariation?:
+    | RDSEstimatedMonthlyVolumeIOPsCostVariation
+    | undefined;
+  storageFindingReasonCodes?: RDSStorageFindingReasonCode[] | undefined;
+  instanceRecommendationOptions?: RDSDBInstanceRecommendationOption[] | undefined;
+  storageRecommendationOptions?: RDSDBStorageRecommendationOption[] | undefined;
+  utilizationMetrics?: RDSDBUtilizationMetric[] | undefined;
+  effectiveRecommendationPreferences?: RDSEffectiveRecommendationPreferences | undefined;
+  lookbackPeriodInDays?: number | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  tags?: Tag[] | undefined;
 }
 export type RDSDBRecommendations = RDSDBRecommendation[];
 export interface GetRDSDatabaseRecommendationsResponse {
-  nextToken?: string;
-  rdsDBRecommendations?: RDSDBRecommendation[];
-  errors?: GetRecommendationError[];
+  nextToken?: string | undefined;
+  rdsDBRecommendations?: RDSDBRecommendation[] | undefined;
+  errors?: GetRecommendationError[] | undefined;
 }
 export interface GetRecommendationPreferencesRequest {
   resourceType: ResourceType;
-  scope?: Scope;
-  nextToken?: string;
-  maxResults?: number;
+  scope?: Scope | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SavingsEstimationMode = "AfterDiscounts" | "BeforeDiscounts" | (string & {});
 export interface RecommendationPreferencesDetail {
-  scope?: Scope;
-  resourceType?: ResourceType;
-  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics;
-  inferredWorkloadTypes?: InferredWorkloadTypesPreference;
-  externalMetricsPreference?: ExternalMetricsPreference;
-  lookBackPeriod?: LookBackPeriodPreference;
-  utilizationPreferences?: UtilizationPreference[];
-  preferredResources?: EffectivePreferredResource[];
-  savingsEstimationMode?: SavingsEstimationMode;
+  scope?: Scope | undefined;
+  resourceType?: ResourceType | undefined;
+  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics | undefined;
+  inferredWorkloadTypes?: InferredWorkloadTypesPreference | undefined;
+  externalMetricsPreference?: ExternalMetricsPreference | undefined;
+  lookBackPeriod?: LookBackPeriodPreference | undefined;
+  utilizationPreferences?: UtilizationPreference[] | undefined;
+  preferredResources?: EffectivePreferredResource[] | undefined;
+  savingsEstimationMode?: SavingsEstimationMode | undefined;
 }
 export type RecommendationPreferencesDetails = RecommendationPreferencesDetail[];
 export interface GetRecommendationPreferencesResponse {
-  nextToken?: string;
-  recommendationPreferencesDetails?: RecommendationPreferencesDetail[];
+  nextToken?: string | undefined;
+  recommendationPreferencesDetails?: RecommendationPreferencesDetail[] | undefined;
 }
 export interface GetRecommendationSummariesRequest {
-  accountIds?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  accountIds?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SummaryValue = number;
 export type FindingReasonCode = "MemoryOverprovisioned" | "MemoryUnderprovisioned" | (string & {});
 export interface ReasonCodeSummary {
-  name?: FindingReasonCode;
-  value?: number;
+  name?: FindingReasonCode | undefined;
+  value?: number | undefined;
 }
 export type ReasonCodeSummaries = ReasonCodeSummary[];
 export interface Summary {
-  name?: Finding;
-  value?: number;
-  reasonCodeSummaries?: ReasonCodeSummary[];
+  name?: Finding | undefined;
+  value?: number | undefined;
+  reasonCodeSummaries?: ReasonCodeSummary[] | undefined;
 }
 export type Summaries = Summary[];
 export interface IdleSummary {
-  name?: IdleFinding;
-  value?: number;
+  name?: IdleFinding | undefined;
+  value?: number | undefined;
 }
 export type IdleSummaries = IdleSummary[];
 export type High = number;
@@ -2009,57 +2011,57 @@ export type Medium = number;
 export type Low = number;
 export type VeryLow = number;
 export interface CurrentPerformanceRiskRatings {
-  high?: number;
-  medium?: number;
-  low?: number;
-  veryLow?: number;
+  high?: number | undefined;
+  medium?: number | undefined;
+  low?: number | undefined;
+  veryLow?: number | undefined;
 }
 export interface InferredWorkloadSaving {
-  inferredWorkloadTypes?: InferredWorkloadType[];
-  estimatedMonthlySavings?: EstimatedMonthlySavings;
+  inferredWorkloadTypes?: InferredWorkloadType[] | undefined;
+  estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
 }
 export type InferredWorkloadSavings = InferredWorkloadSaving[];
 export interface RecommendationSummary {
-  summaries?: Summary[];
-  idleSummaries?: IdleSummary[];
-  recommendationResourceType?: RecommendationSourceType;
-  accountId?: string;
-  savingsOpportunity?: SavingsOpportunity;
-  idleSavingsOpportunity?: SavingsOpportunity;
-  aggregatedSavingsOpportunity?: SavingsOpportunity;
-  currentPerformanceRiskRatings?: CurrentPerformanceRiskRatings;
-  inferredWorkloadSavings?: InferredWorkloadSaving[];
+  summaries?: Summary[] | undefined;
+  idleSummaries?: IdleSummary[] | undefined;
+  recommendationResourceType?: RecommendationSourceType | undefined;
+  accountId?: string | undefined;
+  savingsOpportunity?: SavingsOpportunity | undefined;
+  idleSavingsOpportunity?: SavingsOpportunity | undefined;
+  aggregatedSavingsOpportunity?: SavingsOpportunity | undefined;
+  currentPerformanceRiskRatings?: CurrentPerformanceRiskRatings | undefined;
+  inferredWorkloadSavings?: InferredWorkloadSaving[] | undefined;
 }
 export type RecommendationSummaries = RecommendationSummary[];
 export interface GetRecommendationSummariesResponse {
-  nextToken?: string;
-  recommendationSummaries?: RecommendationSummary[];
+  nextToken?: string | undefined;
+  recommendationSummaries?: RecommendationSummary[] | undefined;
 }
 export interface PreferredResource {
-  name?: PreferredResourceName;
-  includeList?: string[];
-  excludeList?: string[];
+  name?: PreferredResourceName | undefined;
+  includeList?: string[] | undefined;
+  excludeList?: string[] | undefined;
 }
 export type PreferredResources = PreferredResource[];
 export interface PutRecommendationPreferencesRequest {
   resourceType: ResourceType;
-  scope?: Scope;
-  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics;
-  inferredWorkloadTypes?: InferredWorkloadTypesPreference;
-  externalMetricsPreference?: ExternalMetricsPreference;
-  lookBackPeriod?: LookBackPeriodPreference;
-  utilizationPreferences?: UtilizationPreference[];
-  preferredResources?: PreferredResource[];
-  savingsEstimationMode?: SavingsEstimationMode;
+  scope?: Scope | undefined;
+  enhancedInfrastructureMetrics?: EnhancedInfrastructureMetrics | undefined;
+  inferredWorkloadTypes?: InferredWorkloadTypesPreference | undefined;
+  externalMetricsPreference?: ExternalMetricsPreference | undefined;
+  lookBackPeriod?: LookBackPeriodPreference | undefined;
+  utilizationPreferences?: UtilizationPreference[] | undefined;
+  preferredResources?: PreferredResource[] | undefined;
+  savingsEstimationMode?: SavingsEstimationMode | undefined;
 }
 export interface PutRecommendationPreferencesResponse {}
 export interface UpdateEnrollmentStatusRequest {
   status: Status;
-  includeMemberAccounts?: boolean;
+  includeMemberAccounts?: boolean | undefined;
 }
 export interface UpdateEnrollmentStatusResponse {
-  status?: Status;
-  statusReason?: string;
+  status?: Status | undefined;
+  statusReason?: string | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteRecommendationPreferencesError =

@@ -231,7 +231,7 @@ export type ChannelDescription = string | redacted.Redacted<string>;
 export interface CreateChannelInput {
   spaceId: string;
   channelName: string | redacted.Redacted<string>;
-  channelDescription?: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateChannelOutput {
   channelId: string;
@@ -249,18 +249,18 @@ export type FeatureEnableParameter = "ENABLED" | "DISABLED" | (string & {});
 export type EmailDomain = string | redacted.Redacted<string>;
 export type AllowedDomainsList = (string | redacted.Redacted<string>)[];
 export interface SupportedEmailDomainsParameters {
-  enabled?: FeatureEnableParameter;
-  allowedDomains?: (string | redacted.Redacted<string>)[];
+  enabled?: FeatureEnableParameter | undefined;
+  allowedDomains?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface CreateSpaceInput {
   name: string | redacted.Redacted<string>;
   subdomain: string;
   tier: TierLevel;
-  description?: string | redacted.Redacted<string>;
-  userKMSKey?: string;
-  tags?: { [key: string]: string | undefined };
-  roleArn?: string;
-  supportedEmailDomains?: SupportedEmailDomainsParameters;
+  description?: string | redacted.Redacted<string> | undefined;
+  userKMSKey?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  roleArn?: string | undefined;
+  supportedEmailDomains?: SupportedEmailDomainsParameters | undefined;
 }
 export interface CreateSpaceOutput {
   spaceId: string;
@@ -293,10 +293,10 @@ export interface GetChannelOutput {
   spaceId: string;
   channelId: string;
   channelName: string | redacted.Redacted<string>;
-  channelDescription?: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string> | undefined;
   createDateTime: Date;
-  deleteDateTime?: Date;
-  channelRoles?: { [key: string]: ChannelRole[] | undefined };
+  deleteDateTime?: Date | undefined;
+  channelRoles?: { [key: string]: ChannelRole[] | undefined } | undefined;
   channelStatus: ChannelStatus;
 }
 export interface GetSpaceInput {
@@ -317,8 +317,8 @@ export type UserCount = number;
 export type ContentSize = number;
 export type FeatureEnableStatus = "ENABLED" | "DISABLED" | "NOT_ALLOWED" | (string & {});
 export interface SupportedEmailDomainsStatus {
-  enabled?: FeatureEnableStatus;
-  allowedDomains?: (string | redacted.Redacted<string>)[];
+  enabled?: FeatureEnableStatus | undefined;
+  allowedDomains?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface GetSpaceOutput {
   spaceId: string;
@@ -327,39 +327,39 @@ export interface GetSpaceOutput {
   status: string;
   configurationStatus: ConfigurationStatus;
   clientId: string;
-  identityStoreId?: string;
-  applicationArn?: string;
-  description?: string | redacted.Redacted<string>;
+  identityStoreId?: string | undefined;
+  applicationArn?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   vanityDomainStatus: VanityDomainStatus;
   vanityDomain: string;
   randomDomain: string;
-  customerRoleArn?: string;
+  customerRoleArn?: string | undefined;
   createDateTime: Date;
-  deleteDateTime?: Date;
+  deleteDateTime?: Date | undefined;
   tier: TierLevel;
   storageLimit: number;
-  userAdmins?: string[];
-  groupAdmins?: string[];
-  roles?: { [key: string]: Role[] | undefined };
-  userKMSKey?: string;
-  userCount?: number;
-  contentSize?: number;
-  supportedEmailDomains?: SupportedEmailDomainsStatus;
+  userAdmins?: string[] | undefined;
+  groupAdmins?: string[] | undefined;
+  roles?: { [key: string]: Role[] | undefined } | undefined;
+  userKMSKey?: string | undefined;
+  userCount?: number | undefined;
+  contentSize?: number | undefined;
+  supportedEmailDomains?: SupportedEmailDomainsStatus | undefined;
 }
 export type ListChannelsLimit = number;
 export interface ListChannelsInput {
   spaceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type GroupCount = number;
 export interface ChannelData {
   spaceId: string;
   channelId: string;
   channelName: string | redacted.Redacted<string>;
-  channelDescription?: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string> | undefined;
   createDateTime: Date;
-  deleteDateTime?: Date;
+  deleteDateTime?: Date | undefined;
   channelStatus: ChannelStatus;
   userCount: number;
   groupCount: number;
@@ -367,18 +367,18 @@ export interface ChannelData {
 export type ChannelsList = ChannelData[];
 export interface ListChannelsOutput {
   channels: ChannelData[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListSpacesLimit = number;
 export interface ListSpacesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SpaceData {
   spaceId: string;
   arn: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   status: string;
   configurationStatus: ConfigurationStatus;
   vanityDomainStatus: VanityDomainStatus;
@@ -387,22 +387,22 @@ export interface SpaceData {
   tier: TierLevel;
   storageLimit: number;
   createDateTime: Date;
-  deleteDateTime?: Date;
-  userKMSKey?: string;
-  userCount?: number;
-  contentSize?: number;
-  supportedEmailDomains?: SupportedEmailDomainsStatus;
+  deleteDateTime?: Date | undefined;
+  userKMSKey?: string | undefined;
+  userCount?: number | undefined;
+  contentSize?: number | undefined;
+  supportedEmailDomains?: SupportedEmailDomainsStatus | undefined;
 }
 export type SpacesList = SpaceData[];
 export interface ListSpacesOutput {
   spaces: SpaceData[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterAdminInput {
   spaceId: string;
@@ -433,15 +433,15 @@ export interface UpdateChannelInput {
   spaceId: string;
   channelId: string;
   channelName: string | redacted.Redacted<string>;
-  channelDescription?: string | redacted.Redacted<string>;
+  channelDescription?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateChannelOutput {}
 export interface UpdateSpaceInput {
   spaceId: string;
-  description?: string | redacted.Redacted<string>;
-  tier?: TierLevel;
-  roleArn?: string;
-  supportedEmailDomains?: SupportedEmailDomainsParameters;
+  description?: string | redacted.Redacted<string> | undefined;
+  tier?: TierLevel | undefined;
+  roleArn?: string | undefined;
+  supportedEmailDomains?: SupportedEmailDomainsParameters | undefined;
 }
 export interface UpdateSpaceResponse {}
 export type ValidationExceptionReason =

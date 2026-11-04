@@ -149,36 +149,36 @@ export class ThrottlingException
 export type FormatVersion = string;
 export type DescribeServicesMaxResults = number;
 export interface DescribeServicesRequest {
-  ServiceCode?: string;
-  FormatVersion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ServiceCode?: string | undefined;
+  FormatVersion?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AttributeNameList = string[];
 export interface Service {
   ServiceCode: string;
-  AttributeNames?: string[];
+  AttributeNames?: string[] | undefined;
 }
 export type ServiceList = Service[];
 export interface DescribeServicesResponse {
-  Services?: Service[];
-  FormatVersion?: string;
-  NextToken?: string;
+  Services?: Service[] | undefined;
+  FormatVersion?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type GetAttributeValuesMaxResults = number;
 export interface GetAttributeValuesRequest {
   ServiceCode: string;
   AttributeName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AttributeValue {
-  Value?: string;
+  Value?: string | undefined;
 }
 export type AttributeValueList = AttributeValue[];
 export interface GetAttributeValuesResponse {
-  AttributeValues?: AttributeValue[];
-  NextToken?: string;
+  AttributeValues?: AttributeValue[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PriceListArn = string;
 export type FileFormat = string;
@@ -187,7 +187,7 @@ export interface GetPriceListFileUrlRequest {
   FileFormat: string;
 }
 export interface GetPriceListFileUrlResponse {
-  Url?: string;
+  Url?: string | undefined;
 }
 export type FilterType =
   | "TERM_MATCH"
@@ -207,17 +207,17 @@ export type Filters = Filter[];
 export type GetProductsMaxResults = number;
 export interface GetProductsRequest {
   ServiceCode: string;
-  Filters?: Filter[];
-  FormatVersion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  FormatVersion?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SynthesizedJsonPriceListJsonItem = string;
 export type PriceListJsonItems = string[];
 export interface GetProductsResponse {
-  FormatVersion?: string;
-  PriceList?: string[];
-  NextToken?: string;
+  FormatVersion?: string | undefined;
+  PriceList?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceCode = string;
 export type EffectiveDate = Date;
@@ -227,22 +227,22 @@ export type MaxResults = number;
 export interface ListPriceListsRequest {
   ServiceCode: string;
   EffectiveDate: Date;
-  RegionCode?: string;
+  RegionCode?: string | undefined;
   CurrencyCode: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FileFormats = string[];
 export interface PriceList {
-  PriceListArn?: string;
-  RegionCode?: string;
-  CurrencyCode?: string;
-  FileFormats?: string[];
+  PriceListArn?: string | undefined;
+  RegionCode?: string | undefined;
+  CurrencyCode?: string | undefined;
+  FileFormats?: string[] | undefined;
 }
 export type PriceLists = PriceList[];
 export interface ListPriceListsResponse {
-  PriceLists?: PriceList[];
-  NextToken?: string;
+  PriceLists?: PriceList[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type DescribeServicesError =

@@ -91,7 +91,7 @@ export type CreateRequestBundleMethod = "ubiquitous" | "optimal" | "force";
 export type CreateRequestDeploy = "staging" | "production";
 export type CreateRequestGeoRestrictionsLabel = "us" | "eu" | "highest_security";
 export interface CreateRequestGeoRestrictions {
-  label?: CreateRequestGeoRestrictionsLabel | (string & {});
+  label?: CreateRequestGeoRestrictionsLabel | (string & {}) | undefined;
 }
 export type CreateRequestType = "legacy_custom" | "sni_custom";
 export interface CreateCustomCertificateRequest {
@@ -100,24 +100,24 @@ export interface CreateCustomCertificateRequest {
   /** The zone's SSL certificate or certificate and the intermediate(s). */
   certificate: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: CreateRequestBundleMethod | (string & {});
+  bundleMethod?: CreateRequestBundleMethod | (string & {}) | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string;
+  customCsrId?: string | undefined;
   /** The environment to deploy the certificate to, defaults to production. */
-  deploy?: CreateRequestDeploy | (string & {});
+  deploy?: CreateRequestDeploy | (string & {}) | undefined;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
-  geoRestrictions?: CreateRequestGeoRestrictions;
+  geoRestrictions?: CreateRequestGeoRestrictions | undefined;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected. Note: The API accepts this field as either "policy" or "policy_restrictions" in requests. Responses return this field as "policy_restrictions". */
-  policy?: string;
+  policy?: string | undefined;
   /** The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare. */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** The type 'legacy_custom' enables support for legacy clients which do not include SNI in the TLS handshake. */
-  type?: CreateRequestType | (string & {});
+  type?: CreateRequestType | (string & {}) | undefined;
 }
 export type CreateResponseBundleMethod = "ubiquitous" | "optimal" | "force";
 export type CreateResponseGeoRestrictionsLabel = "us" | "eu" | "highest_security";
 export interface CreateResponseGeoRestrictions {
-  label?: CreateResponseGeoRestrictionsLabel | null;
+  label?: CreateResponseGeoRestrictionsLabel | null | undefined;
 }
 export type CreateResponseHostsList = Array<string>;
 export type CreateResponseKeylessServerPermissionsList = Array<string>;
@@ -148,7 +148,7 @@ export interface CreateResponseKeylessServer {
   /** Status of the Keyless SSL. */
   status: CreateResponseKeylessServerStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateResponseKeylessServerTunnel | null;
+  tunnel?: CreateResponseKeylessServerTunnel | null | undefined;
 }
 export type CreateResponseStatus = "active" | "expired" | "deleted" | "pending" | "initializing";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -158,29 +158,29 @@ export interface CreateCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: CreateResponseBundleMethod | null;
+  bundleMethod?: CreateResponseBundleMethod | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
-  geoRestrictions?: CreateResponseGeoRestrictions | null;
-  hosts?: CreateResponseHostsList | null;
+  geoRestrictions?: CreateResponseGeoRestrictions | null | undefined;
+  hosts?: CreateResponseHostsList | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
-  keylessServer?: CreateResponseKeylessServer | null;
+  issuer?: string | null | undefined;
+  keylessServer?: CreateResponseKeylessServer | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
-  policyRestrictions?: string | null;
+  policyRestrictions?: string | null | undefined;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the zone's custom SSL. */
-  status?: CreateResponseStatus | null;
+  status?: CreateResponseStatus | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export interface DeleteCustomCertificateRequest {
   /** Identifier. */
@@ -191,7 +191,7 @@ export interface DeleteCustomCertificateRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCustomCertificateResponse {
   /** Custom certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface GetCustomCertificateRequest {
   /** Identifier. */
@@ -202,7 +202,7 @@ export interface GetCustomCertificateRequest {
 export type GetResponseBundleMethod = "ubiquitous" | "optimal" | "force";
 export type GetResponseGeoRestrictionsLabel = "us" | "eu" | "highest_security";
 export interface GetResponseGeoRestrictions {
-  label?: GetResponseGeoRestrictionsLabel | null;
+  label?: GetResponseGeoRestrictionsLabel | null | undefined;
 }
 export type GetResponseHostsList = Array<string>;
 export type GetResponseKeylessServerPermissionsList = Array<string>;
@@ -228,7 +228,7 @@ export interface GetResponseKeylessServer {
   /** Status of the Keyless SSL. */
   status: GetResponseKeylessServerStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateResponseKeylessServerTunnel | null;
+  tunnel?: CreateResponseKeylessServerTunnel | null | undefined;
 }
 export type GetResponseStatus = "active" | "expired" | "deleted" | "pending" | "initializing";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -238,29 +238,29 @@ export interface GetCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: GetResponseBundleMethod | null;
+  bundleMethod?: GetResponseBundleMethod | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
-  geoRestrictions?: GetResponseGeoRestrictions | null;
-  hosts?: GetResponseHostsList | null;
+  geoRestrictions?: GetResponseGeoRestrictions | null | undefined;
+  hosts?: GetResponseHostsList | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
-  keylessServer?: GetResponseKeylessServer | null;
+  issuer?: string | null | undefined;
+  keylessServer?: GetResponseKeylessServer | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
-  policyRestrictions?: string | null;
+  policyRestrictions?: string | null | undefined;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the zone's custom SSL. */
-  status?: GetResponseStatus | null;
+  status?: GetResponseStatus | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export type ListRequestMatch = "any" | "all";
 export type ListRequestStatus = "active" | "expired" | "deleted" | "pending" | "initializing";
@@ -268,18 +268,18 @@ export interface ListCustomCertificatesRequest {
   /** Identifier. */
   zoneId: string;
   /** Whether to match all search requirements or at least one (any). */
-  match?: ListRequestMatch | (string & {});
+  match?: ListRequestMatch | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of zones per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Status of the zone's custom SSL. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
 }
 export type ListResultItemBundleMethod = "ubiquitous" | "optimal" | "force";
 export type ListResultItemGeoRestrictionsLabel = "us" | "eu" | "highest_security";
 export interface ListResultItemGeoRestrictions {
-  label?: ListResultItemGeoRestrictionsLabel | null;
+  label?: ListResultItemGeoRestrictionsLabel | null | undefined;
 }
 export type ListResultItemHostsList = Array<string>;
 export type ListResultItemKeylessServerPermissionsList = Array<string>;
@@ -305,7 +305,7 @@ export interface ListResultItemKeylessServer {
   /** Status of the Keyless SSL. */
   status: ListResultItemKeylessServerStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateResponseKeylessServerTunnel | null;
+  tunnel?: CreateResponseKeylessServerTunnel | null | undefined;
 }
 export type ListResultItemStatus = "active" | "expired" | "deleted" | "pending" | "initializing";
 export interface ListResultItem {
@@ -314,29 +314,29 @@ export interface ListResultItem {
   /** Identifier. */
   zoneId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: ListResultItemBundleMethod | null;
+  bundleMethod?: ListResultItemBundleMethod | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
-  geoRestrictions?: ListResultItemGeoRestrictions | null;
-  hosts?: ListResultItemHostsList | null;
+  geoRestrictions?: ListResultItemGeoRestrictions | null | undefined;
+  hosts?: ListResultItemHostsList | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
-  keylessServer?: ListResultItemKeylessServer | null;
+  issuer?: string | null | undefined;
+  keylessServer?: ListResultItemKeylessServer | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
-  policyRestrictions?: string | null;
+  policyRestrictions?: string | null | undefined;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the zone's custom SSL. */
-  status?: ListResultItemStatus | null;
+  status?: ListResultItemStatus | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListCustomCertificatesResponse {
@@ -349,7 +349,7 @@ export type EditRequestBundleMethod = "ubiquitous" | "optimal" | "force";
 export type EditRequestDeploy = "staging" | "production";
 export type EditRequestGeoRestrictionsLabel = "us" | "eu" | "highest_security";
 export interface EditRequestGeoRestrictions {
-  label?: EditRequestGeoRestrictionsLabel | (string & {});
+  label?: EditRequestGeoRestrictionsLabel | (string & {}) | undefined;
 }
 export interface PatchCustomCertificateRequest {
   /** Identifier. */
@@ -357,24 +357,24 @@ export interface PatchCustomCertificateRequest {
   /** Custom certificate identifier tag. */
   customCertificateId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: EditRequestBundleMethod | (string & {});
+  bundleMethod?: EditRequestBundleMethod | (string & {}) | undefined;
   /** The zone's SSL certificate or certificate and the intermediate(s). */
-  certificate?: string;
+  certificate?: string | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string;
+  customCsrId?: string | undefined;
   /** The environment to deploy the certificate to, defaults to production. */
-  deploy?: EditRequestDeploy | (string & {});
+  deploy?: EditRequestDeploy | (string & {}) | undefined;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
-  geoRestrictions?: EditRequestGeoRestrictions;
+  geoRestrictions?: EditRequestGeoRestrictions | undefined;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected. Note: The API accepts this field as either "policy" or "policy_restrictions" in requests. Responses return this field as "policy_restrictions". */
-  policy?: string;
+  policy?: string | undefined;
   /** The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare. */
-  privateKey?: string;
+  privateKey?: string | undefined;
 }
 export type EditResponseBundleMethod = "ubiquitous" | "optimal" | "force";
 export type EditResponseGeoRestrictionsLabel = "us" | "eu" | "highest_security";
 export interface EditResponseGeoRestrictions {
-  label?: EditResponseGeoRestrictionsLabel | null;
+  label?: EditResponseGeoRestrictionsLabel | null | undefined;
 }
 export type EditResponseHostsList = Array<string>;
 export type EditResponseKeylessServerPermissionsList = Array<string>;
@@ -400,7 +400,7 @@ export interface EditResponseKeylessServer {
   /** Status of the Keyless SSL. */
   status: EditResponseKeylessServerStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateResponseKeylessServerTunnel | null;
+  tunnel?: CreateResponseKeylessServerTunnel | null | undefined;
 }
 export type EditResponseStatus = "active" | "expired" | "deleted" | "pending" | "initializing";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -410,35 +410,35 @@ export interface PatchCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: EditResponseBundleMethod | null;
+  bundleMethod?: EditResponseBundleMethod | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
-  geoRestrictions?: EditResponseGeoRestrictions | null;
-  hosts?: EditResponseHostsList | null;
+  geoRestrictions?: EditResponseGeoRestrictions | null | undefined;
+  hosts?: EditResponseHostsList | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
-  keylessServer?: EditResponseKeylessServer | null;
+  issuer?: string | null | undefined;
+  keylessServer?: EditResponseKeylessServer | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
-  policyRestrictions?: string | null;
+  policyRestrictions?: string | null | undefined;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the zone's custom SSL. */
-  status?: EditResponseStatus | null;
+  status?: EditResponseStatus | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export interface PrioritizeUpdateRequestCertificatesItem {
   /** Custom certificate identifier tag. */
-  id?: string;
+  id?: string | undefined;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type PrioritizeUpdateRequestCertificatesList =
   Array<PrioritizeUpdateRequestCertificatesItem>;
@@ -451,7 +451,7 @@ export interface PutPrioritizeRequest {
 export type PrioritizeUpdateResultItemBundleMethod = "ubiquitous" | "optimal" | "force";
 export type PrioritizeUpdateResultItemGeoRestrictionsLabel = "us" | "eu" | "highest_security";
 export interface PrioritizeUpdateResultItemGeoRestrictions {
-  label?: PrioritizeUpdateResultItemGeoRestrictionsLabel | null;
+  label?: PrioritizeUpdateResultItemGeoRestrictionsLabel | null | undefined;
 }
 export type PrioritizeUpdateResultItemHostsList = Array<string>;
 export type PrioritizeUpdateResultItemKeylessServerPermissionsList = Array<string>;
@@ -477,7 +477,7 @@ export interface PrioritizeUpdateResultItemKeylessServer {
   /** Status of the Keyless SSL. */
   status: PrioritizeUpdateResultItemKeylessServerStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateResponseKeylessServerTunnel | null;
+  tunnel?: CreateResponseKeylessServerTunnel | null | undefined;
 }
 export type PrioritizeUpdateResultItemStatus =
   | "active"
@@ -491,29 +491,29 @@ export interface PrioritizeUpdateResultItem {
   /** Identifier. */
   zoneId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: PrioritizeUpdateResultItemBundleMethod | null;
+  bundleMethod?: PrioritizeUpdateResultItemBundleMethod | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Options allow distribution to only to U.S. data centers, only to E.U. data centers, or only to highest security data centers. Default distribution is to all Cloudflare datacenters, for optimal performance. */
-  geoRestrictions?: PrioritizeUpdateResultItemGeoRestrictions | null;
-  hosts?: PrioritizeUpdateResultItemHostsList | null;
+  geoRestrictions?: PrioritizeUpdateResultItemGeoRestrictions | null | undefined;
+  hosts?: PrioritizeUpdateResultItemHostsList | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
-  keylessServer?: PrioritizeUpdateResultItemKeylessServer | null;
+  issuer?: string | null | undefined;
+  keylessServer?: PrioritizeUpdateResultItemKeylessServer | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The policy restrictions returned by the API. This field is returned in responses when a policy has been set. The API accepts the "policy" field in requests but returns this field as "policy_restrictions" in responses. */
-  policyRestrictions?: string | null;
+  policyRestrictions?: string | null | undefined;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the zone's custom SSL. */
-  status?: PrioritizeUpdateResultItemStatus | null;
+  status?: PrioritizeUpdateResultItemStatus | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export type PrioritizeUpdateResultList = Array<PrioritizeUpdateResultItem>;
 export interface PutPrioritizeResponse {

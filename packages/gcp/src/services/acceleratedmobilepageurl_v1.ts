@@ -87,13 +87,13 @@ export type BatchGetAmpUrlsRequestLookupStrategyEnum = "FETCH_LIVE_DOC" | "IN_IN
 /** AMP URL request for a batch of URLs. */
 export interface BatchGetAmpUrlsRequest {
   /** List of URLs to look up for the paired AMP URLs. The URLs are case-sensitive. Up to 50 URLs per lookup (see [Usage Limits](/amp/cache/reference/limits)). */
-  urls?: StringList;
+  urls?: StringList | undefined;
   /** The lookup_strategy being requested. */
-  lookupStrategy?: BatchGetAmpUrlsRequestLookupStrategyEnum | (string & {});
+  lookupStrategy?: BatchGetAmpUrlsRequestLookupStrategyEnum | (string & {}) | undefined;
 }
 export interface BatchGetAmpUrlsRequest_ {
   /** Request body */
-  body?: BatchGetAmpUrlsRequest;
+  body?: BatchGetAmpUrlsRequest | undefined;
 }
 export type AmpUrlErrorErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -105,29 +105,29 @@ export type AmpUrlErrorErrorCodeEnum =
 /** AMP URL Error resource for a requested URL that couldn't be found. */
 export interface AmpUrlError {
   /** An optional descriptive error message. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The original non-AMP URL. */
-  originalUrl?: string;
+  originalUrl?: string | undefined;
   /** The error code of an API call. */
-  errorCode?: AmpUrlErrorErrorCodeEnum;
+  errorCode?: AmpUrlErrorErrorCodeEnum | undefined;
 }
 export type AmpUrlErrorList = Array<AmpUrlError>;
 /** AMP URL response for a requested URL. */
 export interface AmpUrl {
   /** The AMP URL pointing to the publisher's web server. */
-  ampUrl?: string;
+  ampUrl?: string | undefined;
   /** The original non-AMP URL. */
-  originalUrl?: string;
+  originalUrl?: string | undefined;
   /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
-  cdnAmpUrl?: string;
+  cdnAmpUrl?: string | undefined;
 }
 export type AmpUrlList = Array<AmpUrl>;
 /** Batch AMP URL response. */
 export interface BatchGetAmpUrlsResponse {
   /** The errors for requested URLs that have no AMP URL. */
-  urlErrors?: AmpUrlErrorList;
+  urlErrors?: AmpUrlErrorList | undefined;
   /** For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once. */
-  ampUrls?: AmpUrlList;
+  ampUrls?: AmpUrlList | undefined;
 }
 export type BatchGetAmpUrlsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Returns AMP URL(s) and equivalent [AMP Cache URL(s)](/amp/cache/overview#amp-cache-url-format). */

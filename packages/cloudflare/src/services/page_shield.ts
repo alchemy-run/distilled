@@ -162,12 +162,15 @@ export interface GetConnectionResponse {
   lastSeenAt: string;
   url: string;
   urlContainsCdnCgiPath: boolean;
-  domainReportedMalicious?: boolean | null;
-  firstPageUrl?: string | null;
-  maliciousDomainCategories?: ConnectionsGetResponseMaliciousDomainCategoriesList | null;
-  maliciousUrlCategories?: ConnectionsGetResponseMaliciousUrlCategoriesList | null;
-  pageUrls?: ConnectionsGetResponsePageUrlsList | null;
-  urlReportedMalicious?: boolean | null;
+  domainReportedMalicious?: boolean | null | undefined;
+  firstPageUrl?: string | null | undefined;
+  maliciousDomainCategories?:
+    | ConnectionsGetResponseMaliciousDomainCategoriesList
+    | null
+    | undefined;
+  maliciousUrlCategories?: ConnectionsGetResponseMaliciousUrlCategoriesList | null | undefined;
+  pageUrls?: ConnectionsGetResponsePageUrlsList | null | undefined;
+  urlReportedMalicious?: boolean | null | undefined;
 }
 export interface GetCookyRequest {
   /** Identifier */
@@ -187,14 +190,14 @@ export interface GetCookyResponse {
   lastSeenAt: string;
   name: string;
   type: CookiesGetResponseType;
-  domainAttribute?: string | null;
-  expiresAttribute?: string | null;
-  httpOnlyAttribute?: boolean | null;
-  maxAgeAttribute?: number | null;
-  pageUrls?: CookiesGetResponsePageUrlsList | null;
-  pathAttribute?: string | null;
-  sameSiteAttribute?: CookiesGetResponseSameSiteAttribute | null;
-  secureAttribute?: boolean | null;
+  domainAttribute?: string | null | undefined;
+  expiresAttribute?: string | null | undefined;
+  httpOnlyAttribute?: boolean | null | undefined;
+  maxAgeAttribute?: number | null | undefined;
+  pageUrls?: CookiesGetResponsePageUrlsList | null | undefined;
+  pathAttribute?: string | null | undefined;
+  sameSiteAttribute?: CookiesGetResponseSameSiteAttribute | null | undefined;
+  secureAttribute?: boolean | null | undefined;
 }
 export interface GetPageShieldRequest {
   /** Identifier */
@@ -244,21 +247,21 @@ export type ScriptsGetResponseMaliciousUrlCategoriesList = Array<string>;
 export type ScriptsGetResponsePageUrlsList = Array<string>;
 export interface ScriptsGetResponseVersionsItem {
   /** The cryptomining score of the JavaScript content. */
-  cryptominingScore?: number | null;
+  cryptominingScore?: number | null | undefined;
   /** The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score. */
-  dataflowScore?: number | null;
+  dataflowScore?: number | null | undefined;
   /** The timestamp of when the script was last fetched. */
-  fetchedAt?: string | null;
+  fetchedAt?: string | null | undefined;
   /** The computed hash of the analyzed script. */
-  hash?: string | null;
+  hash?: string | null | undefined;
   /** The integrity score of the JavaScript content. */
-  jsIntegrityScore?: number | null;
+  jsIntegrityScore?: number | null | undefined;
   /** The magecart score of the JavaScript content. */
-  magecartScore?: number | null;
+  magecartScore?: number | null | undefined;
   /** The malware score of the JavaScript content. */
-  malwareScore?: number | null;
+  malwareScore?: number | null | undefined;
   /** The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score. */
-  obfuscationScore?: number | null;
+  obfuscationScore?: number | null | undefined;
 }
 export type ScriptsGetResponseVersionsList = Array<ScriptsGetResponseVersionsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -272,28 +275,28 @@ export interface GetScriptResponse {
   url: string;
   urlContainsCdnCgiPath: boolean;
   /** The cryptomining score of the JavaScript content. */
-  cryptominingScore?: number | null;
+  cryptominingScore?: number | null | undefined;
   /** The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score. */
-  dataflowScore?: number | null;
-  domainReportedMalicious?: boolean | null;
+  dataflowScore?: number | null | undefined;
+  domainReportedMalicious?: boolean | null | undefined;
   /** The timestamp of when the script was last fetched. */
-  fetchedAt?: string | null;
-  firstPageUrl?: string | null;
+  fetchedAt?: string | null | undefined;
+  firstPageUrl?: string | null | undefined;
   /** The computed hash of the analyzed script. */
-  hash?: string | null;
+  hash?: string | null | undefined;
   /** The integrity score of the JavaScript content. */
-  jsIntegrityScore?: number | null;
+  jsIntegrityScore?: number | null | undefined;
   /** The magecart score of the JavaScript content. */
-  magecartScore?: number | null;
-  maliciousDomainCategories?: ScriptsGetResponseMaliciousDomainCategoriesList | null;
-  maliciousUrlCategories?: ScriptsGetResponseMaliciousUrlCategoriesList | null;
+  magecartScore?: number | null | undefined;
+  maliciousDomainCategories?: ScriptsGetResponseMaliciousDomainCategoriesList | null | undefined;
+  maliciousUrlCategories?: ScriptsGetResponseMaliciousUrlCategoriesList | null | undefined;
   /** The malware score of the JavaScript content. */
-  malwareScore?: number | null;
+  malwareScore?: number | null | undefined;
   /** The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score. */
-  obfuscationScore?: number | null;
-  pageUrls?: ScriptsGetResponsePageUrlsList | null;
-  urlReportedMalicious?: boolean | null;
-  versions?: ScriptsGetResponseVersionsList | null;
+  obfuscationScore?: number | null | undefined;
+  pageUrls?: ScriptsGetResponsePageUrlsList | null | undefined;
+  urlReportedMalicious?: boolean | null | undefined;
+  versions?: ScriptsGetResponseVersionsList | null | undefined;
 }
 export type ConnectionsListRequestDirection = "asc" | "desc";
 export type ConnectionsListRequestExport = "csv";
@@ -302,29 +305,29 @@ export interface ListConnectionsRequest {
   /** Identifier */
   zoneId: string;
   /** The direction used to sort returned connections. */
-  direction?: ConnectionsListRequestDirection | (string & {});
+  direction?: ConnectionsListRequestDirection | (string & {}) | undefined;
   /** When true, excludes connections seen in a `/cdn-cgi` path from the returned connections. The default value is true. */
-  excludeCdnCgi?: boolean;
+  excludeCdnCgi?: boolean | undefined;
   /** Excludes connections whose URL contains one of the URL-encoded URLs separated by commas. */
-  excludeUrls?: string;
+  excludeUrls?: string | undefined;
   /** Export the list of connections as a file, limited to 50000 entries. */
-  export?: ConnectionsListRequestExport | (string & {});
+  export?: ConnectionsListRequestExport | (string & {}) | undefined;
   /** Includes connections that match one or more URL-encoded hostnames separated by commas. */
-  hosts?: string;
+  hosts?: string | undefined;
   /** The field used to sort returned connections. */
-  orderBy?: ConnectionsListRequestOrderBy | (string & {});
+  orderBy?: ConnectionsListRequestOrderBy | (string & {}) | undefined;
   /** The current page number of the paginated results. */
-  page?: string;
+  page?: string | undefined;
   /** Includes connections that match one or more page URLs (separated by commas) where they were last seen */
-  pageUrl?: string;
+  pageUrl?: string | undefined;
   /** The number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** When true, malicious connections appear first in the returned connections. */
-  prioritizeMalicious?: boolean;
+  prioritizeMalicious?: boolean | undefined;
   /** Filters the returned connections using a comma-separated list of connection statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`. */
-  status?: string;
+  status?: string | undefined;
   /** Includes connections whose URL contain one or more URL-encoded URLs separated by commas. */
-  urls?: string;
+  urls?: string | undefined;
 }
 export type ConnectionsListResultItemMaliciousDomainCategoriesList = Array<string>;
 export type ConnectionsListResultItemMaliciousUrlCategoriesList = Array<string>;
@@ -338,12 +341,15 @@ export interface ConnectionsListResultItem {
   lastSeenAt: string;
   url: string;
   urlContainsCdnCgiPath: boolean;
-  domainReportedMalicious?: boolean | null;
-  firstPageUrl?: string | null;
-  maliciousDomainCategories?: ConnectionsListResultItemMaliciousDomainCategoriesList | null;
-  maliciousUrlCategories?: ConnectionsListResultItemMaliciousUrlCategoriesList | null;
-  pageUrls?: ConnectionsListResultItemPageUrlsList | null;
-  urlReportedMalicious?: boolean | null;
+  domainReportedMalicious?: boolean | null | undefined;
+  firstPageUrl?: string | null | undefined;
+  maliciousDomainCategories?:
+    | ConnectionsListResultItemMaliciousDomainCategoriesList
+    | null
+    | undefined;
+  maliciousUrlCategories?: ConnectionsListResultItemMaliciousUrlCategoriesList | null | undefined;
+  pageUrls?: ConnectionsListResultItemPageUrlsList | null | undefined;
+  urlReportedMalicious?: boolean | null | undefined;
 }
 export type ConnectionsListResultList = Array<ConnectionsListResultItem>;
 export interface ListConnectionsResponse {
@@ -361,33 +367,33 @@ export interface ListCookiesRequest {
   /** Identifier */
   zoneId: string;
   /** The direction used to sort returned cookies.' */
-  direction?: CookiesListRequestDirection | (string & {});
+  direction?: CookiesListRequestDirection | (string & {}) | undefined;
   /** Filters the returned cookies that match the specified domain attribute */
-  domain?: string;
+  domain?: string | undefined;
   /** Export the list of cookies as a file, limited to 50000 entries. */
-  export?: CookiesListRequestExport | (string & {});
+  export?: CookiesListRequestExport | (string & {}) | undefined;
   /** Includes cookies that match one or more URL-encoded hostnames separated by commas. */
-  hosts?: string;
+  hosts?: string | undefined;
   /** Filters the returned cookies that are set with HttpOnly */
-  httpOnly?: boolean;
+  httpOnly?: boolean | undefined;
   /** Filters the returned cookies that match the specified name. Wildcards are supported at the start and end to support starts with, ends with and contains. e.g. session* */
-  name?: string;
+  name?: string | undefined;
   /** The field used to sort returned cookies. */
-  orderBy?: CookiesListRequestOrderBy | (string & {});
+  orderBy?: CookiesListRequestOrderBy | (string & {}) | undefined;
   /** The current page number of the paginated results. */
-  page?: string;
+  page?: string | undefined;
   /** Includes connections that match one or more page URLs (separated by commas) where they were last seen */
-  pageUrl?: string;
+  pageUrl?: string | undefined;
   /** Filters the returned cookies that match the specified path attribute */
-  path?: string;
+  path?: string | undefined;
   /** The number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filters the returned cookies that match the specified same_site attribute */
-  sameSite?: CookiesListRequestSameSite | (string & {});
+  sameSite?: CookiesListRequestSameSite | (string & {}) | undefined;
   /** Filters the returned cookies that are set with Secure */
-  secure?: boolean;
+  secure?: boolean | undefined;
   /** Filters the returned cookies that match the specified type attribute */
-  type?: CookiesListRequestType | (string & {});
+  type?: CookiesListRequestType | (string & {}) | undefined;
 }
 export type CookiesListResultItemType = "first_party" | "unknown";
 export type CookiesListResultItemPageUrlsList = Array<string>;
@@ -400,14 +406,14 @@ export interface CookiesListResultItem {
   lastSeenAt: string;
   name: string;
   type: CookiesListResultItemType;
-  domainAttribute?: string | null;
-  expiresAttribute?: string | null;
-  httpOnlyAttribute?: boolean | null;
-  maxAgeAttribute?: number | null;
-  pageUrls?: CookiesListResultItemPageUrlsList | null;
-  pathAttribute?: string | null;
-  sameSiteAttribute?: CookiesListResultItemSameSiteAttribute | null;
-  secureAttribute?: boolean | null;
+  domainAttribute?: string | null | undefined;
+  expiresAttribute?: string | null | undefined;
+  httpOnlyAttribute?: boolean | null | undefined;
+  maxAgeAttribute?: number | null | undefined;
+  pageUrls?: CookiesListResultItemPageUrlsList | null | undefined;
+  pathAttribute?: string | null | undefined;
+  sameSiteAttribute?: CookiesListResultItemSameSiteAttribute | null | undefined;
+  secureAttribute?: boolean | null | undefined;
 }
 export type CookiesListResultList = Array<CookiesListResultItem>;
 export interface ListCookiesResponse {
@@ -449,31 +455,31 @@ export interface ListScriptsRequest {
   /** Identifier */
   zoneId: string;
   /** The direction used to sort returned scripts. */
-  direction?: ScriptsListRequestDirection | (string & {});
+  direction?: ScriptsListRequestDirection | (string & {}) | undefined;
   /** When true, excludes scripts seen in a `/cdn-cgi` path from the returned scripts. The default value is true. */
-  excludeCdnCgi?: boolean;
+  excludeCdnCgi?: boolean | undefined;
   /** When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript content matches and they share the same url host and zone hostname. In such case, we return the most recent script for the URL host and zone hostname combination. */
-  excludeDuplicates?: boolean;
+  excludeDuplicates?: boolean | undefined;
   /** Excludes scripts whose URL contains one of the URL-encoded URLs separated by commas. */
-  excludeUrls?: string;
+  excludeUrls?: string | undefined;
   /** Export the list of scripts as a file, limited to 50000 entries. */
-  export?: ScriptsListRequestExport | (string & {});
+  export?: ScriptsListRequestExport | (string & {}) | undefined;
   /** Includes scripts that match one or more URL-encoded hostnames separated by commas. */
-  hosts?: string;
+  hosts?: string | undefined;
   /** The field used to sort returned scripts. */
-  orderBy?: ScriptsListRequestOrderBy | (string & {});
+  orderBy?: ScriptsListRequestOrderBy | (string & {}) | undefined;
   /** The current page number of the paginated results. */
-  page?: string;
+  page?: string | undefined;
   /** Includes scripts that match one or more page URLs (separated by commas) where they were last seen */
-  pageUrl?: string;
+  pageUrl?: string | undefined;
   /** The number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** When true, malicious scripts appear first in the returned scripts. */
-  prioritizeMalicious?: boolean;
+  prioritizeMalicious?: boolean | undefined;
   /** Filters the returned scripts using a comma-separated list of scripts statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`. */
-  status?: string;
+  status?: string | undefined;
   /** Includes scripts whose URL contain one or more URL-encoded URLs separated by commas. */
-  urls?: string;
+  urls?: string | undefined;
 }
 export type ScriptsListResultItemMaliciousDomainCategoriesList = Array<string>;
 export type ScriptsListResultItemMaliciousUrlCategoriesList = Array<string>;
@@ -488,27 +494,27 @@ export interface ScriptsListResultItem {
   url: string;
   urlContainsCdnCgiPath: boolean;
   /** The cryptomining score of the JavaScript content. */
-  cryptominingScore?: number | null;
+  cryptominingScore?: number | null | undefined;
   /** The dataflow score of the JavaScript content. This field has been deprecated in favour of js_integrity_score. */
-  dataflowScore?: number | null;
-  domainReportedMalicious?: boolean | null;
+  dataflowScore?: number | null | undefined;
+  domainReportedMalicious?: boolean | null | undefined;
   /** The timestamp of when the script was last fetched. */
-  fetchedAt?: string | null;
-  firstPageUrl?: string | null;
+  fetchedAt?: string | null | undefined;
+  firstPageUrl?: string | null | undefined;
   /** The computed hash of the analyzed script. */
-  hash?: string | null;
+  hash?: string | null | undefined;
   /** The integrity score of the JavaScript content. */
-  jsIntegrityScore?: number | null;
+  jsIntegrityScore?: number | null | undefined;
   /** The magecart score of the JavaScript content. */
-  magecartScore?: number | null;
-  maliciousDomainCategories?: ScriptsListResultItemMaliciousDomainCategoriesList | null;
-  maliciousUrlCategories?: ScriptsListResultItemMaliciousUrlCategoriesList | null;
+  magecartScore?: number | null | undefined;
+  maliciousDomainCategories?: ScriptsListResultItemMaliciousDomainCategoriesList | null | undefined;
+  maliciousUrlCategories?: ScriptsListResultItemMaliciousUrlCategoriesList | null | undefined;
   /** The malware score of the JavaScript content. */
-  malwareScore?: number | null;
+  malwareScore?: number | null | undefined;
   /** The obfuscation score of the JavaScript content. This field has been deprecated in favour of js_integrity_score. */
-  obfuscationScore?: number | null;
-  pageUrls?: ScriptsListResultItemPageUrlsList | null;
-  urlReportedMalicious?: boolean | null;
+  obfuscationScore?: number | null | undefined;
+  pageUrls?: ScriptsListResultItemPageUrlsList | null | undefined;
+  urlReportedMalicious?: boolean | null | undefined;
 }
 export type ScriptsListResultList = Array<ScriptsListResultItem>;
 export interface ListScriptsResponse {
@@ -521,11 +527,11 @@ export interface PutPageShieldRequest {
   /** Identifier */
   zoneId: string;
   /** When true, indicates that Client-Side Security is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report */
-  useCloudflareReportingEndpoint?: boolean;
+  useCloudflareReportingEndpoint?: boolean | undefined;
   /** When true, the paths associated with connections URLs will also be analyzed. */
-  useConnectionUrlPath?: boolean;
+  useConnectionUrlPath?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutPageShieldResponse {
@@ -545,15 +551,15 @@ export interface UpdatePolicyRequest {
   /** Identifier */
   policyId: string;
   /** The action to take if the expression matches */
-  action?: PoliciesUpdateRequestAction | (string & {});
+  action?: PoliciesUpdateRequestAction | (string & {}) | undefined;
   /** A description for the policy */
-  description?: string;
+  description?: string | undefined;
   /** Whether the policy is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax */
-  expression?: string;
+  expression?: string | undefined;
   /** The policy which will be applied */
-  value?: string;
+  value?: string | undefined;
 }
 export type PoliciesUpdateResponseAction = "allow" | "log" | "add_reporting_directives";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */

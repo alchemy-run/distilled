@@ -158,16 +158,16 @@ export type RequestedPipeState = string;
 export type ArnOrUrl = string;
 export type EventPattern = string | redacted.Redacted<string>;
 export interface Filter {
-  Pattern?: string | redacted.Redacted<string>;
+  Pattern?: string | redacted.Redacted<string> | undefined;
 }
 export type FilterList = Filter[];
 export interface FilterCriteria {
-  Filters?: Filter[];
+  Filters?: Filter[] | undefined;
 }
 export type LimitMax10000 = number;
 export type Arn = string;
 export interface DeadLetterConfig {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type OnPartialBatchItemFailureStreams = string;
 export type MaximumBatchingWindowInSeconds = number;
@@ -176,30 +176,30 @@ export type MaximumRetryAttemptsESM = number;
 export type LimitMax10 = number;
 export type KinesisStreamStartPosition = string;
 export interface PipeSourceKinesisStreamParameters {
-  BatchSize?: number;
-  DeadLetterConfig?: DeadLetterConfig;
-  OnPartialBatchItemFailure?: string;
-  MaximumBatchingWindowInSeconds?: number;
-  MaximumRecordAgeInSeconds?: number;
-  MaximumRetryAttempts?: number;
-  ParallelizationFactor?: number;
+  BatchSize?: number | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  OnPartialBatchItemFailure?: string | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  MaximumRecordAgeInSeconds?: number | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  ParallelizationFactor?: number | undefined;
   StartingPosition: string;
-  StartingPositionTimestamp?: Date;
+  StartingPositionTimestamp?: Date | undefined;
 }
 export type DynamoDBStreamStartPosition = string;
 export interface PipeSourceDynamoDBStreamParameters {
-  BatchSize?: number;
-  DeadLetterConfig?: DeadLetterConfig;
-  OnPartialBatchItemFailure?: string;
-  MaximumBatchingWindowInSeconds?: number;
-  MaximumRecordAgeInSeconds?: number;
-  MaximumRetryAttempts?: number;
-  ParallelizationFactor?: number;
+  BatchSize?: number | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  OnPartialBatchItemFailure?: string | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  MaximumRecordAgeInSeconds?: number | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  ParallelizationFactor?: number | undefined;
   StartingPosition: string;
 }
 export interface PipeSourceSqsQueueParameters {
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
 }
 export type SecretManagerArn = string;
 export type MQBrokerAccessCredentials = { BasicAuth: string };
@@ -207,16 +207,16 @@ export type MQBrokerQueueName = string | redacted.Redacted<string>;
 export interface PipeSourceActiveMQBrokerParameters {
   Credentials: MQBrokerAccessCredentials;
   QueueName: string | redacted.Redacted<string>;
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
 }
 export type URI = string | redacted.Redacted<string>;
 export interface PipeSourceRabbitMQBrokerParameters {
   Credentials: MQBrokerAccessCredentials;
   QueueName: string | redacted.Redacted<string>;
-  VirtualHost?: string | redacted.Redacted<string>;
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
+  VirtualHost?: string | redacted.Redacted<string> | undefined;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
 }
 export type KafkaTopicName = string | redacted.Redacted<string>;
 export type MSKStartPosition = string;
@@ -225,11 +225,11 @@ export type MSKAccessCredentials =
   | { SaslScram512Auth?: never; ClientCertificateTlsAuth: string };
 export interface PipeSourceManagedStreamingKafkaParameters {
   TopicName: string | redacted.Redacted<string>;
-  StartingPosition?: string;
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
-  ConsumerGroupID?: string | redacted.Redacted<string>;
-  Credentials?: MSKAccessCredentials;
+  StartingPosition?: string | undefined;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  ConsumerGroupID?: string | redacted.Redacted<string> | undefined;
+  Credentials?: MSKAccessCredentials | undefined;
 }
 export type SelfManagedKafkaStartPosition = string;
 export type EndpointString = string | redacted.Redacted<string>;
@@ -264,29 +264,29 @@ export type SubnetIds = (string | redacted.Redacted<string>)[];
 export type SecurityGroupId = string | redacted.Redacted<string>;
 export type SecurityGroupIds = (string | redacted.Redacted<string>)[];
 export interface SelfManagedKafkaAccessConfigurationVpc {
-  Subnets?: (string | redacted.Redacted<string>)[];
-  SecurityGroup?: (string | redacted.Redacted<string>)[];
+  Subnets?: (string | redacted.Redacted<string>)[] | undefined;
+  SecurityGroup?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface PipeSourceSelfManagedKafkaParameters {
   TopicName: string | redacted.Redacted<string>;
-  StartingPosition?: string;
-  AdditionalBootstrapServers?: (string | redacted.Redacted<string>)[];
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
-  ConsumerGroupID?: string | redacted.Redacted<string>;
-  Credentials?: SelfManagedKafkaAccessConfigurationCredentials;
-  ServerRootCaCertificate?: string;
-  Vpc?: SelfManagedKafkaAccessConfigurationVpc;
+  StartingPosition?: string | undefined;
+  AdditionalBootstrapServers?: (string | redacted.Redacted<string>)[] | undefined;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  ConsumerGroupID?: string | redacted.Redacted<string> | undefined;
+  Credentials?: SelfManagedKafkaAccessConfigurationCredentials | undefined;
+  ServerRootCaCertificate?: string | undefined;
+  Vpc?: SelfManagedKafkaAccessConfigurationVpc | undefined;
 }
 export interface PipeSourceParameters {
-  FilterCriteria?: FilterCriteria;
-  KinesisStreamParameters?: PipeSourceKinesisStreamParameters;
-  DynamoDBStreamParameters?: PipeSourceDynamoDBStreamParameters;
-  SqsQueueParameters?: PipeSourceSqsQueueParameters;
-  ActiveMQBrokerParameters?: PipeSourceActiveMQBrokerParameters;
-  RabbitMQBrokerParameters?: PipeSourceRabbitMQBrokerParameters;
-  ManagedStreamingKafkaParameters?: PipeSourceManagedStreamingKafkaParameters;
-  SelfManagedKafkaParameters?: PipeSourceSelfManagedKafkaParameters;
+  FilterCriteria?: FilterCriteria | undefined;
+  KinesisStreamParameters?: PipeSourceKinesisStreamParameters | undefined;
+  DynamoDBStreamParameters?: PipeSourceDynamoDBStreamParameters | undefined;
+  SqsQueueParameters?: PipeSourceSqsQueueParameters | undefined;
+  ActiveMQBrokerParameters?: PipeSourceActiveMQBrokerParameters | undefined;
+  RabbitMQBrokerParameters?: PipeSourceRabbitMQBrokerParameters | undefined;
+  ManagedStreamingKafkaParameters?: PipeSourceManagedStreamingKafkaParameters | undefined;
+  SelfManagedKafkaParameters?: PipeSourceSelfManagedKafkaParameters | undefined;
 }
 export type OptionalArn = string;
 export type InputTemplate = string | redacted.Redacted<string>;
@@ -301,20 +301,22 @@ export type QueryStringParametersMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export interface PipeEnrichmentHttpParameters {
-  PathParameterValues?: (string | redacted.Redacted<string>)[];
-  HeaderParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  QueryStringParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  PathParameterValues?: (string | redacted.Redacted<string>)[] | undefined;
+  HeaderParameters?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  QueryStringParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export interface PipeEnrichmentParameters {
-  InputTemplate?: string | redacted.Redacted<string>;
-  HttpParameters?: PipeEnrichmentHttpParameters;
+  InputTemplate?: string | redacted.Redacted<string> | undefined;
+  HttpParameters?: PipeEnrichmentHttpParameters | undefined;
 }
 export type PipeTargetInvocationType = string;
 export interface PipeTargetLambdaFunctionParameters {
-  InvocationType?: string;
+  InvocationType?: string | undefined;
 }
 export interface PipeTargetStateMachineParameters {
-  InvocationType?: string;
+  InvocationType?: string | undefined;
 }
 export type KinesisPartitionKey = string | redacted.Redacted<string>;
 export interface PipeTargetKinesisStreamParameters {
@@ -330,41 +332,41 @@ export type SecurityGroups = (string | redacted.Redacted<string>)[];
 export type AssignPublicIp = string;
 export interface AwsVpcConfiguration {
   Subnets: (string | redacted.Redacted<string>)[];
-  SecurityGroups?: (string | redacted.Redacted<string>)[];
-  AssignPublicIp?: string;
+  SecurityGroups?: (string | redacted.Redacted<string>)[] | undefined;
+  AssignPublicIp?: string | undefined;
 }
 export interface NetworkConfiguration {
-  awsvpcConfiguration?: AwsVpcConfiguration;
+  awsvpcConfiguration?: AwsVpcConfiguration | undefined;
 }
 export type CapacityProvider = string | redacted.Redacted<string>;
 export type CapacityProviderStrategyItemWeight = number;
 export type CapacityProviderStrategyItemBase = number;
 export interface CapacityProviderStrategyItem {
   capacityProvider: string | redacted.Redacted<string>;
-  weight?: number;
-  base?: number;
+  weight?: number | undefined;
+  base?: number | undefined;
 }
 export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export type PlacementConstraintType = string;
 export type PlacementConstraintExpression = string | redacted.Redacted<string>;
 export interface PlacementConstraint {
-  type?: string;
-  expression?: string | redacted.Redacted<string>;
+  type?: string | undefined;
+  expression?: string | redacted.Redacted<string> | undefined;
 }
 export type PlacementConstraints = PlacementConstraint[];
 export type PlacementStrategyType = string;
 export type PlacementStrategyField = string | redacted.Redacted<string>;
 export interface PlacementStrategy {
-  type?: string;
-  field?: string | redacted.Redacted<string>;
+  type?: string | undefined;
+  field?: string | redacted.Redacted<string> | undefined;
 }
 export type PlacementStrategies = PlacementStrategy[];
 export type PropagateTags = string;
 export type ReferenceId = string | redacted.Redacted<string>;
 export type StringList = string[];
 export interface EcsEnvironmentVariable {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type EcsEnvironmentVariableList = EcsEnvironmentVariable[];
 export type EcsEnvironmentFileType = string;
@@ -380,14 +382,14 @@ export interface EcsResourceRequirement {
 }
 export type EcsResourceRequirementsList = EcsResourceRequirement[];
 export interface EcsContainerOverride {
-  Command?: string[];
-  Cpu?: number;
-  Environment?: EcsEnvironmentVariable[];
-  EnvironmentFiles?: EcsEnvironmentFile[];
-  Memory?: number;
-  MemoryReservation?: number;
-  Name?: string;
-  ResourceRequirements?: EcsResourceRequirement[];
+  Command?: string[] | undefined;
+  Cpu?: number | undefined;
+  Environment?: EcsEnvironmentVariable[] | undefined;
+  EnvironmentFiles?: EcsEnvironmentFile[] | undefined;
+  Memory?: number | undefined;
+  MemoryReservation?: number | undefined;
+  Name?: string | undefined;
+  ResourceRequirements?: EcsResourceRequirement[] | undefined;
 }
 export type EcsContainerOverrideList = EcsContainerOverride[];
 export type EphemeralStorageSize = number;
@@ -395,18 +397,18 @@ export interface EcsEphemeralStorage {
   sizeInGiB: number;
 }
 export interface EcsInferenceAcceleratorOverride {
-  deviceName?: string;
-  deviceType?: string;
+  deviceName?: string | undefined;
+  deviceType?: string | undefined;
 }
 export type EcsInferenceAcceleratorOverrideList = EcsInferenceAcceleratorOverride[];
 export interface EcsTaskOverride {
-  ContainerOverrides?: EcsContainerOverride[];
-  Cpu?: string;
-  EphemeralStorage?: EcsEphemeralStorage;
-  ExecutionRoleArn?: string;
-  InferenceAcceleratorOverrides?: EcsInferenceAcceleratorOverride[];
-  Memory?: string;
-  TaskRoleArn?: string;
+  ContainerOverrides?: EcsContainerOverride[] | undefined;
+  Cpu?: string | undefined;
+  EphemeralStorage?: EcsEphemeralStorage | undefined;
+  ExecutionRoleArn?: string | undefined;
+  InferenceAcceleratorOverrides?: EcsInferenceAcceleratorOverride[] | undefined;
+  Memory?: string | undefined;
+  TaskRoleArn?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string | redacted.Redacted<string>;
@@ -417,32 +419,32 @@ export interface Tag {
 export type TagList = Tag[];
 export interface PipeTargetEcsTaskParameters {
   TaskDefinitionArn: string;
-  TaskCount?: number;
-  LaunchType?: string;
-  NetworkConfiguration?: NetworkConfiguration;
-  PlatformVersion?: string;
-  Group?: string;
-  CapacityProviderStrategy?: CapacityProviderStrategyItem[];
-  EnableECSManagedTags?: boolean;
-  EnableExecuteCommand?: boolean;
-  PlacementConstraints?: PlacementConstraint[];
-  PlacementStrategy?: PlacementStrategy[];
-  PropagateTags?: string;
-  ReferenceId?: string | redacted.Redacted<string>;
-  Overrides?: EcsTaskOverride;
-  Tags?: Tag[];
+  TaskCount?: number | undefined;
+  LaunchType?: string | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  PlatformVersion?: string | undefined;
+  Group?: string | undefined;
+  CapacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  EnableECSManagedTags?: boolean | undefined;
+  EnableExecuteCommand?: boolean | undefined;
+  PlacementConstraints?: PlacementConstraint[] | undefined;
+  PlacementStrategy?: PlacementStrategy[] | undefined;
+  PropagateTags?: string | undefined;
+  ReferenceId?: string | redacted.Redacted<string> | undefined;
+  Overrides?: EcsTaskOverride | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type BatchArraySize = number;
 export interface BatchArrayProperties {
-  Size?: number;
+  Size?: number | undefined;
 }
 export type BatchRetryAttempts = number;
 export interface BatchRetryStrategy {
-  Attempts?: number;
+  Attempts?: number | undefined;
 }
 export interface BatchEnvironmentVariable {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type BatchEnvironmentVariableList = BatchEnvironmentVariable[];
 export type BatchResourceRequirementType = string;
@@ -452,37 +454,39 @@ export interface BatchResourceRequirement {
 }
 export type BatchResourceRequirementsList = BatchResourceRequirement[];
 export interface BatchContainerOverrides {
-  Command?: string[];
-  Environment?: BatchEnvironmentVariable[];
-  InstanceType?: string;
-  ResourceRequirements?: BatchResourceRequirement[];
+  Command?: string[] | undefined;
+  Environment?: BatchEnvironmentVariable[] | undefined;
+  InstanceType?: string | undefined;
+  ResourceRequirements?: BatchResourceRequirement[] | undefined;
 }
 export type BatchJobDependencyType = string;
 export interface BatchJobDependency {
-  JobId?: string;
-  Type?: string;
+  JobId?: string | undefined;
+  Type?: string | undefined;
 }
 export type BatchDependsOn = BatchJobDependency[];
 export type BatchParametersMap = { [key: string]: string | undefined };
 export interface PipeTargetBatchJobParameters {
   JobDefinition: string;
   JobName: string;
-  ArrayProperties?: BatchArrayProperties;
-  RetryStrategy?: BatchRetryStrategy;
-  ContainerOverrides?: BatchContainerOverrides;
-  DependsOn?: BatchJobDependency[];
-  Parameters?: { [key: string]: string | undefined };
+  ArrayProperties?: BatchArrayProperties | undefined;
+  RetryStrategy?: BatchRetryStrategy | undefined;
+  ContainerOverrides?: BatchContainerOverrides | undefined;
+  DependsOn?: BatchJobDependency[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type MessageGroupId = string | redacted.Redacted<string>;
 export type MessageDeduplicationId = string | redacted.Redacted<string>;
 export interface PipeTargetSqsQueueParameters {
-  MessageGroupId?: string | redacted.Redacted<string>;
-  MessageDeduplicationId?: string | redacted.Redacted<string>;
+  MessageGroupId?: string | redacted.Redacted<string> | undefined;
+  MessageDeduplicationId?: string | redacted.Redacted<string> | undefined;
 }
 export interface PipeTargetHttpParameters {
-  PathParameterValues?: (string | redacted.Redacted<string>)[];
-  HeaderParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  QueryStringParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  PathParameterValues?: (string | redacted.Redacted<string>)[] | undefined;
+  HeaderParameters?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  QueryStringParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export type SecretManagerArnOrJsonPath = string;
 export type Database = string | redacted.Redacted<string>;
@@ -491,11 +495,11 @@ export type StatementName = string | redacted.Redacted<string>;
 export type Sql = string | redacted.Redacted<string>;
 export type Sqls = (string | redacted.Redacted<string>)[];
 export interface PipeTargetRedshiftDataParameters {
-  SecretManagerArn?: string;
+  SecretManagerArn?: string | undefined;
   Database: string | redacted.Redacted<string>;
-  DbUser?: string | redacted.Redacted<string>;
-  StatementName?: string | redacted.Redacted<string>;
-  WithEvent?: boolean;
+  DbUser?: string | redacted.Redacted<string> | undefined;
+  StatementName?: string | redacted.Redacted<string> | undefined;
+  WithEvent?: boolean | undefined;
   Sqls: (string | redacted.Redacted<string>)[];
 }
 export type SageMakerPipelineParameterName = string | redacted.Redacted<string>;
@@ -506,7 +510,7 @@ export interface SageMakerPipelineParameter {
 }
 export type SageMakerPipelineParameterList = SageMakerPipelineParameter[];
 export interface PipeTargetSageMakerPipelineParameters {
-  PipelineParameterList?: SageMakerPipelineParameter[];
+  PipelineParameterList?: SageMakerPipelineParameter[] | undefined;
 }
 export type EventBridgeEndpointId = string | redacted.Redacted<string>;
 export type EventBridgeDetailType = string | redacted.Redacted<string>;
@@ -514,16 +518,16 @@ export type EventBridgeEventSource = string | redacted.Redacted<string>;
 export type EventBridgeEventResourceList = string[];
 export type JsonPath = string;
 export interface PipeTargetEventBridgeEventBusParameters {
-  EndpointId?: string | redacted.Redacted<string>;
-  DetailType?: string | redacted.Redacted<string>;
-  Source?: string | redacted.Redacted<string>;
-  Resources?: string[];
-  Time?: string;
+  EndpointId?: string | redacted.Redacted<string> | undefined;
+  DetailType?: string | redacted.Redacted<string> | undefined;
+  Source?: string | redacted.Redacted<string> | undefined;
+  Resources?: string[] | undefined;
+  Time?: string | undefined;
 }
 export type LogStreamName = string;
 export interface PipeTargetCloudWatchLogsParameters {
-  LogStreamName?: string;
-  Timestamp?: string;
+  LogStreamName?: string | undefined;
+  Timestamp?: string | undefined;
 }
 export type TimeValue = string;
 export type EpochTimeUnit = string;
@@ -563,28 +567,28 @@ export interface MultiMeasureMapping {
 export type MultiMeasureMappings = MultiMeasureMapping[];
 export interface PipeTargetTimestreamParameters {
   TimeValue: string;
-  EpochTimeUnit?: string;
-  TimeFieldType?: string;
-  TimestampFormat?: string;
+  EpochTimeUnit?: string | undefined;
+  TimeFieldType?: string | undefined;
+  TimestampFormat?: string | undefined;
   VersionValue: string;
   DimensionMappings: DimensionMapping[];
-  SingleMeasureMappings?: SingleMeasureMapping[];
-  MultiMeasureMappings?: MultiMeasureMapping[];
+  SingleMeasureMappings?: SingleMeasureMapping[] | undefined;
+  MultiMeasureMappings?: MultiMeasureMapping[] | undefined;
 }
 export interface PipeTargetParameters {
-  InputTemplate?: string | redacted.Redacted<string>;
-  LambdaFunctionParameters?: PipeTargetLambdaFunctionParameters;
-  StepFunctionStateMachineParameters?: PipeTargetStateMachineParameters;
-  KinesisStreamParameters?: PipeTargetKinesisStreamParameters;
-  EcsTaskParameters?: PipeTargetEcsTaskParameters;
-  BatchJobParameters?: PipeTargetBatchJobParameters;
-  SqsQueueParameters?: PipeTargetSqsQueueParameters;
-  HttpParameters?: PipeTargetHttpParameters;
-  RedshiftDataParameters?: PipeTargetRedshiftDataParameters;
-  SageMakerPipelineParameters?: PipeTargetSageMakerPipelineParameters;
-  EventBridgeEventBusParameters?: PipeTargetEventBridgeEventBusParameters;
-  CloudWatchLogsParameters?: PipeTargetCloudWatchLogsParameters;
-  TimestreamParameters?: PipeTargetTimestreamParameters;
+  InputTemplate?: string | redacted.Redacted<string> | undefined;
+  LambdaFunctionParameters?: PipeTargetLambdaFunctionParameters | undefined;
+  StepFunctionStateMachineParameters?: PipeTargetStateMachineParameters | undefined;
+  KinesisStreamParameters?: PipeTargetKinesisStreamParameters | undefined;
+  EcsTaskParameters?: PipeTargetEcsTaskParameters | undefined;
+  BatchJobParameters?: PipeTargetBatchJobParameters | undefined;
+  SqsQueueParameters?: PipeTargetSqsQueueParameters | undefined;
+  HttpParameters?: PipeTargetHttpParameters | undefined;
+  RedshiftDataParameters?: PipeTargetRedshiftDataParameters | undefined;
+  SageMakerPipelineParameters?: PipeTargetSageMakerPipelineParameters | undefined;
+  EventBridgeEventBusParameters?: PipeTargetEventBridgeEventBusParameters | undefined;
+  CloudWatchLogsParameters?: PipeTargetCloudWatchLogsParameters | undefined;
+  TimestreamParameters?: PipeTargetTimestreamParameters | undefined;
 }
 export type RoleArn = string;
 export type TagMap = { [key: string]: string | redacted.Redacted<string> | undefined };
@@ -592,8 +596,8 @@ export type S3OutputFormat = string;
 export interface S3LogDestinationParameters {
   BucketName: string;
   BucketOwner: string;
-  OutputFormat?: string;
-  Prefix?: string;
+  OutputFormat?: string | undefined;
+  Prefix?: string | undefined;
 }
 export type FirehoseArn = string;
 export interface FirehoseLogDestinationParameters {
@@ -607,149 +611,149 @@ export type LogLevel = string;
 export type IncludeExecutionDataOption = string;
 export type IncludeExecutionData = string[];
 export interface PipeLogConfigurationParameters {
-  S3LogDestination?: S3LogDestinationParameters;
-  FirehoseLogDestination?: FirehoseLogDestinationParameters;
-  CloudwatchLogsLogDestination?: CloudwatchLogsLogDestinationParameters;
+  S3LogDestination?: S3LogDestinationParameters | undefined;
+  FirehoseLogDestination?: FirehoseLogDestinationParameters | undefined;
+  CloudwatchLogsLogDestination?: CloudwatchLogsLogDestinationParameters | undefined;
   Level: string;
-  IncludeExecutionData?: string[];
+  IncludeExecutionData?: string[] | undefined;
 }
 export type KmsKeyIdentifier = string;
 export interface CreatePipeRequest {
   Name: string;
-  Description?: string | redacted.Redacted<string>;
-  DesiredState?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DesiredState?: string | undefined;
   Source: string;
-  SourceParameters?: PipeSourceParameters;
-  Enrichment?: string;
-  EnrichmentParameters?: PipeEnrichmentParameters;
+  SourceParameters?: PipeSourceParameters | undefined;
+  Enrichment?: string | undefined;
+  EnrichmentParameters?: PipeEnrichmentParameters | undefined;
   Target: string;
-  TargetParameters?: PipeTargetParameters;
+  TargetParameters?: PipeTargetParameters | undefined;
   RoleArn: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  LogConfiguration?: PipeLogConfigurationParameters;
-  KmsKeyIdentifier?: string;
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  LogConfiguration?: PipeLogConfigurationParameters | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type PipeArn = string;
 export type PipeState = string;
 export interface CreatePipeResponse {
-  Arn?: string;
-  Name?: string;
-  DesiredState?: string;
-  CurrentState?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DeletePipeRequest {
   Name: string;
 }
 export type RequestedPipeStateDescribeResponse = string;
 export interface DeletePipeResponse {
-  Arn?: string;
-  Name?: string;
-  DesiredState?: string;
-  CurrentState?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DescribePipeRequest {
   Name: string;
 }
 export type PipeStateReason = string;
 export interface S3LogDestination {
-  BucketName?: string;
-  Prefix?: string;
-  BucketOwner?: string;
-  OutputFormat?: string;
+  BucketName?: string | undefined;
+  Prefix?: string | undefined;
+  BucketOwner?: string | undefined;
+  OutputFormat?: string | undefined;
 }
 export interface FirehoseLogDestination {
-  DeliveryStreamArn?: string;
+  DeliveryStreamArn?: string | undefined;
 }
 export interface CloudwatchLogsLogDestination {
-  LogGroupArn?: string;
+  LogGroupArn?: string | undefined;
 }
 export interface PipeLogConfiguration {
-  S3LogDestination?: S3LogDestination;
-  FirehoseLogDestination?: FirehoseLogDestination;
-  CloudwatchLogsLogDestination?: CloudwatchLogsLogDestination;
-  Level?: string;
-  IncludeExecutionData?: string[];
+  S3LogDestination?: S3LogDestination | undefined;
+  FirehoseLogDestination?: FirehoseLogDestination | undefined;
+  CloudwatchLogsLogDestination?: CloudwatchLogsLogDestination | undefined;
+  Level?: string | undefined;
+  IncludeExecutionData?: string[] | undefined;
 }
 export interface DescribePipeResponse {
-  Arn?: string;
-  Name?: string;
-  Description?: string | redacted.Redacted<string>;
-  DesiredState?: string;
-  CurrentState?: string;
-  StateReason?: string;
-  Source?: string;
-  SourceParameters?: PipeSourceParameters;
-  Enrichment?: string;
-  EnrichmentParameters?: PipeEnrichmentParameters;
-  Target?: string;
-  TargetParameters?: PipeTargetParameters;
-  RoleArn?: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LogConfiguration?: PipeLogConfiguration;
-  KmsKeyIdentifier?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  StateReason?: string | undefined;
+  Source?: string | undefined;
+  SourceParameters?: PipeSourceParameters | undefined;
+  Enrichment?: string | undefined;
+  EnrichmentParameters?: PipeEnrichmentParameters | undefined;
+  Target?: string | undefined;
+  TargetParameters?: PipeTargetParameters | undefined;
+  RoleArn?: string | undefined;
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LogConfiguration?: PipeLogConfiguration | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type ResourceArn = string;
 export type NextToken = string | redacted.Redacted<string>;
 export type LimitMax100 = number;
 export interface ListPipesRequest {
-  NamePrefix?: string;
-  DesiredState?: string;
-  CurrentState?: string;
-  SourcePrefix?: string;
-  TargetPrefix?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  Limit?: number;
+  NamePrefix?: string | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  SourcePrefix?: string | undefined;
+  TargetPrefix?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  Limit?: number | undefined;
 }
 export interface Pipe {
-  Name?: string;
-  Arn?: string;
-  DesiredState?: string;
-  CurrentState?: string;
-  StateReason?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  Source?: string;
-  Target?: string;
-  Enrichment?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  StateReason?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  Source?: string | undefined;
+  Target?: string | undefined;
+  Enrichment?: string | undefined;
 }
 export type PipeList = Pipe[];
 export interface ListPipesResponse {
-  Pipes?: Pipe[];
-  NextToken?: string | redacted.Redacted<string>;
+  Pipes?: Pipe[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  tags?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface StartPipeRequest {
   Name: string;
 }
 export interface StartPipeResponse {
-  Arn?: string;
-  Name?: string;
-  DesiredState?: string;
-  CurrentState?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface StopPipeRequest {
   Name: string;
 }
 export interface StopPipeResponse {
-  Arn?: string;
-  Name?: string;
-  DesiredState?: string;
-  CurrentState?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -763,79 +767,79 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdatePipeSourceKinesisStreamParameters {
-  BatchSize?: number;
-  DeadLetterConfig?: DeadLetterConfig;
-  OnPartialBatchItemFailure?: string;
-  MaximumBatchingWindowInSeconds?: number;
-  MaximumRecordAgeInSeconds?: number;
-  MaximumRetryAttempts?: number;
-  ParallelizationFactor?: number;
+  BatchSize?: number | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  OnPartialBatchItemFailure?: string | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  MaximumRecordAgeInSeconds?: number | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  ParallelizationFactor?: number | undefined;
 }
 export interface UpdatePipeSourceDynamoDBStreamParameters {
-  BatchSize?: number;
-  DeadLetterConfig?: DeadLetterConfig;
-  OnPartialBatchItemFailure?: string;
-  MaximumBatchingWindowInSeconds?: number;
-  MaximumRecordAgeInSeconds?: number;
-  MaximumRetryAttempts?: number;
-  ParallelizationFactor?: number;
+  BatchSize?: number | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  OnPartialBatchItemFailure?: string | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  MaximumRecordAgeInSeconds?: number | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  ParallelizationFactor?: number | undefined;
 }
 export interface UpdatePipeSourceSqsQueueParameters {
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
 }
 export interface UpdatePipeSourceActiveMQBrokerParameters {
   Credentials: MQBrokerAccessCredentials;
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
 }
 export interface UpdatePipeSourceRabbitMQBrokerParameters {
   Credentials: MQBrokerAccessCredentials;
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
 }
 export interface UpdatePipeSourceManagedStreamingKafkaParameters {
-  BatchSize?: number;
-  Credentials?: MSKAccessCredentials;
-  MaximumBatchingWindowInSeconds?: number;
+  BatchSize?: number | undefined;
+  Credentials?: MSKAccessCredentials | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
 }
 export interface UpdatePipeSourceSelfManagedKafkaParameters {
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
-  Credentials?: SelfManagedKafkaAccessConfigurationCredentials;
-  ServerRootCaCertificate?: string;
-  Vpc?: SelfManagedKafkaAccessConfigurationVpc;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  Credentials?: SelfManagedKafkaAccessConfigurationCredentials | undefined;
+  ServerRootCaCertificate?: string | undefined;
+  Vpc?: SelfManagedKafkaAccessConfigurationVpc | undefined;
 }
 export interface UpdatePipeSourceParameters {
-  FilterCriteria?: FilterCriteria;
-  KinesisStreamParameters?: UpdatePipeSourceKinesisStreamParameters;
-  DynamoDBStreamParameters?: UpdatePipeSourceDynamoDBStreamParameters;
-  SqsQueueParameters?: UpdatePipeSourceSqsQueueParameters;
-  ActiveMQBrokerParameters?: UpdatePipeSourceActiveMQBrokerParameters;
-  RabbitMQBrokerParameters?: UpdatePipeSourceRabbitMQBrokerParameters;
-  ManagedStreamingKafkaParameters?: UpdatePipeSourceManagedStreamingKafkaParameters;
-  SelfManagedKafkaParameters?: UpdatePipeSourceSelfManagedKafkaParameters;
+  FilterCriteria?: FilterCriteria | undefined;
+  KinesisStreamParameters?: UpdatePipeSourceKinesisStreamParameters | undefined;
+  DynamoDBStreamParameters?: UpdatePipeSourceDynamoDBStreamParameters | undefined;
+  SqsQueueParameters?: UpdatePipeSourceSqsQueueParameters | undefined;
+  ActiveMQBrokerParameters?: UpdatePipeSourceActiveMQBrokerParameters | undefined;
+  RabbitMQBrokerParameters?: UpdatePipeSourceRabbitMQBrokerParameters | undefined;
+  ManagedStreamingKafkaParameters?: UpdatePipeSourceManagedStreamingKafkaParameters | undefined;
+  SelfManagedKafkaParameters?: UpdatePipeSourceSelfManagedKafkaParameters | undefined;
 }
 export interface UpdatePipeRequest {
   Name: string;
-  Description?: string | redacted.Redacted<string>;
-  DesiredState?: string;
-  SourceParameters?: UpdatePipeSourceParameters;
-  Enrichment?: string;
-  EnrichmentParameters?: PipeEnrichmentParameters;
-  Target?: string;
-  TargetParameters?: PipeTargetParameters;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DesiredState?: string | undefined;
+  SourceParameters?: UpdatePipeSourceParameters | undefined;
+  Enrichment?: string | undefined;
+  EnrichmentParameters?: PipeEnrichmentParameters | undefined;
+  Target?: string | undefined;
+  TargetParameters?: PipeTargetParameters | undefined;
   RoleArn: string;
-  LogConfiguration?: PipeLogConfigurationParameters;
-  KmsKeyIdentifier?: string;
+  LogConfiguration?: PipeLogConfigurationParameters | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export interface UpdatePipeResponse {
-  Arn?: string;
-  Name?: string;
-  DesiredState?: string;
-  CurrentState?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DesiredState?: string | undefined;
+  CurrentState?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type ErrorMessage = string;
 export interface ValidationExceptionField {

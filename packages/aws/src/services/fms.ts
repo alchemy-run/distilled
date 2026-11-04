@@ -129,7 +129,7 @@ export type ThirdPartyFirewallAssociationStatus =
   | "NOT_EXIST"
   | (string & {});
 export interface AssociateThirdPartyFirewallResponse {
-  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
+  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus | undefined;
 }
 export type Identifier = string;
 export type IdentifierList = string[];
@@ -146,8 +146,8 @@ export type FailedItemReason =
   | "NOT_VALID_ACCOUNT_ID"
   | (string & {});
 export interface FailedItem {
-  URI?: string;
-  Reason?: FailedItemReason;
+  URI?: string | undefined;
+  Reason?: FailedItemReason | undefined;
 }
 export type FailedItemList = FailedItem[];
 export interface BatchAssociateResourceResponse {
@@ -172,7 +172,7 @@ export interface DeleteNotificationChannelResponse {}
 export type PolicyId = string;
 export interface DeletePolicyRequest {
   PolicyId: string;
-  DeleteAllPolicyResources?: boolean;
+  DeleteAllPolicyResources?: boolean | undefined;
 }
 export interface DeletePolicyResponse {}
 export interface DeleteProtocolsListRequest {
@@ -190,7 +190,7 @@ export interface DisassociateThirdPartyFirewallRequest {
   ThirdPartyFirewall: ThirdPartyFirewall;
 }
 export interface DisassociateThirdPartyFirewallResponse {
-  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
+  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus | undefined;
 }
 export interface GetAdminAccountRequest {}
 export type AccountRoleStatus =
@@ -201,30 +201,30 @@ export type AccountRoleStatus =
   | "DELETED"
   | (string & {});
 export interface GetAdminAccountResponse {
-  AdminAccount?: string;
-  RoleStatus?: AccountRoleStatus;
+  AdminAccount?: string | undefined;
+  RoleStatus?: AccountRoleStatus | undefined;
 }
 export interface GetAdminScopeRequest {
   AdminAccount: string;
 }
 export type AccountIdList = string[];
 export interface AccountScope {
-  Accounts?: string[];
-  AllAccountsEnabled?: boolean;
-  ExcludeSpecifiedAccounts?: boolean;
+  Accounts?: string[] | undefined;
+  AllAccountsEnabled?: boolean | undefined;
+  ExcludeSpecifiedAccounts?: boolean | undefined;
 }
 export type OrganizationalUnitId = string;
 export type OrganizationalUnitIdList = string[];
 export interface OrganizationalUnitScope {
-  OrganizationalUnits?: string[];
-  AllOrganizationalUnitsEnabled?: boolean;
-  ExcludeSpecifiedOrganizationalUnits?: boolean;
+  OrganizationalUnits?: string[] | undefined;
+  AllOrganizationalUnitsEnabled?: boolean | undefined;
+  ExcludeSpecifiedOrganizationalUnits?: boolean | undefined;
 }
 export type AWSRegion = string;
 export type AWSRegionList = string[];
 export interface RegionScope {
-  Regions?: string[];
-  AllRegionsEnabled?: boolean;
+  Regions?: string[] | undefined;
+  AllRegionsEnabled?: boolean | undefined;
 }
 export type SecurityServiceType =
   | "WAF"
@@ -241,14 +241,14 @@ export type SecurityServiceType =
   | (string & {});
 export type SecurityServiceTypeList = SecurityServiceType[];
 export interface PolicyTypeScope {
-  PolicyTypes?: SecurityServiceType[];
-  AllPolicyTypesEnabled?: boolean;
+  PolicyTypes?: SecurityServiceType[] | undefined;
+  AllPolicyTypesEnabled?: boolean | undefined;
 }
 export interface AdminScope {
-  AccountScope?: AccountScope;
-  OrganizationalUnitScope?: OrganizationalUnitScope;
-  RegionScope?: RegionScope;
-  PolicyTypeScope?: PolicyTypeScope;
+  AccountScope?: AccountScope | undefined;
+  OrganizationalUnitScope?: OrganizationalUnitScope | undefined;
+  RegionScope?: RegionScope | undefined;
+  PolicyTypeScope?: PolicyTypeScope | undefined;
 }
 export type OrganizationStatus =
   | "ONBOARDING"
@@ -257,12 +257,12 @@ export type OrganizationStatus =
   | "OFFBOARDING_COMPLETE"
   | (string & {});
 export interface GetAdminScopeResponse {
-  AdminScope?: AdminScope;
-  Status?: OrganizationStatus;
+  AdminScope?: AdminScope | undefined;
+  Status?: OrganizationStatus | undefined;
 }
 export interface GetAppsListRequest {
   ListId: string;
-  DefaultList?: boolean;
+  DefaultList?: boolean | undefined;
 }
 export type ResourceName = string;
 export type UpdateToken = string;
@@ -277,18 +277,18 @@ export type AppsList = App[];
 export type PreviousListVersion = string;
 export type PreviousAppsList = { [key: string]: App[] | undefined };
 export interface AppsListData {
-  ListId?: string;
+  ListId?: string | undefined;
   ListName: string;
-  ListUpdateToken?: string;
-  CreateTime?: Date;
-  LastUpdateTime?: Date;
+  ListUpdateToken?: string | undefined;
+  CreateTime?: Date | undefined;
+  LastUpdateTime?: Date | undefined;
   AppsList: App[];
-  PreviousAppsList?: { [key: string]: App[] | undefined };
+  PreviousAppsList?: { [key: string]: App[] | undefined } | undefined;
 }
 export type ResourceArn = string;
 export interface GetAppsListResponse {
-  AppsList?: AppsListData;
-  AppsListArn?: string;
+  AppsList?: AppsListData | undefined;
+  AppsListArn?: string | undefined;
 }
 export interface GetComplianceDetailRequest {
   PolicyId: string;
@@ -331,10 +331,10 @@ export type ResourceType = string;
 export type LengthBoundedString = string;
 export type ComplianceViolatorMetadata = { [key: string]: string | undefined };
 export interface ComplianceViolator {
-  ResourceId?: string;
-  ViolationReason?: ViolationReason;
-  ResourceType?: string;
-  Metadata?: { [key: string]: string | undefined };
+  ResourceId?: string | undefined;
+  ViolationReason?: ViolationReason | undefined;
+  ResourceType?: string | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type ComplianceViolators = ComplianceViolator[];
 export type DependentServiceName =
@@ -344,23 +344,23 @@ export type DependentServiceName =
   | "AWSVPC"
   | (string & {});
 export type DetailedInfo = string;
-export type IssueInfoMap = { [key in DependentServiceName]?: string };
+export type IssueInfoMap = { [key in DependentServiceName]?: string | undefined };
 export interface PolicyComplianceDetail {
-  PolicyOwner?: string;
-  PolicyId?: string;
-  MemberAccount?: string;
-  Violators?: ComplianceViolator[];
-  EvaluationLimitExceeded?: boolean;
-  ExpiredAt?: Date;
-  IssueInfoMap?: { [key: string]: string | undefined };
+  PolicyOwner?: string | undefined;
+  PolicyId?: string | undefined;
+  MemberAccount?: string | undefined;
+  Violators?: ComplianceViolator[] | undefined;
+  EvaluationLimitExceeded?: boolean | undefined;
+  ExpiredAt?: Date | undefined;
+  IssueInfoMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetComplianceDetailResponse {
-  PolicyComplianceDetail?: PolicyComplianceDetail;
+  PolicyComplianceDetail?: PolicyComplianceDetail | undefined;
 }
 export interface GetNotificationChannelRequest {}
 export interface GetNotificationChannelResponse {
-  SnsTopicArn?: string;
-  SnsRoleName?: string;
+  SnsTopicArn?: string | undefined;
+  SnsRoleName?: string | undefined;
 }
 export interface GetPolicyRequest {
   PolicyId: string;
@@ -369,125 +369,125 @@ export type PolicyUpdateToken = string;
 export type ManagedServiceData = string;
 export type FirewallDeploymentModel = "CENTRALIZED" | "DISTRIBUTED" | (string & {});
 export interface NetworkFirewallPolicy {
-  FirewallDeploymentModel?: FirewallDeploymentModel;
+  FirewallDeploymentModel?: FirewallDeploymentModel | undefined;
 }
 export interface ThirdPartyFirewallPolicy {
-  FirewallDeploymentModel?: FirewallDeploymentModel;
+  FirewallDeploymentModel?: FirewallDeploymentModel | undefined;
 }
 export type IntegerObject = number;
 export interface NetworkAclIcmpTypeCode {
-  Code?: number;
-  Type?: number;
+  Code?: number | undefined;
+  Type?: number | undefined;
 }
 export type IPPortNumberInteger = number;
 export interface NetworkAclPortRange {
-  From?: number;
-  To?: number;
+  From?: number | undefined;
+  To?: number | undefined;
 }
 export type LengthBoundedNonEmptyString = string;
 export type NetworkAclRuleAction = "allow" | "deny" | (string & {});
 export interface NetworkAclEntry {
-  IcmpTypeCode?: NetworkAclIcmpTypeCode;
+  IcmpTypeCode?: NetworkAclIcmpTypeCode | undefined;
   Protocol: string;
-  PortRange?: NetworkAclPortRange;
-  CidrBlock?: string;
-  Ipv6CidrBlock?: string;
+  PortRange?: NetworkAclPortRange | undefined;
+  CidrBlock?: string | undefined;
+  Ipv6CidrBlock?: string | undefined;
   RuleAction: NetworkAclRuleAction;
   Egress: boolean;
 }
 export type NetworkAclEntries = NetworkAclEntry[];
 export interface NetworkAclEntrySet {
-  FirstEntries?: NetworkAclEntry[];
+  FirstEntries?: NetworkAclEntry[] | undefined;
   ForceRemediateForFirstEntries: boolean;
-  LastEntries?: NetworkAclEntry[];
+  LastEntries?: NetworkAclEntry[] | undefined;
   ForceRemediateForLastEntries: boolean;
 }
 export interface NetworkAclCommonPolicy {
   NetworkAclEntrySet: NetworkAclEntrySet;
 }
 export interface PolicyOption {
-  NetworkFirewallPolicy?: NetworkFirewallPolicy;
-  ThirdPartyFirewallPolicy?: ThirdPartyFirewallPolicy;
-  NetworkAclCommonPolicy?: NetworkAclCommonPolicy;
+  NetworkFirewallPolicy?: NetworkFirewallPolicy | undefined;
+  ThirdPartyFirewallPolicy?: ThirdPartyFirewallPolicy | undefined;
+  NetworkAclCommonPolicy?: NetworkAclCommonPolicy | undefined;
 }
 export interface SecurityServicePolicyData {
   Type: SecurityServiceType;
-  ManagedServiceData?: string;
-  PolicyOption?: PolicyOption;
+  ManagedServiceData?: string | undefined;
+  PolicyOption?: PolicyOption | undefined;
 }
 export type ResourceTypeList = string[];
 export type ResourceTagKey = string;
 export type ResourceTagValue = string;
 export interface ResourceTag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type ResourceTags = ResourceTag[];
 export type CustomerPolicyScopeIdType = "ACCOUNT" | "ORG_UNIT" | (string & {});
 export type CustomerPolicyScopeId = string;
 export type CustomerPolicyScopeIdList = string[];
-export type CustomerPolicyScopeMap = { [key in CustomerPolicyScopeIdType]?: string[] };
+export type CustomerPolicyScopeMap = { [key in CustomerPolicyScopeIdType]?: string[] | undefined };
 export type ResourceSetIds = string[];
 export type ResourceDescription = string;
 export type CustomerPolicyStatus = "ACTIVE" | "OUT_OF_ADMIN_SCOPE" | (string & {});
 export type ResourceTagLogicalOperator = "AND" | "OR" | (string & {});
 export interface Policy {
-  PolicyId?: string;
+  PolicyId?: string | undefined;
   PolicyName: string;
-  PolicyUpdateToken?: string;
+  PolicyUpdateToken?: string | undefined;
   SecurityServicePolicyData: SecurityServicePolicyData;
   ResourceType: string;
-  ResourceTypeList?: string[];
-  ResourceTags?: ResourceTag[];
+  ResourceTypeList?: string[] | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
   ExcludeResourceTags: boolean;
   RemediationEnabled: boolean;
-  DeleteUnusedFMManagedResources?: boolean;
-  IncludeMap?: { [key: string]: string[] | undefined };
-  ExcludeMap?: { [key: string]: string[] | undefined };
-  ResourceSetIds?: string[];
-  PolicyDescription?: string;
-  PolicyStatus?: CustomerPolicyStatus;
-  ResourceTagLogicalOperator?: ResourceTagLogicalOperator;
+  DeleteUnusedFMManagedResources?: boolean | undefined;
+  IncludeMap?: { [key: string]: string[] | undefined } | undefined;
+  ExcludeMap?: { [key: string]: string[] | undefined } | undefined;
+  ResourceSetIds?: string[] | undefined;
+  PolicyDescription?: string | undefined;
+  PolicyStatus?: CustomerPolicyStatus | undefined;
+  ResourceTagLogicalOperator?: ResourceTagLogicalOperator | undefined;
 }
 export interface GetPolicyResponse {
-  Policy?: Policy;
-  PolicyArn?: string;
+  Policy?: Policy | undefined;
+  PolicyArn?: string | undefined;
 }
 export type PaginationToken = string;
 export type PaginationMaxResults = number;
 export interface GetProtectionStatusRequest {
   PolicyId: string;
-  MemberAccountId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  MemberAccountId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ProtectionData = string;
 export interface GetProtectionStatusResponse {
-  AdminAccountId?: string;
-  ServiceType?: SecurityServiceType;
-  Data?: string;
-  NextToken?: string;
+  AdminAccountId?: string | undefined;
+  ServiceType?: SecurityServiceType | undefined;
+  Data?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetProtocolsListRequest {
   ListId: string;
-  DefaultList?: boolean;
+  DefaultList?: boolean | undefined;
 }
 export type ProtocolsList = string[];
 export type PreviousProtocolsList = { [key: string]: string[] | undefined };
 export interface ProtocolsListData {
-  ListId?: string;
+  ListId?: string | undefined;
   ListName: string;
-  ListUpdateToken?: string;
-  CreateTime?: Date;
-  LastUpdateTime?: Date;
+  ListUpdateToken?: string | undefined;
+  CreateTime?: Date | undefined;
+  LastUpdateTime?: Date | undefined;
   ProtocolsList: string[];
-  PreviousProtocolsList?: { [key: string]: string[] | undefined };
+  PreviousProtocolsList?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface GetProtocolsListResponse {
-  ProtocolsList?: ProtocolsListData;
-  ProtocolsListArn?: string;
+  ProtocolsList?: ProtocolsListData | undefined;
+  ProtocolsListArn?: string | undefined;
 }
 export interface GetResourceSetRequest {
   Identifier: string;
@@ -496,13 +496,13 @@ export type Name = string;
 export type Description = string;
 export type ResourceSetStatus = "ACTIVE" | "OUT_OF_ADMIN_SCOPE" | (string & {});
 export interface ResourceSet {
-  Id?: string;
+  Id?: string | undefined;
   Name: string;
-  Description?: string;
-  UpdateToken?: string;
+  Description?: string | undefined;
+  UpdateToken?: string | undefined;
   ResourceTypeList: string[];
-  LastUpdateTime?: Date;
-  ResourceSetStatus?: ResourceSetStatus;
+  LastUpdateTime?: Date | undefined;
+  ResourceSetStatus?: ResourceSetStatus | undefined;
 }
 export interface GetResourceSetResponse {
   ResourceSet: ResourceSet;
@@ -517,8 +517,8 @@ export type MarketplaceSubscriptionOnboardingStatus =
   | "COMPLETE"
   | (string & {});
 export interface GetThirdPartyFirewallAssociationStatusResponse {
-  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
-  MarketplaceOnboardingStatus?: MarketplaceSubscriptionOnboardingStatus;
+  ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus | undefined;
+  MarketplaceOnboardingStatus?: MarketplaceSubscriptionOnboardingStatus | undefined;
 }
 export interface GetViolationDetailsRequest {
   PolicyId: string;
@@ -531,69 +531,69 @@ export type ReferenceRule = string;
 export type TargetViolationReason = string;
 export type TargetViolationReasons = string[];
 export interface PartialMatch {
-  Reference?: string;
-  TargetViolationReasons?: string[];
+  Reference?: string | undefined;
+  TargetViolationReasons?: string[] | undefined;
 }
 export type PartialMatches = PartialMatch[];
 export type RemediationActionType = "REMOVE" | "MODIFY" | (string & {});
 export type RemediationActionDescription = string;
 export type CIDR = string;
 export interface SecurityGroupRuleDescription {
-  IPV4Range?: string;
-  IPV6Range?: string;
-  PrefixListId?: string;
-  Protocol?: string;
-  FromPort?: number;
-  ToPort?: number;
+  IPV4Range?: string | undefined;
+  IPV6Range?: string | undefined;
+  PrefixListId?: string | undefined;
+  Protocol?: string | undefined;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
 }
 export interface SecurityGroupRemediationAction {
-  RemediationActionType?: RemediationActionType;
-  Description?: string;
-  RemediationResult?: SecurityGroupRuleDescription;
-  IsDefaultAction?: boolean;
+  RemediationActionType?: RemediationActionType | undefined;
+  Description?: string | undefined;
+  RemediationResult?: SecurityGroupRuleDescription | undefined;
+  IsDefaultAction?: boolean | undefined;
 }
 export type SecurityGroupRemediationActions = SecurityGroupRemediationAction[];
 export interface AwsVPCSecurityGroupViolation {
-  ViolationTarget?: string;
-  ViolationTargetDescription?: string;
-  PartialMatches?: PartialMatch[];
-  PossibleSecurityGroupRemediationActions?: SecurityGroupRemediationAction[];
+  ViolationTarget?: string | undefined;
+  ViolationTargetDescription?: string | undefined;
+  PartialMatches?: PartialMatch[] | undefined;
+  PossibleSecurityGroupRemediationActions?: SecurityGroupRemediationAction[] | undefined;
 }
 export type ResourceIdList = string[];
 export interface AwsEc2NetworkInterfaceViolation {
-  ViolationTarget?: string;
-  ViolatingSecurityGroups?: string[];
+  ViolationTarget?: string | undefined;
+  ViolatingSecurityGroups?: string[] | undefined;
 }
 export type AwsEc2NetworkInterfaceViolations = AwsEc2NetworkInterfaceViolation[];
 export interface AwsEc2InstanceViolation {
-  ViolationTarget?: string;
-  AwsEc2NetworkInterfaceViolations?: AwsEc2NetworkInterfaceViolation[];
+  ViolationTarget?: string | undefined;
+  AwsEc2NetworkInterfaceViolations?: AwsEc2NetworkInterfaceViolation[] | undefined;
 }
 export interface NetworkFirewallMissingFirewallViolation {
-  ViolationTarget?: string;
-  VPC?: string;
-  AvailabilityZone?: string;
-  TargetViolationReason?: string;
+  ViolationTarget?: string | undefined;
+  VPC?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  TargetViolationReason?: string | undefined;
 }
 export interface NetworkFirewallMissingSubnetViolation {
-  ViolationTarget?: string;
-  VPC?: string;
-  AvailabilityZone?: string;
-  TargetViolationReason?: string;
+  ViolationTarget?: string | undefined;
+  VPC?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  TargetViolationReason?: string | undefined;
 }
 export interface NetworkFirewallMissingExpectedRTViolation {
-  ViolationTarget?: string;
-  VPC?: string;
-  AvailabilityZone?: string;
-  CurrentRouteTable?: string;
-  ExpectedRouteTable?: string;
+  ViolationTarget?: string | undefined;
+  VPC?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  CurrentRouteTable?: string | undefined;
+  ExpectedRouteTable?: string | undefined;
 }
 export type NetworkFirewallResourceName = string;
 export type StatelessRuleGroupPriority = number;
 export interface StatelessRuleGroup {
-  RuleGroupName?: string;
-  ResourceId?: string;
-  Priority?: number;
+  RuleGroupName?: string | undefined;
+  ResourceId?: string | undefined;
+  Priority?: number | undefined;
 }
 export type StatelessRuleGroupList = StatelessRuleGroup[];
 export type NetworkFirewallAction = string;
@@ -601,34 +601,34 @@ export type NetworkFirewallActionList = string[];
 export type PriorityNumber = number;
 export type NetworkFirewallOverrideAction = "DROP_TO_ALERT" | (string & {});
 export interface NetworkFirewallStatefulRuleGroupOverride {
-  Action?: NetworkFirewallOverrideAction;
+  Action?: NetworkFirewallOverrideAction | undefined;
 }
 export interface StatefulRuleGroup {
-  RuleGroupName?: string;
-  ResourceId?: string;
-  Priority?: number;
-  Override?: NetworkFirewallStatefulRuleGroupOverride;
+  RuleGroupName?: string | undefined;
+  ResourceId?: string | undefined;
+  Priority?: number | undefined;
+  Override?: NetworkFirewallStatefulRuleGroupOverride | undefined;
 }
 export type StatefulRuleGroupList = StatefulRuleGroup[];
 export type RuleOrder = "STRICT_ORDER" | "DEFAULT_ACTION_ORDER" | (string & {});
 export type StreamExceptionPolicy = "DROP" | "CONTINUE" | "REJECT" | "FMS_IGNORE" | (string & {});
 export interface StatefulEngineOptions {
-  RuleOrder?: RuleOrder;
-  StreamExceptionPolicy?: StreamExceptionPolicy;
+  RuleOrder?: RuleOrder | undefined;
+  StreamExceptionPolicy?: StreamExceptionPolicy | undefined;
 }
 export interface NetworkFirewallPolicyDescription {
-  StatelessRuleGroups?: StatelessRuleGroup[];
-  StatelessDefaultActions?: string[];
-  StatelessFragmentDefaultActions?: string[];
-  StatelessCustomActions?: string[];
-  StatefulRuleGroups?: StatefulRuleGroup[];
-  StatefulDefaultActions?: string[];
-  StatefulEngineOptions?: StatefulEngineOptions;
+  StatelessRuleGroups?: StatelessRuleGroup[] | undefined;
+  StatelessDefaultActions?: string[] | undefined;
+  StatelessFragmentDefaultActions?: string[] | undefined;
+  StatelessCustomActions?: string[] | undefined;
+  StatefulRuleGroups?: StatefulRuleGroup[] | undefined;
+  StatefulDefaultActions?: string[] | undefined;
+  StatefulEngineOptions?: StatefulEngineOptions | undefined;
 }
 export interface NetworkFirewallPolicyModifiedViolation {
-  ViolationTarget?: string;
-  CurrentPolicyDescription?: NetworkFirewallPolicyDescription;
-  ExpectedPolicyDescription?: NetworkFirewallPolicyDescription;
+  ViolationTarget?: string | undefined;
+  CurrentPolicyDescription?: NetworkFirewallPolicyDescription | undefined;
+  ExpectedPolicyDescription?: NetworkFirewallPolicyDescription | undefined;
 }
 export type DestinationType = "IPV4" | "IPV6" | "PREFIX_LIST" | (string & {});
 export type TargetType =
@@ -644,145 +644,145 @@ export type TargetType =
   | "TRANSIT_GATEWAY"
   | (string & {});
 export interface Route {
-  DestinationType?: DestinationType;
-  TargetType?: TargetType;
-  Destination?: string;
-  Target?: string;
+  DestinationType?: DestinationType | undefined;
+  TargetType?: TargetType | undefined;
+  Destination?: string | undefined;
+  Target?: string | undefined;
 }
 export type Routes = Route[];
 export type LengthBoundedStringList = string[];
 export interface ExpectedRoute {
-  IpV4Cidr?: string;
-  PrefixListId?: string;
-  IpV6Cidr?: string;
-  ContributingSubnets?: string[];
-  AllowedTargets?: string[];
-  RouteTableId?: string;
+  IpV4Cidr?: string | undefined;
+  PrefixListId?: string | undefined;
+  IpV6Cidr?: string | undefined;
+  ContributingSubnets?: string[] | undefined;
+  AllowedTargets?: string[] | undefined;
+  RouteTableId?: string | undefined;
 }
 export type ExpectedRoutes = ExpectedRoute[];
 export interface NetworkFirewallInternetTrafficNotInspectedViolation {
-  SubnetId?: string;
-  SubnetAvailabilityZone?: string;
-  RouteTableId?: string;
-  ViolatingRoutes?: Route[];
-  IsRouteTableUsedInDifferentAZ?: boolean;
-  CurrentFirewallSubnetRouteTable?: string;
-  ExpectedFirewallEndpoint?: string;
-  FirewallSubnetId?: string;
-  ExpectedFirewallSubnetRoutes?: ExpectedRoute[];
-  ActualFirewallSubnetRoutes?: Route[];
-  InternetGatewayId?: string;
-  CurrentInternetGatewayRouteTable?: string;
-  ExpectedInternetGatewayRoutes?: ExpectedRoute[];
-  ActualInternetGatewayRoutes?: Route[];
-  VpcId?: string;
+  SubnetId?: string | undefined;
+  SubnetAvailabilityZone?: string | undefined;
+  RouteTableId?: string | undefined;
+  ViolatingRoutes?: Route[] | undefined;
+  IsRouteTableUsedInDifferentAZ?: boolean | undefined;
+  CurrentFirewallSubnetRouteTable?: string | undefined;
+  ExpectedFirewallEndpoint?: string | undefined;
+  FirewallSubnetId?: string | undefined;
+  ExpectedFirewallSubnetRoutes?: ExpectedRoute[] | undefined;
+  ActualFirewallSubnetRoutes?: Route[] | undefined;
+  InternetGatewayId?: string | undefined;
+  CurrentInternetGatewayRouteTable?: string | undefined;
+  ExpectedInternetGatewayRoutes?: ExpectedRoute[] | undefined;
+  ActualInternetGatewayRoutes?: Route[] | undefined;
+  VpcId?: string | undefined;
 }
 export interface NetworkFirewallInvalidRouteConfigurationViolation {
-  AffectedSubnets?: string[];
-  RouteTableId?: string;
-  IsRouteTableUsedInDifferentAZ?: boolean;
-  ViolatingRoute?: Route;
-  CurrentFirewallSubnetRouteTable?: string;
-  ExpectedFirewallEndpoint?: string;
-  ActualFirewallEndpoint?: string;
-  ExpectedFirewallSubnetId?: string;
-  ActualFirewallSubnetId?: string;
-  ExpectedFirewallSubnetRoutes?: ExpectedRoute[];
-  ActualFirewallSubnetRoutes?: Route[];
-  InternetGatewayId?: string;
-  CurrentInternetGatewayRouteTable?: string;
-  ExpectedInternetGatewayRoutes?: ExpectedRoute[];
-  ActualInternetGatewayRoutes?: Route[];
-  VpcId?: string;
+  AffectedSubnets?: string[] | undefined;
+  RouteTableId?: string | undefined;
+  IsRouteTableUsedInDifferentAZ?: boolean | undefined;
+  ViolatingRoute?: Route | undefined;
+  CurrentFirewallSubnetRouteTable?: string | undefined;
+  ExpectedFirewallEndpoint?: string | undefined;
+  ActualFirewallEndpoint?: string | undefined;
+  ExpectedFirewallSubnetId?: string | undefined;
+  ActualFirewallSubnetId?: string | undefined;
+  ExpectedFirewallSubnetRoutes?: ExpectedRoute[] | undefined;
+  ActualFirewallSubnetRoutes?: Route[] | undefined;
+  InternetGatewayId?: string | undefined;
+  CurrentInternetGatewayRouteTable?: string | undefined;
+  ExpectedInternetGatewayRoutes?: ExpectedRoute[] | undefined;
+  ActualInternetGatewayRoutes?: Route[] | undefined;
+  VpcId?: string | undefined;
 }
 export interface NetworkFirewallBlackHoleRouteDetectedViolation {
-  ViolationTarget?: string;
-  RouteTableId?: string;
-  VpcId?: string;
-  ViolatingRoutes?: Route[];
+  ViolationTarget?: string | undefined;
+  RouteTableId?: string | undefined;
+  VpcId?: string | undefined;
+  ViolatingRoutes?: Route[] | undefined;
 }
 export interface NetworkFirewallUnexpectedFirewallRoutesViolation {
-  FirewallSubnetId?: string;
-  ViolatingRoutes?: Route[];
-  RouteTableId?: string;
-  FirewallEndpoint?: string;
-  VpcId?: string;
+  FirewallSubnetId?: string | undefined;
+  ViolatingRoutes?: Route[] | undefined;
+  RouteTableId?: string | undefined;
+  FirewallEndpoint?: string | undefined;
+  VpcId?: string | undefined;
 }
 export interface NetworkFirewallUnexpectedGatewayRoutesViolation {
-  GatewayId?: string;
-  ViolatingRoutes?: Route[];
-  RouteTableId?: string;
-  VpcId?: string;
+  GatewayId?: string | undefined;
+  ViolatingRoutes?: Route[] | undefined;
+  RouteTableId?: string | undefined;
+  VpcId?: string | undefined;
 }
 export interface NetworkFirewallMissingExpectedRoutesViolation {
-  ViolationTarget?: string;
-  ExpectedRoutes?: ExpectedRoute[];
-  VpcId?: string;
+  ViolationTarget?: string | undefined;
+  ExpectedRoutes?: ExpectedRoute[] | undefined;
+  VpcId?: string | undefined;
 }
 export type DnsRuleGroupPriority = number;
 export type DnsRuleGroupPriorities = number[];
 export interface DnsRuleGroupPriorityConflictViolation {
-  ViolationTarget?: string;
-  ViolationTargetDescription?: string;
-  ConflictingPriority?: number;
-  ConflictingPolicyId?: string;
-  UnavailablePriorities?: number[];
+  ViolationTarget?: string | undefined;
+  ViolationTargetDescription?: string | undefined;
+  ConflictingPriority?: number | undefined;
+  ConflictingPolicyId?: string | undefined;
+  UnavailablePriorities?: number[] | undefined;
 }
 export interface DnsDuplicateRuleGroupViolation {
-  ViolationTarget?: string;
-  ViolationTargetDescription?: string;
+  ViolationTarget?: string | undefined;
+  ViolationTargetDescription?: string | undefined;
 }
 export type BasicInteger = number;
 export interface DnsRuleGroupLimitExceededViolation {
-  ViolationTarget?: string;
-  ViolationTargetDescription?: string;
-  NumberOfRuleGroupsAlreadyAssociated?: number;
+  ViolationTarget?: string | undefined;
+  ViolationTargetDescription?: string | undefined;
+  NumberOfRuleGroupsAlreadyAssociated?: number | undefined;
 }
 export interface FirewallSubnetIsOutOfScopeViolation {
-  FirewallSubnetId?: string;
-  VpcId?: string;
-  SubnetAvailabilityZone?: string;
-  SubnetAvailabilityZoneId?: string;
-  VpcEndpointId?: string;
+  FirewallSubnetId?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetAvailabilityZone?: string | undefined;
+  SubnetAvailabilityZoneId?: string | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export interface RouteHasOutOfScopeEndpointViolation {
-  SubnetId?: string;
-  VpcId?: string;
-  RouteTableId?: string;
-  ViolatingRoutes?: Route[];
-  SubnetAvailabilityZone?: string;
-  SubnetAvailabilityZoneId?: string;
-  CurrentFirewallSubnetRouteTable?: string;
-  FirewallSubnetId?: string;
-  FirewallSubnetRoutes?: Route[];
-  InternetGatewayId?: string;
-  CurrentInternetGatewayRouteTable?: string;
-  InternetGatewayRoutes?: Route[];
+  SubnetId?: string | undefined;
+  VpcId?: string | undefined;
+  RouteTableId?: string | undefined;
+  ViolatingRoutes?: Route[] | undefined;
+  SubnetAvailabilityZone?: string | undefined;
+  SubnetAvailabilityZoneId?: string | undefined;
+  CurrentFirewallSubnetRouteTable?: string | undefined;
+  FirewallSubnetId?: string | undefined;
+  FirewallSubnetRoutes?: Route[] | undefined;
+  InternetGatewayId?: string | undefined;
+  CurrentInternetGatewayRouteTable?: string | undefined;
+  InternetGatewayRoutes?: Route[] | undefined;
 }
 export interface ThirdPartyFirewallMissingFirewallViolation {
-  ViolationTarget?: string;
-  VPC?: string;
-  AvailabilityZone?: string;
-  TargetViolationReason?: string;
+  ViolationTarget?: string | undefined;
+  VPC?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  TargetViolationReason?: string | undefined;
 }
 export interface ThirdPartyFirewallMissingSubnetViolation {
-  ViolationTarget?: string;
-  VPC?: string;
-  AvailabilityZone?: string;
-  TargetViolationReason?: string;
+  ViolationTarget?: string | undefined;
+  VPC?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  TargetViolationReason?: string | undefined;
 }
 export interface ThirdPartyFirewallMissingExpectedRouteTableViolation {
-  ViolationTarget?: string;
-  VPC?: string;
-  AvailabilityZone?: string;
-  CurrentRouteTable?: string;
-  ExpectedRouteTable?: string;
+  ViolationTarget?: string | undefined;
+  VPC?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  CurrentRouteTable?: string | undefined;
+  ExpectedRouteTable?: string | undefined;
 }
 export interface FirewallSubnetMissingVPCEndpointViolation {
-  FirewallSubnetId?: string;
-  VpcId?: string;
-  SubnetAvailabilityZone?: string;
-  SubnetAvailabilityZoneId?: string;
+  FirewallSubnetId?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetAvailabilityZone?: string | undefined;
+  SubnetAvailabilityZoneId?: string | undefined;
 }
 export type IntegerObjectMinimum0 = number;
 export type EntryType =
@@ -791,9 +791,9 @@ export type EntryType =
   | "CUSTOM_ENTRY"
   | (string & {});
 export interface EntryDescription {
-  EntryDetail?: NetworkAclEntry;
-  EntryRuleNumber?: number;
-  EntryType?: EntryType;
+  EntryDetail?: NetworkAclEntry | undefined;
+  EntryRuleNumber?: number | undefined;
+  EntryType?: EntryType | undefined;
 }
 export type EntriesWithConflicts = EntryDescription[];
 export type EntryViolationReason =
@@ -803,163 +803,183 @@ export type EntryViolationReason =
   | (string & {});
 export type EntryViolationReasons = EntryViolationReason[];
 export interface EntryViolation {
-  ExpectedEntry?: EntryDescription;
-  ExpectedEvaluationOrder?: string;
-  ActualEvaluationOrder?: string;
-  EntryAtExpectedEvaluationOrder?: EntryDescription;
-  EntriesWithConflicts?: EntryDescription[];
-  EntryViolationReasons?: EntryViolationReason[];
+  ExpectedEntry?: EntryDescription | undefined;
+  ExpectedEvaluationOrder?: string | undefined;
+  ActualEvaluationOrder?: string | undefined;
+  EntryAtExpectedEvaluationOrder?: EntryDescription | undefined;
+  EntriesWithConflicts?: EntryDescription[] | undefined;
+  EntryViolationReasons?: EntryViolationReason[] | undefined;
 }
 export type EntryViolations = EntryViolation[];
 export interface InvalidNetworkAclEntriesViolation {
-  Vpc?: string;
-  Subnet?: string;
-  SubnetAvailabilityZone?: string;
-  CurrentAssociatedNetworkAcl?: string;
-  EntryViolations?: EntryViolation[];
+  Vpc?: string | undefined;
+  Subnet?: string | undefined;
+  SubnetAvailabilityZone?: string | undefined;
+  CurrentAssociatedNetworkAcl?: string | undefined;
+  EntryViolations?: EntryViolation[] | undefined;
 }
 export interface ActionTarget {
-  ResourceId?: string;
-  Description?: string;
+  ResourceId?: string | undefined;
+  Description?: string | undefined;
 }
 export interface EC2CreateRouteAction {
-  Description?: string;
-  DestinationCidrBlock?: string;
-  DestinationPrefixListId?: string;
-  DestinationIpv6CidrBlock?: string;
-  VpcEndpointId?: ActionTarget;
-  GatewayId?: ActionTarget;
+  Description?: string | undefined;
+  DestinationCidrBlock?: string | undefined;
+  DestinationPrefixListId?: string | undefined;
+  DestinationIpv6CidrBlock?: string | undefined;
+  VpcEndpointId?: ActionTarget | undefined;
+  GatewayId?: ActionTarget | undefined;
   RouteTableId: ActionTarget;
 }
 export interface EC2ReplaceRouteAction {
-  Description?: string;
-  DestinationCidrBlock?: string;
-  DestinationPrefixListId?: string;
-  DestinationIpv6CidrBlock?: string;
-  GatewayId?: ActionTarget;
+  Description?: string | undefined;
+  DestinationCidrBlock?: string | undefined;
+  DestinationPrefixListId?: string | undefined;
+  DestinationIpv6CidrBlock?: string | undefined;
+  GatewayId?: ActionTarget | undefined;
   RouteTableId: ActionTarget;
 }
 export interface EC2DeleteRouteAction {
-  Description?: string;
-  DestinationCidrBlock?: string;
-  DestinationPrefixListId?: string;
-  DestinationIpv6CidrBlock?: string;
+  Description?: string | undefined;
+  DestinationCidrBlock?: string | undefined;
+  DestinationPrefixListId?: string | undefined;
+  DestinationIpv6CidrBlock?: string | undefined;
   RouteTableId: ActionTarget;
 }
 export interface EC2CopyRouteTableAction {
-  Description?: string;
+  Description?: string | undefined;
   VpcId: ActionTarget;
   RouteTableId: ActionTarget;
 }
 export interface EC2ReplaceRouteTableAssociationAction {
-  Description?: string;
+  Description?: string | undefined;
   AssociationId: ActionTarget;
   RouteTableId: ActionTarget;
 }
 export interface EC2AssociateRouteTableAction {
-  Description?: string;
+  Description?: string | undefined;
   RouteTableId: ActionTarget;
-  SubnetId?: ActionTarget;
-  GatewayId?: ActionTarget;
+  SubnetId?: ActionTarget | undefined;
+  GatewayId?: ActionTarget | undefined;
 }
 export interface EC2CreateRouteTableAction {
-  Description?: string;
+  Description?: string | undefined;
   VpcId: ActionTarget;
 }
 export interface FMSPolicyUpdateFirewallCreationConfigAction {
-  Description?: string;
-  FirewallCreationConfig?: string;
+  Description?: string | undefined;
+  FirewallCreationConfig?: string | undefined;
 }
 export interface CreateNetworkAclAction {
-  Description?: string;
-  Vpc?: ActionTarget;
-  FMSCanRemediate?: boolean;
+  Description?: string | undefined;
+  Vpc?: ActionTarget | undefined;
+  FMSCanRemediate?: boolean | undefined;
 }
 export interface ReplaceNetworkAclAssociationAction {
-  Description?: string;
-  AssociationId?: ActionTarget;
-  NetworkAclId?: ActionTarget;
-  FMSCanRemediate?: boolean;
+  Description?: string | undefined;
+  AssociationId?: ActionTarget | undefined;
+  NetworkAclId?: ActionTarget | undefined;
+  FMSCanRemediate?: boolean | undefined;
 }
 export type EntriesDescription = EntryDescription[];
 export interface CreateNetworkAclEntriesAction {
-  Description?: string;
-  NetworkAclId?: ActionTarget;
-  NetworkAclEntriesToBeCreated?: EntryDescription[];
-  FMSCanRemediate?: boolean;
+  Description?: string | undefined;
+  NetworkAclId?: ActionTarget | undefined;
+  NetworkAclEntriesToBeCreated?: EntryDescription[] | undefined;
+  FMSCanRemediate?: boolean | undefined;
 }
 export interface DeleteNetworkAclEntriesAction {
-  Description?: string;
-  NetworkAclId?: ActionTarget;
-  NetworkAclEntriesToBeDeleted?: EntryDescription[];
-  FMSCanRemediate?: boolean;
+  Description?: string | undefined;
+  NetworkAclId?: ActionTarget | undefined;
+  NetworkAclEntriesToBeDeleted?: EntryDescription[] | undefined;
+  FMSCanRemediate?: boolean | undefined;
 }
 export interface RemediationAction {
-  Description?: string;
-  EC2CreateRouteAction?: EC2CreateRouteAction;
-  EC2ReplaceRouteAction?: EC2ReplaceRouteAction;
-  EC2DeleteRouteAction?: EC2DeleteRouteAction;
-  EC2CopyRouteTableAction?: EC2CopyRouteTableAction;
-  EC2ReplaceRouteTableAssociationAction?: EC2ReplaceRouteTableAssociationAction;
-  EC2AssociateRouteTableAction?: EC2AssociateRouteTableAction;
-  EC2CreateRouteTableAction?: EC2CreateRouteTableAction;
-  FMSPolicyUpdateFirewallCreationConfigAction?: FMSPolicyUpdateFirewallCreationConfigAction;
-  CreateNetworkAclAction?: CreateNetworkAclAction;
-  ReplaceNetworkAclAssociationAction?: ReplaceNetworkAclAssociationAction;
-  CreateNetworkAclEntriesAction?: CreateNetworkAclEntriesAction;
-  DeleteNetworkAclEntriesAction?: DeleteNetworkAclEntriesAction;
+  Description?: string | undefined;
+  EC2CreateRouteAction?: EC2CreateRouteAction | undefined;
+  EC2ReplaceRouteAction?: EC2ReplaceRouteAction | undefined;
+  EC2DeleteRouteAction?: EC2DeleteRouteAction | undefined;
+  EC2CopyRouteTableAction?: EC2CopyRouteTableAction | undefined;
+  EC2ReplaceRouteTableAssociationAction?: EC2ReplaceRouteTableAssociationAction | undefined;
+  EC2AssociateRouteTableAction?: EC2AssociateRouteTableAction | undefined;
+  EC2CreateRouteTableAction?: EC2CreateRouteTableAction | undefined;
+  FMSPolicyUpdateFirewallCreationConfigAction?:
+    | FMSPolicyUpdateFirewallCreationConfigAction
+    | undefined;
+  CreateNetworkAclAction?: CreateNetworkAclAction | undefined;
+  ReplaceNetworkAclAssociationAction?: ReplaceNetworkAclAssociationAction | undefined;
+  CreateNetworkAclEntriesAction?: CreateNetworkAclEntriesAction | undefined;
+  DeleteNetworkAclEntriesAction?: DeleteNetworkAclEntriesAction | undefined;
 }
 export interface RemediationActionWithOrder {
-  RemediationAction?: RemediationAction;
-  Order?: number;
+  RemediationAction?: RemediationAction | undefined;
+  Order?: number | undefined;
 }
 export type OrderedRemediationActions = RemediationActionWithOrder[];
 export interface PossibleRemediationAction {
-  Description?: string;
+  Description?: string | undefined;
   OrderedRemediationActions: RemediationActionWithOrder[];
-  IsDefaultAction?: boolean;
+  IsDefaultAction?: boolean | undefined;
 }
 export type PossibleRemediationActionList = PossibleRemediationAction[];
 export interface PossibleRemediationActions {
-  Description?: string;
-  Actions?: PossibleRemediationAction[];
+  Description?: string | undefined;
+  Actions?: PossibleRemediationAction[] | undefined;
 }
 export interface WebACLHasIncompatibleConfigurationViolation {
-  WebACLArn?: string;
-  Description?: string;
+  WebACLArn?: string | undefined;
+  Description?: string | undefined;
 }
 export type ResourceArnList = string[];
 export interface WebACLHasOutOfScopeResourcesViolation {
-  WebACLArn?: string;
-  OutOfScopeResourceList?: string[];
+  WebACLArn?: string | undefined;
+  OutOfScopeResourceList?: string[] | undefined;
 }
 export interface ResourceViolation {
-  AwsVPCSecurityGroupViolation?: AwsVPCSecurityGroupViolation;
-  AwsEc2NetworkInterfaceViolation?: AwsEc2NetworkInterfaceViolation;
-  AwsEc2InstanceViolation?: AwsEc2InstanceViolation;
-  NetworkFirewallMissingFirewallViolation?: NetworkFirewallMissingFirewallViolation;
-  NetworkFirewallMissingSubnetViolation?: NetworkFirewallMissingSubnetViolation;
-  NetworkFirewallMissingExpectedRTViolation?: NetworkFirewallMissingExpectedRTViolation;
-  NetworkFirewallPolicyModifiedViolation?: NetworkFirewallPolicyModifiedViolation;
-  NetworkFirewallInternetTrafficNotInspectedViolation?: NetworkFirewallInternetTrafficNotInspectedViolation;
-  NetworkFirewallInvalidRouteConfigurationViolation?: NetworkFirewallInvalidRouteConfigurationViolation;
-  NetworkFirewallBlackHoleRouteDetectedViolation?: NetworkFirewallBlackHoleRouteDetectedViolation;
-  NetworkFirewallUnexpectedFirewallRoutesViolation?: NetworkFirewallUnexpectedFirewallRoutesViolation;
-  NetworkFirewallUnexpectedGatewayRoutesViolation?: NetworkFirewallUnexpectedGatewayRoutesViolation;
-  NetworkFirewallMissingExpectedRoutesViolation?: NetworkFirewallMissingExpectedRoutesViolation;
-  DnsRuleGroupPriorityConflictViolation?: DnsRuleGroupPriorityConflictViolation;
-  DnsDuplicateRuleGroupViolation?: DnsDuplicateRuleGroupViolation;
-  DnsRuleGroupLimitExceededViolation?: DnsRuleGroupLimitExceededViolation;
-  FirewallSubnetIsOutOfScopeViolation?: FirewallSubnetIsOutOfScopeViolation;
-  RouteHasOutOfScopeEndpointViolation?: RouteHasOutOfScopeEndpointViolation;
-  ThirdPartyFirewallMissingFirewallViolation?: ThirdPartyFirewallMissingFirewallViolation;
-  ThirdPartyFirewallMissingSubnetViolation?: ThirdPartyFirewallMissingSubnetViolation;
-  ThirdPartyFirewallMissingExpectedRouteTableViolation?: ThirdPartyFirewallMissingExpectedRouteTableViolation;
-  FirewallSubnetMissingVPCEndpointViolation?: FirewallSubnetMissingVPCEndpointViolation;
-  InvalidNetworkAclEntriesViolation?: InvalidNetworkAclEntriesViolation;
-  PossibleRemediationActions?: PossibleRemediationActions;
-  WebACLHasIncompatibleConfigurationViolation?: WebACLHasIncompatibleConfigurationViolation;
-  WebACLHasOutOfScopeResourcesViolation?: WebACLHasOutOfScopeResourcesViolation;
+  AwsVPCSecurityGroupViolation?: AwsVPCSecurityGroupViolation | undefined;
+  AwsEc2NetworkInterfaceViolation?: AwsEc2NetworkInterfaceViolation | undefined;
+  AwsEc2InstanceViolation?: AwsEc2InstanceViolation | undefined;
+  NetworkFirewallMissingFirewallViolation?: NetworkFirewallMissingFirewallViolation | undefined;
+  NetworkFirewallMissingSubnetViolation?: NetworkFirewallMissingSubnetViolation | undefined;
+  NetworkFirewallMissingExpectedRTViolation?: NetworkFirewallMissingExpectedRTViolation | undefined;
+  NetworkFirewallPolicyModifiedViolation?: NetworkFirewallPolicyModifiedViolation | undefined;
+  NetworkFirewallInternetTrafficNotInspectedViolation?:
+    | NetworkFirewallInternetTrafficNotInspectedViolation
+    | undefined;
+  NetworkFirewallInvalidRouteConfigurationViolation?:
+    | NetworkFirewallInvalidRouteConfigurationViolation
+    | undefined;
+  NetworkFirewallBlackHoleRouteDetectedViolation?:
+    | NetworkFirewallBlackHoleRouteDetectedViolation
+    | undefined;
+  NetworkFirewallUnexpectedFirewallRoutesViolation?:
+    | NetworkFirewallUnexpectedFirewallRoutesViolation
+    | undefined;
+  NetworkFirewallUnexpectedGatewayRoutesViolation?:
+    | NetworkFirewallUnexpectedGatewayRoutesViolation
+    | undefined;
+  NetworkFirewallMissingExpectedRoutesViolation?:
+    | NetworkFirewallMissingExpectedRoutesViolation
+    | undefined;
+  DnsRuleGroupPriorityConflictViolation?: DnsRuleGroupPriorityConflictViolation | undefined;
+  DnsDuplicateRuleGroupViolation?: DnsDuplicateRuleGroupViolation | undefined;
+  DnsRuleGroupLimitExceededViolation?: DnsRuleGroupLimitExceededViolation | undefined;
+  FirewallSubnetIsOutOfScopeViolation?: FirewallSubnetIsOutOfScopeViolation | undefined;
+  RouteHasOutOfScopeEndpointViolation?: RouteHasOutOfScopeEndpointViolation | undefined;
+  ThirdPartyFirewallMissingFirewallViolation?:
+    | ThirdPartyFirewallMissingFirewallViolation
+    | undefined;
+  ThirdPartyFirewallMissingSubnetViolation?: ThirdPartyFirewallMissingSubnetViolation | undefined;
+  ThirdPartyFirewallMissingExpectedRouteTableViolation?:
+    | ThirdPartyFirewallMissingExpectedRouteTableViolation
+    | undefined;
+  FirewallSubnetMissingVPCEndpointViolation?: FirewallSubnetMissingVPCEndpointViolation | undefined;
+  InvalidNetworkAclEntriesViolation?: InvalidNetworkAclEntriesViolation | undefined;
+  PossibleRemediationActions?: PossibleRemediationActions | undefined;
+  WebACLHasIncompatibleConfigurationViolation?:
+    | WebACLHasIncompatibleConfigurationViolation
+    | undefined;
+  WebACLHasOutOfScopeResourcesViolation?: WebACLHasOutOfScopeResourcesViolation | undefined;
 }
 export type ResourceViolations = ResourceViolation[];
 export type TagKey = string;
@@ -975,203 +995,203 @@ export interface ViolationDetail {
   ResourceId: string;
   ResourceType: string;
   ResourceViolations: ResourceViolation[];
-  ResourceTags?: Tag[];
-  ResourceDescription?: string;
+  ResourceTags?: Tag[] | undefined;
+  ResourceDescription?: string | undefined;
 }
 export interface GetViolationDetailsResponse {
-  ViolationDetail?: ViolationDetail;
+  ViolationDetail?: ViolationDetail | undefined;
 }
 export interface ListAdminAccountsForOrganizationRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AdminAccountSummary {
-  AdminAccount?: string;
-  DefaultAdmin?: boolean;
-  Status?: OrganizationStatus;
+  AdminAccount?: string | undefined;
+  DefaultAdmin?: boolean | undefined;
+  Status?: OrganizationStatus | undefined;
 }
 export type AdminAccountSummaryList = AdminAccountSummary[];
 export interface ListAdminAccountsForOrganizationResponse {
-  AdminAccounts?: AdminAccountSummary[];
-  NextToken?: string;
+  AdminAccounts?: AdminAccountSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAdminsManagingAccountRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAdminsManagingAccountResponse {
-  AdminAccounts?: string[];
-  NextToken?: string;
+  AdminAccounts?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAppsListsRequest {
-  DefaultLists?: boolean;
-  NextToken?: string;
+  DefaultLists?: boolean | undefined;
+  NextToken?: string | undefined;
   MaxResults: number;
 }
 export interface AppsListDataSummary {
-  ListArn?: string;
-  ListId?: string;
-  ListName?: string;
-  AppsList?: App[];
+  ListArn?: string | undefined;
+  ListId?: string | undefined;
+  ListName?: string | undefined;
+  AppsList?: App[] | undefined;
 }
 export type AppsListsData = AppsListDataSummary[];
 export interface ListAppsListsResponse {
-  AppsLists?: AppsListDataSummary[];
-  NextToken?: string;
+  AppsLists?: AppsListDataSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListComplianceStatusRequest {
   PolicyId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PolicyComplianceStatusType = "COMPLIANT" | "NON_COMPLIANT" | (string & {});
 export type ResourceCount = number;
 export interface EvaluationResult {
-  ComplianceStatus?: PolicyComplianceStatusType;
-  ViolatorCount?: number;
-  EvaluationLimitExceeded?: boolean;
+  ComplianceStatus?: PolicyComplianceStatusType | undefined;
+  ViolatorCount?: number | undefined;
+  EvaluationLimitExceeded?: boolean | undefined;
 }
 export type EvaluationResults = EvaluationResult[];
 export interface PolicyComplianceStatus {
-  PolicyOwner?: string;
-  PolicyId?: string;
-  PolicyName?: string;
-  MemberAccount?: string;
-  EvaluationResults?: EvaluationResult[];
-  LastUpdated?: Date;
-  IssueInfoMap?: { [key: string]: string | undefined };
+  PolicyOwner?: string | undefined;
+  PolicyId?: string | undefined;
+  PolicyName?: string | undefined;
+  MemberAccount?: string | undefined;
+  EvaluationResults?: EvaluationResult[] | undefined;
+  LastUpdated?: Date | undefined;
+  IssueInfoMap?: { [key: string]: string | undefined } | undefined;
 }
 export type PolicyComplianceStatusList = PolicyComplianceStatus[];
 export interface ListComplianceStatusResponse {
-  PolicyComplianceStatusList?: PolicyComplianceStatus[];
-  NextToken?: string;
+  PolicyComplianceStatusList?: PolicyComplianceStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AWSAccountIdList = string[];
 export interface ListDiscoveredResourcesRequest {
   MemberAccountIds: string[];
   ResourceType: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DiscoveredResource {
-  URI?: string;
-  AccountId?: string;
-  Type?: string;
-  Name?: string;
+  URI?: string | undefined;
+  AccountId?: string | undefined;
+  Type?: string | undefined;
+  Name?: string | undefined;
 }
 export type DiscoveredResourceList = DiscoveredResource[];
 export interface ListDiscoveredResourcesResponse {
-  Items?: DiscoveredResource[];
-  NextToken?: string;
+  Items?: DiscoveredResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMemberAccountsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type MemberAccounts = string[];
 export interface ListMemberAccountsResponse {
-  MemberAccounts?: string[];
-  NextToken?: string;
+  MemberAccounts?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPoliciesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface PolicySummary {
-  PolicyArn?: string;
-  PolicyId?: string;
-  PolicyName?: string;
-  ResourceType?: string;
-  SecurityServiceType?: SecurityServiceType;
-  RemediationEnabled?: boolean;
-  DeleteUnusedFMManagedResources?: boolean;
-  PolicyStatus?: CustomerPolicyStatus;
+  PolicyArn?: string | undefined;
+  PolicyId?: string | undefined;
+  PolicyName?: string | undefined;
+  ResourceType?: string | undefined;
+  SecurityServiceType?: SecurityServiceType | undefined;
+  RemediationEnabled?: boolean | undefined;
+  DeleteUnusedFMManagedResources?: boolean | undefined;
+  PolicyStatus?: CustomerPolicyStatus | undefined;
 }
 export type PolicySummaryList = PolicySummary[];
 export interface ListPoliciesResponse {
-  PolicyList?: PolicySummary[];
-  NextToken?: string;
+  PolicyList?: PolicySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProtocolsListsRequest {
-  DefaultLists?: boolean;
-  NextToken?: string;
+  DefaultLists?: boolean | undefined;
+  NextToken?: string | undefined;
   MaxResults: number;
 }
 export interface ProtocolsListDataSummary {
-  ListArn?: string;
-  ListId?: string;
-  ListName?: string;
-  ProtocolsList?: string[];
+  ListArn?: string | undefined;
+  ListId?: string | undefined;
+  ListName?: string | undefined;
+  ProtocolsList?: string[] | undefined;
 }
 export type ProtocolsListsData = ProtocolsListDataSummary[];
 export interface ListProtocolsListsResponse {
-  ProtocolsLists?: ProtocolsListDataSummary[];
-  NextToken?: string;
+  ProtocolsLists?: ProtocolsListDataSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceSetResourcesRequest {
   Identifier: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Resource {
   URI: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type ResourceList = Resource[];
 export interface ListResourceSetResourcesResponse {
   Items: Resource[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListResourceSetsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ResourceSetSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  LastUpdateTime?: Date;
-  ResourceSetStatus?: ResourceSetStatus;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LastUpdateTime?: Date | undefined;
+  ResourceSetStatus?: ResourceSetStatus | undefined;
 }
 export type ResourceSetSummaryList = ResourceSetSummary[];
 export interface ListResourceSetsResponse {
-  ResourceSets?: ResourceSetSummary[];
-  NextToken?: string;
+  ResourceSets?: ResourceSetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface ListThirdPartyFirewallFirewallPoliciesRequest {
   ThirdPartyFirewall: ThirdPartyFirewall;
-  NextToken?: string;
+  NextToken?: string | undefined;
   MaxResults: number;
 }
 export type FirewallPolicyId = string;
 export type FirewallPolicyName = string;
 export interface ThirdPartyFirewallFirewallPolicy {
-  FirewallPolicyId?: string;
-  FirewallPolicyName?: string;
+  FirewallPolicyId?: string | undefined;
+  FirewallPolicyName?: string | undefined;
 }
 export type ThirdPartyFirewallFirewallPolicies = ThirdPartyFirewallFirewallPolicy[];
 export interface ListThirdPartyFirewallFirewallPoliciesResponse {
-  ThirdPartyFirewallFirewallPolicies?: ThirdPartyFirewallFirewallPolicy[];
-  NextToken?: string;
+  ThirdPartyFirewallFirewallPolicies?: ThirdPartyFirewallFirewallPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutAdminAccountRequest {
   AdminAccount: string;
-  AdminScope?: AdminScope;
+  AdminScope?: AdminScope | undefined;
 }
 export interface PutAdminAccountResponse {}
 export interface PutAppsListRequest {
   AppsList: AppsListData;
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface PutAppsListResponse {
-  AppsList?: AppsListData;
-  AppsListArn?: string;
+  AppsList?: AppsListData | undefined;
+  AppsListArn?: string | undefined;
 }
 export interface PutNotificationChannelRequest {
   SnsTopicArn: string;
@@ -1180,23 +1200,23 @@ export interface PutNotificationChannelRequest {
 export interface PutNotificationChannelResponse {}
 export interface PutPolicyRequest {
   Policy: Policy;
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface PutPolicyResponse {
-  Policy?: Policy;
-  PolicyArn?: string;
+  Policy?: Policy | undefined;
+  PolicyArn?: string | undefined;
 }
 export interface PutProtocolsListRequest {
   ProtocolsList: ProtocolsListData;
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface PutProtocolsListResponse {
-  ProtocolsList?: ProtocolsListData;
-  ProtocolsListArn?: string;
+  ProtocolsList?: ProtocolsListData | undefined;
+  ProtocolsListArn?: string | undefined;
 }
 export interface PutResourceSetRequest {
   ResourceSet: ResourceSet;
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface PutResourceSetResponse {
   ResourceSet: ResourceSet;

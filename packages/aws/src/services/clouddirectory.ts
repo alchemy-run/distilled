@@ -309,8 +309,8 @@ export class ValidationException
 export type Arn = string;
 export type FacetName = string;
 export interface SchemaFacet {
-  SchemaArn?: string;
-  FacetName?: string;
+  SchemaArn?: string | undefined;
+  FacetName?: string | undefined;
 }
 export type AttributeName = string;
 export interface AttributeKey {
@@ -366,12 +366,12 @@ export interface AttributeKeyAndValue {
 export type AttributeKeyAndValueList = AttributeKeyAndValue[];
 export type SelectorObjectReference = string;
 export interface ObjectReference {
-  Selector?: string;
+  Selector?: string | undefined;
 }
 export interface AddFacetToObjectRequest {
   DirectoryArn: string;
   SchemaFacet: SchemaFacet;
-  ObjectAttributeList?: AttributeKeyAndValue[];
+  ObjectAttributeList?: AttributeKeyAndValue[] | undefined;
   ObjectReference: ObjectReference;
 }
 export interface AddFacetToObjectResponse {}
@@ -380,8 +380,8 @@ export interface ApplySchemaRequest {
   DirectoryArn: string;
 }
 export interface ApplySchemaResponse {
-  AppliedSchemaArn?: string;
-  DirectoryArn?: string;
+  AppliedSchemaArn?: string | undefined;
+  DirectoryArn?: string | undefined;
 }
 export type LinkName = string;
 export interface AttachObjectRequest {
@@ -392,7 +392,7 @@ export interface AttachObjectRequest {
 }
 export type ObjectIdentifier = string;
 export interface AttachObjectResponse {
-  AttachedObjectIdentifier?: string;
+  AttachedObjectIdentifier?: string | undefined;
 }
 export interface AttachPolicyRequest {
   DirectoryArn: string;
@@ -406,7 +406,7 @@ export interface AttachToIndexRequest {
   TargetReference: ObjectReference;
 }
 export interface AttachToIndexResponse {
-  AttachedObjectIdentifier?: string;
+  AttachedObjectIdentifier?: string | undefined;
 }
 export type TypedLinkName = string;
 export interface TypedLinkSchemaAndFacetName {
@@ -432,30 +432,30 @@ export interface TypedLinkSpecifier {
   IdentityAttributeValues: AttributeNameAndValue[];
 }
 export interface AttachTypedLinkResponse {
-  TypedLinkSpecifier?: TypedLinkSpecifier;
+  TypedLinkSpecifier?: TypedLinkSpecifier | undefined;
 }
 export type NextToken = string;
 export type NumberResults = number;
 export interface BatchListObjectAttributes {
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
-  FacetFilter?: SchemaFacet;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  FacetFilter?: SchemaFacet | undefined;
 }
 export interface BatchListObjectChildren {
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchListAttachedIndices {
   TargetReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchListObjectParentPaths {
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchGetObjectInformation {
   ObjectReference: ObjectReference;
@@ -468,23 +468,23 @@ export interface BatchGetObjectAttributes {
 }
 export interface BatchListObjectParents {
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchListObjectPolicies {
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchListPolicyAttachments {
   PolicyReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchLookupPolicy {
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type RangeMode =
   | "FIRST"
@@ -495,168 +495,168 @@ export type RangeMode =
   | (string & {});
 export interface TypedAttributeValueRange {
   StartMode: RangeMode;
-  StartValue?: TypedAttributeValue;
+  StartValue?: TypedAttributeValue | undefined;
   EndMode: RangeMode;
-  EndValue?: TypedAttributeValue;
+  EndValue?: TypedAttributeValue | undefined;
 }
 export interface ObjectAttributeRange {
-  AttributeKey?: AttributeKey;
-  Range?: TypedAttributeValueRange;
+  AttributeKey?: AttributeKey | undefined;
+  Range?: TypedAttributeValueRange | undefined;
 }
 export type ObjectAttributeRangeList = ObjectAttributeRange[];
 export interface BatchListIndex {
-  RangesOnIndexedValues?: ObjectAttributeRange[];
+  RangesOnIndexedValues?: ObjectAttributeRange[] | undefined;
   IndexReference: ObjectReference;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TypedLinkAttributeRange {
-  AttributeName?: string;
+  AttributeName?: string | undefined;
   Range: TypedAttributeValueRange;
 }
 export type TypedLinkAttributeRangeList = TypedLinkAttributeRange[];
 export interface BatchListOutgoingTypedLinks {
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRange[];
-  FilterTypedLink?: TypedLinkSchemaAndFacetName;
-  NextToken?: string;
-  MaxResults?: number;
+  FilterAttributeRanges?: TypedLinkAttributeRange[] | undefined;
+  FilterTypedLink?: TypedLinkSchemaAndFacetName | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchListIncomingTypedLinks {
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRange[];
-  FilterTypedLink?: TypedLinkSchemaAndFacetName;
-  NextToken?: string;
-  MaxResults?: number;
+  FilterAttributeRanges?: TypedLinkAttributeRange[] | undefined;
+  FilterTypedLink?: TypedLinkSchemaAndFacetName | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BatchGetLinkAttributes {
   TypedLinkSpecifier: TypedLinkSpecifier;
   AttributeNames: string[];
 }
 export interface BatchReadOperation {
-  ListObjectAttributes?: BatchListObjectAttributes;
-  ListObjectChildren?: BatchListObjectChildren;
-  ListAttachedIndices?: BatchListAttachedIndices;
-  ListObjectParentPaths?: BatchListObjectParentPaths;
-  GetObjectInformation?: BatchGetObjectInformation;
-  GetObjectAttributes?: BatchGetObjectAttributes;
-  ListObjectParents?: BatchListObjectParents;
-  ListObjectPolicies?: BatchListObjectPolicies;
-  ListPolicyAttachments?: BatchListPolicyAttachments;
-  LookupPolicy?: BatchLookupPolicy;
-  ListIndex?: BatchListIndex;
-  ListOutgoingTypedLinks?: BatchListOutgoingTypedLinks;
-  ListIncomingTypedLinks?: BatchListIncomingTypedLinks;
-  GetLinkAttributes?: BatchGetLinkAttributes;
+  ListObjectAttributes?: BatchListObjectAttributes | undefined;
+  ListObjectChildren?: BatchListObjectChildren | undefined;
+  ListAttachedIndices?: BatchListAttachedIndices | undefined;
+  ListObjectParentPaths?: BatchListObjectParentPaths | undefined;
+  GetObjectInformation?: BatchGetObjectInformation | undefined;
+  GetObjectAttributes?: BatchGetObjectAttributes | undefined;
+  ListObjectParents?: BatchListObjectParents | undefined;
+  ListObjectPolicies?: BatchListObjectPolicies | undefined;
+  ListPolicyAttachments?: BatchListPolicyAttachments | undefined;
+  LookupPolicy?: BatchLookupPolicy | undefined;
+  ListIndex?: BatchListIndex | undefined;
+  ListOutgoingTypedLinks?: BatchListOutgoingTypedLinks | undefined;
+  ListIncomingTypedLinks?: BatchListIncomingTypedLinks | undefined;
+  GetLinkAttributes?: BatchGetLinkAttributes | undefined;
 }
 export type BatchReadOperationList = BatchReadOperation[];
 export type ConsistencyLevel = "SERIALIZABLE" | "EVENTUAL" | (string & {});
 export interface BatchReadRequest {
   DirectoryArn: string;
   Operations: BatchReadOperation[];
-  ConsistencyLevel?: ConsistencyLevel;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface BatchListObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValue[];
-  NextToken?: string;
+  Attributes?: AttributeKeyAndValue[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LinkNameToObjectIdentifierMap = { [key: string]: string | undefined };
 export interface BatchListObjectChildrenResponse {
-  Children?: { [key: string]: string | undefined };
-  NextToken?: string;
+  Children?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
 }
 export type SchemaFacetList = SchemaFacet[];
 export interface BatchGetObjectInformationResponse {
-  SchemaFacets?: SchemaFacet[];
-  ObjectIdentifier?: string;
+  SchemaFacets?: SchemaFacet[] | undefined;
+  ObjectIdentifier?: string | undefined;
 }
 export interface BatchGetObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValue[];
+  Attributes?: AttributeKeyAndValue[] | undefined;
 }
 export interface IndexAttachment {
-  IndexedAttributes?: AttributeKeyAndValue[];
-  ObjectIdentifier?: string;
+  IndexedAttributes?: AttributeKeyAndValue[] | undefined;
+  ObjectIdentifier?: string | undefined;
 }
 export type IndexAttachmentList = IndexAttachment[];
 export interface BatchListAttachedIndicesResponse {
-  IndexAttachments?: IndexAttachment[];
-  NextToken?: string;
+  IndexAttachments?: IndexAttachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PathString = string;
 export type ObjectIdentifierList = string[];
 export interface PathToObjectIdentifiers {
-  Path?: string;
-  ObjectIdentifiers?: string[];
+  Path?: string | undefined;
+  ObjectIdentifiers?: string[] | undefined;
 }
 export type PathToObjectIdentifiersList = PathToObjectIdentifiers[];
 export interface BatchListObjectParentPathsResponse {
-  PathToObjectIdentifiersList?: PathToObjectIdentifiers[];
-  NextToken?: string;
+  PathToObjectIdentifiersList?: PathToObjectIdentifiers[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface BatchListObjectPoliciesResponse {
-  AttachedPolicyIds?: string[];
-  NextToken?: string;
+  AttachedPolicyIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface BatchListPolicyAttachmentsResponse {
-  ObjectIdentifiers?: string[];
-  NextToken?: string;
+  ObjectIdentifiers?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PolicyType = string;
 export interface PolicyAttachment {
-  PolicyId?: string;
-  ObjectIdentifier?: string;
-  PolicyType?: string;
+  PolicyId?: string | undefined;
+  ObjectIdentifier?: string | undefined;
+  PolicyType?: string | undefined;
 }
 export type PolicyAttachmentList = PolicyAttachment[];
 export interface PolicyToPath {
-  Path?: string;
-  Policies?: PolicyAttachment[];
+  Path?: string | undefined;
+  Policies?: PolicyAttachment[] | undefined;
 }
 export type PolicyToPathList = PolicyToPath[];
 export interface BatchLookupPolicyResponse {
-  PolicyToPathList?: PolicyToPath[];
-  NextToken?: string;
+  PolicyToPathList?: PolicyToPath[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface BatchListIndexResponse {
-  IndexAttachments?: IndexAttachment[];
-  NextToken?: string;
+  IndexAttachments?: IndexAttachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TypedLinkSpecifierList = TypedLinkSpecifier[];
 export interface BatchListOutgoingTypedLinksResponse {
-  TypedLinkSpecifiers?: TypedLinkSpecifier[];
-  NextToken?: string;
+  TypedLinkSpecifiers?: TypedLinkSpecifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface BatchListIncomingTypedLinksResponse {
-  LinkSpecifiers?: TypedLinkSpecifier[];
-  NextToken?: string;
+  LinkSpecifiers?: TypedLinkSpecifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface BatchGetLinkAttributesResponse {
-  Attributes?: AttributeKeyAndValue[];
+  Attributes?: AttributeKeyAndValue[] | undefined;
 }
 export interface ObjectIdentifierAndLinkNameTuple {
-  ObjectIdentifier?: string;
-  LinkName?: string;
+  ObjectIdentifier?: string | undefined;
+  LinkName?: string | undefined;
 }
 export type ObjectIdentifierAndLinkNameList = ObjectIdentifierAndLinkNameTuple[];
 export interface BatchListObjectParentsResponse {
-  ParentLinks?: ObjectIdentifierAndLinkNameTuple[];
-  NextToken?: string;
+  ParentLinks?: ObjectIdentifierAndLinkNameTuple[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface BatchReadSuccessfulResponse {
-  ListObjectAttributes?: BatchListObjectAttributesResponse;
-  ListObjectChildren?: BatchListObjectChildrenResponse;
-  GetObjectInformation?: BatchGetObjectInformationResponse;
-  GetObjectAttributes?: BatchGetObjectAttributesResponse;
-  ListAttachedIndices?: BatchListAttachedIndicesResponse;
-  ListObjectParentPaths?: BatchListObjectParentPathsResponse;
-  ListObjectPolicies?: BatchListObjectPoliciesResponse;
-  ListPolicyAttachments?: BatchListPolicyAttachmentsResponse;
-  LookupPolicy?: BatchLookupPolicyResponse;
-  ListIndex?: BatchListIndexResponse;
-  ListOutgoingTypedLinks?: BatchListOutgoingTypedLinksResponse;
-  ListIncomingTypedLinks?: BatchListIncomingTypedLinksResponse;
-  GetLinkAttributes?: BatchGetLinkAttributesResponse;
-  ListObjectParents?: BatchListObjectParentsResponse;
+  ListObjectAttributes?: BatchListObjectAttributesResponse | undefined;
+  ListObjectChildren?: BatchListObjectChildrenResponse | undefined;
+  GetObjectInformation?: BatchGetObjectInformationResponse | undefined;
+  GetObjectAttributes?: BatchGetObjectAttributesResponse | undefined;
+  ListAttachedIndices?: BatchListAttachedIndicesResponse | undefined;
+  ListObjectParentPaths?: BatchListObjectParentPathsResponse | undefined;
+  ListObjectPolicies?: BatchListObjectPoliciesResponse | undefined;
+  ListPolicyAttachments?: BatchListPolicyAttachmentsResponse | undefined;
+  LookupPolicy?: BatchLookupPolicyResponse | undefined;
+  ListIndex?: BatchListIndexResponse | undefined;
+  ListOutgoingTypedLinks?: BatchListOutgoingTypedLinksResponse | undefined;
+  ListIncomingTypedLinks?: BatchListIncomingTypedLinksResponse | undefined;
+  GetLinkAttributes?: BatchGetLinkAttributesResponse | undefined;
+  ListObjectParents?: BatchListObjectParentsResponse | undefined;
 }
 export type BatchReadExceptionType =
   | "ValidationException"
@@ -675,24 +675,24 @@ export type BatchReadExceptionType =
   | (string & {});
 export type ExceptionMessage = string;
 export interface BatchReadException {
-  Type?: BatchReadExceptionType;
-  Message?: string;
+  Type?: BatchReadExceptionType | undefined;
+  Message?: string | undefined;
 }
 export interface BatchReadOperationResponse {
-  SuccessfulResponse?: BatchReadSuccessfulResponse;
-  ExceptionResponse?: BatchReadException;
+  SuccessfulResponse?: BatchReadSuccessfulResponse | undefined;
+  ExceptionResponse?: BatchReadException | undefined;
 }
 export type BatchReadOperationResponseList = BatchReadOperationResponse[];
 export interface BatchReadResponse {
-  Responses?: BatchReadOperationResponse[];
+  Responses?: BatchReadOperationResponse[] | undefined;
 }
 export type BatchReferenceName = string;
 export interface BatchCreateObject {
   SchemaFacet: SchemaFacet[];
   ObjectAttributeList: AttributeKeyAndValue[];
-  ParentReference?: ObjectReference;
-  LinkName?: string;
-  BatchReferenceName?: string;
+  ParentReference?: ObjectReference | undefined;
+  LinkName?: string | undefined;
+  BatchReferenceName?: string | undefined;
 }
 export interface BatchAttachObject {
   ParentReference: ObjectReference;
@@ -702,16 +702,16 @@ export interface BatchAttachObject {
 export interface BatchDetachObject {
   ParentReference: ObjectReference;
   LinkName: string;
-  BatchReferenceName?: string;
+  BatchReferenceName?: string | undefined;
 }
 export type UpdateActionType = "CREATE_OR_UPDATE" | "DELETE" | (string & {});
 export interface ObjectAttributeAction {
-  ObjectAttributeActionType?: UpdateActionType;
-  ObjectAttributeUpdateValue?: TypedAttributeValue;
+  ObjectAttributeActionType?: UpdateActionType | undefined;
+  ObjectAttributeUpdateValue?: TypedAttributeValue | undefined;
 }
 export interface ObjectAttributeUpdate {
-  ObjectAttributeKey?: AttributeKey;
-  ObjectAttributeAction?: ObjectAttributeAction;
+  ObjectAttributeKey?: AttributeKey | undefined;
+  ObjectAttributeAction?: ObjectAttributeAction | undefined;
 }
 export type ObjectAttributeUpdateList = ObjectAttributeUpdate[];
 export interface BatchUpdateObjectAttributes {
@@ -742,9 +742,9 @@ export type AttributeKeyList = AttributeKey[];
 export interface BatchCreateIndex {
   OrderedIndexedAttributeList: AttributeKey[];
   IsUnique: boolean;
-  ParentReference?: ObjectReference;
-  LinkName?: string;
-  BatchReferenceName?: string;
+  ParentReference?: ObjectReference | undefined;
+  LinkName?: string | undefined;
+  BatchReferenceName?: string | undefined;
 }
 export interface BatchAttachToIndex {
   IndexReference: ObjectReference;
@@ -764,12 +764,12 @@ export interface BatchDetachTypedLink {
   TypedLinkSpecifier: TypedLinkSpecifier;
 }
 export interface LinkAttributeAction {
-  AttributeActionType?: UpdateActionType;
-  AttributeUpdateValue?: TypedAttributeValue;
+  AttributeActionType?: UpdateActionType | undefined;
+  AttributeUpdateValue?: TypedAttributeValue | undefined;
 }
 export interface LinkAttributeUpdate {
-  AttributeKey?: AttributeKey;
-  AttributeAction?: LinkAttributeAction;
+  AttributeKey?: AttributeKey | undefined;
+  AttributeAction?: LinkAttributeAction | undefined;
 }
 export type LinkAttributeUpdateList = LinkAttributeUpdate[];
 export interface BatchUpdateLinkAttributes {
@@ -777,21 +777,21 @@ export interface BatchUpdateLinkAttributes {
   AttributeUpdates: LinkAttributeUpdate[];
 }
 export interface BatchWriteOperation {
-  CreateObject?: BatchCreateObject;
-  AttachObject?: BatchAttachObject;
-  DetachObject?: BatchDetachObject;
-  UpdateObjectAttributes?: BatchUpdateObjectAttributes;
-  DeleteObject?: BatchDeleteObject;
-  AddFacetToObject?: BatchAddFacetToObject;
-  RemoveFacetFromObject?: BatchRemoveFacetFromObject;
-  AttachPolicy?: BatchAttachPolicy;
-  DetachPolicy?: BatchDetachPolicy;
-  CreateIndex?: BatchCreateIndex;
-  AttachToIndex?: BatchAttachToIndex;
-  DetachFromIndex?: BatchDetachFromIndex;
-  AttachTypedLink?: BatchAttachTypedLink;
-  DetachTypedLink?: BatchDetachTypedLink;
-  UpdateLinkAttributes?: BatchUpdateLinkAttributes;
+  CreateObject?: BatchCreateObject | undefined;
+  AttachObject?: BatchAttachObject | undefined;
+  DetachObject?: BatchDetachObject | undefined;
+  UpdateObjectAttributes?: BatchUpdateObjectAttributes | undefined;
+  DeleteObject?: BatchDeleteObject | undefined;
+  AddFacetToObject?: BatchAddFacetToObject | undefined;
+  RemoveFacetFromObject?: BatchRemoveFacetFromObject | undefined;
+  AttachPolicy?: BatchAttachPolicy | undefined;
+  DetachPolicy?: BatchDetachPolicy | undefined;
+  CreateIndex?: BatchCreateIndex | undefined;
+  AttachToIndex?: BatchAttachToIndex | undefined;
+  DetachFromIndex?: BatchDetachFromIndex | undefined;
+  AttachTypedLink?: BatchAttachTypedLink | undefined;
+  DetachTypedLink?: BatchDetachTypedLink | undefined;
+  UpdateLinkAttributes?: BatchUpdateLinkAttributes | undefined;
 }
 export type BatchWriteOperationList = BatchWriteOperation[];
 export interface BatchWriteRequest {
@@ -799,16 +799,16 @@ export interface BatchWriteRequest {
   Operations: BatchWriteOperation[];
 }
 export interface BatchCreateObjectResponse {
-  ObjectIdentifier?: string;
+  ObjectIdentifier?: string | undefined;
 }
 export interface BatchAttachObjectResponse {
-  attachedObjectIdentifier?: string;
+  attachedObjectIdentifier?: string | undefined;
 }
 export interface BatchDetachObjectResponse {
-  detachedObjectIdentifier?: string;
+  detachedObjectIdentifier?: string | undefined;
 }
 export interface BatchUpdateObjectAttributesResponse {
-  ObjectIdentifier?: string;
+  ObjectIdentifier?: string | undefined;
 }
 export interface BatchDeleteObjectResponse {}
 export interface BatchAddFacetToObjectResponse {}
@@ -816,39 +816,39 @@ export interface BatchRemoveFacetFromObjectResponse {}
 export interface BatchAttachPolicyResponse {}
 export interface BatchDetachPolicyResponse {}
 export interface BatchCreateIndexResponse {
-  ObjectIdentifier?: string;
+  ObjectIdentifier?: string | undefined;
 }
 export interface BatchAttachToIndexResponse {
-  AttachedObjectIdentifier?: string;
+  AttachedObjectIdentifier?: string | undefined;
 }
 export interface BatchDetachFromIndexResponse {
-  DetachedObjectIdentifier?: string;
+  DetachedObjectIdentifier?: string | undefined;
 }
 export interface BatchAttachTypedLinkResponse {
-  TypedLinkSpecifier?: TypedLinkSpecifier;
+  TypedLinkSpecifier?: TypedLinkSpecifier | undefined;
 }
 export interface BatchDetachTypedLinkResponse {}
 export interface BatchUpdateLinkAttributesResponse {}
 export interface BatchWriteOperationResponse {
-  CreateObject?: BatchCreateObjectResponse;
-  AttachObject?: BatchAttachObjectResponse;
-  DetachObject?: BatchDetachObjectResponse;
-  UpdateObjectAttributes?: BatchUpdateObjectAttributesResponse;
-  DeleteObject?: BatchDeleteObjectResponse;
-  AddFacetToObject?: BatchAddFacetToObjectResponse;
-  RemoveFacetFromObject?: BatchRemoveFacetFromObjectResponse;
-  AttachPolicy?: BatchAttachPolicyResponse;
-  DetachPolicy?: BatchDetachPolicyResponse;
-  CreateIndex?: BatchCreateIndexResponse;
-  AttachToIndex?: BatchAttachToIndexResponse;
-  DetachFromIndex?: BatchDetachFromIndexResponse;
-  AttachTypedLink?: BatchAttachTypedLinkResponse;
-  DetachTypedLink?: BatchDetachTypedLinkResponse;
-  UpdateLinkAttributes?: BatchUpdateLinkAttributesResponse;
+  CreateObject?: BatchCreateObjectResponse | undefined;
+  AttachObject?: BatchAttachObjectResponse | undefined;
+  DetachObject?: BatchDetachObjectResponse | undefined;
+  UpdateObjectAttributes?: BatchUpdateObjectAttributesResponse | undefined;
+  DeleteObject?: BatchDeleteObjectResponse | undefined;
+  AddFacetToObject?: BatchAddFacetToObjectResponse | undefined;
+  RemoveFacetFromObject?: BatchRemoveFacetFromObjectResponse | undefined;
+  AttachPolicy?: BatchAttachPolicyResponse | undefined;
+  DetachPolicy?: BatchDetachPolicyResponse | undefined;
+  CreateIndex?: BatchCreateIndexResponse | undefined;
+  AttachToIndex?: BatchAttachToIndexResponse | undefined;
+  DetachFromIndex?: BatchDetachFromIndexResponse | undefined;
+  AttachTypedLink?: BatchAttachTypedLinkResponse | undefined;
+  DetachTypedLink?: BatchDetachTypedLinkResponse | undefined;
+  UpdateLinkAttributes?: BatchUpdateLinkAttributesResponse | undefined;
 }
 export type BatchWriteOperationResponseList = BatchWriteOperationResponse[];
 export interface BatchWriteResponse {
-  Responses?: BatchWriteOperationResponse[];
+  Responses?: BatchWriteOperationResponse[] | undefined;
 }
 export type DirectoryName = string;
 export interface CreateDirectoryRequest {
@@ -881,15 +881,15 @@ export type RuleParameterKey = string;
 export type RuleParameterValue = string;
 export type RuleParameterMap = { [key: string]: string | undefined };
 export interface Rule {
-  Type?: RuleType;
-  Parameters?: { [key: string]: string | undefined };
+  Type?: RuleType | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleMap = { [key: string]: Rule | undefined };
 export interface FacetAttributeDefinition {
   Type: FacetAttributeType;
-  DefaultValue?: TypedAttributeValue;
-  IsImmutable?: boolean;
-  Rules?: { [key: string]: Rule | undefined };
+  DefaultValue?: TypedAttributeValue | undefined;
+  IsImmutable?: boolean | undefined;
+  Rules?: { [key: string]: Rule | undefined } | undefined;
 }
 export interface FacetAttributeReference {
   TargetFacetName: string;
@@ -898,9 +898,9 @@ export interface FacetAttributeReference {
 export type RequiredAttributeBehavior = "REQUIRED_ALWAYS" | "NOT_REQUIRED" | (string & {});
 export interface FacetAttribute {
   Name: string;
-  AttributeDefinition?: FacetAttributeDefinition;
-  AttributeReference?: FacetAttributeReference;
-  RequiredBehavior?: RequiredAttributeBehavior;
+  AttributeDefinition?: FacetAttributeDefinition | undefined;
+  AttributeReference?: FacetAttributeReference | undefined;
+  RequiredBehavior?: RequiredAttributeBehavior | undefined;
 }
 export type FacetAttributeList = FacetAttribute[];
 export type ObjectType = "NODE" | "LEAF_NODE" | "POLICY" | "INDEX" | (string & {});
@@ -908,44 +908,44 @@ export type FacetStyle = "STATIC" | "DYNAMIC" | (string & {});
 export interface CreateFacetRequest {
   SchemaArn: string;
   Name: string;
-  Attributes?: FacetAttribute[];
-  ObjectType?: ObjectType;
-  FacetStyle?: FacetStyle;
+  Attributes?: FacetAttribute[] | undefined;
+  ObjectType?: ObjectType | undefined;
+  FacetStyle?: FacetStyle | undefined;
 }
 export interface CreateFacetResponse {}
 export interface CreateIndexRequest {
   DirectoryArn: string;
   OrderedIndexedAttributeList: AttributeKey[];
   IsUnique: boolean;
-  ParentReference?: ObjectReference;
-  LinkName?: string;
+  ParentReference?: ObjectReference | undefined;
+  LinkName?: string | undefined;
 }
 export interface CreateIndexResponse {
-  ObjectIdentifier?: string;
+  ObjectIdentifier?: string | undefined;
 }
 export interface CreateObjectRequest {
   DirectoryArn: string;
   SchemaFacets: SchemaFacet[];
-  ObjectAttributeList?: AttributeKeyAndValue[];
-  ParentReference?: ObjectReference;
-  LinkName?: string;
+  ObjectAttributeList?: AttributeKeyAndValue[] | undefined;
+  ParentReference?: ObjectReference | undefined;
+  LinkName?: string | undefined;
 }
 export interface CreateObjectResponse {
-  ObjectIdentifier?: string;
+  ObjectIdentifier?: string | undefined;
 }
 export type SchemaName = string;
 export interface CreateSchemaRequest {
   Name: string;
 }
 export interface CreateSchemaResponse {
-  SchemaArn?: string;
+  SchemaArn?: string | undefined;
 }
 export interface TypedLinkAttributeDefinition {
   Name: string;
   Type: FacetAttributeType;
-  DefaultValue?: TypedAttributeValue;
-  IsImmutable?: boolean;
-  Rules?: { [key: string]: Rule | undefined };
+  DefaultValue?: TypedAttributeValue | undefined;
+  IsImmutable?: boolean | undefined;
+  Rules?: { [key: string]: Rule | undefined } | undefined;
   RequiredBehavior: RequiredAttributeBehavior;
 }
 export type TypedLinkAttributeDefinitionList = TypedLinkAttributeDefinition[];
@@ -979,7 +979,7 @@ export interface DeleteSchemaRequest {
   SchemaArn: string;
 }
 export interface DeleteSchemaResponse {
-  SchemaArn?: string;
+  SchemaArn?: string | undefined;
 }
 export interface DeleteTypedLinkFacetRequest {
   SchemaArn: string;
@@ -992,7 +992,7 @@ export interface DetachFromIndexRequest {
   TargetReference: ObjectReference;
 }
 export interface DetachFromIndexResponse {
-  DetachedObjectIdentifier?: string;
+  DetachedObjectIdentifier?: string | undefined;
 }
 export interface DetachObjectRequest {
   DirectoryArn: string;
@@ -1000,7 +1000,7 @@ export interface DetachObjectRequest {
   LinkName: string;
 }
 export interface DetachObjectResponse {
-  DetachedObjectIdentifier?: string;
+  DetachedObjectIdentifier?: string | undefined;
 }
 export interface DetachPolicyRequest {
   DirectoryArn: string;
@@ -1029,17 +1029,17 @@ export interface GetAppliedSchemaVersionRequest {
   SchemaArn: string;
 }
 export interface GetAppliedSchemaVersionResponse {
-  AppliedSchemaArn?: string;
+  AppliedSchemaArn?: string | undefined;
 }
 export interface GetDirectoryRequest {
   DirectoryArn: string;
 }
 export type DirectoryState = "ENABLED" | "DISABLED" | "DELETED" | (string & {});
 export interface Directory {
-  Name?: string;
-  DirectoryArn?: string;
-  State?: DirectoryState;
-  CreationDateTime?: Date;
+  Name?: string | undefined;
+  DirectoryArn?: string | undefined;
+  State?: DirectoryState | undefined;
+  CreationDateTime?: Date | undefined;
 }
 export interface GetDirectoryResponse {
   Directory: Directory;
@@ -1049,304 +1049,304 @@ export interface GetFacetRequest {
   Name: string;
 }
 export interface Facet {
-  Name?: string;
-  ObjectType?: ObjectType;
-  FacetStyle?: FacetStyle;
+  Name?: string | undefined;
+  ObjectType?: ObjectType | undefined;
+  FacetStyle?: FacetStyle | undefined;
 }
 export interface GetFacetResponse {
-  Facet?: Facet;
+  Facet?: Facet | undefined;
 }
 export interface GetLinkAttributesRequest {
   DirectoryArn: string;
   TypedLinkSpecifier: TypedLinkSpecifier;
   AttributeNames: string[];
-  ConsistencyLevel?: ConsistencyLevel;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface GetLinkAttributesResponse {
-  Attributes?: AttributeKeyAndValue[];
+  Attributes?: AttributeKeyAndValue[] | undefined;
 }
 export interface GetObjectAttributesRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  ConsistencyLevel?: ConsistencyLevel;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
   SchemaFacet: SchemaFacet;
   AttributeNames: string[];
 }
 export interface GetObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValue[];
+  Attributes?: AttributeKeyAndValue[] | undefined;
 }
 export interface GetObjectInformationRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  ConsistencyLevel?: ConsistencyLevel;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface GetObjectInformationResponse {
-  SchemaFacets?: SchemaFacet[];
-  ObjectIdentifier?: string;
+  SchemaFacets?: SchemaFacet[] | undefined;
+  ObjectIdentifier?: string | undefined;
 }
 export interface GetSchemaAsJsonRequest {
   SchemaArn: string;
 }
 export type SchemaJsonDocument = string;
 export interface GetSchemaAsJsonResponse {
-  Name?: string;
-  Document?: string;
+  Name?: string | undefined;
+  Document?: string | undefined;
 }
 export interface GetTypedLinkFacetInformationRequest {
   SchemaArn: string;
   Name: string;
 }
 export interface GetTypedLinkFacetInformationResponse {
-  IdentityAttributeOrder?: string[];
+  IdentityAttributeOrder?: string[] | undefined;
 }
 export interface ListAppliedSchemaArnsRequest {
   DirectoryArn: string;
-  SchemaArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  SchemaArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Arns = string[];
 export interface ListAppliedSchemaArnsResponse {
-  SchemaArns?: string[];
-  NextToken?: string;
+  SchemaArns?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAttachedIndicesRequest {
   DirectoryArn: string;
   TargetReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface ListAttachedIndicesResponse {
-  IndexAttachments?: IndexAttachment[];
-  NextToken?: string;
+  IndexAttachments?: IndexAttachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDevelopmentSchemaArnsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListDevelopmentSchemaArnsResponse {
-  SchemaArns?: string[];
-  NextToken?: string;
+  SchemaArns?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDirectoriesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  state?: DirectoryState;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  state?: DirectoryState | undefined;
 }
 export type DirectoryList = Directory[];
 export interface ListDirectoriesResponse {
   Directories: Directory[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFacetAttributesRequest {
   SchemaArn: string;
   Name: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListFacetAttributesResponse {
-  Attributes?: FacetAttribute[];
-  NextToken?: string;
+  Attributes?: FacetAttribute[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFacetNamesRequest {
   SchemaArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FacetNameList = string[];
 export interface ListFacetNamesResponse {
-  FacetNames?: string[];
-  NextToken?: string;
+  FacetNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIncomingTypedLinksRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRange[];
-  FilterTypedLink?: TypedLinkSchemaAndFacetName;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
+  FilterAttributeRanges?: TypedLinkAttributeRange[] | undefined;
+  FilterTypedLink?: TypedLinkSchemaAndFacetName | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface ListIncomingTypedLinksResponse {
-  LinkSpecifiers?: TypedLinkSpecifier[];
-  NextToken?: string;
+  LinkSpecifiers?: TypedLinkSpecifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIndexRequest {
   DirectoryArn: string;
-  RangesOnIndexedValues?: ObjectAttributeRange[];
+  RangesOnIndexedValues?: ObjectAttributeRange[] | undefined;
   IndexReference: ObjectReference;
-  MaxResults?: number;
-  NextToken?: string;
-  ConsistencyLevel?: ConsistencyLevel;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface ListIndexResponse {
-  IndexAttachments?: IndexAttachment[];
-  NextToken?: string;
+  IndexAttachments?: IndexAttachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedSchemaArnsRequest {
-  SchemaArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  SchemaArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListManagedSchemaArnsResponse {
-  SchemaArns?: string[];
-  NextToken?: string;
+  SchemaArns?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListObjectAttributesRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
-  FacetFilter?: SchemaFacet;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
+  FacetFilter?: SchemaFacet | undefined;
 }
 export interface ListObjectAttributesResponse {
-  Attributes?: AttributeKeyAndValue[];
-  NextToken?: string;
+  Attributes?: AttributeKeyAndValue[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListObjectChildrenRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface ListObjectChildrenResponse {
-  Children?: { [key: string]: string | undefined };
-  NextToken?: string;
+  Children?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListObjectParentPathsRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListObjectParentPathsResponse {
-  PathToObjectIdentifiersList?: PathToObjectIdentifiers[];
-  NextToken?: string;
+  PathToObjectIdentifiersList?: PathToObjectIdentifiers[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListObjectParentsRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
-  IncludeAllLinksToEachParent?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
+  IncludeAllLinksToEachParent?: boolean | undefined;
 }
 export type ObjectIdentifierToLinkNameMap = { [key: string]: string | undefined };
 export interface ListObjectParentsResponse {
-  Parents?: { [key: string]: string | undefined };
-  NextToken?: string;
-  ParentLinks?: ObjectIdentifierAndLinkNameTuple[];
+  Parents?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
+  ParentLinks?: ObjectIdentifierAndLinkNameTuple[] | undefined;
 }
 export interface ListObjectPoliciesRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface ListObjectPoliciesResponse {
-  AttachedPolicyIds?: string[];
-  NextToken?: string;
+  AttachedPolicyIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOutgoingTypedLinksRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  FilterAttributeRanges?: TypedLinkAttributeRange[];
-  FilterTypedLink?: TypedLinkSchemaAndFacetName;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
+  FilterAttributeRanges?: TypedLinkAttributeRange[] | undefined;
+  FilterTypedLink?: TypedLinkSchemaAndFacetName | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface ListOutgoingTypedLinksResponse {
-  TypedLinkSpecifiers?: TypedLinkSpecifier[];
-  NextToken?: string;
+  TypedLinkSpecifiers?: TypedLinkSpecifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPolicyAttachmentsRequest {
   DirectoryArn: string;
   PolicyReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
-  ConsistencyLevel?: ConsistencyLevel;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ConsistencyLevel?: ConsistencyLevel | undefined;
 }
 export interface ListPolicyAttachmentsResponse {
-  ObjectIdentifiers?: string[];
-  NextToken?: string;
+  ObjectIdentifiers?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPublishedSchemaArnsRequest {
-  SchemaArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  SchemaArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListPublishedSchemaArnsResponse {
-  SchemaArns?: string[];
-  NextToken?: string;
+  SchemaArns?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TagsNumberResults = number;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTypedLinkFacetAttributesRequest {
   SchemaArn: string;
   Name: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTypedLinkFacetAttributesResponse {
-  Attributes?: TypedLinkAttributeDefinition[];
-  NextToken?: string;
+  Attributes?: TypedLinkAttributeDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTypedLinkFacetNamesRequest {
   SchemaArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TypedLinkNameList = string[];
 export interface ListTypedLinkFacetNamesResponse {
-  FacetNames?: string[];
-  NextToken?: string;
+  FacetNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface LookupPolicyRequest {
   DirectoryArn: string;
   ObjectReference: ObjectReference;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface LookupPolicyResponse {
-  PolicyToPathList?: PolicyToPath[];
-  NextToken?: string;
+  PolicyToPathList?: PolicyToPath[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Version = string;
 export interface PublishSchemaRequest {
   DevelopmentSchemaArn: string;
   Version: string;
-  MinorVersion?: string;
-  Name?: string;
+  MinorVersion?: string | undefined;
+  Name?: string | undefined;
 }
 export interface PublishSchemaResponse {
-  PublishedSchemaArn?: string;
+  PublishedSchemaArn?: string | undefined;
 }
 export interface PutSchemaFromJsonRequest {
   SchemaArn: string;
   Document: string;
 }
 export interface PutSchemaFromJsonResponse {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface RemoveFacetFromObjectRequest {
   DirectoryArn: string;
@@ -1366,15 +1366,15 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface FacetAttributeUpdate {
-  Attribute?: FacetAttribute;
-  Action?: UpdateActionType;
+  Attribute?: FacetAttribute | undefined;
+  Action?: UpdateActionType | undefined;
 }
 export type FacetAttributeUpdateList = FacetAttributeUpdate[];
 export interface UpdateFacetRequest {
   SchemaArn: string;
   Name: string;
-  AttributeUpdates?: FacetAttributeUpdate[];
-  ObjectType?: ObjectType;
+  AttributeUpdates?: FacetAttributeUpdate[] | undefined;
+  ObjectType?: ObjectType | undefined;
 }
 export interface UpdateFacetResponse {}
 export interface UpdateLinkAttributesRequest {
@@ -1389,14 +1389,14 @@ export interface UpdateObjectAttributesRequest {
   AttributeUpdates: ObjectAttributeUpdate[];
 }
 export interface UpdateObjectAttributesResponse {
-  ObjectIdentifier?: string;
+  ObjectIdentifier?: string | undefined;
 }
 export interface UpdateSchemaRequest {
   SchemaArn: string;
   Name: string;
 }
 export interface UpdateSchemaResponse {
-  SchemaArn?: string;
+  SchemaArn?: string | undefined;
 }
 export interface TypedLinkFacetAttributeUpdate {
   Attribute: TypedLinkAttributeDefinition;
@@ -1413,20 +1413,20 @@ export interface UpdateTypedLinkFacetResponse {}
 export interface UpgradeAppliedSchemaRequest {
   PublishedSchemaArn: string;
   DirectoryArn: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface UpgradeAppliedSchemaResponse {
-  UpgradedSchemaArn?: string;
-  DirectoryArn?: string;
+  UpgradedSchemaArn?: string | undefined;
+  DirectoryArn?: string | undefined;
 }
 export interface UpgradePublishedSchemaRequest {
   DevelopmentSchemaArn: string;
   PublishedSchemaArn: string;
   MinorVersion: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface UpgradePublishedSchemaResponse {
-  UpgradedSchemaArn?: string;
+  UpgradedSchemaArn?: string | undefined;
 }
 export type BatchOperationIndex = number;
 export type BatchWriteExceptionType =

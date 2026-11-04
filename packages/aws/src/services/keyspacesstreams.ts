@@ -137,22 +137,22 @@ export class ValidationException
 export type ShardIterator = string;
 export interface GetRecordsInput {
   shardIterator: string;
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type OriginType = "USER" | "REPLICATION" | "TTL" | (string & {});
 export interface KeyspacesMetadata {
-  expirationTime?: string;
-  writeTime?: string;
+  expirationTime?: string | undefined;
+  writeTime?: string | undefined;
 }
 export interface KeyspacesCell {
-  value?: KeyspacesCellValue;
-  metadata?: KeyspacesMetadata;
+  value?: KeyspacesCellValue | undefined;
+  metadata?: KeyspacesMetadata | undefined;
 }
 export type KeyspacesCellList = KeyspacesCell[];
 export interface KeyspacesCellMapDefinition {
-  key?: KeyspacesCellValue;
-  value?: KeyspacesCellValue;
-  metadata?: KeyspacesMetadata;
+  key?: KeyspacesCellValue | undefined;
+  value?: KeyspacesCellValue | undefined;
+  metadata?: KeyspacesMetadata | undefined;
 }
 export type KeyspacesCellMap = KeyspacesCellMapDefinition[];
 export type KeyspacesUdtMap = { [key: string]: KeyspacesCell | undefined };
@@ -888,30 +888,30 @@ export type KeyspacesCellValue =
 export type KeyspacesKeysMap = { [key: string]: KeyspacesCellValue | undefined };
 export type KeyspacesCells = { [key: string]: KeyspacesCell | undefined };
 export interface KeyspacesRow {
-  valueCells?: { [key: string]: KeyspacesCell | undefined };
-  staticCells?: { [key: string]: KeyspacesCell | undefined };
-  rowMetadata?: KeyspacesMetadata;
+  valueCells?: { [key: string]: KeyspacesCell | undefined } | undefined;
+  staticCells?: { [key: string]: KeyspacesCell | undefined } | undefined;
+  rowMetadata?: KeyspacesMetadata | undefined;
 }
 export type SequenceNumber = string;
 export interface Record {
-  eventVersion?: string;
-  createdAt?: Date;
-  origin?: OriginType;
-  partitionKeys?: { [key: string]: KeyspacesCellValue | undefined };
-  clusteringKeys?: { [key: string]: KeyspacesCellValue | undefined };
-  newImage?: KeyspacesRow;
-  oldImage?: KeyspacesRow;
-  sequenceNumber?: string;
+  eventVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  origin?: OriginType | undefined;
+  partitionKeys?: { [key: string]: KeyspacesCellValue | undefined } | undefined;
+  clusteringKeys?: { [key: string]: KeyspacesCellValue | undefined } | undefined;
+  newImage?: KeyspacesRow | undefined;
+  oldImage?: KeyspacesRow | undefined;
+  sequenceNumber?: string | undefined;
 }
 export type RecordList = Record[];
 export type IteratorPosition = "AT_TIP" | "BEHIND_TIP" | (string & {});
 export interface IteratorDescription {
-  iteratorPosition?: IteratorPosition;
+  iteratorPosition?: IteratorPosition | undefined;
 }
 export interface GetRecordsOutput {
-  changeRecords?: Record[];
-  nextShardIterator?: string;
-  iteratorDescription?: IteratorDescription;
+  changeRecords?: Record[] | undefined;
+  nextShardIterator?: string | undefined;
+  iteratorDescription?: IteratorDescription | undefined;
 }
 export type StreamArn = string;
 export type ShardId = string;
@@ -925,22 +925,22 @@ export interface GetShardIteratorInput {
   streamArn: string;
   shardId: string;
   shardIteratorType: ShardIteratorType;
-  sequenceNumber?: string;
+  sequenceNumber?: string | undefined;
 }
 export interface GetShardIteratorOutput {
-  shardIterator?: string;
+  shardIterator?: string | undefined;
 }
 export type ShardFilterType = "CHILD_SHARDS" | (string & {});
 export interface ShardFilter {
-  type?: ShardFilterType;
-  shardId?: string;
+  type?: ShardFilterType | undefined;
+  shardId?: string | undefined;
 }
 export type ShardIdToken = string;
 export interface GetStreamInput {
   streamArn: string;
-  maxResults?: number;
-  shardFilter?: ShardFilter;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  shardFilter?: ShardFilter | undefined;
+  nextToken?: string | undefined;
 }
 export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export type StreamViewType =
@@ -952,14 +952,14 @@ export type StreamViewType =
 export type KeyspaceName = string;
 export type TableName = string;
 export interface SequenceNumberRange {
-  startingSequenceNumber?: string;
-  endingSequenceNumber?: string;
+  startingSequenceNumber?: string | undefined;
+  endingSequenceNumber?: string | undefined;
 }
 export type ShardIdList = string[];
 export interface Shard {
-  shardId?: string;
-  sequenceNumberRange?: SequenceNumberRange;
-  parentShardIds?: string[];
+  shardId?: string | undefined;
+  sequenceNumberRange?: SequenceNumberRange | undefined;
+  parentShardIds?: string[] | undefined;
 }
 export type ShardDescriptionList = Shard[];
 export interface GetStreamOutput {
@@ -970,15 +970,15 @@ export interface GetStreamOutput {
   creationRequestDateTime: Date;
   keyspaceName: string;
   tableName: string;
-  shards?: Shard[];
-  nextToken?: string;
+  shards?: Shard[] | undefined;
+  nextToken?: string | undefined;
 }
 export type StreamArnToken = string;
 export interface ListStreamsInput {
-  keyspaceName?: string;
-  tableName?: string;
-  maxResults?: number;
-  nextToken?: string;
+  keyspaceName?: string | undefined;
+  tableName?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Stream {
   streamArn: string;
@@ -988,8 +988,8 @@ export interface Stream {
 }
 export type StreamList = Stream[];
 export interface ListStreamsOutput {
-  streams?: Stream[];
-  nextToken?: string;
+  streams?: Stream[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ValidationExceptionType =
   | "InvalidFormat"

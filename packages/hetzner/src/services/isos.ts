@@ -61,15 +61,15 @@ export interface GetIsoResponse {
 export type ListIsosRequestArchitecture = "x86" | "arm";
 export interface ListIsosRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by cpu architecture. The response will only contain the resources with the specified cpu architecture. */
-  architecture?: ListIsosRequestArchitecture | (string & {});
+  architecture?: ListIsosRequestArchitecture | (string & {}) | undefined;
   /** Include Images with wildcard architecture (architecture is null). Architecture filter must be specified. */
-  include_architecture_wildcard?: boolean;
+  include_architecture_wildcard?: boolean | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Type of the ISO. */
 export type ListIsosResponseIsosItemType = "public" | "private";

@@ -233,25 +233,25 @@ export interface Tag {
 export type TagList = Tag[];
 export interface UsageAllocation {
   AllocatedUsageQuantity: number;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type UsageAllocations = UsageAllocation[];
 export type CustomerAWSAccountId = string;
 export type LicenseArn = string;
 export interface UsageRecord {
   Timestamp: Date;
-  CustomerIdentifier?: string;
+  CustomerIdentifier?: string | undefined;
   Dimension: string;
-  Quantity?: number;
-  UsageAllocations?: UsageAllocation[];
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
+  Quantity?: number | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
 }
 export type UsageRecordList = UsageRecord[];
 export type ProductCode = string;
 export interface BatchMeterUsageRequest {
   UsageRecords: UsageRecord[];
-  ProductCode?: string;
+  ProductCode?: string | undefined;
 }
 export type UsageRecordResultStatus =
   | "Success"
@@ -259,48 +259,53 @@ export type UsageRecordResultStatus =
   | "DuplicateRecord"
   | (string & {});
 export interface UsageRecordResult {
-  UsageRecord?: UsageRecord;
-  MeteringRecordId?: string;
-  Status?: UsageRecordResultStatus;
+  UsageRecord?: UsageRecord | undefined;
+  MeteringRecordId?: string | undefined;
+  Status?: UsageRecordResultStatus | undefined;
 }
 export type UsageRecordResultList = UsageRecordResult[];
 export interface BatchMeterUsageResult {
-  Results?: UsageRecordResult[];
-  UnprocessedRecords?: UsageRecord[];
+  Results?: UsageRecordResult[] | undefined;
+  UnprocessedRecords?: UsageRecord[] | undefined;
 }
 export type ClientToken = string;
 export interface MeterUsageRequest {
   ProductCode: string;
   Timestamp: Date;
   UsageDimension: string;
-  UsageQuantity?: number;
-  DryRun?: boolean;
-  UsageAllocations?: UsageAllocation[];
-  ClientToken?: string;
+  UsageQuantity?: number | undefined;
+  DryRun?: boolean | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface MeterUsageResult {
-  MeteringRecordId?: string;
+  MeteringRecordId?: string | undefined;
 }
 export type VersionInteger = number;
 export type Nonce = string;
 export interface RegisterUsageRequest {
   ProductCode: string;
   PublicKeyVersion: number;
-  Nonce?: string;
+  Nonce?: string | undefined;
 }
 export type NonEmptyString = string;
 export interface RegisterUsageResult {
-  PublicKeyRotationTimestamp?: Date;
-  Signature?: string;
+  PublicKeyRotationTimestamp?: Date | undefined;
+  Signature?: string | undefined;
 }
 export interface ResolveCustomerRequest {
   RegistrationToken: string;
 }
+export type AgreementId = string;
+export interface Metadata {
+  AgreementId?: string | undefined;
+}
 export interface ResolveCustomerResult {
-  CustomerIdentifier?: string;
-  ProductCode?: string;
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
+  CustomerIdentifier?: string | undefined;
+  ProductCode?: string | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
+  Metadata?: Metadata | undefined;
 }
 export type ErrorMessage = string;
 export type BatchMeterUsageError =
@@ -336,8 +341,18 @@ export type BatchMeterUsageError =
  *
  * `BatchMeterUsage` can process up to 25
  * `UsageRecords` at a time, and each request must be less than
- * 1 MB in size. Optionally, you can have multiple usage allocations for
- * usage data that's split into buckets according to predefined tags.
+ * 1 MB in size.
+ *
+ * **Vendor-metered tagging**
+ *
+ * `BatchMeterUsage` supports vendor-metered tagging. Optionally, you can
+ * split the usage in a `UsageRecord` into buckets by including
+ * `UsageAllocations`, where each `UsageAllocation` has a set of
+ * `Tags` that you define. Vendor-metered tagging doesn't change the price,
+ * dimensions, or the total usage that you report. It gives buyers a more granular view of
+ * their usage of your product so they can perform cost allocation in the Amazon Web Services Billing and
+ * Cost Management console. For more information, see Vendor-metered tagging and BatchMeterUsage with usage allocation tagging code example in the
+ * *Amazon Web Services Marketplace Seller Guide*.
  *
  * `BatchMeterUsage` returns a list of
  * `UsageRecordResult` objects, which have each
@@ -569,7 +584,7 @@ export const resolveCustomer: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ResolveCustomerRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<ResolveCustomerResult>,
+  output: __S(34, __c4, 2) as any as S.Schema<ResolveCustomerResult>,
   errors: [
     DisabledApiException,
     ExpiredTokenException,
@@ -690,12 +705,17 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ResolveCustomerRequest" });
     case 1:
+      return S.suspend(() => S.Struct({ AgreementId: S.optional(S.String) })).annotate({
+        identifier: "Metadata",
+      });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           CustomerIdentifier: S.optional(S.String),
           ProductCode: S.optional(S.String),
           CustomerAWSAccountId: S.optional(S.String),
           LicenseArn: S.optional(S.String),
+          Metadata: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "ResolveCustomerResult" });
   }

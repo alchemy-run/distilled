@@ -87,13 +87,13 @@ export interface SecretScanningCustomPatternToCreate {
   /** The regular expression of the custom pattern. */
   pattern: string;
   /** The start delimiter regex for the custom pattern. Defaults to `\A|[^0-9A-Za-z]` when not specified. */
-  start_delimiter?: string;
+  start_delimiter?: string | undefined;
   /** The end delimiter regex for the custom pattern. Defaults to `\z|[^0-9A-Za-z]` when not specified. */
-  end_delimiter?: string;
+  end_delimiter?: string | undefined;
   /** List of regexes that the secret must match. */
-  must_match?: SecretScanningCustomPatternToCreateMustMatchList;
+  must_match?: SecretScanningCustomPatternToCreateMustMatchList | undefined;
   /** List of regexes that the secret must not match. */
-  must_not_match?: SecretScanningCustomPatternToCreateMustNotMatchList;
+  must_not_match?: SecretScanningCustomPatternToCreateMustNotMatchList | undefined;
 }
 /** The list of custom patterns to create (maximum 100). */
 export type BulkCreateOrgCustomPatternsRequestPatternsList =
@@ -125,25 +125,25 @@ export interface SecretScanningCustomPattern {
   /** Whether push protection is enabled for this custom pattern. */
   push_protection_enabled: boolean;
   /** The start delimiter regex for the custom pattern. */
-  start_delimiter?: string | null;
+  start_delimiter?: string | null | undefined;
   /** The end delimiter regex for the custom pattern. */
-  end_delimiter?: string | null;
+  end_delimiter?: string | null | undefined;
   /** List of regexes that the secret must match. */
-  must_match?: SecretScanningCustomPatternMustMatchList | null;
+  must_match?: SecretScanningCustomPatternMustMatchList | null | undefined;
   /** List of regexes that the secret must not match. */
-  must_not_match?: SecretScanningCustomPatternMustNotMatchList | null;
-  custom_pattern_version?: string | null;
+  must_not_match?: SecretScanningCustomPatternMustNotMatchList | null | undefined;
+  custom_pattern_version?: string | null | undefined;
   /** The date and time the custom pattern was created in ISO 8601 format. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the custom pattern was last updated in ISO 8601 format. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The list of successfully created custom patterns. */
 export type BulkCreateOrgCustomPatternsResponseCreatedPatternsList =
   Array<SecretScanningCustomPattern>;
 export interface BulkCreateOrgCustomPatternsResponse {
   /** The list of successfully created custom patterns. */
-  created_patterns?: BulkCreateOrgCustomPatternsResponseCreatedPatternsList;
+  created_patterns?: BulkCreateOrgCustomPatternsResponseCreatedPatternsList | undefined;
 }
 /** The list of custom patterns to create (maximum 100). */
 export type BulkCreateRepoCustomPatternsRequestPatternsList =
@@ -161,13 +161,13 @@ export type BulkCreateRepoCustomPatternsResponseCreatedPatternsList =
   Array<SecretScanningCustomPattern>;
 export interface BulkCreateRepoCustomPatternsResponse {
   /** The list of successfully created custom patterns. */
-  created_patterns?: BulkCreateRepoCustomPatternsResponseCreatedPatternsList;
+  created_patterns?: BulkCreateRepoCustomPatternsResponseCreatedPatternsList | undefined;
 }
 /** A custom pattern to delete in a bulk operation. */
 export interface SecretScanningCustomPatternToDelete {
   /** The ID of the custom pattern to delete. */
   pattern_id: number;
-  custom_pattern_version?: string | null;
+  custom_pattern_version?: string | null | undefined;
 }
 /** The list of custom patterns to delete. */
 export type BulkDeleteOrgCustomPatternsRequestPatternsList =
@@ -180,7 +180,10 @@ export interface BulkDeleteOrgCustomPatternsRequest {
   /** The list of custom patterns to delete. */
   patterns: BulkDeleteOrgCustomPatternsRequestPatternsList;
   /** What to do with alerts associated with the deleted patterns. `delete_alerts` permanently removes the alerts. `resolve_alerts` resolves the alerts as "pattern deleted". Defaults to `delete_alerts` when not specified. */
-  post_delete_action?: BulkDeleteOrgCustomPatternsRequestPostDeleteAction | (string & {});
+  post_delete_action?:
+    | BulkDeleteOrgCustomPatternsRequestPostDeleteAction
+    | (string & {})
+    | undefined;
 }
 export interface BulkDeleteOrgCustomPatternsResponse {}
 /** The list of custom patterns to delete. */
@@ -198,7 +201,10 @@ export interface BulkDeleteRepoCustomPatternsRequest {
   /** The list of custom patterns to delete. */
   patterns: BulkDeleteRepoCustomPatternsRequestPatternsList;
   /** What to do with alerts associated with the deleted patterns. `delete_alerts` permanently removes the alerts. `resolve_alerts` resolves the alerts as "pattern deleted". Defaults to `delete_alerts` when not specified. */
-  post_delete_action?: BulkDeleteRepoCustomPatternsRequestPostDeleteAction | (string & {});
+  post_delete_action?:
+    | BulkDeleteRepoCustomPatternsRequestPostDeleteAction
+    | (string & {})
+    | undefined;
 }
 export interface BulkDeleteRepoCustomPatternsResponse {}
 /** The reason for bypassing push protection. */
@@ -215,11 +221,11 @@ export interface CreatePushProtectionBypassRequest {
   placeholder_id: string;
 }
 export interface SecretScanningPushProtectionBypass {
-  reason?: SecretScanningPushProtectionBypassReason;
+  reason?: SecretScanningPushProtectionBypassReason | undefined;
   /** The time that the bypass will expire in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  expire_at?: string | null;
+  expire_at?: string | null | undefined;
   /** The token type this bypass is for. */
-  token_type?: string;
+  token_type?: string | undefined;
 }
 export interface GetAlertRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -229,7 +235,7 @@ export interface GetAlertRequest {
   /** The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
   alert_number: number;
   /** A boolean value representing whether or not to hide literal secrets in the results. */
-  hide_secret?: boolean;
+  hide_secret?: boolean | undefined;
 }
 /** Sets the state of the secret scanning alert. You must provide `resolution` when you set the state to `resolved`. */
 export type SecretScanningAlertState = "open" | "resolved";
@@ -241,8 +247,8 @@ export type SecretScanningAlertResolution =
   | "used_in_tests";
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -261,8 +267,8 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** The token status as of the latest validity check. */
 export type SecretScanningAlertWithMetadataValidity = "active" | "inactive" | "unknown";
@@ -287,7 +293,7 @@ export interface SecretScanningLocationCommit {
   /** The API URL to get the associated commit resource */
   commit_url: string;
   /** The GitHub URL to get the associated commit resource. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents a 'wiki_commit' secret scanning location type. This location type shows that a secret was detected inside a commit to a repository wiki. */
 export interface SecretScanningLocationWikiCommit {
@@ -315,21 +321,21 @@ export interface SecretScanningLocationIssueTitle {
   /** The API URL to get the issue where the secret was detected. */
   issue_title_url: string;
   /** The GitHub URL for the issue where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents an 'issue_body' secret scanning location type. This location type shows that a secret was detected in the body of an issue. */
 export interface SecretScanningLocationIssueBody {
   /** The API URL to get the issue where the secret was detected. */
   issue_body_url: string;
   /** The GitHub URL for the issue where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents an 'issue_comment' secret scanning location type. This location type shows that a secret was detected in a comment on an issue. */
 export interface SecretScanningLocationIssueComment {
   /** The API URL to get the issue comment where the secret was detected. */
   issue_comment_url: string;
   /** The GitHub URL for the issue comment where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents a 'discussion_title' secret scanning location type. This location type shows that a secret was detected in the title of a discussion. */
 export interface SecretScanningLocationDiscussionTitle {
@@ -351,35 +357,35 @@ export interface SecretScanningLocationPullRequestTitle {
   /** The API URL to get the pull request where the secret was detected. */
   pull_request_title_url: string;
   /** The GitHub URL for the pull request where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents a 'pull_request_body' secret scanning location type. This location type shows that a secret was detected in the body of a pull request. */
 export interface SecretScanningLocationPullRequestBody {
   /** The API URL to get the pull request where the secret was detected. */
   pull_request_body_url: string;
   /** The GitHub URL for the pull request where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents a 'pull_request_comment' secret scanning location type. This location type shows that a secret was detected in a comment on a pull request. */
 export interface SecretScanningLocationPullRequestComment {
   /** The API URL to get the pull request comment where the secret was detected. */
   pull_request_comment_url: string;
   /** The GitHub URL for the pull request comment where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents a 'pull_request_review' secret scanning location type. This location type shows that a secret was detected in a review on a pull request. */
 export interface SecretScanningLocationPullRequestReview {
   /** The API URL to get the pull request review where the secret was detected. */
   pull_request_review_url: string;
   /** The GitHub URL for the pull request review where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Represents a 'pull_request_review_comment' secret scanning location type. This location type shows that a secret was detected in a review comment on a pull request. */
 export interface SecretScanningLocationPullRequestReviewComment {
   /** The API URL to get the pull request review comment where the secret was detected. */
   pull_request_review_comment_url: string;
   /** The GitHub URL for the pull request review comment where the secret was detected. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** Details on the location where the token was initially detected. This can be a commit, wiki commit, issue, discussion, pull request. */
 export type NullableSecretScanningFirstDetectedLocation =
@@ -405,60 +411,60 @@ export interface SecretScanningAlertMetadataItem {
 /** A list of metadata key/value pairs associated with the secret scanning alert. */
 export type SecretScanningAlertMetadata = Array<SecretScanningAlertMetadataItem>;
 export interface SecretScanningAlertWithMetadata {
-  number?: number;
-  created_at?: string;
-  updated_at?: string | null;
-  url?: string;
-  html_url?: string;
+  number?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
   /** The REST API URL of the code locations for this alert. */
-  locations_url?: string;
-  state?: SecretScanningAlertState;
-  resolution?: SecretScanningAlertResolution | null;
+  locations_url?: string | undefined;
+  state?: SecretScanningAlertState | undefined;
+  resolution?: SecretScanningAlertResolution | null | undefined;
   /** The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  resolved_at?: string | null;
-  resolved_by?: NullableSimpleUser | null;
+  resolved_at?: string | null | undefined;
+  resolved_by?: NullableSimpleUser | null | undefined;
   /** An optional comment to resolve an alert. */
-  resolution_comment?: string | null;
+  resolution_comment?: string | null | undefined;
   /** The type of secret that secret scanning detected. */
-  secret_type?: string;
+  secret_type?: string | undefined;
   /** User-friendly name for the detected secret, matching the `secret_type`. For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
-  secret_type_display_name?: string;
+  secret_type_display_name?: string | undefined;
   /** The provider of the secret that was detected. */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** The slug identifier for the provider of the secret that was detected. Use this value for filtering by provider with the `providers` or `exclude_providers` parameters. */
-  provider_slug?: string | null;
+  provider_slug?: string | null | undefined;
   /** The secret that was detected. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether push protection was bypassed for the detected secret. */
-  push_protection_bypassed?: boolean | null;
-  push_protection_bypassed_by?: NullableSimpleUser | null;
+  push_protection_bypassed?: boolean | null | undefined;
+  push_protection_bypassed_by?: NullableSimpleUser | null | undefined;
   /** The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  push_protection_bypassed_at?: string | null;
-  push_protection_bypass_request_reviewer?: NullableSimpleUser | null;
+  push_protection_bypassed_at?: string | null | undefined;
+  push_protection_bypass_request_reviewer?: NullableSimpleUser | null | undefined;
   /** An optional comment when reviewing a push protection bypass. */
-  push_protection_bypass_request_reviewer_comment?: string | null;
+  push_protection_bypass_request_reviewer_comment?: string | null | undefined;
   /** An optional comment when requesting a push protection bypass. */
-  push_protection_bypass_request_comment?: string | null;
+  push_protection_bypass_request_comment?: string | null | undefined;
   /** The URL to a push protection bypass request. */
-  push_protection_bypass_request_html_url?: string | null;
+  push_protection_bypass_request_html_url?: string | null | undefined;
   /** The token status as of the latest validity check. */
-  validity?: SecretScanningAlertWithMetadataValidity;
+  validity?: SecretScanningAlertWithMetadataValidity | undefined;
   /** Whether the detected secret was publicly leaked. */
-  publicly_leaked?: boolean | null;
+  publicly_leaked?: boolean | null | undefined;
   /** Whether the detected secret was found in multiple repositories under the same organization or enterprise. */
-  multi_repo?: boolean | null;
+  multi_repo?: boolean | null | undefined;
   /** A boolean value representing whether or not alert is base64 encoded */
-  is_base64_encoded?: boolean | null;
-  first_location_detected?: NullableSecretScanningFirstDetectedLocation | null;
+  is_base64_encoded?: boolean | null | undefined;
+  first_location_detected?: NullableSecretScanningFirstDetectedLocation | null | undefined;
   /** A boolean value representing whether or not the token in the alert was detected in more than one location. */
-  has_more_locations?: boolean;
-  assigned_to?: NullableSimpleUser | null;
+  has_more_locations?: boolean | undefined;
+  assigned_to?: NullableSimpleUser | null | undefined;
   /** An optional comment from the closure request author. */
-  closure_request_comment?: string | null;
+  closure_request_comment?: string | null | undefined;
   /** An optional comment from the closure request reviewer. */
-  closure_request_reviewer_comment?: string | null;
-  closure_request_reviewer?: NullableSimpleUser | null;
-  metadata?: SecretScanningAlertMetadata;
+  closure_request_reviewer_comment?: string | null | undefined;
+  closure_request_reviewer?: NullableSimpleUser | null | undefined;
+  metadata?: SecretScanningAlertMetadata | undefined;
 }
 export interface GetScanHistoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -469,40 +475,44 @@ export interface GetScanHistoryRequest {
 /** Information on a single scan performed by secret scanning on the repository */
 export interface SecretScanningScan {
   /** The type of scan */
-  type?: string;
+  type?: string | undefined;
   /** The state of the scan. Either "completed", "running", "pending", "failed", or "unknown". "failed": this scan type has hit its retry limit and has been marked permanently failed. This usually resolves on its own at the next scheduled scan attempt. If "failed" persists, contact Support. "unknown": the scan is in an unrecognized or currently unhandled state. */
-  status?: string;
+  status?: string | undefined;
   /** The time that the scan was completed. Empty if the scan is running */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The time that the scan was started. Empty if the scan is pending */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
 }
 export type SecretScanningScanHistoryIncrementalScansList = Array<SecretScanningScan>;
 export type SecretScanningScanHistoryPatternUpdateScansList = Array<SecretScanningScan>;
 export type SecretScanningScanHistoryBackfillScansList = Array<SecretScanningScan>;
 export interface SecretScanningScanHistoryCustomPatternBackfillScansItem {
   /** The type of scan */
-  type?: string;
+  type?: string | undefined;
   /** The state of the scan. Either "completed", "running", "pending", "failed", or "unknown". "failed": this scan type has hit its retry limit and has been marked permanently failed. This usually resolves on its own at the next scheduled scan attempt. If "failed" persists, contact Support. "unknown": the scan is in an unrecognized or currently unhandled state. */
-  status?: string;
+  status?: string | undefined;
   /** The time that the scan was completed. Empty if the scan is running */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The time that the scan was started. Empty if the scan is pending */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** Name of the custom pattern for custom pattern scans */
-  pattern_name?: string;
+  pattern_name?: string | undefined;
   /** Level at which the custom pattern is defined, one of "repository", "organization", or "enterprise" */
-  pattern_scope?: string;
+  pattern_scope?: string | undefined;
 }
 export type SecretScanningScanHistoryCustomPatternBackfillScansList =
   Array<SecretScanningScanHistoryCustomPatternBackfillScansItem>;
 export type SecretScanningScanHistoryGenericSecretsBackfillScansList = Array<SecretScanningScan>;
 export interface SecretScanningScanHistory {
-  incremental_scans?: SecretScanningScanHistoryIncrementalScansList;
-  pattern_update_scans?: SecretScanningScanHistoryPatternUpdateScansList;
-  backfill_scans?: SecretScanningScanHistoryBackfillScansList;
-  custom_pattern_backfill_scans?: SecretScanningScanHistoryCustomPatternBackfillScansList;
-  generic_secrets_backfill_scans?: SecretScanningScanHistoryGenericSecretsBackfillScansList;
+  incremental_scans?: SecretScanningScanHistoryIncrementalScansList | undefined;
+  pattern_update_scans?: SecretScanningScanHistoryPatternUpdateScansList | undefined;
+  backfill_scans?: SecretScanningScanHistoryBackfillScansList | undefined;
+  custom_pattern_backfill_scans?:
+    | SecretScanningScanHistoryCustomPatternBackfillScansList
+    | undefined;
+  generic_secrets_backfill_scans?:
+    | SecretScanningScanHistoryGenericSecretsBackfillScansList
+    | undefined;
 }
 export type ListAlertsForOrgRequestState = "open" | "resolved";
 export type ListAlertsForOrgRequestSort = "created" | "updated";
@@ -511,45 +521,45 @@ export interface ListAlertsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
-  state?: ListAlertsForOrgRequestState | (string & {});
+  state?: ListAlertsForOrgRequestState | (string & {}) | undefined;
   /** A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
-  secret_type?: string;
+  secret_type?: string | undefined;
   /** A comma-separated list of secret types to exclude from the results. All default secret patterns are returned except those matching the specified types. Cannot be combined with the `secret_type` parameter. See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
-  exclude_secret_types?: string;
+  exclude_secret_types?: string | undefined;
   /** A comma-separated list of provider slugs to exclude from the results. Provider slugs use lowercase with underscores (e.g., `github_secret_scanning`, `clojars`). You can find the provider slug in the `provider_slug` field of each alert. Cannot be combined with the `providers` parameter. */
-  exclude_providers?: string;
+  exclude_providers?: string | undefined;
   /** A comma-separated list of provider slugs to filter by. Provider slugs use lowercase with underscores (e.g., `github_secret_scanning`, `clojars`). You can find the provider slug in the `provider_slug` field of each alert. Cannot be combined with the `exclude_providers` parameter. */
-  providers?: string;
+  providers?: string | undefined;
   /** A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
-  resolution?: string;
+  resolution?: string | undefined;
   /** Filters alerts by assignee. Use `*` to get all assigned alerts, `none` to get all unassigned alerts, or a GitHub username to get alerts assigned to a specific user. */
-  assignee?: string;
+  assignee?: string | undefined;
   /** The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved. */
-  sort?: ListAlertsForOrgRequestSort | (string & {});
+  sort?: ListAlertsForOrgRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListAlertsForOrgRequestDirection | (string & {});
+  direction?: ListAlertsForOrgRequestDirection | (string & {}) | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string. */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor. To receive an initial cursor on your first request, include an empty "after" query string. */
-  after?: string;
+  after?: string | undefined;
   /** A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
-  validity?: string;
+  validity?: string | undefined;
   /** A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present. */
-  is_publicly_leaked?: boolean;
+  is_publicly_leaked?: boolean | undefined;
   /** A boolean value representing whether or not to filter alerts by the multi-repo tag being present. */
-  is_multi_repo?: boolean;
+  is_multi_repo?: boolean | undefined;
   /** A boolean value representing whether or not to hide literal secrets in the results. */
-  hide_secret?: boolean;
+  hide_secret?: boolean | undefined;
   /** A boolean value (`true` or `false`) indicating whether to filter alerts by their push protection bypass status. When set to `true`, only alerts that were created because a push protection rule was bypassed will be returned. When set to `false`, only alerts that were not caused by a push protection bypass will be returned. */
-  is_bypassed?: boolean;
+  is_bypassed?: boolean | undefined;
   /** A comma-separated list of metadata fields to filter alerts by. Only alerts that have all of the specified metadata fields attached will be returned. Possible values are: `owner-email`, `owner-id`, `owner-name`, `secret-id`, `secret-name`, `secret-issued-date`, `secret-expiration-date`, `organization-name`, `organization-id`, `last-used-date`, and `has-organization-access`. */
-  included_metadata?: string;
+  included_metadata?: string | undefined;
   /** Filters alerts to only those whose attached `owner_email` metadata field matches the provided value. The value must be the lowercase hex-encoded SHA-256 hash of the email address to match (for example, the SHA-256 of `user@example.com`). Only alerts that have an `owner_email` metadata value whose SHA-256 hash equals this parameter are returned. */
-  owner_email_hash?: string;
+  owner_email_hash?: string | undefined;
 }
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
@@ -650,60 +660,60 @@ export interface SimpleRepository {
 /** The token status as of the latest validity check. */
 export type OrganizationSecretScanningAlertValidity = "active" | "inactive" | "unknown";
 export interface OrganizationSecretScanningAlert {
-  number?: number;
-  created_at?: string;
-  updated_at?: string | null;
-  url?: string;
-  html_url?: string;
+  number?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
   /** The REST API URL of the code locations for this alert. */
-  locations_url?: string;
-  state?: SecretScanningAlertState;
-  resolution?: SecretScanningAlertResolution | null;
+  locations_url?: string | undefined;
+  state?: SecretScanningAlertState | undefined;
+  resolution?: SecretScanningAlertResolution | null | undefined;
   /** The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  resolved_at?: string | null;
-  resolved_by?: NullableSimpleUser | null;
+  resolved_at?: string | null | undefined;
+  resolved_by?: NullableSimpleUser | null | undefined;
   /** The type of secret that secret scanning detected. */
-  secret_type?: string;
+  secret_type?: string | undefined;
   /** User-friendly name for the detected secret, matching the `secret_type`. For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
-  secret_type_display_name?: string;
+  secret_type_display_name?: string | undefined;
   /** The provider of the secret that was detected. */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** The slug identifier for the provider of the secret that was detected. Use this value for filtering by provider with the `providers` or `exclude_providers` parameters. */
-  provider_slug?: string | null;
+  provider_slug?: string | null | undefined;
   /** The secret that was detected. */
-  secret?: string | Redacted.Redacted<string>;
-  repository?: SimpleRepository;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  repository?: SimpleRepository | undefined;
   /** Whether push protection was bypassed for the detected secret. */
-  push_protection_bypassed?: boolean | null;
-  push_protection_bypassed_by?: NullableSimpleUser | null;
+  push_protection_bypassed?: boolean | null | undefined;
+  push_protection_bypassed_by?: NullableSimpleUser | null | undefined;
   /** The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  push_protection_bypassed_at?: string | null;
-  push_protection_bypass_request_reviewer?: NullableSimpleUser | null;
+  push_protection_bypassed_at?: string | null | undefined;
+  push_protection_bypass_request_reviewer?: NullableSimpleUser | null | undefined;
   /** An optional comment when reviewing a push protection bypass. */
-  push_protection_bypass_request_reviewer_comment?: string | null;
+  push_protection_bypass_request_reviewer_comment?: string | null | undefined;
   /** An optional comment when requesting a push protection bypass. */
-  push_protection_bypass_request_comment?: string | null;
+  push_protection_bypass_request_comment?: string | null | undefined;
   /** The URL to a push protection bypass request. */
-  push_protection_bypass_request_html_url?: string | null;
+  push_protection_bypass_request_html_url?: string | null | undefined;
   /** The comment that was optionally added when this alert was closed */
-  resolution_comment?: string | null;
+  resolution_comment?: string | null | undefined;
   /** The token status as of the latest validity check. */
-  validity?: OrganizationSecretScanningAlertValidity;
+  validity?: OrganizationSecretScanningAlertValidity | undefined;
   /** Whether the secret was publicly leaked. */
-  publicly_leaked?: boolean | null;
+  publicly_leaked?: boolean | null | undefined;
   /** Whether the detected secret was found in multiple repositories in the same organization or enterprise. */
-  multi_repo?: boolean | null;
+  multi_repo?: boolean | null | undefined;
   /** A boolean value representing whether or not alert is base64 encoded */
-  is_base64_encoded?: boolean | null;
-  first_location_detected?: NullableSecretScanningFirstDetectedLocation | null;
+  is_base64_encoded?: boolean | null | undefined;
+  first_location_detected?: NullableSecretScanningFirstDetectedLocation | null | undefined;
   /** A boolean value representing whether or not the token in the alert was detected in more than one location. */
-  has_more_locations?: boolean;
-  assigned_to?: NullableSimpleUser | null;
+  has_more_locations?: boolean | undefined;
+  assigned_to?: NullableSimpleUser | null | undefined;
   /** An optional comment from the closure request author. */
-  closure_request_comment?: string | null;
+  closure_request_comment?: string | null | undefined;
   /** An optional comment from the closure request reviewer. */
-  closure_request_reviewer_comment?: string | null;
-  closure_request_reviewer?: NullableSimpleUser | null;
+  closure_request_reviewer_comment?: string | null | undefined;
+  closure_request_reviewer?: NullableSimpleUser | null | undefined;
 }
 export type ListAlertsForOrgResponseBodyList = Array<OrganizationSecretScanningAlert>;
 export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
@@ -716,102 +726,102 @@ export interface ListAlertsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
-  state?: ListAlertsForRepoRequestState | (string & {});
+  state?: ListAlertsForRepoRequestState | (string & {}) | undefined;
   /** A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
-  secret_type?: string;
+  secret_type?: string | undefined;
   /** A comma-separated list of secret types to exclude from the results. All default secret patterns are returned except those matching the specified types. Cannot be combined with the `secret_type` parameter. See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
-  exclude_secret_types?: string;
+  exclude_secret_types?: string | undefined;
   /** A comma-separated list of provider slugs to exclude from the results. Provider slugs use lowercase with underscores (e.g., `github_secret_scanning`, `clojars`). You can find the provider slug in the `provider_slug` field of each alert. Cannot be combined with the `providers` parameter. */
-  exclude_providers?: string;
+  exclude_providers?: string | undefined;
   /** A comma-separated list of provider slugs to filter by. Provider slugs use lowercase with underscores (e.g., `github_secret_scanning`, `clojars`). You can find the provider slug in the `provider_slug` field of each alert. Cannot be combined with the `exclude_providers` parameter. */
-  providers?: string;
+  providers?: string | undefined;
   /** A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
-  resolution?: string;
+  resolution?: string | undefined;
   /** Filters alerts by assignee. Use `*` to get all assigned alerts, `none` to get all unassigned alerts, or a GitHub username to get alerts assigned to a specific user. */
-  assignee?: string;
+  assignee?: string | undefined;
   /** The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved. */
-  sort?: ListAlertsForRepoRequestSort | (string & {});
+  sort?: ListAlertsForRepoRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListAlertsForRepoRequestDirection | (string & {});
+  direction?: ListAlertsForRepoRequestDirection | (string & {}) | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string. */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor. To receive an initial cursor on your first request, include an empty "after" query string. */
-  after?: string;
+  after?: string | undefined;
   /** A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
-  validity?: string;
+  validity?: string | undefined;
   /** A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present. */
-  is_publicly_leaked?: boolean;
+  is_publicly_leaked?: boolean | undefined;
   /** A boolean value representing whether or not to filter alerts by the multi-repo tag being present. */
-  is_multi_repo?: boolean;
+  is_multi_repo?: boolean | undefined;
   /** A boolean value representing whether or not to hide literal secrets in the results. */
-  hide_secret?: boolean;
+  hide_secret?: boolean | undefined;
   /** A boolean value (`true` or `false`) indicating whether to filter alerts by their push protection bypass status. When set to `true`, only alerts that were created because a push protection rule was bypassed will be returned. When set to `false`, only alerts that were not caused by a push protection bypass will be returned. */
-  is_bypassed?: boolean;
+  is_bypassed?: boolean | undefined;
   /** A comma-separated list of metadata fields to filter alerts by. Only alerts that have all of the specified metadata fields attached will be returned. Possible values are: `owner-email`, `owner-id`, `owner-name`, `secret-id`, `secret-name`, `secret-issued-date`, `secret-expiration-date`, `organization-name`, `organization-id`, `last-used-date`, and `has-organization-access`. */
-  included_metadata?: string;
+  included_metadata?: string | undefined;
   /** Filters alerts to only those whose attached `owner_email` metadata field matches the provided value. The value must be the lowercase hex-encoded SHA-256 hash of the email address to match (for example, the SHA-256 of `user@example.com`). Only alerts that have an `owner_email` metadata value whose SHA-256 hash equals this parameter are returned. */
-  owner_email_hash?: string;
+  owner_email_hash?: string | undefined;
 }
 /** The token status as of the latest validity check. */
 export type SecretScanningAlertValidity = "active" | "inactive" | "unknown";
 export interface SecretScanningAlert {
-  number?: number;
-  created_at?: string;
-  updated_at?: string | null;
-  url?: string;
-  html_url?: string;
+  number?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
   /** The REST API URL of the code locations for this alert. */
-  locations_url?: string;
-  state?: SecretScanningAlertState;
-  resolution?: SecretScanningAlertResolution | null;
+  locations_url?: string | undefined;
+  state?: SecretScanningAlertState | undefined;
+  resolution?: SecretScanningAlertResolution | null | undefined;
   /** The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  resolved_at?: string | null;
-  resolved_by?: NullableSimpleUser | null;
+  resolved_at?: string | null | undefined;
+  resolved_by?: NullableSimpleUser | null | undefined;
   /** An optional comment to resolve an alert. */
-  resolution_comment?: string | null;
+  resolution_comment?: string | null | undefined;
   /** The type of secret that secret scanning detected. */
-  secret_type?: string;
+  secret_type?: string | undefined;
   /** User-friendly name for the detected secret, matching the `secret_type`. For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
-  secret_type_display_name?: string;
+  secret_type_display_name?: string | undefined;
   /** The provider of the secret that was detected. */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** The slug identifier for the provider of the secret that was detected. Use this value for filtering by provider with the `providers` or `exclude_providers` parameters. */
-  provider_slug?: string | null;
+  provider_slug?: string | null | undefined;
   /** The secret that was detected. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether push protection was bypassed for the detected secret. */
-  push_protection_bypassed?: boolean | null;
-  push_protection_bypassed_by?: NullableSimpleUser | null;
+  push_protection_bypassed?: boolean | null | undefined;
+  push_protection_bypassed_by?: NullableSimpleUser | null | undefined;
   /** The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  push_protection_bypassed_at?: string | null;
-  push_protection_bypass_request_reviewer?: NullableSimpleUser | null;
+  push_protection_bypassed_at?: string | null | undefined;
+  push_protection_bypass_request_reviewer?: NullableSimpleUser | null | undefined;
   /** An optional comment when reviewing a push protection bypass. */
-  push_protection_bypass_request_reviewer_comment?: string | null;
+  push_protection_bypass_request_reviewer_comment?: string | null | undefined;
   /** An optional comment when requesting a push protection bypass. */
-  push_protection_bypass_request_comment?: string | null;
+  push_protection_bypass_request_comment?: string | null | undefined;
   /** The URL to a push protection bypass request. */
-  push_protection_bypass_request_html_url?: string | null;
+  push_protection_bypass_request_html_url?: string | null | undefined;
   /** The token status as of the latest validity check. */
-  validity?: SecretScanningAlertValidity;
+  validity?: SecretScanningAlertValidity | undefined;
   /** Whether the detected secret was publicly leaked. */
-  publicly_leaked?: boolean | null;
+  publicly_leaked?: boolean | null | undefined;
   /** Whether the detected secret was found in multiple repositories under the same organization or enterprise. */
-  multi_repo?: boolean | null;
+  multi_repo?: boolean | null | undefined;
   /** A boolean value representing whether or not alert is base64 encoded */
-  is_base64_encoded?: boolean | null;
-  first_location_detected?: NullableSecretScanningFirstDetectedLocation | null;
+  is_base64_encoded?: boolean | null | undefined;
+  first_location_detected?: NullableSecretScanningFirstDetectedLocation | null | undefined;
   /** A boolean value representing whether or not the token in the alert was detected in more than one location. */
-  has_more_locations?: boolean;
-  assigned_to?: NullableSimpleUser | null;
+  has_more_locations?: boolean | undefined;
+  assigned_to?: NullableSimpleUser | null | undefined;
   /** An optional comment from the closure request author. */
-  closure_request_comment?: string | null;
+  closure_request_comment?: string | null | undefined;
   /** An optional comment from the closure request reviewer. */
-  closure_request_reviewer_comment?: string | null;
-  closure_request_reviewer?: NullableSimpleUser | null;
+  closure_request_reviewer_comment?: string | null | undefined;
+  closure_request_reviewer?: NullableSimpleUser | null | undefined;
 }
 export type ListAlertsForRepoResponseBodyList = Array<SecretScanningAlert>;
 export type ListAlertsForRepoResponse = ListAlertsForRepoResponseBodyList;
@@ -823,9 +833,9 @@ export interface ListLocationsForAlertRequest {
   /** The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
   alert_number: number;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The location type. Because secrets may be found in different types of resources (ie. code, comments, issues, pull requests, discussions), this field identifies the type of resource where the secret was found. */
 export type SecretScanningLocationType =
@@ -858,8 +868,8 @@ export type SecretScanningLocationDetails =
   | SecretScanningLocationPullRequestReviewComment;
 export interface SecretScanningLocation {
   /** The location type. Because secrets may be found in different types of resources (ie. code, comments, issues, pull requests, discussions), this field identifies the type of resource where the secret was found. */
-  type?: SecretScanningLocationType;
-  details?: SecretScanningLocationDetails;
+  type?: SecretScanningLocationType | undefined;
+  details?: SecretScanningLocationDetails | undefined;
 }
 /** List of locations where the secret was detected */
 export type ListLocationsForAlertResponseBodyList = Array<SecretScanningLocation>;
@@ -872,17 +882,17 @@ export interface ListOrgCustomPatternsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Filter custom patterns by state. When absent, returns patterns in all states. */
-  state?: ListOrgCustomPatternsRequestState | (string & {});
+  state?: ListOrgCustomPatternsRequestState | (string & {}) | undefined;
   /** Filter custom patterns by whether push protection is enabled. When absent, returns patterns regardless of push protection status. */
-  push_protection?: ListOrgCustomPatternsRequestPushProtection | (string & {});
+  push_protection?: ListOrgCustomPatternsRequestPushProtection | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: ListOrgCustomPatternsRequestSort | (string & {});
+  sort?: ListOrgCustomPatternsRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListOrgCustomPatternsRequestDirection | (string & {});
+  direction?: ListOrgCustomPatternsRequestDirection | (string & {}) | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListOrgCustomPatternsResponseBodyList = Array<SecretScanningCustomPattern>;
 export type ListOrgCustomPatternsResponse = ListOrgCustomPatternsResponseBodyList;
@@ -898,29 +908,29 @@ export type SecretScanningPatternOverrideEnterpriseSetting = "not-set" | "disabl
 export type SecretScanningPatternOverrideSetting = "not-set" | "disabled" | "enabled";
 export interface SecretScanningPatternOverride {
   /** The ID of the pattern. */
-  token_type?: string;
+  token_type?: string | undefined;
   /** The version of this pattern if it's a custom pattern. */
-  custom_pattern_version?: string | null;
+  custom_pattern_version?: string | null | undefined;
   /** The slug of the pattern. */
-  slug?: string;
+  slug?: string | undefined;
   /** The user-friendly name for the pattern. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** The total number of alerts generated by this pattern. */
-  alert_total?: number;
+  alert_total?: number | undefined;
   /** The percentage of all alerts that this pattern represents, rounded to the nearest integer. */
-  alert_total_percentage?: number;
+  alert_total_percentage?: number | undefined;
   /** The number of false positive alerts generated by this pattern. */
-  false_positives?: number;
+  false_positives?: number | undefined;
   /** The percentage of alerts from this pattern that are false positives, rounded to the nearest integer. */
-  false_positive_rate?: number;
+  false_positive_rate?: number | undefined;
   /** The percentage of blocks for this pattern that were bypassed, rounded to the nearest integer. */
-  bypass_rate?: number;
+  bypass_rate?: number | undefined;
   /** The default push protection setting for this pattern. */
-  default_setting?: SecretScanningPatternOverrideDefaultSetting;
+  default_setting?: SecretScanningPatternOverrideDefaultSetting | undefined;
   /** The push protection setting for this pattern set at the enterprise level. Only present for partner patterns when the organization has a parent enterprise. */
-  enterprise_setting?: SecretScanningPatternOverrideEnterpriseSetting | null;
+  enterprise_setting?: SecretScanningPatternOverrideEnterpriseSetting | null | undefined;
   /** The current push protection setting for this pattern. If this is `not-set`, then it inherits either the enterprise setting if it exists or the default setting. */
-  setting?: SecretScanningPatternOverrideSetting;
+  setting?: SecretScanningPatternOverrideSetting | undefined;
 }
 /** Overrides for partner patterns. */
 export type SecretScanningPatternConfigurationProviderPatternOverridesList =
@@ -930,11 +940,15 @@ export type SecretScanningPatternConfigurationCustomPatternOverridesList =
   Array<SecretScanningPatternOverride>;
 /** A collection of secret scanning patterns and their settings related to push protection. */
 export interface SecretScanningPatternConfiguration {
-  pattern_config_version?: string | null;
+  pattern_config_version?: string | null | undefined;
   /** Overrides for partner patterns. */
-  provider_pattern_overrides?: SecretScanningPatternConfigurationProviderPatternOverridesList;
+  provider_pattern_overrides?:
+    | SecretScanningPatternConfigurationProviderPatternOverridesList
+    | undefined;
   /** Overrides for custom patterns defined by the organization. */
-  custom_pattern_overrides?: SecretScanningPatternConfigurationCustomPatternOverridesList;
+  custom_pattern_overrides?:
+    | SecretScanningPatternConfigurationCustomPatternOverridesList
+    | undefined;
 }
 export type ListRepoCustomPatternsRequestState = "published" | "unpublished";
 export type ListRepoCustomPatternsRequestPushProtection = "enabled" | "disabled";
@@ -946,17 +960,17 @@ export interface ListRepoCustomPatternsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Filter custom patterns by state. When absent, returns patterns in all states. */
-  state?: ListRepoCustomPatternsRequestState | (string & {});
+  state?: ListRepoCustomPatternsRequestState | (string & {}) | undefined;
   /** Filter custom patterns by whether push protection is enabled. When absent, returns patterns regardless of push protection status. */
-  push_protection?: ListRepoCustomPatternsRequestPushProtection | (string & {});
+  push_protection?: ListRepoCustomPatternsRequestPushProtection | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: ListRepoCustomPatternsRequestSort | (string & {});
+  sort?: ListRepoCustomPatternsRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListRepoCustomPatternsRequestDirection | (string & {});
+  direction?: ListRepoCustomPatternsRequestDirection | (string & {}) | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListRepoCustomPatternsResponseBodyList = Array<SecretScanningCustomPattern>;
 export type ListRepoCustomPatternsResponse = ListRepoCustomPatternsResponseBodyList;
@@ -969,12 +983,12 @@ export interface UpdateAlertRequest {
   repo: string;
   /** The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
   alert_number: number;
-  state?: SecretScanningAlertState | (string & {});
-  resolution?: SecretScanningAlertResolution | (string & {}) | null;
-  resolution_comment?: string | null;
-  assignee?: string | null;
+  state?: SecretScanningAlertState | (string & {}) | undefined;
+  resolution?: SecretScanningAlertResolution | (string & {}) | null | undefined;
+  resolution_comment?: string | null | undefined;
+  assignee?: string | null | undefined;
   /** Sets the validity of the secret scanning alert. Can be `active`, `inactive`, or `null` to clear the override. */
-  validity?: UpdateAlertRequestValidity | (string & {}) | null;
+  validity?: UpdateAlertRequestValidity | (string & {}) | null | undefined;
 }
 /** Updated list of regexes that the secret must match. */
 export type UpdateOrgCustomPatternRequestMustMatchList = Array<string>;
@@ -986,15 +1000,15 @@ export interface UpdateOrgCustomPatternRequest {
   /** The ID of the custom pattern. */
   pattern_id: number;
   /** The updated regular expression of the custom pattern. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** The updated start delimiter regex for the custom pattern. */
-  start_delimiter?: string;
+  start_delimiter?: string | undefined;
   /** The updated end delimiter regex for the custom pattern. */
-  end_delimiter?: string;
+  end_delimiter?: string | undefined;
   /** Updated list of regexes that the secret must match. */
-  must_match?: UpdateOrgCustomPatternRequestMustMatchList;
+  must_match?: UpdateOrgCustomPatternRequestMustMatchList | undefined;
   /** Updated list of regexes that the secret must not match. */
-  must_not_match?: UpdateOrgCustomPatternRequestMustNotMatchList;
+  must_not_match?: UpdateOrgCustomPatternRequestMustNotMatchList | undefined;
   custom_pattern_version: string | null;
 }
 /** Push protection setting to set for the pattern. */
@@ -1004,11 +1018,12 @@ export type UpdateOrgPatternConfigsRequestProviderPatternSettingsItemPushProtect
   | "enabled";
 export interface UpdateOrgPatternConfigsRequestProviderPatternSettingsItem {
   /** The ID of the pattern to configure. */
-  token_type?: string;
+  token_type?: string | undefined;
   /** Push protection setting to set for the pattern. */
   push_protection_setting?:
     | UpdateOrgPatternConfigsRequestProviderPatternSettingsItemPushProtectionSetting
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Pattern settings for provider patterns. */
 export type UpdateOrgPatternConfigsRequestProviderPatternSettingsList =
@@ -1019,12 +1034,13 @@ export type UpdateOrgPatternConfigsRequestCustomPatternSettingsItemPushProtectio
   | "enabled";
 export interface UpdateOrgPatternConfigsRequestCustomPatternSettingsItem {
   /** The ID of the pattern to configure. */
-  token_type?: string;
-  custom_pattern_version?: string | null;
+  token_type?: string | undefined;
+  custom_pattern_version?: string | null | undefined;
   /** Push protection setting to set for the pattern. */
   push_protection_setting?:
     | UpdateOrgPatternConfigsRequestCustomPatternSettingsItemPushProtectionSetting
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Pattern settings for custom patterns. */
 export type UpdateOrgPatternConfigsRequestCustomPatternSettingsList =
@@ -1032,15 +1048,15 @@ export type UpdateOrgPatternConfigsRequestCustomPatternSettingsList =
 export interface UpdateOrgPatternConfigsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
-  pattern_config_version?: string | null;
+  pattern_config_version?: string | null | undefined;
   /** Pattern settings for provider patterns. */
-  provider_pattern_settings?: UpdateOrgPatternConfigsRequestProviderPatternSettingsList;
+  provider_pattern_settings?: UpdateOrgPatternConfigsRequestProviderPatternSettingsList | undefined;
   /** Pattern settings for custom patterns. */
-  custom_pattern_settings?: UpdateOrgPatternConfigsRequestCustomPatternSettingsList;
+  custom_pattern_settings?: UpdateOrgPatternConfigsRequestCustomPatternSettingsList | undefined;
 }
 export interface UpdateOrgPatternConfigsResponse {
   /** The updated pattern configuration version. */
-  pattern_config_version?: string;
+  pattern_config_version?: string | undefined;
 }
 /** Updated list of regexes that the secret must match. */
 export type UpdateRepoCustomPatternRequestMustMatchList = Array<string>;
@@ -1054,15 +1070,15 @@ export interface UpdateRepoCustomPatternRequest {
   /** The ID of the custom pattern. */
   pattern_id: number;
   /** The updated regular expression of the custom pattern. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** The updated start delimiter regex for the custom pattern. */
-  start_delimiter?: string;
+  start_delimiter?: string | undefined;
   /** The updated end delimiter regex for the custom pattern. */
-  end_delimiter?: string;
+  end_delimiter?: string | undefined;
   /** Updated list of regexes that the secret must match. */
-  must_match?: UpdateRepoCustomPatternRequestMustMatchList;
+  must_match?: UpdateRepoCustomPatternRequestMustMatchList | undefined;
   /** Updated list of regexes that the secret must not match. */
-  must_not_match?: UpdateRepoCustomPatternRequestMustNotMatchList;
+  must_not_match?: UpdateRepoCustomPatternRequestMustNotMatchList | undefined;
   custom_pattern_version: string | null;
 }
 export type BulkCreateOrgCustomPatternsError =

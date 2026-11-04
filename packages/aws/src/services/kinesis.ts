@@ -833,10 +833,10 @@ export type TagMap = { [key: string]: string | undefined };
 export type StreamARN = string;
 export type StreamId = string;
 export interface AddTagsToStreamInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   Tags: { [key: string]: string | undefined };
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface AddTagsToStreamResponse {}
 export type ChannelName = string;
@@ -845,7 +845,7 @@ export type RecordFormatType = "GSR_JSON" | "JSON" | "STRING" | "BYTE_ARRAY" | (
 export type GSRSchemaARN = string;
 export interface RecordConfiguration {
   RecordFormatType: RecordFormatType;
-  GSRSchemaARN?: string;
+  GSRSchemaARN?: string | undefined;
 }
 export interface ChannelStreamConfiguration {
   StreamARN: string;
@@ -859,7 +859,7 @@ export type S3ErrorOutputPrefix = string;
 export interface DeadLetterQueueS3Configuration {
   BucketARN: string;
   ExpectedBucketOwner: string;
-  ErrorOutputPrefix?: string;
+  ErrorOutputPrefix?: string | undefined;
 }
 export type S3OutputKeyTemplate = string;
 export type S3StorageClass = "STANDARD" | "INTELLIGENT_TIERING" | "GLACIER_IR" | (string & {});
@@ -867,13 +867,13 @@ export type S3CompressionType = "NONE" | "GZIP" | "ZSTD" | (string & {});
 export interface S3StorageConfiguration {
   BucketARN: string;
   ExpectedBucketOwner: string;
-  OutputKeyTemplate?: string;
-  StorageClass?: S3StorageClass;
+  OutputKeyTemplate?: string | undefined;
+  StorageClass?: S3StorageClass | undefined;
   CompressionType: S3CompressionType;
 }
 export interface S3DestinationConfiguration {
-  DataFreshnessInSeconds?: number;
-  DeadLetterQueueS3Configuration?: DeadLetterQueueS3Configuration;
+  DataFreshnessInSeconds?: number | undefined;
+  DeadLetterQueueS3Configuration?: DeadLetterQueueS3Configuration | undefined;
   StorageConfiguration: S3StorageConfiguration;
 }
 export type TableBucketARN = string;
@@ -895,11 +895,11 @@ export interface S3TablesConfiguration {
   Namespace: string;
   TableName: string;
   CompressionType: S3TablesCompressionType;
-  PartitionSpec?: PartitionSpec;
+  PartitionSpec?: PartitionSpec | undefined;
 }
 export type S3TablesConfigurationList = S3TablesConfiguration[];
 export interface S3TablesDestinationConfiguration {
-  DataFreshnessInSeconds?: number;
+  DataFreshnessInSeconds?: number | undefined;
   DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration;
   S3TablesConfigurationList: S3TablesConfiguration[];
 }
@@ -913,8 +913,8 @@ export type CloudWatchLogGroupName = string;
 export type CloudWatchLogStreamName = string;
 export interface CloudWatchLogs {
   Enabled: boolean;
-  LogGroupName?: string;
-  LogStreamName?: string;
+  LogGroupName?: string | undefined;
+  LogStreamName?: string | undefined;
 }
 export interface ChannelLoggingConfiguration {
   CloudWatchLogs: CloudWatchLogs;
@@ -923,11 +923,11 @@ export interface CreateChannelInput {
   ChannelName: string;
   ServiceExecutionRoleARN: string;
   StreamConfigurationList: ChannelStreamConfiguration[];
-  S3DestinationConfiguration?: S3DestinationConfiguration;
-  S3TablesDestinationConfiguration?: S3TablesDestinationConfiguration;
-  EncryptionConfiguration?: ChannelEncryptionConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  LoggingConfiguration?: ChannelLoggingConfiguration;
+  S3DestinationConfiguration?: S3DestinationConfiguration | undefined;
+  S3TablesDestinationConfiguration?: S3TablesDestinationConfiguration | undefined;
+  EncryptionConfiguration?: ChannelEncryptionConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LoggingConfiguration?: ChannelLoggingConfiguration | undefined;
 }
 export type ChannelARN = string;
 export type ChannelId = string;
@@ -960,13 +960,13 @@ export interface ChannelDescription {
   ChannelARN: string;
   ChannelId: string;
   ChannelStatus: ChannelStatus;
-  ChannelStatusReason?: string;
+  ChannelStatusReason?: string | undefined;
   ChannelCreationTimestamp: Date;
   ServiceExecutionRoleARN: string;
   StreamConfigurationList: ChannelStreamDescription[];
-  S3DestinationConfiguration?: S3DestinationDescription;
-  S3TablesDestinationConfiguration?: S3TablesDestinationDescription;
-  EncryptionConfiguration?: ChannelEncryptionConfiguration;
+  S3DestinationConfiguration?: S3DestinationDescription | undefined;
+  S3TablesDestinationConfiguration?: S3TablesDestinationDescription | undefined;
+  EncryptionConfiguration?: ChannelEncryptionConfiguration | undefined;
   LoggingConfiguration: ChannelLoggingConfiguration;
 }
 export interface CreateChannelOutput {
@@ -982,20 +982,20 @@ export type MaxRecordSizeInKiB = number;
 export type RecordDistributionStrategy = "AUTO" | "USER_PARTITION_KEY" | (string & {});
 export interface CreateStreamInput {
   StreamName: string;
-  ShardCount?: number;
-  StreamModeDetails?: StreamModeDetails;
-  Tags?: { [key: string]: string | undefined };
-  WarmThroughputMiBps?: number;
-  MaxRecordSizeInKiB?: number;
-  RecordDistributionStrategy?: RecordDistributionStrategy;
+  ShardCount?: number | undefined;
+  StreamModeDetails?: StreamModeDetails | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  WarmThroughputMiBps?: number | undefined;
+  MaxRecordSizeInKiB?: number | undefined;
+  RecordDistributionStrategy?: RecordDistributionStrategy | undefined;
 }
 export interface CreateStreamResponse {}
 export type RetentionPeriodHours = number;
 export interface DecreaseStreamRetentionPeriodInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   RetentionPeriodHours: number;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface DecreaseStreamRetentionPeriodResponse {}
 export interface DeleteChannelInput {
@@ -1005,23 +1005,23 @@ export interface DeleteChannelResponse {}
 export type ResourceARN = string;
 export interface DeleteResourcePolicyInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteStreamInput {
-  StreamName?: string;
-  EnforceConsumerDeletion?: boolean;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  EnforceConsumerDeletion?: boolean | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface DeleteStreamResponse {}
 export type ConsumerName = string;
 export type ConsumerARN = string;
 export interface DeregisterStreamConsumerInput {
-  StreamARN?: string;
-  ConsumerName?: string;
-  ConsumerARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  ConsumerName?: string | undefined;
+  ConsumerARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface DeregisterStreamConsumerResponse {}
 export interface DescribeAccountSettingsInput {}
@@ -1032,12 +1032,12 @@ export type MinimumThroughputBillingCommitmentOutputStatus =
   | (string & {});
 export interface MinimumThroughputBillingCommitmentOutput {
   Status: MinimumThroughputBillingCommitmentOutputStatus;
-  StartedAt?: Date;
-  EndedAt?: Date;
-  EarliestAllowedEndAt?: Date;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  EarliestAllowedEndAt?: Date | undefined;
 }
 export interface DescribeAccountSettingsOutput {
-  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput;
+  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput | undefined;
 }
 export interface DescribeChannelInput {
   ChannelARN: string;
@@ -1055,17 +1055,17 @@ export interface DescribeLimitsOutput {
   OpenShardCount: number;
   OnDemandStreamCount: number;
   OnDemandStreamCountLimit: number;
-  ChannelCount?: number;
-  ChannelCountLimit?: number;
+  ChannelCount?: number | undefined;
+  ChannelCountLimit?: number | undefined;
 }
 export type DescribeStreamInputLimit = number;
 export type ShardId = string;
 export interface DescribeStreamInput {
-  StreamName?: string;
-  Limit?: number;
-  ExclusiveStartShardId?: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  Limit?: number | undefined;
+  ExclusiveStartShardId?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type StreamStatus = "CREATING" | "DELETING" | "ACTIVE" | "UPDATING" | (string & {});
 export type HashKey = string;
@@ -1076,12 +1076,12 @@ export interface HashKeyRange {
 export type SequenceNumber = string;
 export interface SequenceNumberRange {
   StartingSequenceNumber: string;
-  EndingSequenceNumber?: string;
+  EndingSequenceNumber?: string | undefined;
 }
 export interface Shard {
   ShardId: string;
-  ParentShardId?: string;
-  AdjacentParentShardId?: string;
+  ParentShardId?: string | undefined;
+  AdjacentParentShardId?: string | undefined;
   HashKeyRange: HashKeyRange;
   SequenceNumberRange: SequenceNumberRange;
 }
@@ -1098,7 +1098,7 @@ export type MetricsName =
   | (string & {});
 export type MetricsNameList = MetricsName[];
 export interface EnhancedMetrics {
-  ShardLevelMetrics?: MetricsName[];
+  ShardLevelMetrics?: MetricsName[] | undefined;
 }
 export type EnhancedMonitoringList = EnhancedMetrics[];
 export type EncryptionType = "NONE" | "KMS" | (string & {});
@@ -1106,23 +1106,23 @@ export interface StreamDescription {
   StreamName: string;
   StreamARN: string;
   StreamStatus: StreamStatus;
-  StreamModeDetails?: StreamModeDetails;
+  StreamModeDetails?: StreamModeDetails | undefined;
   Shards: Shard[];
   HasMoreShards: boolean;
   RetentionPeriodHours: number;
   StreamCreationTimestamp: Date;
   EnhancedMonitoring: EnhancedMetrics[];
-  EncryptionType?: EncryptionType;
-  KeyId?: string;
+  EncryptionType?: EncryptionType | undefined;
+  KeyId?: string | undefined;
 }
 export interface DescribeStreamOutput {
   StreamDescription: StreamDescription;
 }
 export interface DescribeStreamConsumerInput {
-  StreamARN?: string;
-  ConsumerName?: string;
-  ConsumerARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  ConsumerName?: string | undefined;
+  ConsumerARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type ConsumerStatus = "CREATING" | "DELETING" | "ACTIVE" | (string & {});
 export interface ConsumerDescription {
@@ -1136,71 +1136,71 @@ export interface DescribeStreamConsumerOutput {
   ConsumerDescription: ConsumerDescription;
 }
 export interface DescribeStreamSummaryInput {
-  StreamName?: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type ConsumerCountObject = number;
 export interface WarmThroughputObject {
-  TargetMiBps?: number;
-  CurrentMiBps?: number;
+  TargetMiBps?: number | undefined;
+  CurrentMiBps?: number | undefined;
 }
 export interface StreamDescriptionSummary {
   StreamName: string;
   StreamARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   StreamStatus: StreamStatus;
-  StreamModeDetails?: StreamModeDetails;
+  StreamModeDetails?: StreamModeDetails | undefined;
   RetentionPeriodHours: number;
   StreamCreationTimestamp: Date;
   EnhancedMonitoring: EnhancedMetrics[];
-  EncryptionType?: EncryptionType;
-  KeyId?: string;
-  OpenShardCount?: number;
-  ConsumerCount?: number;
-  WarmThroughput?: WarmThroughputObject;
-  MaxRecordSizeInKiB?: number;
-  ChannelCount?: number;
-  RecordDistributionStrategy?: RecordDistributionStrategy;
+  EncryptionType?: EncryptionType | undefined;
+  KeyId?: string | undefined;
+  OpenShardCount?: number | undefined;
+  ConsumerCount?: number | undefined;
+  WarmThroughput?: WarmThroughputObject | undefined;
+  MaxRecordSizeInKiB?: number | undefined;
+  ChannelCount?: number | undefined;
+  RecordDistributionStrategy?: RecordDistributionStrategy | undefined;
 }
 export interface DescribeStreamSummaryOutput {
   StreamDescriptionSummary: StreamDescriptionSummary;
 }
 export interface DisableEnhancedMonitoringInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardLevelMetrics: MetricsName[];
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface EnhancedMonitoringOutput {
-  StreamName?: string;
-  CurrentShardLevelMetrics?: MetricsName[];
-  DesiredShardLevelMetrics?: MetricsName[];
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  CurrentShardLevelMetrics?: MetricsName[] | undefined;
+  DesiredShardLevelMetrics?: MetricsName[] | undefined;
+  StreamARN?: string | undefined;
 }
 export interface EnableEnhancedMonitoringInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardLevelMetrics: MetricsName[];
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export type ShardIterator = string;
 export type GetRecordsInputLimit = number;
 export interface GetRecordsInput {
   ShardIterator: string;
-  Limit?: number;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  Limit?: number | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export type Data = Uint8Array;
 export type PartitionKey = string;
 export interface Record {
   SequenceNumber: string;
-  ApproximateArrivalTimestamp?: Date;
+  ApproximateArrivalTimestamp?: Date | undefined;
   Data: Uint8Array;
-  PartitionKey?: string;
-  EncryptionType?: EncryptionType;
+  PartitionKey?: string | undefined;
+  EncryptionType?: EncryptionType | undefined;
 }
 export type RecordList = Record[];
 export type MillisBehindLatest = number;
@@ -1213,13 +1213,13 @@ export interface ChildShard {
 export type ChildShardList = ChildShard[];
 export interface GetRecordsOutput {
   Records: Record[];
-  NextShardIterator?: string;
-  MillisBehindLatest?: number;
-  ChildShards?: ChildShard[];
+  NextShardIterator?: string | undefined;
+  MillisBehindLatest?: number | undefined;
+  ChildShards?: ChildShard[] | undefined;
 }
 export interface GetResourcePolicyInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export type Policy = string;
 export interface GetResourcePolicyOutput {
@@ -1233,36 +1233,36 @@ export type ShardIteratorType =
   | "AT_TIMESTAMP"
   | (string & {});
 export interface GetShardIteratorInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardId: string;
   ShardIteratorType: ShardIteratorType;
-  StartingSequenceNumber?: string;
-  Timestamp?: Date;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  StartingSequenceNumber?: string | undefined;
+  Timestamp?: Date | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface GetShardIteratorOutput {
-  ShardIterator?: string;
+  ShardIterator?: string | undefined;
 }
 export interface IncreaseStreamRetentionPeriodInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   RetentionPeriodHours: number;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface IncreaseStreamRetentionPeriodResponse {}
 export interface StreamFilter {
   StreamARN: string;
-  StreamCreationTimestamp?: Date;
+  StreamCreationTimestamp?: Date | undefined;
 }
 export type StreamFilterList = StreamFilter[];
 export type ListChannelsInputLimit = number;
 export type NextToken = string;
 export interface ListChannelsInput {
-  StreamFilter?: StreamFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  StreamFilter?: StreamFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ChannelDestinationType = "S3" | "S3_TABLES" | (string & {});
 export interface ChannelStreamIdentifier {
@@ -1275,7 +1275,7 @@ export interface ChannelSummary {
   ChannelARN: string;
   ChannelId: string;
   ChannelStatus: ChannelStatus;
-  ChannelStatusReason?: string;
+  ChannelStatusReason?: string | undefined;
   ChannelCreationTimestamp: Date;
   ChannelDestinationType: ChannelDestinationType;
   Streams: ChannelStreamIdentifier[];
@@ -1283,7 +1283,7 @@ export interface ChannelSummary {
 export type ChannelSummaryList = ChannelSummary[];
 export interface ListChannelsOutput {
   ChannelSummaries: ChannelSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListShardsInputLimit = number;
 export type ShardFilterType =
@@ -1296,30 +1296,30 @@ export type ShardFilterType =
   | (string & {});
 export interface ShardFilter {
   Type: ShardFilterType;
-  ShardId?: string;
-  Timestamp?: Date;
+  ShardId?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface ListShardsInput {
-  StreamName?: string;
-  NextToken?: string;
-  ExclusiveStartShardId?: string;
-  MaxResults?: number;
-  StreamCreationTimestamp?: Date;
-  ShardFilter?: ShardFilter;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  NextToken?: string | undefined;
+  ExclusiveStartShardId?: string | undefined;
+  MaxResults?: number | undefined;
+  StreamCreationTimestamp?: Date | undefined;
+  ShardFilter?: ShardFilter | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface ListShardsOutput {
-  Shards?: Shard[];
-  NextToken?: string;
+  Shards?: Shard[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListStreamConsumersInputLimit = number;
 export interface ListStreamConsumersInput {
   StreamARN: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StreamCreationTimestamp?: Date;
-  StreamId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StreamCreationTimestamp?: Date | undefined;
+  StreamId?: string | undefined;
 }
 export interface Consumer {
   ConsumerName: string;
@@ -1329,168 +1329,168 @@ export interface Consumer {
 }
 export type ConsumerList = Consumer[];
 export interface ListStreamConsumersOutput {
-  Consumers?: Consumer[];
-  NextToken?: string;
+  Consumers?: Consumer[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListStreamsInputLimit = number;
 export interface ListStreamsInput {
-  Limit?: number;
-  ExclusiveStartStreamName?: string;
-  NextToken?: string;
+  Limit?: number | undefined;
+  ExclusiveStartStreamName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type StreamNameList = string[];
 export interface StreamSummary {
   StreamName: string;
   StreamARN: string;
   StreamStatus: StreamStatus;
-  StreamModeDetails?: StreamModeDetails;
-  StreamCreationTimestamp?: Date;
+  StreamModeDetails?: StreamModeDetails | undefined;
+  StreamCreationTimestamp?: Date | undefined;
 }
 export type StreamSummaryList = StreamSummary[];
 export interface ListStreamsOutput {
   StreamNames: string[];
   HasMoreStreams: boolean;
-  NextToken?: string;
-  StreamSummaries?: StreamSummary[];
+  NextToken?: string | undefined;
+  StreamSummaries?: StreamSummary[] | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ListTagsForStreamInputLimit = number;
 export interface ListTagsForStreamInput {
-  StreamName?: string;
-  ExclusiveStartTagKey?: string;
-  Limit?: number;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamName?: string | undefined;
+  ExclusiveStartTagKey?: string | undefined;
+  Limit?: number | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface ListTagsForStreamOutput {
   Tags: Tag[];
   HasMoreTags: boolean;
 }
 export interface MergeShardsInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardToMerge: string;
   AdjacentShardToMerge: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface MergeShardsResponse {}
 export interface PutRecordInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   Data: Uint8Array;
-  PartitionKey?: string;
-  ExplicitHashKey?: string;
-  SequenceNumberForOrdering?: string;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  PartitionKey?: string | undefined;
+  ExplicitHashKey?: string | undefined;
+  SequenceNumberForOrdering?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface PutRecordOutput {
   ShardId: string;
   SequenceNumber: string;
-  EncryptionType?: EncryptionType;
+  EncryptionType?: EncryptionType | undefined;
 }
 export interface PutRecordsRequestEntry {
   Data: Uint8Array;
-  ExplicitHashKey?: string;
-  PartitionKey?: string;
+  ExplicitHashKey?: string | undefined;
+  PartitionKey?: string | undefined;
 }
 export type PutRecordsRequestEntryList = PutRecordsRequestEntry[];
 export interface PutRecordsInput {
   Records: PutRecordsRequestEntry[];
-  StreamName?: string;
-  StreamARN?: string;
-  StreamId?: string;
-  DryRun?: boolean;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface PutRecordsResultEntry {
-  SequenceNumber?: string;
-  ShardId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  SequenceNumber?: string | undefined;
+  ShardId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PutRecordsResultEntryList = PutRecordsResultEntry[];
 export interface PutRecordsOutput {
-  FailedRecordCount?: number;
+  FailedRecordCount?: number | undefined;
   Records: PutRecordsResultEntry[];
-  EncryptionType?: EncryptionType;
+  EncryptionType?: EncryptionType | undefined;
 }
 export interface PutResourcePolicyInput {
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   Policy: string;
 }
 export interface PutResourcePolicyResponse {}
 export interface RegisterStreamConsumerInput {
   StreamARN: string;
   ConsumerName: string;
-  StreamId?: string;
-  Tags?: { [key: string]: string | undefined };
+  StreamId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterStreamConsumerOutput {
   Consumer: Consumer;
 }
 export type TagKeyList = string[];
 export interface RemoveTagsFromStreamInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   TagKeys: string[];
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface RemoveTagsFromStreamResponse {}
 export interface SplitShardInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   ShardToSplit: string;
   NewStartingHashKey: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface SplitShardResponse {}
 export interface StartStreamEncryptionInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   EncryptionType: EncryptionType;
   KeyId: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface StartStreamEncryptionResponse {}
 export interface StopStreamEncryptionInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   EncryptionType: EncryptionType;
   KeyId: string;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface StopStreamEncryptionResponse {}
 export interface StartingPosition {
   Type: ShardIteratorType;
-  SequenceNumber?: string;
-  Timestamp?: Date;
+  SequenceNumber?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface SubscribeToShardInput {
   ConsumerARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   ShardId: string;
   StartingPosition: StartingPosition;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface SubscribeToShardEvent {
   Records: Record[];
   ContinuationSequenceNumber: string;
   MillisBehindLatest: number;
-  ChildShards?: ChildShard[];
+  ChildShards?: ChildShard[] | undefined;
 }
 export type SubscribeToShardEventStream =
   | {
@@ -1619,13 +1619,13 @@ export interface SubscribeToShardOutput {
 export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceInput {
   TagKeys: string[];
   ResourceARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
 }
 export interface UntagResourceResponse {}
 export type MinimumThroughputBillingCommitmentInputStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -1636,7 +1636,7 @@ export interface UpdateAccountSettingsInput {
   MinimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput;
 }
 export interface UpdateAccountSettingsOutput {
-  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput;
+  MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput | undefined;
 }
 export interface S3DestinationUpdateInput {
   DataFreshnessInSeconds: number;
@@ -1646,64 +1646,64 @@ export interface S3TablesDestinationUpdateInput {
 }
 export interface CloudWatchLogsUpdateInput {
   Enabled: boolean;
-  LogGroupName?: string;
-  LogStreamName?: string;
+  LogGroupName?: string | undefined;
+  LogStreamName?: string | undefined;
 }
 export interface ChannelLoggingUpdateInput {
   CloudWatchLogs: CloudWatchLogsUpdateInput;
 }
 export interface UpdateChannelInput {
   ChannelARN: string;
-  S3DestinationConfiguration?: S3DestinationUpdateInput;
-  S3TablesDestinationConfiguration?: S3TablesDestinationUpdateInput;
-  LoggingConfiguration?: ChannelLoggingUpdateInput;
+  S3DestinationConfiguration?: S3DestinationUpdateInput | undefined;
+  S3TablesDestinationConfiguration?: S3TablesDestinationUpdateInput | undefined;
+  LoggingConfiguration?: ChannelLoggingUpdateInput | undefined;
 }
 export interface UpdateChannelOutput {
   ChannelDescription: ChannelDescription;
 }
 export interface UpdateMaxRecordSizeInput {
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
   MaxRecordSizeInKiB: number;
 }
 export interface UpdateMaxRecordSizeResponse {}
 export type ScalingType = "UNIFORM_SCALING" | (string & {});
 export interface UpdateShardCountInput {
-  StreamName?: string;
+  StreamName?: string | undefined;
   TargetShardCount: number;
   ScalingType: ScalingType;
-  StreamARN?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamId?: string | undefined;
 }
 export interface UpdateShardCountOutput {
-  StreamName?: string;
-  CurrentShardCount?: number;
-  TargetShardCount?: number;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  CurrentShardCount?: number | undefined;
+  TargetShardCount?: number | undefined;
+  StreamARN?: string | undefined;
 }
 export interface UpdateStreamModeInput {
   StreamARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   StreamModeDetails: StreamModeDetails;
-  WarmThroughputMiBps?: number;
+  WarmThroughputMiBps?: number | undefined;
 }
 export interface UpdateStreamModeResponse {}
 export interface UpdateStreamRecordDistributionStrategyInput {
   StreamARN: string;
-  StreamId?: string;
+  StreamId?: string | undefined;
   RecordDistributionStrategy: RecordDistributionStrategy;
 }
 export interface UpdateStreamRecordDistributionStrategyResponse {}
 export interface UpdateStreamWarmThroughputInput {
-  StreamARN?: string;
-  StreamName?: string;
-  StreamId?: string;
+  StreamARN?: string | undefined;
+  StreamName?: string | undefined;
+  StreamId?: string | undefined;
   WarmThroughputMiBps: number;
 }
 export interface UpdateStreamWarmThroughputOutput {
-  StreamARN?: string;
-  StreamName?: string;
-  WarmThroughput?: WarmThroughputObject;
+  StreamARN?: string | undefined;
+  StreamName?: string | undefined;
+  WarmThroughput?: WarmThroughputObject | undefined;
 }
 export type AddTagsToStreamError =
   | AccessDeniedException

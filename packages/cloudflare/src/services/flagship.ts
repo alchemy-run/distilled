@@ -348,7 +348,7 @@ export interface AppsFlagsCreateRequestRulesItemRollout {
   /** Percentage of matching traffic (0-100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
   percentage: number;
   /** Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request. */
-  attribute?: string;
+  attribute?: string | undefined;
 }
 export interface AppsFlagsCreateRequestRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
@@ -357,7 +357,7 @@ export interface AppsFlagsCreateRequestRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateRequestRulesItemRollout;
+  rollout?: AppsFlagsCreateRequestRulesItemRollout | undefined;
 }
 export type AppsFlagsCreateRequestRulesList = Array<AppsFlagsCreateRequestRulesItem>;
 export type UntypedVariationsMap = { [key: string]: unknown | undefined };
@@ -382,11 +382,11 @@ export interface CreateAppFlagRequest {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string;
+  description?: string | undefined;
   /** Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). */
-  metadata?: AppsFlagsCreateRequestMetadataMap;
+  metadata?: AppsFlagsCreateRequestMetadataMap | undefined;
   /** Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations. */
-  type?: AppsFlagsCreateRequestType | (string & {});
+  type?: AppsFlagsCreateRequestType | (string & {}) | undefined;
 }
 export type AppsFlagsCreateResponseRulesItemConditionsItemFlagshipBaseConditionOperator =
   | "equals"
@@ -629,7 +629,7 @@ export interface AppsFlagsCreateResponseRulesItemRollout {
   /** Percentage of matching traffic (0-100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
   percentage: number;
   /** Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request. */
-  attribute?: string | null;
+  attribute?: string | null | undefined;
 }
 export interface AppsFlagsCreateResponseRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
@@ -638,7 +638,7 @@ export interface AppsFlagsCreateResponseRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
+  rollout?: AppsFlagsCreateResponseRulesItemRollout | null | undefined;
 }
 export type AppsFlagsCreateResponseRulesList = Array<AppsFlagsCreateResponseRulesItem>;
 export type AppsFlagsCreateResponseType = "boolean" | "string" | "number" | "json";
@@ -661,11 +661,11 @@ export interface CreateAppFlagResponse {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsFlagsCreateResponseMetadataMap | null;
-  updatedAt?: string | null;
-  updatedBy?: string | null;
+  metadata?: AppsFlagsCreateResponseMetadataMap | null | undefined;
+  updatedAt?: string | null | undefined;
+  updatedBy?: string | null | undefined;
 }
 export interface DeleteAppRequest {
   /** Cloudflare account ID that owns the Flagship app. */
@@ -712,7 +712,7 @@ export interface GetAppEvaluateRequest {
   /** The flag key to evaluate. */
   flagKey: string;
   /** Context targeting key (per OpenFeature spec); used for percentage rollout bucketing. */
-  targetingKey?: string;
+  targetingKey?: string | undefined;
 }
 export type AppsEvaluateGetResponseReason =
   | "STATIC"
@@ -741,8 +741,8 @@ export interface GetAppEvaluateResponse {
   /** Name of the variation that supplied the resolved value. */
   variant: string;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsEvaluateGetResponseMetadataMap | null;
-  value?: AppsEvaluateGetResponseValue | null;
+  metadata?: AppsEvaluateGetResponseMetadataMap | null | undefined;
+  value?: AppsEvaluateGetResponseValue | null | undefined;
 }
 export interface GetAppFlagRequest {
   /** Cloudflare account ID that owns the Flagship app. */
@@ -997,7 +997,7 @@ export interface AppsFlagsGetResponseRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
+  rollout?: AppsFlagsCreateResponseRulesItemRollout | null | undefined;
 }
 export type AppsFlagsGetResponseRulesList = Array<AppsFlagsGetResponseRulesItem>;
 export type AppsFlagsGetResponseType = "boolean" | "string" | "number" | "json";
@@ -1020,11 +1020,11 @@ export interface GetAppFlagResponse {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsFlagsGetResponseMetadataMap | null;
-  updatedAt?: string | null;
-  updatedBy?: string | null;
+  metadata?: AppsFlagsGetResponseMetadataMap | null | undefined;
+  updatedAt?: string | null | undefined;
+  updatedBy?: string | null | undefined;
 }
 export interface ListAppFlagChangelogsRequest {
   /** Cloudflare account ID that owns the Flagship app. */
@@ -1034,9 +1034,9 @@ export interface ListAppFlagChangelogsRequest {
   /** Case-sensitive key identifying the flag within the app. */
   flagKey: string;
   /** Pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Max items to return (1-200). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemFlagshipBaseConditionOperator =
   | "equals"
@@ -1283,7 +1283,7 @@ export interface AppsFlagsChangelogListResultItemCase0AfterRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
+  rollout?: AppsFlagsCreateResponseRulesItemRollout | null | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase0AfterRulesList =
   Array<AppsFlagsChangelogListResultItemCase0AfterRulesItem>;
@@ -1310,11 +1310,11 @@ export interface AppsFlagsChangelogListResultItemCase0After {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsFlagsChangelogListResultItemCase0AfterMetadataMap | null;
-  updatedAt?: string | null;
-  updatedBy?: string | null;
+  metadata?: AppsFlagsChangelogListResultItemCase0AfterMetadataMap | null | undefined;
+  updatedAt?: string | null | undefined;
+  updatedBy?: string | null | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase0Event = "create";
 export interface AppsFlagsChangelogListResultItemCase0 {
@@ -1567,7 +1567,7 @@ export interface AppsFlagsChangelogListResultItemCase1AfterRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
+  rollout?: AppsFlagsCreateResponseRulesItemRollout | null | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase1AfterRulesList =
   Array<AppsFlagsChangelogListResultItemCase1AfterRulesItem>;
@@ -1594,11 +1594,11 @@ export interface AppsFlagsChangelogListResultItemCase1After {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsFlagsChangelogListResultItemCase1AfterMetadataMap | null;
-  updatedAt?: string | null;
-  updatedBy?: string | null;
+  metadata?: AppsFlagsChangelogListResultItemCase1AfterMetadataMap | null | undefined;
+  updatedAt?: string | null | undefined;
+  updatedBy?: string | null | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase1Event = "delete";
 export interface AppsFlagsChangelogListResultItemCase1 {
@@ -1851,7 +1851,7 @@ export interface AppsFlagsChangelogListResultItemCase2AfterRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
+  rollout?: AppsFlagsCreateResponseRulesItemRollout | null | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase2AfterRulesList =
   Array<AppsFlagsChangelogListResultItemCase2AfterRulesItem>;
@@ -1878,11 +1878,11 @@ export interface AppsFlagsChangelogListResultItemCase2After {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsFlagsChangelogListResultItemCase2AfterMetadataMap | null;
-  updatedAt?: string | null;
-  updatedBy?: string | null;
+  metadata?: AppsFlagsChangelogListResultItemCase2AfterMetadataMap | null | undefined;
+  updatedAt?: string | null | undefined;
+  updatedBy?: string | null | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase2DiffValueFromCase3Map = {
   [key: string]: unknown | undefined;
@@ -1905,8 +1905,8 @@ export type AppsFlagsChangelogListResultItemCase2DiffValueTo =
   | AppsFlagsChangelogListResultItemCase2DiffValueToCase3Map
   | AppsFlagsChangelogListResultItemCase2DiffValueToCase4List;
 export interface AppsFlagsChangelogListResultItemCase2DiffValue {
-  from?: AppsFlagsChangelogListResultItemCase2DiffValueFrom | null;
-  to?: AppsFlagsChangelogListResultItemCase2DiffValueTo | null;
+  from?: AppsFlagsChangelogListResultItemCase2DiffValueFrom | null | undefined;
+  to?: AppsFlagsChangelogListResultItemCase2DiffValueTo | null | undefined;
 }
 export type AppsFlagsChangelogListResultItemCase2DiffMap = {
   [key: string]: AppsFlagsChangelogListResultItemCase2DiffValue | undefined;
@@ -1935,9 +1935,9 @@ export interface ListAppFlagsRequest {
   /** Flagship app ID returned when the app was created. */
   appId: string;
   /** Pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Max items to return (1-200). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AppsFlagsListResultItemRulesItemConditionsItemFlagshipBaseConditionOperator =
   | "equals"
@@ -2184,7 +2184,7 @@ export interface AppsFlagsListResultItemRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
+  rollout?: AppsFlagsCreateResponseRulesItemRollout | null | undefined;
 }
 export type AppsFlagsListResultItemRulesList = Array<AppsFlagsListResultItemRulesItem>;
 export type AppsFlagsListResultItemType = "boolean" | "string" | "number" | "json";
@@ -2206,11 +2206,11 @@ export interface AppsFlagsListResultItem {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsFlagsListResultItemMetadataMap | null;
-  updatedAt?: string | null;
-  updatedBy?: string | null;
+  metadata?: AppsFlagsListResultItemMetadataMap | null | undefined;
+  updatedAt?: string | null | undefined;
+  updatedBy?: string | null | undefined;
 }
 export type AppsFlagsListResultList = Array<AppsFlagsListResultItem>;
 export interface ListAppFlagsResponse {
@@ -2244,7 +2244,7 @@ export interface UpdateAppRequest {
   /** Flagship app ID returned when the app was created. */
   appId: string;
   /** Name of the Flagship app (1-64 letters, numbers, hyphens, or underscores). */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateAppResponse {
@@ -2522,7 +2522,7 @@ export interface AppsFlagsUpdateRequestRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateRequestRulesItemRollout;
+  rollout?: AppsFlagsCreateRequestRulesItemRollout | undefined;
 }
 export type AppsFlagsUpdateRequestRulesList = Array<AppsFlagsUpdateRequestRulesItem>;
 export type AppsFlagsUpdateRequestMetadataValue = string | number | boolean;
@@ -2548,11 +2548,11 @@ export interface UpdateAppFlagRequest {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string;
+  description?: string | undefined;
   /** Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). */
-  metadata?: AppsFlagsUpdateRequestMetadataMap;
+  metadata?: AppsFlagsUpdateRequestMetadataMap | undefined;
   /** Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations. */
-  type?: AppsFlagsUpdateRequestType | (string & {});
+  type?: AppsFlagsUpdateRequestType | (string & {}) | undefined;
 }
 export type AppsFlagsUpdateResponseRulesItemConditionsItemFlagshipBaseConditionOperator =
   | "equals"
@@ -2799,7 +2799,7 @@ export interface AppsFlagsUpdateResponseRulesItem {
   priority: number;
   /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
-  rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
+  rollout?: AppsFlagsCreateResponseRulesItemRollout | null | undefined;
 }
 export type AppsFlagsUpdateResponseRulesList = Array<AppsFlagsUpdateResponseRulesItem>;
 export type AppsFlagsUpdateResponseType = "boolean" | "string" | "number" | "json";
@@ -2822,11 +2822,11 @@ export interface UpdateAppFlagResponse {
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   /** Optional operator-facing description. It does not affect flag evaluation. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value metadata associated with the flag. Returned only when the flag has metadata. */
-  metadata?: AppsFlagsUpdateResponseMetadataMap | null;
-  updatedAt?: string | null;
-  updatedBy?: string | null;
+  metadata?: AppsFlagsUpdateResponseMetadataMap | null | undefined;
+  updatedAt?: string | null | undefined;
+  updatedBy?: string | null | undefined;
 }
 export type CreateAppError = CloudflareOpError;
 /** Creates an app. The returned `id` is used in all subsequent flag, changelog, and evaluation requests. */

@@ -148,22 +148,22 @@ export interface MetadataConfiguration {
 export type SseType = "AES256" | "aws:kms" | (string & {});
 export type KmsKeyArn = string;
 export interface EncryptionConfiguration {
-  sseType?: SseType;
-  kmsKeyArn?: string;
+  sseType?: SseType | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateIndexInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
   indexName: string;
   dataType: DataType;
   dimension: number;
   distanceMetric: DistanceMetric;
-  metadataConfiguration?: MetadataConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: { [key: string]: string | undefined };
+  metadataConfiguration?: MetadataConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IndexArn = string;
 export interface CreateIndexOutput {
@@ -171,41 +171,41 @@ export interface CreateIndexOutput {
 }
 export interface CreateVectorBucketInput {
   vectorBucketName: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: { [key: string]: string | undefined };
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateVectorBucketOutput {
   vectorBucketArn: string;
 }
 export interface DeleteIndexInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
 }
 export interface DeleteIndexOutput {}
 export interface DeleteVectorBucketInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export interface DeleteVectorBucketOutput {}
 export interface DeleteVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export interface DeleteVectorBucketPolicyOutput {}
 export type VectorKey = string;
 export type DeleteVectorsInputList = string[];
 export interface DeleteVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   keys: string[];
 }
 export interface DeleteVectorsOutput {}
 export interface GetIndexInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
 }
 export type IndexMode = "CLASSIC" | "ENHANCED" | (string & {});
 export interface Index {
@@ -216,51 +216,51 @@ export interface Index {
   dataType: DataType;
   dimension: number;
   distanceMetric: DistanceMetric;
-  metadataConfiguration?: MetadataConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-  indexMode?: IndexMode;
+  metadataConfiguration?: MetadataConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  indexMode?: IndexMode | undefined;
 }
 export interface GetIndexOutput {
   index: Index;
 }
 export interface GetVectorBucketInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export interface VectorBucket {
   vectorBucketName: string;
   vectorBucketArn: string;
   creationTime: Date;
-  encryptionConfiguration?: EncryptionConfiguration;
-  defaultIndexMode?: IndexMode;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  defaultIndexMode?: IndexMode | undefined;
 }
 export interface GetVectorBucketOutput {
   vectorBucket: VectorBucket;
 }
 export interface GetVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
 }
 export type VectorBucketPolicy = string;
 export interface GetVectorBucketPolicyOutput {
-  policy?: string;
+  policy?: string | undefined;
 }
 export type GetVectorsInputList = string[];
 export interface GetVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   keys: string[];
-  returnData?: boolean;
-  returnMetadata?: boolean;
+  returnData?: boolean | undefined;
+  returnMetadata?: boolean | undefined;
 }
 export type Float32VectorData = number[];
 export type VectorData = { float32: number[] };
 export type VectorMetadata = unknown;
 export interface GetOutputVector {
   key: string;
-  data?: VectorData;
-  metadata?: any;
+  data?: VectorData | undefined;
+  metadata?: any | undefined;
 }
 export type GetVectorsOutputList = GetOutputVector[];
 export interface GetVectorsOutput {
@@ -270,11 +270,11 @@ export type ListIndexesMaxResults = number;
 export type ListIndexesNextToken = string;
 export type ListIndexesPrefix = string;
 export interface ListIndexesInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  prefix?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface IndexSummary {
   vectorBucketName: string;
@@ -284,7 +284,7 @@ export interface IndexSummary {
 }
 export type ListIndexesOutputList = IndexSummary[];
 export interface ListIndexesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   indexes: IndexSummary[];
 }
 export type ResourceARN = string;
@@ -298,9 +298,9 @@ export type ListVectorBucketsMaxResults = number;
 export type ListVectorBucketsNextToken = string;
 export type ListVectorBucketsPrefix = string;
 export interface ListVectorBucketsInput {
-  maxResults?: number;
-  nextToken?: string;
-  prefix?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface VectorBucketSummary {
   vectorBucketName: string;
@@ -309,7 +309,7 @@ export interface VectorBucketSummary {
 }
 export type ListVectorBucketsOutputList = VectorBucketSummary[];
 export interface ListVectorBucketsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   vectorBuckets: VectorBucketSummary[];
 }
 export type ListVectorsMaxResults = number;
@@ -317,75 +317,75 @@ export type ListVectorsNextToken = string;
 export type ListVectorsSegmentCount = number;
 export type ListVectorsSegmentIndex = number;
 export interface ListVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  segmentCount?: number;
-  segmentIndex?: number;
-  returnData?: boolean;
-  returnMetadata?: boolean;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  segmentCount?: number | undefined;
+  segmentIndex?: number | undefined;
+  returnData?: boolean | undefined;
+  returnMetadata?: boolean | undefined;
 }
 export interface ListOutputVector {
   key: string;
-  data?: VectorData;
-  metadata?: any;
+  data?: VectorData | undefined;
+  metadata?: any | undefined;
 }
 export type ListVectorsOutputList = ListOutputVector[];
 export interface ListVectorsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   vectors: ListOutputVector[];
 }
 export interface PutVectorBucketDefaultIndexModeInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
   defaultIndexMode: IndexMode;
 }
 export interface PutVectorBucketDefaultIndexModeOutput {}
 export interface PutVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
+  vectorBucketName?: string | undefined;
+  vectorBucketArn?: string | undefined;
   policy: string;
 }
 export interface PutVectorBucketPolicyOutput {}
 export interface PutInputVector {
   key: string;
   data: VectorData;
-  metadata?: any;
+  metadata?: any | undefined;
 }
 export type PutVectorsInputList = PutInputVector[];
 export interface PutVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   vectors: PutInputVector[];
 }
 export interface PutVectorsOutput {}
 export type TopK = number;
 export type QueryVectorsNextToken = string;
 export interface QueryVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   topK: number;
   queryVector: VectorData;
-  filter?: any;
-  queryMode?: IndexMode;
-  returnMetadata?: boolean;
-  returnDistance?: boolean;
-  nextToken?: string;
+  filter?: any | undefined;
+  queryMode?: IndexMode | undefined;
+  returnMetadata?: boolean | undefined;
+  returnDistance?: boolean | undefined;
+  nextToken?: string | undefined;
 }
 export interface QueryOutputVector {
-  distance?: number;
+  distance?: number | undefined;
   key: string;
-  metadata?: any;
+  metadata?: any | undefined;
 }
 export type QueryVectorsOutputList = QueryOutputVector[];
 export interface QueryVectorsOutput {
   vectors: QueryOutputVector[];
   distanceMetric: DistanceMetric;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -399,9 +399,9 @@ export interface UntagResourceInput {
 }
 export interface UntagResourceOutput {}
 export interface UpdateIndexModeInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
+  vectorBucketName?: string | undefined;
+  indexName?: string | undefined;
+  indexArn?: string | undefined;
   indexMode: IndexMode;
 }
 export interface UpdateIndexModeOutput {}

@@ -65,26 +65,26 @@ export interface GetCustomerLicenseRequest {
 }
 export interface Editions {
   /** (Deprecated) */
-  editionId?: string;
+  editionId?: string | undefined;
   /** (Deprecated) */
-  seatCount?: number;
+  seatCount?: number | undefined;
   /** (Deprecated) */
-  assignedSeats?: number;
+  assignedSeats?: number | undefined;
 }
 export type EditionsList = Array<Editions>;
 export interface CustomerLicense {
   /** (Deprecated) */
-  editions?: EditionsList;
+  editions?: EditionsList | undefined;
   /** The domain name of the customer. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The type of API resource. This is always `appsmarket#customerLicense`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The customer's license status. One of: - `ACTIVE`: The customer has a valid license. - `UNLICENSED`: There is no license. Either this customer has never installed your application or has deleted it. */
-  state?: string;
+  state?: string | undefined;
   /** The ID of the customer license. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the application corresponding to this license query. */
-  applicationId?: string;
+  applicationId?: string | undefined;
 }
 export interface GetUserLicenseRequest {
   /** The ID of the application. */
@@ -94,21 +94,21 @@ export interface GetUserLicenseRequest {
 }
 export interface UserLicense {
   /** (Deprecated) */
-  editionId?: string;
+  editionId?: string | undefined;
   /** The ID of the user license. */
-  id?: string;
+  id?: string | undefined;
   /** The type of API resource. This is always `appsmarket#userLicense`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The ID of the application corresponding to the license query. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired. */
-  state?: string;
+  state?: string | undefined;
   /** The domain administrator has activated the application for this domain. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The email address of the user. */
-  userId?: string;
+  userId?: string | undefined;
   /** The domain name of the user. */
-  customerId?: string;
+  customerId?: string | undefined;
 }
 export type GetCustomerLicenseError = NotFound | Forbidden | GcpOpError;
 /** Gets the customer's licensing status to determine if they have access to a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */

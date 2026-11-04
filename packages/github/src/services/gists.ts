@@ -72,10 +72,10 @@ export type CreateRequestPublicCase1 = "true" | "false";
 export type CreateRequestPublic = boolean | CreateRequestPublicCase1;
 export interface CreateRequest {
   /** Description of the gist */
-  description?: string;
+  description?: string | undefined;
   /** Names and content for the files that make up the gist */
   files: CreateRequestFilesMap;
-  public?: CreateRequestPublic;
+  public?: CreateRequestPublic | undefined;
 }
 export interface PublicUserPlan {
   collaborators: number;
@@ -87,7 +87,7 @@ export interface PublicUserPlan {
 export interface PublicUser {
   login: string;
   id: number;
-  user_view_type?: string;
+  user_view_type?: string | undefined;
   node_id: string;
   avatar_url: string;
   gravatar_id: string | null;
@@ -109,35 +109,35 @@ export interface PublicUser {
   blog: string | null;
   location: string | null;
   email: string | null;
-  notification_email?: string | null;
+  notification_email?: string | null | undefined;
   hireable: boolean | null;
   bio: string | null;
-  twitter_username?: string | null;
+  twitter_username?: string | null | undefined;
   public_repos: number;
   public_gists: number;
   followers: number;
   following: number;
   created_at: string;
   updated_at: string;
-  plan?: PublicUserPlan;
-  private_gists?: number;
-  total_private_repos?: number;
-  owned_private_repos?: number;
-  disk_usage?: number;
-  collaborators?: number;
+  plan?: PublicUserPlan | undefined;
+  private_gists?: number | undefined;
+  total_private_repos?: number | undefined;
+  owned_private_repos?: number | undefined;
+  disk_usage?: number | undefined;
+  collaborators?: number | undefined;
 }
 export interface GistSimpleForksItem {
-  id?: string;
-  url?: string;
-  user?: PublicUser;
-  created_at?: string;
-  updated_at?: string;
+  id?: string | undefined;
+  url?: string | undefined;
+  user?: PublicUser | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type GistSimpleForksList = Array<GistSimpleForksItem>;
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -156,29 +156,29 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export interface GistHistoryChangeStatus {
-  total?: number;
-  additions?: number;
-  deletions?: number;
+  total?: number | undefined;
+  additions?: number | undefined;
+  deletions?: number | undefined;
 }
 /** Gist History */
 export interface GistHistory {
-  user?: NullableSimpleUser | null;
-  version?: string;
-  committed_at?: string;
-  change_status?: GistHistoryChangeStatus;
-  url?: string;
+  user?: NullableSimpleUser | null | undefined;
+  version?: string | undefined;
+  committed_at?: string | undefined;
+  change_status?: GistHistoryChangeStatus | undefined;
+  url?: string | undefined;
 }
 export type GistSimpleHistoryList = Array<GistHistory>;
 export interface GistSimpleForkOfFilesValue {
-  filename?: string;
-  type?: string;
-  language?: string;
-  raw_url?: string;
-  size?: number;
+  filename?: string | undefined;
+  type?: string | undefined;
+  language?: string | undefined;
+  raw_url?: string | undefined;
+  size?: number | undefined;
 }
 export type GistSimpleForkOfFilesMap = { [key: string]: GistSimpleForkOfFilesValue | undefined };
 export type GistSimpleForkOfForksList = Array<unknown>;
@@ -199,53 +199,53 @@ export interface GistSimpleForkOf {
   updated_at: string;
   description: string | null;
   comments: number;
-  comments_enabled?: boolean;
+  comments_enabled?: boolean | undefined;
   user: NullableSimpleUser | null;
   comments_url: string;
-  owner?: NullableSimpleUser | null;
-  truncated?: boolean;
-  forks?: GistSimpleForkOfForksList;
-  history?: GistSimpleForkOfHistoryList;
+  owner?: NullableSimpleUser | null | undefined;
+  truncated?: boolean | undefined;
+  forks?: GistSimpleForkOfForksList | undefined;
+  history?: GistSimpleForkOfHistoryList | undefined;
 }
 export interface GistSimpleFilesValue {
-  filename?: string;
-  type?: string;
-  language?: string;
-  raw_url?: string;
-  size?: number;
-  truncated?: boolean;
-  content?: string;
+  filename?: string | undefined;
+  type?: string | undefined;
+  language?: string | undefined;
+  raw_url?: string | undefined;
+  size?: number | undefined;
+  truncated?: boolean | undefined;
+  content?: string | undefined;
   /** The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported. */
-  encoding?: string;
+  encoding?: string | undefined;
 }
 export type GistSimpleFilesMap = { [key: string]: GistSimpleFilesValue | null | undefined };
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
 /** Gist Simple */
 export interface GistSimple {
-  forks?: GistSimpleForksList | null;
-  history?: GistSimpleHistoryList | null;
+  forks?: GistSimpleForksList | null | undefined;
+  history?: GistSimpleHistoryList | null | undefined;
   /** Gist */
-  fork_of?: GistSimpleForkOf | null;
-  url?: string;
-  forks_url?: string;
-  commits_url?: string;
-  id?: string;
-  node_id?: string;
-  git_pull_url?: string;
-  git_push_url?: string;
-  html_url?: string;
-  files?: GistSimpleFilesMap;
-  public?: boolean;
-  created_at?: string;
-  updated_at?: string;
-  description?: string | null;
-  comments?: number;
-  comments_enabled?: boolean;
-  user?: string | null;
-  comments_url?: string;
-  owner?: NullableSimpleUser;
-  truncated?: boolean;
+  fork_of?: GistSimpleForkOf | null | undefined;
+  url?: string | undefined;
+  forks_url?: string | undefined;
+  commits_url?: string | undefined;
+  id?: string | undefined;
+  node_id?: string | undefined;
+  git_pull_url?: string | undefined;
+  git_push_url?: string | undefined;
+  html_url?: string | undefined;
+  files?: GistSimpleFilesMap | undefined;
+  public?: boolean | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  description?: string | null | undefined;
+  comments?: number | undefined;
+  comments_enabled?: boolean | undefined;
+  user?: string | null | undefined;
+  comments_url?: string | undefined;
+  owner?: NullableSimpleUser | undefined;
+  truncated?: boolean | undefined;
 }
 export interface CreateCommentRequest {
   /** The unique identifier of the gist. */
@@ -292,13 +292,13 @@ export interface ForkRequest {
   gist_id: string;
 }
 export interface BaseGistFilesValue {
-  filename?: string;
-  type?: string;
-  language?: string;
-  raw_url?: string;
-  size?: number;
+  filename?: string | undefined;
+  type?: string | undefined;
+  language?: string | undefined;
+  raw_url?: string | undefined;
+  size?: number | undefined;
   /** The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported. */
-  encoding?: string;
+  encoding?: string | undefined;
 }
 export type BaseGistFilesMap = { [key: string]: BaseGistFilesValue | undefined };
 export type BaseGistForksList = Array<unknown>;
@@ -319,13 +319,13 @@ export interface BaseGist {
   updated_at: string;
   description: string | null;
   comments: number;
-  comments_enabled?: boolean;
+  comments_enabled?: boolean | undefined;
   user: NullableSimpleUser | null;
   comments_url: string;
-  owner?: NullableSimpleUser;
-  truncated?: boolean;
-  forks?: BaseGistForksList;
-  history?: BaseGistHistoryList;
+  owner?: NullableSimpleUser | undefined;
+  truncated?: boolean | undefined;
+  forks?: BaseGistForksList | undefined;
+  history?: BaseGistHistoryList | undefined;
 }
 export interface GetRequest {
   /** The unique identifier of the gist. */
@@ -344,11 +344,11 @@ export interface GetRevisionRequest {
 }
 export interface ListRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListResponseBodyList = Array<BaseGist>;
 export type ListResponse = ListResponseBodyList;
@@ -356,9 +356,9 @@ export interface ListCommentsRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommentsResponseBodyList = Array<GistComment>;
 export type ListCommentsResponse = ListCommentsResponseBodyList;
@@ -366,9 +366,9 @@ export interface ListCommitsRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type GistCommitChangeStatus = GistHistoryChangeStatus;
 /** Gist Commit */
@@ -385,9 +385,9 @@ export interface ListForksRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForksResponseBodyList = Array<GistSimple>;
 export type ListForksResponse = ListForksResponseBodyList;
@@ -395,31 +395,31 @@ export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForUserResponseBodyList = Array<BaseGist>;
 export type ListForUserResponse = ListForUserResponseBodyList;
 export interface ListPublicRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicResponseBodyList = Array<BaseGist>;
 export type ListPublicResponse = ListPublicResponseBodyList;
 export interface ListStarredRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListStarredResponseBodyList = Array<BaseGist>;
 export type ListStarredResponse = ListStarredResponseBodyList;
@@ -435,9 +435,9 @@ export interface UnstarRequest {
 export interface UnstarResponse {}
 export interface UpdateRequestFilesValue {
   /** The new content of the file. */
-  content?: string;
+  content?: string | undefined;
   /** The new filename for the file. */
-  filename?: string | null;
+  filename?: string | null | undefined;
 }
 /** The gist files to be updated, renamed, or deleted. Each `key` must match the current filename (including extension) of the targeted gist file. For example: `hello.py`. To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be deleted if the specified object does not contain at least one of `content` or `filename`. */
 export type UpdateRequestFilesMap = { [key: string]: UpdateRequestFilesValue | null | undefined };
@@ -445,9 +445,9 @@ export interface UpdateRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
   /** The description of the gist. */
-  description?: string;
+  description?: string | undefined;
   /** The gist files to be updated, renamed, or deleted. Each `key` must match the current filename (including extension) of the targeted gist file. For example: `hello.py`. To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be deleted if the specified object does not contain at least one of `content` or `filename`. */
-  files?: UpdateRequestFilesMap;
+  files?: UpdateRequestFilesMap | undefined;
 }
 export interface UpdateCommentRequest {
   /** The unique identifier of the gist. */

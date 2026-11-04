@@ -206,44 +206,44 @@ export type LaunchActionParameterName = string;
 export type LaunchActionParameterValue = string;
 export type LaunchActionParameterType = string;
 export interface LaunchActionParameter {
-  value?: string;
-  type?: string;
+  value?: string | undefined;
+  type?: string | undefined;
 }
 export type LaunchActionParameters = { [key: string]: LaunchActionParameter | undefined };
 export type LaunchActionDescription = string;
 export type LaunchActionCategory = string;
 export interface LaunchAction {
-  actionId?: string;
-  actionCode?: string;
-  type?: string;
-  name?: string;
-  active?: boolean;
-  order?: number;
-  actionVersion?: string;
-  optional?: boolean;
-  parameters?: { [key: string]: LaunchActionParameter | undefined };
-  description?: string;
-  category?: string;
+  actionId?: string | undefined;
+  actionCode?: string | undefined;
+  type?: string | undefined;
+  name?: string | undefined;
+  active?: boolean | undefined;
+  order?: number | undefined;
+  actionVersion?: string | undefined;
+  optional?: boolean | undefined;
+  parameters?: { [key: string]: LaunchActionParameter | undefined } | undefined;
+  description?: string | undefined;
+  category?: string | undefined;
 }
 export type LaunchActionRunId = string;
 export type LaunchActionRunStatus = string;
 export type FailureReason = string;
 export interface LaunchActionRun {
-  action?: LaunchAction;
-  runId?: string;
-  status?: string;
-  failureReason?: string;
+  action?: LaunchAction | undefined;
+  runId?: string | undefined;
+  status?: string | undefined;
+  failureReason?: string | undefined;
 }
 export type LaunchActionRuns = LaunchActionRun[];
 export interface LaunchActionsStatus {
-  ssmAgentDiscoveryDatetime?: string;
-  runs?: LaunchActionRun[];
+  ssmAgentDiscoveryDatetime?: string | undefined;
+  runs?: LaunchActionRun[] | undefined;
 }
 export interface ParticipatingServer {
-  sourceServerID?: string;
-  recoveryInstanceID?: string;
-  launchStatus?: string;
-  launchActionsStatus?: LaunchActionsStatus;
+  sourceServerID?: string | undefined;
+  recoveryInstanceID?: string | undefined;
+  launchStatus?: string | undefined;
+  launchActionsStatus?: LaunchActionsStatus | undefined;
 }
 export type ParticipatingServers = ParticipatingServer[];
 export type TagKey = string;
@@ -251,24 +251,24 @@ export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export type ParticipatingResourceID = { sourceNetworkID: string };
 export interface ParticipatingResource {
-  participatingResourceID?: ParticipatingResourceID;
-  launchStatus?: string;
+  participatingResourceID?: ParticipatingResourceID | undefined;
+  launchStatus?: string | undefined;
 }
 export type ParticipatingResources = ParticipatingResource[];
 export interface Job {
   jobID: string;
-  arn?: string;
-  type?: string;
-  initiatedBy?: string;
-  creationDateTime?: string;
-  endDateTime?: string;
-  status?: string;
-  participatingServers?: ParticipatingServer[];
-  tags?: { [key: string]: string | undefined };
-  participatingResources?: ParticipatingResource[];
+  arn?: string | undefined;
+  type?: string | undefined;
+  initiatedBy?: string | undefined;
+  creationDateTime?: string | undefined;
+  endDateTime?: string | undefined;
+  status?: string | undefined;
+  participatingServers?: ParticipatingServer[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  participatingResources?: ParticipatingResource[] | undefined;
 }
 export interface AssociateSourceNetworkStackResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export type StrictDRSARN = string;
 export interface CancelRecoveryPlanExecutionRequest {
@@ -286,9 +286,9 @@ export interface RecoveryPlanExecution {
   mode: string;
   status: string;
   startedAt: string;
-  completedAt?: string;
-  errorDetail?: ErrorDetail;
-  tags?: { [key: string]: string | undefined };
+  completedAt?: string | undefined;
+  errorDetail?: ErrorDetail | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CancelRecoveryPlanExecutionResponse {
   recoveryPlanExecution: RecoveryPlanExecution;
@@ -296,7 +296,7 @@ export interface CancelRecoveryPlanExecutionResponse {
 export type SourceServerARN = string;
 export interface CreateExtendedSourceServerRequest {
   sourceServerArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LastLaunchResult = string;
 export type ISO8601DurationString = string;
@@ -304,193 +304,193 @@ export type BoundedString = string;
 export type PositiveInteger = number;
 export type VolumeStatus = string;
 export interface DataReplicationInfoReplicatedDisk {
-  deviceName?: string;
-  totalStorageBytes?: number;
-  replicatedStorageBytes?: number;
-  rescannedStorageBytes?: number;
-  backloggedStorageBytes?: number;
-  volumeStatus?: string;
+  deviceName?: string | undefined;
+  totalStorageBytes?: number | undefined;
+  replicatedStorageBytes?: number | undefined;
+  rescannedStorageBytes?: number | undefined;
+  backloggedStorageBytes?: number | undefined;
+  volumeStatus?: string | undefined;
 }
 export type DataReplicationInfoReplicatedDisks = DataReplicationInfoReplicatedDisk[];
 export type DataReplicationState = string;
 export type DataReplicationInitiationStepName = string;
 export type DataReplicationInitiationStepStatus = string;
 export interface DataReplicationInitiationStep {
-  name?: string;
-  status?: string;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export type DataReplicationInitiationSteps = DataReplicationInitiationStep[];
 export interface DataReplicationInitiation {
-  startDateTime?: string;
-  nextAttemptDateTime?: string;
-  steps?: DataReplicationInitiationStep[];
+  startDateTime?: string | undefined;
+  nextAttemptDateTime?: string | undefined;
+  steps?: DataReplicationInitiationStep[] | undefined;
 }
 export type DataReplicationErrorString = string;
 export type LargeBoundedString = string;
 export interface DataReplicationError {
-  error?: string;
-  rawError?: string;
+  error?: string | undefined;
+  rawError?: string | undefined;
 }
 export type AwsAvailabilityZone = string;
 export type OutpostARN = string;
 export interface DataReplicationInfo {
-  lagDuration?: string;
-  etaDateTime?: string;
-  replicatedDisks?: DataReplicationInfoReplicatedDisk[];
-  dataReplicationState?: string;
-  dataReplicationInitiation?: DataReplicationInitiation;
-  dataReplicationError?: DataReplicationError;
-  stagingAvailabilityZone?: string;
-  stagingOutpostArn?: string;
+  lagDuration?: string | undefined;
+  etaDateTime?: string | undefined;
+  replicatedDisks?: DataReplicationInfoReplicatedDisk[] | undefined;
+  dataReplicationState?: string | undefined;
+  dataReplicationInitiation?: DataReplicationInitiation | undefined;
+  dataReplicationError?: DataReplicationError | undefined;
+  stagingAvailabilityZone?: string | undefined;
+  stagingOutpostArn?: string | undefined;
 }
 export type LastLaunchType = string;
 export interface LifeCycleLastLaunchInitiated {
-  apiCallDateTime?: string;
-  jobID?: string;
-  type?: string;
+  apiCallDateTime?: string | undefined;
+  jobID?: string | undefined;
+  type?: string | undefined;
 }
 export interface LifeCycleLastLaunch {
-  initiated?: LifeCycleLastLaunchInitiated;
-  status?: string;
+  initiated?: LifeCycleLastLaunchInitiated | undefined;
+  status?: string | undefined;
 }
 export interface LifeCycle {
-  addedToServiceDateTime?: string;
-  firstByteDateTime?: string;
-  elapsedReplicationDuration?: string;
-  lastSeenByServiceDateTime?: string;
-  lastLaunch?: LifeCycleLastLaunch;
+  addedToServiceDateTime?: string | undefined;
+  firstByteDateTime?: string | undefined;
+  elapsedReplicationDuration?: string | undefined;
+  lastSeenByServiceDateTime?: string | undefined;
+  lastLaunch?: LifeCycleLastLaunch | undefined;
 }
 export type EC2InstanceType = string;
 export type EC2InstanceID = string;
 export interface IdentificationHints {
-  fqdn?: string;
-  hostname?: string;
-  vmWareUuid?: string;
-  awsInstanceID?: string;
+  fqdn?: string | undefined;
+  hostname?: string | undefined;
+  vmWareUuid?: string | undefined;
+  awsInstanceID?: string | undefined;
 }
 export type IPsList = string[];
 export interface NetworkInterface {
-  macAddress?: string;
-  ips?: string[];
-  isPrimary?: boolean;
+  macAddress?: string | undefined;
+  ips?: string[] | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export interface Disk {
-  deviceName?: string;
-  bytes?: number;
+  deviceName?: string | undefined;
+  bytes?: number | undefined;
 }
 export type Disks = Disk[];
 export interface CPU {
-  cores?: number;
-  modelName?: string;
+  cores?: number | undefined;
+  modelName?: string | undefined;
 }
 export type Cpus = CPU[];
 export interface OS {
-  fullString?: string;
+  fullString?: string | undefined;
 }
 export type SourceServerArchitecture = string;
 export interface SourceProperties {
-  lastUpdatedDateTime?: string;
-  recommendedInstanceType?: string;
-  identificationHints?: IdentificationHints;
-  networkInterfaces?: NetworkInterface[];
-  disks?: Disk[];
-  cpus?: CPU[];
-  ramBytes?: number;
-  os?: OS;
-  supportsNitroInstances?: boolean;
-  architecture?: string;
+  lastUpdatedDateTime?: string | undefined;
+  recommendedInstanceType?: string | undefined;
+  identificationHints?: IdentificationHints | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
+  disks?: Disk[] | undefined;
+  cpus?: CPU[] | undefined;
+  ramBytes?: number | undefined;
+  os?: OS | undefined;
+  supportsNitroInstances?: boolean | undefined;
+  architecture?: string | undefined;
 }
 export type ExtensionStatus = string;
 export type AccountID = string;
 export interface StagingArea {
-  status?: string;
-  stagingAccountID?: string;
-  stagingSourceServerArn?: string;
-  errorMessage?: string;
+  status?: string | undefined;
+  stagingAccountID?: string | undefined;
+  stagingSourceServerArn?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type AwsRegion = string;
 export interface SourceCloudProperties {
-  originAccountID?: string;
-  originRegion?: string;
-  originAvailabilityZone?: string;
-  sourceOutpostArn?: string;
+  originAccountID?: string | undefined;
+  originRegion?: string | undefined;
+  originAvailabilityZone?: string | undefined;
+  sourceOutpostArn?: string | undefined;
 }
 export type ReplicationDirection = string;
 export type AgentVersion = string;
 export interface SourceServer {
-  sourceServerID?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
-  recoveryInstanceId?: string;
-  lastLaunchResult?: string;
-  dataReplicationInfo?: DataReplicationInfo;
-  lifeCycle?: LifeCycle;
-  sourceProperties?: SourceProperties;
-  stagingArea?: StagingArea;
-  sourceCloudProperties?: SourceCloudProperties;
-  replicationDirection?: string;
-  reversedDirectionSourceServerArn?: string;
-  sourceNetworkID?: string;
-  agentVersion?: string;
+  sourceServerID?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  recoveryInstanceId?: string | undefined;
+  lastLaunchResult?: string | undefined;
+  dataReplicationInfo?: DataReplicationInfo | undefined;
+  lifeCycle?: LifeCycle | undefined;
+  sourceProperties?: SourceProperties | undefined;
+  stagingArea?: StagingArea | undefined;
+  sourceCloudProperties?: SourceCloudProperties | undefined;
+  replicationDirection?: string | undefined;
+  reversedDirectionSourceServerArn?: string | undefined;
+  sourceNetworkID?: string | undefined;
+  agentVersion?: string | undefined;
 }
 export interface CreateExtendedSourceServerResponse {
-  sourceServer?: SourceServer;
+  sourceServer?: SourceServer | undefined;
 }
 export type LaunchDisposition = string;
 export type TargetInstanceTypeRightSizingMethod = string;
 export interface Licensing {
-  osByol?: boolean;
+  osByol?: boolean | undefined;
 }
 export type RecoveryMode = string;
 export interface CreateLaunchConfigurationTemplateRequest {
-  tags?: { [key: string]: string | undefined };
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  exportBucketArn?: string;
-  postLaunchEnabled?: boolean;
-  launchIntoSourceInstance?: boolean;
-  recoveryMode?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  exportBucketArn?: string | undefined;
+  postLaunchEnabled?: boolean | undefined;
+  launchIntoSourceInstance?: boolean | undefined;
+  recoveryMode?: string | undefined;
 }
 export type LaunchConfigurationTemplateID = string;
 export interface LaunchConfigurationTemplate {
-  launchConfigurationTemplateID?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  exportBucketArn?: string;
-  postLaunchEnabled?: boolean;
-  launchIntoSourceInstance?: boolean;
-  recoveryMode?: string;
+  launchConfigurationTemplateID?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  exportBucketArn?: string | undefined;
+  postLaunchEnabled?: boolean | undefined;
+  launchIntoSourceInstance?: boolean | undefined;
+  recoveryMode?: string | undefined;
 }
 export interface CreateLaunchConfigurationTemplateResponse {
-  launchConfigurationTemplate?: LaunchConfigurationTemplate;
+  launchConfigurationTemplate?: LaunchConfigurationTemplate | undefined;
 }
 export type RecoveryPlanName = string;
 export type RecoveryPlanDescription = string;
 export type ClientIdempotencyToken = string;
 export interface CreateRecoveryPlanRequest {
   name: string;
-  description?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RecoveryPlanStatus = string;
 export interface RecoveryPlan {
   recoveryPlanArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   status: string;
   createdAt: string;
   updatedAt: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRecoveryPlanResponse {
   recoveryPlan: RecoveryPlan;
@@ -500,7 +500,7 @@ export type RecoveryPlanStepOrder = number;
 export type RecoveryPlanServerImpactLevel = string;
 export interface RecoveryPlanServer {
   serverArn: string;
-  impactLevel?: string;
+  impactLevel?: string | undefined;
 }
 export type RecoveryPlanServers = RecoveryPlanServer[];
 export interface ServerStepConfiguration {
@@ -516,9 +516,9 @@ export type RecoveryPlanStepConfiguration =
 export interface CreateRecoveryPlanStepRequest {
   recoveryPlanArn: string;
   stepName: string;
-  stepOrder?: number;
+  stepOrder?: number | undefined;
   configuration: RecoveryPlanStepConfiguration;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface RecoveryPlanStep {
   recoveryPlanStepArn: string;
@@ -540,62 +540,62 @@ export type ReplicationConfigurationDataPlaneRouting = string;
 export type PITPolicyRuleUnits = string;
 export type StrictlyPositiveInteger = number;
 export interface PITPolicyRule {
-  ruleID?: number;
+  ruleID?: number | undefined;
   units: string;
   interval: number;
   retentionDuration: number;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type PITPolicy = PITPolicyRule[];
 export type InternetProtocol = string;
 export interface CreateReplicationConfigurationTemplateRequest {
   stagingAreaSubnetId: string;
-  associateDefaultSecurityGroup?: boolean;
+  associateDefaultSecurityGroup?: boolean | undefined;
   replicationServersSecurityGroupsIDs: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
   ebsEncryption: string;
-  ebsEncryptionKeyArn?: string;
+  ebsEncryptionKeyArn?: string | undefined;
   bandwidthThrottling: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
   stagingAreaTags: { [key: string]: string | undefined };
   pitPolicy: PITPolicyRule[];
-  tags?: { [key: string]: string | undefined };
-  autoReplicateNewDisks?: boolean;
-  internetProtocol?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  autoReplicateNewDisks?: boolean | undefined;
+  internetProtocol?: string | undefined;
 }
 export type ReplicationConfigurationTemplateID = string;
 export interface ReplicationConfigurationTemplate {
   replicationConfigurationTemplateID: string;
-  arn?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
-  pitPolicy?: PITPolicyRule[];
-  autoReplicateNewDisks?: boolean;
-  internetProtocol?: string;
+  arn?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  pitPolicy?: PITPolicyRule[] | undefined;
+  autoReplicateNewDisks?: boolean | undefined;
+  internetProtocol?: string | undefined;
 }
 export type VpcID = string;
 export interface CreateSourceNetworkRequest {
   vpcID: string;
   originAccountID: string;
   originRegion: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSourceNetworkResponse {
-  sourceNetworkID?: string;
+  sourceNetworkID?: string | undefined;
 }
 export interface DeleteJobRequest {
   jobID: string;
@@ -648,8 +648,8 @@ export interface DeleteSourceServerResponse {}
 export type PaginationToken = string;
 export interface DescribeJobLogItemsRequest {
   jobID: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type JobLogEvent = string;
 export type EbsSnapshot = string;
@@ -661,107 +661,109 @@ export type VolumeToSizeMap = { [key: string]: number | undefined };
 export type ProductCodeId = string;
 export type ProductCodeMode = string;
 export interface ProductCode {
-  productCodeId?: string;
-  productCodeMode?: string;
+  productCodeId?: string | undefined;
+  productCodeMode?: string | undefined;
 }
 export type ProductCodes = ProductCode[];
 export type VolumeToProductCodes = { [key: string]: ProductCode[] | undefined };
 export interface ConversionProperties {
-  volumeToConversionMap?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  rootVolumeName?: string;
-  forceUefi?: boolean;
-  dataTimestamp?: string;
-  volumeToVolumeSize?: { [key: string]: number | undefined };
-  volumeToProductCodes?: { [key: string]: ProductCode[] | undefined };
+  volumeToConversionMap?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  rootVolumeName?: string | undefined;
+  forceUefi?: boolean | undefined;
+  dataTimestamp?: string | undefined;
+  volumeToVolumeSize?: { [key: string]: number | undefined } | undefined;
+  volumeToProductCodes?: { [key: string]: ProductCode[] | undefined } | undefined;
 }
 export interface SourceNetworkData {
-  sourceNetworkID?: string;
-  sourceVpc?: string;
-  targetVpc?: string;
-  stackName?: string;
+  sourceNetworkID?: string | undefined;
+  sourceVpc?: string | undefined;
+  targetVpc?: string | undefined;
+  stackName?: string | undefined;
 }
 export type EventResourceData = { sourceNetworkData: SourceNetworkData };
 export type JobEventAttemptCount = number;
 export interface JobLogEventData {
-  sourceServerID?: string;
-  conversionServerID?: string;
-  targetInstanceID?: string;
-  rawError?: string;
-  conversionProperties?: ConversionProperties;
-  eventResourceData?: EventResourceData;
-  attemptCount?: number;
-  maxAttemptsCount?: number;
+  sourceServerID?: string | undefined;
+  conversionServerID?: string | undefined;
+  targetInstanceID?: string | undefined;
+  rawError?: string | undefined;
+  conversionProperties?: ConversionProperties | undefined;
+  eventResourceData?: EventResourceData | undefined;
+  attemptCount?: number | undefined;
+  maxAttemptsCount?: number | undefined;
 }
 export interface JobLog {
-  logDateTime?: string;
-  event?: string;
-  eventData?: JobLogEventData;
+  logDateTime?: string | undefined;
+  event?: string | undefined;
+  eventData?: JobLogEventData | undefined;
 }
 export type JobLogs = JobLog[];
 export interface DescribeJobLogItemsResponse {
-  items?: JobLog[];
-  nextToken?: string;
+  items?: JobLog[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeJobsRequestFiltersJobIDs = string[];
 export interface DescribeJobsRequestFilters {
-  jobIDs?: string[];
-  fromDate?: string;
-  toDate?: string;
+  jobIDs?: string[] | undefined;
+  fromDate?: string | undefined;
+  toDate?: string | undefined;
 }
 export interface DescribeJobsRequest {
-  filters?: DescribeJobsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: DescribeJobsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type JobsList = Job[];
 export interface DescribeJobsResponse {
-  items?: Job[];
-  nextToken?: string;
+  items?: Job[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LaunchConfigurationTemplateIDs = string[];
 export type MaxResultsType = number;
 export interface DescribeLaunchConfigurationTemplatesRequest {
-  launchConfigurationTemplateIDs?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  launchConfigurationTemplateIDs?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LaunchConfigurationTemplates = LaunchConfigurationTemplate[];
 export interface DescribeLaunchConfigurationTemplatesResponse {
-  items?: LaunchConfigurationTemplate[];
-  nextToken?: string;
+  items?: LaunchConfigurationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RecoveryInstanceIDs = string[];
 export type SourceServerIDs = string[];
 export interface DescribeRecoveryInstancesRequestFilters {
-  recoveryInstanceIDs?: string[];
-  sourceServerIDs?: string[];
+  recoveryInstanceIDs?: string[] | undefined;
+  sourceServerIDs?: string[] | undefined;
 }
 export interface DescribeRecoveryInstancesRequest {
-  filters?: DescribeRecoveryInstancesRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: DescribeRecoveryInstancesRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EC2InstanceState = string;
 export type FailbackState = string;
 export type FailbackLaunchType = string;
 export interface RecoveryInstanceFailback {
-  failbackClientID?: string;
-  failbackJobID?: string;
-  failbackInitiationTime?: string;
-  state?: string;
-  agentLastSeenByServiceDateTime?: string;
-  failbackClientLastSeenByServiceDateTime?: string;
-  failbackToOriginalServer?: boolean;
-  firstByteDateTime?: string;
-  elapsedReplicationDuration?: string;
-  failbackLaunchType?: string;
+  failbackClientID?: string | undefined;
+  failbackJobID?: string | undefined;
+  failbackInitiationTime?: string | undefined;
+  state?: string | undefined;
+  agentLastSeenByServiceDateTime?: string | undefined;
+  failbackClientLastSeenByServiceDateTime?: string | undefined;
+  failbackToOriginalServer?: boolean | undefined;
+  firstByteDateTime?: string | undefined;
+  elapsedReplicationDuration?: string | undefined;
+  failbackLaunchType?: string | undefined;
 }
 export interface RecoveryInstanceDataReplicationInfoReplicatedDisk {
-  deviceName?: string;
-  totalStorageBytes?: number;
-  replicatedStorageBytes?: number;
-  rescannedStorageBytes?: number;
-  backloggedStorageBytes?: number;
+  deviceName?: string | undefined;
+  totalStorageBytes?: number | undefined;
+  replicatedStorageBytes?: number | undefined;
+  rescannedStorageBytes?: number | undefined;
+  backloggedStorageBytes?: number | undefined;
 }
 export type RecoveryInstanceDataReplicationInfoReplicatedDisks =
   RecoveryInstanceDataReplicationInfoReplicatedDisk[];
@@ -769,81 +771,81 @@ export type RecoveryInstanceDataReplicationState = string;
 export type RecoveryInstanceDataReplicationInitiationStepName = string;
 export type RecoveryInstanceDataReplicationInitiationStepStatus = string;
 export interface RecoveryInstanceDataReplicationInitiationStep {
-  name?: string;
-  status?: string;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export type RecoveryInstanceDataReplicationInitiationSteps =
   RecoveryInstanceDataReplicationInitiationStep[];
 export interface RecoveryInstanceDataReplicationInitiation {
-  startDateTime?: string;
-  steps?: RecoveryInstanceDataReplicationInitiationStep[];
+  startDateTime?: string | undefined;
+  steps?: RecoveryInstanceDataReplicationInitiationStep[] | undefined;
 }
 export type FailbackReplicationError = string;
 export interface RecoveryInstanceDataReplicationError {
-  error?: string;
-  rawError?: string;
+  error?: string | undefined;
+  rawError?: string | undefined;
 }
 export interface RecoveryInstanceDataReplicationInfo {
-  lagDuration?: string;
-  etaDateTime?: string;
-  replicatedDisks?: RecoveryInstanceDataReplicationInfoReplicatedDisk[];
-  dataReplicationState?: string;
-  dataReplicationInitiation?: RecoveryInstanceDataReplicationInitiation;
-  dataReplicationError?: RecoveryInstanceDataReplicationError;
-  stagingAvailabilityZone?: string;
-  stagingOutpostArn?: string;
+  lagDuration?: string | undefined;
+  etaDateTime?: string | undefined;
+  replicatedDisks?: RecoveryInstanceDataReplicationInfoReplicatedDisk[] | undefined;
+  dataReplicationState?: string | undefined;
+  dataReplicationInitiation?: RecoveryInstanceDataReplicationInitiation | undefined;
+  dataReplicationError?: RecoveryInstanceDataReplicationError | undefined;
+  stagingAvailabilityZone?: string | undefined;
+  stagingOutpostArn?: string | undefined;
 }
 export type EbsVolumeID = string;
 export interface RecoveryInstanceDisk {
-  internalDeviceName?: string;
-  bytes?: number;
-  ebsVolumeID?: string;
+  internalDeviceName?: string | undefined;
+  bytes?: number | undefined;
+  ebsVolumeID?: string | undefined;
 }
 export type RecoveryInstanceDisks = RecoveryInstanceDisk[];
 export interface RecoveryInstanceProperties {
-  lastUpdatedDateTime?: string;
-  identificationHints?: IdentificationHints;
-  networkInterfaces?: NetworkInterface[];
-  disks?: RecoveryInstanceDisk[];
-  cpus?: CPU[];
-  ramBytes?: number;
-  os?: OS;
+  lastUpdatedDateTime?: string | undefined;
+  identificationHints?: IdentificationHints | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
+  disks?: RecoveryInstanceDisk[] | undefined;
+  cpus?: CPU[] | undefined;
+  ramBytes?: number | undefined;
+  os?: OS | undefined;
 }
 export type OriginEnvironment = string;
 export interface RecoveryInstance {
-  ec2InstanceID?: string;
-  ec2InstanceState?: string;
-  jobID?: string;
-  recoveryInstanceID?: string;
-  sourceServerID?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
-  failback?: RecoveryInstanceFailback;
-  dataReplicationInfo?: RecoveryInstanceDataReplicationInfo;
-  recoveryInstanceProperties?: RecoveryInstanceProperties;
-  pointInTimeSnapshotDateTime?: string;
-  isDrill?: boolean;
-  originEnvironment?: string;
-  originAvailabilityZone?: string;
-  agentVersion?: string;
-  sourceOutpostArn?: string;
+  ec2InstanceID?: string | undefined;
+  ec2InstanceState?: string | undefined;
+  jobID?: string | undefined;
+  recoveryInstanceID?: string | undefined;
+  sourceServerID?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  failback?: RecoveryInstanceFailback | undefined;
+  dataReplicationInfo?: RecoveryInstanceDataReplicationInfo | undefined;
+  recoveryInstanceProperties?: RecoveryInstanceProperties | undefined;
+  pointInTimeSnapshotDateTime?: string | undefined;
+  isDrill?: boolean | undefined;
+  originEnvironment?: string | undefined;
+  originAvailabilityZone?: string | undefined;
+  agentVersion?: string | undefined;
+  sourceOutpostArn?: string | undefined;
 }
 export type DescribeRecoveryInstancesItems = RecoveryInstance[];
 export interface DescribeRecoveryInstancesResponse {
-  nextToken?: string;
-  items?: RecoveryInstance[];
+  nextToken?: string | undefined;
+  items?: RecoveryInstance[] | undefined;
 }
 export interface DescribeRecoverySnapshotsRequestFilters {
-  fromDateTime?: string;
-  toDateTime?: string;
+  fromDateTime?: string | undefined;
+  toDateTime?: string | undefined;
 }
 export type RecoverySnapshotsOrder = string;
 export interface DescribeRecoverySnapshotsRequest {
   sourceServerID: string;
-  filters?: DescribeRecoverySnapshotsRequestFilters;
-  order?: string;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: DescribeRecoverySnapshotsRequestFilters | undefined;
+  order?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RecoverySnapshotID = string;
 export type EbsSnapshotsList = string[];
@@ -851,78 +853,78 @@ export interface RecoverySnapshot {
   snapshotID: string;
   sourceServerID: string;
   expectedTimestamp: string;
-  timestamp?: string;
-  ebsSnapshots?: string[];
+  timestamp?: string | undefined;
+  ebsSnapshots?: string[] | undefined;
 }
 export type RecoverySnapshotsList = RecoverySnapshot[];
 export interface DescribeRecoverySnapshotsResponse {
-  items?: RecoverySnapshot[];
-  nextToken?: string;
+  items?: RecoverySnapshot[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ReplicationConfigurationTemplateIDs = string[];
 export interface DescribeReplicationConfigurationTemplatesRequest {
-  replicationConfigurationTemplateIDs?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  replicationConfigurationTemplateIDs?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ReplicationConfigurationTemplates = ReplicationConfigurationTemplate[];
 export interface DescribeReplicationConfigurationTemplatesResponse {
-  items?: ReplicationConfigurationTemplate[];
-  nextToken?: string;
+  items?: ReplicationConfigurationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeSourceNetworksRequestFiltersIDs = string[];
 export interface DescribeSourceNetworksRequestFilters {
-  sourceNetworkIDs?: string[];
-  originAccountID?: string;
-  originRegion?: string;
+  sourceNetworkIDs?: string[] | undefined;
+  originAccountID?: string | undefined;
+  originRegion?: string | undefined;
 }
 export interface DescribeSourceNetworksRequest {
-  filters?: DescribeSourceNetworksRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: DescribeSourceNetworksRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ReplicationStatus = string;
 export type SensitiveBoundedString = string | redacted.Redacted<string>;
 export type RecoveryResult = string;
 export interface RecoveryLifeCycle {
-  apiCallDateTime?: Date;
-  jobID?: string;
-  lastRecoveryResult?: string;
+  apiCallDateTime?: Date | undefined;
+  jobID?: string | undefined;
+  lastRecoveryResult?: string | undefined;
 }
 export interface SourceNetwork {
-  sourceNetworkID?: string;
-  sourceVpcID?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
-  replicationStatus?: string;
-  replicationStatusDetails?: string | redacted.Redacted<string>;
-  cfnStackName?: string | redacted.Redacted<string>;
-  sourceRegion?: string;
-  sourceAccountID?: string;
-  lastRecovery?: RecoveryLifeCycle;
-  launchedVpcID?: string;
+  sourceNetworkID?: string | undefined;
+  sourceVpcID?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  replicationStatus?: string | undefined;
+  replicationStatusDetails?: string | redacted.Redacted<string> | undefined;
+  cfnStackName?: string | redacted.Redacted<string> | undefined;
+  sourceRegion?: string | undefined;
+  sourceAccountID?: string | undefined;
+  lastRecovery?: RecoveryLifeCycle | undefined;
+  launchedVpcID?: string | undefined;
 }
 export type SourceNetworksList = SourceNetwork[];
 export interface DescribeSourceNetworksResponse {
-  items?: SourceNetwork[];
-  nextToken?: string;
+  items?: SourceNetwork[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeSourceServersRequestFiltersIDs = string[];
 export type AccountIDs = string[];
 export interface DescribeSourceServersRequestFilters {
-  sourceServerIDs?: string[];
-  hardwareId?: string;
-  stagingAccountIDs?: string[];
+  sourceServerIDs?: string[] | undefined;
+  hardwareId?: string | undefined;
+  stagingAccountIDs?: string[] | undefined;
 }
 export interface DescribeSourceServersRequest {
-  filters?: DescribeSourceServersRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: DescribeSourceServersRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SourceServersList = SourceServer[];
 export interface DescribeSourceServersResponse {
-  items?: SourceServer[];
-  nextToken?: string;
+  items?: SourceServer[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DisconnectRecoveryInstanceRequest {
   recoveryInstanceID: string;
@@ -935,37 +937,37 @@ export interface ExportSourceNetworkCfnTemplateRequest {
   sourceNetworkID: string;
 }
 export interface ExportSourceNetworkCfnTemplateResponse {
-  s3DestinationUrl?: string;
+  s3DestinationUrl?: string | undefined;
 }
 export interface GetFailbackReplicationConfigurationRequest {
   recoveryInstanceID: string;
 }
 export interface GetFailbackReplicationConfigurationResponse {
   recoveryInstanceID: string;
-  name?: string;
-  bandwidthThrottling?: number;
-  usePrivateIP?: boolean;
-  internetProtocol?: string;
+  name?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  usePrivateIP?: boolean | undefined;
+  internetProtocol?: string | undefined;
 }
 export interface GetLaunchConfigurationRequest {
   sourceServerID: string;
 }
 export type SmallBoundedString = string;
 export interface LaunchIntoInstanceProperties {
-  launchIntoEC2InstanceID?: string;
+  launchIntoEC2InstanceID?: string | undefined;
 }
 export interface LaunchConfiguration {
-  sourceServerID?: string;
-  name?: string;
-  ec2LaunchTemplateID?: string;
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  postLaunchEnabled?: boolean;
-  launchIntoInstanceProperties?: LaunchIntoInstanceProperties;
-  recoveryMode?: string;
+  sourceServerID?: string | undefined;
+  name?: string | undefined;
+  ec2LaunchTemplateID?: string | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  postLaunchEnabled?: boolean | undefined;
+  launchIntoInstanceProperties?: LaunchIntoInstanceProperties | undefined;
+  recoveryMode?: string | undefined;
 }
 export interface GetRecoveryPlanRequest {
   recoveryPlanArn: string;
@@ -985,8 +987,8 @@ export interface GetRecoveryPlanExecutionStepRequest {
 export type RecoveryPlanExecutionStepStatus = string;
 export interface RecoveryPlanExecutionServer {
   serverArn: string;
-  impactLevel?: string;
-  jobID?: string;
+  impactLevel?: string | undefined;
+  jobID?: string | undefined;
 }
 export type RecoveryPlanExecutionServers = RecoveryPlanExecutionServer[];
 export interface ExecutionServerStepConfiguration {
@@ -1004,7 +1006,7 @@ export interface RecoveryPlanExecutionStep {
   status: string;
   stepName: string;
   configuration: RecoveryPlanExecutionStepConfiguration;
-  errorDetail?: ErrorDetail;
+  errorDetail?: ErrorDetail | undefined;
   attempt: number;
   createdAt: string;
   updatedAt: string;
@@ -1023,72 +1025,72 @@ export interface GetReplicationConfigurationRequest {
 }
 export type ReplicationConfigurationReplicatedDiskStagingDiskType = string;
 export interface ReplicationConfigurationReplicatedDisk {
-  deviceName?: string;
-  isBootDisk?: boolean;
-  stagingDiskType?: string;
-  iops?: number;
-  throughput?: number;
-  optimizedStagingDiskType?: string;
+  deviceName?: string | undefined;
+  isBootDisk?: boolean | undefined;
+  stagingDiskType?: string | undefined;
+  iops?: number | undefined;
+  throughput?: number | undefined;
+  optimizedStagingDiskType?: string | undefined;
 }
 export type ReplicationConfigurationReplicatedDisks = ReplicationConfigurationReplicatedDisk[];
 export interface ReplicationConfiguration {
-  sourceServerID?: string;
-  name?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  pitPolicy?: PITPolicyRule[];
-  autoReplicateNewDisks?: boolean;
-  internetProtocol?: string;
+  sourceServerID?: string | undefined;
+  name?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[] | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  pitPolicy?: PITPolicyRule[] | undefined;
+  autoReplicateNewDisks?: boolean | undefined;
+  internetProtocol?: string | undefined;
 }
 export interface InitializeServiceRequest {}
 export interface InitializeServiceResponse {}
 export type MaxResultsReplicatingSourceServers = number;
 export interface ListExtensibleSourceServersRequest {
   stagingAccountID: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface StagingSourceServer {
-  hostname?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
+  hostname?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StagingSourceServersList = StagingSourceServer[];
 export interface ListExtensibleSourceServersResponse {
-  items?: StagingSourceServer[];
-  nextToken?: string;
+  items?: StagingSourceServer[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LaunchActionIds = string[];
 export interface LaunchActionsRequestFilters {
-  actionIds?: string[];
+  actionIds?: string[] | undefined;
 }
 export interface ListLaunchActionsRequest {
   resourceId: string;
-  filters?: LaunchActionsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: LaunchActionsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LaunchActions = LaunchAction[];
 export interface ListLaunchActionsResponse {
-  items?: LaunchAction[];
-  nextToken?: string;
+  items?: LaunchAction[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRecoveryPlanExecutionsRequest {
-  recoveryPlanArn?: string;
-  status?: string;
-  maxResults?: number;
-  nextToken?: string;
+  recoveryPlanArn?: string | undefined;
+  status?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RecoveryPlanExecutionSummary {
   recoveryPlanExecutionArn: string;
@@ -1096,21 +1098,21 @@ export interface RecoveryPlanExecutionSummary {
   mode: string;
   status: string;
   startedAt: string;
-  errorDetail?: ErrorDetail;
+  errorDetail?: ErrorDetail | undefined;
 }
 export type RecoveryPlanExecutionSummaryList = RecoveryPlanExecutionSummary[];
 export interface ListRecoveryPlanExecutionsResponse {
   recoveryPlanExecutions: RecoveryPlanExecutionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRecoveryPlanExecutionStepsFilter {
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListRecoveryPlanExecutionStepsRequest {
   recoveryPlanExecutionArn: string;
-  filter?: ListRecoveryPlanExecutionStepsFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: ListRecoveryPlanExecutionStepsFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RecoveryPlanExecutionStepSummary {
   recoveryPlanExecutionStepArn: string;
@@ -1118,16 +1120,16 @@ export interface RecoveryPlanExecutionStepSummary {
   stepIndex: number;
   status: string;
   configuration: RecoveryPlanExecutionStepConfiguration;
-  errorDetail?: ErrorDetail;
+  errorDetail?: ErrorDetail | undefined;
 }
 export type RecoveryPlanExecutionStepSummaryList = RecoveryPlanExecutionStepSummary[];
 export interface ListRecoveryPlanExecutionStepsResponse {
   recoveryPlanExecutionSteps: RecoveryPlanExecutionStepSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRecoveryPlansRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RecoveryPlanSummary {
   recoveryPlanArn: string;
@@ -1139,35 +1141,35 @@ export interface RecoveryPlanSummary {
 export type RecoveryPlanSummaryList = RecoveryPlanSummary[];
 export interface ListRecoveryPlansResponse {
   recoveryPlans: RecoveryPlanSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRecoveryPlanStepsRequest {
   recoveryPlanArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RecoveryPlanStepList = RecoveryPlanStep[];
 export interface ListRecoveryPlanStepsResponse {
   recoveryPlanSteps: RecoveryPlanStep[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStagingAccountsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Account {
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type Accounts = Account[];
 export interface ListStagingAccountsResponse {
-  accounts?: Account[];
-  nextToken?: string;
+  accounts?: Account[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutLaunchActionRequest {
   resourceId: string;
@@ -1179,22 +1181,22 @@ export interface PutLaunchActionRequest {
   name: string;
   actionVersion: string;
   category: string;
-  parameters?: { [key: string]: LaunchActionParameter | undefined };
+  parameters?: { [key: string]: LaunchActionParameter | undefined } | undefined;
   description: string;
 }
 export interface PutLaunchActionResponse {
-  resourceId?: string;
-  actionId?: string;
-  actionCode?: string;
-  type?: string;
-  name?: string;
-  active?: boolean;
-  order?: number;
-  actionVersion?: string;
-  optional?: boolean;
-  parameters?: { [key: string]: LaunchActionParameter | undefined };
-  description?: string;
-  category?: string;
+  resourceId?: string | undefined;
+  actionId?: string | undefined;
+  actionCode?: string | undefined;
+  type?: string | undefined;
+  name?: string | undefined;
+  active?: boolean | undefined;
+  order?: number | undefined;
+  actionVersion?: string | undefined;
+  optional?: boolean | undefined;
+  parameters?: { [key: string]: LaunchActionParameter | undefined } | undefined;
+  description?: string | undefined;
+  category?: string | undefined;
 }
 export type RecoveryPlanStepArnList = string[];
 export interface ReorderRecoveryPlanStepsRequest {
@@ -1217,28 +1219,28 @@ export interface ReverseReplicationRequest {
   recoveryInstanceID: string;
 }
 export interface ReverseReplicationResponse {
-  reversedDirectionSourceServerArn?: string;
+  reversedDirectionSourceServerArn?: string | undefined;
 }
 export type StartFailbackRequestRecoveryInstanceIDs = string[];
 export interface StartFailbackLaunchRequest {
   recoveryInstanceIDs: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartFailbackLaunchResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface StartRecoveryRequestSourceServer {
   sourceServerID: string;
-  recoverySnapshotID?: string;
+  recoverySnapshotID?: string | undefined;
 }
 export type StartRecoveryRequestSourceServers = StartRecoveryRequestSourceServer[];
 export interface StartRecoveryRequest {
   sourceServers: StartRecoveryRequestSourceServer[];
-  isDrill?: boolean;
-  tags?: { [key: string]: string | undefined };
+  isDrill?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartRecoveryResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface RecoveryPlanExecutionSourceServer {
   sourceServerID: string;
@@ -1248,9 +1250,9 @@ export type RecoveryPlanExecutionSourceServerList = RecoveryPlanExecutionSourceS
 export interface StartRecoveryPlanExecutionRequest {
   recoveryPlanArn: string;
   mode: string;
-  clientToken?: string;
-  sourceServers?: RecoveryPlanExecutionSourceServer[];
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  sourceServers?: RecoveryPlanExecutionSourceServer[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartRecoveryPlanExecutionResponse {
   recoveryPlanExecution: RecoveryPlanExecution;
@@ -1259,27 +1261,27 @@ export interface StartReplicationRequest {
   sourceServerID: string;
 }
 export interface StartReplicationResponse {
-  sourceServer?: SourceServer;
+  sourceServer?: SourceServer | undefined;
 }
 export interface StartSourceNetworkRecoveryRequestNetworkEntry {
   sourceNetworkID: string;
-  cfnStackName?: string | redacted.Redacted<string>;
+  cfnStackName?: string | redacted.Redacted<string> | undefined;
 }
 export type StartSourceNetworkRecoveryRequestNetworkEntries =
   StartSourceNetworkRecoveryRequestNetworkEntry[];
 export interface StartSourceNetworkRecoveryRequest {
   sourceNetworks: StartSourceNetworkRecoveryRequestNetworkEntry[];
-  deployAsNew?: boolean;
-  tags?: { [key: string]: string | undefined };
+  deployAsNew?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartSourceNetworkRecoveryResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface StartSourceNetworkReplicationRequest {
   sourceNetworkID: string;
 }
 export interface StartSourceNetworkReplicationResponse {
-  sourceNetwork?: SourceNetwork;
+  sourceNetwork?: SourceNetwork | undefined;
 }
 export interface StopFailbackRequest {
   recoveryInstanceID: string;
@@ -1289,13 +1291,13 @@ export interface StopReplicationRequest {
   sourceServerID: string;
 }
 export interface StopReplicationResponse {
-  sourceServer?: SourceServer;
+  sourceServer?: SourceServer | undefined;
 }
 export interface StopSourceNetworkReplicationRequest {
   sourceNetworkID: string;
 }
 export interface StopSourceNetworkReplicationResponse {
-  sourceNetwork?: SourceNetwork;
+  sourceNetwork?: SourceNetwork | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1307,7 +1309,7 @@ export interface TerminateRecoveryInstancesRequest {
   recoveryInstanceIDs: string[];
 }
 export interface TerminateRecoveryInstancesResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export type TagKeys = string[];
 export interface UntagResourceRequest {
@@ -1317,107 +1319,107 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateFailbackReplicationConfigurationRequest {
   recoveryInstanceID: string;
-  name?: string;
-  bandwidthThrottling?: number;
-  usePrivateIP?: boolean;
-  internetProtocol?: string;
+  name?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  usePrivateIP?: boolean | undefined;
+  internetProtocol?: string | undefined;
 }
 export interface UpdateFailbackReplicationConfigurationResponse {}
 export interface UpdateLaunchConfigurationRequest {
   sourceServerID: string;
-  name?: string;
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  postLaunchEnabled?: boolean;
-  launchIntoInstanceProperties?: LaunchIntoInstanceProperties;
-  recoveryMode?: string;
+  name?: string | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  postLaunchEnabled?: boolean | undefined;
+  launchIntoInstanceProperties?: LaunchIntoInstanceProperties | undefined;
+  recoveryMode?: string | undefined;
 }
 export interface UpdateLaunchConfigurationTemplateRequest {
   launchConfigurationTemplateID: string;
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  exportBucketArn?: string;
-  postLaunchEnabled?: boolean;
-  launchIntoSourceInstance?: boolean;
-  recoveryMode?: string;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  exportBucketArn?: string | undefined;
+  postLaunchEnabled?: boolean | undefined;
+  launchIntoSourceInstance?: boolean | undefined;
+  recoveryMode?: string | undefined;
 }
 export interface UpdateLaunchConfigurationTemplateResponse {
-  launchConfigurationTemplate?: LaunchConfigurationTemplate;
+  launchConfigurationTemplate?: LaunchConfigurationTemplate | undefined;
 }
 export interface UpdateRecoveryPlanRequest {
   recoveryPlanArn: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateRecoveryPlanResponse {
   recoveryPlan: RecoveryPlan;
 }
 export interface UpdateRecoveryPlanExecutionStepRequest {
   recoveryPlanExecutionStepArn: string;
-  status?: string;
-  servers?: RecoveryPlanServer[];
-  waitDurationMinutes?: number;
+  status?: string | undefined;
+  servers?: RecoveryPlanServer[] | undefined;
+  waitDurationMinutes?: number | undefined;
 }
 export interface UpdateRecoveryPlanExecutionStepResponse {
   recoveryPlanExecutionStep: RecoveryPlanExecutionStep;
 }
 export interface UpdateRecoveryPlanStepRequest {
   recoveryPlanStepArn: string;
-  stepName?: string;
-  configuration?: RecoveryPlanStepConfiguration;
+  stepName?: string | undefined;
+  configuration?: RecoveryPlanStepConfiguration | undefined;
 }
 export interface UpdateRecoveryPlanStepResponse {
   recoveryPlanStep: RecoveryPlanStep;
 }
 export interface UpdateReplicationConfigurationRequest {
   sourceServerID: string;
-  name?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  pitPolicy?: PITPolicyRule[];
-  autoReplicateNewDisks?: boolean;
-  internetProtocol?: string;
+  name?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[] | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  pitPolicy?: PITPolicyRule[] | undefined;
+  autoReplicateNewDisks?: boolean | undefined;
+  internetProtocol?: string | undefined;
 }
 export interface UpdateReplicationConfigurationTemplateRequest {
   replicationConfigurationTemplateID: string;
-  arn?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  pitPolicy?: PITPolicyRule[];
-  autoReplicateNewDisks?: boolean;
-  internetProtocol?: string;
+  arn?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  pitPolicy?: PITPolicyRule[] | undefined;
+  autoReplicateNewDisks?: boolean | undefined;
+  internetProtocol?: string | undefined;
 }
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {
-  name?: string;
-  message?: string;
+  name?: string | undefined;
+  message?: string | undefined;
 }
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type AssociateSourceNetworkStackError =

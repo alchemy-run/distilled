@@ -191,8 +191,8 @@ export interface ParentChildFieldOptionsMapping {
 }
 export type ParentChildFieldOptionsMappingList = ParentChildFieldOptionsMapping[];
 export interface FieldOptionsCaseRule {
-  parentFieldId?: string;
-  childFieldId?: string;
+  parentFieldId?: string | undefined;
+  childFieldId?: string | undefined;
   parentChildFieldOptionsMappings: ParentChildFieldOptionsMapping[];
 }
 export interface HiddenCaseRule {
@@ -213,24 +213,24 @@ export interface GetCaseRuleResponse {
   name: string;
   caseRuleArn: string;
   rule: CaseRuleDetails;
-  description?: string;
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BatchGetCaseRuleList = GetCaseRuleResponse[];
 export interface CaseRuleError {
   id: string;
   errorCode: string;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchGetCaseRuleErrorList = CaseRuleError[];
 export type BatchGetCaseRuleUnprocessedList = string[];
 export interface BatchGetCaseRuleResponse {
   caseRules: GetCaseRuleResponse[];
   errors: CaseRuleError[];
-  unprocessedCaseRules?: string[];
+  unprocessedCaseRules?: string[] | undefined;
 }
 export interface FieldIdentifier {
   id: string;
@@ -253,20 +253,20 @@ export interface GetFieldResponse {
   fieldId: string;
   name: string;
   fieldArn: string;
-  description?: string;
+  description?: string | undefined;
   type: string;
   namespace: string;
-  tags?: { [key: string]: string | undefined };
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  attributes?: FieldAttributes;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  attributes?: FieldAttributes | undefined;
 }
 export type BatchGetFieldList = GetFieldResponse[];
 export interface FieldError {
   id: string;
   errorCode: string;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchGetFieldErrorList = FieldError[];
 export interface BatchGetFieldResponse {
@@ -293,7 +293,7 @@ export interface FieldOptionError {
 }
 export type FieldOptionErrorList = FieldOptionError[];
 export interface BatchPutFieldOptionsResponse {
-  errors?: FieldOptionError[];
+  errors?: FieldOptionError[] | undefined;
 }
 export type TemplateId = string;
 export interface EmptyFieldValue {}
@@ -350,9 +350,9 @@ export interface CreateCaseRequest {
   domainId: string;
   templateId: string;
   fields: FieldValue[];
-  clientToken?: string;
-  performedBy?: UserUnion;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  performedBy?: UserUnion | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CaseId = string;
 export type CaseArn = string;
@@ -363,7 +363,7 @@ export interface CreateCaseResponse {
 export interface CreateCaseRuleRequest {
   domainId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   rule: CaseRuleDetails;
 }
 export interface CreateCaseRuleResponse {
@@ -385,8 +385,8 @@ export interface CreateFieldRequest {
   domainId: string;
   name: string;
   type: string;
-  description?: string;
-  attributes?: FieldAttributes;
+  description?: string | undefined;
+  attributes?: FieldAttributes | undefined;
 }
 export interface CreateFieldResponse {
   fieldId: string;
@@ -398,17 +398,17 @@ export interface FieldItem {
 }
 export type FieldList = FieldItem[];
 export interface FieldGroup {
-  name?: string;
+  name?: string | undefined;
   fields: FieldItem[];
 }
 export type Section = { fieldGroup: FieldGroup };
 export type SectionsList = Section[];
 export interface LayoutSections {
-  sections?: Section[];
+  sections?: Section[] | undefined;
 }
 export interface BasicLayout {
-  topPanel?: LayoutSections;
-  moreInfo?: LayoutSections;
+  topPanel?: LayoutSections | undefined;
+  moreInfo?: LayoutSections | undefined;
 }
 export type LayoutContent = { basic: BasicLayout };
 export interface CreateLayoutRequest {
@@ -444,8 +444,8 @@ export type TargetSlaMinutes = number;
 export interface SlaInputConfiguration {
   name: string | redacted.Redacted<string>;
   type: string;
-  fieldId?: string;
-  targetFieldValues?: FieldValueUnion[];
+  fieldId?: string | undefined;
+  targetFieldValues?: FieldValueUnion[] | undefined;
   targetSlaMinutes: number;
 }
 export type SlaInputContent = { slaInputConfiguration: SlaInputConfiguration };
@@ -509,7 +509,7 @@ export interface CreateRelatedItemRequest {
   caseId: string;
   type: string;
   content: RelatedItemInputContent;
-  performedBy?: UserUnion;
+  performedBy?: UserUnion | undefined;
 }
 export type RelatedItemId = string;
 export type RelatedItemArn = string;
@@ -520,7 +520,7 @@ export interface CreateRelatedItemResponse {
 export type TemplateName = string;
 export type TemplateDescription = string;
 export interface LayoutConfiguration {
-  defaultLayout?: string;
+  defaultLayout?: string | undefined;
 }
 export interface RequiredField {
   fieldId: string;
@@ -529,7 +529,7 @@ export type RequiredFieldList = RequiredField[];
 export type TemplateStatus = string;
 export interface TemplateRule {
   caseRuleId: string;
-  fieldId?: string;
+  fieldId?: string | undefined;
 }
 export type TemplateCaseRuleList = TemplateRule[];
 export type TagPropagationResourceType = string;
@@ -541,12 +541,12 @@ export type TagPropagationConfigurationList = TagPropagationConfiguration[];
 export interface CreateTemplateRequest {
   domainId: string;
   name: string;
-  description?: string;
-  layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredField[];
-  status?: string;
-  rules?: TemplateRule[];
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  description?: string | undefined;
+  layoutConfiguration?: LayoutConfiguration | undefined;
+  requiredFields?: RequiredField[] | undefined;
+  status?: string | undefined;
+  rules?: TemplateRule[] | undefined;
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export type TemplateArn = string;
 export interface CreateTemplateResponse {
@@ -594,19 +594,19 @@ export interface GetCaseRequest {
   caseId: string;
   domainId: string;
   fields: FieldIdentifier[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetCaseResponse {
   fields: FieldValue[];
   templateId: string;
-  nextToken?: string;
-  tags?: { [key: string]: string | undefined };
+  nextToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCaseAuditEventsRequest {
   caseId: string;
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AuditEventId = string;
 export type AuditEventType = string;
@@ -650,26 +650,26 @@ export type AuditEventFieldValueUnion =
     };
 export interface AuditEventField {
   eventFieldId: string;
-  oldValue?: AuditEventFieldValueUnion;
+  oldValue?: AuditEventFieldValueUnion | undefined;
   newValue: AuditEventFieldValueUnion;
 }
 export type AuditEventFieldList = AuditEventField[];
 export type IamPrincipalArn = string;
 export interface AuditEventPerformedBy {
-  user?: UserUnion;
+  user?: UserUnion | undefined;
   iamPrincipalArn: string;
 }
 export interface AuditEvent {
   eventId: string;
   type: string;
-  relatedItemType?: string;
+  relatedItemType?: string | undefined;
   performedTime: Date;
   fields: AuditEventField[];
-  performedBy?: AuditEventPerformedBy;
+  performedBy?: AuditEventPerformedBy | undefined;
 }
 export type AuditEventsList = AuditEvent[];
 export interface GetCaseAuditEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   auditEvents: AuditEvent[];
 }
 export interface GetCaseEventConfigurationRequest {
@@ -682,12 +682,12 @@ export interface RelatedItemEventIncludedData {
   includeContent: boolean;
 }
 export interface EventIncludedData {
-  caseData?: CaseEventIncludedData;
-  relatedItemData?: RelatedItemEventIncludedData;
+  caseData?: CaseEventIncludedData | undefined;
+  relatedItemData?: RelatedItemEventIncludedData | undefined;
 }
 export interface EventBridgeConfiguration {
   enabled: boolean;
-  includedData?: EventIncludedData;
+  includedData?: EventIncludedData | undefined;
 }
 export interface GetCaseEventConfigurationResponse {
   eventBridge: EventBridgeConfiguration;
@@ -701,7 +701,7 @@ export interface GetDomainResponse {
   name: string;
   createdTime: Date;
   domainStatus: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLayoutRequest {
   domainId: string;
@@ -712,10 +712,10 @@ export interface GetLayoutResponse {
   layoutArn: string;
   name: string;
   content: LayoutContent;
-  tags?: { [key: string]: string | undefined };
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export interface GetTemplateRequest {
   domainId: string;
@@ -725,22 +725,22 @@ export interface GetTemplateResponse {
   templateId: string;
   templateArn: string;
   name: string;
-  description?: string;
-  layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredField[];
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  layoutConfiguration?: LayoutConfiguration | undefined;
+  requiredFields?: RequiredField[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   status: string;
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  rules?: TemplateRule[];
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  rules?: TemplateRule[] | undefined;
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export type MaxResults = number;
 export interface ListCaseRulesRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RuleType = string;
 export interface CaseRuleSummary {
@@ -748,18 +748,18 @@ export interface CaseRuleSummary {
   name: string;
   caseRuleArn: string;
   ruleType: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type CaseRuleSummaryList = CaseRuleSummary[];
 export interface ListCaseRulesResponse {
   caseRules: CaseRuleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCasesForContactRequest {
   domainId: string;
   contactArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface CaseSummary {
   caseId: string;
@@ -768,11 +768,11 @@ export interface CaseSummary {
 export type CaseSummaryList = CaseSummary[];
 export interface ListCasesForContactResponse {
   cases: CaseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDomainsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DomainSummary {
   domainId: string;
@@ -782,25 +782,25 @@ export interface DomainSummary {
 export type DomainSummaryList = DomainSummary[];
 export interface ListDomainsResponse {
   domains: DomainSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Value = string;
 export type ValuesList = string[];
 export interface ListFieldOptionsRequest {
   domainId: string;
   fieldId: string;
-  maxResults?: number;
-  nextToken?: string;
-  values?: string[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  values?: string[] | undefined;
 }
 export interface ListFieldOptionsResponse {
   options: FieldOption[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFieldsRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FieldSummary {
   fieldId: string;
@@ -808,17 +808,17 @@ export interface FieldSummary {
   name: string;
   type: string;
   namespace: string;
-  attributes?: FieldAttributes;
+  attributes?: FieldAttributes | undefined;
 }
 export type FieldSummaryList = FieldSummary[];
 export interface ListFieldsResponse {
   fields: FieldSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListLayoutsRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface LayoutSummary {
   layoutId: string;
@@ -828,33 +828,33 @@ export interface LayoutSummary {
 export type LayoutSummaryList = LayoutSummary[];
 export interface ListLayoutsResponse {
   layouts: LayoutSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TemplateStatusFilters = string[];
 export interface ListTemplatesRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
-  status?: string[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: string[] | undefined;
 }
 export interface TemplateSummary {
   templateId: string;
   templateArn: string;
   name: string;
   status: string;
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListTemplatesResponse {
   templates: TemplateSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutCaseEventConfigurationRequest {
   domainId: string;
@@ -864,20 +864,20 @@ export interface PutCaseEventConfigurationResponse {}
 export type Channel = string;
 export type ChannelList = string[];
 export interface ContactFilter {
-  channel?: string[];
-  contactArn?: string;
+  channel?: string[] | undefined;
+  contactArn?: string | undefined;
 }
 export interface CommentFilter {}
 export interface FileFilter {
-  fileArn?: string;
+  fileArn?: string | undefined;
 }
 export type SlaStatus = string;
 export interface SlaFilter {
-  name?: string | redacted.Redacted<string>;
-  status?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  status?: string | undefined;
 }
 export interface ConnectCaseFilter {
-  caseId?: string;
+  caseId?: string | undefined;
 }
 export type FieldFilter =
   | {
@@ -935,7 +935,7 @@ export type CustomFieldsFilter =
   | { field?: never; not?: never; andAll: CustomFieldsFilter[]; orAll?: never }
   | { field?: never; not?: never; andAll?: never; orAll: CustomFieldsFilter[] };
 export interface CustomFilter {
-  fields?: CustomFieldsFilter;
+  fields?: CustomFieldsFilter | undefined;
 }
 export type RelatedItemTypeFilter =
   | {
@@ -996,10 +996,10 @@ export interface SearchAllRelatedItemsSort {
 export type SearchAllRelatedItemsSortList = SearchAllRelatedItemsSort[];
 export interface SearchAllRelatedItemsRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: RelatedItemTypeFilter[];
-  sorts?: SearchAllRelatedItemsSort[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: RelatedItemTypeFilter[] | undefined;
+  sorts?: SearchAllRelatedItemsSort[] | undefined;
 }
 export type AssociationTime = Date;
 export type ConnectedToSystemTime = Date;
@@ -1014,10 +1014,10 @@ export interface SlaConfiguration {
   name: string | redacted.Redacted<string>;
   type: string;
   status: string;
-  fieldId?: string;
-  targetFieldValues?: FieldValueUnion[];
+  fieldId?: string | undefined;
+  targetFieldValues?: FieldValueUnion[] | undefined;
   targetTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export interface SlaContent {
   slaConfiguration: SlaConfiguration;
@@ -1083,18 +1083,18 @@ export interface SearchAllRelatedItemsResponseItem {
   type: string;
   associationTime: Date;
   content: RelatedItemContent;
-  performedBy?: UserUnion;
-  tags?: { [key: string]: string | undefined };
+  performedBy?: UserUnion | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SearchAllRelatedItemsResponseItemList = SearchAllRelatedItemsResponseItem[];
 export interface SearchAllRelatedItemsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   relatedItems: SearchAllRelatedItemsResponseItem[];
 }
 export type SearchTagKey = string;
 export interface TagValue {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagFilter = { equalTo: TagValue };
 export type CaseFilterList = CaseFilter[];
@@ -1111,44 +1111,44 @@ export interface Sort {
 export type SortList = Sort[];
 export interface SearchCasesRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
-  searchTerm?: string;
-  filter?: CaseFilter;
-  sorts?: Sort[];
-  fields?: FieldIdentifier[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  searchTerm?: string | undefined;
+  filter?: CaseFilter | undefined;
+  sorts?: Sort[] | undefined;
+  fields?: FieldIdentifier[] | undefined;
 }
 export interface SearchCasesResponseItem {
   caseId: string;
   templateId: string;
   fields: FieldValue[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SearchCasesResponseItemList = SearchCasesResponseItem[];
 export type TotalCount = number;
 export interface SearchCasesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cases: SearchCasesResponseItem[];
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface SearchRelatedItemsRequest {
   domainId: string;
   caseId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: RelatedItemTypeFilter[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: RelatedItemTypeFilter[] | undefined;
 }
 export interface SearchRelatedItemsResponseItem {
   relatedItemId: string;
   type: string;
   associationTime: Date;
   content: RelatedItemContent;
-  tags?: { [key: string]: string | undefined };
-  performedBy?: UserUnion;
+  tags?: { [key: string]: string | undefined } | undefined;
+  performedBy?: UserUnion | undefined;
 }
 export type SearchRelatedItemsResponseItemList = SearchRelatedItemsResponseItem[];
 export interface SearchRelatedItemsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   relatedItems: SearchRelatedItemsResponseItem[];
 }
 export interface TagResourceRequest {
@@ -1167,30 +1167,30 @@ export interface UpdateCaseRequest {
   domainId: string;
   caseId: string;
   fields: FieldValue[];
-  performedBy?: UserUnion;
+  performedBy?: UserUnion | undefined;
 }
 export interface UpdateCaseResponse {}
 export interface UpdateCaseRuleRequest {
   domainId: string;
   caseRuleId: string;
-  name?: string;
-  description?: string;
-  rule?: CaseRuleDetails;
+  name?: string | undefined;
+  description?: string | undefined;
+  rule?: CaseRuleDetails | undefined;
 }
 export interface UpdateCaseRuleResponse {}
 export interface UpdateFieldRequest {
   domainId: string;
   fieldId: string;
-  name?: string;
-  description?: string;
-  attributes?: FieldAttributes;
+  name?: string | undefined;
+  description?: string | undefined;
+  attributes?: FieldAttributes | undefined;
 }
 export interface UpdateFieldResponse {}
 export interface UpdateLayoutRequest {
   domainId: string;
   layoutId: string;
-  name?: string;
-  content?: LayoutContent;
+  name?: string | undefined;
+  content?: LayoutContent | undefined;
 }
 export interface UpdateLayoutResponse {}
 export interface CommentUpdateContent {
@@ -1208,7 +1208,7 @@ export interface UpdateRelatedItemRequest {
   caseId: string;
   relatedItemId: string;
   content: RelatedItemUpdateContent;
-  performedBy?: UserUnion;
+  performedBy?: UserUnion | undefined;
 }
 export interface UpdateRelatedItemResponse {
   relatedItemId: string;
@@ -1216,20 +1216,20 @@ export interface UpdateRelatedItemResponse {
   type: string;
   content: RelatedItemContent;
   associationTime: Date;
-  tags?: { [key: string]: string | undefined };
-  lastUpdatedUser?: UserUnion;
-  createdBy?: UserUnion;
+  tags?: { [key: string]: string | undefined } | undefined;
+  lastUpdatedUser?: UserUnion | undefined;
+  createdBy?: UserUnion | undefined;
 }
 export interface UpdateTemplateRequest {
   domainId: string;
   templateId: string;
-  name?: string;
-  description?: string;
-  layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredField[];
-  status?: string;
-  rules?: TemplateRule[];
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  name?: string | undefined;
+  description?: string | undefined;
+  layoutConfiguration?: LayoutConfiguration | undefined;
+  requiredFields?: RequiredField[] | undefined;
+  status?: string | undefined;
+  rules?: TemplateRule[] | undefined;
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export interface UpdateTemplateResponse {}
 export type BatchGetCaseRuleError =

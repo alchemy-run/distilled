@@ -149,7 +149,7 @@ export interface AssociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type AccountId = string;
 export type ProfileStatus =
@@ -162,18 +162,18 @@ export type ProfileStatus =
   | (string & {});
 export type Rfc3339Timestamp = Date;
 export interface ProfileAssociation {
-  Id?: string;
-  Name?: string;
-  OwnerId?: string;
-  ProfileId?: string;
-  ResourceId?: string;
-  Status?: ProfileStatus;
-  StatusMessage?: string;
-  CreationTime?: Date;
-  ModificationTime?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  ProfileId?: string | undefined;
+  ResourceId?: string | undefined;
+  Status?: ProfileStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: Date | undefined;
+  ModificationTime?: Date | undefined;
 }
 export interface AssociateProfileResponse {
-  ProfileAssociation?: ProfileAssociation;
+  ProfileAssociation?: ProfileAssociation | undefined;
 }
 export type Arn = string;
 export type ResourceProperties = string;
@@ -181,122 +181,122 @@ export interface AssociateResourceToProfileRequest {
   ProfileId: string;
   ResourceArn: string;
   Name: string;
-  ResourceProperties?: string;
+  ResourceProperties?: string | undefined;
 }
 export interface ProfileResourceAssociation {
-  Id?: string;
-  Name?: string;
-  OwnerId?: string;
-  ProfileId?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  ResourceProperties?: string;
-  Status?: ProfileStatus;
-  StatusMessage?: string;
-  CreationTime?: Date;
-  ModificationTime?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  ProfileId?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceProperties?: string | undefined;
+  Status?: ProfileStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: Date | undefined;
+  ModificationTime?: Date | undefined;
 }
 export interface AssociateResourceToProfileResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export type CreatorRequestId = string;
 export interface CreateProfileRequest {
   Name: string;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME" | (string & {});
 export interface Profile {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  OwnerId?: string;
-  Status?: ProfileStatus;
-  StatusMessage?: string;
-  ShareStatus?: ShareStatus;
-  CreationTime?: Date;
-  ModificationTime?: Date;
-  ClientToken?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  Status?: ProfileStatus | undefined;
+  StatusMessage?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  CreationTime?: Date | undefined;
+  ModificationTime?: Date | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateProfileResponse {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export interface DeleteProfileRequest {
   ProfileId: string;
 }
 export interface DeleteProfileResponse {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export interface DisassociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
 }
 export interface DisassociateProfileResponse {
-  ProfileAssociation?: ProfileAssociation;
+  ProfileAssociation?: ProfileAssociation | undefined;
 }
 export interface DisassociateResourceFromProfileRequest {
   ProfileId: string;
   ResourceArn: string;
 }
 export interface DisassociateResourceFromProfileResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export interface GetProfileRequest {
   ProfileId: string;
 }
 export interface GetProfileResponse {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export interface GetProfileAssociationRequest {
   ProfileAssociationId: string;
 }
 export interface GetProfileAssociationResponse {
-  ProfileAssociation?: ProfileAssociation;
+  ProfileAssociation?: ProfileAssociation | undefined;
 }
 export interface GetProfileResourceAssociationRequest {
   ProfileResourceAssociationId: string;
 }
 export interface GetProfileResourceAssociationResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListProfileAssociationsRequest {
-  ResourceId?: string;
-  ProfileId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceId?: string | undefined;
+  ProfileId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ProfileAssociations = ProfileAssociation[];
 export interface ListProfileAssociationsResponse {
-  ProfileAssociations?: ProfileAssociation[];
-  NextToken?: string;
+  ProfileAssociations?: ProfileAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfileResourceAssociationsRequest {
   ProfileId: string;
-  ResourceType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ProfileResourceAssociations = ProfileResourceAssociation[];
 export interface ListProfileResourceAssociationsResponse {
-  ProfileResourceAssociations?: ProfileResourceAssociation[];
-  NextToken?: string;
+  ProfileResourceAssociations?: ProfileResourceAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfilesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ProfileSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  ShareStatus?: ShareStatus;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
 }
 export type ProfileSummaryList = ProfileSummary[];
 export interface ListProfilesResponse {
-  ProfileSummaries?: ProfileSummary[];
-  NextToken?: string;
+  ProfileSummaries?: ProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -318,11 +318,11 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateProfileResourceAssociationRequest {
   ProfileResourceAssociationId: string;
-  Name?: string;
-  ResourceProperties?: string;
+  Name?: string | undefined;
+  ResourceProperties?: string | undefined;
 }
 export interface UpdateProfileResourceAssociationResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export type ExceptionMessage = string;
 export type AssociateProfileError =

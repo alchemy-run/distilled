@@ -112,7 +112,7 @@ export interface CreateMemberRequestMemberUser {
 export type CreateMemberRequestMemberStatus = "active" | "canceled";
 export interface CreateMemberRequestMember {
   user: CreateMemberRequestMemberUser;
-  status?: CreateMemberRequestMemberStatus | (string & {});
+  status?: CreateMemberRequestMemberStatus | (string & {}) | undefined;
 }
 export interface CreateMemberRequest {
   organizationId: string;
@@ -138,7 +138,7 @@ export interface CreateMemberResponse {
 }
 export interface CreateRequestParent {
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateRequestProfile {
   businessAddress: string;
@@ -149,8 +149,8 @@ export interface CreateRequestProfile {
 }
 export interface CreateOrganizationRequest {
   name: string;
-  parent?: CreateRequestParent;
-  profile?: CreateRequestProfile;
+  parent?: CreateRequestParent | undefined;
+  profile?: CreateRequestProfile | undefined;
 }
 export type CreateResponseMetaHierarchyTagsList = Array<string>;
 export interface CreateResponseMetaTenantFlags {
@@ -165,10 +165,10 @@ export interface CreateResponseMetaTenantFlags {
 }
 export interface CreateResponseMeta {
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
-  hierarchyTags?: CreateResponseMetaHierarchyTagsList | null;
-  managedBy?: string | null;
+  hierarchyTags?: CreateResponseMetaHierarchyTagsList | null | undefined;
+  managedBy?: string | null | undefined;
   /** Enable features for Organizations. */
-  tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantFlags?: CreateResponseMetaTenantFlags | null | undefined;
 }
 export interface CreateResponseParent {
   id: string;
@@ -181,8 +181,8 @@ export interface CreateOrganizationResponse {
   createTime: string;
   meta: CreateResponseMeta;
   name: string;
-  parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  parent?: CreateResponseParent | null | undefined;
+  profile?: CreateRequestProfile | null | undefined;
 }
 export interface DeleteMemberRequest {
   organizationId: string;
@@ -201,9 +201,9 @@ export interface GetBillingUsageRequest {
   /** Represents a Cloudflare resource identifier tag. */
   organizationId: string;
   /** Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  to?: string;
+  to?: string | undefined;
 }
 export type BillingUsageGetResultItemChargeCategory = "Usage";
 export type BillingUsageGetResultItemChargeFrequency = "Usage-Based";
@@ -234,57 +234,57 @@ export interface BillingUsageGetResultItem {
   /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
-  billedCost?: number | null;
+  billedCost?: number | null | undefined;
   /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
-  billingAccountId?: string | null;
+  billingAccountId?: string | null | undefined;
   /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
-  billingAccountName?: string | null;
+  billingAccountName?: string | null | undefined;
   /** Currency that a charge was billed in (ISO 4217). */
-  billingCurrency?: string | null;
+  billingCurrency?: string | null | undefined;
   /** Exclusive end of the billing cycle that contains this usage record. */
-  billingPeriodEnd?: string | null;
+  billingPeriodEnd?: string | null | undefined;
   /** Inclusive start of the billing cycle that contains this usage record. */
-  billingPeriodStart?: string | null;
+  billingPeriodStart?: string | null | undefined;
   /** Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period. */
-  chargeClass?: BillingUsageGetResultItemChargeClass | null;
+  chargeClass?: BillingUsageGetResultItemChargeClass | null | undefined;
   /** Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations. */
-  consumedQuantity?: number | null;
+  consumedQuantity?: number | null | undefined;
   /** Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity. */
-  contractedCost?: number | null;
+  contractedCost?: number | null | undefined;
   /** The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts. */
-  contractedUnitPrice?: number | null;
+  contractedUnitPrice?: number | null | undefined;
   /** The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge. */
-  effectiveCost?: number | null;
+  effectiveCost?: number | null | undefined;
   /** Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity. */
-  listCost?: number | null;
+  listCost?: number | null | undefined;
   /** Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts. */
-  listUnitPrice?: number | null;
+  listUnitPrice?: number | null | undefined;
   /** Volume of a given service used or purchased, based on the PricingUnit. */
-  pricingQuantity?: number | null;
+  pricingQuantity?: number | null | undefined;
   /** Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing. */
-  pricingUnit?: string | null;
+  pricingUnit?: string | null | undefined;
   /** Provider-assigned identifier for an isolated geographic area where a service is provided. */
-  regionId?: string | null;
+  regionId?: string | null | undefined;
   /** Name of an isolated geographic area where a service is provided. */
-  regionName?: string | null;
+  regionName?: string | null | undefined;
   /** Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID. */
-  subAccountId?: string | null;
+  subAccountId?: string | null | undefined;
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
-  subAccountName?: string | null;
+  subAccountName?: string | null | undefined;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: BillingUsageGetResultItemTagsMap | null;
+  tags?: BillingUsageGetResultItemTagsMap | null | undefined;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
-  xBillableMetricName?: string | null;
+  xBillableMetricName?: string | null | undefined;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
-  xProductCategoryName?: string | null;
+  xProductCategoryName?: string | null | undefined;
   /** The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId. */
-  xProductFamilyId?: string | null;
+  xProductFamilyId?: string | null | undefined;
   /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
-  xProductFamilyName?: string | null;
+  xProductFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
-  xZoneId?: string | null;
+  xZoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
-  xZoneName?: string | null;
+  xZoneName?: string | null | undefined;
 }
 export type BillingUsageGetResultList = Array<BillingUsageGetResultItem>;
 export type GetBillingUsageResponse = BillingUsageGetResultList;
@@ -313,10 +313,10 @@ export type GetResponseMetaHierarchyTagsList = Array<string>;
 export type GetResponseMetaTenantFlags = CreateResponseMetaTenantFlags;
 export interface GetResponseMeta {
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
-  hierarchyTags?: GetResponseMetaHierarchyTagsList | null;
-  managedBy?: string | null;
+  hierarchyTags?: GetResponseMetaHierarchyTagsList | null | undefined;
+  managedBy?: string | null | undefined;
   /** Enable features for Organizations. */
-  tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantFlags?: CreateResponseMetaTenantFlags | null | undefined;
 }
 export type GetResponseParent = CreateResponseParent;
 export type GetResponseProfile = CreateRequestProfile;
@@ -326,43 +326,43 @@ export interface GetOrganizationResponse {
   createTime: string;
   meta: GetResponseMeta;
   name: string;
-  parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  parent?: CreateResponseParent | null | undefined;
+  profile?: CreateRequestProfile | null | undefined;
 }
 export interface GetOrganizationAccountRequestAccountPubname {
   /** (case-insensitive) Filter the list of accounts to where the account_pubname contains a particular string. */
-  contains?: string;
+  contains?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the account_pubname ends with a particular string. */
-  endsWith?: string;
+  endsWith?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the account_pubname starts with a particular string. */
-  startsWith?: string;
+  startsWith?: string | undefined;
 }
 export type GetOrganizationAccountRequestDirection = "asc" | "desc";
 export interface GetOrganizationAccountRequestName {
   /** (case-insensitive) Filter the list of accounts to where the name contains a particular string. */
-  contains?: string;
+  contains?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the name ends with a particular string. */
-  endsWith?: string;
+  endsWith?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the name starts with a particular string. */
-  startsWith?: string;
+  startsWith?: string | undefined;
 }
 export type GetOrganizationAccountRequestOrderBy = "account_name";
 export interface GetOrganizationAccountRequest {
   organizationId: string;
-  accountPubname?: GetOrganizationAccountRequestAccountPubname;
+  accountPubname?: GetOrganizationAccountRequestAccountPubname | undefined;
   /** Sort direction for the order_by field. Valid values: `asc`, `desc`. Defaults to `asc` when order_by is specified. */
-  direction?: GetOrganizationAccountRequestDirection | (string & {});
+  direction?: GetOrganizationAccountRequestDirection | (string & {}) | undefined;
   /** Include Account tags from the resource tag mirror. Omit this parameter to preserve the existing Account response shape. */
-  includeTags?: boolean;
+  includeTags?: boolean | undefined;
   /** Whether to calculate and return the exact result_info.total_size for cursor pagination. Defaults to true. When false, total_size is omitted. page_size and include_total may change between pages; next_page_token remains the authoritative continuation signal. Legacy page/per_page requests always calculate total_count. */
-  includeTotal?: boolean;
-  name?: GetOrganizationAccountRequestName;
+  includeTotal?: boolean | undefined;
+  name?: GetOrganizationAccountRequestName | undefined;
   /** Field to order results by. Currently supported values: `account_name`. When not specified, results are ordered by internal account ID. */
-  orderBy?: GetOrganizationAccountRequestOrderBy | (string & {});
+  orderBy?: GetOrganizationAccountRequestOrderBy | (string & {}) | undefined;
   /** The amount of items to return. Defaults to 10. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** An opaque token returned from the last list response that when provided will retrieve the next page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GetOrganizationAccountResultItemSettings {
   abuseContactEmail: string;
@@ -383,7 +383,7 @@ export interface GetOrganizationAccountResultItem {
   settings: GetOrganizationAccountResultItemSettings;
   type: GetOrganizationAccountResultItemType;
   /** Account tags, present only when `include_tags=true` is requested. */
-  tags?: GetOrganizationAccountResultItemTagsMap | null;
+  tags?: GetOrganizationAccountResultItemTagsMap | null | undefined;
 }
 export type GetOrganizationAccountResultList = Array<GetOrganizationAccountResultItem>;
 export type GetOrganizationAccountResponse = GetOrganizationAccountResultList;
@@ -401,7 +401,7 @@ export interface GetOrganizationProfileResponse {
 export type LogsAuditListRequestIdNotList = Array<string>;
 export interface LogsAuditListRequestId {
   /** Filters out audit logs by their IDs. */
-  not?: LogsAuditListRequestIdNotList;
+  not?: LogsAuditListRequestIdNotList | undefined;
 }
 export type LogsAuditListRequestActionResultNotItem = "success" | "failure";
 export type LogsAuditListRequestActionResultNotList = Array<
@@ -409,7 +409,7 @@ export type LogsAuditListRequestActionResultNotList = Array<
 >;
 export interface LogsAuditListRequestActionResult {
   /** Filters out audit logs by whether the action was successful or not. */
-  not?: LogsAuditListRequestActionResultNotList;
+  not?: LogsAuditListRequestActionResultNotList | undefined;
 }
 export type LogsAuditListRequestActionTypeNotItem = "create" | "delete" | "view" | "update";
 export type LogsAuditListRequestActionTypeNotList = Array<
@@ -417,7 +417,7 @@ export type LogsAuditListRequestActionTypeNotList = Array<
 >;
 export interface LogsAuditListRequestActionType {
   /** Filters out audit logs by the action type. */
-  not?: LogsAuditListRequestActionTypeNotList;
+  not?: LogsAuditListRequestActionTypeNotList | undefined;
 }
 export type LogsAuditListRequestActorContextNotItem =
   | "api"
@@ -431,32 +431,32 @@ export type LogsAuditListRequestActorContextNotList = Array<
 >;
 export interface LogsAuditListRequestActorContext {
   /** Filters out audit logs by the actor context. */
-  not?: LogsAuditListRequestActorContextNotList;
+  not?: LogsAuditListRequestActorContextNotList | undefined;
 }
 export type LogsAuditListRequestActorEmailNotList = Array<string>;
 export interface LogsAuditListRequestActorEmail {
   /** Filters out audit logs by the actor's email address. */
-  not?: LogsAuditListRequestActorEmailNotList;
+  not?: LogsAuditListRequestActorEmailNotList | undefined;
 }
 export type LogsAuditListRequestActorIdNotList = Array<string>;
 export interface LogsAuditListRequestActorId {
   /** Filters out audit logs by the actor's user ID. */
-  not?: LogsAuditListRequestActorIdNotList;
+  not?: LogsAuditListRequestActorIdNotList | undefined;
 }
 export type LogsAuditListRequestActorIpAddressNotList = Array<string>;
 export interface LogsAuditListRequestActorIpAddress {
   /** Filters out audit logs IP address where the action was initiated. */
-  not?: LogsAuditListRequestActorIpAddressNotList;
+  not?: LogsAuditListRequestActorIpAddressNotList | undefined;
 }
 export type LogsAuditListRequestActorTokenIdNotList = Array<string>;
 export interface LogsAuditListRequestActorTokenId {
   /** Filters out audit logs by the API token ID when the actor context is an api_token or oauth. */
-  not?: LogsAuditListRequestActorTokenIdNotList;
+  not?: LogsAuditListRequestActorTokenIdNotList | undefined;
 }
 export type LogsAuditListRequestActorTokenNameNotList = Array<string>;
 export interface LogsAuditListRequestActorTokenName {
   /** Filters out audit logs by the API token name when the actor context is an api_token or oauth. */
-  not?: LogsAuditListRequestActorTokenNameNotList;
+  not?: LogsAuditListRequestActorTokenNameNotList | undefined;
 }
 export type LogsAuditListRequestActorTypeNotItem = "cloudflare_admin" | "system" | "user";
 export type LogsAuditListRequestActorTypeNotList = Array<
@@ -464,38 +464,38 @@ export type LogsAuditListRequestActorTypeNotList = Array<
 >;
 export interface LogsAuditListRequestActorType {
   /** Filters out audit logs by the actor type. */
-  not?: LogsAuditListRequestActorTypeNotList;
+  not?: LogsAuditListRequestActorTypeNotList | undefined;
 }
 export type LogsAuditListRequestDirection = "desc" | "asc";
 export type LogsAuditListRequestRawCfRayIdNotList = Array<string>;
 export interface LogsAuditListRequestRawCfRayId {
   /** Filters out audit logs by the response CF Ray ID. */
-  not?: LogsAuditListRequestRawCfRayIdNotList;
+  not?: LogsAuditListRequestRawCfRayIdNotList | undefined;
 }
 export type LogsAuditListRequestRawMethodNotList = Array<string>;
 export interface LogsAuditListRequestRawMethod {
   /** Filters out audit logs by the HTTP method for the API call. */
-  not?: LogsAuditListRequestRawMethodNotList;
+  not?: LogsAuditListRequestRawMethodNotList | undefined;
 }
 export type LogsAuditListRequestRawStatusCodeNotList = Array<number>;
 export interface LogsAuditListRequestRawStatusCode {
   /** Filters out audit logs by the response status code that was returned. */
-  not?: LogsAuditListRequestRawStatusCodeNotList;
+  not?: LogsAuditListRequestRawStatusCodeNotList | undefined;
 }
 export type LogsAuditListRequestRawUriNotList = Array<string>;
 export interface LogsAuditListRequestRawUri {
   /** Filters out audit logs by the request URI. */
-  not?: LogsAuditListRequestRawUriNotList;
+  not?: LogsAuditListRequestRawUriNotList | undefined;
 }
 export type LogsAuditListRequestResourceIdNotList = Array<string>;
 export interface LogsAuditListRequestResourceId {
   /** Filters out audit logs by the resource ID. */
-  not?: LogsAuditListRequestResourceIdNotList;
+  not?: LogsAuditListRequestResourceIdNotList | undefined;
 }
 export type LogsAuditListRequestResourceProductNotList = Array<string>;
 export interface LogsAuditListRequestResourceProduct {
   /** Filters out audit logs by the Cloudflare product associated with the changed resource. */
-  not?: LogsAuditListRequestResourceProductNotList;
+  not?: LogsAuditListRequestResourceProductNotList | undefined;
 }
 export type LogsAuditListRequestResourceScopeNotItem = "organizations";
 export type LogsAuditListRequestResourceScopeNotList = Array<
@@ -503,12 +503,12 @@ export type LogsAuditListRequestResourceScopeNotList = Array<
 >;
 export interface LogsAuditListRequestResourceScope {
   /** Filters out audit logs by the resource scope, specifying whether the resource is associated with an organization. */
-  not?: LogsAuditListRequestResourceScopeNotList;
+  not?: LogsAuditListRequestResourceScopeNotList | undefined;
 }
 export type LogsAuditListRequestResourceTypeNotList = Array<string>;
 export interface LogsAuditListRequestResourceType {
   /** Filters out audit logs based on the unique type of resource changed by the action. */
-  not?: LogsAuditListRequestResourceTypeNotList;
+  not?: LogsAuditListRequestResourceTypeNotList | undefined;
 }
 export interface ListLogAuditsRequest {
   /** The unique id that identifies the organization. */
@@ -517,40 +517,40 @@ export interface ListLogAuditsRequest {
   before: string;
   /** Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339. */
   since: string;
-  id?: LogsAuditListRequestId;
-  actionResult?: LogsAuditListRequestActionResult;
-  actionType?: LogsAuditListRequestActionType;
-  actorContext?: LogsAuditListRequestActorContext;
-  actorEmail?: LogsAuditListRequestActorEmail;
-  actorId?: LogsAuditListRequestActorId;
-  actorIpAddress?: LogsAuditListRequestActorIpAddress;
-  actorTokenId?: LogsAuditListRequestActorTokenId;
-  actorTokenName?: LogsAuditListRequestActorTokenName;
-  actorType?: LogsAuditListRequestActorType;
+  id?: LogsAuditListRequestId | undefined;
+  actionResult?: LogsAuditListRequestActionResult | undefined;
+  actionType?: LogsAuditListRequestActionType | undefined;
+  actorContext?: LogsAuditListRequestActorContext | undefined;
+  actorEmail?: LogsAuditListRequestActorEmail | undefined;
+  actorId?: LogsAuditListRequestActorId | undefined;
+  actorIpAddress?: LogsAuditListRequestActorIpAddress | undefined;
+  actorTokenId?: LogsAuditListRequestActorTokenId | undefined;
+  actorTokenName?: LogsAuditListRequestActorTokenName | undefined;
+  actorType?: LogsAuditListRequestActorType | undefined;
   /** The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sets sorting order. */
-  direction?: LogsAuditListRequestDirection | (string & {});
+  direction?: LogsAuditListRequestDirection | (string & {}) | undefined;
   /** The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit. */
-  limit?: number;
-  rawCfRayId?: LogsAuditListRequestRawCfRayId;
-  rawMethod?: LogsAuditListRequestRawMethod;
-  rawStatusCode?: LogsAuditListRequestRawStatusCode;
-  rawUri?: LogsAuditListRequestRawUri;
-  resourceId?: LogsAuditListRequestResourceId;
-  resourceProduct?: LogsAuditListRequestResourceProduct;
-  resourceScope?: LogsAuditListRequestResourceScope;
-  resourceType?: LogsAuditListRequestResourceType;
+  limit?: number | undefined;
+  rawCfRayId?: LogsAuditListRequestRawCfRayId | undefined;
+  rawMethod?: LogsAuditListRequestRawMethod | undefined;
+  rawStatusCode?: LogsAuditListRequestRawStatusCode | undefined;
+  rawUri?: LogsAuditListRequestRawUri | undefined;
+  resourceId?: LogsAuditListRequestResourceId | undefined;
+  resourceProduct?: LogsAuditListRequestResourceProduct | undefined;
+  resourceScope?: LogsAuditListRequestResourceScope | undefined;
+  resourceType?: LogsAuditListRequestResourceType | undefined;
 }
 export interface LogsAuditListResultItemAction {
   /** A short description of the action performed. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The result of the action, indicating success or failure. */
-  result?: string | null;
+  result?: string | null | undefined;
   /** A timestamp indicating when the action was logged. */
-  time?: string | null;
+  time?: string | null | undefined;
   /** A short string that describes the action that was performed. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type LogsAuditListResultItemActorContext =
   | "api"
@@ -562,61 +562,61 @@ export type LogsAuditListResultItemActorContext =
 export type LogsAuditListResultItemActorType = "cloudflare_admin" | "system" | "user";
 export interface LogsAuditListResultItemActor {
   /** The ID of the actor who performed the action. If a user performed the action, this will be their User ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The context in which the action was initiated. */
-  context?: LogsAuditListResultItemActorContext | null;
+  context?: LogsAuditListResultItemActorContext | null | undefined;
   /** The email of the actor who performed the action. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The IP address of the request that performed the action. */
-  ipAddress?: string | null;
+  ipAddress?: string | null | undefined;
   /** The API token ID when the actor context is an api_token or oauth. */
-  tokenId?: string | null;
+  tokenId?: string | null | undefined;
   /** The API token name when the actor context is an api_token or oauth. */
-  tokenName?: string | null;
+  tokenName?: string | null | undefined;
   /** The type of actor. */
-  type?: LogsAuditListResultItemActorType | null;
+  type?: LogsAuditListResultItemActorType | null | undefined;
 }
 export interface LogsAuditListResultItemOrganization {
   /** A unique identifier for the organization. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface LogsAuditListResultItemRaw {
   /** The Cloudflare Ray ID for the request. */
-  cfRayId?: string | null;
+  cfRayId?: string | null | undefined;
   /** The HTTP method of the request. */
-  method?: string | null;
+  method?: string | null | undefined;
   /** The HTTP response status code returned by the API. */
-  statusCode?: number | null;
+  statusCode?: number | null | undefined;
   /** The URI of the request. */
-  uri?: string | null;
+  uri?: string | null | undefined;
   /** The client's user agent string sent with the request. */
-  userAgent?: string | null;
+  userAgent?: string | null | undefined;
 }
 export interface LogsAuditListResultItemResource {
   /** The unique identifier for the affected resource. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Cloudflare product associated with the resource. */
-  product?: string | null;
-  request?: unknown | null;
-  response?: unknown | null;
+  product?: string | null | undefined;
+  request?: unknown | null | undefined;
+  response?: unknown | null | undefined;
   /** The scope of the resource. */
-  scope?: unknown | null;
+  scope?: unknown | null | undefined;
   /** The type of the resource. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface LogsAuditListResultItem {
   /** A unique identifier for the audit log entry. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Provides information about the action performed. */
-  action?: LogsAuditListResultItemAction | null;
+  action?: LogsAuditListResultItemAction | null | undefined;
   /** Provides details about the actor who performed the action. */
-  actor?: LogsAuditListResultItemActor | null;
+  actor?: LogsAuditListResultItemActor | null | undefined;
   /** Contains organization related information. */
-  organization?: LogsAuditListResultItemOrganization | null;
+  organization?: LogsAuditListResultItemOrganization | null | undefined;
   /** Provides raw information about the request and response. */
-  raw?: LogsAuditListResultItemRaw | null;
+  raw?: LogsAuditListResultItemRaw | null | undefined;
   /** Provides details about the affected resource. */
-  resource?: LogsAuditListResultItemResource | null;
+  resource?: LogsAuditListResultItemResource | null | undefined;
 }
 export type LogsAuditListResultList = Array<LogsAuditListResultItem>;
 export interface ListLogAuditsResponse {
@@ -629,17 +629,17 @@ export type ListMembersRequestStatus = "active" | "pending" | "rejected" | "canc
 export type ListMembersRequestStatusList = Array<ListMembersRequestStatus | (string & {})>;
 export interface ListMembersRequestUser {
   /** Filter the list of memberships for a specific email that ends with a substring. */
-  email?: string;
+  email?: string | undefined;
 }
 export interface ListMembersRequest {
   organizationId: string;
   /** The amount of items to return. Defaults to 10. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** An opaque token returned from the last list response that when provided will retrieve the next page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter the list of memberships by membership status. */
-  status?: ListMembersRequestStatusList;
-  user?: ListMembersRequestUser;
+  status?: ListMembersRequestStatusList | undefined;
+  user?: ListMembersRequestUser | undefined;
 }
 export type ListMembersResultItemMetaMap = { [key: string]: unknown | undefined };
 export type ListMembersResultItemStatus = "active" | "pending" | "rejected" | "canceled";
@@ -658,43 +658,43 @@ export type ListMembersResponse = ListMembersResultList;
 export type ListRequestIdList = Array<string>;
 export interface ListRequestContaining {
   /** Filter the list of organizations to the ones that contain this particular account. */
-  account?: string;
+  account?: string | undefined;
   /** Filter the list of organizations to the ones that contain this particular organization. */
-  organization?: string;
+  organization?: string | undefined;
   /** Filter the list of organizations to the ones that contain this particular user. */
-  user?: string;
+  user?: string | undefined;
 }
 export interface ListRequestName {
   /** (case-insensitive) Filter the list of organizations to where the name contains a particular string. */
-  contains?: string;
+  contains?: string | undefined;
   /** (case-insensitive) Filter the list of organizations to where the name ends with a particular string. */
-  endsWith?: string;
+  endsWith?: string | undefined;
   /** (case-insensitive) Filter the list of organizations to where the name starts with a particular string. */
-  startsWith?: string;
+  startsWith?: string | undefined;
 }
 export interface ListRequestParent {
   /** Filter the list of organizations to the ones that are a sub-organization of the specified organization. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface ListOrganizationsRequest {
   /** Only return organizations with the specified IDs (ex. id=foo&id=bar). Send multiple elements by repeating the query value. */
-  id?: ListRequestIdList;
-  containing?: ListRequestContaining;
-  name?: ListRequestName;
+  id?: ListRequestIdList | undefined;
+  containing?: ListRequestContaining | undefined;
+  name?: ListRequestName | undefined;
   /** The amount of items to return. Defaults to 10. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** An opaque token returned from the last list response that when provided will retrieve the next page. */
-  pageToken?: string;
-  parent?: ListRequestParent;
+  pageToken?: string | undefined;
+  parent?: ListRequestParent | undefined;
 }
 export type ListResultItemMetaHierarchyTagsList = Array<string>;
 export type ListResultItemMetaTenantFlags = CreateResponseMetaTenantFlags;
 export interface ListResultItemMeta {
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
-  hierarchyTags?: ListResultItemMetaHierarchyTagsList | null;
-  managedBy?: string | null;
+  hierarchyTags?: ListResultItemMetaHierarchyTagsList | null | undefined;
+  managedBy?: string | null | undefined;
   /** Enable features for Organizations. */
-  tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantFlags?: CreateResponseMetaTenantFlags | null | undefined;
 }
 export type ListResultItemParent = CreateResponseParent;
 export type ListResultItemProfile = CreateRequestProfile;
@@ -703,8 +703,8 @@ export interface ListResultItem {
   createTime: string;
   meta: ListResultItemMeta;
   name: string;
-  parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  parent?: CreateResponseParent | null | undefined;
+  profile?: CreateRequestProfile | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListOrganizationsResponse {
@@ -726,11 +726,11 @@ export interface LogsAuditHistoryRequest {
   /** Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339. */
   since: string;
   /** The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sets sorting order. */
-  direction?: LogsAuditHistoryRequestDirection | (string & {});
+  direction?: LogsAuditHistoryRequestDirection | (string & {}) | undefined;
   /** The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type LogsAuditHistoryResultItemAction = LogsAuditListResultItemAction;
 export type LogsAuditHistoryResultItemActorContext =
@@ -743,36 +743,36 @@ export type LogsAuditHistoryResultItemActorContext =
 export type LogsAuditHistoryResultItemActorType = "cloudflare_admin" | "system" | "user";
 export interface LogsAuditHistoryResultItemActor {
   /** The ID of the actor who performed the action. If a user performed the action, this will be their User ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The context in which the action was initiated. */
-  context?: LogsAuditHistoryResultItemActorContext | null;
+  context?: LogsAuditHistoryResultItemActorContext | null | undefined;
   /** The email of the actor who performed the action. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The IP address of the request that performed the action. */
-  ipAddress?: string | null;
+  ipAddress?: string | null | undefined;
   /** The API token ID when the actor context is an api_token or oauth. */
-  tokenId?: string | null;
+  tokenId?: string | null | undefined;
   /** The API token name when the actor context is an api_token or oauth. */
-  tokenName?: string | null;
+  tokenName?: string | null | undefined;
   /** The type of actor. */
-  type?: LogsAuditHistoryResultItemActorType | null;
+  type?: LogsAuditHistoryResultItemActorType | null | undefined;
 }
 export type LogsAuditHistoryResultItemOrganization = LogsAuditListResultItemOrganization;
 export type LogsAuditHistoryResultItemRaw = LogsAuditListResultItemRaw;
 export type LogsAuditHistoryResultItemResource = LogsAuditListResultItemResource;
 export interface LogsAuditHistoryResultItem {
   /** A unique identifier for the audit log entry. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Provides information about the action performed. */
-  action?: LogsAuditListResultItemAction | null;
+  action?: LogsAuditListResultItemAction | null | undefined;
   /** Provides details about the actor who performed the action. */
-  actor?: LogsAuditHistoryResultItemActor | null;
+  actor?: LogsAuditHistoryResultItemActor | null | undefined;
   /** Contains organization related information. */
-  organization?: LogsAuditListResultItemOrganization | null;
+  organization?: LogsAuditListResultItemOrganization | null | undefined;
   /** Provides raw information about the request and response. */
-  raw?: LogsAuditListResultItemRaw | null;
+  raw?: LogsAuditListResultItemRaw | null | undefined;
   /** Provides details about the affected resource. */
-  resource?: LogsAuditListResultItemResource | null;
+  resource?: LogsAuditListResultItemResource | null | undefined;
 }
 export type LogsAuditHistoryResultList = Array<LogsAuditHistoryResultItem>;
 export type LogsAuditHistoryResponse = LogsAuditHistoryResultList;
@@ -790,17 +790,17 @@ export type UpdateRequestProfile = CreateRequestProfile;
 export interface UpdateOrganizationRequest {
   organizationId: string;
   name: string;
-  parent?: CreateRequestParent;
-  profile?: CreateRequestProfile;
+  parent?: CreateRequestParent | undefined;
+  profile?: CreateRequestProfile | undefined;
 }
 export type UpdateResponseMetaHierarchyTagsList = Array<string>;
 export type UpdateResponseMetaTenantFlags = CreateResponseMetaTenantFlags;
 export interface UpdateResponseMeta {
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
-  hierarchyTags?: UpdateResponseMetaHierarchyTagsList | null;
-  managedBy?: string | null;
+  hierarchyTags?: UpdateResponseMetaHierarchyTagsList | null | undefined;
+  managedBy?: string | null | undefined;
   /** Enable features for Organizations. */
-  tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantFlags?: CreateResponseMetaTenantFlags | null | undefined;
 }
 export type UpdateResponseParent = CreateResponseParent;
 export type UpdateResponseProfile = CreateRequestProfile;
@@ -810,8 +810,8 @@ export interface UpdateOrganizationResponse {
   createTime: string;
   meta: UpdateResponseMeta;
   name: string;
-  parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  parent?: CreateResponseParent | null | undefined;
+  profile?: CreateRequestProfile | null | undefined;
 }
 export type CreateMemberError = CloudflareOpError;
 /** Create a membership that grants access to a specific Organization. */

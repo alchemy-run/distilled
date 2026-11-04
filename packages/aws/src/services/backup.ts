@@ -188,13 +188,13 @@ export type RequesterComment = string | redacted.Redacted<string>;
 export interface AssociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
   MpaApprovalTeamArn: string;
-  RequesterComment?: string | redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface AssociateBackupVaultMpaApprovalTeamResponse {}
 export interface CancelLegalHoldInput {
   LegalHoldId: string;
   CancelDescription: string;
-  RetainRecordInDays?: number;
+  RetainRecordInDays?: number | undefined;
 }
 export interface CancelLegalHoldOutput {}
 export type AccessPointMetadataMapKeyString = string;
@@ -207,11 +207,11 @@ export type TagMapKeyString = string;
 export type TagMapValueString = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateBackupAccessPointRequest {
-  AccessPointMetadata?: { [key: string]: string | undefined };
-  AccessPointPolicy?: string;
+  AccessPointMetadata?: { [key: string]: string | undefined } | undefined;
+  AccessPointPolicy?: string | undefined;
   Name: string;
   RecoveryPointArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AccessPointArn = string;
 export type AccessPointStatus =
@@ -233,16 +233,16 @@ export type CronExpression = string;
 export type WindowMinutes = number;
 export type LifecycleDeleteAfterEvent = "DELETE_AFTER_COPY" | (string & {});
 export interface Lifecycle {
-  MoveToColdStorageAfterDays?: number;
-  DeleteAfterDays?: number;
-  OptInToArchiveForSupportedResources?: boolean;
-  DeleteAfterEvent?: LifecycleDeleteAfterEvent;
+  MoveToColdStorageAfterDays?: number | undefined;
+  DeleteAfterDays?: number | undefined;
+  OptInToArchiveForSupportedResources?: boolean | undefined;
+  DeleteAfterEvent?: LifecycleDeleteAfterEvent | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CopyAction {
-  Lifecycle?: Lifecycle;
+  Lifecycle?: Lifecycle | undefined;
   DestinationBackupVaultArn: string;
 }
 export type CopyActions = CopyAction[];
@@ -250,64 +250,64 @@ export type Timezone = string;
 export type ResourceType = string;
 export type ResourceTypes = string[];
 export interface IndexAction {
-  ResourceTypes?: string[];
+  ResourceTypes?: string[] | undefined;
 }
 export type IndexActions = IndexAction[];
 export type MalwareScanner = "GUARDDUTY" | (string & {});
 export type ScanMode = "FULL_SCAN" | "INCREMENTAL_SCAN" | (string & {});
 export interface ScanAction {
-  MalwareScanner?: MalwareScanner;
-  ScanMode?: ScanMode;
+  MalwareScanner?: MalwareScanner | undefined;
+  ScanMode?: ScanMode | undefined;
 }
 export type ScanActions = ScanAction[];
 export interface BackupRuleInput {
   RuleName: string;
   TargetBackupVaultName: string;
-  TargetLogicallyAirGappedBackupVaultArn?: string;
-  ScheduleExpression?: string;
-  StartWindowMinutes?: number;
-  CompletionWindowMinutes?: number;
-  Lifecycle?: Lifecycle;
-  RecoveryPointTags?: { [key: string]: string | undefined };
-  CopyActions?: CopyAction[];
-  EnableContinuousBackup?: boolean;
-  ScheduleExpressionTimezone?: string;
-  IndexActions?: IndexAction[];
-  ScanActions?: ScanAction[];
+  TargetLogicallyAirGappedBackupVaultArn?: string | undefined;
+  ScheduleExpression?: string | undefined;
+  StartWindowMinutes?: number | undefined;
+  CompletionWindowMinutes?: number | undefined;
+  Lifecycle?: Lifecycle | undefined;
+  RecoveryPointTags?: { [key: string]: string | undefined } | undefined;
+  CopyActions?: CopyAction[] | undefined;
+  EnableContinuousBackup?: boolean | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  IndexActions?: IndexAction[] | undefined;
+  ScanActions?: ScanAction[] | undefined;
 }
 export type BackupRulesInput = BackupRuleInput[];
 export type BackupOptionKey = string;
 export type BackupOptionValue = string;
 export type BackupOptions = { [key: string]: string | undefined };
 export interface AdvancedBackupSetting {
-  ResourceType?: string;
-  BackupOptions?: { [key: string]: string | undefined };
+  ResourceType?: string | undefined;
+  BackupOptions?: { [key: string]: string | undefined } | undefined;
 }
 export type AdvancedBackupSettings = AdvancedBackupSetting[];
 export type IAMRoleArn = string;
 export interface ScanSetting {
-  MalwareScanner?: MalwareScanner;
-  ResourceTypes?: string[];
-  ScannerRoleArn?: string;
+  MalwareScanner?: MalwareScanner | undefined;
+  ResourceTypes?: string[] | undefined;
+  ScannerRoleArn?: string | undefined;
 }
 export type ScanSettings = ScanSetting[];
 export interface BackupPlanInput {
   BackupPlanName: string;
   Rules: BackupRuleInput[];
-  AdvancedBackupSettings?: AdvancedBackupSetting[];
-  ScanSettings?: ScanSetting[];
+  AdvancedBackupSettings?: AdvancedBackupSetting[] | undefined;
+  ScanSettings?: ScanSetting[] | undefined;
 }
 export interface CreateBackupPlanInput {
   BackupPlan: BackupPlanInput;
-  BackupPlanTags?: { [key: string]: string | undefined };
-  CreatorRequestId?: string;
+  BackupPlanTags?: { [key: string]: string | undefined } | undefined;
+  CreatorRequestId?: string | undefined;
 }
 export interface CreateBackupPlanOutput {
-  BackupPlanId?: string;
-  BackupPlanArn?: string;
-  CreationDate?: Date;
-  VersionId?: string;
-  AdvancedBackupSettings?: AdvancedBackupSetting[];
+  BackupPlanId?: string | undefined;
+  BackupPlanArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  VersionId?: string | undefined;
+  AdvancedBackupSettings?: AdvancedBackupSetting[] | undefined;
 }
 export type BackupSelectionName = string;
 export type ResourceArns = string[];
@@ -321,44 +321,44 @@ export interface Condition {
 }
 export type ListOfTags = Condition[];
 export interface ConditionParameter {
-  ConditionKey?: string;
-  ConditionValue?: string;
+  ConditionKey?: string | undefined;
+  ConditionValue?: string | undefined;
 }
 export type ConditionParameters = ConditionParameter[];
 export interface Conditions {
-  StringEquals?: ConditionParameter[];
-  StringNotEquals?: ConditionParameter[];
-  StringLike?: ConditionParameter[];
-  StringNotLike?: ConditionParameter[];
+  StringEquals?: ConditionParameter[] | undefined;
+  StringNotEquals?: ConditionParameter[] | undefined;
+  StringLike?: ConditionParameter[] | undefined;
+  StringNotLike?: ConditionParameter[] | undefined;
 }
 export interface BackupSelection {
   SelectionName: string;
   IamRoleArn: string;
-  Resources?: string[];
-  ListOfTags?: Condition[];
-  NotResources?: string[];
-  Conditions?: Conditions;
+  Resources?: string[] | undefined;
+  ListOfTags?: Condition[] | undefined;
+  NotResources?: string[] | undefined;
+  Conditions?: Conditions | undefined;
 }
 export interface CreateBackupSelectionInput {
   BackupPlanId: string;
   BackupSelection: BackupSelection;
-  CreatorRequestId?: string;
+  CreatorRequestId?: string | undefined;
 }
 export interface CreateBackupSelectionOutput {
-  SelectionId?: string;
-  BackupPlanId?: string;
-  CreationDate?: Date;
+  SelectionId?: string | undefined;
+  BackupPlanId?: string | undefined;
+  CreationDate?: Date | undefined;
 }
 export interface CreateBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultTags?: { [key: string]: string | undefined };
-  EncryptionKeyArn?: string;
-  CreatorRequestId?: string;
+  BackupVaultTags?: { [key: string]: string | undefined } | undefined;
+  EncryptionKeyArn?: string | undefined;
+  CreatorRequestId?: string | undefined;
 }
 export interface CreateBackupVaultOutput {
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  CreationDate?: Date;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  CreationDate?: Date | undefined;
 }
 export type FrameworkName = string;
 export type FrameworkDescription = string;
@@ -366,34 +366,34 @@ export type ControlName = string;
 export type ParameterName = string;
 export type ParameterValue = string;
 export interface ControlInputParameter {
-  ParameterName?: string;
-  ParameterValue?: string;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
 }
 export type ControlInputParameters = ControlInputParameter[];
 export type ComplianceResourceIdList = string[];
 export type ResourceTypeList = string[];
 export type StringMap = { [key: string]: string | undefined };
 export interface ControlScope {
-  ComplianceResourceIds?: string[];
-  ComplianceResourceTypes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  ComplianceResourceIds?: string[] | undefined;
+  ComplianceResourceTypes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface FrameworkControl {
   ControlName: string;
-  ControlInputParameters?: ControlInputParameter[];
-  ControlScope?: ControlScope;
+  ControlInputParameters?: ControlInputParameter[] | undefined;
+  ControlScope?: ControlScope | undefined;
 }
 export type FrameworkControls = FrameworkControl[];
 export interface CreateFrameworkInput {
   FrameworkName: string;
-  FrameworkDescription?: string;
+  FrameworkDescription?: string | undefined;
   FrameworkControls: FrameworkControl[];
-  IdempotencyToken?: string;
-  FrameworkTags?: { [key: string]: string | undefined };
+  IdempotencyToken?: string | undefined;
+  FrameworkTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFrameworkOutput {
-  FrameworkName?: string;
-  FrameworkArn?: string;
+  FrameworkName?: string | undefined;
+  FrameworkArn?: string | undefined;
 }
 export type VaultNames = string[];
 export type ResourceIdentifiers = string[];
@@ -402,84 +402,84 @@ export interface DateRange {
   ToDate: Date;
 }
 export interface RecoveryPointSelection {
-  VaultNames?: string[];
-  ResourceIdentifiers?: string[];
-  DateRange?: DateRange;
+  VaultNames?: string[] | undefined;
+  ResourceIdentifiers?: string[] | undefined;
+  DateRange?: DateRange | undefined;
 }
 export interface CreateLegalHoldInput {
   Title: string;
   Description: string;
-  IdempotencyToken?: string;
-  RecoveryPointSelection?: RecoveryPointSelection;
-  Tags?: { [key: string]: string | undefined };
+  IdempotencyToken?: string | undefined;
+  RecoveryPointSelection?: RecoveryPointSelection | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LegalHoldStatus = "CREATING" | "ACTIVE" | "CANCELING" | "CANCELED" | (string & {});
 export interface CreateLegalHoldOutput {
-  Title?: string;
-  Status?: LegalHoldStatus;
-  Description?: string;
-  LegalHoldId?: string;
-  LegalHoldArn?: string;
-  CreationDate?: Date;
-  RecoveryPointSelection?: RecoveryPointSelection;
+  Title?: string | undefined;
+  Status?: LegalHoldStatus | undefined;
+  Description?: string | undefined;
+  LegalHoldId?: string | undefined;
+  LegalHoldArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  RecoveryPointSelection?: RecoveryPointSelection | undefined;
 }
 export interface CreateLogicallyAirGappedBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultTags?: { [key: string]: string | undefined };
-  CreatorRequestId?: string;
+  BackupVaultTags?: { [key: string]: string | undefined } | undefined;
+  CreatorRequestId?: string | undefined;
   MinRetentionDays: number;
   MaxRetentionDays: number;
-  EncryptionKeyArn?: string;
+  EncryptionKeyArn?: string | undefined;
 }
 export type VaultState = "CREATING" | "AVAILABLE" | "FAILED" | (string & {});
 export interface CreateLogicallyAirGappedBackupVaultOutput {
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  CreationDate?: Date;
-  VaultState?: VaultState;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  VaultState?: VaultState | undefined;
 }
 export type ReportPlanName = string;
 export type ReportPlanDescription = string;
 export type FormatList = string[];
 export interface ReportDeliveryChannel {
   S3BucketName: string;
-  S3KeyPrefix?: string;
-  Formats?: string[];
+  S3KeyPrefix?: string | undefined;
+  Formats?: string[] | undefined;
 }
 export type StringList = string[];
 export interface ReportSetting {
   ReportTemplate: string;
-  FrameworkArns?: string[];
-  NumberOfFrameworks?: number;
-  Accounts?: string[];
-  OrganizationUnits?: string[];
-  Regions?: string[];
+  FrameworkArns?: string[] | undefined;
+  NumberOfFrameworks?: number | undefined;
+  Accounts?: string[] | undefined;
+  OrganizationUnits?: string[] | undefined;
+  Regions?: string[] | undefined;
 }
 export interface CreateReportPlanInput {
   ReportPlanName: string;
-  ReportPlanDescription?: string;
+  ReportPlanDescription?: string | undefined;
   ReportDeliveryChannel: ReportDeliveryChannel;
   ReportSetting: ReportSetting;
-  ReportPlanTags?: { [key: string]: string | undefined };
-  IdempotencyToken?: string;
+  ReportPlanTags?: { [key: string]: string | undefined } | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface CreateReportPlanOutput {
-  ReportPlanName?: string;
-  ReportPlanArn?: string;
-  CreationTime?: Date;
+  ReportPlanName?: string | undefined;
+  ReportPlanArn?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface CreateRestoreAccessBackupVaultInput {
   SourceBackupVaultArn: string;
-  BackupVaultName?: string;
-  BackupVaultTags?: { [key: string]: string | undefined };
-  CreatorRequestId?: string;
-  RequesterComment?: string | redacted.Redacted<string>;
+  BackupVaultName?: string | undefined;
+  BackupVaultTags?: { [key: string]: string | undefined } | undefined;
+  CreatorRequestId?: string | undefined;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateRestoreAccessBackupVaultOutput {
-  RestoreAccessBackupVaultArn?: string;
-  VaultState?: VaultState;
-  RestoreAccessBackupVaultName?: string;
-  CreationDate?: Date;
+  RestoreAccessBackupVaultArn?: string | undefined;
+  VaultState?: VaultState | undefined;
+  RestoreAccessBackupVaultName?: string | undefined;
+  CreationDate?: Date | undefined;
 }
 export type RestoreTestingRecoveryPointSelectionAlgorithm =
   | "LATEST_WITHIN_WINDOW"
@@ -488,24 +488,24 @@ export type RestoreTestingRecoveryPointSelectionAlgorithm =
 export type RestoreTestingRecoveryPointType = "CONTINUOUS" | "SNAPSHOT" | (string & {});
 export type RestoreTestingRecoveryPointTypeList = RestoreTestingRecoveryPointType[];
 export interface RestoreTestingRecoveryPointSelection {
-  Algorithm?: RestoreTestingRecoveryPointSelectionAlgorithm;
-  ExcludeVaults?: string[];
-  IncludeVaults?: string[];
-  RecoveryPointTypes?: RestoreTestingRecoveryPointType[];
-  SelectionWindowDays?: number;
+  Algorithm?: RestoreTestingRecoveryPointSelectionAlgorithm | undefined;
+  ExcludeVaults?: string[] | undefined;
+  IncludeVaults?: string[] | undefined;
+  RecoveryPointTypes?: RestoreTestingRecoveryPointType[] | undefined;
+  SelectionWindowDays?: number | undefined;
 }
 export interface RestoreTestingPlanForCreate {
   RecoveryPointSelection: RestoreTestingRecoveryPointSelection;
   RestoreTestingPlanName: string;
   ScheduleExpression: string;
-  ScheduleExpressionTimezone?: string;
-  StartWindowHours?: number;
+  ScheduleExpressionTimezone?: string | undefined;
+  StartWindowHours?: number | undefined;
 }
 export type SensitiveStringMap = { [key: string]: string | undefined };
 export interface CreateRestoreTestingPlanInput {
-  CreatorRequestId?: string;
+  CreatorRequestId?: string | undefined;
   RestoreTestingPlan: RestoreTestingPlanForCreate;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRestoreTestingPlanOutput {
   CreationTime: Date;
@@ -518,20 +518,20 @@ export interface KeyValue {
 }
 export type KeyValueList = KeyValue[];
 export interface ProtectedResourceConditions {
-  StringEquals?: KeyValue[];
-  StringNotEquals?: KeyValue[];
+  StringEquals?: KeyValue[] | undefined;
+  StringNotEquals?: KeyValue[] | undefined;
 }
 export interface RestoreTestingSelectionForCreate {
   IamRoleArn: string;
-  ProtectedResourceArns?: string[];
-  ProtectedResourceConditions?: ProtectedResourceConditions;
+  ProtectedResourceArns?: string[] | undefined;
+  ProtectedResourceConditions?: ProtectedResourceConditions | undefined;
   ProtectedResourceType: string;
-  RestoreMetadataOverrides?: { [key: string]: string | undefined };
+  RestoreMetadataOverrides?: { [key: string]: string | undefined } | undefined;
   RestoreTestingSelectionName: string;
-  ValidationWindowHours?: number;
+  ValidationWindowHours?: number | undefined;
 }
 export interface CreateRestoreTestingSelectionInput {
-  CreatorRequestId?: string;
+  CreatorRequestId?: string | undefined;
   RestoreTestingPlanName: string;
   RestoreTestingSelection: RestoreTestingSelectionForCreate;
 }
@@ -558,13 +558,13 @@ export interface TieringConfigurationInputForCreate {
 export type CreatorRequestId = string;
 export interface CreateTieringConfigurationInput {
   TieringConfiguration: TieringConfigurationInputForCreate;
-  TieringConfigurationTags?: { [key: string]: string | undefined };
-  CreatorRequestId?: string;
+  TieringConfigurationTags?: { [key: string]: string | undefined } | undefined;
+  CreatorRequestId?: string | undefined;
 }
 export interface CreateTieringConfigurationOutput {
-  TieringConfigurationArn?: string;
-  TieringConfigurationName?: string;
-  CreationTime?: Date;
+  TieringConfigurationArn?: string | undefined;
+  TieringConfigurationName?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DeleteBackupAccessPointInput {
   AccessPointArn: string;
@@ -574,10 +574,10 @@ export interface DeleteBackupPlanInput {
   BackupPlanId: string;
 }
 export interface DeleteBackupPlanOutput {
-  BackupPlanId?: string;
-  BackupPlanArn?: string;
-  DeletionDate?: Date;
-  VersionId?: string;
+  BackupPlanId?: string | undefined;
+  BackupPlanArn?: string | undefined;
+  DeletionDate?: Date | undefined;
+  VersionId?: string | undefined;
 }
 export interface DeleteBackupSelectionInput {
   BackupPlanId: string;
@@ -633,8 +633,8 @@ export type BackupVaultArn = string;
 export type ResourceArn = string;
 export interface DescribeBackupAccessPointResponse {
   AccessPointArn: string;
-  AccessPointMetadata?: { [key: string]: string | undefined };
-  BackupVaultArn?: string;
+  AccessPointMetadata?: { [key: string]: string | undefined } | undefined;
+  BackupVaultArn?: string | undefined;
   BackupVaultName: string;
   CreationTime: Date;
   Name: string;
@@ -642,7 +642,7 @@ export interface DescribeBackupAccessPointResponse {
   ResourceArn: string;
   ResourceType: string;
   Status: AccessPointStatus;
-  StatusMessage?: string;
+  StatusMessage?: string | undefined;
 }
 export interface DescribeBackupJobInput {
   BackupJobId: string;
@@ -660,53 +660,53 @@ export type BackupJobState =
   | "PARTIAL"
   | (string & {});
 export interface RecoveryPointCreator {
-  BackupPlanId?: string;
-  BackupPlanArn?: string;
-  BackupPlanName?: string;
-  BackupPlanVersion?: string;
-  BackupRuleId?: string;
-  BackupRuleName?: string;
-  BackupRuleCron?: string;
-  BackupRuleTimezone?: string;
+  BackupPlanId?: string | undefined;
+  BackupPlanArn?: string | undefined;
+  BackupPlanName?: string | undefined;
+  BackupPlanVersion?: string | undefined;
+  BackupRuleId?: string | undefined;
+  BackupRuleName?: string | undefined;
+  BackupRuleCron?: string | undefined;
+  BackupRuleTimezone?: string | undefined;
 }
-export type BackupJobChildJobsInState = { [key in BackupJobState]?: number };
+export type BackupJobChildJobsInState = { [key in BackupJobState]?: number | undefined };
 export interface DescribeBackupJobOutput {
-  AccountId?: string;
-  BackupJobId?: string;
-  BackupVaultName?: string;
-  RecoveryPointLifecycle?: Lifecycle;
-  BackupVaultArn?: string;
-  VaultType?: string;
-  VaultLockState?: string;
-  RecoveryPointArn?: string;
-  EncryptionKeyArn?: string;
-  IsEncrypted?: boolean;
-  ResourceArn?: string;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  State?: BackupJobState;
-  StatusMessage?: string;
-  PercentDone?: string;
-  BackupSizeInBytes?: number;
-  IamRoleArn?: string;
-  CreatedBy?: RecoveryPointCreator;
-  ResourceType?: string;
-  BytesTransferred?: number;
-  ExpectedCompletionDate?: Date;
-  StartBy?: Date;
-  BackupOptions?: { [key: string]: string | undefined };
-  BackupType?: string;
-  ParentJobId?: string;
-  IsParent?: boolean;
-  NumberOfChildJobs?: number;
-  ChildJobsInState?: { [key: string]: number | undefined };
-  ResourceName?: string;
-  InitiationDate?: Date;
-  MessageCategory?: string;
+  AccountId?: string | undefined;
+  BackupJobId?: string | undefined;
+  BackupVaultName?: string | undefined;
+  RecoveryPointLifecycle?: Lifecycle | undefined;
+  BackupVaultArn?: string | undefined;
+  VaultType?: string | undefined;
+  VaultLockState?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  IsEncrypted?: boolean | undefined;
+  ResourceArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  State?: BackupJobState | undefined;
+  StatusMessage?: string | undefined;
+  PercentDone?: string | undefined;
+  BackupSizeInBytes?: number | undefined;
+  IamRoleArn?: string | undefined;
+  CreatedBy?: RecoveryPointCreator | undefined;
+  ResourceType?: string | undefined;
+  BytesTransferred?: number | undefined;
+  ExpectedCompletionDate?: Date | undefined;
+  StartBy?: Date | undefined;
+  BackupOptions?: { [key: string]: string | undefined } | undefined;
+  BackupType?: string | undefined;
+  ParentJobId?: string | undefined;
+  IsParent?: boolean | undefined;
+  NumberOfChildJobs?: number | undefined;
+  ChildJobsInState?: { [key: string]: number | undefined } | undefined;
+  ResourceName?: string | undefined;
+  InitiationDate?: Date | undefined;
+  MessageCategory?: string | undefined;
 }
 export interface DescribeBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultAccountId?: string;
+  BackupVaultAccountId?: string | undefined;
 }
 export type VaultType =
   | "BACKUP_VAULT"
@@ -716,31 +716,31 @@ export type VaultType =
 export type Long2 = number;
 export type MpaSessionStatus = "PENDING" | "APPROVED" | "FAILED" | (string & {});
 export interface LatestMpaApprovalTeamUpdate {
-  MpaSessionArn?: string;
-  Status?: MpaSessionStatus;
-  StatusMessage?: string;
-  InitiationDate?: Date;
-  ExpiryDate?: Date;
+  MpaSessionArn?: string | undefined;
+  Status?: MpaSessionStatus | undefined;
+  StatusMessage?: string | undefined;
+  InitiationDate?: Date | undefined;
+  ExpiryDate?: Date | undefined;
 }
 export type EncryptionKeyType = "AWS_OWNED_KMS_KEY" | "CUSTOMER_MANAGED_KMS_KEY" | (string & {});
 export interface DescribeBackupVaultOutput {
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  VaultType?: VaultType;
-  VaultState?: VaultState;
-  EncryptionKeyArn?: string;
-  CreationDate?: Date;
-  CreatorRequestId?: string;
-  NumberOfRecoveryPoints?: number;
-  Locked?: boolean;
-  MinRetentionDays?: number;
-  MaxRetentionDays?: number;
-  LockDate?: Date;
-  SourceBackupVaultArn?: string;
-  MpaApprovalTeamArn?: string;
-  MpaSessionArn?: string;
-  LatestMpaApprovalTeamUpdate?: LatestMpaApprovalTeamUpdate;
-  EncryptionKeyType?: EncryptionKeyType;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  VaultType?: VaultType | undefined;
+  VaultState?: VaultState | undefined;
+  EncryptionKeyArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CreatorRequestId?: string | undefined;
+  NumberOfRecoveryPoints?: number | undefined;
+  Locked?: boolean | undefined;
+  MinRetentionDays?: number | undefined;
+  MaxRetentionDays?: number | undefined;
+  LockDate?: Date | undefined;
+  SourceBackupVaultArn?: string | undefined;
+  MpaApprovalTeamArn?: string | undefined;
+  MpaSessionArn?: string | undefined;
+  LatestMpaApprovalTeamUpdate?: LatestMpaApprovalTeamUpdate | undefined;
+  EncryptionKeyType?: EncryptionKeyType | undefined;
 }
 export interface DescribeCopyJobInput {
   CopyJobId: string;
@@ -752,78 +752,78 @@ export type CopyJobState =
   | "FAILED"
   | "PARTIAL"
   | (string & {});
-export type CopyJobChildJobsInState = { [key in CopyJobState]?: number };
+export type CopyJobChildJobsInState = { [key in CopyJobState]?: number | undefined };
 export interface CopyJob {
-  AccountId?: string;
-  CopyJobId?: string;
-  SourceBackupVaultArn?: string;
-  SourceRecoveryPointArn?: string;
-  DestinationBackupVaultArn?: string;
-  DestinationVaultType?: string;
-  DestinationVaultLockState?: string;
-  DestinationRecoveryPointArn?: string;
-  DestinationEncryptionKeyArn?: string;
-  DestinationRecoveryPointLifecycle?: Lifecycle;
-  ResourceArn?: string;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  State?: CopyJobState;
-  StatusMessage?: string;
-  BackupSizeInBytes?: number;
-  IamRoleArn?: string;
-  CreatedBy?: RecoveryPointCreator;
-  CreatedByBackupJobId?: string;
-  ResourceType?: string;
-  ParentJobId?: string;
-  IsParent?: boolean;
-  CompositeMemberIdentifier?: string;
-  NumberOfChildJobs?: number;
-  ChildJobsInState?: { [key: string]: number | undefined };
-  ResourceName?: string;
-  MessageCategory?: string;
+  AccountId?: string | undefined;
+  CopyJobId?: string | undefined;
+  SourceBackupVaultArn?: string | undefined;
+  SourceRecoveryPointArn?: string | undefined;
+  DestinationBackupVaultArn?: string | undefined;
+  DestinationVaultType?: string | undefined;
+  DestinationVaultLockState?: string | undefined;
+  DestinationRecoveryPointArn?: string | undefined;
+  DestinationEncryptionKeyArn?: string | undefined;
+  DestinationRecoveryPointLifecycle?: Lifecycle | undefined;
+  ResourceArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  State?: CopyJobState | undefined;
+  StatusMessage?: string | undefined;
+  BackupSizeInBytes?: number | undefined;
+  IamRoleArn?: string | undefined;
+  CreatedBy?: RecoveryPointCreator | undefined;
+  CreatedByBackupJobId?: string | undefined;
+  ResourceType?: string | undefined;
+  ParentJobId?: string | undefined;
+  IsParent?: boolean | undefined;
+  CompositeMemberIdentifier?: string | undefined;
+  NumberOfChildJobs?: number | undefined;
+  ChildJobsInState?: { [key: string]: number | undefined } | undefined;
+  ResourceName?: string | undefined;
+  MessageCategory?: string | undefined;
 }
 export interface DescribeCopyJobOutput {
-  CopyJob?: CopyJob;
+  CopyJob?: CopyJob | undefined;
 }
 export interface DescribeFrameworkInput {
   FrameworkName: string;
 }
 export interface DescribeFrameworkOutput {
-  FrameworkName?: string;
-  FrameworkArn?: string;
-  FrameworkDescription?: string;
-  FrameworkControls?: FrameworkControl[];
-  CreationTime?: Date;
-  DeploymentStatus?: string;
-  FrameworkStatus?: string;
-  IdempotencyToken?: string;
+  FrameworkName?: string | undefined;
+  FrameworkArn?: string | undefined;
+  FrameworkDescription?: string | undefined;
+  FrameworkControls?: FrameworkControl[] | undefined;
+  CreationTime?: Date | undefined;
+  DeploymentStatus?: string | undefined;
+  FrameworkStatus?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface DescribeGlobalSettingsInput {}
 export type GlobalSettingsName = string;
 export type GlobalSettingsValue = string;
 export type GlobalSettings = { [key: string]: string | undefined };
 export interface DescribeGlobalSettingsOutput {
-  GlobalSettings?: { [key: string]: string | undefined };
-  LastUpdateTime?: Date;
+  GlobalSettings?: { [key: string]: string | undefined } | undefined;
+  LastUpdateTime?: Date | undefined;
 }
 export interface DescribeProtectedResourceInput {
   ResourceArn: string;
 }
 export interface DescribeProtectedResourceOutput {
-  ResourceArn?: string;
-  ResourceType?: string;
-  LastBackupTime?: Date;
-  ResourceName?: string;
-  LastBackupVaultArn?: string;
-  LastRecoveryPointArn?: string;
-  LatestRestoreExecutionTimeMinutes?: number;
-  LatestRestoreJobCreationDate?: Date;
-  LatestRestoreRecoveryPointCreationDate?: Date;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  LastBackupTime?: Date | undefined;
+  ResourceName?: string | undefined;
+  LastBackupVaultArn?: string | undefined;
+  LastRecoveryPointArn?: string | undefined;
+  LatestRestoreExecutionTimeMinutes?: number | undefined;
+  LatestRestoreJobCreationDate?: Date | undefined;
+  LatestRestoreRecoveryPointCreationDate?: Date | undefined;
 }
 export interface DescribeRecoveryPointInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
-  BackupVaultAccountId?: string;
+  BackupVaultAccountId?: string | undefined;
 }
 export type RecoveryPointStatus =
   | "COMPLETED"
@@ -835,8 +835,8 @@ export type RecoveryPointStatus =
   | "CREATING"
   | (string & {});
 export interface CalculatedLifecycle {
-  MoveToColdStorageAt?: Date;
-  DeleteAt?: Date;
+  MoveToColdStorageAt?: Date | undefined;
+  DeleteAt?: Date | undefined;
 }
 export type StorageClass = "WARM" | "COLD" | "DELETED" | (string & {});
 export type IndexStatus = "PENDING" | "ACTIVE" | "FAILED" | "DELETING" | (string & {});
@@ -849,88 +849,88 @@ export type ScanJobState =
 export type ScanFinding = "MALWARE" | (string & {});
 export type ScanFindings = ScanFinding[];
 export interface ScanResult {
-  MalwareScanner?: MalwareScanner;
-  ScanJobState?: ScanJobState;
-  LastScanTimestamp?: Date;
-  Findings?: ScanFinding[];
+  MalwareScanner?: MalwareScanner | undefined;
+  ScanJobState?: ScanJobState | undefined;
+  LastScanTimestamp?: Date | undefined;
+  Findings?: ScanFinding[] | undefined;
 }
 export type ScanResults = ScanResult[];
 export interface DescribeRecoveryPointOutput {
-  RecoveryPointArn?: string;
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  SourceBackupVaultArn?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  CreatedBy?: RecoveryPointCreator;
-  IamRoleArn?: string;
-  Status?: RecoveryPointStatus;
-  StatusMessage?: string;
-  CreationDate?: Date;
-  InitiationDate?: Date;
-  CompletionDate?: Date;
-  BackupSizeInBytes?: number;
-  CalculatedLifecycle?: CalculatedLifecycle;
-  Lifecycle?: Lifecycle;
-  EncryptionKeyArn?: string;
-  IsEncrypted?: boolean;
-  StorageClass?: StorageClass;
-  LastRestoreTime?: Date;
-  ParentRecoveryPointArn?: string;
-  CompositeMemberIdentifier?: string;
-  IsParent?: boolean;
-  ResourceName?: string;
-  VaultType?: VaultType;
-  IndexStatus?: IndexStatus;
-  IndexStatusMessage?: string;
-  EncryptionKeyType?: EncryptionKeyType;
-  ScanResults?: ScanResult[];
+  RecoveryPointArn?: string | undefined;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  SourceBackupVaultArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  CreatedBy?: RecoveryPointCreator | undefined;
+  IamRoleArn?: string | undefined;
+  Status?: RecoveryPointStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationDate?: Date | undefined;
+  InitiationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  BackupSizeInBytes?: number | undefined;
+  CalculatedLifecycle?: CalculatedLifecycle | undefined;
+  Lifecycle?: Lifecycle | undefined;
+  EncryptionKeyArn?: string | undefined;
+  IsEncrypted?: boolean | undefined;
+  StorageClass?: StorageClass | undefined;
+  LastRestoreTime?: Date | undefined;
+  ParentRecoveryPointArn?: string | undefined;
+  CompositeMemberIdentifier?: string | undefined;
+  IsParent?: boolean | undefined;
+  ResourceName?: string | undefined;
+  VaultType?: VaultType | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  IndexStatusMessage?: string | undefined;
+  EncryptionKeyType?: EncryptionKeyType | undefined;
+  ScanResults?: ScanResult[] | undefined;
 }
 export interface DescribeRegionSettingsInput {}
 export type IsEnabled = boolean;
 export type ResourceTypeOptInPreference = { [key: string]: boolean | undefined };
 export type ResourceTypeManagementPreference = { [key: string]: boolean | undefined };
 export interface DescribeRegionSettingsOutput {
-  ResourceTypeOptInPreference?: { [key: string]: boolean | undefined };
-  ResourceTypeManagementPreference?: { [key: string]: boolean | undefined };
+  ResourceTypeOptInPreference?: { [key: string]: boolean | undefined } | undefined;
+  ResourceTypeManagementPreference?: { [key: string]: boolean | undefined } | undefined;
 }
 export type ReportJobId = string;
 export interface DescribeReportJobInput {
   ReportJobId: string;
 }
 export interface ReportDestination {
-  S3BucketName?: string;
-  S3Keys?: string[];
+  S3BucketName?: string | undefined;
+  S3Keys?: string[] | undefined;
 }
 export interface ReportJob {
-  ReportJobId?: string;
-  ReportPlanArn?: string;
-  ReportTemplate?: string;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  Status?: string;
-  StatusMessage?: string;
-  ReportDestination?: ReportDestination;
+  ReportJobId?: string | undefined;
+  ReportPlanArn?: string | undefined;
+  ReportTemplate?: string | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
+  ReportDestination?: ReportDestination | undefined;
 }
 export interface DescribeReportJobOutput {
-  ReportJob?: ReportJob;
+  ReportJob?: ReportJob | undefined;
 }
 export interface DescribeReportPlanInput {
   ReportPlanName: string;
 }
 export interface ReportPlan {
-  ReportPlanArn?: string;
-  ReportPlanName?: string;
-  ReportPlanDescription?: string;
-  ReportSetting?: ReportSetting;
-  ReportDeliveryChannel?: ReportDeliveryChannel;
-  DeploymentStatus?: string;
-  CreationTime?: Date;
-  LastAttemptedExecutionTime?: Date;
-  LastSuccessfulExecutionTime?: Date;
+  ReportPlanArn?: string | undefined;
+  ReportPlanName?: string | undefined;
+  ReportPlanDescription?: string | undefined;
+  ReportSetting?: ReportSetting | undefined;
+  ReportDeliveryChannel?: ReportDeliveryChannel | undefined;
+  DeploymentStatus?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastAttemptedExecutionTime?: Date | undefined;
+  LastSuccessfulExecutionTime?: Date | undefined;
 }
 export interface DescribeReportPlanOutput {
-  ReportPlan?: ReportPlan;
+  ReportPlan?: ReportPlan | undefined;
 }
 export type RestoreJobId = string;
 export interface DescribeRestoreJobInput {
@@ -944,7 +944,7 @@ export type RestoreJobStatus =
   | "FAILED"
   | (string & {});
 export interface RestoreJobCreator {
-  RestoreTestingPlanArn?: string;
+  RestoreTestingPlanArn?: string | undefined;
 }
 export type RestoreValidationStatus =
   | "FAILED"
@@ -954,29 +954,29 @@ export type RestoreValidationStatus =
   | (string & {});
 export type RestoreDeletionStatus = "DELETING" | "FAILED" | "SUCCESSFUL" | (string & {});
 export interface DescribeRestoreJobOutput {
-  AccountId?: string;
-  RestoreJobId?: string;
-  RecoveryPointArn?: string;
-  SourceResourceArn?: string;
-  BackupVaultArn?: string;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  Status?: RestoreJobStatus;
-  StatusMessage?: string;
-  PercentDone?: string;
-  BackupSizeInBytes?: number;
-  IamRoleArn?: string;
-  ExpectedCompletionTimeMinutes?: number;
-  CreatedResourceArn?: string;
-  ResourceType?: string;
-  RecoveryPointCreationDate?: Date;
-  CreatedBy?: RestoreJobCreator;
-  ValidationStatus?: RestoreValidationStatus;
-  ValidationStatusMessage?: string;
-  DeletionStatus?: RestoreDeletionStatus;
-  DeletionStatusMessage?: string;
-  IsParent?: boolean;
-  ParentJobId?: string;
+  AccountId?: string | undefined;
+  RestoreJobId?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  SourceResourceArn?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  Status?: RestoreJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  PercentDone?: string | undefined;
+  BackupSizeInBytes?: number | undefined;
+  IamRoleArn?: string | undefined;
+  ExpectedCompletionTimeMinutes?: number | undefined;
+  CreatedResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  RecoveryPointCreationDate?: Date | undefined;
+  CreatedBy?: RestoreJobCreator | undefined;
+  ValidationStatus?: RestoreValidationStatus | undefined;
+  ValidationStatusMessage?: string | undefined;
+  DeletionStatus?: RestoreDeletionStatus | undefined;
+  DeletionStatusMessage?: string | undefined;
+  IsParent?: boolean | undefined;
+  ParentJobId?: string | undefined;
 }
 export interface DescribeScanJobInput {
   ScanJobId: string;
@@ -1004,9 +1004,9 @@ export interface DescribeScanJobOutput {
   AccountId: string;
   BackupVaultArn: string;
   BackupVaultName: string;
-  CompletionDate?: Date;
-  ContinuousScanEndTime?: Date;
-  ContinuousScanStartTime?: Date;
+  CompletionDate?: Date | undefined;
+  ContinuousScanEndTime?: Date | undefined;
+  ContinuousScanStartTime?: Date | undefined;
   CreatedBy: ScanJobCreator;
   CreationDate: Date;
   IamRoleArn: string;
@@ -1015,18 +1015,18 @@ export interface DescribeScanJobOutput {
   ResourceArn: string;
   ResourceName: string;
   ResourceType: ScanResourceType;
-  ScanBaseRecoveryPointArn?: string;
-  ScanId?: string;
+  ScanBaseRecoveryPointArn?: string | undefined;
+  ScanId?: string | undefined;
   ScanJobId: string;
   ScanMode: ScanMode;
-  ScanResult?: ScanResultInfo;
+  ScanResult?: ScanResultInfo | undefined;
   ScannerRoleArn: string;
   State: ScanState;
-  StatusMessage?: string;
+  StatusMessage?: string | undefined;
 }
 export interface DisassociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
-  RequesterComment?: string | redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface DisassociateBackupVaultMpaApprovalTeamResponse {}
 export interface DisassociateRecoveryPointInput {
@@ -1043,36 +1043,36 @@ export interface ExportBackupPlanTemplateInput {
   BackupPlanId: string;
 }
 export interface ExportBackupPlanTemplateOutput {
-  BackupPlanTemplateJson?: string;
+  BackupPlanTemplateJson?: string | undefined;
 }
 export type MaxScheduledRunsPreview = number;
 export interface GetBackupPlanInput {
   BackupPlanId: string;
-  VersionId?: string;
-  MaxScheduledRunsPreview?: number;
+  VersionId?: string | undefined;
+  MaxScheduledRunsPreview?: number | undefined;
 }
 export interface BackupRule {
   RuleName: string;
   TargetBackupVaultName: string;
-  TargetLogicallyAirGappedBackupVaultArn?: string;
-  ScheduleExpression?: string;
-  StartWindowMinutes?: number;
-  CompletionWindowMinutes?: number;
-  Lifecycle?: Lifecycle;
-  RecoveryPointTags?: { [key: string]: string | undefined };
-  RuleId?: string;
-  CopyActions?: CopyAction[];
-  EnableContinuousBackup?: boolean;
-  ScheduleExpressionTimezone?: string;
-  IndexActions?: IndexAction[];
-  ScanActions?: ScanAction[];
+  TargetLogicallyAirGappedBackupVaultArn?: string | undefined;
+  ScheduleExpression?: string | undefined;
+  StartWindowMinutes?: number | undefined;
+  CompletionWindowMinutes?: number | undefined;
+  Lifecycle?: Lifecycle | undefined;
+  RecoveryPointTags?: { [key: string]: string | undefined } | undefined;
+  RuleId?: string | undefined;
+  CopyActions?: CopyAction[] | undefined;
+  EnableContinuousBackup?: boolean | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  IndexActions?: IndexAction[] | undefined;
+  ScanActions?: ScanAction[] | undefined;
 }
 export type BackupRules = BackupRule[];
 export interface BackupPlan {
   BackupPlanName: string;
   Rules: BackupRule[];
-  AdvancedBackupSettings?: AdvancedBackupSetting[];
-  ScanSettings?: ScanSetting[];
+  AdvancedBackupSettings?: AdvancedBackupSetting[] | undefined;
+  ScanSettings?: ScanSetting[] | undefined;
 }
 export type RuleExecutionType =
   | "CONTINUOUS"
@@ -1080,54 +1080,54 @@ export type RuleExecutionType =
   | "CONTINUOUS_AND_SNAPSHOTS"
   | (string & {});
 export interface ScheduledPlanExecutionMember {
-  ExecutionTime?: Date;
-  RuleId?: string;
-  RuleExecutionType?: RuleExecutionType;
+  ExecutionTime?: Date | undefined;
+  RuleId?: string | undefined;
+  RuleExecutionType?: RuleExecutionType | undefined;
 }
 export type ScheduledRunsPreview = ScheduledPlanExecutionMember[];
 export interface GetBackupPlanOutput {
-  BackupPlan?: BackupPlan;
-  BackupPlanId?: string;
-  BackupPlanArn?: string;
-  VersionId?: string;
-  CreatorRequestId?: string;
-  CreationDate?: Date;
-  DeletionDate?: Date;
-  LastExecutionDate?: Date;
-  AdvancedBackupSettings?: AdvancedBackupSetting[];
-  ScheduledRunsPreview?: ScheduledPlanExecutionMember[];
+  BackupPlan?: BackupPlan | undefined;
+  BackupPlanId?: string | undefined;
+  BackupPlanArn?: string | undefined;
+  VersionId?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationDate?: Date | undefined;
+  DeletionDate?: Date | undefined;
+  LastExecutionDate?: Date | undefined;
+  AdvancedBackupSettings?: AdvancedBackupSetting[] | undefined;
+  ScheduledRunsPreview?: ScheduledPlanExecutionMember[] | undefined;
 }
 export interface GetBackupPlanFromJSONInput {
   BackupPlanTemplateJson: string;
 }
 export interface GetBackupPlanFromJSONOutput {
-  BackupPlan?: BackupPlan;
+  BackupPlan?: BackupPlan | undefined;
 }
 export interface GetBackupPlanFromTemplateInput {
   BackupPlanTemplateId: string;
 }
 export interface GetBackupPlanFromTemplateOutput {
-  BackupPlanDocument?: BackupPlan;
+  BackupPlanDocument?: BackupPlan | undefined;
 }
 export interface GetBackupSelectionInput {
   BackupPlanId: string;
   SelectionId: string;
 }
 export interface GetBackupSelectionOutput {
-  BackupSelection?: BackupSelection;
-  SelectionId?: string;
-  BackupPlanId?: string;
-  CreationDate?: Date;
-  CreatorRequestId?: string;
+  BackupSelection?: BackupSelection | undefined;
+  SelectionId?: string | undefined;
+  BackupPlanId?: string | undefined;
+  CreationDate?: Date | undefined;
+  CreatorRequestId?: string | undefined;
 }
 export interface GetBackupVaultAccessPolicyInput {
   BackupVaultName: string;
 }
 export type IAMPolicy = string;
 export interface GetBackupVaultAccessPolicyOutput {
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  Policy?: string;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface GetBackupVaultNotificationsInput {
   BackupVaultName: string;
@@ -1166,25 +1166,25 @@ export type BackupVaultEvent =
   | (string & {});
 export type BackupVaultEvents = BackupVaultEvent[];
 export interface GetBackupVaultNotificationsOutput {
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  SNSTopicArn?: string;
-  BackupVaultEvents?: BackupVaultEvent[];
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  SNSTopicArn?: string | undefined;
+  BackupVaultEvents?: BackupVaultEvent[] | undefined;
 }
 export interface GetLegalHoldInput {
   LegalHoldId: string;
 }
 export interface GetLegalHoldOutput {
-  Title?: string;
-  Status?: LegalHoldStatus;
-  Description?: string;
-  CancelDescription?: string;
-  LegalHoldId?: string;
-  LegalHoldArn?: string;
-  CreationDate?: Date;
-  CancellationDate?: Date;
-  RetainRecordUntil?: Date;
-  RecoveryPointSelection?: RecoveryPointSelection;
+  Title?: string | undefined;
+  Status?: LegalHoldStatus | undefined;
+  Description?: string | undefined;
+  CancelDescription?: string | undefined;
+  LegalHoldId?: string | undefined;
+  LegalHoldArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CancellationDate?: Date | undefined;
+  RetainRecordUntil?: Date | undefined;
+  RecoveryPointSelection?: RecoveryPointSelection | undefined;
 }
 export interface GetPITRMalwareScanResultsInput {
   RecoveryPointArn: string;
@@ -1195,48 +1195,48 @@ export interface GetPITRMalwareScanResultsInput {
 export interface GetPITRMalwareScanResultsOutput {
   ScanEndTime: Date;
   ScanResult: ScanResultInfo;
-  LastScanJobTime?: Date;
-  ScanId?: string;
-  ScanMode?: ScanMode;
+  LastScanJobTime?: Date | undefined;
+  ScanId?: string | undefined;
+  ScanMode?: ScanMode | undefined;
 }
 export interface GetRecoveryPointIndexDetailsInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
 }
 export interface GetRecoveryPointIndexDetailsOutput {
-  RecoveryPointArn?: string;
-  BackupVaultArn?: string;
-  SourceResourceArn?: string;
-  IndexCreationDate?: Date;
-  IndexDeletionDate?: Date;
-  IndexCompletionDate?: Date;
-  IndexStatus?: IndexStatus;
-  IndexStatusMessage?: string;
-  TotalItemsIndexed?: number;
+  RecoveryPointArn?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  SourceResourceArn?: string | undefined;
+  IndexCreationDate?: Date | undefined;
+  IndexDeletionDate?: Date | undefined;
+  IndexCompletionDate?: Date | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  IndexStatusMessage?: string | undefined;
+  TotalItemsIndexed?: number | undefined;
 }
 export interface GetRecoveryPointRestoreMetadataInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
-  BackupVaultAccountId?: string;
+  BackupVaultAccountId?: string | undefined;
 }
 export type MetadataKey = string;
 export type MetadataValue = string;
 export type Metadata = { [key: string]: string | undefined };
 export interface GetRecoveryPointRestoreMetadataOutput {
-  BackupVaultArn?: string;
-  RecoveryPointArn?: string;
-  RestoreMetadata?: { [key: string]: string | undefined };
-  ResourceType?: string;
+  BackupVaultArn?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  RestoreMetadata?: { [key: string]: string | undefined } | undefined;
+  ResourceType?: string | undefined;
 }
 export interface GetRestoreJobMetadataInput {
   RestoreJobId: string;
 }
 export interface GetRestoreJobMetadataOutput {
-  RestoreJobId?: string;
-  Metadata?: { [key: string]: string | undefined };
+  RestoreJobId?: string | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRestoreTestingInferredMetadataInput {
-  BackupVaultAccountId?: string;
+  BackupVaultAccountId?: string | undefined;
   BackupVaultName: string;
   RecoveryPointArn: string;
 }
@@ -1248,15 +1248,15 @@ export interface GetRestoreTestingPlanInput {
 }
 export interface RestoreTestingPlanForGet {
   CreationTime: Date;
-  CreatorRequestId?: string;
-  LastExecutionTime?: Date;
-  LastUpdateTime?: Date;
+  CreatorRequestId?: string | undefined;
+  LastExecutionTime?: Date | undefined;
+  LastUpdateTime?: Date | undefined;
   RecoveryPointSelection: RestoreTestingRecoveryPointSelection;
   RestoreTestingPlanArn: string;
   RestoreTestingPlanName: string;
   ScheduleExpression: string;
-  ScheduleExpressionTimezone?: string;
-  StartWindowHours?: number;
+  ScheduleExpressionTimezone?: string | undefined;
+  StartWindowHours?: number | undefined;
 }
 export interface GetRestoreTestingPlanOutput {
   RestoreTestingPlan: RestoreTestingPlanForGet;
@@ -1267,47 +1267,47 @@ export interface GetRestoreTestingSelectionInput {
 }
 export interface RestoreTestingSelectionForGet {
   CreationTime: Date;
-  CreatorRequestId?: string;
+  CreatorRequestId?: string | undefined;
   IamRoleArn: string;
-  ProtectedResourceArns?: string[];
-  ProtectedResourceConditions?: ProtectedResourceConditions;
+  ProtectedResourceArns?: string[] | undefined;
+  ProtectedResourceConditions?: ProtectedResourceConditions | undefined;
   ProtectedResourceType: string;
-  RestoreMetadataOverrides?: { [key: string]: string | undefined };
+  RestoreMetadataOverrides?: { [key: string]: string | undefined } | undefined;
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
-  ValidationWindowHours?: number;
+  ValidationWindowHours?: number | undefined;
 }
 export interface GetRestoreTestingSelectionOutput {
   RestoreTestingSelection: RestoreTestingSelectionForGet;
 }
 export interface GetSupportedResourceTypesRequest {}
 export interface GetSupportedResourceTypesOutput {
-  ResourceTypes?: string[];
+  ResourceTypes?: string[] | undefined;
 }
 export interface GetTieringConfigurationInput {
   TieringConfigurationName: string;
 }
 export interface TieringConfiguration {
   TieringConfigurationName: string;
-  TieringConfigurationArn?: string;
+  TieringConfigurationArn?: string | undefined;
   BackupVaultName: string;
   ResourceSelection: ResourceSelection[];
-  CreatorRequestId?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface GetTieringConfigurationOutput {
-  TieringConfiguration?: TieringConfiguration;
+  TieringConfiguration?: TieringConfiguration | undefined;
 }
 export type ListBackupAccessPointsRequestMaxResultsInteger = number;
 export interface ListBackupAccessPointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccessPointsMember {
   AccessPointArn: string;
   AccessPointMetadata: { [key: string]: string | undefined };
-  BackupVaultArn?: string;
+  BackupVaultArn?: string | undefined;
   BackupVaultName: string;
   CreationTime: Date;
   Name: string;
@@ -1315,85 +1315,85 @@ export interface ListAccessPointsMember {
   ResourceArn: string;
   ResourceType: string;
   Status: AccessPointStatus;
-  StatusMessage?: string;
+  StatusMessage?: string | undefined;
 }
 export type BackupAccessPoints = ListAccessPointsMember[];
 export interface ListBackupAccessPointsResponse {
   BackupAccessPoints: ListAccessPointsMember[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListBackupAccessPointsByRecoveryPointRequestMaxResultsInteger = number;
 export interface ListBackupAccessPointsByRecoveryPointRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RecoveryPointArn: string;
 }
 export interface ListBackupAccessPointsByRecoveryPointResponse {
   BackupAccessPoints: ListAccessPointsMember[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListBackupAccessPointsByResourceRequestMaxResultsInteger = number;
 export interface ListBackupAccessPointsByResourceRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ResourceArn: string;
 }
 export interface ListBackupAccessPointsByResourceResponse {
   BackupAccessPoints: ListAccessPointsMember[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListBackupJobsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  ByResourceArn?: string;
-  ByState?: BackupJobState;
-  ByBackupVaultName?: string;
-  ByCreatedBefore?: Date;
-  ByCreatedAfter?: Date;
-  ByResourceType?: string;
-  ByAccountId?: string;
-  ByCompleteAfter?: Date;
-  ByCompleteBefore?: Date;
-  ByParentJobId?: string;
-  ByMessageCategory?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ByResourceArn?: string | undefined;
+  ByState?: BackupJobState | undefined;
+  ByBackupVaultName?: string | undefined;
+  ByCreatedBefore?: Date | undefined;
+  ByCreatedAfter?: Date | undefined;
+  ByResourceType?: string | undefined;
+  ByAccountId?: string | undefined;
+  ByCompleteAfter?: Date | undefined;
+  ByCompleteBefore?: Date | undefined;
+  ByParentJobId?: string | undefined;
+  ByMessageCategory?: string | undefined;
 }
 export interface BackupJob {
-  AccountId?: string;
-  BackupJobId?: string;
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  VaultType?: string;
-  VaultLockState?: string;
-  RecoveryPointArn?: string;
-  RecoveryPointLifecycle?: Lifecycle;
-  EncryptionKeyArn?: string;
-  IsEncrypted?: boolean;
-  ResourceArn?: string;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  State?: BackupJobState;
-  StatusMessage?: string;
-  PercentDone?: string;
-  BackupSizeInBytes?: number;
-  IamRoleArn?: string;
-  CreatedBy?: RecoveryPointCreator;
-  ExpectedCompletionDate?: Date;
-  StartBy?: Date;
-  ResourceType?: string;
-  BytesTransferred?: number;
-  BackupOptions?: { [key: string]: string | undefined };
-  BackupType?: string;
-  ParentJobId?: string;
-  IsParent?: boolean;
-  ResourceName?: string;
-  InitiationDate?: Date;
-  MessageCategory?: string;
+  AccountId?: string | undefined;
+  BackupJobId?: string | undefined;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  VaultType?: string | undefined;
+  VaultLockState?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  RecoveryPointLifecycle?: Lifecycle | undefined;
+  EncryptionKeyArn?: string | undefined;
+  IsEncrypted?: boolean | undefined;
+  ResourceArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  State?: BackupJobState | undefined;
+  StatusMessage?: string | undefined;
+  PercentDone?: string | undefined;
+  BackupSizeInBytes?: number | undefined;
+  IamRoleArn?: string | undefined;
+  CreatedBy?: RecoveryPointCreator | undefined;
+  ExpectedCompletionDate?: Date | undefined;
+  StartBy?: Date | undefined;
+  ResourceType?: string | undefined;
+  BytesTransferred?: number | undefined;
+  BackupOptions?: { [key: string]: string | undefined } | undefined;
+  BackupType?: string | undefined;
+  ParentJobId?: string | undefined;
+  IsParent?: boolean | undefined;
+  ResourceName?: string | undefined;
+  InitiationDate?: Date | undefined;
+  MessageCategory?: string | undefined;
 }
 export type BackupJobsList = BackupJob[];
 export interface ListBackupJobsOutput {
-  BackupJobs?: BackupJob[];
-  NextToken?: string;
+  BackupJobs?: BackupJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BackupJobStatus =
   | "CREATED"
@@ -1411,139 +1411,139 @@ export type BackupJobStatus =
 export type MessageCategory = string;
 export type AggregationPeriod = "ONE_DAY" | "SEVEN_DAYS" | "FOURTEEN_DAYS" | (string & {});
 export interface ListBackupJobSummariesInput {
-  AccountId?: string;
-  State?: BackupJobStatus;
-  ResourceType?: string;
-  MessageCategory?: string;
-  AggregationPeriod?: AggregationPeriod;
-  MaxResults?: number;
-  NextToken?: string;
+  AccountId?: string | undefined;
+  State?: BackupJobStatus | undefined;
+  ResourceType?: string | undefined;
+  MessageCategory?: string | undefined;
+  AggregationPeriod?: AggregationPeriod | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Region = string;
 export interface BackupJobSummary {
-  Region?: string;
-  AccountId?: string;
-  State?: BackupJobStatus;
-  ResourceType?: string;
-  MessageCategory?: string;
-  Count?: number;
-  StartTime?: Date;
-  EndTime?: Date;
+  Region?: string | undefined;
+  AccountId?: string | undefined;
+  State?: BackupJobStatus | undefined;
+  ResourceType?: string | undefined;
+  MessageCategory?: string | undefined;
+  Count?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type BackupJobSummaryList = BackupJobSummary[];
 export interface ListBackupJobSummariesOutput {
-  BackupJobSummaries?: BackupJobSummary[];
-  AggregationPeriod?: string;
-  NextToken?: string;
+  BackupJobSummaries?: BackupJobSummary[] | undefined;
+  AggregationPeriod?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListBackupPlansInput {
-  NextToken?: string;
-  MaxResults?: number;
-  IncludeDeleted?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IncludeDeleted?: boolean | undefined;
 }
 export interface BackupPlansListMember {
-  BackupPlanArn?: string;
-  BackupPlanId?: string;
-  CreationDate?: Date;
-  DeletionDate?: Date;
-  VersionId?: string;
-  BackupPlanName?: string;
-  CreatorRequestId?: string;
-  LastExecutionDate?: Date;
-  AdvancedBackupSettings?: AdvancedBackupSetting[];
+  BackupPlanArn?: string | undefined;
+  BackupPlanId?: string | undefined;
+  CreationDate?: Date | undefined;
+  DeletionDate?: Date | undefined;
+  VersionId?: string | undefined;
+  BackupPlanName?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  LastExecutionDate?: Date | undefined;
+  AdvancedBackupSettings?: AdvancedBackupSetting[] | undefined;
 }
 export type BackupPlansList = BackupPlansListMember[];
 export interface ListBackupPlansOutput {
-  NextToken?: string;
-  BackupPlansList?: BackupPlansListMember[];
+  NextToken?: string | undefined;
+  BackupPlansList?: BackupPlansListMember[] | undefined;
 }
 export interface ListBackupPlanTemplatesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BackupPlanTemplatesListMember {
-  BackupPlanTemplateId?: string;
-  BackupPlanTemplateName?: string;
+  BackupPlanTemplateId?: string | undefined;
+  BackupPlanTemplateName?: string | undefined;
 }
 export type BackupPlanTemplatesList = BackupPlanTemplatesListMember[];
 export interface ListBackupPlanTemplatesOutput {
-  NextToken?: string;
-  BackupPlanTemplatesList?: BackupPlanTemplatesListMember[];
+  NextToken?: string | undefined;
+  BackupPlanTemplatesList?: BackupPlanTemplatesListMember[] | undefined;
 }
 export interface ListBackupPlanVersionsInput {
   BackupPlanId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type BackupPlanVersionsList = BackupPlansListMember[];
 export interface ListBackupPlanVersionsOutput {
-  NextToken?: string;
-  BackupPlanVersionsList?: BackupPlansListMember[];
+  NextToken?: string | undefined;
+  BackupPlanVersionsList?: BackupPlansListMember[] | undefined;
 }
 export interface ListBackupSelectionsInput {
   BackupPlanId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BackupSelectionsListMember {
-  SelectionId?: string;
-  SelectionName?: string;
-  BackupPlanId?: string;
-  CreationDate?: Date;
-  CreatorRequestId?: string;
-  IamRoleArn?: string;
+  SelectionId?: string | undefined;
+  SelectionName?: string | undefined;
+  BackupPlanId?: string | undefined;
+  CreationDate?: Date | undefined;
+  CreatorRequestId?: string | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type BackupSelectionsList = BackupSelectionsListMember[];
 export interface ListBackupSelectionsOutput {
-  NextToken?: string;
-  BackupSelectionsList?: BackupSelectionsListMember[];
+  NextToken?: string | undefined;
+  BackupSelectionsList?: BackupSelectionsListMember[] | undefined;
 }
 export interface ListBackupVaultsInput {
-  ByVaultType?: VaultType;
-  ByShared?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  ByVaultType?: VaultType | undefined;
+  ByShared?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface BackupVaultListMember {
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  VaultType?: VaultType;
-  VaultState?: VaultState;
-  CreationDate?: Date;
-  EncryptionKeyArn?: string;
-  CreatorRequestId?: string;
-  NumberOfRecoveryPoints?: number;
-  Locked?: boolean;
-  MinRetentionDays?: number;
-  MaxRetentionDays?: number;
-  LockDate?: Date;
-  EncryptionKeyType?: EncryptionKeyType;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  VaultType?: VaultType | undefined;
+  VaultState?: VaultState | undefined;
+  CreationDate?: Date | undefined;
+  EncryptionKeyArn?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  NumberOfRecoveryPoints?: number | undefined;
+  Locked?: boolean | undefined;
+  MinRetentionDays?: number | undefined;
+  MaxRetentionDays?: number | undefined;
+  LockDate?: Date | undefined;
+  EncryptionKeyType?: EncryptionKeyType | undefined;
 }
 export type BackupVaultList = BackupVaultListMember[];
 export interface ListBackupVaultsOutput {
-  BackupVaultList?: BackupVaultListMember[];
-  NextToken?: string;
+  BackupVaultList?: BackupVaultListMember[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCopyJobsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  ByResourceArn?: string;
-  ByState?: CopyJobState;
-  ByCreatedBefore?: Date;
-  ByCreatedAfter?: Date;
-  ByResourceType?: string;
-  ByDestinationVaultArn?: string;
-  ByAccountId?: string;
-  ByCompleteBefore?: Date;
-  ByCompleteAfter?: Date;
-  ByParentJobId?: string;
-  ByMessageCategory?: string;
-  BySourceRecoveryPointArn?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ByResourceArn?: string | undefined;
+  ByState?: CopyJobState | undefined;
+  ByCreatedBefore?: Date | undefined;
+  ByCreatedAfter?: Date | undefined;
+  ByResourceType?: string | undefined;
+  ByDestinationVaultArn?: string | undefined;
+  ByAccountId?: string | undefined;
+  ByCompleteBefore?: Date | undefined;
+  ByCompleteAfter?: Date | undefined;
+  ByParentJobId?: string | undefined;
+  ByMessageCategory?: string | undefined;
+  BySourceRecoveryPointArn?: string | undefined;
 }
 export type CopyJobsList = CopyJob[];
 export interface ListCopyJobsOutput {
-  CopyJobs?: CopyJob[];
-  NextToken?: string;
+  CopyJobs?: CopyJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CopyJobStatus =
   | "CREATED"
@@ -1559,315 +1559,315 @@ export type CopyJobStatus =
   | "ANY"
   | (string & {});
 export interface ListCopyJobSummariesInput {
-  AccountId?: string;
-  State?: CopyJobStatus;
-  ResourceType?: string;
-  MessageCategory?: string;
-  AggregationPeriod?: AggregationPeriod;
-  MaxResults?: number;
-  NextToken?: string;
+  AccountId?: string | undefined;
+  State?: CopyJobStatus | undefined;
+  ResourceType?: string | undefined;
+  MessageCategory?: string | undefined;
+  AggregationPeriod?: AggregationPeriod | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CopyJobSummary {
-  Region?: string;
-  AccountId?: string;
-  State?: CopyJobStatus;
-  ResourceType?: string;
-  MessageCategory?: string;
-  Count?: number;
-  StartTime?: Date;
-  EndTime?: Date;
+  Region?: string | undefined;
+  AccountId?: string | undefined;
+  State?: CopyJobStatus | undefined;
+  ResourceType?: string | undefined;
+  MessageCategory?: string | undefined;
+  Count?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type CopyJobSummaryList = CopyJobSummary[];
 export interface ListCopyJobSummariesOutput {
-  CopyJobSummaries?: CopyJobSummary[];
-  AggregationPeriod?: string;
-  NextToken?: string;
+  CopyJobSummaries?: CopyJobSummary[] | undefined;
+  AggregationPeriod?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxFrameworkInputs = number;
 export interface ListFrameworksInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Framework {
-  FrameworkName?: string;
-  FrameworkArn?: string;
-  FrameworkDescription?: string;
-  NumberOfControls?: number;
-  CreationTime?: Date;
-  DeploymentStatus?: string;
+  FrameworkName?: string | undefined;
+  FrameworkArn?: string | undefined;
+  FrameworkDescription?: string | undefined;
+  NumberOfControls?: number | undefined;
+  CreationTime?: Date | undefined;
+  DeploymentStatus?: string | undefined;
 }
 export type FrameworkList = Framework[];
 export interface ListFrameworksOutput {
-  Frameworks?: Framework[];
-  NextToken?: string;
+  Frameworks?: Framework[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIndexedRecoveryPointsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  SourceResourceArn?: string;
-  CreatedBefore?: Date;
-  CreatedAfter?: Date;
-  ResourceType?: string;
-  IndexStatus?: IndexStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SourceResourceArn?: string | undefined;
+  CreatedBefore?: Date | undefined;
+  CreatedAfter?: Date | undefined;
+  ResourceType?: string | undefined;
+  IndexStatus?: IndexStatus | undefined;
 }
 export interface IndexedRecoveryPoint {
-  RecoveryPointArn?: string;
-  SourceResourceArn?: string;
-  IamRoleArn?: string;
-  BackupCreationDate?: Date;
-  ResourceType?: string;
-  IndexCreationDate?: Date;
-  IndexStatus?: IndexStatus;
-  IndexStatusMessage?: string;
-  BackupVaultArn?: string;
+  RecoveryPointArn?: string | undefined;
+  SourceResourceArn?: string | undefined;
+  IamRoleArn?: string | undefined;
+  BackupCreationDate?: Date | undefined;
+  ResourceType?: string | undefined;
+  IndexCreationDate?: Date | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  IndexStatusMessage?: string | undefined;
+  BackupVaultArn?: string | undefined;
 }
 export type IndexedRecoveryPointList = IndexedRecoveryPoint[];
 export interface ListIndexedRecoveryPointsOutput {
-  IndexedRecoveryPoints?: IndexedRecoveryPoint[];
-  NextToken?: string;
+  IndexedRecoveryPoints?: IndexedRecoveryPoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLegalHoldsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface LegalHold {
-  Title?: string;
-  Status?: LegalHoldStatus;
-  Description?: string;
-  LegalHoldId?: string;
-  LegalHoldArn?: string;
-  CreationDate?: Date;
-  CancellationDate?: Date;
+  Title?: string | undefined;
+  Status?: LegalHoldStatus | undefined;
+  Description?: string | undefined;
+  LegalHoldId?: string | undefined;
+  LegalHoldArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CancellationDate?: Date | undefined;
 }
 export type LegalHoldsList = LegalHold[];
 export interface ListLegalHoldsOutput {
-  NextToken?: string;
-  LegalHolds?: LegalHold[];
+  NextToken?: string | undefined;
+  LegalHolds?: LegalHold[] | undefined;
 }
 export interface ListProtectedResourcesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProtectedResource {
-  ResourceArn?: string;
-  ResourceType?: string;
-  LastBackupTime?: Date;
-  ResourceName?: string;
-  LastBackupVaultArn?: string;
-  LastRecoveryPointArn?: string;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  LastBackupTime?: Date | undefined;
+  ResourceName?: string | undefined;
+  LastBackupVaultArn?: string | undefined;
+  LastRecoveryPointArn?: string | undefined;
 }
 export type ProtectedResourcesList = ProtectedResource[];
 export interface ListProtectedResourcesOutput {
-  Results?: ProtectedResource[];
-  NextToken?: string;
+  Results?: ProtectedResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProtectedResourcesByBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultAccountId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  BackupVaultAccountId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListProtectedResourcesByBackupVaultOutput {
-  Results?: ProtectedResource[];
-  NextToken?: string;
+  Results?: ProtectedResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRecoveryPointsByBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultAccountId?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ByResourceArn?: string;
-  ByResourceType?: string;
-  ByBackupPlanId?: string;
-  ByCreatedBefore?: Date;
-  ByCreatedAfter?: Date;
-  ByParentRecoveryPointArn?: string;
+  BackupVaultAccountId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ByResourceArn?: string | undefined;
+  ByResourceType?: string | undefined;
+  ByBackupPlanId?: string | undefined;
+  ByCreatedBefore?: Date | undefined;
+  ByCreatedAfter?: Date | undefined;
+  ByParentRecoveryPointArn?: string | undefined;
 }
 export interface AggregatedScanResult {
-  FailedScan?: boolean;
-  Findings?: ScanFinding[];
-  LastComputed?: Date;
+  FailedScan?: boolean | undefined;
+  Findings?: ScanFinding[] | undefined;
+  LastComputed?: Date | undefined;
 }
 export interface RecoveryPointByBackupVault {
-  RecoveryPointArn?: string;
-  BackupVaultName?: string;
-  BackupVaultArn?: string;
-  SourceBackupVaultArn?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  CreatedBy?: RecoveryPointCreator;
-  IamRoleArn?: string;
-  Status?: RecoveryPointStatus;
-  StatusMessage?: string;
-  CreationDate?: Date;
-  InitiationDate?: Date;
-  CompletionDate?: Date;
-  BackupSizeInBytes?: number;
-  CalculatedLifecycle?: CalculatedLifecycle;
-  Lifecycle?: Lifecycle;
-  EncryptionKeyArn?: string;
-  IsEncrypted?: boolean;
-  LastRestoreTime?: Date;
-  ParentRecoveryPointArn?: string;
-  CompositeMemberIdentifier?: string;
-  IsParent?: boolean;
-  ResourceName?: string;
-  VaultType?: VaultType;
-  IndexStatus?: IndexStatus;
-  IndexStatusMessage?: string;
-  EncryptionKeyType?: EncryptionKeyType;
-  AggregatedScanResult?: AggregatedScanResult;
+  RecoveryPointArn?: string | undefined;
+  BackupVaultName?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  SourceBackupVaultArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  CreatedBy?: RecoveryPointCreator | undefined;
+  IamRoleArn?: string | undefined;
+  Status?: RecoveryPointStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationDate?: Date | undefined;
+  InitiationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  BackupSizeInBytes?: number | undefined;
+  CalculatedLifecycle?: CalculatedLifecycle | undefined;
+  Lifecycle?: Lifecycle | undefined;
+  EncryptionKeyArn?: string | undefined;
+  IsEncrypted?: boolean | undefined;
+  LastRestoreTime?: Date | undefined;
+  ParentRecoveryPointArn?: string | undefined;
+  CompositeMemberIdentifier?: string | undefined;
+  IsParent?: boolean | undefined;
+  ResourceName?: string | undefined;
+  VaultType?: VaultType | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  IndexStatusMessage?: string | undefined;
+  EncryptionKeyType?: EncryptionKeyType | undefined;
+  AggregatedScanResult?: AggregatedScanResult | undefined;
 }
 export type RecoveryPointByBackupVaultList = RecoveryPointByBackupVault[];
 export interface ListRecoveryPointsByBackupVaultOutput {
-  NextToken?: string;
-  RecoveryPoints?: RecoveryPointByBackupVault[];
+  NextToken?: string | undefined;
+  RecoveryPoints?: RecoveryPointByBackupVault[] | undefined;
 }
 export interface ListRecoveryPointsByLegalHoldInput {
   LegalHoldId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RecoveryPointMember {
-  RecoveryPointArn?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  BackupVaultName?: string;
+  RecoveryPointArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  BackupVaultName?: string | undefined;
 }
 export type RecoveryPointsList = RecoveryPointMember[];
 export interface ListRecoveryPointsByLegalHoldOutput {
-  RecoveryPoints?: RecoveryPointMember[];
-  NextToken?: string;
+  RecoveryPoints?: RecoveryPointMember[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRecoveryPointsByResourceInput {
   ResourceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ManagedByAWSBackupOnly?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ManagedByAWSBackupOnly?: boolean | undefined;
 }
 export interface RecoveryPointByResource {
-  RecoveryPointArn?: string;
-  CreationDate?: Date;
-  Status?: RecoveryPointStatus;
-  StatusMessage?: string;
-  EncryptionKeyArn?: string;
-  BackupSizeBytes?: number;
-  BackupVaultName?: string;
-  IsParent?: boolean;
-  ParentRecoveryPointArn?: string;
-  ResourceName?: string;
-  VaultType?: VaultType;
-  IndexStatus?: IndexStatus;
-  IndexStatusMessage?: string;
-  EncryptionKeyType?: EncryptionKeyType;
-  AggregatedScanResult?: AggregatedScanResult;
+  RecoveryPointArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  Status?: RecoveryPointStatus | undefined;
+  StatusMessage?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  BackupSizeBytes?: number | undefined;
+  BackupVaultName?: string | undefined;
+  IsParent?: boolean | undefined;
+  ParentRecoveryPointArn?: string | undefined;
+  ResourceName?: string | undefined;
+  VaultType?: VaultType | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  IndexStatusMessage?: string | undefined;
+  EncryptionKeyType?: EncryptionKeyType | undefined;
+  AggregatedScanResult?: AggregatedScanResult | undefined;
 }
 export type RecoveryPointByResourceList = RecoveryPointByResource[];
 export interface ListRecoveryPointsByResourceOutput {
-  NextToken?: string;
-  RecoveryPoints?: RecoveryPointByResource[];
+  NextToken?: string | undefined;
+  RecoveryPoints?: RecoveryPointByResource[] | undefined;
 }
 export interface ListReportJobsInput {
-  ByReportPlanName?: string;
-  ByCreationBefore?: Date;
-  ByCreationAfter?: Date;
-  ByStatus?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ByReportPlanName?: string | undefined;
+  ByCreationBefore?: Date | undefined;
+  ByCreationAfter?: Date | undefined;
+  ByStatus?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReportJobList = ReportJob[];
 export interface ListReportJobsOutput {
-  ReportJobs?: ReportJob[];
-  NextToken?: string;
+  ReportJobs?: ReportJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReportPlansInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReportPlanList = ReportPlan[];
 export interface ListReportPlansOutput {
-  ReportPlans?: ReportPlan[];
-  NextToken?: string;
+  ReportPlans?: ReportPlan[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRestoreAccessBackupVaultsInput {
   BackupVaultName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type MpaRevokeSessionStatus = "PENDING" | "FAILED" | (string & {});
 export interface LatestRevokeRequest {
-  MpaSessionArn?: string;
-  Status?: MpaRevokeSessionStatus;
-  StatusMessage?: string;
-  InitiationDate?: Date;
-  ExpiryDate?: Date;
+  MpaSessionArn?: string | undefined;
+  Status?: MpaRevokeSessionStatus | undefined;
+  StatusMessage?: string | undefined;
+  InitiationDate?: Date | undefined;
+  ExpiryDate?: Date | undefined;
 }
 export interface RestoreAccessBackupVaultListMember {
-  RestoreAccessBackupVaultArn?: string;
-  CreationDate?: Date;
-  ApprovalDate?: Date;
-  VaultState?: VaultState;
-  LatestRevokeRequest?: LatestRevokeRequest;
+  RestoreAccessBackupVaultArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  ApprovalDate?: Date | undefined;
+  VaultState?: VaultState | undefined;
+  LatestRevokeRequest?: LatestRevokeRequest | undefined;
 }
 export type RestoreAccessBackupVaultList = RestoreAccessBackupVaultListMember[];
 export interface ListRestoreAccessBackupVaultsOutput {
-  NextToken?: string;
-  RestoreAccessBackupVaults?: RestoreAccessBackupVaultListMember[];
+  NextToken?: string | undefined;
+  RestoreAccessBackupVaults?: RestoreAccessBackupVaultListMember[] | undefined;
 }
 export interface ListRestoreJobsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  ByAccountId?: string;
-  ByResourceType?: string;
-  ByCreatedBefore?: Date;
-  ByCreatedAfter?: Date;
-  ByStatus?: RestoreJobStatus;
-  ByCompleteBefore?: Date;
-  ByCompleteAfter?: Date;
-  ByRestoreTestingPlanArn?: string;
-  ByParentJobId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ByAccountId?: string | undefined;
+  ByResourceType?: string | undefined;
+  ByCreatedBefore?: Date | undefined;
+  ByCreatedAfter?: Date | undefined;
+  ByStatus?: RestoreJobStatus | undefined;
+  ByCompleteBefore?: Date | undefined;
+  ByCompleteAfter?: Date | undefined;
+  ByRestoreTestingPlanArn?: string | undefined;
+  ByParentJobId?: string | undefined;
 }
 export interface RestoreJobsListMember {
-  AccountId?: string;
-  RestoreJobId?: string;
-  RecoveryPointArn?: string;
-  SourceResourceArn?: string;
-  BackupVaultArn?: string;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  Status?: RestoreJobStatus;
-  StatusMessage?: string;
-  PercentDone?: string;
-  BackupSizeInBytes?: number;
-  IamRoleArn?: string;
-  ExpectedCompletionTimeMinutes?: number;
-  CreatedResourceArn?: string;
-  ResourceType?: string;
-  RecoveryPointCreationDate?: Date;
-  IsParent?: boolean;
-  ParentJobId?: string;
-  CreatedBy?: RestoreJobCreator;
-  ValidationStatus?: RestoreValidationStatus;
-  ValidationStatusMessage?: string;
-  DeletionStatus?: RestoreDeletionStatus;
-  DeletionStatusMessage?: string;
+  AccountId?: string | undefined;
+  RestoreJobId?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  SourceResourceArn?: string | undefined;
+  BackupVaultArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  Status?: RestoreJobStatus | undefined;
+  StatusMessage?: string | undefined;
+  PercentDone?: string | undefined;
+  BackupSizeInBytes?: number | undefined;
+  IamRoleArn?: string | undefined;
+  ExpectedCompletionTimeMinutes?: number | undefined;
+  CreatedResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  RecoveryPointCreationDate?: Date | undefined;
+  IsParent?: boolean | undefined;
+  ParentJobId?: string | undefined;
+  CreatedBy?: RestoreJobCreator | undefined;
+  ValidationStatus?: RestoreValidationStatus | undefined;
+  ValidationStatusMessage?: string | undefined;
+  DeletionStatus?: RestoreDeletionStatus | undefined;
+  DeletionStatusMessage?: string | undefined;
 }
 export type RestoreJobsList = RestoreJobsListMember[];
 export interface ListRestoreJobsOutput {
-  RestoreJobs?: RestoreJobsListMember[];
-  NextToken?: string;
+  RestoreJobs?: RestoreJobsListMember[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRestoreJobsByProtectedResourceInput {
   ResourceArn: string;
-  ByStatus?: RestoreJobStatus;
-  ByRecoveryPointCreationDateAfter?: Date;
-  ByRecoveryPointCreationDateBefore?: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  ByStatus?: RestoreJobStatus | undefined;
+  ByRecoveryPointCreationDateAfter?: Date | undefined;
+  ByRecoveryPointCreationDateBefore?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListRestoreJobsByProtectedResourceOutput {
-  RestoreJobs?: RestoreJobsListMember[];
-  NextToken?: string;
+  RestoreJobs?: RestoreJobsListMember[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RestoreJobState =
   | "CREATED"
@@ -1880,52 +1880,52 @@ export type RestoreJobState =
   | "ANY"
   | (string & {});
 export interface ListRestoreJobSummariesInput {
-  AccountId?: string;
-  State?: RestoreJobState;
-  ResourceType?: string;
-  AggregationPeriod?: AggregationPeriod;
-  MaxResults?: number;
-  NextToken?: string;
+  AccountId?: string | undefined;
+  State?: RestoreJobState | undefined;
+  ResourceType?: string | undefined;
+  AggregationPeriod?: AggregationPeriod | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RestoreJobSummary {
-  Region?: string;
-  AccountId?: string;
-  State?: RestoreJobState;
-  ResourceType?: string;
-  Count?: number;
-  StartTime?: Date;
-  EndTime?: Date;
+  Region?: string | undefined;
+  AccountId?: string | undefined;
+  State?: RestoreJobState | undefined;
+  ResourceType?: string | undefined;
+  Count?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type RestoreJobSummaryList = RestoreJobSummary[];
 export interface ListRestoreJobSummariesOutput {
-  RestoreJobSummaries?: RestoreJobSummary[];
-  AggregationPeriod?: string;
-  NextToken?: string;
+  RestoreJobSummaries?: RestoreJobSummary[] | undefined;
+  AggregationPeriod?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type ListRestoreTestingPlansInputMaxResultsInteger = number;
 export interface ListRestoreTestingPlansInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RestoreTestingPlanForList {
   CreationTime: Date;
-  LastExecutionTime?: Date;
-  LastUpdateTime?: Date;
+  LastExecutionTime?: Date | undefined;
+  LastUpdateTime?: Date | undefined;
   RestoreTestingPlanArn: string;
   RestoreTestingPlanName: string;
   ScheduleExpression: string;
-  ScheduleExpressionTimezone?: string;
-  StartWindowHours?: number;
+  ScheduleExpressionTimezone?: string | undefined;
+  StartWindowHours?: number | undefined;
 }
 export type RestoreTestingPlans = RestoreTestingPlanForList[];
 export interface ListRestoreTestingPlansOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   RestoreTestingPlans: RestoreTestingPlanForList[];
 }
 export type ListRestoreTestingSelectionsInputMaxResultsInteger = number;
 export interface ListRestoreTestingSelectionsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RestoreTestingPlanName: string;
 }
 export interface RestoreTestingSelectionForList {
@@ -1934,35 +1934,35 @@ export interface RestoreTestingSelectionForList {
   ProtectedResourceType: string;
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
-  ValidationWindowHours?: number;
+  ValidationWindowHours?: number | undefined;
 }
 export type RestoreTestingSelections = RestoreTestingSelectionForList[];
 export interface ListRestoreTestingSelectionsOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   RestoreTestingSelections: RestoreTestingSelectionForList[];
 }
 export type ListScanJobsInputMaxResultsInteger = number;
 export interface ListScanJobsInput {
-  ByAccountId?: string;
-  ByBackupVaultName?: string;
-  ByCompleteAfter?: Date;
-  ByCompleteBefore?: Date;
-  ByMalwareScanner?: MalwareScanner;
-  ByRecoveryPointArn?: string;
-  ByResourceArn?: string;
-  ByResourceType?: ScanResourceType;
-  ByScanResultStatus?: ScanResultStatus;
-  ByState?: ScanState;
-  MaxResults?: number;
-  NextToken?: string;
+  ByAccountId?: string | undefined;
+  ByBackupVaultName?: string | undefined;
+  ByCompleteAfter?: Date | undefined;
+  ByCompleteBefore?: Date | undefined;
+  ByMalwareScanner?: MalwareScanner | undefined;
+  ByRecoveryPointArn?: string | undefined;
+  ByResourceArn?: string | undefined;
+  ByResourceType?: ScanResourceType | undefined;
+  ByScanResultStatus?: ScanResultStatus | undefined;
+  ByState?: ScanState | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ScanJob {
   AccountId: string;
   BackupVaultArn: string;
   BackupVaultName: string;
-  CompletionDate?: Date;
-  ContinuousScanEndTime?: Date;
-  ContinuousScanStartTime?: Date;
+  CompletionDate?: Date | undefined;
+  ContinuousScanEndTime?: Date | undefined;
+  ContinuousScanStartTime?: Date | undefined;
   CreatedBy: ScanJobCreator;
   CreationDate: Date;
   IamRoleArn: string;
@@ -1971,18 +1971,18 @@ export interface ScanJob {
   ResourceArn: string;
   ResourceName: string;
   ResourceType: ScanResourceType;
-  ScanBaseRecoveryPointArn?: string;
-  ScanId?: string;
+  ScanBaseRecoveryPointArn?: string | undefined;
+  ScanId?: string | undefined;
   ScanJobId: string;
   ScanMode: ScanMode;
-  ScanResult?: ScanResultInfo;
+  ScanResult?: ScanResultInfo | undefined;
   ScannerRoleArn: string;
-  State?: ScanState;
-  StatusMessage?: string;
+  State?: ScanState | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ScanJobs = ScanJob[];
 export interface ListScanJobsOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ScanJobs: ScanJob[];
 }
 export type ScanJobStatus =
@@ -1996,67 +1996,67 @@ export type ScanJobStatus =
   | "ANY"
   | (string & {});
 export interface ListScanJobSummariesInput {
-  AccountId?: string;
-  ResourceType?: string;
-  MalwareScanner?: MalwareScanner;
-  ScanResultStatus?: ScanResultStatus;
-  State?: ScanJobStatus;
-  AggregationPeriod?: AggregationPeriod;
-  MaxResults?: number;
-  NextToken?: string;
+  AccountId?: string | undefined;
+  ResourceType?: string | undefined;
+  MalwareScanner?: MalwareScanner | undefined;
+  ScanResultStatus?: ScanResultStatus | undefined;
+  State?: ScanJobStatus | undefined;
+  AggregationPeriod?: AggregationPeriod | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ScanJobSummary {
-  Region?: string;
-  AccountId?: string;
-  State?: ScanJobStatus;
-  ResourceType?: string;
-  Count?: number;
-  StartTime?: Date;
-  EndTime?: Date;
-  MalwareScanner?: MalwareScanner;
-  ScanResultStatus?: ScanResultStatus;
+  Region?: string | undefined;
+  AccountId?: string | undefined;
+  State?: ScanJobStatus | undefined;
+  ResourceType?: string | undefined;
+  Count?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MalwareScanner?: MalwareScanner | undefined;
+  ScanResultStatus?: ScanResultStatus | undefined;
 }
 export type ScanJobSummaryList = ScanJobSummary[];
 export interface ListScanJobSummariesOutput {
-  ScanJobSummaries?: ScanJobSummary[];
-  AggregationPeriod?: string;
-  NextToken?: string;
+  ScanJobSummaries?: ScanJobSummary[] | undefined;
+  AggregationPeriod?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsInput {
   ResourceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTagsOutput {
-  NextToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTieringConfigurationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TieringConfigurationsListMember {
-  TieringConfigurationArn?: string;
-  TieringConfigurationName?: string;
-  BackupVaultName?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  TieringConfigurationArn?: string | undefined;
+  TieringConfigurationName?: string | undefined;
+  BackupVaultName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type TieringConfigurationsList = TieringConfigurationsListMember[];
 export interface ListTieringConfigurationsOutput {
-  TieringConfigurations?: TieringConfigurationsListMember[];
-  NextToken?: string;
+  TieringConfigurations?: TieringConfigurationsListMember[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutBackupVaultAccessPolicyInput {
   BackupVaultName: string;
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface PutBackupVaultAccessPolicyResponse {}
 export interface PutBackupVaultLockConfigurationInput {
   BackupVaultName: string;
-  MinRetentionDays?: number;
-  MaxRetentionDays?: number;
-  ChangeableForDays?: number;
+  MinRetentionDays?: number | undefined;
+  MaxRetentionDays?: number | undefined;
+  ChangeableForDays?: number | undefined;
 }
 export interface PutBackupVaultLockConfigurationResponse {}
 export interface PutBackupVaultNotificationsInput {
@@ -2068,74 +2068,74 @@ export interface PutBackupVaultNotificationsResponse {}
 export interface PutRestoreValidationResultInput {
   RestoreJobId: string;
   ValidationStatus: RestoreValidationStatus;
-  ValidationStatusMessage?: string;
+  ValidationStatusMessage?: string | undefined;
 }
 export interface PutRestoreValidationResultResponse {}
 export interface RevokeRestoreAccessBackupVaultInput {
   BackupVaultName: string;
   RestoreAccessBackupVaultArn: string;
-  RequesterComment?: string | redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface RevokeRestoreAccessBackupVaultResponse {}
 export type Index = "ENABLED" | "DISABLED" | (string & {});
 export interface StartBackupJobInput {
   BackupVaultName: string;
-  LogicallyAirGappedBackupVaultArn?: string;
+  LogicallyAirGappedBackupVaultArn?: string | undefined;
   ResourceArn: string;
   IamRoleArn: string;
-  IdempotencyToken?: string;
-  StartWindowMinutes?: number;
-  CompleteWindowMinutes?: number;
-  Lifecycle?: Lifecycle;
-  RecoveryPointTags?: { [key: string]: string | undefined };
-  BackupOptions?: { [key: string]: string | undefined };
-  Index?: Index;
+  IdempotencyToken?: string | undefined;
+  StartWindowMinutes?: number | undefined;
+  CompleteWindowMinutes?: number | undefined;
+  Lifecycle?: Lifecycle | undefined;
+  RecoveryPointTags?: { [key: string]: string | undefined } | undefined;
+  BackupOptions?: { [key: string]: string | undefined } | undefined;
+  Index?: Index | undefined;
 }
 export interface StartBackupJobOutput {
-  BackupJobId?: string;
-  RecoveryPointArn?: string;
-  CreationDate?: Date;
-  IsParent?: boolean;
+  BackupJobId?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  IsParent?: boolean | undefined;
 }
 export interface StartCopyJobInput {
   RecoveryPointArn: string;
   SourceBackupVaultName: string;
   DestinationBackupVaultArn: string;
   IamRoleArn: string;
-  IdempotencyToken?: string;
-  Lifecycle?: Lifecycle;
+  IdempotencyToken?: string | undefined;
+  Lifecycle?: Lifecycle | undefined;
 }
 export interface StartCopyJobOutput {
-  CopyJobId?: string;
-  CreationDate?: Date;
-  IsParent?: boolean;
+  CopyJobId?: string | undefined;
+  CreationDate?: Date | undefined;
+  IsParent?: boolean | undefined;
 }
 export interface StartReportJobInput {
   ReportPlanName: string;
-  IdempotencyToken?: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface StartReportJobOutput {
-  ReportJobId?: string;
+  ReportJobId?: string | undefined;
 }
 export interface StartRestoreJobInput {
   RecoveryPointArn: string;
   Metadata: { [key: string]: string | undefined };
-  IamRoleArn?: string;
-  IdempotencyToken?: string;
-  ResourceType?: string;
-  CopySourceTagsToRestoredResource?: boolean;
+  IamRoleArn?: string | undefined;
+  IdempotencyToken?: string | undefined;
+  ResourceType?: string | undefined;
+  CopySourceTagsToRestoredResource?: boolean | undefined;
 }
 export interface StartRestoreJobOutput {
-  RestoreJobId?: string;
+  RestoreJobId?: string | undefined;
 }
 export interface StartScanJobInput {
   BackupVaultName: string;
-  ContinuousScanEndTime?: Date;
+  ContinuousScanEndTime?: Date | undefined;
   IamRoleArn: string;
-  IdempotencyToken?: string;
+  IdempotencyToken?: string | undefined;
   MalwareScanner: MalwareScanner;
   RecoveryPointArn: string;
-  ScanBaseRecoveryPointArn?: string;
+  ScanBaseRecoveryPointArn?: string | undefined;
   ScanMode: ScanMode;
   ScannerRoleArn: string;
 }
@@ -2163,73 +2163,73 @@ export interface UpdateBackupPlanInput {
   BackupPlan: BackupPlanInput;
 }
 export interface UpdateBackupPlanOutput {
-  BackupPlanId?: string;
-  BackupPlanArn?: string;
-  CreationDate?: Date;
-  VersionId?: string;
-  AdvancedBackupSettings?: AdvancedBackupSetting[];
-  ScanSettings?: ScanSetting[];
+  BackupPlanId?: string | undefined;
+  BackupPlanArn?: string | undefined;
+  CreationDate?: Date | undefined;
+  VersionId?: string | undefined;
+  AdvancedBackupSettings?: AdvancedBackupSetting[] | undefined;
+  ScanSettings?: ScanSetting[] | undefined;
 }
 export interface UpdateFrameworkInput {
   FrameworkName: string;
-  FrameworkDescription?: string;
-  FrameworkControls?: FrameworkControl[];
-  IdempotencyToken?: string;
+  FrameworkDescription?: string | undefined;
+  FrameworkControls?: FrameworkControl[] | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface UpdateFrameworkOutput {
-  FrameworkName?: string;
-  FrameworkArn?: string;
-  CreationTime?: Date;
+  FrameworkName?: string | undefined;
+  FrameworkArn?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface UpdateGlobalSettingsInput {
-  GlobalSettings?: { [key: string]: string | undefined };
+  GlobalSettings?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateGlobalSettingsResponse {}
 export interface UpdateRecoveryPointIndexSettingsInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
-  IamRoleArn?: string;
+  IamRoleArn?: string | undefined;
   Index: Index;
 }
 export interface UpdateRecoveryPointIndexSettingsOutput {
-  BackupVaultName?: string;
-  RecoveryPointArn?: string;
-  IndexStatus?: IndexStatus;
-  Index?: Index;
+  BackupVaultName?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  Index?: Index | undefined;
 }
 export interface UpdateRecoveryPointLifecycleInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
-  Lifecycle?: Lifecycle;
+  Lifecycle?: Lifecycle | undefined;
 }
 export interface UpdateRecoveryPointLifecycleOutput {
-  BackupVaultArn?: string;
-  RecoveryPointArn?: string;
-  Lifecycle?: Lifecycle;
-  CalculatedLifecycle?: CalculatedLifecycle;
+  BackupVaultArn?: string | undefined;
+  RecoveryPointArn?: string | undefined;
+  Lifecycle?: Lifecycle | undefined;
+  CalculatedLifecycle?: CalculatedLifecycle | undefined;
 }
 export interface UpdateRegionSettingsInput {
-  ResourceTypeOptInPreference?: { [key: string]: boolean | undefined };
-  ResourceTypeManagementPreference?: { [key: string]: boolean | undefined };
+  ResourceTypeOptInPreference?: { [key: string]: boolean | undefined } | undefined;
+  ResourceTypeManagementPreference?: { [key: string]: boolean | undefined } | undefined;
 }
 export interface UpdateRegionSettingsResponse {}
 export interface UpdateReportPlanInput {
   ReportPlanName: string;
-  ReportPlanDescription?: string;
-  ReportDeliveryChannel?: ReportDeliveryChannel;
-  ReportSetting?: ReportSetting;
-  IdempotencyToken?: string;
+  ReportPlanDescription?: string | undefined;
+  ReportDeliveryChannel?: ReportDeliveryChannel | undefined;
+  ReportSetting?: ReportSetting | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface UpdateReportPlanOutput {
-  ReportPlanName?: string;
-  ReportPlanArn?: string;
-  CreationTime?: Date;
+  ReportPlanName?: string | undefined;
+  ReportPlanArn?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface RestoreTestingPlanForUpdate {
-  RecoveryPointSelection?: RestoreTestingRecoveryPointSelection;
-  ScheduleExpression?: string;
-  ScheduleExpressionTimezone?: string;
-  StartWindowHours?: number;
+  RecoveryPointSelection?: RestoreTestingRecoveryPointSelection | undefined;
+  ScheduleExpression?: string | undefined;
+  ScheduleExpressionTimezone?: string | undefined;
+  StartWindowHours?: number | undefined;
 }
 export interface UpdateRestoreTestingPlanInput {
   RestoreTestingPlan: RestoreTestingPlanForUpdate;
@@ -2242,11 +2242,11 @@ export interface UpdateRestoreTestingPlanOutput {
   UpdateTime: Date;
 }
 export interface RestoreTestingSelectionForUpdate {
-  IamRoleArn?: string;
-  ProtectedResourceArns?: string[];
-  ProtectedResourceConditions?: ProtectedResourceConditions;
-  RestoreMetadataOverrides?: { [key: string]: string | undefined };
-  ValidationWindowHours?: number;
+  IamRoleArn?: string | undefined;
+  ProtectedResourceArns?: string[] | undefined;
+  ProtectedResourceConditions?: ProtectedResourceConditions | undefined;
+  RestoreMetadataOverrides?: { [key: string]: string | undefined } | undefined;
+  ValidationWindowHours?: number | undefined;
 }
 export interface UpdateRestoreTestingSelectionInput {
   RestoreTestingPlanName: string;
@@ -2269,10 +2269,10 @@ export interface UpdateTieringConfigurationInput {
   TieringConfiguration: TieringConfigurationInputForUpdate;
 }
 export interface UpdateTieringConfigurationOutput {
-  TieringConfigurationArn?: string;
-  TieringConfigurationName?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  TieringConfigurationArn?: string | undefined;
+  TieringConfigurationName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type AssociateBackupVaultMpaApprovalTeamError =
   | InvalidParameterValueException

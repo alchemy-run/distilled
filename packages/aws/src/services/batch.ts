@@ -170,19 +170,19 @@ export class ServerException
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export interface CancelJobRequest {
-  jobId?: string;
-  reason?: string;
+  jobId?: string | undefined;
+  reason?: string | undefined;
 }
 export interface CancelJobResponse {}
 export type StringList = string[];
 export interface CancelJobsRequest {
-  jobs?: string[];
-  reason?: string;
+  jobs?: string[] | undefined;
+  reason?: string | undefined;
 }
 export interface CancelJobsErrorDetail {
-  job?: string;
-  code?: string;
-  message?: string;
+  job?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type CancelJobsErrorDetailList = CancelJobsErrorDetail[];
 export interface CancelJobsResponse {
@@ -209,95 +209,95 @@ export type CRAllocationStrategy =
 export type TagsMap = { [key: string]: string | undefined };
 export type UserdataType = "EKS_BOOTSTRAP_SH" | "EKS_NODEADM" | (string & {});
 export interface LaunchTemplateSpecificationOverride {
-  launchTemplateId?: string;
-  launchTemplateName?: string;
-  version?: string;
-  targetInstanceTypes?: string[];
-  userdataType?: UserdataType;
+  launchTemplateId?: string | undefined;
+  launchTemplateName?: string | undefined;
+  version?: string | undefined;
+  targetInstanceTypes?: string[] | undefined;
+  userdataType?: UserdataType | undefined;
 }
 export type LaunchTemplateSpecificationOverrideList = LaunchTemplateSpecificationOverride[];
 export interface LaunchTemplateSpecification {
-  launchTemplateId?: string;
-  launchTemplateName?: string;
-  version?: string;
-  overrides?: LaunchTemplateSpecificationOverride[];
-  userdataType?: UserdataType;
+  launchTemplateId?: string | undefined;
+  launchTemplateName?: string | undefined;
+  version?: string | undefined;
+  overrides?: LaunchTemplateSpecificationOverride[] | undefined;
+  userdataType?: UserdataType | undefined;
 }
 export type ImageType = string;
 export type ImageIdOverride = string;
 export type KubernetesVersion = string;
 export interface Ec2Configuration {
-  imageType?: string;
-  imageIdOverride?: string;
-  batchImageStatus?: string;
-  imageKubernetesVersion?: string;
+  imageType?: string | undefined;
+  imageIdOverride?: string | undefined;
+  batchImageStatus?: string | undefined;
+  imageKubernetesVersion?: string | undefined;
 }
 export type Ec2ConfigurationList = Ec2Configuration[];
 export interface ComputeScalingPolicy {
-  minScaleDownDelayMinutes?: number;
+  minScaleDownDelayMinutes?: number | undefined;
 }
 export interface ManagedInstancesNetworkConfiguration {
-  subnets?: string[];
-  securityGroups?: string[];
+  subnets?: string[] | undefined;
+  securityGroups?: string[] | undefined;
 }
 export interface InstanceRequirementsRequest {
-  allowedInstanceTypes?: string[];
+  allowedInstanceTypes?: string[] | undefined;
 }
 export interface ManagedInstancesStorageConfiguration {
-  storageSizeGiB?: number;
+  storageSizeGiB?: number | undefined;
 }
 export interface CapacityReservationRequest {
-  reservationGroupArn?: string;
-  reservationPreference?: string;
+  reservationGroupArn?: string | undefined;
+  reservationPreference?: string | undefined;
 }
 export interface ManagedInstancesLocalStorageConfiguration {
-  useLocalStorage?: boolean;
+  useLocalStorage?: boolean | undefined;
 }
 export interface InstanceLaunchTemplate {
-  ec2InstanceProfileArn?: string;
-  networkConfiguration?: ManagedInstancesNetworkConfiguration;
-  instanceRequirements?: InstanceRequirementsRequest;
-  capacityOptionType?: string;
-  storageConfiguration?: ManagedInstancesStorageConfiguration;
-  monitoring?: string;
-  fipsEnabled?: boolean;
-  capacityReservations?: CapacityReservationRequest;
-  instanceMetadataTagsPropagation?: boolean;
-  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration;
+  ec2InstanceProfileArn?: string | undefined;
+  networkConfiguration?: ManagedInstancesNetworkConfiguration | undefined;
+  instanceRequirements?: InstanceRequirementsRequest | undefined;
+  capacityOptionType?: string | undefined;
+  storageConfiguration?: ManagedInstancesStorageConfiguration | undefined;
+  monitoring?: string | undefined;
+  fipsEnabled?: boolean | undefined;
+  capacityReservations?: CapacityReservationRequest | undefined;
+  instanceMetadataTagsPropagation?: boolean | undefined;
+  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration | undefined;
 }
 export interface InfrastructureOptimization {
-  scaleInAfter?: number;
+  scaleInAfter?: number | undefined;
 }
 export interface ManagedInstancesProvider {
-  propagateTags?: string;
-  infrastructureRoleArn?: string;
-  instanceLaunchTemplate?: InstanceLaunchTemplate;
-  infrastructureOptimization?: InfrastructureOptimization;
+  propagateTags?: string | undefined;
+  infrastructureRoleArn?: string | undefined;
+  instanceLaunchTemplate?: InstanceLaunchTemplate | undefined;
+  infrastructureOptimization?: InfrastructureOptimization | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagrisTagsMap = { [key: string]: string | undefined };
 export interface ComputeResource {
-  type?: CRType;
-  allocationStrategy?: CRAllocationStrategy;
-  minvCpus?: number;
-  maxvCpus?: number;
-  desiredvCpus?: number;
-  instanceTypes?: string[];
-  imageId?: string;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  ec2KeyPair?: string;
-  instanceRole?: string;
-  tags?: { [key: string]: string | undefined };
-  placementGroup?: string;
-  bidPercentage?: number;
-  spotIamFleetRole?: string;
-  launchTemplate?: LaunchTemplateSpecification;
-  ec2Configuration?: Ec2Configuration[];
-  scalingPolicy?: ComputeScalingPolicy;
-  managedInstancesProvider?: ManagedInstancesProvider;
-  capacityTags?: { [key: string]: string | undefined };
+  type?: CRType | undefined;
+  allocationStrategy?: CRAllocationStrategy | undefined;
+  minvCpus?: number | undefined;
+  maxvCpus?: number | undefined;
+  desiredvCpus?: number | undefined;
+  instanceTypes?: string[] | undefined;
+  imageId?: string | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  ec2KeyPair?: string | undefined;
+  instanceRole?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  placementGroup?: string | undefined;
+  bidPercentage?: number | undefined;
+  spotIamFleetRole?: string | undefined;
+  launchTemplate?: LaunchTemplateSpecification | undefined;
+  ec2Configuration?: Ec2Configuration[] | undefined;
+  scalingPolicy?: ComputeScalingPolicy | undefined;
+  managedInstancesProvider?: ManagedInstancesProvider | undefined;
+  capacityTags?: { [key: string]: string | undefined } | undefined;
 }
 export type EksAccessEntryDesiredState =
   | "ENABLED"
@@ -306,39 +306,39 @@ export type EksAccessEntryDesiredState =
   | (string & {});
 export type EksAccessEntryStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface EksAccessEntry {
-  desiredState?: EksAccessEntryDesiredState;
-  status?: EksAccessEntryStatus;
+  desiredState?: EksAccessEntryDesiredState | undefined;
+  status?: EksAccessEntryStatus | undefined;
 }
 export interface EksConfiguration {
-  eksClusterArn?: string;
-  kubernetesNamespace?: string;
-  accessEntry?: EksAccessEntry;
+  eksClusterArn?: string | undefined;
+  kubernetesNamespace?: string | undefined;
+  accessEntry?: EksAccessEntry | undefined;
 }
 export type ContainerInsights = "ENABLED" | "ENHANCED" | "DISABLED" | (string & {});
 export interface EcsSettings {
-  containerInsights?: ContainerInsights;
+  containerInsights?: ContainerInsights | undefined;
 }
 export interface CreateComputeEnvironmentRequest {
-  computeEnvironmentName?: string;
-  type?: CEType;
-  state?: CEState;
-  unmanagedvCpus?: number;
-  computeResources?: ComputeResource;
-  serviceRole?: string;
-  tags?: { [key: string]: string | undefined };
-  eksConfiguration?: EksConfiguration;
-  context?: string;
-  ecsSettings?: EcsSettings;
+  computeEnvironmentName?: string | undefined;
+  type?: CEType | undefined;
+  state?: CEState | undefined;
+  unmanagedvCpus?: number | undefined;
+  computeResources?: ComputeResource | undefined;
+  serviceRole?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  eksConfiguration?: EksConfiguration | undefined;
+  context?: string | undefined;
+  ecsSettings?: EcsSettings | undefined;
 }
 export interface CreateComputeEnvironmentResponse {
-  computeEnvironmentName?: string;
-  computeEnvironmentArn?: string;
+  computeEnvironmentName?: string | undefined;
+  computeEnvironmentArn?: string | undefined;
 }
 export interface CreateConsumableResourceRequest {
-  consumableResourceName?: string;
-  totalQuantity?: number;
-  resourceType?: string;
-  tags?: { [key: string]: string | undefined };
+  consumableResourceName?: string | undefined;
+  totalQuantity?: number | undefined;
+  resourceType?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConsumableResourceResponse {
   consumableResourceName: string;
@@ -346,13 +346,13 @@ export interface CreateConsumableResourceResponse {
 }
 export type JQState = "ENABLED" | "DISABLED" | (string & {});
 export interface ComputeEnvironmentOrder {
-  order?: number;
-  computeEnvironment?: string;
+  order?: number | undefined;
+  computeEnvironment?: string | undefined;
 }
 export type ComputeEnvironmentOrders = ComputeEnvironmentOrder[];
 export interface ServiceEnvironmentOrder {
-  order?: number;
-  serviceEnvironment?: string;
+  order?: number | undefined;
+  serviceEnvironment?: string | undefined;
 }
 export type ServiceEnvironmentOrders = ServiceEnvironmentOrder[];
 export type JobQueueType =
@@ -365,30 +365,30 @@ export type JobQueueType =
 export type JobStateTimeLimitActionsState = "RUNNABLE" | (string & {});
 export type JobStateTimeLimitActionsAction = "CANCEL" | "TERMINATE" | (string & {});
 export interface JobStateTimeLimitAction {
-  reason?: string;
-  state?: JobStateTimeLimitActionsState;
-  maxTimeSeconds?: number;
-  action?: JobStateTimeLimitActionsAction;
+  reason?: string | undefined;
+  state?: JobStateTimeLimitActionsState | undefined;
+  maxTimeSeconds?: number | undefined;
+  action?: JobStateTimeLimitActionsAction | undefined;
 }
 export type JobStateTimeLimitActions = JobStateTimeLimitAction[];
 export interface CreateJobQueueRequest {
-  jobQueueName?: string;
-  state?: JQState;
-  schedulingPolicyArn?: string;
-  priority?: number;
-  computeEnvironmentOrder?: ComputeEnvironmentOrder[];
-  serviceEnvironmentOrder?: ServiceEnvironmentOrder[];
-  jobQueueType?: JobQueueType;
-  tags?: { [key: string]: string | undefined };
-  jobStateTimeLimitActions?: JobStateTimeLimitAction[];
+  jobQueueName?: string | undefined;
+  state?: JQState | undefined;
+  schedulingPolicyArn?: string | undefined;
+  priority?: number | undefined;
+  computeEnvironmentOrder?: ComputeEnvironmentOrder[] | undefined;
+  serviceEnvironmentOrder?: ServiceEnvironmentOrder[] | undefined;
+  jobQueueType?: JobQueueType | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  jobStateTimeLimitActions?: JobStateTimeLimitAction[] | undefined;
 }
 export interface CreateJobQueueResponse {
   jobQueueName: string;
   jobQueueArn: string;
 }
 export interface QuotaShareCapacityLimit {
-  maxCapacity?: number;
-  capacityUnit?: string;
+  maxCapacity?: number | undefined;
+  capacityUnit?: string | undefined;
 }
 export type QuotaShareCapacityLimits = QuotaShareCapacityLimit[];
 export type QuotaShareResourceSharingStrategy =
@@ -397,46 +397,46 @@ export type QuotaShareResourceSharingStrategy =
   | "LEND_AND_BORROW"
   | (string & {});
 export interface QuotaShareResourceSharingConfiguration {
-  strategy?: QuotaShareResourceSharingStrategy;
-  borrowLimit?: number;
+  strategy?: QuotaShareResourceSharingStrategy | undefined;
+  borrowLimit?: number | undefined;
 }
 export type QuotaShareInSharePreemptionState = "ENABLED" | "DISABLED" | (string & {});
 export interface QuotaSharePreemptionConfiguration {
-  inSharePreemption?: QuotaShareInSharePreemptionState;
+  inSharePreemption?: QuotaShareInSharePreemptionState | undefined;
 }
 export type QuotaShareState = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateQuotaShareRequest {
-  quotaShareName?: string;
-  jobQueue?: string;
-  capacityLimits?: QuotaShareCapacityLimit[];
-  resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration;
-  preemptionConfiguration?: QuotaSharePreemptionConfiguration;
-  state?: QuotaShareState;
-  tags?: { [key: string]: string | undefined };
+  quotaShareName?: string | undefined;
+  jobQueue?: string | undefined;
+  capacityLimits?: QuotaShareCapacityLimit[] | undefined;
+  resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration | undefined;
+  preemptionConfiguration?: QuotaSharePreemptionConfiguration | undefined;
+  state?: QuotaShareState | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateQuotaShareResponse {
-  quotaShareName?: string;
-  quotaShareArn?: string;
+  quotaShareName?: string | undefined;
+  quotaShareArn?: string | undefined;
 }
 export type QuotaShareIdleResourceAssignmentStrategy = "FIFO" | (string & {});
 export interface QuotaSharePolicy {
-  idleResourceAssignmentStrategy?: QuotaShareIdleResourceAssignmentStrategy;
+  idleResourceAssignmentStrategy?: QuotaShareIdleResourceAssignmentStrategy | undefined;
 }
 export interface ShareAttributes {
-  shareIdentifier?: string;
-  weightFactor?: number;
+  shareIdentifier?: string | undefined;
+  weightFactor?: number | undefined;
 }
 export type ShareAttributesList = ShareAttributes[];
 export interface FairsharePolicy {
-  shareDecaySeconds?: number;
-  computeReservation?: number;
-  shareDistribution?: ShareAttributes[];
+  shareDecaySeconds?: number | undefined;
+  computeReservation?: number | undefined;
+  shareDistribution?: ShareAttributes[] | undefined;
 }
 export interface CreateSchedulingPolicyRequest {
-  name?: string;
-  quotaSharePolicy?: QuotaSharePolicy;
-  fairsharePolicy?: FairsharePolicy;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  quotaSharePolicy?: QuotaSharePolicy | undefined;
+  fairsharePolicy?: FairsharePolicy | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSchedulingPolicyResponse {
   name: string;
@@ -445,53 +445,53 @@ export interface CreateSchedulingPolicyResponse {
 export type ServiceEnvironmentType = "SAGEMAKER_TRAINING" | (string & {});
 export type ServiceEnvironmentState = "ENABLED" | "DISABLED" | (string & {});
 export interface CapacityLimit {
-  maxCapacity?: number;
-  capacityUnit?: string;
+  maxCapacity?: number | undefined;
+  capacityUnit?: string | undefined;
 }
 export type CapacityLimits = CapacityLimit[];
 export interface CreateServiceEnvironmentRequest {
-  serviceEnvironmentName?: string;
-  serviceEnvironmentType?: ServiceEnvironmentType;
-  state?: ServiceEnvironmentState;
-  capacityLimits?: CapacityLimit[];
-  tags?: { [key: string]: string | undefined };
+  serviceEnvironmentName?: string | undefined;
+  serviceEnvironmentType?: ServiceEnvironmentType | undefined;
+  state?: ServiceEnvironmentState | undefined;
+  capacityLimits?: CapacityLimit[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateServiceEnvironmentResponse {
   serviceEnvironmentName: string;
   serviceEnvironmentArn: string;
 }
 export interface DeleteComputeEnvironmentRequest {
-  computeEnvironment?: string;
+  computeEnvironment?: string | undefined;
 }
 export interface DeleteComputeEnvironmentResponse {}
 export interface DeleteConsumableResourceRequest {
-  consumableResource?: string;
+  consumableResource?: string | undefined;
 }
 export interface DeleteConsumableResourceResponse {}
 export interface DeleteJobQueueRequest {
-  jobQueue?: string;
+  jobQueue?: string | undefined;
 }
 export interface DeleteJobQueueResponse {}
 export interface DeleteQuotaShareRequest {
-  quotaShareArn?: string;
+  quotaShareArn?: string | undefined;
 }
 export interface DeleteQuotaShareResponse {}
 export interface DeleteSchedulingPolicyRequest {
-  arn?: string;
+  arn?: string | undefined;
 }
 export interface DeleteSchedulingPolicyResponse {}
 export interface DeleteServiceEnvironmentRequest {
-  serviceEnvironment?: string;
+  serviceEnvironment?: string | undefined;
 }
 export interface DeleteServiceEnvironmentResponse {}
 export interface DeregisterJobDefinitionRequest {
-  jobDefinition?: string;
+  jobDefinition?: string | undefined;
 }
 export interface DeregisterJobDefinitionResponse {}
 export interface DescribeComputeEnvironmentsRequest {
-  computeEnvironments?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  computeEnvironments?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type CEStatus =
   | "CREATING"
@@ -503,163 +503,165 @@ export type CEStatus =
   | (string & {});
 export type JobExecutionTimeoutMinutes = number;
 export interface UpdatePolicy {
-  terminateJobsOnUpdate?: boolean;
-  jobExecutionTimeoutMinutes?: number;
+  terminateJobsOnUpdate?: boolean | undefined;
+  jobExecutionTimeoutMinutes?: number | undefined;
 }
 export type OrchestrationType = "ECS" | "EKS" | (string & {});
 export interface ComputeEnvironmentDetail {
-  computeEnvironmentName?: string;
-  computeEnvironmentArn?: string;
-  unmanagedvCpus?: number;
-  ecsClusterArn?: string;
-  tags?: { [key: string]: string | undefined };
-  type?: CEType;
-  state?: CEState;
-  status?: CEStatus;
-  statusReason?: string;
-  computeResources?: ComputeResource;
-  serviceRole?: string;
-  updatePolicy?: UpdatePolicy;
-  eksConfiguration?: EksConfiguration;
-  containerOrchestrationType?: OrchestrationType;
-  uuid?: string;
-  context?: string;
-  ecsSettings?: EcsSettings;
+  computeEnvironmentName?: string | undefined;
+  computeEnvironmentArn?: string | undefined;
+  unmanagedvCpus?: number | undefined;
+  ecsClusterArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  type?: CEType | undefined;
+  state?: CEState | undefined;
+  status?: CEStatus | undefined;
+  statusReason?: string | undefined;
+  computeResources?: ComputeResource | undefined;
+  serviceRole?: string | undefined;
+  updatePolicy?: UpdatePolicy | undefined;
+  eksConfiguration?: EksConfiguration | undefined;
+  containerOrchestrationType?: OrchestrationType | undefined;
+  uuid?: string | undefined;
+  context?: string | undefined;
+  ecsSettings?: EcsSettings | undefined;
 }
 export type ComputeEnvironmentDetailList = ComputeEnvironmentDetail[];
 export interface DescribeComputeEnvironmentsResponse {
-  computeEnvironments?: (ComputeEnvironmentDetail & {
-    computeEnvironmentName: string;
-    computeEnvironmentArn: string;
-    computeResources: ComputeResource & {
-      type: CRType;
-      maxvCpus: number;
-      ec2Configuration: (Ec2Configuration & { imageType: ImageType })[];
-      managedInstancesProvider: ManagedInstancesProvider & {
-        infrastructureRoleArn: string;
-        instanceLaunchTemplate: InstanceLaunchTemplate & {
-          ec2InstanceProfileArn: string;
-          networkConfiguration: ManagedInstancesNetworkConfiguration & {
-            subnets: StringList;
-            securityGroups: StringList;
+  computeEnvironments?:
+    | (ComputeEnvironmentDetail & {
+        computeEnvironmentName: string;
+        computeEnvironmentArn: string;
+        computeResources: ComputeResource & {
+          type: CRType;
+          maxvCpus: number;
+          ec2Configuration: (Ec2Configuration & { imageType: ImageType })[];
+          managedInstancesProvider: ManagedInstancesProvider & {
+            infrastructureRoleArn: string;
+            instanceLaunchTemplate: InstanceLaunchTemplate & {
+              ec2InstanceProfileArn: string;
+              networkConfiguration: ManagedInstancesNetworkConfiguration & {
+                subnets: StringList;
+                securityGroups: StringList;
+              };
+            };
           };
         };
-      };
-    };
-    eksConfiguration: EksConfiguration & {
-      eksClusterArn: string;
-      kubernetesNamespace: string;
-      accessEntry: EksAccessEntry & { desiredState: EksAccessEntryDesiredState };
-    };
-  })[];
-  nextToken?: string;
+        eksConfiguration: EksConfiguration & {
+          eksClusterArn: string;
+          kubernetesNamespace: string;
+          accessEntry: EksAccessEntry & { desiredState: EksAccessEntryDesiredState };
+        };
+      })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeConsumableResourceRequest {
-  consumableResource?: string;
+  consumableResource?: string | undefined;
 }
 export interface DescribeConsumableResourceResponse {
   consumableResourceName: string;
   consumableResourceArn: string;
-  totalQuantity?: number;
-  inUseQuantity?: number;
-  availableQuantity?: number;
-  resourceType?: string;
-  createdAt?: number;
-  tags?: { [key: string]: string | undefined };
+  totalQuantity?: number | undefined;
+  inUseQuantity?: number | undefined;
+  availableQuantity?: number | undefined;
+  resourceType?: string | undefined;
+  createdAt?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeJobDefinitionsRequest {
-  jobDefinitions?: string[];
-  maxResults?: number;
-  jobDefinitionName?: string;
-  status?: string;
-  nextToken?: string;
+  jobDefinitions?: string[] | undefined;
+  maxResults?: number | undefined;
+  jobDefinitionName?: string | undefined;
+  status?: string | undefined;
+  nextToken?: string | undefined;
 }
 export type ParametersMap = { [key: string]: string | undefined };
 export type RetryAction = "RETRY" | "EXIT" | (string & {});
 export interface EvaluateOnExit {
-  onStatusReason?: string;
-  onReason?: string;
-  onExitCode?: string;
-  action?: RetryAction;
+  onStatusReason?: string | undefined;
+  onReason?: string | undefined;
+  onExitCode?: string | undefined;
+  action?: RetryAction | undefined;
 }
 export type EvaluateOnExitList = EvaluateOnExit[];
 export interface RetryStrategy {
-  attempts?: number;
-  evaluateOnExit?: EvaluateOnExit[];
+  attempts?: number | undefined;
+  evaluateOnExit?: EvaluateOnExit[] | undefined;
 }
 export interface Host {
-  sourcePath?: string;
+  sourcePath?: string | undefined;
 }
 export type EFSTransitEncryption = "ENABLED" | "DISABLED" | (string & {});
 export type EFSAuthorizationConfigIAM = "ENABLED" | "DISABLED" | (string & {});
 export interface EFSAuthorizationConfig {
-  accessPointId?: string;
-  iam?: EFSAuthorizationConfigIAM;
+  accessPointId?: string | undefined;
+  iam?: EFSAuthorizationConfigIAM | undefined;
 }
 export interface EFSVolumeConfiguration {
-  fileSystemId?: string;
-  rootDirectory?: string;
-  transitEncryption?: EFSTransitEncryption;
-  transitEncryptionPort?: number;
-  authorizationConfig?: EFSAuthorizationConfig;
+  fileSystemId?: string | undefined;
+  rootDirectory?: string | undefined;
+  transitEncryption?: EFSTransitEncryption | undefined;
+  transitEncryptionPort?: number | undefined;
+  authorizationConfig?: EFSAuthorizationConfig | undefined;
 }
 export interface S3FilesVolumeConfiguration {
-  fileSystemArn?: string;
-  rootDirectory?: string;
-  transitEncryptionPort?: number;
-  accessPointArn?: string;
+  fileSystemArn?: string | undefined;
+  rootDirectory?: string | undefined;
+  transitEncryptionPort?: number | undefined;
+  accessPointArn?: string | undefined;
 }
 export interface Volume {
-  host?: Host;
-  name?: string;
-  efsVolumeConfiguration?: EFSVolumeConfiguration;
-  s3filesVolumeConfiguration?: S3FilesVolumeConfiguration;
+  host?: Host | undefined;
+  name?: string | undefined;
+  efsVolumeConfiguration?: EFSVolumeConfiguration | undefined;
+  s3filesVolumeConfiguration?: S3FilesVolumeConfiguration | undefined;
 }
 export type Volumes = Volume[];
 export interface KeyValuePair {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type EnvironmentVariables = KeyValuePair[];
 export interface MountPoint {
-  containerPath?: string;
-  readOnly?: boolean;
-  sourceVolume?: string;
+  containerPath?: string | undefined;
+  readOnly?: boolean | undefined;
+  sourceVolume?: string | undefined;
 }
 export type MountPoints = MountPoint[];
 export interface Ulimit {
-  hardLimit?: number;
-  name?: string;
-  softLimit?: number;
+  hardLimit?: number | undefined;
+  name?: string | undefined;
+  softLimit?: number | undefined;
 }
 export type Ulimits = Ulimit[];
 export type ResourceType = "GPU" | "VCPU" | "MEMORY" | (string & {});
 export interface ResourceRequirement {
-  value?: string;
-  type?: ResourceType;
+  value?: string | undefined;
+  type?: ResourceType | undefined;
 }
 export type ResourceRequirements = ResourceRequirement[];
 export type DeviceCgroupPermission = "READ" | "WRITE" | "MKNOD" | (string & {});
 export type DeviceCgroupPermissions = DeviceCgroupPermission[];
 export interface Device {
-  hostPath?: string;
-  containerPath?: string;
-  permissions?: DeviceCgroupPermission[];
+  hostPath?: string | undefined;
+  containerPath?: string | undefined;
+  permissions?: DeviceCgroupPermission[] | undefined;
 }
 export type DevicesList = Device[];
 export interface Tmpfs {
-  containerPath?: string;
-  size?: number;
-  mountOptions?: string[];
+  containerPath?: string | undefined;
+  size?: number | undefined;
+  mountOptions?: string[] | undefined;
 }
 export type TmpfsList = Tmpfs[];
 export interface LinuxParameters {
-  devices?: Device[];
-  initProcessEnabled?: boolean;
-  sharedMemorySize?: number;
-  tmpfs?: Tmpfs[];
-  maxSwap?: number;
-  swappiness?: number;
+  devices?: Device[] | undefined;
+  initProcessEnabled?: boolean | undefined;
+  sharedMemorySize?: number | undefined;
+  tmpfs?: Tmpfs[] | undefined;
+  maxSwap?: number | undefined;
+  swappiness?: number | undefined;
 }
 export type LogDriver =
   | "json-file"
@@ -673,276 +675,255 @@ export type LogDriver =
   | (string & {});
 export type LogConfigurationOptionsMap = { [key: string]: string | undefined };
 export interface Secret {
-  name?: string;
-  valueFrom?: string;
+  name?: string | undefined;
+  valueFrom?: string | undefined;
 }
 export type SecretList = Secret[];
 export interface LogConfiguration {
-  logDriver?: LogDriver;
-  options?: { [key: string]: string | undefined };
-  secretOptions?: Secret[];
+  logDriver?: LogDriver | undefined;
+  options?: { [key: string]: string | undefined } | undefined;
+  secretOptions?: Secret[] | undefined;
 }
 export type AssignPublicIp = "ENABLED" | "DISABLED" | (string & {});
 export interface NetworkConfiguration {
-  assignPublicIp?: AssignPublicIp;
+  assignPublicIp?: AssignPublicIp | undefined;
 }
 export interface FargatePlatformConfiguration {
-  platformVersion?: string;
+  platformVersion?: string | undefined;
 }
 export interface EphemeralStorage {
-  sizeInGiB?: number;
+  sizeInGiB?: number | undefined;
 }
 export interface RuntimePlatform {
-  operatingSystemFamily?: string;
-  cpuArchitecture?: string;
+  operatingSystemFamily?: string | undefined;
+  cpuArchitecture?: string | undefined;
 }
 export interface RepositoryCredentials {
-  credentialsParameter?: string;
+  credentialsParameter?: string | undefined;
 }
 export interface ContainerProperties {
-  image?: string;
-  vcpus?: number;
-  memory?: number;
-  command?: string[];
-  jobRoleArn?: string;
-  executionRoleArn?: string;
-  volumes?: Volume[];
-  environment?: KeyValuePair[];
-  mountPoints?: MountPoint[];
-  readonlyRootFilesystem?: boolean;
-  privileged?: boolean;
-  ulimits?: Ulimit[];
-  user?: string;
-  instanceType?: string;
-  resourceRequirements?: ResourceRequirement[];
-  linuxParameters?: LinuxParameters;
-  logConfiguration?: LogConfiguration;
-  secrets?: Secret[];
-  networkConfiguration?: NetworkConfiguration;
-  fargatePlatformConfiguration?: FargatePlatformConfiguration;
-  enableExecuteCommand?: boolean;
-  ephemeralStorage?: EphemeralStorage;
-  runtimePlatform?: RuntimePlatform;
-  repositoryCredentials?: RepositoryCredentials;
+  image?: string | undefined;
+  vcpus?: number | undefined;
+  memory?: number | undefined;
+  command?: string[] | undefined;
+  jobRoleArn?: string | undefined;
+  executionRoleArn?: string | undefined;
+  volumes?: Volume[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  mountPoints?: MountPoint[] | undefined;
+  readonlyRootFilesystem?: boolean | undefined;
+  privileged?: boolean | undefined;
+  ulimits?: Ulimit[] | undefined;
+  user?: string | undefined;
+  instanceType?: string | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
+  linuxParameters?: LinuxParameters | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  secrets?: Secret[] | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  fargatePlatformConfiguration?: FargatePlatformConfiguration | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
+  runtimePlatform?: RuntimePlatform | undefined;
+  repositoryCredentials?: RepositoryCredentials | undefined;
 }
 export interface JobTimeout {
-  attemptDurationSeconds?: number;
+  attemptDurationSeconds?: number | undefined;
 }
 export interface TaskContainerDependency {
-  containerName?: string;
-  condition?: string;
+  containerName?: string | undefined;
+  condition?: string | undefined;
 }
 export type TaskContainerDependencyList = TaskContainerDependency[];
 export type FirelensConfigurationType = "fluentd" | "fluentbit" | (string & {});
 export type FirelensConfigurationOptionsMap = { [key: string]: string | undefined };
 export interface FirelensConfiguration {
-  type?: FirelensConfigurationType;
-  options?: { [key: string]: string | undefined };
+  type?: FirelensConfigurationType | undefined;
+  options?: { [key: string]: string | undefined } | undefined;
 }
 export interface TaskContainerProperties {
-  command?: string[];
-  dependsOn?: TaskContainerDependency[];
-  environment?: KeyValuePair[];
-  essential?: boolean;
-  firelensConfiguration?: FirelensConfiguration;
-  image?: string;
-  linuxParameters?: LinuxParameters;
-  logConfiguration?: LogConfiguration;
-  mountPoints?: MountPoint[];
-  name?: string;
-  privileged?: boolean;
-  readonlyRootFilesystem?: boolean;
-  repositoryCredentials?: RepositoryCredentials;
-  resourceRequirements?: ResourceRequirement[];
-  secrets?: Secret[];
-  ulimits?: Ulimit[];
-  user?: string;
-  startTimeout?: number;
-  stopTimeout?: number;
+  command?: string[] | undefined;
+  dependsOn?: TaskContainerDependency[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  essential?: boolean | undefined;
+  firelensConfiguration?: FirelensConfiguration | undefined;
+  image?: string | undefined;
+  linuxParameters?: LinuxParameters | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  mountPoints?: MountPoint[] | undefined;
+  name?: string | undefined;
+  privileged?: boolean | undefined;
+  readonlyRootFilesystem?: boolean | undefined;
+  repositoryCredentials?: RepositoryCredentials | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
+  secrets?: Secret[] | undefined;
+  ulimits?: Ulimit[] | undefined;
+  user?: string | undefined;
+  startTimeout?: number | undefined;
+  stopTimeout?: number | undefined;
 }
 export type ListTaskContainerProperties = TaskContainerProperties[];
 export interface EcsTaskProperties {
-  containers?: TaskContainerProperties[];
-  ephemeralStorage?: EphemeralStorage;
-  executionRoleArn?: string;
-  platformVersion?: string;
-  ipcMode?: string;
-  taskRoleArn?: string;
-  pidMode?: string;
-  networkConfiguration?: NetworkConfiguration;
-  runtimePlatform?: RuntimePlatform;
-  volumes?: Volume[];
-  enableExecuteCommand?: boolean;
-  networkMode?: string;
+  containers?: TaskContainerProperties[] | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
+  executionRoleArn?: string | undefined;
+  platformVersion?: string | undefined;
+  ipcMode?: string | undefined;
+  taskRoleArn?: string | undefined;
+  pidMode?: string | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  runtimePlatform?: RuntimePlatform | undefined;
+  volumes?: Volume[] | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  networkMode?: string | undefined;
 }
 export type ListEcsTaskProperties = EcsTaskProperties[];
 export interface EcsProperties {
-  taskProperties?: EcsTaskProperties[];
+  taskProperties?: EcsTaskProperties[] | undefined;
 }
 export interface ImagePullSecret {
-  name?: string;
+  name?: string | undefined;
 }
 export type ImagePullSecrets = ImagePullSecret[];
 export interface EksContainerEnvironmentVariable {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type EksContainerEnvironmentVariables = EksContainerEnvironmentVariable[];
 export type Quantity = string;
 export type EksLimits = { [key: string]: string | undefined };
 export type EksRequests = { [key: string]: string | undefined };
 export interface EksContainerResourceRequirements {
-  limits?: { [key: string]: string | undefined };
-  requests?: { [key: string]: string | undefined };
+  limits?: { [key: string]: string | undefined } | undefined;
+  requests?: { [key: string]: string | undefined } | undefined;
 }
 export interface EksContainerVolumeMount {
-  name?: string;
-  mountPath?: string;
-  subPath?: string;
-  readOnly?: boolean;
+  name?: string | undefined;
+  mountPath?: string | undefined;
+  subPath?: string | undefined;
+  readOnly?: boolean | undefined;
 }
 export type EksContainerVolumeMounts = EksContainerVolumeMount[];
 export interface EksContainerSecurityContext {
-  runAsUser?: number;
-  runAsGroup?: number;
-  privileged?: boolean;
-  allowPrivilegeEscalation?: boolean;
-  readOnlyRootFilesystem?: boolean;
-  runAsNonRoot?: boolean;
+  runAsUser?: number | undefined;
+  runAsGroup?: number | undefined;
+  privileged?: boolean | undefined;
+  allowPrivilegeEscalation?: boolean | undefined;
+  readOnlyRootFilesystem?: boolean | undefined;
+  runAsNonRoot?: boolean | undefined;
 }
 export interface EksContainer {
-  name?: string;
-  image?: string;
-  imagePullPolicy?: string;
-  command?: string[];
-  args?: string[];
-  env?: EksContainerEnvironmentVariable[];
-  resources?: EksContainerResourceRequirements;
-  volumeMounts?: EksContainerVolumeMount[];
-  securityContext?: EksContainerSecurityContext;
+  name?: string | undefined;
+  image?: string | undefined;
+  imagePullPolicy?: string | undefined;
+  command?: string[] | undefined;
+  args?: string[] | undefined;
+  env?: EksContainerEnvironmentVariable[] | undefined;
+  resources?: EksContainerResourceRequirements | undefined;
+  volumeMounts?: EksContainerVolumeMount[] | undefined;
+  securityContext?: EksContainerSecurityContext | undefined;
 }
 export type EksContainers = EksContainer[];
 export interface EksHostPath {
-  path?: string;
+  path?: string | undefined;
 }
 export interface EksEmptyDir {
-  medium?: string;
-  sizeLimit?: string;
+  medium?: string | undefined;
+  sizeLimit?: string | undefined;
 }
 export interface EksSecret {
-  secretName?: string;
-  optional?: boolean;
+  secretName?: string | undefined;
+  optional?: boolean | undefined;
 }
 export interface EksPersistentVolumeClaim {
-  claimName?: string;
-  readOnly?: boolean;
+  claimName?: string | undefined;
+  readOnly?: boolean | undefined;
 }
 export interface EksVolume {
-  name?: string;
-  hostPath?: EksHostPath;
-  emptyDir?: EksEmptyDir;
-  secret?: EksSecret;
-  persistentVolumeClaim?: EksPersistentVolumeClaim;
+  name?: string | undefined;
+  hostPath?: EksHostPath | undefined;
+  emptyDir?: EksEmptyDir | undefined;
+  secret?: EksSecret | undefined;
+  persistentVolumeClaim?: EksPersistentVolumeClaim | undefined;
 }
 export type EksVolumes = EksVolume[];
 export type EksLabelsMap = { [key: string]: string | undefined };
 export type EksAnnotationsMap = { [key: string]: string | undefined };
 export interface EksMetadata {
-  labels?: { [key: string]: string | undefined };
-  annotations?: { [key: string]: string | undefined };
-  namespace?: string;
+  labels?: { [key: string]: string | undefined } | undefined;
+  annotations?: { [key: string]: string | undefined } | undefined;
+  namespace?: string | undefined;
 }
 export interface EksPodProperties {
-  serviceAccountName?: string;
-  hostNetwork?: boolean;
-  dnsPolicy?: string;
-  imagePullSecrets?: ImagePullSecret[];
-  containers?: EksContainer[];
-  initContainers?: EksContainer[];
-  volumes?: EksVolume[];
-  metadata?: EksMetadata;
-  shareProcessNamespace?: boolean;
+  serviceAccountName?: string | undefined;
+  hostNetwork?: boolean | undefined;
+  dnsPolicy?: string | undefined;
+  imagePullSecrets?: ImagePullSecret[] | undefined;
+  containers?: EksContainer[] | undefined;
+  initContainers?: EksContainer[] | undefined;
+  volumes?: EksVolume[] | undefined;
+  metadata?: EksMetadata | undefined;
+  shareProcessNamespace?: boolean | undefined;
 }
 export interface EksProperties {
-  podProperties?: EksPodProperties;
+  podProperties?: EksPodProperties | undefined;
 }
 export interface ConsumableResourceRequirement {
-  consumableResource?: string;
-  quantity?: number;
+  consumableResource?: string | undefined;
+  quantity?: number | undefined;
 }
 export type ConsumableResourceList = ConsumableResourceRequirement[];
 export interface ConsumableResourceProperties {
-  consumableResourceList?: ConsumableResourceRequirement[];
+  consumableResourceList?: ConsumableResourceRequirement[] | undefined;
 }
 export interface NodeRangeProperty {
-  targetNodes?: string;
-  container?: ContainerProperties;
-  instanceTypes?: string[];
-  ecsProperties?: EcsProperties;
-  eksProperties?: EksProperties;
-  consumableResourceProperties?: ConsumableResourceProperties;
+  targetNodes?: string | undefined;
+  container?: ContainerProperties | undefined;
+  instanceTypes?: string[] | undefined;
+  ecsProperties?: EcsProperties | undefined;
+  eksProperties?: EksProperties | undefined;
+  consumableResourceProperties?: ConsumableResourceProperties | undefined;
 }
 export type NodeRangeProperties = NodeRangeProperty[];
 export interface NodeProperties {
-  numNodes?: number;
-  mainNode?: number;
-  nodeRangeProperties?: NodeRangeProperty[];
+  numNodes?: number | undefined;
+  mainNode?: number | undefined;
+  nodeRangeProperties?: NodeRangeProperty[] | undefined;
 }
 export type PlatformCapability = "EC2" | "FARGATE" | "MANAGED_INSTANCES" | (string & {});
 export type PlatformCapabilityList = PlatformCapability[];
 export interface JobDefinition {
-  jobDefinitionName?: string;
-  jobDefinitionArn?: string;
-  revision?: number;
-  status?: string;
-  type?: string;
-  schedulingPriority?: number;
-  parameters?: { [key: string]: string | undefined };
-  retryStrategy?: RetryStrategy;
-  containerProperties?: ContainerProperties;
-  timeout?: JobTimeout;
-  nodeProperties?: NodeProperties;
-  tags?: { [key: string]: string | undefined };
-  propagateTags?: boolean;
-  platformCapabilities?: PlatformCapability[];
-  ecsProperties?: EcsProperties;
-  eksProperties?: EksProperties;
-  containerOrchestrationType?: OrchestrationType;
-  consumableResourceProperties?: ConsumableResourceProperties;
+  jobDefinitionName?: string | undefined;
+  jobDefinitionArn?: string | undefined;
+  revision?: number | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  schedulingPriority?: number | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  retryStrategy?: RetryStrategy | undefined;
+  containerProperties?: ContainerProperties | undefined;
+  timeout?: JobTimeout | undefined;
+  nodeProperties?: NodeProperties | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  propagateTags?: boolean | undefined;
+  platformCapabilities?: PlatformCapability[] | undefined;
+  ecsProperties?: EcsProperties | undefined;
+  eksProperties?: EksProperties | undefined;
+  containerOrchestrationType?: OrchestrationType | undefined;
+  consumableResourceProperties?: ConsumableResourceProperties | undefined;
 }
 export type JobDefinitionList = JobDefinition[];
 export interface DescribeJobDefinitionsResponse {
-  jobDefinitions?: (JobDefinition & {
-    jobDefinitionName: string;
-    jobDefinitionArn: string;
-    revision: number;
-    type: string;
-    retryStrategy: RetryStrategy & { evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[] };
-    containerProperties: ContainerProperties & {
-      volumes: (Volume & {
-        efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
-        s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
-      })[];
-      ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
-      resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
-      linuxParameters: LinuxParameters & {
-        devices: (Device & { hostPath: string })[];
-        tmpfs: (Tmpfs & { containerPath: string; size: number })[];
-      };
-      logConfiguration: LogConfiguration & {
-        logDriver: LogDriver;
-        secretOptions: (Secret & { name: string; valueFrom: string })[];
-      };
-      secrets: (Secret & { name: string; valueFrom: string })[];
-      ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-      repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
-    };
-    nodeProperties: NodeProperties & {
-      numNodes: number;
-      mainNode: number;
-      nodeRangeProperties: (NodeRangeProperty & {
-        targetNodes: string;
-        container: ContainerProperties & {
+  jobDefinitions?:
+    | (JobDefinition & {
+        jobDefinitionName: string;
+        jobDefinitionArn: string;
+        revision: number;
+        type: string;
+        retryStrategy: RetryStrategy & {
+          evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[];
+        };
+        containerProperties: ContainerProperties & {
           volumes: (Volume & {
             efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
             s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
@@ -960,6 +941,82 @@ export interface DescribeJobDefinitionsResponse {
           secrets: (Secret & { name: string; valueFrom: string })[];
           ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
           repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+        };
+        nodeProperties: NodeProperties & {
+          numNodes: number;
+          mainNode: number;
+          nodeRangeProperties: (NodeRangeProperty & {
+            targetNodes: string;
+            container: ContainerProperties & {
+              volumes: (Volume & {
+                efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+                s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
+              })[];
+              ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+              resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
+              linuxParameters: LinuxParameters & {
+                devices: (Device & { hostPath: string })[];
+                tmpfs: (Tmpfs & { containerPath: string; size: number })[];
+              };
+              logConfiguration: LogConfiguration & {
+                logDriver: LogDriver;
+                secretOptions: (Secret & { name: string; valueFrom: string })[];
+              };
+              secrets: (Secret & { name: string; valueFrom: string })[];
+              ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
+              repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+            };
+            ecsProperties: EcsProperties & {
+              taskProperties: (EcsTaskProperties & {
+                containers: (TaskContainerProperties & {
+                  image: string;
+                  firelensConfiguration: FirelensConfiguration & {
+                    type: FirelensConfigurationType;
+                  };
+                  linuxParameters: LinuxParameters & {
+                    devices: (Device & { hostPath: string })[];
+                    tmpfs: (Tmpfs & { containerPath: string; size: number })[];
+                  };
+                  logConfiguration: LogConfiguration & {
+                    logDriver: LogDriver;
+                    secretOptions: (Secret & { name: string; valueFrom: string })[];
+                  };
+                  repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+                  resourceRequirements: (ResourceRequirement & {
+                    value: string;
+                    type: ResourceType;
+                  })[];
+                  secrets: (Secret & { name: string; valueFrom: string })[];
+                  ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+                })[];
+                ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
+                volumes: (Volume & {
+                  efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+                  s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
+                    fileSystemArn: string;
+                  };
+                })[];
+              })[];
+            };
+            eksProperties: EksProperties & {
+              podProperties: EksPodProperties & {
+                imagePullSecrets: (ImagePullSecret & { name: string })[];
+                containers: (EksContainer & {
+                  image: string;
+                  env: (EksContainerEnvironmentVariable & { name: string })[];
+                })[];
+                initContainers: (EksContainer & {
+                  image: string;
+                  env: (EksContainerEnvironmentVariable & { name: string })[];
+                })[];
+                volumes: (EksVolume & {
+                  name: string;
+                  secret: EksSecret & { secretName: string };
+                  persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
+                })[];
+              };
+            };
+          })[];
         };
         ecsProperties: EcsProperties & {
           taskProperties: (EcsTaskProperties & {
@@ -1004,58 +1061,14 @@ export interface DescribeJobDefinitionsResponse {
             })[];
           };
         };
-      })[];
-    };
-    ecsProperties: EcsProperties & {
-      taskProperties: (EcsTaskProperties & {
-        containers: (TaskContainerProperties & {
-          image: string;
-          firelensConfiguration: FirelensConfiguration & { type: FirelensConfigurationType };
-          linuxParameters: LinuxParameters & {
-            devices: (Device & { hostPath: string })[];
-            tmpfs: (Tmpfs & { containerPath: string; size: number })[];
-          };
-          logConfiguration: LogConfiguration & {
-            logDriver: LogDriver;
-            secretOptions: (Secret & { name: string; valueFrom: string })[];
-          };
-          repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
-          resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
-          secrets: (Secret & { name: string; valueFrom: string })[];
-          ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
-        })[];
-        ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-        volumes: (Volume & {
-          efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
-          s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
-        })[];
-      })[];
-    };
-    eksProperties: EksProperties & {
-      podProperties: EksPodProperties & {
-        imagePullSecrets: (ImagePullSecret & { name: string })[];
-        containers: (EksContainer & {
-          image: string;
-          env: (EksContainerEnvironmentVariable & { name: string })[];
-        })[];
-        initContainers: (EksContainer & {
-          image: string;
-          env: (EksContainerEnvironmentVariable & { name: string })[];
-        })[];
-        volumes: (EksVolume & {
-          name: string;
-          secret: EksSecret & { secretName: string };
-          persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
-        })[];
-      };
-    };
-  })[];
-  nextToken?: string;
+      })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeJobQueuesRequest {
-  jobQueues?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  jobQueues?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type JQStatus =
   | "CREATING"
@@ -1066,45 +1079,47 @@ export type JQStatus =
   | "INVALID"
   | (string & {});
 export interface JobQueueDetail {
-  jobQueueName?: string;
-  jobQueueArn?: string;
-  state?: JQState;
-  schedulingPolicyArn?: string;
-  status?: JQStatus;
-  statusReason?: string;
-  priority?: number;
-  computeEnvironmentOrder?: ComputeEnvironmentOrder[];
-  serviceEnvironmentOrder?: ServiceEnvironmentOrder[];
-  jobQueueType?: JobQueueType;
-  tags?: { [key: string]: string | undefined };
-  jobStateTimeLimitActions?: JobStateTimeLimitAction[];
+  jobQueueName?: string | undefined;
+  jobQueueArn?: string | undefined;
+  state?: JQState | undefined;
+  schedulingPolicyArn?: string | undefined;
+  status?: JQStatus | undefined;
+  statusReason?: string | undefined;
+  priority?: number | undefined;
+  computeEnvironmentOrder?: ComputeEnvironmentOrder[] | undefined;
+  serviceEnvironmentOrder?: ServiceEnvironmentOrder[] | undefined;
+  jobQueueType?: JobQueueType | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  jobStateTimeLimitActions?: JobStateTimeLimitAction[] | undefined;
 }
 export type JobQueueDetailList = JobQueueDetail[];
 export interface DescribeJobQueuesResponse {
-  jobQueues?: (JobQueueDetail & {
-    jobQueueName: string;
-    jobQueueArn: string;
-    state: JQState;
-    priority: number;
-    computeEnvironmentOrder: (ComputeEnvironmentOrder & {
-      order: number;
-      computeEnvironment: string;
-    })[];
-    serviceEnvironmentOrder: (ServiceEnvironmentOrder & {
-      order: number;
-      serviceEnvironment: string;
-    })[];
-    jobStateTimeLimitActions: (JobStateTimeLimitAction & {
-      reason: string;
-      state: JobStateTimeLimitActionsState;
-      maxTimeSeconds: number;
-      action: JobStateTimeLimitActionsAction;
-    })[];
-  })[];
-  nextToken?: string;
+  jobQueues?:
+    | (JobQueueDetail & {
+        jobQueueName: string;
+        jobQueueArn: string;
+        state: JQState;
+        priority: number;
+        computeEnvironmentOrder: (ComputeEnvironmentOrder & {
+          order: number;
+          computeEnvironment: string;
+        })[];
+        serviceEnvironmentOrder: (ServiceEnvironmentOrder & {
+          order: number;
+          serviceEnvironment: string;
+        })[];
+        jobStateTimeLimitActions: (JobStateTimeLimitAction & {
+          reason: string;
+          state: JobStateTimeLimitActionsState;
+          maxTimeSeconds: number;
+          action: JobStateTimeLimitActionsAction;
+        })[];
+      })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeJobsRequest {
-  jobs?: string[];
+  jobs?: string[] | undefined;
 }
 export type JobStatus =
   | "SUBMITTED"
@@ -1116,252 +1131,231 @@ export type JobStatus =
   | "FAILED"
   | (string & {});
 export interface NetworkInterface {
-  attachmentId?: string;
-  ipv6Address?: string;
-  privateIpv4Address?: string;
+  attachmentId?: string | undefined;
+  ipv6Address?: string | undefined;
+  privateIpv4Address?: string | undefined;
 }
 export type NetworkInterfaceList = NetworkInterface[];
 export interface AttemptContainerDetail {
-  containerInstanceArn?: string;
-  taskArn?: string;
-  exitCode?: number;
-  reason?: string;
-  logStreamName?: string;
-  networkInterfaces?: NetworkInterface[];
+  containerInstanceArn?: string | undefined;
+  taskArn?: string | undefined;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
+  logStreamName?: string | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
 }
 export interface AttemptTaskContainerDetails {
-  exitCode?: number;
-  name?: string;
-  reason?: string;
-  logStreamName?: string;
-  networkInterfaces?: NetworkInterface[];
+  exitCode?: number | undefined;
+  name?: string | undefined;
+  reason?: string | undefined;
+  logStreamName?: string | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
 }
 export type ListAttemptTaskContainerDetails = AttemptTaskContainerDetails[];
 export interface AttemptEcsTaskDetails {
-  containerInstanceArn?: string;
-  taskArn?: string;
-  containers?: AttemptTaskContainerDetails[];
+  containerInstanceArn?: string | undefined;
+  taskArn?: string | undefined;
+  containers?: AttemptTaskContainerDetails[] | undefined;
 }
 export type ListAttemptEcsTaskDetails = AttemptEcsTaskDetails[];
 export interface AttemptDetail {
-  container?: AttemptContainerDetail;
-  startedAt?: number;
-  stoppedAt?: number;
-  statusReason?: string;
-  taskProperties?: AttemptEcsTaskDetails[];
+  container?: AttemptContainerDetail | undefined;
+  startedAt?: number | undefined;
+  stoppedAt?: number | undefined;
+  statusReason?: string | undefined;
+  taskProperties?: AttemptEcsTaskDetails[] | undefined;
 }
 export type AttemptDetails = AttemptDetail[];
 export type ArrayJobDependency = "N_TO_N" | "SEQUENTIAL" | (string & {});
 export interface JobDependency {
-  jobId?: string;
-  type?: ArrayJobDependency;
+  jobId?: string | undefined;
+  type?: ArrayJobDependency | undefined;
 }
 export type JobDependencyList = JobDependency[];
 export interface ContainerDetail {
-  image?: string;
-  vcpus?: number;
-  memory?: number;
-  command?: string[];
-  jobRoleArn?: string;
-  executionRoleArn?: string;
-  volumes?: Volume[];
-  environment?: KeyValuePair[];
-  mountPoints?: MountPoint[];
-  readonlyRootFilesystem?: boolean;
-  ulimits?: Ulimit[];
-  privileged?: boolean;
-  user?: string;
-  exitCode?: number;
-  reason?: string;
-  containerInstanceArn?: string;
-  taskArn?: string;
-  logStreamName?: string;
-  instanceType?: string;
-  networkInterfaces?: NetworkInterface[];
-  resourceRequirements?: ResourceRequirement[];
-  linuxParameters?: LinuxParameters;
-  logConfiguration?: LogConfiguration;
-  secrets?: Secret[];
-  networkConfiguration?: NetworkConfiguration;
-  fargatePlatformConfiguration?: FargatePlatformConfiguration;
-  ephemeralStorage?: EphemeralStorage;
-  runtimePlatform?: RuntimePlatform;
-  repositoryCredentials?: RepositoryCredentials;
-  enableExecuteCommand?: boolean;
+  image?: string | undefined;
+  vcpus?: number | undefined;
+  memory?: number | undefined;
+  command?: string[] | undefined;
+  jobRoleArn?: string | undefined;
+  executionRoleArn?: string | undefined;
+  volumes?: Volume[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  mountPoints?: MountPoint[] | undefined;
+  readonlyRootFilesystem?: boolean | undefined;
+  ulimits?: Ulimit[] | undefined;
+  privileged?: boolean | undefined;
+  user?: string | undefined;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
+  containerInstanceArn?: string | undefined;
+  taskArn?: string | undefined;
+  logStreamName?: string | undefined;
+  instanceType?: string | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
+  linuxParameters?: LinuxParameters | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  secrets?: Secret[] | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  fargatePlatformConfiguration?: FargatePlatformConfiguration | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
+  runtimePlatform?: RuntimePlatform | undefined;
+  repositoryCredentials?: RepositoryCredentials | undefined;
+  enableExecuteCommand?: boolean | undefined;
 }
 export interface NodeDetails {
-  nodeIndex?: number;
-  isMainNode?: boolean;
+  nodeIndex?: number | undefined;
+  isMainNode?: boolean | undefined;
 }
 export type ArrayJobStatusSummary = { [key: string]: number | undefined };
 export interface ArrayPropertiesDetail {
-  statusSummary?: { [key: string]: number | undefined };
-  statusSummaryLastUpdatedAt?: number;
-  size?: number;
-  index?: number;
+  statusSummary?: { [key: string]: number | undefined } | undefined;
+  statusSummaryLastUpdatedAt?: number | undefined;
+  size?: number | undefined;
+  index?: number | undefined;
 }
 export interface EksContainerDetail {
-  name?: string;
-  image?: string;
-  imagePullPolicy?: string;
-  command?: string[];
-  args?: string[];
-  env?: EksContainerEnvironmentVariable[];
-  resources?: EksContainerResourceRequirements;
-  exitCode?: number;
-  reason?: string;
-  volumeMounts?: EksContainerVolumeMount[];
-  securityContext?: EksContainerSecurityContext;
+  name?: string | undefined;
+  image?: string | undefined;
+  imagePullPolicy?: string | undefined;
+  command?: string[] | undefined;
+  args?: string[] | undefined;
+  env?: EksContainerEnvironmentVariable[] | undefined;
+  resources?: EksContainerResourceRequirements | undefined;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
+  volumeMounts?: EksContainerVolumeMount[] | undefined;
+  securityContext?: EksContainerSecurityContext | undefined;
 }
 export type EksContainerDetails = EksContainerDetail[];
 export interface EksPodPropertiesDetail {
-  serviceAccountName?: string;
-  hostNetwork?: boolean;
-  dnsPolicy?: string;
-  imagePullSecrets?: ImagePullSecret[];
-  containers?: EksContainerDetail[];
-  initContainers?: EksContainerDetail[];
-  volumes?: EksVolume[];
-  podName?: string;
-  nodeName?: string;
-  metadata?: EksMetadata;
-  shareProcessNamespace?: boolean;
+  serviceAccountName?: string | undefined;
+  hostNetwork?: boolean | undefined;
+  dnsPolicy?: string | undefined;
+  imagePullSecrets?: ImagePullSecret[] | undefined;
+  containers?: EksContainerDetail[] | undefined;
+  initContainers?: EksContainerDetail[] | undefined;
+  volumes?: EksVolume[] | undefined;
+  podName?: string | undefined;
+  nodeName?: string | undefined;
+  metadata?: EksMetadata | undefined;
+  shareProcessNamespace?: boolean | undefined;
 }
 export interface EksPropertiesDetail {
-  podProperties?: EksPodPropertiesDetail;
+  podProperties?: EksPodPropertiesDetail | undefined;
 }
 export interface EksAttemptContainerDetail {
-  name?: string;
-  containerID?: string;
-  exitCode?: number;
-  reason?: string;
+  name?: string | undefined;
+  containerID?: string | undefined;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
 }
 export type EksAttemptContainerDetails = EksAttemptContainerDetail[];
 export interface EksAttemptDetail {
-  containers?: EksAttemptContainerDetail[];
-  initContainers?: EksAttemptContainerDetail[];
-  eksClusterArn?: string;
-  podName?: string;
-  podNamespace?: string;
-  nodeName?: string;
-  startedAt?: number;
-  stoppedAt?: number;
-  statusReason?: string;
+  containers?: EksAttemptContainerDetail[] | undefined;
+  initContainers?: EksAttemptContainerDetail[] | undefined;
+  eksClusterArn?: string | undefined;
+  podName?: string | undefined;
+  podNamespace?: string | undefined;
+  nodeName?: string | undefined;
+  startedAt?: number | undefined;
+  stoppedAt?: number | undefined;
+  statusReason?: string | undefined;
 }
 export type EksAttemptDetails = EksAttemptDetail[];
 export interface TaskContainerDetails {
-  command?: string[];
-  dependsOn?: TaskContainerDependency[];
-  environment?: KeyValuePair[];
-  essential?: boolean;
-  firelensConfiguration?: FirelensConfiguration;
-  image?: string;
-  linuxParameters?: LinuxParameters;
-  logConfiguration?: LogConfiguration;
-  mountPoints?: MountPoint[];
-  name?: string;
-  privileged?: boolean;
-  readonlyRootFilesystem?: boolean;
-  repositoryCredentials?: RepositoryCredentials;
-  resourceRequirements?: ResourceRequirement[];
-  secrets?: Secret[];
-  ulimits?: Ulimit[];
-  user?: string;
-  startTimeout?: number;
-  stopTimeout?: number;
-  exitCode?: number;
-  reason?: string;
-  logStreamName?: string;
-  networkInterfaces?: NetworkInterface[];
+  command?: string[] | undefined;
+  dependsOn?: TaskContainerDependency[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  essential?: boolean | undefined;
+  firelensConfiguration?: FirelensConfiguration | undefined;
+  image?: string | undefined;
+  linuxParameters?: LinuxParameters | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  mountPoints?: MountPoint[] | undefined;
+  name?: string | undefined;
+  privileged?: boolean | undefined;
+  readonlyRootFilesystem?: boolean | undefined;
+  repositoryCredentials?: RepositoryCredentials | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
+  secrets?: Secret[] | undefined;
+  ulimits?: Ulimit[] | undefined;
+  user?: string | undefined;
+  startTimeout?: number | undefined;
+  stopTimeout?: number | undefined;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
+  logStreamName?: string | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
 }
 export type ListTaskContainerDetails = TaskContainerDetails[];
 export interface EcsTaskDetails {
-  containers?: TaskContainerDetails[];
-  containerInstanceArn?: string;
-  taskArn?: string;
-  ephemeralStorage?: EphemeralStorage;
-  executionRoleArn?: string;
-  platformVersion?: string;
-  ipcMode?: string;
-  taskRoleArn?: string;
-  pidMode?: string;
-  networkConfiguration?: NetworkConfiguration;
-  runtimePlatform?: RuntimePlatform;
-  volumes?: Volume[];
-  enableExecuteCommand?: boolean;
-  networkMode?: string;
+  containers?: TaskContainerDetails[] | undefined;
+  containerInstanceArn?: string | undefined;
+  taskArn?: string | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
+  executionRoleArn?: string | undefined;
+  platformVersion?: string | undefined;
+  ipcMode?: string | undefined;
+  taskRoleArn?: string | undefined;
+  pidMode?: string | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  runtimePlatform?: RuntimePlatform | undefined;
+  volumes?: Volume[] | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  networkMode?: string | undefined;
 }
 export type ListEcsTaskDetails = EcsTaskDetails[];
 export interface EcsPropertiesDetail {
-  taskProperties?: EcsTaskDetails[];
+  taskProperties?: EcsTaskDetails[] | undefined;
 }
 export interface JobDetail {
-  jobArn?: string;
-  jobName?: string;
-  jobId?: string;
-  jobQueue?: string;
-  status?: JobStatus;
-  shareIdentifier?: string;
-  schedulingPriority?: number;
-  attempts?: AttemptDetail[];
-  statusReason?: string;
-  createdAt?: number;
-  retryStrategy?: RetryStrategy;
-  startedAt?: number;
-  stoppedAt?: number;
-  dependsOn?: JobDependency[];
-  jobDefinition?: string;
-  parameters?: { [key: string]: string | undefined };
-  container?: ContainerDetail;
-  nodeDetails?: NodeDetails;
-  nodeProperties?: NodeProperties;
-  arrayProperties?: ArrayPropertiesDetail;
-  timeout?: JobTimeout;
-  tags?: { [key: string]: string | undefined };
-  propagateTags?: boolean;
-  platformCapabilities?: PlatformCapability[];
-  eksProperties?: EksPropertiesDetail;
-  eksAttempts?: EksAttemptDetail[];
-  ecsProperties?: EcsPropertiesDetail;
-  isCancelled?: boolean;
-  isTerminated?: boolean;
-  consumableResourceProperties?: ConsumableResourceProperties;
+  jobArn?: string | undefined;
+  jobName?: string | undefined;
+  jobId?: string | undefined;
+  jobQueue?: string | undefined;
+  status?: JobStatus | undefined;
+  shareIdentifier?: string | undefined;
+  schedulingPriority?: number | undefined;
+  attempts?: AttemptDetail[] | undefined;
+  statusReason?: string | undefined;
+  createdAt?: number | undefined;
+  retryStrategy?: RetryStrategy | undefined;
+  startedAt?: number | undefined;
+  stoppedAt?: number | undefined;
+  dependsOn?: JobDependency[] | undefined;
+  jobDefinition?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  container?: ContainerDetail | undefined;
+  nodeDetails?: NodeDetails | undefined;
+  nodeProperties?: NodeProperties | undefined;
+  arrayProperties?: ArrayPropertiesDetail | undefined;
+  timeout?: JobTimeout | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  propagateTags?: boolean | undefined;
+  platformCapabilities?: PlatformCapability[] | undefined;
+  eksProperties?: EksPropertiesDetail | undefined;
+  eksAttempts?: EksAttemptDetail[] | undefined;
+  ecsProperties?: EcsPropertiesDetail | undefined;
+  isCancelled?: boolean | undefined;
+  isTerminated?: boolean | undefined;
+  consumableResourceProperties?: ConsumableResourceProperties | undefined;
 }
 export type JobDetailList = JobDetail[];
 export interface DescribeJobsResponse {
-  jobs?: (JobDetail & {
-    jobName: string;
-    jobId: string;
-    jobQueue: string;
-    status: JobStatus;
-    startedAt: number;
-    jobDefinition: string;
-    retryStrategy: RetryStrategy & { evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[] };
-    container: ContainerDetail & {
-      volumes: (Volume & {
-        efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
-        s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
-      })[];
-      ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
-      resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
-      linuxParameters: LinuxParameters & {
-        devices: (Device & { hostPath: string })[];
-        tmpfs: (Tmpfs & { containerPath: string; size: number })[];
-      };
-      logConfiguration: LogConfiguration & {
-        logDriver: LogDriver;
-        secretOptions: (Secret & { name: string; valueFrom: string })[];
-      };
-      secrets: (Secret & { name: string; valueFrom: string })[];
-      ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-      repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
-    };
-    nodeProperties: NodeProperties & {
-      numNodes: number;
-      mainNode: number;
-      nodeRangeProperties: (NodeRangeProperty & {
-        targetNodes: string;
-        container: ContainerProperties & {
+  jobs?:
+    | (JobDetail & {
+        jobName: string;
+        jobId: string;
+        jobQueue: string;
+        status: JobStatus;
+        startedAt: number;
+        jobDefinition: string;
+        retryStrategy: RetryStrategy & {
+          evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[];
+        };
+        container: ContainerDetail & {
           volumes: (Volume & {
             efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
             s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
@@ -1380,10 +1374,101 @@ export interface DescribeJobsResponse {
           ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
           repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
         };
-        ecsProperties: EcsProperties & {
-          taskProperties: (EcsTaskProperties & {
-            containers: (TaskContainerProperties & {
-              image: string;
+        nodeProperties: NodeProperties & {
+          numNodes: number;
+          mainNode: number;
+          nodeRangeProperties: (NodeRangeProperty & {
+            targetNodes: string;
+            container: ContainerProperties & {
+              volumes: (Volume & {
+                efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+                s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
+              })[];
+              ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+              resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
+              linuxParameters: LinuxParameters & {
+                devices: (Device & { hostPath: string })[];
+                tmpfs: (Tmpfs & { containerPath: string; size: number })[];
+              };
+              logConfiguration: LogConfiguration & {
+                logDriver: LogDriver;
+                secretOptions: (Secret & { name: string; valueFrom: string })[];
+              };
+              secrets: (Secret & { name: string; valueFrom: string })[];
+              ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
+              repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+            };
+            ecsProperties: EcsProperties & {
+              taskProperties: (EcsTaskProperties & {
+                containers: (TaskContainerProperties & {
+                  image: string;
+                  firelensConfiguration: FirelensConfiguration & {
+                    type: FirelensConfigurationType;
+                  };
+                  linuxParameters: LinuxParameters & {
+                    devices: (Device & { hostPath: string })[];
+                    tmpfs: (Tmpfs & { containerPath: string; size: number })[];
+                  };
+                  logConfiguration: LogConfiguration & {
+                    logDriver: LogDriver;
+                    secretOptions: (Secret & { name: string; valueFrom: string })[];
+                  };
+                  repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+                  resourceRequirements: (ResourceRequirement & {
+                    value: string;
+                    type: ResourceType;
+                  })[];
+                  secrets: (Secret & { name: string; valueFrom: string })[];
+                  ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+                })[];
+                ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
+                volumes: (Volume & {
+                  efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+                  s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
+                    fileSystemArn: string;
+                  };
+                })[];
+              })[];
+            };
+            eksProperties: EksProperties & {
+              podProperties: EksPodProperties & {
+                imagePullSecrets: (ImagePullSecret & { name: string })[];
+                containers: (EksContainer & {
+                  image: string;
+                  env: (EksContainerEnvironmentVariable & { name: string })[];
+                })[];
+                initContainers: (EksContainer & {
+                  image: string;
+                  env: (EksContainerEnvironmentVariable & { name: string })[];
+                })[];
+                volumes: (EksVolume & {
+                  name: string;
+                  secret: EksSecret & { secretName: string };
+                  persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
+                })[];
+              };
+            };
+          })[];
+        };
+        eksProperties: EksPropertiesDetail & {
+          podProperties: EksPodPropertiesDetail & {
+            imagePullSecrets: (ImagePullSecret & { name: string })[];
+            containers: (EksContainerDetail & {
+              env: (EksContainerEnvironmentVariable & { name: string })[];
+            })[];
+            initContainers: (EksContainerDetail & {
+              env: (EksContainerEnvironmentVariable & { name: string })[];
+            })[];
+            volumes: (EksVolume & {
+              name: string;
+              secret: EksSecret & { secretName: string };
+              persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
+            })[];
+          };
+        };
+        ecsProperties: EcsPropertiesDetail & {
+          taskProperties: (EcsTaskDetails & {
+            containers: (TaskContainerDetails & {
               firelensConfiguration: FirelensConfiguration & { type: FirelensConfigurationType };
               linuxParameters: LinuxParameters & {
                 devices: (Device & { hostPath: string })[];
@@ -1405,70 +1490,11 @@ export interface DescribeJobsResponse {
             })[];
           })[];
         };
-        eksProperties: EksProperties & {
-          podProperties: EksPodProperties & {
-            imagePullSecrets: (ImagePullSecret & { name: string })[];
-            containers: (EksContainer & {
-              image: string;
-              env: (EksContainerEnvironmentVariable & { name: string })[];
-            })[];
-            initContainers: (EksContainer & {
-              image: string;
-              env: (EksContainerEnvironmentVariable & { name: string })[];
-            })[];
-            volumes: (EksVolume & {
-              name: string;
-              secret: EksSecret & { secretName: string };
-              persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
-            })[];
-          };
-        };
-      })[];
-    };
-    eksProperties: EksPropertiesDetail & {
-      podProperties: EksPodPropertiesDetail & {
-        imagePullSecrets: (ImagePullSecret & { name: string })[];
-        containers: (EksContainerDetail & {
-          env: (EksContainerEnvironmentVariable & { name: string })[];
-        })[];
-        initContainers: (EksContainerDetail & {
-          env: (EksContainerEnvironmentVariable & { name: string })[];
-        })[];
-        volumes: (EksVolume & {
-          name: string;
-          secret: EksSecret & { secretName: string };
-          persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
-        })[];
-      };
-    };
-    ecsProperties: EcsPropertiesDetail & {
-      taskProperties: (EcsTaskDetails & {
-        containers: (TaskContainerDetails & {
-          firelensConfiguration: FirelensConfiguration & { type: FirelensConfigurationType };
-          linuxParameters: LinuxParameters & {
-            devices: (Device & { hostPath: string })[];
-            tmpfs: (Tmpfs & { containerPath: string; size: number })[];
-          };
-          logConfiguration: LogConfiguration & {
-            logDriver: LogDriver;
-            secretOptions: (Secret & { name: string; valueFrom: string })[];
-          };
-          repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
-          resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
-          secrets: (Secret & { name: string; valueFrom: string })[];
-          ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
-        })[];
-        ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-        volumes: (Volume & {
-          efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
-          s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
-        })[];
-      })[];
-    };
-  })[];
+      })[]
+    | undefined;
 }
 export interface DescribeQuotaShareRequest {
-  quotaShareArn?: string;
+  quotaShareArn?: string | undefined;
 }
 export type QuotaShareStatus =
   | "CREATING"
@@ -1478,47 +1504,51 @@ export type QuotaShareStatus =
   | "DELETING"
   | (string & {});
 export interface DescribeQuotaShareResponse {
-  quotaShareName?: string;
-  quotaShareArn?: string;
-  jobQueueArn?: string;
-  capacityLimits?: (QuotaShareCapacityLimit & { maxCapacity: number; capacityUnit: string })[];
-  resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration & {
-    strategy: QuotaShareResourceSharingStrategy;
-  };
-  preemptionConfiguration?: QuotaSharePreemptionConfiguration & {
-    inSharePreemption: QuotaShareInSharePreemptionState;
-  };
-  state?: QuotaShareState;
-  status?: QuotaShareStatus;
-  tags?: { [key: string]: string | undefined };
+  quotaShareName?: string | undefined;
+  quotaShareArn?: string | undefined;
+  jobQueueArn?: string | undefined;
+  capacityLimits?:
+    | (QuotaShareCapacityLimit & { maxCapacity: number; capacityUnit: string })[]
+    | undefined;
+  resourceSharingConfiguration?:
+    | (QuotaShareResourceSharingConfiguration & { strategy: QuotaShareResourceSharingStrategy })
+    | undefined;
+  preemptionConfiguration?:
+    | (QuotaSharePreemptionConfiguration & { inSharePreemption: QuotaShareInSharePreemptionState })
+    | undefined;
+  state?: QuotaShareState | undefined;
+  status?: QuotaShareStatus | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeSchedulingPoliciesRequest {
-  arns?: string[];
+  arns?: string[] | undefined;
 }
 export interface SchedulingPolicyDetail {
-  name?: string;
-  arn?: string;
-  quotaSharePolicy?: QuotaSharePolicy;
-  fairsharePolicy?: FairsharePolicy;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  arn?: string | undefined;
+  quotaSharePolicy?: QuotaSharePolicy | undefined;
+  fairsharePolicy?: FairsharePolicy | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SchedulingPolicyDetailList = SchedulingPolicyDetail[];
 export interface DescribeSchedulingPoliciesResponse {
-  schedulingPolicies?: (SchedulingPolicyDetail & {
-    name: string;
-    arn: string;
-    quotaSharePolicy: QuotaSharePolicy & {
-      idleResourceAssignmentStrategy: QuotaShareIdleResourceAssignmentStrategy;
-    };
-    fairsharePolicy: FairsharePolicy & {
-      shareDistribution: (ShareAttributes & { shareIdentifier: string })[];
-    };
-  })[];
+  schedulingPolicies?:
+    | (SchedulingPolicyDetail & {
+        name: string;
+        arn: string;
+        quotaSharePolicy: QuotaSharePolicy & {
+          idleResourceAssignmentStrategy: QuotaShareIdleResourceAssignmentStrategy;
+        };
+        fairsharePolicy: FairsharePolicy & {
+          shareDistribution: (ShareAttributes & { shareIdentifier: string })[];
+        };
+      })[]
+    | undefined;
 }
 export interface DescribeServiceEnvironmentsRequest {
-  serviceEnvironments?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  serviceEnvironments?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ServiceEnvironmentStatus =
   | "CREATING"
@@ -1529,71 +1559,73 @@ export type ServiceEnvironmentStatus =
   | "INVALID"
   | (string & {});
 export interface ServiceEnvironmentDetail {
-  serviceEnvironmentName?: string;
-  serviceEnvironmentArn?: string;
-  serviceEnvironmentType?: ServiceEnvironmentType;
-  state?: ServiceEnvironmentState;
-  status?: ServiceEnvironmentStatus;
-  capacityLimits?: CapacityLimit[];
-  tags?: { [key: string]: string | undefined };
+  serviceEnvironmentName?: string | undefined;
+  serviceEnvironmentArn?: string | undefined;
+  serviceEnvironmentType?: ServiceEnvironmentType | undefined;
+  state?: ServiceEnvironmentState | undefined;
+  status?: ServiceEnvironmentStatus | undefined;
+  capacityLimits?: CapacityLimit[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ServiceEnvironmentDetailList = ServiceEnvironmentDetail[];
 export interface DescribeServiceEnvironmentsResponse {
-  serviceEnvironments?: (ServiceEnvironmentDetail & {
-    serviceEnvironmentName: string;
-    serviceEnvironmentArn: string;
-    serviceEnvironmentType: ServiceEnvironmentType;
-    capacityLimits: CapacityLimits;
-  })[];
-  nextToken?: string;
+  serviceEnvironments?:
+    | (ServiceEnvironmentDetail & {
+        serviceEnvironmentName: string;
+        serviceEnvironmentArn: string;
+        serviceEnvironmentType: ServiceEnvironmentType;
+        capacityLimits: CapacityLimits;
+      })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeServiceJobRequest {
-  jobId?: string;
+  jobId?: string | undefined;
 }
 export type ServiceResourceIdName = "TrainingJobArn" | (string & {});
 export interface ServiceResourceId {
-  name?: ServiceResourceIdName;
-  value?: string;
+  name?: ServiceResourceIdName | undefined;
+  value?: string | undefined;
 }
 export interface ServiceJobAttemptDetail {
-  serviceResourceId?: ServiceResourceId;
-  startedAt?: number;
-  stoppedAt?: number;
-  statusReason?: string;
+  serviceResourceId?: ServiceResourceId | undefined;
+  startedAt?: number | undefined;
+  stoppedAt?: number | undefined;
+  statusReason?: string | undefined;
 }
 export type ServiceJobAttemptDetails = ServiceJobAttemptDetail[];
 export interface ServiceJobCapacityUsageDetail {
-  capacityUnit?: string;
-  quantity?: number;
+  capacityUnit?: string | undefined;
+  quantity?: number | undefined;
 }
 export type ServiceJobCapacityUsageDetailList = ServiceJobCapacityUsageDetail[];
 export interface LatestServiceJobAttempt {
-  serviceResourceId?: ServiceResourceId;
+  serviceResourceId?: ServiceResourceId | undefined;
 }
 export type ServiceJobRetryAction = "RETRY" | "EXIT" | (string & {});
 export interface ServiceJobEvaluateOnExit {
-  action?: ServiceJobRetryAction;
-  onStatusReason?: string;
+  action?: ServiceJobRetryAction | undefined;
+  onStatusReason?: string | undefined;
 }
 export type ServiceJobEvaluateOnExitList = ServiceJobEvaluateOnExit[];
 export interface ServiceJobRetryStrategy {
-  attempts?: number;
-  evaluateOnExit?: ServiceJobEvaluateOnExit[];
+  attempts?: number | undefined;
+  evaluateOnExit?: ServiceJobEvaluateOnExit[] | undefined;
 }
 export type ServiceJobType = "SAGEMAKER_TRAINING" | (string & {});
 export interface ServiceJobPreemptionConfiguration {
-  preemptionRetriesBeforeTermination?: number;
+  preemptionRetriesBeforeTermination?: number | undefined;
 }
 export interface ServiceJobPreemptedAttempt {
-  serviceResourceId?: ServiceResourceId;
-  startedAt?: number;
-  stoppedAt?: number;
-  statusReason?: string;
+  serviceResourceId?: ServiceResourceId | undefined;
+  startedAt?: number | undefined;
+  stoppedAt?: number | undefined;
+  statusReason?: string | undefined;
 }
 export type ServiceJobRecentPreemptedAttemptList = ServiceJobPreemptedAttempt[];
 export interface ServiceJobPreemptionSummary {
-  preemptedAttemptCount?: number;
-  recentPreemptedAttempts?: ServiceJobPreemptedAttempt[];
+  preemptedAttemptCount?: number | undefined;
+  recentPreemptedAttempts?: ServiceJobPreemptedAttempt[] | undefined;
 }
 export type ServiceJobStatus =
   | "SUBMITTED"
@@ -1606,125 +1638,131 @@ export type ServiceJobStatus =
   | "FAILED"
   | (string & {});
 export interface ServiceJobTimeout {
-  attemptDurationSeconds?: number;
+  attemptDurationSeconds?: number | undefined;
 }
 export interface DescribeServiceJobResponse {
-  attempts?: (ServiceJobAttemptDetail & {
-    serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
-  })[];
-  capacityUsage?: ServiceJobCapacityUsageDetail[];
-  createdAt?: number;
-  isTerminated?: boolean;
-  jobArn?: string;
+  attempts?:
+    | (ServiceJobAttemptDetail & {
+        serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
+      })[]
+    | undefined;
+  capacityUsage?: ServiceJobCapacityUsageDetail[] | undefined;
+  createdAt?: number | undefined;
+  isTerminated?: boolean | undefined;
+  jobArn?: string | undefined;
   jobId: string;
   jobName: string;
   jobQueue: string;
-  latestAttempt?: LatestServiceJobAttempt & {
-    serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
-  };
-  retryStrategy?: ServiceJobRetryStrategy & { attempts: number };
-  scheduledAt?: number;
-  schedulingPriority?: number;
-  serviceRequestPayload?: string;
+  latestAttempt?:
+    | (LatestServiceJobAttempt & {
+        serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
+      })
+    | undefined;
+  retryStrategy?: (ServiceJobRetryStrategy & { attempts: number }) | undefined;
+  scheduledAt?: number | undefined;
+  schedulingPriority?: number | undefined;
+  serviceRequestPayload?: string | undefined;
   serviceJobType: ServiceJobType;
-  shareIdentifier?: string;
-  quotaShareName?: string;
-  preemptionConfiguration?: ServiceJobPreemptionConfiguration;
-  preemptionSummary?: ServiceJobPreemptionSummary & {
-    recentPreemptedAttempts: (ServiceJobPreemptedAttempt & {
-      serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
-    })[];
-  };
+  shareIdentifier?: string | undefined;
+  quotaShareName?: string | undefined;
+  preemptionConfiguration?: ServiceJobPreemptionConfiguration | undefined;
+  preemptionSummary?:
+    | (ServiceJobPreemptionSummary & {
+        recentPreemptedAttempts: (ServiceJobPreemptedAttempt & {
+          serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
+        })[];
+      })
+    | undefined;
   startedAt: number;
   status: ServiceJobStatus;
-  statusReason?: string;
-  stoppedAt?: number;
-  tags?: { [key: string]: string | undefined };
-  timeoutConfig?: ServiceJobTimeout;
+  statusReason?: string | undefined;
+  stoppedAt?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timeoutConfig?: ServiceJobTimeout | undefined;
 }
 export interface GetJobQueueSnapshotRequest {
-  jobQueue?: string;
+  jobQueue?: string | undefined;
 }
 export interface FrontOfQueueJobSummary {
-  jobArn?: string;
-  earliestTimeAtPosition?: number;
+  jobArn?: string | undefined;
+  earliestTimeAtPosition?: number | undefined;
 }
 export type FrontOfQueueJobSummaryList = FrontOfQueueJobSummary[];
 export interface FrontOfQueueDetail {
-  jobs?: FrontOfQueueJobSummary[];
-  lastUpdatedAt?: number;
+  jobs?: FrontOfQueueJobSummary[] | undefined;
+  lastUpdatedAt?: number | undefined;
 }
 export interface FrontOfQuotaShareJobSummary {
-  jobArn?: string;
-  earliestTimeAtPosition?: number;
+  jobArn?: string | undefined;
+  earliestTimeAtPosition?: number | undefined;
 }
 export type FrontOfQuotaShareJobSummaryList = FrontOfQuotaShareJobSummary[];
 export type FrontOfQuotaSharesJobSummaryMap = {
   [key: string]: FrontOfQuotaShareJobSummary[] | undefined;
 };
 export interface FrontOfQuotaSharesDetail {
-  quotaShares?: { [key: string]: FrontOfQuotaShareJobSummary[] | undefined };
-  lastUpdatedAt?: number;
+  quotaShares?: { [key: string]: FrontOfQuotaShareJobSummary[] | undefined } | undefined;
+  lastUpdatedAt?: number | undefined;
 }
 export interface QueueSnapshotCapacityUsage {
-  capacityUnit?: string;
-  quantity?: number;
+  capacityUnit?: string | undefined;
+  quantity?: number | undefined;
 }
 export type QueueSnapshotCapacityUsageList = QueueSnapshotCapacityUsage[];
 export interface FairshareCapacityUsage {
-  capacityUnit?: string;
-  quantity?: number;
+  capacityUnit?: string | undefined;
+  quantity?: number | undefined;
 }
 export type FairshareCapacityUsageList = FairshareCapacityUsage[];
 export interface FairshareCapacityUtilization {
-  shareIdentifier?: string;
-  capacityUsage?: FairshareCapacityUsage[];
+  shareIdentifier?: string | undefined;
+  capacityUsage?: FairshareCapacityUsage[] | undefined;
 }
 export type FairshareCapacityUtilizationList = FairshareCapacityUtilization[];
 export interface FairshareUtilizationDetail {
-  activeShareCount?: number;
-  topCapacityUtilization?: FairshareCapacityUtilization[];
+  activeShareCount?: number | undefined;
+  topCapacityUtilization?: FairshareCapacityUtilization[] | undefined;
 }
 export interface QuotaShareCapacityUsage {
-  capacityUnit?: string;
-  quantity?: number;
+  capacityUnit?: string | undefined;
+  quantity?: number | undefined;
 }
 export type QuotaShareCapacityUsageList = QuotaShareCapacityUsage[];
 export interface QuotaShareCapacityUtilization {
-  quotaShareName?: string;
-  capacityUsage?: QuotaShareCapacityUsage[];
+  quotaShareName?: string | undefined;
+  capacityUsage?: QuotaShareCapacityUsage[] | undefined;
 }
 export type QuotaShareCapacityUtilizationList = QuotaShareCapacityUtilization[];
 export interface QuotaShareUtilizationDetail {
-  topCapacityUtilization?: QuotaShareCapacityUtilization[];
+  topCapacityUtilization?: QuotaShareCapacityUtilization[] | undefined;
 }
 export interface QueueSnapshotUtilizationDetail {
-  totalCapacityUsage?: QueueSnapshotCapacityUsage[];
-  fairshareUtilization?: FairshareUtilizationDetail;
-  quotaShareUtilization?: QuotaShareUtilizationDetail;
-  lastUpdatedAt?: number;
+  totalCapacityUsage?: QueueSnapshotCapacityUsage[] | undefined;
+  fairshareUtilization?: FairshareUtilizationDetail | undefined;
+  quotaShareUtilization?: QuotaShareUtilizationDetail | undefined;
+  lastUpdatedAt?: number | undefined;
 }
 export interface GetJobQueueSnapshotResponse {
-  frontOfQueue?: FrontOfQueueDetail;
-  frontOfQuotaShares?: FrontOfQuotaSharesDetail;
-  queueUtilization?: QueueSnapshotUtilizationDetail;
+  frontOfQueue?: FrontOfQueueDetail | undefined;
+  frontOfQuotaShares?: FrontOfQuotaSharesDetail | undefined;
+  queueUtilization?: QueueSnapshotUtilizationDetail | undefined;
 }
 export interface KeyValuesPair {
-  name?: string;
-  values?: string[];
+  name?: string | undefined;
+  values?: string[] | undefined;
 }
 export type ListConsumableResourcesFilterList = KeyValuesPair[];
 export interface ListConsumableResourcesRequest {
-  filters?: KeyValuesPair[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: KeyValuesPair[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ConsumableResourceSummary {
-  consumableResourceArn?: string;
-  consumableResourceName?: string;
-  totalQuantity?: number;
-  inUseQuantity?: number;
-  resourceType?: string;
+  consumableResourceArn?: string | undefined;
+  consumableResourceName?: string | undefined;
+  totalQuantity?: number | undefined;
+  inUseQuantity?: number | undefined;
+  resourceType?: string | undefined;
 }
 export type ConsumableResourceSummaryList = ConsumableResourceSummary[];
 export interface ListConsumableResourcesResponse {
@@ -1732,81 +1770,81 @@ export interface ListConsumableResourcesResponse {
     consumableResourceArn: string;
     consumableResourceName: string;
   })[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListJobsFilterList = KeyValuesPair[];
 export interface ListJobsRequest {
-  jobQueue?: string;
-  arrayJobId?: string;
-  multiNodeJobId?: string;
-  jobStatus?: JobStatus;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: KeyValuesPair[];
+  jobQueue?: string | undefined;
+  arrayJobId?: string | undefined;
+  multiNodeJobId?: string | undefined;
+  jobStatus?: JobStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: KeyValuesPair[] | undefined;
 }
 export interface JobCapacityUsageSummary {
-  capacityUnit?: string;
-  quantity?: number;
+  capacityUnit?: string | undefined;
+  quantity?: number | undefined;
 }
 export type JobCapacityUsageSummaryList = JobCapacityUsageSummary[];
 export interface ContainerSummary {
-  exitCode?: number;
-  reason?: string;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
 }
 export interface ArrayPropertiesSummary {
-  size?: number;
-  index?: number;
-  statusSummary?: { [key: string]: number | undefined };
-  statusSummaryLastUpdatedAt?: number;
+  size?: number | undefined;
+  index?: number | undefined;
+  statusSummary?: { [key: string]: number | undefined } | undefined;
+  statusSummaryLastUpdatedAt?: number | undefined;
 }
 export interface NodePropertiesSummary {
-  isMainNode?: boolean;
-  numNodes?: number;
-  nodeIndex?: number;
+  isMainNode?: boolean | undefined;
+  numNodes?: number | undefined;
+  nodeIndex?: number | undefined;
 }
 export interface JobSummary {
-  jobArn?: string;
-  jobId?: string;
-  jobName?: string;
-  capacityUsage?: JobCapacityUsageSummary[];
-  createdAt?: number;
-  scheduledAt?: number;
-  shareIdentifier?: string;
-  status?: JobStatus;
-  statusReason?: string;
-  startedAt?: number;
-  stoppedAt?: number;
-  container?: ContainerSummary;
-  arrayProperties?: ArrayPropertiesSummary;
-  nodeProperties?: NodePropertiesSummary;
-  jobDefinition?: string;
-  isCancelled?: boolean;
-  isTerminated?: boolean;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  jobName?: string | undefined;
+  capacityUsage?: JobCapacityUsageSummary[] | undefined;
+  createdAt?: number | undefined;
+  scheduledAt?: number | undefined;
+  shareIdentifier?: string | undefined;
+  status?: JobStatus | undefined;
+  statusReason?: string | undefined;
+  startedAt?: number | undefined;
+  stoppedAt?: number | undefined;
+  container?: ContainerSummary | undefined;
+  arrayProperties?: ArrayPropertiesSummary | undefined;
+  nodeProperties?: NodePropertiesSummary | undefined;
+  jobDefinition?: string | undefined;
+  isCancelled?: boolean | undefined;
+  isTerminated?: boolean | undefined;
 }
 export type JobSummaryList = JobSummary[];
 export interface ListJobsResponse {
   jobSummaryList: (JobSummary & { jobId: string; jobName: string })[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListJobsByConsumableResourceFilterList = KeyValuesPair[];
 export interface ListJobsByConsumableResourceRequest {
-  consumableResource?: string;
-  filters?: KeyValuesPair[];
-  maxResults?: number;
-  nextToken?: string;
+  consumableResource?: string | undefined;
+  filters?: KeyValuesPair[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListJobsByConsumableResourceSummary {
-  jobArn?: string;
-  jobQueueArn?: string;
-  jobName?: string;
-  jobDefinitionArn?: string;
-  shareIdentifier?: string;
-  jobStatus?: string;
-  quantity?: number;
-  statusReason?: string;
-  startedAt?: number;
-  createdAt?: number;
-  consumableResourceProperties?: ConsumableResourceProperties;
+  jobArn?: string | undefined;
+  jobQueueArn?: string | undefined;
+  jobName?: string | undefined;
+  jobDefinitionArn?: string | undefined;
+  shareIdentifier?: string | undefined;
+  jobStatus?: string | undefined;
+  quantity?: number | undefined;
+  statusReason?: string | undefined;
+  startedAt?: number | undefined;
+  createdAt?: number | undefined;
+  consumableResourceProperties?: ConsumableResourceProperties | undefined;
 }
 export type ListJobsByConsumableResourceSummaryList = ListJobsByConsumableResourceSummary[];
 export interface ListJobsByConsumableResourceResponse {
@@ -1819,76 +1857,78 @@ export interface ListJobsByConsumableResourceResponse {
     createdAt: number;
     consumableResourceProperties: ConsumableResourceProperties;
   })[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQuotaSharesRequest {
-  jobQueue?: string;
-  maxResults?: number;
-  nextToken?: string;
+  jobQueue?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface QuotaShareDetail {
-  quotaShareName?: string;
-  quotaShareArn?: string;
-  jobQueueArn?: string;
-  capacityLimits?: QuotaShareCapacityLimit[];
-  resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration;
-  preemptionConfiguration?: QuotaSharePreemptionConfiguration;
-  state?: QuotaShareState;
-  status?: QuotaShareStatus;
+  quotaShareName?: string | undefined;
+  quotaShareArn?: string | undefined;
+  jobQueueArn?: string | undefined;
+  capacityLimits?: QuotaShareCapacityLimit[] | undefined;
+  resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration | undefined;
+  preemptionConfiguration?: QuotaSharePreemptionConfiguration | undefined;
+  state?: QuotaShareState | undefined;
+  status?: QuotaShareStatus | undefined;
 }
 export type QuotaShareList = QuotaShareDetail[];
 export interface ListQuotaSharesResponse {
-  quotaShares?: (QuotaShareDetail & {
-    capacityLimits: (QuotaShareCapacityLimit & { maxCapacity: number; capacityUnit: string })[];
-    resourceSharingConfiguration: QuotaShareResourceSharingConfiguration & {
-      strategy: QuotaShareResourceSharingStrategy;
-    };
-    preemptionConfiguration: QuotaSharePreemptionConfiguration & {
-      inSharePreemption: QuotaShareInSharePreemptionState;
-    };
-  })[];
-  nextToken?: string;
+  quotaShares?:
+    | (QuotaShareDetail & {
+        capacityLimits: (QuotaShareCapacityLimit & { maxCapacity: number; capacityUnit: string })[];
+        resourceSharingConfiguration: QuotaShareResourceSharingConfiguration & {
+          strategy: QuotaShareResourceSharingStrategy;
+        };
+        preemptionConfiguration: QuotaSharePreemptionConfiguration & {
+          inSharePreemption: QuotaShareInSharePreemptionState;
+        };
+      })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSchedulingPoliciesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SchedulingPolicyListingDetail {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type SchedulingPolicyListingDetailList = SchedulingPolicyListingDetail[];
 export interface ListSchedulingPoliciesResponse {
-  schedulingPolicies?: (SchedulingPolicyListingDetail & { arn: string })[];
-  nextToken?: string;
+  schedulingPolicies?: (SchedulingPolicyListingDetail & { arn: string })[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListServiceJobsRequest {
-  jobQueue?: string;
-  jobStatus?: ServiceJobStatus;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: KeyValuesPair[];
+  jobQueue?: string | undefined;
+  jobStatus?: ServiceJobStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: KeyValuesPair[] | undefined;
 }
 export interface ServiceJobCapacityUsageSummary {
-  capacityUnit?: string;
-  quantity?: number;
+  capacityUnit?: string | undefined;
+  quantity?: number | undefined;
 }
 export type ServiceJobCapacityUsageSummaryList = ServiceJobCapacityUsageSummary[];
 export interface ServiceJobSummary {
-  latestAttempt?: LatestServiceJobAttempt;
-  capacityUsage?: ServiceJobCapacityUsageSummary[];
-  createdAt?: number;
-  jobArn?: string;
-  jobId?: string;
-  jobName?: string;
-  scheduledAt?: number;
-  serviceJobType?: ServiceJobType;
-  shareIdentifier?: string;
-  quotaShareName?: string;
-  status?: ServiceJobStatus;
-  statusReason?: string;
-  startedAt?: number;
-  stoppedAt?: number;
-  isTerminated?: boolean;
+  latestAttempt?: LatestServiceJobAttempt | undefined;
+  capacityUsage?: ServiceJobCapacityUsageSummary[] | undefined;
+  createdAt?: number | undefined;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  jobName?: string | undefined;
+  scheduledAt?: number | undefined;
+  serviceJobType?: ServiceJobType | undefined;
+  shareIdentifier?: string | undefined;
+  quotaShareName?: string | undefined;
+  status?: ServiceJobStatus | undefined;
+  statusReason?: string | undefined;
+  startedAt?: number | undefined;
+  stoppedAt?: number | undefined;
+  isTerminated?: boolean | undefined;
 }
 export type ServiceJobSummaryList = ServiceJobSummary[];
 export interface ListServiceJobsResponse {
@@ -1900,30 +1940,30 @@ export interface ListServiceJobsResponse {
       serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
     };
   })[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type JobDefinitionType = "container" | "multinode" | (string & {});
 export interface RegisterJobDefinitionRequest {
-  jobDefinitionName?: string;
-  type?: JobDefinitionType;
-  parameters?: { [key: string]: string | undefined };
-  schedulingPriority?: number;
-  containerProperties?: ContainerProperties;
-  nodeProperties?: NodeProperties;
-  retryStrategy?: RetryStrategy;
-  propagateTags?: boolean;
-  timeout?: JobTimeout;
-  tags?: { [key: string]: string | undefined };
-  platformCapabilities?: PlatformCapability[];
-  eksProperties?: EksProperties;
-  ecsProperties?: EcsProperties;
-  consumableResourceProperties?: ConsumableResourceProperties;
+  jobDefinitionName?: string | undefined;
+  type?: JobDefinitionType | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  schedulingPriority?: number | undefined;
+  containerProperties?: ContainerProperties | undefined;
+  nodeProperties?: NodeProperties | undefined;
+  retryStrategy?: RetryStrategy | undefined;
+  propagateTags?: boolean | undefined;
+  timeout?: JobTimeout | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  platformCapabilities?: PlatformCapability[] | undefined;
+  eksProperties?: EksProperties | undefined;
+  ecsProperties?: EcsProperties | undefined;
+  consumableResourceProperties?: ConsumableResourceProperties | undefined;
 }
 export interface RegisterJobDefinitionResponse {
   jobDefinitionName: string;
@@ -1931,122 +1971,122 @@ export interface RegisterJobDefinitionResponse {
   revision: number;
 }
 export interface ArrayProperties {
-  size?: number;
+  size?: number | undefined;
 }
 export interface ContainerOverrides {
-  vcpus?: number;
-  memory?: number;
-  command?: string[];
-  instanceType?: string;
-  environment?: KeyValuePair[];
-  resourceRequirements?: ResourceRequirement[];
+  vcpus?: number | undefined;
+  memory?: number | undefined;
+  command?: string[] | undefined;
+  instanceType?: string | undefined;
+  environment?: KeyValuePair[] | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
 }
 export interface TaskContainerOverrides {
-  command?: string[];
-  environment?: KeyValuePair[];
-  name?: string;
-  resourceRequirements?: ResourceRequirement[];
+  command?: string[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  name?: string | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
 }
 export type ListTaskContainerOverrides = TaskContainerOverrides[];
 export interface TaskPropertiesOverride {
-  containers?: TaskContainerOverrides[];
+  containers?: TaskContainerOverrides[] | undefined;
 }
 export type ListTaskPropertiesOverride = TaskPropertiesOverride[];
 export interface EcsPropertiesOverride {
-  taskProperties?: TaskPropertiesOverride[];
+  taskProperties?: TaskPropertiesOverride[] | undefined;
 }
 export interface EksContainerOverride {
-  name?: string;
-  image?: string;
-  command?: string[];
-  args?: string[];
-  env?: EksContainerEnvironmentVariable[];
-  resources?: EksContainerResourceRequirements;
+  name?: string | undefined;
+  image?: string | undefined;
+  command?: string[] | undefined;
+  args?: string[] | undefined;
+  env?: EksContainerEnvironmentVariable[] | undefined;
+  resources?: EksContainerResourceRequirements | undefined;
 }
 export type EksContainerOverrideList = EksContainerOverride[];
 export interface EksPodPropertiesOverride {
-  containers?: EksContainerOverride[];
-  initContainers?: EksContainerOverride[];
-  metadata?: EksMetadata;
+  containers?: EksContainerOverride[] | undefined;
+  initContainers?: EksContainerOverride[] | undefined;
+  metadata?: EksMetadata | undefined;
 }
 export interface EksPropertiesOverride {
-  podProperties?: EksPodPropertiesOverride;
+  podProperties?: EksPodPropertiesOverride | undefined;
 }
 export interface NodePropertyOverride {
-  targetNodes?: string;
-  containerOverrides?: ContainerOverrides;
-  ecsPropertiesOverride?: EcsPropertiesOverride;
-  instanceTypes?: string[];
-  eksPropertiesOverride?: EksPropertiesOverride;
-  consumableResourcePropertiesOverride?: ConsumableResourceProperties;
+  targetNodes?: string | undefined;
+  containerOverrides?: ContainerOverrides | undefined;
+  ecsPropertiesOverride?: EcsPropertiesOverride | undefined;
+  instanceTypes?: string[] | undefined;
+  eksPropertiesOverride?: EksPropertiesOverride | undefined;
+  consumableResourcePropertiesOverride?: ConsumableResourceProperties | undefined;
 }
 export type NodePropertyOverrides = NodePropertyOverride[];
 export interface NodeOverrides {
-  numNodes?: number;
-  nodePropertyOverrides?: NodePropertyOverride[];
+  numNodes?: number | undefined;
+  nodePropertyOverrides?: NodePropertyOverride[] | undefined;
 }
 export interface SubmitJobRequest {
-  jobName?: string;
-  jobQueue?: string;
-  shareIdentifier?: string;
-  schedulingPriorityOverride?: number;
-  arrayProperties?: ArrayProperties;
-  dependsOn?: JobDependency[];
-  jobDefinition?: string;
-  parameters?: { [key: string]: string | undefined };
-  containerOverrides?: ContainerOverrides;
-  nodeOverrides?: NodeOverrides;
-  retryStrategy?: RetryStrategy;
-  propagateTags?: boolean;
-  timeout?: JobTimeout;
-  tags?: { [key: string]: string | undefined };
-  eksPropertiesOverride?: EksPropertiesOverride;
-  ecsPropertiesOverride?: EcsPropertiesOverride;
-  consumableResourcePropertiesOverride?: ConsumableResourceProperties;
+  jobName?: string | undefined;
+  jobQueue?: string | undefined;
+  shareIdentifier?: string | undefined;
+  schedulingPriorityOverride?: number | undefined;
+  arrayProperties?: ArrayProperties | undefined;
+  dependsOn?: JobDependency[] | undefined;
+  jobDefinition?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  containerOverrides?: ContainerOverrides | undefined;
+  nodeOverrides?: NodeOverrides | undefined;
+  retryStrategy?: RetryStrategy | undefined;
+  propagateTags?: boolean | undefined;
+  timeout?: JobTimeout | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  eksPropertiesOverride?: EksPropertiesOverride | undefined;
+  ecsPropertiesOverride?: EcsPropertiesOverride | undefined;
+  consumableResourcePropertiesOverride?: ConsumableResourceProperties | undefined;
 }
 export interface SubmitJobResponse {
-  jobArn?: string;
+  jobArn?: string | undefined;
   jobName: string;
   jobId: string;
 }
 export type ClientRequestToken = string;
 export interface SubmitServiceJobRequest {
-  jobName?: string;
-  jobQueue?: string;
-  retryStrategy?: ServiceJobRetryStrategy;
-  schedulingPriority?: number;
-  serviceRequestPayload?: string;
-  serviceJobType?: ServiceJobType;
-  shareIdentifier?: string;
-  quotaShareName?: string;
-  preemptionConfiguration?: ServiceJobPreemptionConfiguration;
-  timeoutConfig?: ServiceJobTimeout;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  jobName?: string | undefined;
+  jobQueue?: string | undefined;
+  retryStrategy?: ServiceJobRetryStrategy | undefined;
+  schedulingPriority?: number | undefined;
+  serviceRequestPayload?: string | undefined;
+  serviceJobType?: ServiceJobType | undefined;
+  shareIdentifier?: string | undefined;
+  quotaShareName?: string | undefined;
+  preemptionConfiguration?: ServiceJobPreemptionConfiguration | undefined;
+  timeoutConfig?: ServiceJobTimeout | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface SubmitServiceJobResponse {
-  jobArn?: string;
+  jobArn?: string | undefined;
   jobName: string;
   jobId: string;
 }
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface TerminateJobRequest {
-  jobId?: string;
-  reason?: string;
+  jobId?: string | undefined;
+  reason?: string | undefined;
 }
 export interface TerminateJobResponse {}
 export interface TerminateJobsRequest {
-  jobs?: string[];
-  reason?: string;
+  jobs?: string[] | undefined;
+  reason?: string | undefined;
 }
 export interface TerminateJobsErrorDetail {
-  job?: string;
-  code?: string;
-  message?: string;
+  job?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type TerminateJobsErrorDetailList = TerminateJobsErrorDetail[];
 export interface TerminateJobsResponse {
@@ -2054,18 +2094,18 @@ export interface TerminateJobsResponse {
   errors: (TerminateJobsErrorDetail & { job: string; code: string; message: string })[];
 }
 export interface TerminateServiceJobRequest {
-  jobId?: string;
-  reason?: string;
+  jobId?: string | undefined;
+  reason?: string | undefined;
 }
 export interface TerminateServiceJobResponse {}
 export interface TerminateServiceJobsRequest {
-  jobs?: string[];
-  reason?: string;
+  jobs?: string[] | undefined;
+  reason?: string | undefined;
 }
 export interface TerminateServiceJobsErrorDetail {
-  job?: string;
-  code?: string;
-  message?: string;
+  job?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type TerminateServiceJobsErrorDetailList = TerminateServiceJobsErrorDetail[];
 export interface TerminateServiceJobsResponse {
@@ -2075,7 +2115,7 @@ export interface TerminateServiceJobsResponse {
 export type TagKeysList = string[];
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys?: string[];
+  tagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export type CRUpdateAllocationStrategy =
@@ -2086,119 +2126,119 @@ export type CRUpdateAllocationStrategy =
   | "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED"
   | (string & {});
 export interface InstanceLaunchTemplateUpdate {
-  ec2InstanceProfileArn?: string;
-  networkConfiguration?: ManagedInstancesNetworkConfiguration;
-  instanceRequirements?: InstanceRequirementsRequest;
-  storageConfiguration?: ManagedInstancesStorageConfiguration;
-  monitoring?: string;
-  capacityReservations?: CapacityReservationRequest;
-  instanceMetadataTagsPropagation?: boolean;
-  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration;
+  ec2InstanceProfileArn?: string | undefined;
+  networkConfiguration?: ManagedInstancesNetworkConfiguration | undefined;
+  instanceRequirements?: InstanceRequirementsRequest | undefined;
+  storageConfiguration?: ManagedInstancesStorageConfiguration | undefined;
+  monitoring?: string | undefined;
+  capacityReservations?: CapacityReservationRequest | undefined;
+  instanceMetadataTagsPropagation?: boolean | undefined;
+  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration | undefined;
 }
 export interface UpdateManagedInstancesProviderConfiguration {
-  propagateTags?: string;
-  infrastructureRoleArn?: string;
-  instanceLaunchTemplate?: InstanceLaunchTemplateUpdate;
-  infrastructureOptimization?: InfrastructureOptimization;
+  propagateTags?: string | undefined;
+  infrastructureRoleArn?: string | undefined;
+  instanceLaunchTemplate?: InstanceLaunchTemplateUpdate | undefined;
+  infrastructureOptimization?: InfrastructureOptimization | undefined;
 }
 export interface ComputeResourceUpdate {
-  minvCpus?: number;
-  maxvCpus?: number;
-  desiredvCpus?: number;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  allocationStrategy?: CRUpdateAllocationStrategy;
-  instanceTypes?: string[];
-  ec2KeyPair?: string;
-  instanceRole?: string;
-  tags?: { [key: string]: string | undefined };
-  placementGroup?: string;
-  bidPercentage?: number;
-  launchTemplate?: LaunchTemplateSpecification;
-  ec2Configuration?: Ec2Configuration[];
-  updateToLatestImageVersion?: boolean;
-  type?: CRType;
-  imageId?: string;
-  scalingPolicy?: ComputeScalingPolicy;
-  managedInstancesProvider?: UpdateManagedInstancesProviderConfiguration;
-  capacityTags?: { [key: string]: string | undefined };
+  minvCpus?: number | undefined;
+  maxvCpus?: number | undefined;
+  desiredvCpus?: number | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  allocationStrategy?: CRUpdateAllocationStrategy | undefined;
+  instanceTypes?: string[] | undefined;
+  ec2KeyPair?: string | undefined;
+  instanceRole?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  placementGroup?: string | undefined;
+  bidPercentage?: number | undefined;
+  launchTemplate?: LaunchTemplateSpecification | undefined;
+  ec2Configuration?: Ec2Configuration[] | undefined;
+  updateToLatestImageVersion?: boolean | undefined;
+  type?: CRType | undefined;
+  imageId?: string | undefined;
+  scalingPolicy?: ComputeScalingPolicy | undefined;
+  managedInstancesProvider?: UpdateManagedInstancesProviderConfiguration | undefined;
+  capacityTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface EksConfigurationUpdate {
-  accessEntry?: EksAccessEntry;
+  accessEntry?: EksAccessEntry | undefined;
 }
 export interface UpdateComputeEnvironmentRequest {
-  computeEnvironment?: string;
-  state?: CEState;
-  unmanagedvCpus?: number;
-  computeResources?: ComputeResourceUpdate;
-  serviceRole?: string;
-  updatePolicy?: UpdatePolicy;
-  context?: string;
-  ecsSettings?: EcsSettings;
-  eksConfiguration?: EksConfigurationUpdate;
+  computeEnvironment?: string | undefined;
+  state?: CEState | undefined;
+  unmanagedvCpus?: number | undefined;
+  computeResources?: ComputeResourceUpdate | undefined;
+  serviceRole?: string | undefined;
+  updatePolicy?: UpdatePolicy | undefined;
+  context?: string | undefined;
+  ecsSettings?: EcsSettings | undefined;
+  eksConfiguration?: EksConfigurationUpdate | undefined;
 }
 export interface UpdateComputeEnvironmentResponse {
-  computeEnvironmentName?: string;
-  computeEnvironmentArn?: string;
+  computeEnvironmentName?: string | undefined;
+  computeEnvironmentArn?: string | undefined;
 }
 export interface UpdateConsumableResourceRequest {
-  consumableResource?: string;
-  operation?: string;
-  quantity?: number;
-  clientToken?: string;
+  consumableResource?: string | undefined;
+  operation?: string | undefined;
+  quantity?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateConsumableResourceResponse {
   consumableResourceName: string;
   consumableResourceArn: string;
-  totalQuantity?: number;
+  totalQuantity?: number | undefined;
 }
 export interface UpdateJobQueueRequest {
-  jobQueue?: string;
-  state?: JQState;
-  schedulingPolicyArn?: string;
-  priority?: number;
-  computeEnvironmentOrder?: ComputeEnvironmentOrder[];
-  serviceEnvironmentOrder?: ServiceEnvironmentOrder[];
-  jobStateTimeLimitActions?: JobStateTimeLimitAction[];
+  jobQueue?: string | undefined;
+  state?: JQState | undefined;
+  schedulingPolicyArn?: string | undefined;
+  priority?: number | undefined;
+  computeEnvironmentOrder?: ComputeEnvironmentOrder[] | undefined;
+  serviceEnvironmentOrder?: ServiceEnvironmentOrder[] | undefined;
+  jobStateTimeLimitActions?: JobStateTimeLimitAction[] | undefined;
 }
 export interface UpdateJobQueueResponse {
-  jobQueueName?: string;
-  jobQueueArn?: string;
+  jobQueueName?: string | undefined;
+  jobQueueArn?: string | undefined;
 }
 export interface UpdateQuotaShareRequest {
-  quotaShareArn?: string;
-  capacityLimits?: QuotaShareCapacityLimit[];
-  resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration;
-  preemptionConfiguration?: QuotaSharePreemptionConfiguration;
-  state?: QuotaShareState;
+  quotaShareArn?: string | undefined;
+  capacityLimits?: QuotaShareCapacityLimit[] | undefined;
+  resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration | undefined;
+  preemptionConfiguration?: QuotaSharePreemptionConfiguration | undefined;
+  state?: QuotaShareState | undefined;
 }
 export interface UpdateQuotaShareResponse {
-  quotaShareName?: string;
-  quotaShareArn?: string;
+  quotaShareName?: string | undefined;
+  quotaShareArn?: string | undefined;
 }
 export interface UpdateSchedulingPolicyRequest {
-  arn?: string;
-  quotaSharePolicy?: QuotaSharePolicy;
-  fairsharePolicy?: FairsharePolicy;
+  arn?: string | undefined;
+  quotaSharePolicy?: QuotaSharePolicy | undefined;
+  fairsharePolicy?: FairsharePolicy | undefined;
 }
 export interface UpdateSchedulingPolicyResponse {}
 export interface UpdateServiceEnvironmentRequest {
-  serviceEnvironment?: string;
-  state?: ServiceEnvironmentState;
-  capacityLimits?: CapacityLimit[];
+  serviceEnvironment?: string | undefined;
+  state?: ServiceEnvironmentState | undefined;
+  capacityLimits?: CapacityLimit[] | undefined;
 }
 export interface UpdateServiceEnvironmentResponse {
   serviceEnvironmentName: string;
   serviceEnvironmentArn: string;
 }
 export interface UpdateServiceJobRequest {
-  jobId?: string;
-  schedulingPriority?: number;
+  jobId?: string | undefined;
+  schedulingPriority?: number | undefined;
 }
 export interface UpdateServiceJobResponse {
-  jobArn?: string;
-  jobName?: string;
-  jobId?: string;
+  jobArn?: string | undefined;
+  jobName?: string | undefined;
+  jobId?: string | undefined;
 }
 export type CancelJobError = ClientException | ServerException | CommonErrors;
 /**
