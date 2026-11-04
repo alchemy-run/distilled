@@ -24,6 +24,7 @@ import { TelemetryDebug } from "../src/telemetry-debug.ts";
 import * as TxHost from "../src/telemetry-host-rules.ts";
 import * as TxMessage from "../src/telemetry-message-context.ts";
 import * as TxName from "../src/telemetry-name-template.ts";
+import * as TxXray from "../src/telemetry-xray.ts";
 import * as Telemetry from "../src/telemetry.ts";
 import * as T from "../src/trait.ts";
 
@@ -147,6 +148,118 @@ describe("operation span from the telemetry traits", () => {
   test("without an exporter there is no span", async () => {
     const spans = await traced({ zone_id: "z1" }, "operation", false);
     expect(spans).toEqual([]);
+  });
+});
+
+// The trace header a request carries, per service format, exporter and
+// parent span (issue #981).
+const propagatingOp = (propagate: Telemetry.ServiceTelemetry["propagate"]) =>
+  API.make(() => ({
+    input: S.Struct({ zone_id: S.String.pipe(T.Label()) }).pipe(
+      T.Http({ method: "GET", uri: "/zones/{zone_id}" }),
+    ),
+    output: S.Struct({ id: S.optional(S.String) }),
+    protocol: Protocol,
+    telemetry: { ...TELEMETRY, propagate },
+    span: { name: "Test.GetZone", method: "Zones/GetZone" },
+  })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+
+const PARENT = Tracer.externalSpan({
+  traceId: "4bf92f3577b34da6a3ce929d0e0e4736",
+  spanId: "00f067aa0ba902b7",
+  sampled: true,
+});
+
+const sentHeaders = async (
+  op: (input: Record<string, unknown>) => Effect.Effect<any, any, any>,
+  wrap: (effect: Effect.Effect<any, any, any>) => Effect.Effect<any, any, any>,
+) => {
+  let headers: Record<string, string> = {};
+  const http = Layer.succeed(
+    HttpClient.HttpClient,
+    HttpClient.make((request) =>
+      Effect.sync(() => {
+        headers = { ...request.headers };
+        return HttpClientResponse.fromWeb(
+          request,
+          new Response(JSON.stringify({ id: "z1" }), {
+            headers: { "content-type": "application/json" },
+          }),
+        );
+      }),
+    ),
+  );
+  await Effect.runPromise(
+    wrap(op({ zone_id: "z1" })).pipe(
+      Effect.provide(Layer.mergeAll(http, Layer.succeed(Creds, { token: "t" }))),
+    ) as Effect.Effect<unknown>,
+  );
+  return headers;
+};
+
+describe("trace context without an exporter", () => {
+  const w3c = propagatingOp("w3c");
+  const xray = propagatingOp(TxXray.propagate);
+  const inParent = (effect: Effect.Effect<any, any, any>) => Effect.withParentSpan(effect, PARENT);
+
+  test("w3c: the request carries the parent's traceparent", async () => {
+    const headers = await sentHeaders(w3c, inParent);
+    expect(headers.traceparent).toBe("00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01");
+    expect(headers.b3).toBeUndefined();
+  });
+
+  test("xray: the request carries the parent's X-Amzn-Trace-Id", async () => {
+    const headers = await sentHeaders(xray, inParent);
+    expect(headers["x-amzn-trace-id"]).toBe(
+      "Root=1-4bf92f35-77b34da6a3ce929d0e0e4736;Parent=00f067aa0ba902b7;Sampled=1",
+    );
+  });
+
+  test("an unsampled parent stays unsampled", async () => {
+    const unsampled = Tracer.externalSpan({ ...PARENT, sampled: false });
+    const headers = await sentHeaders(w3c, (effect) => Effect.withParentSpan(effect, unsampled));
+    expect(headers.traceparent).toBe("00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00");
+  });
+
+  test("an Effect span parent is forwarded too", async () => {
+    let parent: Tracer.Span | undefined;
+    const headers = await sentHeaders(w3c, (effect) =>
+      Effect.withSpan(
+        Effect.flatMap(Effect.currentSpan, (span) => {
+          parent = span;
+          return effect;
+        }),
+        "app",
+      ),
+    );
+    expect(headers.traceparent).toBe(`00-${parent!.traceId}-${parent!.spanId}-01`);
+  });
+
+  test("no parent span, no trace header", async () => {
+    const headers = await sentHeaders(w3c, (effect) => effect);
+    expect(headers.traceparent).toBeUndefined();
+  });
+
+  test("a service without propagation sends no trace header", async () => {
+    const headers = await sentHeaders(propagatingOp(undefined), inParent);
+    expect(headers.traceparent).toBeUndefined();
+  });
+
+  test("with an exporter the header names the operation span under the parent", async () => {
+    const spans: Tracer.NativeSpan[] = [];
+    const tracer = Tracer.make({
+      span(options) {
+        const span = new Tracer.NativeSpan(options);
+        spans.push(span);
+        return span;
+      },
+    });
+    const headers = await sentHeaders(w3c, (effect) =>
+      inParent(effect).pipe(Effect.provideService(Tracer.Tracer, tracer)),
+    );
+    expect(spans).toHaveLength(1);
+    expect(spans[0]!.traceId).toBe(PARENT.traceId);
+    expect(headers.traceparent).toBe(`00-${PARENT.traceId}-${spans[0]!.spanId}-01`);
   });
 });
 
