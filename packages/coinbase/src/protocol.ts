@@ -1,6 +1,5 @@
 import * as crypto from "node:crypto";
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import { ConfigError, HTTP_STATUS_MAP, type InvalidInput } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
 import {
@@ -404,9 +403,6 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {

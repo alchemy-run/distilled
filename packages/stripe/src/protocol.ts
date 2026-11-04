@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   HTTP_STATUS_MAP,
@@ -421,12 +420,6 @@ const requestFor = (
 
   const qs = query === undefined ? "" : query.toString();
   const url = qs ? `${creds.apiBaseUrl}${uri}?${qs}` : `${creds.apiBaseUrl}${uri}`;
-  if (debugHttp()) {
-    console.error(
-      `[distilled] ${http.method} ${url}` +
-        (bodyKeys && !bodyless ? ` body=${JSON.stringify(body).slice(0, 400)}` : ""),
-    );
-  }
 
   const request = makeRequest(http.method, url, headers);
   if (bodyless || bodyKeys === 0) return Effect.succeed(request);
@@ -592,9 +585,6 @@ const decodeResponse = (
     onSuccess: (read): Effect.Effect<unknown> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";
-      if (debugHttp()) {
-        console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-      }
       let json: unknown;
       let nonJson = false;
       if (text.trim().length > 0) {
