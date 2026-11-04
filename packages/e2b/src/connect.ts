@@ -234,7 +234,7 @@ const errorOf = (json: unknown): { code?: string; message?: string } | undefined
 const missingSandbox = /*@__PURE__*/ Effect.fail(
   new ConfigError({
     message:
-      "E2B envd operations address one sandbox — provide E2B.sandboxConnection({ sandboxId, accessToken })",
+      "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
   }),
 );
 

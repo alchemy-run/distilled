@@ -95,7 +95,7 @@ export const E2BProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProt
 const missingSandbox = /*@__PURE__*/ Effect.fail(
   new ConfigError({
     message:
-      "E2B envd operations address one sandbox — provide E2B.sandboxConnection({ sandboxId, accessToken })",
+      "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
   }),
 );
 
@@ -125,7 +125,7 @@ export const EnvdProtocol: Layer.Layer<API.Protocol> =
 const missingVolume = /*@__PURE__*/ Effect.fail(
   new ConfigError({
     message:
-      "E2B volume content operations authenticate with the volume's token — provide E2B.volumeConnection({ token })",
+      "E2B volume content operations authenticate with the volume's token -- provide E2B.volumeConnection({ token })",
   }),
 );
 

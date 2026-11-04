@@ -7,10 +7,10 @@
  * hand-written.
  *
  * Control-plane modules (`sandboxes`, `templates`, `volumes`, `secrets`,
- * `snapshots`, `webhooks`, …) authenticate with the team API key. The envd
+ * `snapshots`, `webhooks`, ...) authenticate with the team API key. The envd
  * modules (`envd`, `process`, `filesystem`) address one running sandbox,
- * streaming calls included — provide `sandboxConnection`.
- * `volumeContent` authenticates with one volume's token — provide
+ * streaming calls included -- provide `sandboxConnection`.
+ * `volumeContent` authenticates with one volume's token -- provide
  * `volumeConnection`.
  *
  * @example
