@@ -91,25 +91,62 @@ const failed = (span: Tracer.NativeSpan) =>
   span.status._tag === "Ended" && Exit.isFailure(span.status.exit);
 
 describe("S3 GetObject", () => {
-  const body = ["part1;", "part2;", "part3;"].map((s) => new TextEncoder().encode(s));
-  const s3 = http(body, { "content-type": "application/octet-stream", "x-amz-request-id": "R1" });
+  const parts = ["part1;", "part2;", "part3;"].map((s) => new TextEncoder().encode(s));
+
+  /**
+   * A 200 response whose body counts its reads. With `highWaterMark: 0` the
+   * body pulls only when someone reads it, so `reads.count` says whether
+   * anything read the body before a given point.
+   */
+  const s3 = (reads: { count: number }) =>
+    Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((request) =>
+        Effect.sync(() => {
+          let sent = 0;
+          const body = new ReadableStream<Uint8Array>(
+            {
+              pull(controller) {
+                reads.count++;
+                if (sent < parts.length) controller.enqueue(parts[sent++]!);
+                else controller.close();
+              },
+            },
+            { highWaterMark: 0 },
+          );
+          return HttpClientResponse.fromWeb(
+            request,
+            new Response(body, {
+              status: 200,
+              headers: { "content-type": "application/octet-stream", "x-amz-request-id": "R1" },
+            }),
+          );
+        }),
+      ),
+    );
 
   test("the span ends at the response headers; reading the body is the caller's", async () => {
     const spans: Tracer.NativeSpan[] = [];
+    const reads = { count: 0 };
     let endedBeforeRead: boolean | undefined;
+    let readsBeforeReturn: number | undefined;
     const { exit } = await run(
       Effect.gen(function* () {
         const out = yield* S3.getObject({ Bucket: "b", Key: "k" });
         endedBeforeRead = spans[0]!.status._tag === "Ended";
+        readsBeforeReturn = reads.count;
         return yield* Stream.mkString(Stream.decodeText(out.Body as Stream.Stream<Uint8Array>));
       }),
-      s3,
+      s3(reads),
       spans,
     );
     expect(exit).toEqual(Exit.succeed("part1;part2;part3;"));
-    expect(endedBeforeRead).toBe(true);
     expect(spans.map((s) => s.name)).toEqual(["S3.GetObject"]);
-    expect(ms(spans[0]!)).toBeLessThan(PART_MS);
+    // The span had ended when the call returned, and nothing had read the
+    // body by then: every read of the body falls after the span's end.
+    expect(endedBeforeRead).toBe(true);
+    expect(readsBeforeReturn).toBe(0);
+    expect(reads.count).toBeGreaterThan(0);
   });
 });
 
