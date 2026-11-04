@@ -13,12 +13,15 @@ type Http2 = typeof import("node:http2");
 type Session = import("node:http2").ClientHttp2Session;
 
 let http2: Promise<Http2> | undefined;
+let http2Constants: Http2["constants"] | undefined;
 const sessions = new Map<string, { session: Session; active: number }>();
 
 const sessionFor = async (origin: string) => {
   const existing = sessions.get(origin);
   if (existing && !existing.session.closed && !existing.session.destroyed) return existing;
-  const { connect } = await (http2 ??= import("node:http2"));
+  const loaded = await (http2 ??= import("node:http2"));
+  http2Constants = loaded.constants;
+  const { connect } = loaded;
   const entry = { session: connect(origin), active: 0 };
   // An idle session doesn't keep the process alive; a request in flight does.
   entry.session.unref();
@@ -30,6 +33,14 @@ const sessionFor = async (origin: string) => {
   entry.session.on("goaway", drop);
   sessions.set(origin, entry);
   return entry;
+};
+
+/** Milliseconds in a `grpc-timeout` value (`2000m`, `5S`, ...), or `undefined`. */
+const deadlineOf = (value: string | undefined): number | undefined => {
+  const match = value?.match(/^(\d+)([HMSmun])$/);
+  if (!match) return undefined;
+  const unit = { H: 3_600_000, M: 60_000, S: 1_000, m: 1, u: 1e-3, n: 1e-6 }[match[2] as "H"];
+  return Number(match[1]) * unit;
 };
 
 /** Headers HTTP/2 forbids or derives itself. */
@@ -67,6 +78,7 @@ export const http2Fetch = async (
     if (!CONNECTION_HEADERS.has(key)) headers[key] = value;
   });
   const body = bodyBytes(init.body);
+  const deadline = deadlineOf(headers["grpc-timeout"]);
   return new Promise<Response>((resolve, reject) => {
     if (entry.active++ === 0) entry.session.ref();
     const settle = () => {
@@ -98,7 +110,11 @@ export const http2Fetch = async (
     });
     stream.on("trailers", copy);
     stream.on("data", (chunk: Uint8Array) => chunks.push(chunk));
-    stream.on("end", () => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
       settle();
       signal?.removeEventListener("abort", onAbort);
       const bytes = Buffer.concat(chunks);
@@ -108,8 +124,29 @@ export const http2Fetch = async (
           headers: responseHeaders,
         }),
       );
-    });
+    };
+    // A gRPC client enforces its own deadline: cancel the call and return
+    // what arrived, with the status a deadline ends a call with.
+    const timer =
+      deadline === undefined
+        ? undefined
+        : setTimeout(() => {
+            if (done) return;
+            if (!responseHeaders.has("grpc-status")) {
+              responseHeaders.set("grpc-status", "4");
+              responseHeaders.set("grpc-message", "Deadline Exceeded");
+            }
+            if (!responseHeaders.has("content-type")) {
+              responseHeaders.set("content-type", "application/grpc");
+            }
+            stream.close(http2Constants?.NGHTTP2_CANCEL);
+            finish();
+          }, deadline);
+    stream.on("end", finish);
     stream.on("error", (error) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
       settle();
       signal?.removeEventListener("abort", onAbort);
       reject(error);
