@@ -169,20 +169,49 @@ export interface TokenUser {
   nickname: string;
   /** Deprecated. Last 4 characters of the token. Required when principal is provided; ignored when the server generates the token. */
   tokenSuffix?: string;
+  /** Optional time-to-live as a Go duration string (e.g. "1h", "30m", "24h"). Maximum 365 days ("8760h"). Mutually exclusive with expiresAt. */
+  ttl?: string;
+  /** Optional absolute expiration time as an RFC3339 timestamp (e.g. "2026-07-15T00:00:00Z"). Must be in the future. Mutually exclusive with ttl. */
+  expiresAt?: string;
+  /** When true, the token can be used for only one mount. Later mount attempts with it are rejected. */
+  oneUse?: boolean;
+  /** When true, mounts made with this token reject writes with EROFS. */
+  readOnly?: boolean;
 }
 export type AwsStsUserType = "awssts";
 export interface AwsStsUser {
   type: AwsStsUserType;
   /** IAM principal ARN */
   principal: string;
+  /** Optional time-to-live as a Go duration string (e.g. "1h", "30m", "24h"). Maximum 365 days ("8760h"). Mutually exclusive with expiresAt. */
+  ttl?: string;
+  /** Optional absolute expiration time as an RFC3339 timestamp (e.g. "2026-07-15T00:00:00Z"). Must be in the future. Mutually exclusive with ttl. */
+  expiresAt?: string;
+  /** When true, the credential can be used for only one mount. */
+  oneUse?: boolean;
+  /** When true, mounts made with this credential reject writes with EROFS. */
+  readOnly?: boolean;
 }
-export type DiskUser = TokenUser | AwsStsUser;
+export type S3UserType = "s3";
+export interface S3User {
+  type: S3UserType;
+  nickname?: string;
+  /** Optional time-to-live as a Go duration string (e.g. "1h", "30m"). Maximum 365 days ("8760h"). Requests signed with an expired key, including presigned URLs, are rejected. Mutually exclusive with expiresAt. */
+  ttl?: string;
+  /** Optional absolute expiration time as an RFC3339 timestamp. Must be in the future. Mutually exclusive with ttl. */
+  expiresAt?: string;
+  /** When true, the keys can only make GET and HEAD requests. Writes, deletes, and multipart uploads return AccessDenied. */
+  readOnly?: boolean;
+}
+export type DiskUser = TokenUser | AwsStsUser | S3User;
 export interface AddDiskUserRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
   body: DiskUser;
 }
-export type AuthorizedUserType = "token" | "awssts";
+export type AuthorizedUserType = "token" | "awssts" | "s3";
+/** Current lifecycle status. `in_use` means a one-use user is being consumed by a mount that is still in progress. */
+export type AuthorizedUserStatus = "active" | "expired" | "consumed" | "in_use";
 export interface AuthorizedUser {
   type?: AuthorizedUserType;
   /** Use identifier instead. Only populated for awssts type (the IAM ARN). */
@@ -191,9 +220,23 @@ export interface AuthorizedUser {
   tokenSuffix?: string;
   /** The generated disk token (used by clients when mounting the disk). Only present in the response when the server generates the token (i.e. principal was not provided). This value is shown exactly once and cannot be retrieved again. */
   token?: string | Redacted.Redacted<string>;
-  /** Stable identifier for this user, returned in creation and list responses. Use this value with DELETE /api/disks/{id}/users/{type}?identifier={identifier} to remove the user. For awssts users, this is the IAM ARN. */
+  /** The S3 access key ID. Only present for s3 users. */
+  s3AccessKeyId?: string;
+  /** The generated S3 secret access key. Only present in the creation response for s3 users. This value is shown exactly once and cannot be retrieved again. */
+  s3SecretKey?: string | Redacted.Redacted<string>;
+  /** Stable identifier for this user, returned in creation and list responses. Use this value with DELETE /api/disks/{id}/users/{type}?identifier={identifier} to remove the user. For awssts users, this is the IAM ARN; for s3 users, the access key ID. */
   identifier?: string;
   createdAt?: string;
+  /** When the user expires. Absent for users without an expiry. */
+  expiresAt?: string;
+  /** Whether the user can be used for only one mount. */
+  oneUse?: boolean;
+  /** When a one-use user was consumed by its mount. Absent until then. */
+  consumedAt?: string;
+  /** Whether the user grants read-only access. */
+  readOnly?: boolean;
+  /** Current lifecycle status. `in_use` means a one-use user is being consumed by a mount that is still in progress. */
+  status?: AuthorizedUserStatus;
 }
 export interface ApiResponseAuthorizedUser {
   success: boolean;
@@ -1204,6 +1247,8 @@ export type ApiResponseDiskListDataList = Array<DiskResponse>;
 export interface ApiResponseDiskList {
   success: boolean;
   data: ApiResponseDiskListDataList;
+  /** Set when more disks remain. Pass it as `cursor` to read the next page. */
+  nextCursor?: string;
 }
 export interface ListSandboxesRequest {
   /** Only sandboxes that mount this disk */
@@ -1251,13 +1296,13 @@ export interface PauseSandboxRequest {
   /** Sandbox UUID */
   sid: string;
 }
-export type RemoveDiskUserRequestUserType = "token" | "awssts";
+export type RemoveDiskUserRequestUserType = "token" | "awssts" | "s3";
 export interface RemoveDiskUserRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
   id: string;
   /** The type of user authentication */
   userType: RemoveDiskUserRequestUserType | (string & {});
-  /** Identifier of the user to remove, as returned in the creation or list response. For awssts users, this is the IAM ARN. */
+  /** Identifier of the user to remove, as returned in the creation or list response. For awssts users, this is the IAM ARN; for s3 users, the access key ID. */
   identifier?: string;
   /** Use identifier instead. */
   principal?: string;
@@ -1318,7 +1363,7 @@ export interface UpdateSandboxNetworkRequest {
   egress?: SandboxEgressPolicy;
 }
 export type AddDiskUserError = BadRequest | DiskNotFound | ArchilOpError;
-/** Add user to disk Adds an authorized user to a disk. Users can authenticate via: - **token**: A shared token with a nickname and 4-character suffix - **awssts**: AWS STS role assumption with an IAM principal ARN */
+/** Add user to disk Adds an authorized user to a disk. Users can authenticate via: - **token**: A shared token with a nickname and 4-character suffix - **awssts**: AWS STS role assumption with an IAM principal ARN - **s3**: An access key pair for the disk's [S3 API](/protocols/s3-api). The server generates both keys and returns the secret key only in this response. The keys reach the whole disk, read-write unless `readOnly` is set, so keep them on your server and give browsers and other untrusted clients presigned URLs instead. */
 export const addDiskUser: API.OperationMethod<
   AddDiskUserRequest,
   ApiResponseAuthorizedUser,
@@ -2158,8 +2203,15 @@ function __c1(j: number): any {
           nickname: S.optional(S.String),
           tokenSuffix: S.optional(S.String),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          s3AccessKeyId: S.optional(S.String),
+          s3SecretKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           identifier: S.optional(S.String),
           createdAt: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          oneUse: S.optional(S.Boolean),
+          consumedAt: S.optional(S.String),
+          readOnly: S.optional(S.Boolean),
+          status: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizedUser" });
   }
@@ -3286,6 +3338,7 @@ function __c53(j: number): any {
         S.Struct({
           success: S.Boolean,
           data: __S(849, __c53, 1),
+          nextCursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiResponseDiskList" });
   }

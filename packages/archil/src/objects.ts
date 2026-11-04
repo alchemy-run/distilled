@@ -3,9 +3,12 @@
  *
  * Every disk is also an S3-compatible bucket on the region's data plane
  * (`s3.<color>.<region>.…`, path-style, bucket = disk id, `<disk>.<branch>`
- * for a branch). This module speaks that API with the same API-key
- * `Authorization` header the official `disk` SDK sends, resolved from
- * {@link Credentials} on every request.
+ * for a branch). Requests authenticate with {@link ObjectCredentials}:
+ * either the account's API key, sent as the `Authorization` header the
+ * official `disk` SDK sends ({@link ObjectCredentialsFromApiKey}), or a
+ * disk's S3 user keys, signed with SigV4 ({@link objectCredentialsFromKeys}).
+ * S3 user keys reach one disk, read-only when the user was created with
+ * `readOnly`, so prefer them for anything that only needs that disk.
  *
  * Supported: GetObject (with Range), HeadObject, PutObject, AppendObject
  * (`PUT ?append=true`, ≤ 1 MiB), DeleteObject, DeleteObjects (≤ 1000 keys
@@ -14,16 +17,70 @@
  * list uploads). Writes that conflict with a FUSE mount's write delegation
  * fail with {@link ObjectConflict}.
  */
+import * as AwsClient from "@distilled.cloud/aws4signer/AwsClient";
 import * as Category from "@distilled.cloud/core/category";
+import { ConfigError } from "@distilled.cloud/core/errors";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
-import { Credentials, s3BaseUrl } from "./credentials.ts";
+import { controlPlaneUrl, Credentials, type Region, s3BaseUrl } from "./credentials.ts";
+
+/** A disk's S3 user keys (`addDiskUser` with `type: "s3"`). */
+export interface DiskKeys {
+  readonly accessKeyId: string;
+  readonly secretAccessKey: Redacted.Redacted<string>;
+}
+
+/** How object requests authenticate, and the data plane they go to. */
+export type ObjectsAuth =
+  | { readonly baseUrl: string; readonly apiKey: Redacted.Redacted<string> }
+  | { readonly baseUrl: string; readonly keys: DiskKeys };
+
+/** Resolves {@link ObjectsAuth} on every request. */
+export class ObjectCredentials
+  extends /*@__PURE__*/ Context.Service<
+    ObjectCredentials,
+    Effect.Effect<ObjectsAuth, ConfigError>
+  >()("ArchilObjectCredentials") {}
+
+/** Object requests with the account's API key, from {@link Credentials}. */
+export const ObjectCredentialsFromApiKey: Layer.Layer<ObjectCredentials, never, Credentials> =
+  /*@__PURE__*/ Layer.effect(
+    ObjectCredentials,
+    Effect.map(Credentials, (resolve) =>
+      Effect.map(resolve, (c) => ({ baseUrl: s3BaseUrl(c.apiBaseUrl), apiKey: c.apiKey })),
+    ),
+  );
+
+/** {@link ObjectsAuth} for a disk's S3 user keys, in the disk's region. */
+export const diskKeysAuth = (input: {
+  readonly region: Region;
+  readonly accessKeyId: string;
+  readonly secretAccessKey: Redacted.Redacted<string>;
+}): Effect.Effect<ObjectsAuth, ConfigError> => {
+  const control = controlPlaneUrl(input.region);
+  return control
+    ? Effect.succeed({
+        baseUrl: s3BaseUrl(control),
+        keys: { accessKeyId: input.accessKeyId, secretAccessKey: input.secretAccessKey },
+      })
+    : Effect.fail(new ConfigError({ message: `Unknown Archil region: ${input.region}` }));
+};
+
+/** Object requests signed with a disk's S3 user keys, in the disk's region. */
+export const objectCredentialsFromKeys = (
+  input: Parameters<typeof diskKeysAuth>[0],
+): Layer.Layer<ObjectCredentials> => Layer.succeed(ObjectCredentials, diskKeysAuth(input));
+
+// Archil's data plane accepts any SigV4 region; sign with the AWS default.
+const SIGNING_REGION = "us-east-1";
 
 /** The object (or the multipart upload) does not exist. */
 export class NoSuchKey extends Schema.TaggedError<NoSuchKey>()("NoSuchKey", {
@@ -135,10 +192,7 @@ const toError = (options: RequestOptions, status: number, text: string): Objects
   return new ObjectsError({ operation: options.operation, status, code, message });
 };
 
-const request = Effect.fn(function* (options: RequestOptions) {
-  const credentials = yield* Effect.flatMap(Credentials, (resolve) => resolve);
-  const client = yield* HttpClient.HttpClient;
-  const base = s3BaseUrl(credentials.apiBaseUrl);
+const objectUrl = (base: string, options: Pick<RequestOptions, "ref" | "key" | "query">) => {
   const path = options.key
     ? `/${bucketOf(options.ref)}/${encodeKey(options.key)}`
     : `/${bucketOf(options.ref)}`;
@@ -148,10 +202,13 @@ const request = Effect.fn(function* (options: RequestOptions) {
   }
   const qs = params.toString();
   // `?delete` / `?uploads` are valueless S3 subresources.
-  const url = `${base}${path}${qs ? `?${qs.replace(/=(&|$)/g, "$1")}` : ""}`;
-  let req = HttpClientRequest.make(options.method)(url).pipe(
-    HttpClientRequest.setHeader("Authorization", Redacted.value(credentials.apiKey)),
-  );
+  return `${base}${path}${qs ? `?${qs.replace(/=(&|$)/g, "$1")}` : ""}`;
+};
+
+const request = Effect.fn(function* (options: RequestOptions) {
+  const auth = yield* Effect.flatMap(ObjectCredentials, (resolve) => resolve);
+  const client = yield* HttpClient.HttpClient;
+  let req = HttpClientRequest.make(options.method)(objectUrl(auth.baseUrl, options));
   for (const [k, v] of Object.entries(options.headers ?? {})) {
     if (v !== undefined) req = HttpClientRequest.setHeader(req, k, v);
   }
@@ -162,12 +219,45 @@ const request = Effect.fn(function* (options: RequestOptions) {
       options.contentType ?? "application/octet-stream",
     );
   }
+  req =
+    "keys" in auth
+      ? yield* AwsClient.signRequest(req, {
+          service: "s3",
+          region: SIGNING_REGION,
+          credentials: auth.keys,
+        })
+      : HttpClientRequest.setHeader(req, "Authorization", Redacted.value(auth.apiKey));
   const response = yield* client.execute(req);
   if (response.status >= 300) {
     const text = options.method === "HEAD" ? "" : yield* response.text;
     return yield* Effect.fail(toError(options, response.status, text));
   }
   return response;
+});
+
+/**
+ * A presigned `GET` URL for an object, signed with the disk's S3 user keys,
+ * valid for `expiresInSeconds` (at most 7 days). Anyone holding the URL can
+ * read that one object until it expires. Fails with {@link ConfigError}
+ * when the credentials are an API key, which can't presign.
+ */
+export const presignGetObject = Effect.fn(function* (
+  ref: DiskRef,
+  key: string,
+  expiresInSeconds = 3600,
+) {
+  const auth = yield* Effect.flatMap(ObjectCredentials, (resolve) => resolve);
+  if (!("keys" in auth)) {
+    return yield* new ConfigError({
+      message: "Presigned object URLs need a disk's S3 user keys, not an API key.",
+    });
+  }
+  return yield* AwsClient.presign(objectUrl(auth.baseUrl, { ref, key }), {
+    service: "s3",
+    region: SIGNING_REGION,
+    credentials: auth.keys,
+    expiresIn: expiresInSeconds,
+  });
 });
 
 const etagOf = (response: HttpClientResponse.HttpClientResponse) =>
