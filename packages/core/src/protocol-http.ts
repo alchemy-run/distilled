@@ -429,6 +429,12 @@ export interface BuildRequestOptions {
    * Defaults to the key verbatim.
    */
   readonly unknownKeyToWire?: (key: string) => string;
+  /**
+   * Send `{}` on a method that takes a body even when the input declares no
+   * body members. Connect unary RPCs (E2B's envd) POST JSON for every call,
+   * and refuse a bodyless one with 415.
+   */
+  readonly emptyJsonBody?: boolean;
 }
 
 /**
@@ -643,6 +649,7 @@ const requestOrInvalid = ({
   headers: baseHeaders,
   mapMemberHeader,
   unknownKeyToWire,
+  emptyJsonBody,
 }: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
@@ -850,7 +857,7 @@ const requestOrInvalid = ({
     // The `{}`-when-empty rule below stays limited to methods that expect a
     // body, so a bodyless method with nothing set still sends nothing.
     bodyKeys > 0 ||
-    (hasBodyMembers && bodied && http.method !== "DELETE")
+    ((hasBodyMembers || emptyJsonBody === true) && bodied && http.method !== "DELETE")
   ) {
     // Send `{}` rather than no body when the schema declares body members --
     // some endpoints reject a missing JSON body outright.

@@ -198,6 +198,8 @@ export interface RestProtocolOptions<C> {
   readonly mapMemberHeader?: (name: string, value: string) => string;
   /** Passed through to `buildRequest` (wire names for unmodeled input keys). */
   readonly unknownKeyToWire?: (key: string) => string;
+  /** Passed through to `buildRequest`: send `{}` when a bodied call has no body members. */
+  readonly emptyJsonBody?: boolean;
 }
 
 const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
@@ -375,6 +377,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       headers: options.headers(creds),
       mapMemberHeader: options.mapMemberHeader,
       unknownKeyToWire: options.unknownKeyToWire,
+      emptyJsonBody: options.emptyJsonBody,
     }) as Effect.Effect<HttpClientRequest.HttpClientRequest>;
   };
 

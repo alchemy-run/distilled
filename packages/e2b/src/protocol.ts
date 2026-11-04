@@ -118,6 +118,9 @@ export const EnvdProtocol: Layer.Layer<API.Protocol> =
       }
       return headers;
     },
+    // Connect unary calls POST a JSON body even when the message is empty
+    // (`process.List`); envd answers a bodyless one with 415.
+    emptyJsonBody: true,
     unknownError,
     parseError,
   });
