@@ -12,8 +12,8 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
 import { Credentials, type Config } from "./credentials.ts";
+import * as Retry from "./retry.ts";
 import { getAuthToken } from "./services/auth.ts";
 
 /** Seconds of a token's lifetime used before it is refreshed. */
@@ -54,13 +54,16 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
     Effect.gen(function* () {
       const base = yield* Credentials;
       const http = yield* HttpClient.HttpClient;
-      const lock = yield* Semaphore.make(1);
       let cached:
         | { readonly tokenId: string; readonly token: string; readonly refreshAt: number }
         | undefined;
 
       const fetch = Effect.fn(function* (config: Config) {
+        // No retries here: the call that needs the token retries itself, and
+        // nesting this fetch's retries inside each of its attempts would
+        // multiply the wait.
         const { token } = yield* getAuthToken({}).pipe(
+          Retry.none,
           Effect.provideService(Credentials, Effect.succeed(config)),
           Effect.provideService(HttpClient.HttpClient, http),
         );
@@ -80,21 +83,19 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
         if (config.bearerToken !== undefined || Redacted.value(config.tokenId) === "") {
           return config;
         }
-        const token = yield* lock.withPermits(1)(
-          Effect.gen(function* () {
-            const now = (yield* Clock.currentTimeMillis) / 1000;
-            if (
-              cached !== undefined &&
-              cached.tokenId === Redacted.value(config.tokenId) &&
-              now < cached.refreshAt
-            ) {
-              return cached.token;
-            }
-            // A failed fetch leaves the request without the header; the
-            // calls that need it then fail with Modal's own auth error.
-            return yield* fetch(config).pipe(Effect.catch(() => Effect.succeed(cached?.token)));
-          }),
-        );
+        // Only the token value is shared between calls, never a lock or a
+        // pending fetch: a runtime that drops a request mid-fetch (workerd)
+        // would leave every later call waiting on it. Calls that race a
+        // refresh each fetch one.
+        const now = (yield* Clock.currentTimeMillis) / 1000;
+        const token =
+          cached !== undefined &&
+          cached.tokenId === Redacted.value(config.tokenId) &&
+          now < cached.refreshAt
+            ? cached.token
+            : // A failed fetch leaves the request without the header; the
+              // calls that need it then fail with Modal's own auth error.
+              yield* fetch(config).pipe(Effect.catch(() => Effect.succeed(cached?.token)));
         return token === undefined ? config : { ...config, authToken: Redacted.make(token) };
       });
     }),

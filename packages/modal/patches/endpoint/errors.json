@@ -1,5 +1,5 @@
 {
-  "description": "Typed not-found / already-exists errors for the endpoint RPCs (gRPC status 5 / 6).",
+  "description": "Typed not-found / already-exists errors for the endpoint RPCs (gRPC status 5 / 6). EndpointCreate for an authenticated endpoint fails with HTTP 400 'Create a proxy token to require authentication for this Endpoint' until a proxy (webhook) token with access to the environment exists.",
   "patches": [
     {
       "op": "add",
@@ -93,6 +93,40 @@
           "target": "com.modal.endpoint#EndpointAlreadyExists"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.endpoint#EndpointProxyTokenRequired",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "An authenticated endpoint needs a proxy token with access to its environment to exist first.",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Create a proxy token"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.endpoint#EndpointCreate/errors/-",
+      "value": {
+        "target": "com.modal.endpoint#EndpointProxyTokenRequired"
+      }
     }
   ]
 }

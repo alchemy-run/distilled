@@ -44,6 +44,16 @@ export class EndpointNotFound
     [{ code: 5 }],
   ) {}
 
+/** An authenticated endpoint needs a proxy token with access to its environment to exist first. */
+export class EndpointProxyTokenRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EndpointProxyTokenRequired>()("EndpointProxyTokenRequired", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "Create a proxy token" } }],
+  ) {}
+
 export type StringList = Array<string>;
 /** google.protobuf.Empty as a nested field. */
 export interface GoogleProtobufEmpty {}
@@ -261,7 +271,7 @@ export interface StopEndpointRequest {
   source?: EndpointStopSource | (string & {});
 }
 export interface StopEndpointResponse {}
-export type CreateEndpointError = EndpointAlreadyExists | ModalOpError;
+export type CreateEndpointError = EndpointAlreadyExists | EndpointProxyTokenRequired | ModalOpError;
 /** Endpoints */
 export const createEndpoint: API.OperationMethod<
   CreateEndpointRequest,
@@ -271,7 +281,7 @@ export const createEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7, __c0, 7) as any as S.Schema<CreateEndpointRequest>,
   output: __S(8, __c0, 8) as any as S.Schema<CreateEndpointResponse>,
-  errors: [EndpointAlreadyExists, UnknownModalError],
+  errors: [EndpointAlreadyExists, EndpointProxyTokenRequired, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
