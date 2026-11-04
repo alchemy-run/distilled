@@ -48,6 +48,7 @@ import { Command } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import { dedupeScopeTwins } from "./dedupe-scope-twins.ts";
+import { jurisdictionToLayer } from "./jurisdiction-layer.ts";
 
 // ============================================================================
 // Namespaces
@@ -2201,9 +2202,16 @@ const run = (config: ConvertConfig) =>
         include: (resource) => convertedResources.has(resource),
         transform: (model, resource) => {
           const { families, removed } = dedupeScopeTwins(model);
-          return families
-            ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
-            : undefined;
+          const moved = jurisdictionToLayer(model);
+          const notes = [
+            families
+              ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
+              : undefined,
+            moved
+              ? `🌍 ${resource}: ${moved} jurisdiction header(s) moved to the Jurisdiction layer`
+              : undefined,
+          ].filter((n) => n !== undefined);
+          return notes.length ? notes.join("\n") : undefined;
         },
       }),
     );

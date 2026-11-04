@@ -24,6 +24,7 @@ const BINARY_RESPONSE_BODY_TRAIT = "com.cloudflare.protocols#binaryResponseBody"
 const KEY_DICTIONARY_TRAIT = "com.cloudflare.protocols#keyDictionary";
 const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
 const HOST_TRAIT = "com.cloudflare.protocols#host";
+const JURISDICTION_TRAIT = "com.cloudflare.protocols#jurisdiction";
 const VERBATIM_PAYLOAD_TRAIT = "com.cloudflare.protocols#verbatimPayload";
 
 /** Cloudflare's provider spec for the shared smithy→SDK compiler. */
@@ -103,6 +104,9 @@ const makeCfSpec = (
     ...(typeof opTraits?.[HOST_TRAIT] === "string"
       ? [`T.Host(${JSON.stringify(opTraits[HOST_TRAIT])})`]
       : []),
+    // Sends the Jurisdiction layer as `cf-r2-jurisdiction` (see
+    // spec-to-smithy's jurisdictionToLayer).
+    ...(opTraits?.[JURISDICTION_TRAIT] !== undefined ? ["T.Jurisdiction()"] : []),
     // An operation whose request body is user data (Pipelines ingest
     // records) must not have its opaque content renamed through the
     // service key dictionary.
@@ -172,7 +176,5 @@ runGeneratorCli({
   spec: (model) => makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),
   // R2's S3 API, under the R2 import path; the layer is hand-written.
   append: (resource) =>
-    resource === "r2"
-      ? 'export { layerS3, S3CredentialsError } from "../layer-s3.ts";'
-      : undefined,
+    resource === "r2" ? 'export { layerS3, S3CredentialsError } from "../layer-s3.ts";' : undefined,
 });

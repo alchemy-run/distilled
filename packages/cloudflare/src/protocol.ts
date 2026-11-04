@@ -89,6 +89,7 @@ import {
   envelopePayloadRootSymbol,
   envelopePayloadSymbol,
   hostSymbol,
+  jurisdictionSymbol,
   resultInfoSymbol,
 } from "./traits.ts";
 
@@ -310,8 +311,7 @@ const requestFor = (
   inputAst: AST.AST,
 ): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
   const headers = formatHeaders(creds);
-  // The `Jurisdiction` layer, for operations that take the header. A
-  // `jurisdiction` the call sets is a member header and replaces it.
+  // The `Jurisdiction` layer, for operations marked `T.Jurisdiction()`.
   const jurisdiction = Context.getOrUndefined(context, Jurisdiction);
   if (jurisdiction !== undefined && takesJurisdiction(inputAst))
     headers[JURISDICTION_HEADER] = jurisdiction;
@@ -326,20 +326,9 @@ const requestFor = (
 };
 
 const JURISDICTION_HEADER = "cf-r2-jurisdiction";
-const jurisdictionInputs = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
-/** Whether an operation's input has a member sent as the `cf-r2-jurisdiction` header. */
-const takesJurisdiction = (inputAst: AST.AST): boolean => {
-  let takes = jurisdictionInputs.get(inputAst);
-  if (takes === undefined) {
-    takes = getProps(inputAst).some(
-      (prop) =>
-        hasPropAnn(prop, headerSymbol) &&
-        nameOf(prop, headerSymbol).toLowerCase() === JURISDICTION_HEADER,
-    );
-    jurisdictionInputs.set(inputAst, takes);
-  }
-  return takes;
-};
+/** Whether an operation's input is marked `T.Jurisdiction()`. */
+const takesJurisdiction = (inputAst: AST.AST): boolean =>
+  getAnn(inputAst, jurisdictionSymbol) !== undefined;
 
 /**
  * The calling fiber's credentials, then `f` on them. The Credentials service
