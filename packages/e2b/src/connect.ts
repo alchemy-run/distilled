@@ -222,12 +222,13 @@ export const connectError = (
   }
 };
 
-/** E2B's proxy body for a paused or killed sandbox: `{ sandboxId, message: "The sandbox was not found", code: 502 }`. */
-const notRunning = (body: unknown): boolean =>
+/** The `message` of a JSON error body (E2B's proxy sends `{ sandboxId, message, code }`). */
+const messageOf = (body: unknown): string | undefined =>
   body !== null &&
   typeof body === "object" &&
-  typeof (body as { message?: unknown }).message === "string" &&
-  (body as { message: string }).message.includes("sandbox was not found");
+  typeof (body as { message?: unknown }).message === "string"
+    ? (body as { message: string }).message
+    : undefined;
 
 const errorOf = (json: unknown): { code?: string; message?: string } | undefined => {
   if (json === null || typeof json !== "object") return undefined;
@@ -279,12 +280,12 @@ export const serverStream = (
         // A failure before the stream starts is a unary Connect error body.
         const body = yield* response.json.pipe(Effect.orElseSucceed(() => undefined));
         const error = errorOf({ error: body }) ?? {};
-        if (response.status === 502 && notRunning(body)) {
+        if (response.status === 502) {
           return yield* Effect.fail(
             new SandboxNotRunning({
-              sandboxId: sandbox.sandboxId,
-              message: (body as { message: string }).message,
               code: 502,
+              message:
+                error.message ?? messageOf(body) ?? `sandbox ${sandbox.sandboxId} is not running`,
             }),
           );
         }

@@ -24,15 +24,14 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-/** The sandbox is paused or no longer exists: E2B's proxy answers every envd call with 502 "The sandbox was not found". Resume a paused sandbox (sandboxes.connectSandbox) before calling envd. */
+/** The sandbox is paused or no longer exists: envd calls through E2B's proxy answer 502 ("The sandbox was not found"). Resume a paused sandbox (sandboxes.connectSandbox) before calling envd. */
 export class SandboxNotRunning
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxNotRunning>()("SandboxNotRunning", {
-      sandboxId: S.String,
-      message: S.String,
       code: S.Number,
-    }).pipe(C.withServerError),
-    [{ status: 502, message: { includes: "sandbox was not found" } }],
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 502 }],
   ) {}
 
 export interface ProcessSelector {
