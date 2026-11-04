@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import { ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import type { DefaultErrors } from "@distilled.cloud/core/errors";
 import {
@@ -230,9 +229,6 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
         ? Endpoint.withEndpoint(http.baseUrl, override)
         : Region.endpointFor(http.baseUrl, uri, mode);
     const url = `${baseUrl}${uri}${qs ? `?${qs}` : ""}`;
-    if (debugHttp()) {
-      console.error(`[distilled] ${http.method} ${url}`);
-    }
 
     let request = HttpClientRequest.make(http.method)(url).pipe(
       HttpClientRequest.setHeaders(headers),
@@ -264,9 +260,6 @@ const decode = ({
     // Read as text and parse tolerantly -- some error responses (proxies,
     // HTML error pages) carry non-JSON bodies.
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {

@@ -187,7 +187,16 @@ export class GatewayAlreadyExists
       code: S.Number,
       message: S.String,
     }),
-    [{ code: 7001 }, { status: 504 }],
+    [{ code: 7001, message: { includes: "already exists" } }, { status: 504 }],
+  ) {}
+
+export class GatewayAuthenticationRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<GatewayAuthenticationRequired>()("GatewayAuthenticationRequired", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 7001, message: { includes: "must have authentication enabled" } }],
   ) {}
 
 export class GatewayNotFound
@@ -3847,7 +3856,10 @@ export type BillingUsageHistoryResponseHistoryList = Array<BillingUsageHistoryRe
 export interface UsageHistoryBillingResponse {
   history: BillingUsageHistoryResponseHistoryList;
 }
-export type CreateAiGatewayError = GatewayAlreadyExists | CloudflareOpError;
+export type CreateAiGatewayError =
+  | GatewayAlreadyExists
+  | GatewayAuthenticationRequired
+  | CloudflareOpError;
 /** Creates an AI Gateway in the account with the specified caching, rate limiting, logging, and authentication settings. The gateway ID appears in request URLs and must be unique within the account. */
 export const createAiGateway: API.OperationMethod<
   CreateAiGatewayRequest,
@@ -3857,7 +3869,12 @@ export const createAiGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9, __c0, 9) as any as S.Schema<CreateAiGatewayRequest>,
   output: __S(11, __c0, 11) as any as S.Schema<CreateAiGatewayResponse>,
-  errors: [GatewayAlreadyExists, CloudflareRateLimited, CloudflareError],
+  errors: [
+    GatewayAlreadyExists,
+    GatewayAuthenticationRequired,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

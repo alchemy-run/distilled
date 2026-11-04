@@ -14,7 +14,7 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  *            input schema's protocol trait) -> annotation middleware
  *            (checksums, streaming bodies) -> endpoint resolution (custom
  *            Endpoint service, compiled Smithy endpoint rules, or the
- *            `https://{service}.{region}.amazonaws.com` fallback) -> SigV4
+ *            `https://{service}.{region}.{dnsSuffix}` fallback) -> SigV4
  *            signing with per-request lazy Credentials/Region.
  *
  *   decode:  wire-family deserializer -> event-stream parsing -> output schema
@@ -43,9 +43,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import * as LogLevel from "effect/LogLevel";
 import * as Redacted from "effect/Redacted";
-import * as References from "effect/References";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
 import { loadHandler, type LazyHandler, type ProtocolHandler } from "./client/protocol.ts";
@@ -57,6 +55,7 @@ import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
+import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
 import * as SigV4 from "./sigv4.ts";
@@ -256,7 +255,7 @@ const toHttpRequest = (
     }
   } else {
     // Fallback to static endpoint
-    endpoint = `https://${serviceName}.${region}.amazonaws.com`;
+    endpoint = `https://${serviceName}.${region}.${dnsSuffix(region)}`;
   }
 
   // Apply the Smithy `smithy.api#endpoint` hostPrefix (e.g. "sync-" for
@@ -515,22 +514,6 @@ const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   });
 };
 
-/**
- * Debug logs of each call (payload, built request, response status, parsed
- * response), written only when the fiber's minimum log level admits Debug so
- * the default path allocates no log effects.
- */
-const debugEnabled = (context: Context.Context<any>): boolean =>
-  LogLevel.isLessThanOrEqualTo(Context.get(context, References.MinimumLogLevel), "Debug");
-
-const logDebugThen = <A, E, R>(
-  enabled: boolean,
-  message: string,
-  value: unknown,
-  next: Effect.Effect<A, E, R>,
-): Effect.Effect<A, E, R> =>
-  enabled ? Effect.flatMap(Effect.logDebug(message, value), () => next) : next;
-
 /** The signed HTTP request for `input`, on the calling fiber. */
 const encodeWith = <A>(
   prepared: Prepared,
@@ -540,7 +523,6 @@ const encodeWith = <A>(
   f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
-  const debug = debugEnabled(context);
   const traceDebug = Telemetry.isDebug(context);
   const sendSigned = (request: Request) =>
     withAwsContext(context, (credentials, region, custom) => {
@@ -565,15 +547,6 @@ const encodeWith = <A>(
         f,
       );
     });
-  const send = debug
-    ? (request: Request) =>
-        logDebugThen(
-          true,
-          "Payload",
-          input,
-          logDebugThen(true, "Built Request", request, sendSigned(request)),
-        )
-    : sendSigned;
   // Serialize the input (protocol serializer + annotation middleware)
   if (traceDebug) {
     // BRAINSTORM: serialization as its own debug span.
@@ -590,7 +563,7 @@ const encodeWith = <A>(
           }
         }),
       ),
-      send,
+      sendSigned,
     );
   }
   let request: Request | Effect.Effect<Request, ParseError | InvalidInput>;
@@ -599,7 +572,7 @@ const encodeWith = <A>(
   } catch (e) {
     return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
   }
-  return Effect.isEffect(request) ? Effect.flatMap(request, send) : send(request);
+  return Effect.isEffect(request) ? Effect.flatMap(request, sendSigned) : sendSigned(request);
 };
 
 /**
@@ -645,13 +618,7 @@ const decodeWith = (
     : empty
       ? parse(new ReadableStream<Uint8Array>({ start: (c) => c.close() }))
       : Effect.flatMap(Stream.toReadableStreamEffect(response.stream), parse);
-  if (!debugEnabled(context)) return decoded;
-  return logDebugThen(
-    true,
-    "Raw Response Status",
-    response.status,
-    Effect.tap(decoded, (parsed) => Effect.logDebug("Parsed Response", parsed)),
-  );
+  return decoded;
 };
 
 /**

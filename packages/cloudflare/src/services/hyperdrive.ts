@@ -72,6 +72,7 @@ export class HyperdriveOriginUnavailable
     [
       { status: 400, message: { includes: "Failed to connect to upstream database" } },
       { status: 400, message: { includes: "destination_not_found" } },
+      { status: 400, message: { includes: "Failed to connect to the provided database" } },
     ],
   ) {}
 

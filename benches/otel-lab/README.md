@@ -15,8 +15,8 @@ Every call records its operation span when an exporter is installed. Debug
 spans for distilled's internals are opt in:
 `Effect.provide(TelemetryDebug.layer)` from
 `@distilled.cloud/core/telemetry-debug`.
-`TelemetryDebug.layerWith({ logRequests: true })` also prints each request
-and response to stderr.
+The same layer writes `Effect.logDebug` lines for each call and HTTP
+exchange, the same for every SDK.
 A layer always wins over the environment.
 
 `research/` holds the four reports this design came from (2026-10-24; they

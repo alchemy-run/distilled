@@ -1,8 +1,9 @@
 import * as L from "@distilled.cloud/core/schema-lite-impl";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, it } from "vitest";
+import { ParseError } from "../../src/errors.ts";
 import { SensitiveString } from "../../src/sensitive.ts";
-import { decode, holdsSensitive } from "../../src/util/codec.ts";
+import { decode, holdsSensitive, inputEncoderSync } from "../../src/util/codec.ts";
 
 const Secret = SensitiveString as unknown as L.Lite;
 
@@ -52,5 +53,27 @@ describe("lenient decode", () => {
       credentials: Record<string, unknown>;
     };
     expect(Redacted.isRedacted(out.credentials.secret)).toBe(true);
+  });
+});
+
+describe("input encode failure", () => {
+  const failure = (schema: L.Lite, input: unknown): string => {
+    try {
+      inputEncoderSync(schema.ast)(input);
+    } catch (e) {
+      expect(e).toBeInstanceOf(ParseError);
+      return (e as ParseError).message;
+    }
+    throw new Error("expected the encode to fail");
+  };
+
+  it("withholds the value when the input can hold a secret", () => {
+    const message = failure(L.Struct({ id: L.String, secret: Secret }), { id: 424242 });
+    expect(message).toContain("[REDACTED]");
+    expect(message).not.toContain("424242");
+  });
+
+  it("quotes the value when the input holds no secret", () => {
+    expect(failure(L.Struct({ id: L.String }), { id: 424242 })).toContain("424242");
   });
 });

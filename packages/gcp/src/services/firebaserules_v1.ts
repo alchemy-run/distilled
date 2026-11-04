@@ -83,6 +83,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** A release still refers to the ruleset (HTTP 400 INVALID_ARGUMENT). */
+export class RulesetInUse
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RulesetInUse>()("RulesetInUse", {
+      code: /*@__PURE__*/ S.optional(S.Number),
+      message: S.String,
+      status: /*@__PURE__*/ S.optional(S.String),
+      reason: /*@__PURE__*/ S.optional(S.String),
+      domain: /*@__PURE__*/ S.optional(S.String),
+      details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "there are releases referring to this ruleset" } }],
+  ) {}
+
 /** `Release` is a named reference to a `Ruleset`. Once a `Release` refers to a `Ruleset`, rules-enabled services will be able to enforce the `Ruleset`. */
 export interface Release {
   /** Output only. Time the release was updated. */
@@ -393,8 +407,8 @@ export const createProjectsReleases: API.OperationMethod<
   CreateProjectsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateProjectsReleasesRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<Release>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateProjectsReleasesRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -410,8 +424,8 @@ export const createProjectsRulesets: API.OperationMethod<
   CreateProjectsRulesetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateProjectsRulesetsRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<Ruleset>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateProjectsRulesetsRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<Ruleset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -427,8 +441,8 @@ export const deleteProjectsReleases: API.OperationMethod<
   DeleteProjectsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteProjectsReleasesRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Empty>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteProjectsReleasesRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -436,7 +450,13 @@ export const deleteProjectsReleases: API.OperationMethod<
   span: "DeleteProjectsReleases",
 }));
 
-export type DeleteProjectsRulesetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+export type DeleteProjectsRulesetsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | RulesetInUse
+  | GcpOpError;
 /** Delete a `Ruleset` by resource name. If the `Ruleset` is referenced by a `Release` the operation will fail. */
 export const deleteProjectsRulesets: API.OperationMethod<
   DeleteProjectsRulesetsRequest,
@@ -444,9 +464,9 @@ export const deleteProjectsRulesets: API.OperationMethod<
   DeleteProjectsRulesetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteProjectsRulesetsRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Empty>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteProjectsRulesetsRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<Empty>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, RulesetInUse, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -461,8 +481,8 @@ export const getExecutableProjectsReleases: API.OperationMethod<
   GetExecutableProjectsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetExecutableProjectsReleasesRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<GetReleaseExecutableResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetExecutableProjectsReleasesRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<GetReleaseExecutableResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -478,8 +498,8 @@ export const getProjectsReleases: API.OperationMethod<
   GetProjectsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetProjectsReleasesRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<Release>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetProjectsReleasesRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -495,8 +515,8 @@ export const getProjectsRulesets: API.OperationMethod<
   GetProjectsRulesetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetProjectsRulesetsRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<Ruleset>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetProjectsRulesetsRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<Ruleset>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -513,8 +533,8 @@ export const listProjectsReleases: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReleasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<ListProjectsReleasesRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<ListReleasesResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListProjectsReleasesRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<ListReleasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -532,8 +552,8 @@ export const listProjectsRulesets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRulesetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<ListProjectsRulesetsRequest>,
-  output: __S(66, __c2, 2) as any as S.Schema<ListRulesetsResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListProjectsRulesetsRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<ListRulesetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -550,8 +570,8 @@ export const patchProjectsReleases: API.OperationMethod<
   PatchProjectsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c3, 1) as any as S.Schema<PatchProjectsReleasesRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<Release>,
+  input: __S(129, __c4, 1) as any as S.Schema<PatchProjectsReleasesRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -567,8 +587,8 @@ export const testProjects: API.OperationMethod<
   TestProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(137, __c4, 9) as any as S.Schema<TestProjectsRequest>,
-  output: __S(152, __c4, 24) as any as S.Schema<TestRulesetResponse>,
+  input: __S(169, __c5, 9) as any as S.Schema<TestProjectsRequest>,
+  output: __S(184, __c5, 24) as any as S.Schema<TestRulesetResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -590,10 +610,26 @@ function __c0(j: number): any {
             baseUrl: "https://firebaserules.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsRulesetsRequest" });
+      ).annotate({ identifier: "GetProjectsReleasesRequest" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://firebaserules.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsRulesetsRequest" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -611,17 +647,17 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsReleasesRequest" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          releases: S.optional(__S(33, __c1, 1)),
+          releases: S.optional(__S(65, __c2, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReleasesResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -639,30 +675,30 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRulesetsRequest" });
     case 1:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(289, __c9, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          rulesets: S.optional(__S(65, __c2, 1)),
+          rulesets: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "ListRulesetsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String),
-          release: S.optional(__S(192, __c6, 0)),
+          release: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "UpdateReleaseRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -673,38 +709,38 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PatchProjectsReleasesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
-          undefined: S.optional(__S(352, __c11, 0)),
+          undefined: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "Result" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           exactValue: S.optional(S.Unknown),
-          anyValue: S.optional(__S(352, __c11, 0)),
+          anyValue: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "Arg" });
     case 2:
-      return S.Array(__S(129, __c4, 1));
+      return S.Array(__S(161, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(128, __c4, 0)),
+          result: S.optional(__S(160, __c5, 0)),
           function: S.optional(S.String),
-          args: S.optional(__S(130, __c4, 2)),
+          args: S.optional(__S(162, __c5, 2)),
         }),
       ).annotate({ identifier: "FunctionMock" });
     case 4:
-      return S.Array(__S(131, __c4, 3));
+      return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          functionMocks: S.optional(__S(132, __c4, 4)),
+          functionMocks: S.optional(__S(164, __c5, 4)),
           pathEncoding: S.optional(S.String),
           expressionReportLevel: S.optional(S.String),
           expectation: S.optional(S.String),
@@ -713,25 +749,25 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "TestCase" });
     case 6:
-      return S.Array(__S(133, __c4, 5));
+      return S.Array(__S(165, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          testCases: S.optional(__S(134, __c4, 6)),
+          testCases: S.optional(__S(166, __c5, 6)),
         }),
       ).annotate({ identifier: "TestSuite" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          testSuite: S.optional(__S(135, __c4, 7)),
-          source: S.optional(__S(290, __c9, 2)),
+          testSuite: S.optional(__S(167, __c5, 7)),
+          source: S.optional(__S(322, __c10, 2)),
         }),
       ).annotate({ identifier: "TestRulesetRequest" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(136, __c4, 8).pipe(T.HttpBody())),
+          body: S.optional(__S(168, __c5, 8).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -753,23 +789,23 @@ function __c4(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          sourcePosition: S.optional(__S(138, __c4, 10)),
+          sourcePosition: S.optional(__S(170, __c5, 10)),
           value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "VisitedExpression" });
     case 12:
-      return S.Array(__S(139, __c4, 11));
+      return S.Array(__S(171, __c5, 11));
     case 13:
       return S.Array(S.Unknown);
     case 14:
       return S.suspend(() =>
         S.Struct({
           function: S.optional(S.String),
-          args: S.optional(__S(141, __c4, 13)),
+          args: S.optional(__S(173, __c5, 13)),
         }),
       ).annotate({ identifier: "FunctionCall" });
     case 15:
-      return S.Array(__S(142, __c4, 14));
+      return S.Array(__S(174, __c5, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -778,56 +814,56 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ValueCount" });
     case 17:
-      return S.Array(__S(144, __c4, 16));
+      return S.Array(__S(176, __c5, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(145, __c4, 17)),
-          children: S.optional(S.suspend(() => __S(147, __c4, 19))),
-          sourcePosition: S.optional(__S(138, __c4, 10)),
+          values: S.optional(__S(177, __c5, 17)),
+          children: S.optional(S.suspend(() => __S(179, __c5, 19))),
+          sourcePosition: S.optional(__S(170, __c5, 10)),
         }),
       ).annotate({ identifier: "ExpressionReport" });
     case 19:
-      return S.Array(__S(146, __c4, 18));
+      return S.Array(__S(178, __c5, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          visitedExpressions: S.optional(__S(140, __c4, 12)),
-          functionCalls: S.optional(__S(143, __c4, 15)),
+          visitedExpressions: S.optional(__S(172, __c5, 12)),
+          functionCalls: S.optional(__S(175, __c5, 15)),
           state: S.optional(S.String),
-          expressionReports: S.optional(__S(147, __c4, 19)),
-          debugMessages: S.optional(__S(291, __c9, 3)),
-          errorPosition: S.optional(__S(138, __c4, 10)),
+          expressionReports: S.optional(__S(179, __c5, 19)),
+          debugMessages: S.optional(__S(323, __c10, 3)),
+          errorPosition: S.optional(__S(170, __c5, 10)),
         }),
       ).annotate({ identifier: "TestResult" });
     case 21:
-      return S.Array(__S(148, __c4, 20));
+      return S.Array(__S(180, __c5, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           severity: S.optional(S.String),
-          sourcePosition: S.optional(__S(138, __c4, 10)),
+          sourcePosition: S.optional(__S(170, __c5, 10)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Issue" });
     case 23:
-      return S.Array(__S(150, __c4, 22));
+      return S.Array(__S(182, __c5, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          testResults: S.optional(__S(149, __c4, 21)),
-          issues: S.optional(__S(151, __c4, 23)),
+          testResults: S.optional(__S(181, __c5, 21)),
+          issues: S.optional(__S(183, __c5, 23)),
         }),
       ).annotate({ identifier: "TestRulesetResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -838,7 +874,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateProjectsReleasesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -851,13 +887,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "Release" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(257, __c8, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -868,27 +904,27 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateProjectsRulesetsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(291, __c9, 3)),
+          services: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "Metadata" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(290, __c9, 2)),
+          source: S.optional(__S(322, __c10, 2)),
           attachmentPoint: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          metadata: S.optional(__S(256, __c8, 0)),
+          metadata: S.optional(__S(288, __c9, 0)),
         }),
       ).annotate({ identifier: "Ruleset" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -899,18 +935,18 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "File" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(289, __c9, 1)),
+          files: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "Source" });
     case 3:
       return S.Array(S.String);
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -926,13 +962,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteProjectsReleasesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -948,7 +984,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProjectsRulesetsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -974,22 +1010,6 @@ function __c13(j: number): any {
           executableVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReleaseExecutableResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://firebaserules.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsReleasesRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

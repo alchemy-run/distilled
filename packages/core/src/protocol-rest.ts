@@ -4,28 +4,25 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { rawResponseRootSymbol } from "./annotations.ts";
 import * as API from "./api.ts";
-import { debugHttp } from "./debug.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { recordPageHeaders } from "./pagination.ts";
-import { isOpaqueValue, unwrapRedactedDeep } from "./plain-values.ts";
+import { unwrapRedactedDeep } from "./plain-values.ts";
 import {
   buildRequest,
   getAnn,
-  getProps,
   mapKeys,
   mapsVerbatim,
   matchTypedError,
-  resolveNode,
   responseHeaderMembers,
   withResponseHeaders,
   type ResponseHeaderMember,
 } from "./protocol-http.ts";
 import { checkResponse, withholdActual } from "./response-validation.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
+import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive.ts";
 /**
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
  * (Neon, Fly.io, PlanetScale, Supabase, Turso, ...).
@@ -60,9 +57,7 @@ import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
 // Traits
 // =============================================================================
 
-export const sensitiveValueSymbol = /*@__PURE__*/ Symbol.for(
-  "@distilled.cloud/core/sensitive-value",
-);
+export { sensitiveValueSymbol };
 /**
  * Marks a string member, map value or list element as sensitive (mirrors
  * `smithy.api#sensitive`). The REST protocol wraps decoded values in
@@ -102,83 +97,7 @@ export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 
 export { unwrapRedactedDeep };
 
-/**
- * A sensitive value that {@link wrapSensitive} wraps: a string, or any
- * non-null value of an untyped (`S.Unknown`) schema, such as a JSON scalar or
- * object. A typed struct is walked so its own sensitive members are wrapped
- * and its type stays accurate.
- */
-const isSecretValue = (type: AST.AST, v: unknown): boolean =>
-  typeof v === "string" || (v !== null && resolveNode(type)._tag === "Unknown");
-
-/**
- * Walk a decoded (TS-named) value alongside its schema AST, wrapping values
- * marked {@link SensitiveValue} (members, map values, list elements) in
- * `Redacted`. Keys the schema doesn't model pass through. A union applies
- * every arm in turn; a map arm skips keys a sibling arm names.
- */
-export const wrapSensitive = (
-  ast: AST.AST,
-  value: unknown,
-  siblingNames?: ReadonlySet<string>,
-): unknown => {
-  if (
-    value === null ||
-    typeof value !== "object" ||
-    isOpaqueValue(value) ||
-    Redacted.isRedacted(value)
-  ) {
-    return value;
-  }
-  const node = resolveNode(ast);
-  if (node._tag === "Union") {
-    // Redact every possible sensitive member, including in partial responses.
-    const named = new Set(
-      node.types.flatMap((arm) => {
-        const armNode = resolveNode(arm);
-        return armNode._tag === "Objects" ? getProps(armNode).map((p) => String(p.name)) : [];
-      }),
-    );
-    return node.types.reduce<unknown>(
-      (redacted, arm) => wrapSensitive(arm, redacted, named),
-      value,
-    );
-  }
-  if (node._tag === "Arrays") {
-    if (!Array.isArray(value)) return value;
-    const elem = (node as any).rest?.[0] as AST.AST | undefined;
-    if (!elem) return value;
-    const sensitive = getAnn(elem, sensitiveValueSymbol) !== undefined;
-    return value.map((v) =>
-      sensitive && isSecretValue(elem, v) && !Redacted.isRedacted(v)
-        ? Redacted.make(v)
-        : wrapSensitive(elem, v),
-    );
-  }
-  if (node._tag === "Objects" && !Array.isArray(value)) {
-    const props = getProps(node);
-    const mapValue = node.indexSignatures[0]?.type;
-    if (props.length === 0 && mapValue === undefined) return value;
-    const byName = new Map(props.map((p) => [String(p.name), p]));
-    // fromEntries keeps a `__proto__` key an entry instead of the prototype.
-    return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).flatMap<[string, unknown]>(([k, v]) => {
-        if (v === undefined) return [];
-        const prop = byName.get(k);
-        const type = prop?.type ?? (siblingNames?.has(k) ? undefined : mapValue);
-        if (type === undefined) return [[k, v]];
-        // Union arms run over each other's output: keep a value one already wrapped.
-        if (getAnn(type, sensitiveValueSymbol) !== undefined && isSecretValue(type, v)) {
-          return [[k, Redacted.isRedacted(v) ? v : Redacted.make(v)]];
-        }
-        return [[k, wrapSensitive(type, v)]];
-      }),
-    );
-  }
-  return value;
-};
-
-const sensitiveOutputs = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+export { wrapSensitive };
 
 /**
  * Whether any member, map value or list element reachable from `ast` is
@@ -186,29 +105,7 @@ const sensitiveOutputs = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
  * {@link wrapSensitive}, and its parse errors withhold the response body (see
  * {@link checkSuccess}, which every REST-style protocol's success path uses).
  */
-export const hasSensitiveMember = (ast: AST.AST): boolean => {
-  const cached = sensitiveOutputs.get(ast);
-  if (cached !== undefined) return cached;
-  const seen = new Set<AST.AST>();
-  const visit = (node: AST.AST): boolean => {
-    node = resolveNode(node);
-    if (seen.has(node)) return false;
-    seen.add(node);
-    if (node._tag === "Union") return node.types.some(visit);
-    if (node._tag === "Arrays") {
-      return [...node.elements, ...node.rest].some(
-        (e) => getAnn(e, sensitiveValueSymbol) !== undefined || visit(e),
-      );
-    }
-    if (node._tag !== "Objects") return false;
-    return [...node.propertySignatures, ...node.indexSignatures].some(
-      (member) => getAnn(member.type, sensitiveValueSymbol) !== undefined || visit(member.type),
-    );
-  };
-  const result = visit(ast);
-  sensitiveOutputs.set(ast, result);
-  return result;
-};
+export const hasSensitiveMember: (ast: AST.AST) => boolean = holdsSensitive;
 
 // =============================================================================
 // Protocol factory
@@ -482,9 +379,6 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     errorClasses: ReadonlyArray<unknown>,
   ): Decoded => {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${status}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {

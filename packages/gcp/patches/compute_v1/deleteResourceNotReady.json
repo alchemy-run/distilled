@@ -42,6 +42,13 @@
       "value": {
         "target": "com.gcp.compute_v1#ResourceNotReady"
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteBackendServices/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#ResourceNotReady"
+      }
     }
   ]
 }

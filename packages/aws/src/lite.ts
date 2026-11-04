@@ -17,6 +17,7 @@ import {
   String as LiteString,
   type Lite,
 } from "@distilled.cloud/core/schema-lite-impl";
+import { sensitiveValueSymbol } from "@distilled.cloud/core/sensitive";
 import * as Redacted from "effect/Redacted";
 
 /** Annotation naming how a value converts between the wire and the type. */
@@ -59,7 +60,9 @@ export const blob = (annotations?: Record<string, unknown>): Lite =>
 
 /**
  * A value sent as `schema` on the wire and held as `Redacted` in responses.
- * Requests accept the plain value or a `Redacted` one.
+ * Requests accept the plain value or a `Redacted` one. Carries core's
+ * sensitive marker, so `@distilled.cloud/core/sensitive` decides how logs and
+ * error messages show it.
  */
 export const sensitive = (schema: Lite, identifier: string): Lite =>
   fromNode({
@@ -72,6 +75,6 @@ export const sensitive = (schema: Lite, identifier: string): Lite =>
         check: Redacted.isRedacted,
       }).ast,
     ],
-    annotations: { identifier, [codecSymbol]: "sensitive" },
+    annotations: { identifier, [codecSymbol]: "sensitive", [sensitiveValueSymbol]: true },
     encoding: [{ to: schema.ast }],
   });
