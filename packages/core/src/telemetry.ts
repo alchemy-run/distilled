@@ -14,7 +14,9 @@
  *   debug (opt in):  spans for distilled's internals too, INTERNAL spans
  *               at trace level `Debug`: first-call setup, serialize, sign,
  *               deserialize, one `Attempt` per try, backoff sleeps, and the
- *               caller's `code.*` attributes. Its code lives in
+ *               caller's `code.*` attributes; and `Effect.logDebug` lines
+ *               for each call and HTTP exchange, the same for every SDK,
+ *               with or without an exporter. Its code lives in
  *               `./telemetry-debug.ts`, so only programs that import it
  *               bundle it:
  *
@@ -61,12 +63,34 @@ export interface DebugHooks {
     parent: Tracer.Span,
     member: string,
   ) => Stream.Stream<A, E, R>;
-  /** Log each request and response line to stderr (`./debug.ts`). */
-  readonly logRequests: boolean;
+  /**
+   * The operation call with its debug log lines: `Effect.logDebug` at the
+   * start (with the input) and on exit (with the output), every line inside
+   * annotated with the operation. With `schemas`, input and output are
+   * logged with their sensitive values `Redacted` (`./sensitive.ts`);
+   * without, they are left out.
+   */
+  readonly call: <A, E, R>(
+    info: OperationInfo,
+    input: unknown,
+    schemas: OperationSchemas | undefined,
+    effect: Effect.Effect<A, E, R>,
+  ) => Effect.Effect<A, E, R>;
+  /** One HTTP exchange (`sent`) with its debug log lines. */
+  readonly http: (
+    request: HttpClientRequest.HttpClientRequest,
+    sent: Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError>,
+  ) => Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError>;
   /** OTel `code.*` attributes for the caller's line. */
   readonly callSite: (
     callSite: (() => string | undefined) | undefined,
   ) => Record<string, unknown> | undefined;
+}
+
+/** An operation's input and output schemas, for the debug log lines. */
+export interface OperationSchemas {
+  readonly input: AST.AST;
+  readonly output: AST.AST;
 }
 
 export const Debug = /*@__PURE__*/ Context.Reference<DebugHooks | undefined>(
@@ -365,7 +389,7 @@ export const operationInfo = (
   };
 };
 
-const flatten = (
+export const flatten = (
   rules: Readonly<Record<string, ReadonlyArray<AttributeRule>>> | undefined,
 ): Array<readonly [string, AttributeRule]> => {
   const out: Array<readonly [string, AttributeRule]> = [];
@@ -376,7 +400,7 @@ const flatten = (
 };
 
 /** Attributes the rules read from a value (the input or the output). Redacted values are skipped. */
-const readRules = (
+export const readRules = (
   rules: OperationInfo["input"],
   value: unknown,
   set: (key: string, value: unknown) => void,
@@ -490,6 +514,16 @@ export const annotateResponse = (
  * Untraced calls pay one context read.
  */
 export const execute = (
+  context: Context.Context<any>,
+  client: HttpClient.HttpClient,
+  request: HttpClientRequest.HttpClientRequest,
+): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> => {
+  const debug = Context.get(context, Debug);
+  const sent = tracedExecute(context, client, request);
+  return debug === undefined ? sent : debug.http(request, sent);
+};
+
+const tracedExecute = (
   context: Context.Context<any>,
   client: HttpClient.HttpClient,
   request: HttpClientRequest.HttpClientRequest,
@@ -683,9 +717,11 @@ export const operationSpan = <A, E, R>(
   callSite: (() => string | undefined) | undefined,
   input: unknown,
   run: (input: unknown) => Effect.Effect<A, E, R>,
+  schemas?: OperationSchemas,
 ): Effect.Effect<A, E, R> => {
   const measure = fiber.getRef(Metrics);
-  const traced = traceCall(fiber, debug, info, callSite, input, run);
+  let traced = traceCall(fiber, debug, info, callSite, input, run);
+  if (debug !== undefined) traced = debug.call(info, input, schemas, traced);
   return measure === undefined ? traced : measure(info, traced);
 };
 

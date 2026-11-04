@@ -3,10 +3,12 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Logger from "effect/Logger";
 import * as Redacted from "effect/Redacted";
+import * as References from "effect/References";
 import * as Schema from "effect/Schema";
 import * as Tracer from "effect/Tracer";
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import {
   GqlTransport,
@@ -313,44 +315,61 @@ test("parseTraceparent round-trips and rejects malformed values", () => {
   expect(TxMessage.parseTraceparent("01-xyz")).toBeUndefined();
 });
 
-describe("TelemetryDebug logRequests", () => {
-  const logged = async (layer: Layer.Layer<never>) => {
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
-    try {
-      const http = Layer.succeed(
-        HttpClient.HttpClient,
-        HttpClient.make((request) =>
-          Effect.sync(() =>
-            HttpClientResponse.fromWeb(
-              request,
-              new Response(JSON.stringify({ id: "z1" }), {
-                headers: { "content-type": "application/json" },
-              }),
-            ),
+describe("TelemetryDebug log lines", () => {
+  const logged = async (layer: Layer.Layer<never>, status = 200) => {
+    const lines: Array<string> = [];
+    const http = Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((request) =>
+        Effect.sync(() =>
+          HttpClientResponse.fromWeb(
+            request,
+            new Response(JSON.stringify({ id: "z1" }), {
+              status,
+              headers: { "content-type": "application/json" },
+            }),
           ),
         ),
-      );
-      await Effect.runPromise(
-        getZone({ zone_id: "z1" }).pipe(
-          Effect.provide(Layer.mergeAll(http, Layer.succeed(Creds, { token: "t" }), layer)),
-        ) as Effect.Effect<unknown>,
-      );
-      return spy.mock.calls.map((c) => String(c[0]));
-    } finally {
-      spy.mockRestore();
-    }
+      ),
+    );
+    const capture = Logger.layer([
+      Logger.make(({ message, fiber }) => {
+        const annotations = fiber.getRef(References.CurrentLogAnnotations);
+        lines.push(
+          `${[message]
+            .flat()
+            .map((m) => (typeof m === "string" ? m : JSON.stringify(m)))
+            .join(" ")} | ${annotations["distilled.operation"] ?? ""}`,
+        );
+      }),
+    ]);
+    await Effect.runPromise(
+      getZone({ zone_id: "z1" }).pipe(
+        Effect.ignore,
+        Effect.provide(Layer.mergeAll(http, Layer.succeed(Creds, { token: "t" }), layer, capture)),
+        Effect.provideService(References.MinimumLogLevel, "Debug"),
+      ) as Effect.Effect<unknown>,
+    );
+    return lines;
   };
 
-  test("prints each request and response with logRequests", async () => {
-    expect(await logged(TelemetryDebug.layerWith({ logRequests: true }))).toEqual([
-      "[distilled] -> GET /zones/{zone_id}",
-      "[distilled] <- 200",
+  test("logs each call and HTTP exchange, annotated with the operation", async () => {
+    expect(await logged(TelemetryDebug.layer)).toEqual([
+      'call Test.GetZone {"zone_id":"z1"} | Test.GetZone',
+      "-> GET api.test:8443 | Test.GetZone",
+      "<- 200 | Test.GetZone",
+      'ok Test.GetZone {"id":"z1"} | Test.GetZone',
     ]);
   });
 
-  test("prints nothing by default, or with the plain debug layer", async () => {
+  test("logs the error's tag when the call fails", async () => {
+    const lines = await logged(TelemetryDebug.layer, 404);
+    expect(lines[2]).toBe("<- 404 | Test.GetZone");
+    expect(lines[3]).toMatch(/^failed Test\.GetZone: \w+ \| Test\.GetZone$/);
+  });
+
+  test("logs nothing without the debug layer", async () => {
     expect(await logged(Layer.empty)).toEqual([]);
-    expect(await logged(TelemetryDebug.layer)).toEqual([]);
   });
 });
 

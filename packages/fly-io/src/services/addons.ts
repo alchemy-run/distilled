@@ -30,6 +30,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export class TigrisBucketNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TigrisBucketNotFound>()("TigrisBucketNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ message: { includes: "The specified bucket does not exist" } }],
+  ) {}
+
 export interface AddOnRequest {
   id?: string | null | undefined;
   name?: string | null | undefined;
@@ -486,8 +495,8 @@ export const addOnPlans: API.PaginatedOperationMethod<
   AddOnResponseAddOnPlan
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c4, 0) as any as S.Schema<AddOnPlansRequest>,
-    output: __S(36, __c4, 4) as any as S.Schema<AddOnPlansResponse>,
+    input: __S(48, __c6, 0) as any as S.Schema<AddOnPlansRequest>,
+    output: __S(52, __c6, 4) as any as S.Schema<AddOnPlansResponse>,
     errors: [UnknownFlyIoError, FlyIoParseError],
     protocol: FlyGraphqlProtocol,
     retry: Retry.Retry,
@@ -515,8 +524,8 @@ export const addOnProvider: API.OperationMethod<
   AddOnProviderError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<AddOnProviderRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<AddOnProviderResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<AddOnProviderRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<AddOnProviderResponse>,
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
@@ -537,8 +546,8 @@ export const addOns: API.PaginatedOperationMethod<
   AddOnsResponseEdgesItemNode
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<AddOnsRequest>,
-    output: __S(69, __c8, 5) as any as S.Schema<AddOnsResponse>,
+    input: __S(72, __c9, 0) as any as S.Schema<AddOnsRequest>,
+    output: __S(77, __c9, 5) as any as S.Schema<AddOnsResponse>,
     errors: [UnknownFlyIoError, FlyIoParseError],
     protocol: FlyGraphqlProtocol,
     retry: Retry.Retry,
@@ -567,8 +576,8 @@ export const agreedToProviderTos: API.OperationMethod<
   AgreedToProviderTosError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<AgreedToProviderTosRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<AgreedToProviderTosResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<AgreedToProviderTosRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<AgreedToProviderTosResponse>,
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
@@ -583,8 +592,8 @@ export const createAddOn: API.OperationMethod<
   CreateAddOnError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(89, __c11, 1) as any as S.Schema<CreateAddOnRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<CreateAddOnResponse>,
+  input: __S(97, __c12, 1) as any as S.Schema<CreateAddOnRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<CreateAddOnResponse>,
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
@@ -604,8 +613,8 @@ export const createExtensionTosAgreement: API.OperationMethod<
   CreateExtensionTosAgreementError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c12, 1) as any as S.Schema<CreateExtensionTosAgreementRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<CreateExtensionTosAgreementResponse>,
+  input: __S(105, __c13, 1) as any as S.Schema<CreateExtensionTosAgreementRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<CreateExtensionTosAgreementResponse>,
   errors: [CreateExtensionTosAgreementNotAuthorized, UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
@@ -619,16 +628,16 @@ export const createExtensionTosAgreement: API.OperationMethod<
   },
 }));
 
-export type DeleteAddOnError = FlyIoOpError;
+export type DeleteAddOnError = TigrisBucketNotFound | FlyIoOpError;
 export const deleteAddOn: API.OperationMethod<
   DeleteAddOnRequest,
   DeleteAddOnResponse,
   DeleteAddOnError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(105, __c13, 1) as any as S.Schema<DeleteAddOnRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<DeleteAddOnResponse>,
-  errors: [UnknownFlyIoError, FlyIoParseError],
+  input: __S(113, __c14, 1) as any as S.Schema<DeleteAddOnRequest>,
+  output: __S(114, __c14, 2) as any as S.Schema<DeleteAddOnResponse>,
+  errors: [TigrisBucketNotFound, UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -646,8 +655,8 @@ export const organization: API.OperationMethod<
   OrganizationError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<OrganizationRequest>,
-  output: __S(116, __c14, 4) as any as S.Schema<OrganizationResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<OrganizationRequest>,
+  output: __S(124, __c15, 4) as any as S.Schema<OrganizationResponse>,
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
@@ -665,8 +674,8 @@ export const resetAddOnPassword: API.OperationMethod<
   ResetAddOnPasswordError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(121, __c15, 1) as any as S.Schema<ResetAddOnPasswordRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<ResetAddOnPasswordResponse>,
+  input: __S(33, __c4, 1) as any as S.Schema<ResetAddOnPasswordRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ResetAddOnPasswordResponse>,
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
@@ -687,8 +696,8 @@ export const updateAddOn: API.OperationMethod<
   UpdateAddOnError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c6, 1) as any as S.Schema<UpdateAddOnRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<UpdateAddOnResponse>,
+  input: __S(41, __c5, 1) as any as S.Schema<UpdateAddOnRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<UpdateAddOnResponse>,
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
@@ -816,6 +825,79 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String,
+          clientMutationId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ResetAddOnPasswordInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          input: __S(32, __c4, 0),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 }))
+          .pipe(
+            T.GraphQLOp({
+              query:
+                "mutation resetAddOnPassword($input: ResetAddOnPasswordInput!) {\n  resetAddOnPassword(input: $input) {\n    addOn {\n      id\n      name\n      primaryRegion\n      readRegions\n      status\n      errorMessage\n      publicUrl\n      privateIp\n      password\n      ssoLink\n      environment\n      options\n      metadata\n      createdAt\n      updatedAt\n      addOnPlanName\n    }\n    clientMutationId\n  }\n}",
+              operationName: "resetAddOnPassword",
+              type: "mutation",
+            }),
+          ),
+      ).annotate({ identifier: "ResetAddOnPasswordRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          addOn: __S(80, __c10, 0),
+          clientMutationId: S.NullOr(S.String),
+        }).pipe(T.ResponsePath("resetAddOnPassword")),
+      ).annotate({ identifier: "ResetAddOnPasswordResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          addOnId: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          provider: S.optional(S.NullOr(S.String)),
+          planId: S.optional(S.NullOr(S.String)),
+          readRegions: S.optional(S.NullOr(__S(24, __c3, 0))),
+          options: S.optional(S.NullOr(S.Unknown)),
+          metadata: S.optional(S.NullOr(S.Unknown)),
+          prodPack: S.optional(S.NullOr(S.Boolean)),
+          clientMutationId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "UpdateAddOnInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          input: __S(40, __c5, 0),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 }))
+          .pipe(
+            T.GraphQLOp({
+              query:
+                "mutation updateAddOn($input: UpdateAddOnInput!) {\n  updateAddOn(input: $input) {\n    addOn {\n      id\n      name\n      primaryRegion\n      readRegions\n      status\n      errorMessage\n      publicUrl\n      privateIp\n      password\n      ssoLink\n      environment\n      options\n      metadata\n      createdAt\n      updatedAt\n      addOnPlanName\n    }\n    clientMutationId\n  }\n}",
+              operationName: "updateAddOn",
+              type: "mutation",
+            }),
+          ),
+      ).annotate({ identifier: "UpdateAddOnRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          addOn: __S(80, __c10, 0),
+          clientMutationId: S.NullOr(S.String),
+        }).pipe(T.ResponsePath("updateAddOn")),
+      ).annotate({ identifier: "UpdateAddOnResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           after: S.optional(S.NullOr(S.String)),
           before: S.optional(S.NullOr(S.String)),
           first: S.optional(S.NullOr(S.Number)),
@@ -840,21 +922,21 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "AddOnPlansResponseEdgesItem" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(33, __c4, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(49, __c6, 1)));
     case 3:
       return S.Array(/*@__PURE__*/ S.NullOr(__S(8, __c1, 0)));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          edges: S.NullOr(__S(34, __c4, 2)),
-          nodes: S.NullOr(__S(35, __c4, 3)),
-          pageInfo: __S(40, __c5, 0),
+          edges: S.NullOr(__S(50, __c6, 2)),
+          nodes: S.NullOr(__S(51, __c6, 3)),
+          pageInfo: __S(56, __c7, 0),
           totalCount: S.Number,
         }).pipe(T.ResponsePath("addOnPlans")),
       ).annotate({ identifier: "AddOnPlansResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -867,47 +949,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "AddOnPlansResponsePageInfo" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          addOnId: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          provider: S.optional(S.NullOr(S.String)),
-          planId: S.optional(S.NullOr(S.String)),
-          readRegions: S.optional(S.NullOr(__S(24, __c3, 0))),
-          options: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(S.NullOr(S.Unknown)),
-          prodPack: S.optional(S.NullOr(S.Boolean)),
-          clientMutationId: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "UpdateAddOnInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          input: __S(48, __c6, 0),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 }))
-          .pipe(
-            T.GraphQLOp({
-              query:
-                "mutation updateAddOn($input: UpdateAddOnInput!) {\n  updateAddOn(input: $input) {\n    addOn {\n      id\n      name\n      primaryRegion\n      readRegions\n      status\n      errorMessage\n      publicUrl\n      privateIp\n      password\n      ssoLink\n      environment\n      options\n      metadata\n      createdAt\n      updatedAt\n      addOnPlanName\n    }\n    clientMutationId\n  }\n}",
-              operationName: "updateAddOn",
-              type: "mutation",
-            }),
-          ),
-      ).annotate({ identifier: "UpdateAddOnRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          addOn: __S(72, __c9, 0),
-          clientMutationId: S.NullOr(S.String),
-        }).pipe(T.ResponsePath("updateAddOn")),
-      ).annotate({ identifier: "UpdateAddOnResponse" });
-  }
-}
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -947,7 +989,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "AddOnProviderResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -997,25 +1039,25 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cursor: S.String,
-          node: S.NullOr(__S(65, __c8, 1)),
+          node: S.NullOr(__S(73, __c9, 1)),
         }),
       ).annotate({ identifier: "AddOnsResponseEdgesItem" });
     case 3:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(66, __c8, 2)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(74, __c9, 2)));
     case 4:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(72, __c9, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(80, __c10, 0)));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          edges: S.NullOr(__S(67, __c8, 3)),
-          nodes: S.NullOr(__S(68, __c8, 4)),
-          pageInfo: __S(40, __c5, 0),
+          edges: S.NullOr(__S(75, __c9, 3)),
+          nodes: S.NullOr(__S(76, __c9, 4)),
+          pageInfo: __S(56, __c7, 0),
           totalCount: S.Number,
         }).pipe(T.ResponsePath("addOns")),
       ).annotate({ identifier: "AddOnsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1040,7 +1082,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "AddOnsResponseNodesItem" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1067,7 +1109,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "AgreedToProviderTosResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1087,7 +1129,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          input: __S(88, __c11, 0),
+          input: __S(96, __c12, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 }))
           .pipe(
@@ -1102,13 +1144,13 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          addOn: __S(72, __c9, 0),
+          addOn: __S(80, __c10, 0),
           clientMutationId: S.NullOr(S.String),
         }).pipe(T.ResponsePath("createAddOn")),
       ).annotate({ identifier: "CreateAddOnResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1121,7 +1163,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          input: __S(96, __c12, 0),
+          input: __S(104, __c13, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 }))
           .pipe(
@@ -1141,7 +1183,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateExtensionTosAgreementResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1155,7 +1197,7 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          input: __S(104, __c13, 0),
+          input: __S(112, __c14, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 }))
           .pipe(
@@ -1176,7 +1218,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteAddOnResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1199,16 +1241,16 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cursor: S.String,
-          node: S.NullOr(__S(72, __c9, 0)),
+          node: S.NullOr(__S(80, __c10, 0)),
         }),
       ).annotate({ identifier: "OrganizationResponseAddOnsEdgesItem" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(113, __c14, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(121, __c15, 1)));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          edges: S.NullOr(__S(114, __c14, 2)),
-          pageInfo: __S(40, __c5, 0),
+          edges: S.NullOr(__S(122, __c15, 2)),
+          pageInfo: __S(56, __c7, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "OrganizationResponseAddOns" });
@@ -1222,42 +1264,9 @@ function __c14(j: number): any {
           paidPlan: S.Boolean,
           billable: S.Boolean,
           provisionsBetaExtensions: S.Boolean,
-          addOns: __S(115, __c14, 3),
+          addOns: __S(123, __c15, 3),
         }).pipe(T.ResponsePath("organization")),
       ).annotate({ identifier: "OrganizationResponse" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          clientMutationId: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ResetAddOnPasswordInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          input: __S(120, __c15, 0),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 }))
-          .pipe(
-            T.GraphQLOp({
-              query:
-                "mutation resetAddOnPassword($input: ResetAddOnPasswordInput!) {\n  resetAddOnPassword(input: $input) {\n    addOn {\n      id\n      name\n      primaryRegion\n      readRegions\n      status\n      errorMessage\n      publicUrl\n      privateIp\n      password\n      ssoLink\n      environment\n      options\n      metadata\n      createdAt\n      updatedAt\n      addOnPlanName\n    }\n    clientMutationId\n  }\n}",
-              operationName: "resetAddOnPassword",
-              type: "mutation",
-            }),
-          ),
-      ).annotate({ identifier: "ResetAddOnPasswordRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          addOn: __S(72, __c9, 0),
-          clientMutationId: S.NullOr(S.String),
-        }).pipe(T.ResponsePath("resetAddOnPassword")),
-      ).annotate({ identifier: "ResetAddOnPasswordResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

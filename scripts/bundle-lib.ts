@@ -89,7 +89,6 @@ const CORE_GROUPS: Record<string, string[]> = {
     "errors",
     "schema-lite",
     "error-category",
-    "debug",
     "protocol-http",
     "protocol-rest",
     "retry-after",

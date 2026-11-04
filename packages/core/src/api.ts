@@ -501,8 +501,15 @@ const callOperation = (
   const callSite = Telemetry.captureCallSite(entry);
   return Effect.withFiber((fiber) => {
     const debug = fiber.getRef(Telemetry.Debug);
-    return Telemetry.operationSpan(fiber, debug, infoOf(prepare(state)), callSite, input, (sent) =>
-      callUntraced(state, sent, debug),
+    const prepared = prepare(state);
+    return Telemetry.operationSpan(
+      fiber,
+      debug,
+      infoOf(prepared),
+      callSite,
+      input,
+      (sent) => callUntraced(state, sent, debug),
+      debug === undefined ? undefined : { input: prepared.inputAst, output: prepared.outputAst },
     );
   });
 };

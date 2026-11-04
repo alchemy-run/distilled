@@ -6,6 +6,7 @@ import * as Redacted from "effect/Redacted";
 import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
+import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import {
   encodeGreedyLabel,
@@ -168,9 +169,10 @@ export interface PresignS3UrlOptions {
  * SigV4 query-string presigning for S3 objects.
  *
  * Produces a virtual-hosted-style URL
- * (`https://{bucket}.s3.{region}.amazonaws.com/{key}`), or a path-style URL
- * under the custom {@link Endpoint.Endpoint} when one is provided (e.g.
- * LocalStack or S3-compatible stores).
+ * (`https://{bucket}.s3.{region}.{dnsSuffix}/{key}`, with the DNS suffix of
+ * the region's partition, e.g. `amazonaws.eu` in `aws-eusc`), or a
+ * path-style URL under the custom {@link Endpoint.Endpoint} when one is
+ * provided (e.g. LocalStack or S3-compatible stores).
  *
  * Pure client-side computation -- no AWS API call is made. The URL inherits
  * the IAM permissions of the identity resolved from the
@@ -201,7 +203,7 @@ export const presignS3Url: (
     const url = yield* parseUrl(
       customEndpoint
         ? `${customEndpoint.replace(/\/+$/, "")}/${encodeLabel(options.bucket)}/${encodedKey}`
-        : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
+        : `https://${options.bucket}.s3.${region}.${dnsSuffix(region)}/${encodedKey}`,
     );
     if (options.versionId !== undefined) {
       url.searchParams.set("versionId", options.versionId);
