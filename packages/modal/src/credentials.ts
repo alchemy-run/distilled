@@ -10,6 +10,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { http2Fetch } from "./http2.ts";
@@ -106,6 +108,11 @@ export const anonymous = (apiBaseUrl?: string): Layer.Layer<Credentials> =>
  * runs with an HTTP/2 `HttpClient` (`node:http2`; not available on
  * Cloudflare Workers).
  *
+ * `deadline` (milliseconds) bounds a server-streaming read with gRPC's
+ * `grpc-timeout`: the router ends the stream at the deadline, and the call
+ * returns what it sent so far (`taskExecStdioRead` from an offset, read
+ * again from the next one, follows a command's output as it runs).
+ *
  * @example
  * ```ts
  * const access = yield* Modal.sandboxGetCommandRouterAccess({ sandboxId });
@@ -115,12 +122,30 @@ export const anonymous = (apiBaseUrl?: string): Layer.Layer<Credentials> =>
  * ```
  */
 export const withTaskCommandRouter =
-  (access: { readonly url: string; readonly jwt: string | Redacted.Redacted<string> }) =>
+  (
+    access: { readonly url: string; readonly jwt: string | Redacted.Redacted<string> },
+    options: { readonly deadline?: number } = {},
+  ) =>
   <A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A, E, R> =>
     Effect.flatMap(Effect.serviceOption(Credentials), (outer) =>
       Effect.provideService(
         effect.pipe(
-          Effect.provide(FetchHttpClient.layer),
+          Effect.provide(
+            options.deadline === undefined
+              ? FetchHttpClient.layer
+              : Layer.effect(
+                  HttpClient.HttpClient,
+                  Effect.map(HttpClient.HttpClient, (client) =>
+                    HttpClient.mapRequest(
+                      client,
+                      HttpClientRequest.setHeader(
+                        "grpc-timeout",
+                        `${Math.max(1, Math.round(options.deadline!))}m`,
+                      ),
+                    ),
+                  ),
+                ).pipe(Layer.provide(FetchHttpClient.layer)),
+          ),
           Effect.provideService(FetchHttpClient.Fetch, http2Fetch as typeof globalThis.fetch),
         ),
         Credentials,
