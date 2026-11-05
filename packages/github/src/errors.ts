@@ -12,6 +12,10 @@ export {
   Forbidden,
   GatewayTimeout,
   InternalServerError,
+  // TODO(typescript>7.1.0): TypeScript 7.1 reports TS2883 in consumers
+  // (e.g. @alchemy.run/pkg's GitHubApp) whose inferred types reach this
+  // through GithubOpError, unless they depend on @distilled.cloud/core; 7.0
+  // accepted it. To test, drop this re-export and typecheck such a consumer.
   InvalidInput,
   Locked,
   NotFound,
