@@ -1829,9 +1829,6 @@ export const listDeployments: API.PaginatedOperationMethod<
       "iot:GetThingShadow",
     ],
     resources: {
-      "greengrass:ListDeployments": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
       "iot:DescribeJob": ["arn:${Partition}:iot:${Region}:${Account}:job/${JobId}"],
       "iot:DescribeThing": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
       "iot:DescribeThingGroup": [

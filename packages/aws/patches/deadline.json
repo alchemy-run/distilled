@@ -64,7 +64,7 @@
     },
     "createJob": {
       "iam": {
-        "reason": "deadline:GetJobTemplate: AWS lists it for the operation, but the Deadline Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the Deadline Bindings suite calls it successfully without it.",
         "remove": ["deadline:GetJobTemplate"]
       }
     }

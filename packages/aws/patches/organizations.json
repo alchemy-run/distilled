@@ -2,7 +2,7 @@
   "operations": {
     "acceptHandshake": {
       "iam": {
-        "reason": "organizations:LeaveOrganization: AWS lists it because accepting an invitation can move an account out of its current organization; not granted to a runtime. Narrowed to AWS's ARN formats (arn:${Partition}:organizations::${Account}:handshake/o-*/*/h-*), the call was denied live in the Organizations Bindings suite; the grant stays on *.",
+        "reason": "AWS lists it because accepting an invitation can move an account out of its current organization; not granted to a runtime. Narrowed to AWS's ARN formats (arn:${Partition}:organizations::${Account}:handshake/o-*/*/h-*), the call was denied live in the Organizations Bindings suite; the grant stays on *.",
         "remove": ["organizations:LeaveOrganization"],
         "resources": {
           "organizations:AcceptHandshake": "*"

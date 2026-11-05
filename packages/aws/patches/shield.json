@@ -137,7 +137,7 @@
     },
     "describeAttack": {
       "iam": {
-        "reason": "shield:DescribeProtectionGroup: AWS lists it for the operation, but the Shield Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the Shield Bindings suite calls it successfully without it.",
         "remove": ["shield:DescribeProtectionGroup"]
       }
     }

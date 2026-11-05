@@ -58,7 +58,7 @@
         }
       ],
       "iam": {
-        "reason": "glue:GetUsageProfile: AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
         "remove": ["glue:GetUsageProfile"]
       }
     },
@@ -86,13 +86,13 @@
     },
     "getTable": {
       "iam": {
-        "reason": "athena:GetTable: AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
         "remove": ["athena:GetTable"]
       }
     },
     "getTables": {
       "iam": {
-        "reason": "athena:GetTables: AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
         "remove": ["athena:GetTables"]
       }
     }

@@ -6,7 +6,7 @@
     "getLandingZone": {
       "errors": ["UnauthorizedException"],
       "iam": {
-        "reason": "controltower:DescribeLandingZoneConfiguration: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it. controltower:GetAvailableUpdates: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it. controltower:GetLandingZoneDriftStatus: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
         "remove": [
           "controltower:DescribeLandingZoneConfiguration",
           "controltower:GetAvailableUpdates",
@@ -23,7 +23,7 @@
     "resetLandingZone": {
       "errors": ["UnauthorizedException"],
       "iam": {
-        "reason": "controltower:SetupLandingZone: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
         "remove": ["controltower:SetupLandingZone"]
       }
     },
@@ -36,7 +36,7 @@
     "listLandingZones": {
       "errors": ["UnauthorizedException"],
       "iam": {
-        "reason": "controltower:GetHomeRegion: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
         "remove": ["controltower:GetHomeRegion"]
       }
     },
@@ -49,7 +49,7 @@
     "getBaselineOperation": {
       "errors": ["UnauthorizedException"],
       "iam": {
-        "reason": "controltower:DescribeRegisterOrganizationalUnitOperation: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
         "remove": ["controltower:DescribeRegisterOrganizationalUnitOperation"]
       }
     },
@@ -65,14 +65,14 @@
     "resetEnabledBaseline": {
       "errors": ["UnauthorizedException"],
       "iam": {
-        "reason": "controltower:ManageOrganizationalUnit: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
         "remove": ["controltower:ManageOrganizationalUnit"]
       }
     },
     "getEnabledBaseline": {
       "errors": ["UnauthorizedException"],
       "iam": {
-        "reason": "controltower:DescribeManagedAccount: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs. controltower:DescribeManagedOrganizationalUnit: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
         "remove": [
           "controltower:DescribeManagedAccount",
           "controltower:DescribeManagedOrganizationalUnit"
@@ -82,7 +82,7 @@
     "listEnabledBaselines": {
       "errors": ["UnauthorizedException"],
       "iam": {
-        "reason": "controltower:ListManagedAccounts: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it. controltower:ListManagedOrganizationalUnits: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
         "remove": [
           "controltower:ListManagedAccounts",
           "controltower:ListManagedOrganizationalUnits"
@@ -100,13 +100,13 @@
     },
     "getEnabledControl": {
       "iam": {
-        "reason": "controltower:DescribeGuardrailForTarget: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
         "remove": ["controltower:DescribeGuardrailForTarget"]
       }
     },
     "listEnabledControls": {
       "iam": {
-        "reason": "controltower:ListGuardrailsForTarget: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
         "remove": ["controltower:ListGuardrailsForTarget"]
       }
     }

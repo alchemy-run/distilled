@@ -15,7 +15,7 @@
     },
     "listTagsForResource": {
       "iam": {
-        "reason": "oam:ListTagsForResource: AWS lists it for the operation, but the CloudWatch Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the CloudWatch Bindings suite calls it successfully without it.",
         "remove": ["oam:ListTagsForResource"]
       }
     }

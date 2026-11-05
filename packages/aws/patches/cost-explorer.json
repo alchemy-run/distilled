@@ -35,7 +35,7 @@
     },
     "updateCostAllocationTagsStatus": {
       "iam": {
-        "reason": "aws-portal:ModifyBilling: Legacy billing permission; AWS replaced it with service-specific actions in the 2023 billing permissions migration.",
+        "reason": "aws - portal:ModifyBilling: Legacy billing permission; AWS replaced it with service-specific actions in the 2023 billing permissions migration.",
         "remove": ["aws-portal:ModifyBilling"]
       }
     }

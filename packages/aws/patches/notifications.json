@@ -13,7 +13,7 @@
     },
     "getManagedNotificationEvent": {
       "iam": {
-        "reason": "notifications:AccessSensitiveEvents: AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
         "remove": ["notifications:AccessSensitiveEvents"]
       }
     },
@@ -27,7 +27,7 @@
     },
     "listManagedNotificationEvents": {
       "iam": {
-        "reason": "notifications:AccessSensitiveEvents: AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
         "remove": ["notifications:AccessSensitiveEvents"]
       }
     }

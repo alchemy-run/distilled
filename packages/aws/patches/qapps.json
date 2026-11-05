@@ -2,7 +2,7 @@
   "operations": {
     "createPresignedUrl": {
       "iam": {
-        "reason": "qapps:CreatePresignedUrl: Not in AWS's reference; kept alongside qapps:ImportDocument, which the presigned upload authorizes, since the reference is known to miss actions.",
+        "reason": "Not in AWS's reference; kept alongside qapps:ImportDocument, which the presigned upload authorizes, since the reference is known to miss actions.",
         "add": ["qapps:CreatePresignedUrl"]
       }
     }

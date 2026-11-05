@@ -11,7 +11,7 @@
         }
       ],
       "iam": {
-        "reason": "cloudformation:ListStacks: AWS lists it for the operation, but the CloudFormation Bindings suite calls it successfully without it.",
+        "reason": "AWS lists it for the operation, but the CloudFormation Bindings suite calls it successfully without it.",
         "remove": ["cloudformation:ListStacks"]
       }
     },

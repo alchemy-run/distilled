@@ -16,7 +16,7 @@
     "cancelMessageMoveTask": {
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException"],
       "iam": {
-        "reason": "sqs:DeleteMessage: Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one. sqs:GetQueueAttributes: Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one. sqs:ReceiveMessage: Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one.",
+        "reason": "Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one.",
         "remove": ["sqs:DeleteMessage", "sqs:GetQueueAttributes", "sqs:ReceiveMessage"]
       }
     },
@@ -29,7 +29,7 @@
     "listMessageMoveTasks": {
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException"],
       "iam": {
-        "reason": "sqs:GetQueueAttributes: Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one.",
+        "reason": "Checked when a message move task starts (it reads and deletes from the source queue), not to cancel or list one.",
         "remove": ["sqs:GetQueueAttributes"]
       }
     },

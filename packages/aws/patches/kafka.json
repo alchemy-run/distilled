@@ -15,7 +15,7 @@
         }
       ],
       "iam": {
-        "reason": "kafka:ListTopics: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
         "add": ["kafka:ListTopics"]
       }
     },
@@ -30,7 +30,7 @@
         }
       ],
       "iam": {
-        "reason": "kafka:CreateTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
         "add": ["kafka:CreateTopic"]
       }
     },
@@ -45,7 +45,7 @@
         }
       ],
       "iam": {
-        "reason": "kafka:DeleteTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
         "add": ["kafka:DeleteTopic"]
       }
     },
@@ -60,7 +60,7 @@
         }
       ],
       "iam": {
-        "reason": "kafka:DescribeTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
         "add": ["kafka:DescribeTopic"]
       }
     },
@@ -75,13 +75,13 @@
         }
       ],
       "iam": {
-        "reason": "kafka:UpdateTopic: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
         "add": ["kafka:UpdateTopic"]
       }
     },
     "describeTopicPartitions": {
       "iam": {
-        "reason": "kafka:DescribeTopicPartitions: The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
         "add": ["kafka:DescribeTopicPartitions"]
       }
     }
