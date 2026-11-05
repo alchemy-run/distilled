@@ -121,6 +121,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "stripe" },
   { package: "supabase" },
   { package: "surrealdb" },
+  { package: "technitium" },
   { package: "temporal" },
   { package: "trigger-dev" },
   { package: "turbopuffer" },

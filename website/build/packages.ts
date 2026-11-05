@@ -68,6 +68,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "argocd",
       "celld",
       "remote",
+      "technitium",
     ],
   ],
   [
@@ -204,6 +205,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   metabase: "bi dashboards",
   "apache-superset": "bi dashboards",
   modrinth: "minecraft mods",
+  technitium: "dns server zones records self-hosted",
   core: "runtime shared",
 };
 

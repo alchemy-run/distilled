@@ -435,6 +435,13 @@
       "path": "./packages/squarespace/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/technitium/tsconfig.json"
+    },
+    { "path": "./packages/technitium/tsconfig.test.json" },
+    {
+      "path": "./packages/technitium/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/temporal/tsconfig.json"
     },
     {
