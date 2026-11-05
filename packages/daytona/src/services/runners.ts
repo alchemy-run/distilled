@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Runners",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 /** Tags to associate with the runner */
 export type CreateRunnerRequestTagsList = Array<string>;
 /** The sandbox class supported by the runner. Defaults to container when omitted or null. */
@@ -308,6 +321,8 @@ export const createRunner: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRunner",
 }));
 
 export type DeleteRunnerError = DaytonaOpError;
@@ -323,6 +338,8 @@ export const deleteRunner: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRunner",
 }));
 
 export type GetInfoForAuthenticatedRunnerError = DaytonaOpError;
@@ -338,6 +355,8 @@ export const getInfoForAuthenticatedRunner: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInfoForAuthenticatedRunner",
 }));
 
 export type GetRunnerError = DaytonaOpError;
@@ -353,6 +372,8 @@ export const getRunner: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunner",
 }));
 
 export type GetRunnerBySandboxIdError = DaytonaOpError;
@@ -368,6 +389,8 @@ export const getRunnerBySandboxId: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunnerBySandboxId",
 }));
 
 export type GetRunnerFullByIdError = DaytonaOpError;
@@ -383,6 +406,8 @@ export const getRunnerFullById: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunnerFullById",
 }));
 
 export type GetRunnersBySnapshotRefError = DaytonaOpError;
@@ -398,6 +423,8 @@ export const getRunnersBySnapshotRef: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunnersBySnapshotRef",
 }));
 
 export type GetSnapshotRefsForAuthenticatedRunnerError = DaytonaOpError;
@@ -413,6 +440,8 @@ export const getSnapshotRefsForAuthenticatedRunner: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotRefsForAuthenticatedRunner",
 }));
 
 export type ListRunnersError = DaytonaOpError;
@@ -428,6 +457,8 @@ export const listRunners: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRunners",
 }));
 
 export type RunnerHealthcheckError = DaytonaOpError;
@@ -443,6 +474,8 @@ export const runnerHealthcheck: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunnerHealthcheck",
 }));
 
 export type UpdateRunnerDrainingError = DaytonaOpError;
@@ -458,6 +491,8 @@ export const updateRunnerDraining: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRunnerDraining",
 }));
 
 export type UpdateRunnerSchedulingError = DaytonaOpError;
@@ -473,6 +508,8 @@ export const updateRunnerScheduling: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRunnerScheduling",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

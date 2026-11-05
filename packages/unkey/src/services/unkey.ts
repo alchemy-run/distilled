@@ -14,6 +14,18 @@ const __s: any[] = [];
 
 export type { UnkeyOpError, UnkeyOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "unkey-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Unkey",
+  service: "Unkey",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2295,6 +2307,8 @@ export const analyticsGetGatewayRequests: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyticsGetGatewayRequests",
 }));
 
 export type AnalyticsGetRatelimitsError =
@@ -2314,6 +2328,8 @@ export const analyticsGetRatelimits: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyticsGetRatelimits",
 }));
 
 export type AnalyticsGetRuntimeLogsError =
@@ -2333,6 +2349,8 @@ export const analyticsGetRuntimeLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyticsGetRuntimeLogs",
 }));
 
 export type AnalyticsGetVerificationsError =
@@ -2352,6 +2370,8 @@ export const analyticsGetVerifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyticsGetVerifications",
 }));
 
 export type ApisCreateApiError = BadRequest | Forbidden | UnkeyOpError;
@@ -2367,6 +2387,8 @@ export const apisCreateApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApisCreateApi",
 }));
 
 export type ApisDeleteApiError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2382,6 +2404,8 @@ export const apisDeleteApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApisDeleteApi",
 }));
 
 export type ApisGetApiError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2397,6 +2421,8 @@ export const apisGetApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApisGetApi",
 }));
 
 export type ApisListKeysError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2414,6 +2440,8 @@ export const apisListKeys: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ApisListKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2438,6 +2466,8 @@ export const createApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateDeploymentV3Error = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2453,6 +2483,8 @@ export const createDeploymentV3: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentV3",
 }));
 
 export type CreateDomainError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
@@ -2468,6 +2500,8 @@ export const createDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateIdentityError = BadRequest | Forbidden | Conflict | UnkeyOpError;
@@ -2483,6 +2517,8 @@ export const createIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentity",
 }));
 
 export type CreateKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2498,6 +2534,8 @@ export const createKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type CreatePortalError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
@@ -2513,6 +2551,8 @@ export const createPortal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePortal",
 }));
 
 export type CreateProjectError = BadRequest | Forbidden | Conflict | UnkeyOpError;
@@ -2528,6 +2568,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type DeleteAppError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2543,6 +2585,8 @@ export const deleteApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2558,6 +2602,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteIdentityError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2573,6 +2619,8 @@ export const deleteIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentity",
 }));
 
 export type DeleteKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2588,6 +2636,8 @@ export const deleteKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeletePortalError = BadRequest | NotFound | UnkeyOpError;
@@ -2603,6 +2653,8 @@ export const deletePortal: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePortal",
 }));
 
 export type DeleteProjectError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2618,6 +2670,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeploymentsPromoteDeploymentError = BadRequest | NotFound | UnkeyOpError;
@@ -2633,6 +2687,8 @@ export const deploymentsPromoteDeployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeploymentsPromoteDeployment",
 }));
 
 export type DeploymentsRollbackDeploymentError = BadRequest | NotFound | UnkeyOpError;
@@ -2648,6 +2704,8 @@ export const deploymentsRollbackDeployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeploymentsRollbackDeployment",
 }));
 
 export type EnvironmentsSetEnvironmentVariablesError =
@@ -2667,6 +2725,8 @@ export const environmentsSetEnvironmentVariables: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentsSetEnvironmentVariables",
 }));
 
 export type EnvironmentsUpdateSettingsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2682,6 +2742,8 @@ export const environmentsUpdateSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentsUpdateSettings",
 }));
 
 export type GatewayListPoliciesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2697,6 +2759,8 @@ export const gatewayListPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GatewayListPolicies",
 }));
 
 export type GatewaySetPoliciesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2712,6 +2776,8 @@ export const gatewaySetPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GatewaySetPolicies",
 }));
 
 export type GatewayUpdatePolicyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2727,6 +2793,8 @@ export const gatewayUpdatePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GatewayUpdatePolicy",
 }));
 
 export type GetAppError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2742,6 +2810,8 @@ export const getApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetDeploymentError = BadRequest | NotFound | UnkeyOpError;
@@ -2757,6 +2827,8 @@ export const getDeployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2772,6 +2844,8 @@ export const getDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetEnvironmentError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2787,6 +2861,8 @@ export const getEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetIdentityError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2802,6 +2878,8 @@ export const getIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentity",
 }));
 
 export type GetKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2817,6 +2895,8 @@ export const getKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type GetPortalError = BadRequest | NotFound | UnkeyOpError;
@@ -2832,6 +2912,8 @@ export const getPortal: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPortal",
 }));
 
 export type GetProjectError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2847,6 +2929,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GithubInstallAppError = BadRequest | Forbidden | UnkeyOpError;
@@ -2862,6 +2946,8 @@ export const githubInstallApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GithubInstallApp",
 }));
 
 export type KeysAddPermissionsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2877,6 +2963,8 @@ export const keysAddPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysAddPermissions",
 }));
 
 export type KeysAddRolesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2892,6 +2980,8 @@ export const keysAddRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysAddRoles",
 }));
 
 export type KeysRemovePermissionsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2907,6 +2997,8 @@ export const keysRemovePermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysRemovePermissions",
 }));
 
 export type KeysRemoveRolesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2922,6 +3014,8 @@ export const keysRemoveRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysRemoveRoles",
 }));
 
 export type KeysRerollKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2937,6 +3031,8 @@ export const keysRerollKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysRerollKey",
 }));
 
 export type KeysSetPermissionsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2952,6 +3048,8 @@ export const keysSetPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysSetPermissions",
 }));
 
 export type KeysSetRolesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2967,6 +3065,8 @@ export const keysSetRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysSetRoles",
 }));
 
 export type KeysUpdateCreditsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2982,6 +3082,8 @@ export const keysUpdateCredits: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysUpdateCredits",
 }));
 
 export type KeysWhoamiError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -2997,6 +3099,8 @@ export const keysWhoami: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysWhoami",
 }));
 
 export type ListAppsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3014,6 +3118,8 @@ export const listApps: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListApps",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3040,6 +3146,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeployments",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3066,6 +3174,8 @@ export const listDomains: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDomains",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3090,6 +3200,8 @@ export const listEnvironments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListEnvironmentVariablesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3111,6 +3223,8 @@ export const listEnvironmentVariables: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEnvironmentVariables",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3137,6 +3251,8 @@ export const listIdentities: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIdentities",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3163,6 +3279,8 @@ export const listPermissions: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPermissions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3189,6 +3307,8 @@ export const listProjects: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjects",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3213,6 +3333,8 @@ export const liveness: API.OperationMethod<
   errors: [UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Liveness",
 }));
 
 export type MigrateKeysError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3228,6 +3350,8 @@ export const migrateKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateKeys",
 }));
 
 export type PermissionsCreatePermissionError = BadRequest | Forbidden | Conflict | UnkeyOpError;
@@ -3243,6 +3367,8 @@ export const permissionsCreatePermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermissionsCreatePermission",
 }));
 
 export type PermissionsCreateRoleError = BadRequest | Forbidden | Conflict | UnkeyOpError;
@@ -3258,6 +3384,8 @@ export const permissionsCreateRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermissionsCreateRole",
 }));
 
 export type PermissionsDeletePermissionError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3273,6 +3401,8 @@ export const permissionsDeletePermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermissionsDeletePermission",
 }));
 
 export type PermissionsDeleteRoleError = BadRequest | Forbidden | UnkeyOpError;
@@ -3288,6 +3418,8 @@ export const permissionsDeleteRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermissionsDeleteRole",
 }));
 
 export type PermissionsGetPermissionError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3303,6 +3435,8 @@ export const permissionsGetPermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermissionsGetPermission",
 }));
 
 export type PermissionsGetRoleError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3318,6 +3452,8 @@ export const permissionsGetRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermissionsGetRole",
 }));
 
 export type PermissionsListRolesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3335,6 +3471,8 @@ export const permissionsListRoles: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PermissionsListRoles",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3359,6 +3497,8 @@ export const permissionsSetRolePermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermissionsSetRolePermissions",
 }));
 
 export type PortalCreateSessionError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
@@ -3374,6 +3514,8 @@ export const portalCreateSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalCreateSession",
 }));
 
 export type PortalExchangeCodeError = BadRequest | UnkeyOpError;
@@ -3389,6 +3531,8 @@ export const portalExchangeCode: API.OperationMethod<
   errors: [BadRequest, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalExchangeCode",
 }));
 
 export type PortalGetVerificationsError =
@@ -3409,6 +3553,8 @@ export const portalGetVerifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalGetVerifications",
 }));
 
 export type PortalListKeysError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3426,6 +3572,8 @@ export const portalListKeys: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PortalListKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3452,6 +3600,8 @@ export const portalListSessions: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PortalListSessions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3476,6 +3626,8 @@ export const portalRerollKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalRerollKey",
 }));
 
 export type PortalRevokeSessionError = BadRequest | NotFound | UnkeyOpError;
@@ -3491,6 +3643,8 @@ export const portalRevokeSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalRevokeSession",
 }));
 
 export type RatelimitDeleteOverrideError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3506,6 +3660,8 @@ export const ratelimitDeleteOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RatelimitDeleteOverride",
 }));
 
 export type RatelimitGetOverrideError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3521,6 +3677,8 @@ export const ratelimitGetOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RatelimitGetOverride",
 }));
 
 export type RatelimitLimitError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3536,6 +3694,8 @@ export const ratelimitLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RatelimitLimit",
 }));
 
 export type RatelimitListOverridesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3553,6 +3713,8 @@ export const ratelimitListOverrides: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "RatelimitListOverrides",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3577,6 +3739,8 @@ export const ratelimitMultiLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RatelimitMultiLimit",
 }));
 
 export type RatelimitSetOverrideError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3592,6 +3756,8 @@ export const ratelimitSetOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RatelimitSetOverride",
 }));
 
 export type RemoveEnvironmentVariablesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3607,6 +3773,8 @@ export const removeEnvironmentVariables: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveEnvironmentVariables",
 }));
 
 export type RootKeysCreateKeyError = BadRequest | Forbidden | UnkeyOpError;
@@ -3622,6 +3790,8 @@ export const rootKeysCreateKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RootKeysCreateKey",
 }));
 
 export type RootKeysDeleteKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3637,6 +3807,8 @@ export const rootKeysDeleteKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RootKeysDeleteKey",
 }));
 
 export type RootKeysListKeysError = BadRequest | UnkeyOpError;
@@ -3654,6 +3826,8 @@ export const rootKeysListKeys: API.PaginatedOperationMethod<
     errors: [BadRequest, UnknownUnkeyError],
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "RootKeysListKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3678,6 +3852,8 @@ export const rootKeysRerollKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RootKeysRerollKey",
 }));
 
 export type RootKeysUpdateKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3693,6 +3869,8 @@ export const rootKeysUpdateKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RootKeysUpdateKey",
 }));
 
 export type StartDeploymentError = BadRequest | NotFound | UnkeyOpError;
@@ -3708,6 +3886,8 @@ export const startDeployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type StopDeploymentError = BadRequest | NotFound | UnkeyOpError;
@@ -3723,6 +3903,8 @@ export const stopDeployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopDeployment",
 }));
 
 export type UpdateAppError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
@@ -3738,6 +3920,8 @@ export const updateApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateIdentityError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3753,6 +3937,8 @@ export const updateIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentity",
 }));
 
 export type UpdateKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3768,6 +3954,8 @@ export const updateKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKey",
 }));
 
 export type UpdatePortalError = BadRequest | NotFound | Conflict | UnkeyOpError;
@@ -3783,6 +3971,8 @@ export const updatePortal: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePortal",
 }));
 
 export type UpdateProjectError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
@@ -3798,6 +3988,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type VerifyDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3813,6 +4005,8 @@ export const verifyDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDomain",
 }));
 
 export type VerifyKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -3828,6 +4022,8 @@ export const verifyKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyKey",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

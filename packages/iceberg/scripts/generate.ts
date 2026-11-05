@@ -1,15 +1,15 @@
 #!/usr/bin/env -S node --conditions=bun
 import { readFileSync } from "node:fs";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
- * generate — turn the Smithy JSON model in .generated-specs into the Iceberg
- * REST Catalog Effect SDK.
+ * generate — turn the Smithy JSON model scripts/convert.ts converts into the
+ * Iceberg REST Catalog Effect SDK.
  *
- * Input:  .generated-specs/catalog.json  (written by scripts/convert.ts)
+ * Input:  the `catalog` model scripts/convert.ts converts (in memory)
  * Output: src/services/catalog.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Iceberg's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Iceberg's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error matchers), a passthrough union style, the token
  * pagination profile, and the protocol/retry/error names.
@@ -19,20 +19,19 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * snake_case (`metadata_location`) with a `jsonName` back to the wire,
  * which is also how PyIceberg names them.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 const root = `${import.meta.dirname}/..`;
 
-/** `{ tsName: wireName }` for every member whose wire name differs. */
-const keyDictionary = (): Record<string, string> => {
-  const model = JSON.parse(readFileSync(`${root}/.generated-specs/catalog.json`, "utf8"));
+/** `{ tsName: wireName }` for every member of `model` whose wire name differs. */
+const keyDictionary = (model: any): Record<string, string> => {
   const dict: Record<string, string> = {};
   for (const [id, shape] of Object.entries<any>(model.shapes)) {
     for (const [name, member] of Object.entries<any>(shape.members ?? {})) {
@@ -48,7 +47,7 @@ const keyDictionary = (): Record<string, string> => {
 };
 
 /** Iceberg's provider spec for the shared smithy→SDK compiler. */
-const spec: SdkSpec = {
+const spec = (model: any): SdkSpec => ({
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
 
@@ -101,7 +100,7 @@ const spec: SdkSpec = {
   // exactly; Iceberg's property keys are dotted kebab-case
   // (`write.format.default`), so none do.
   rootKeyDictionary: {
-    dict: keyDictionary(),
+    dict: keyDictionary(model),
     doc: "TS member name → Iceberg wire name, for opaque union payloads.",
   },
 
@@ -126,13 +125,14 @@ const spec: SdkSpec = {
         )
       : withoutEmptyImport;
   },
-};
+});
 
 runGeneratorCli({
   description: "Generate the Iceberg REST Catalog Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root,
   // Smithy patches under patches/catalog/ apply via finalizeConvert in
   // scripts/convert.ts — never here.
   patchesDir: false,
-  spec: () => spec,
+  spec,
 });

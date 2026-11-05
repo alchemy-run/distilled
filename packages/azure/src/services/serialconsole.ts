@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.SerialConsole" },
+  prefix: "Serialconsole",
+  service: "Serialconsole",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface ConnectSerialPortRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -234,6 +255,8 @@ export const ConnectSerialPort: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectSerialPort",
 }));
 
 export type CreateSerialPortError = AzureOpError;
@@ -249,6 +272,8 @@ export const CreateSerialPort: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSerialPort",
 }));
 
 export type DeleteSerialPortError = AzureOpError;
@@ -264,6 +289,8 @@ export const DeleteSerialPort: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSerialPort",
 }));
 
 export type DisableConsoleError = AzureOpError;
@@ -279,6 +306,8 @@ export const DisableConsole: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableConsole",
 }));
 
 export type EnableConsoleError = AzureOpError;
@@ -294,6 +323,8 @@ export const EnableConsole: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableConsole",
 }));
 
 export type GetConsoleStatusError = AzureOpError;
@@ -309,6 +340,8 @@ export const GetConsoleStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsoleStatus",
 }));
 
 export type GetSerialPortError = AzureOpError;
@@ -324,6 +357,8 @@ export const GetSerialPort: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSerialPort",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -339,6 +374,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSerialPortBySubscriptionsError = AzureOpError;
@@ -354,6 +391,8 @@ export const ListSerialPortBySubscriptions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSerialPortBySubscriptions",
 }));
 
 export type ListSerialPortsError = AzureOpError;
@@ -369,6 +408,8 @@ export const ListSerialPorts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSerialPorts",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

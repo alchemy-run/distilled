@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Consumption" },
+  prefix: "Consumption",
+  service: "Consumption",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The category of the budget, whether the budget tracks cost or usage. */
 export type CategoryType = "Cost";
 /** The time covered by a budget. Tracking of the amount will be reset based on the time grain. BillingMonth, BillingQuarter, and BillingAnnual are only supported by WD customers */
@@ -1692,6 +1712,11 @@ export const BudgetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BudgetsCreateOrUpdate",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}" },
+  },
 }));
 
 export type DeleteBudgetError = AzureOpError;
@@ -1707,6 +1732,11 @@ export const DeleteBudget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBudget",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}" },
+  },
 }));
 
 export type DownloadPriceSheetByBillingAccountPeriodError = AzureOpError;
@@ -1722,6 +1752,8 @@ export const DownloadPriceSheetByBillingAccountPeriod: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadPriceSheetByBillingAccountPeriod",
 }));
 
 export type GetAggregatedCostByManagementGroupError = AzureOpError;
@@ -1737,6 +1769,8 @@ export const GetAggregatedCostByManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAggregatedCostByManagementGroup",
 }));
 
 export type GetAggregatedCostForBillingPeriodByManagementGroupError = AzureOpError;
@@ -1760,6 +1794,8 @@ export const GetAggregatedCostForBillingPeriodByManagementGroup: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAggregatedCostForBillingPeriodByManagementGroup",
 }));
 
 export type GetBalanceByBillingAccountError = AzureOpError;
@@ -1775,6 +1811,8 @@ export const GetBalanceByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceByBillingAccount",
 }));
 
 export type GetBalanceForBillingPeriodByBillingAccountError = AzureOpError;
@@ -1790,6 +1828,8 @@ export const GetBalanceForBillingPeriodByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceForBillingPeriodByBillingAccount",
 }));
 
 export type GetBudgetError = AzureOpError;
@@ -1805,6 +1845,11 @@ export const GetBudget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBudget",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}" },
+  },
 }));
 
 export type GetCreditError = AzureOpError;
@@ -1820,6 +1865,8 @@ export const GetCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredit",
 }));
 
 export type GetPriceSheetError = AzureOpError;
@@ -1835,6 +1882,8 @@ export const GetPriceSheet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPriceSheet",
 }));
 
 export type GetPriceSheetByBillingPeriodError = AzureOpError;
@@ -1850,6 +1899,8 @@ export const GetPriceSheetByBillingPeriod: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPriceSheetByBillingPeriod",
 }));
 
 export type GetReservationRecommendationDetailError = AzureOpError;
@@ -1865,6 +1916,14 @@ export const GetReservationRecommendationDetail: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetReservationRecommendationDetail",
+    attributes: {
+      "url.template":
+        "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendationDetails",
+    },
+  },
 }));
 
 export type GetTagError = AzureOpError;
@@ -1880,6 +1939,11 @@ export const GetTag: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTag",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/tags" },
+  },
 }));
 
 export type ListBudgetsError = AzureOpError;
@@ -1895,6 +1959,11 @@ export const ListBudgets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListBudgets",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/budgets" },
+  },
 }));
 
 export type ListChargesError = AzureOpError;
@@ -1910,6 +1979,11 @@ export const ListCharges: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListCharges",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/charges" },
+  },
 }));
 
 export type ListEventByBillingAccountError = AzureOpError;
@@ -1925,6 +1999,8 @@ export const ListEventByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventByBillingAccount",
 }));
 
 export type ListEventByBillingProfileError = AzureOpError;
@@ -1940,6 +2016,8 @@ export const ListEventByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventByBillingProfile",
 }));
 
 export type ListLotByBillingAccountError = AzureOpError;
@@ -1955,6 +2033,8 @@ export const ListLotByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLotByBillingAccount",
 }));
 
 export type ListLotByBillingProfileError = AzureOpError;
@@ -1970,6 +2050,8 @@ export const ListLotByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLotByBillingProfile",
 }));
 
 export type ListLotByCustomerError = AzureOpError;
@@ -1985,6 +2067,8 @@ export const ListLotByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLotByCustomer",
 }));
 
 export type ListMarketplacesError = AzureOpError;
@@ -2000,6 +2084,11 @@ export const ListMarketplaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListMarketplaces",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/marketplaces" },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2015,6 +2104,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListReservationRecommendationsError = AzureOpError;
@@ -2030,6 +2121,13 @@ export const ListReservationRecommendations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListReservationRecommendations",
+    attributes: {
+      "url.template": "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendations",
+    },
+  },
 }));
 
 export type ListReservationsDetailByReservationOrderError = AzureOpError;
@@ -2045,6 +2143,8 @@ export const ListReservationsDetailByReservationOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationsDetailByReservationOrder",
 }));
 
 export type ListReservationsDetailsError = AzureOpError;
@@ -2060,6 +2160,13 @@ export const ListReservationsDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListReservationsDetails",
+    attributes: {
+      "url.template": "/{resourceScope}/providers/Microsoft.Consumption/reservationDetails",
+    },
+  },
 }));
 
 export type ListReservationsSummariesError = AzureOpError;
@@ -2075,6 +2182,13 @@ export const ListReservationsSummaries: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListReservationsSummaries",
+    attributes: {
+      "url.template": "/{resourceScope}/providers/Microsoft.Consumption/reservationSummaries",
+    },
+  },
 }));
 
 export type ListReservationsSummaryByReservationOrderError = AzureOpError;
@@ -2090,6 +2204,8 @@ export const ListReservationsSummaryByReservationOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationsSummaryByReservationOrder",
 }));
 
 export type ListReservationTransactionByBillingProfileError = AzureOpError;
@@ -2105,6 +2221,8 @@ export const ListReservationTransactionByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationTransactionByBillingProfile",
 }));
 
 export type ListReservationTransactionsError = AzureOpError;
@@ -2120,6 +2238,8 @@ export const ListReservationTransactions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationTransactions",
 }));
 
 export type ListUsageDetailsError = AzureOpError;
@@ -2135,6 +2255,11 @@ export const ListUsageDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListUsageDetails",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Consumption/usageDetails" },
+  },
 }));
 
 export type ReservationsDetailsListByReservationOrderAndReservationError = AzureOpError;
@@ -2154,6 +2279,8 @@ export const ReservationsDetailsListByReservationOrderAndReservation: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReservationsDetailsListByReservationOrderAndReservation",
 }));
 
 export type ReservationsSummariesListByReservationOrderAndReservationError = AzureOpError;
@@ -2173,6 +2300,8 @@ export const ReservationsSummariesListByReservationOrderAndReservation: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReservationsSummariesListByReservationOrderAndReservation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

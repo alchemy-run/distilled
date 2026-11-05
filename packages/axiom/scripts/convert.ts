@@ -18,11 +18,11 @@
  * chain — hence `parse` rather than the (post-patch) `preprocess` hook.
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Axiom's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Axiom's pipeline
  * config. `scripts/generate.ts` compiles the models into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const root = path.resolve(import.meta.dirname, "..");
 const specsDir = "specs/spec-mirror-axiom/specs/restapi/versions";

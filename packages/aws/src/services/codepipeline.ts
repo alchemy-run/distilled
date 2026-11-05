@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codepipeline.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodePipeline",
+  service: "CodePipeline",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActionExecutionNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ActionExecutionNotFoundException>()(
@@ -1535,7 +1552,7 @@ export type AcknowledgeJobError =
  * the job worker. Used for custom actions only.
  */
 export const acknowledgeJob: API.OperationMethod<
-  AcknowledgeJobInput,
+  AcknowledgeJobInput & RegionInput,
   AcknowledgeJobOutput,
   AcknowledgeJobError,
   Credentials | HttpClient.HttpClient
@@ -1546,6 +1563,8 @@ export const acknowledgeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcknowledgeJob",
+  telemetry: TELEMETRY,
+  span: "AcknowledgeJob",
 }));
 
 export type AcknowledgeThirdPartyJobError =
@@ -1559,7 +1578,7 @@ export type AcknowledgeThirdPartyJobError =
  * only.
  */
 export const acknowledgeThirdPartyJob: API.OperationMethod<
-  AcknowledgeThirdPartyJobInput,
+  AcknowledgeThirdPartyJobInput & RegionInput,
   AcknowledgeThirdPartyJobOutput,
   AcknowledgeThirdPartyJobError,
   Credentials | HttpClient.HttpClient
@@ -1575,6 +1594,8 @@ export const acknowledgeThirdPartyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcknowledgeThirdPartyJob",
+  telemetry: TELEMETRY,
+  span: "AcknowledgeThirdPartyJob",
 }));
 
 export type CreateCustomActionTypeError =
@@ -1589,7 +1610,7 @@ export type CreateCustomActionTypeError =
  * Amazon Web Services account. Only used for custom actions.
  */
 export const createCustomActionType: API.OperationMethod<
-  CreateCustomActionTypeInput,
+  CreateCustomActionTypeInput & RegionInput,
   CreateCustomActionTypeOutput,
   CreateCustomActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -1606,6 +1627,8 @@ export const createCustomActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomActionType",
+  telemetry: TELEMETRY,
+  span: "CreateCustomActionType",
 }));
 
 export type CreatePipelineError =
@@ -1629,7 +1652,7 @@ export type CreatePipelineError =
  * `artifactStores`.
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineInput,
+  CreatePipelineInput & RegionInput,
   CreatePipelineOutput,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1651,6 +1674,8 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type DeleteCustomActionTypeError =
@@ -1668,7 +1693,7 @@ export type DeleteCustomActionTypeError =
  * version field.
  */
 export const deleteCustomActionType: API.OperationMethod<
-  DeleteCustomActionTypeInput,
+  DeleteCustomActionTypeInput & RegionInput,
   DeleteCustomActionTypeResponse,
   DeleteCustomActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -1679,6 +1704,8 @@ export const deleteCustomActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomActionType",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomActionType",
 }));
 
 export type DeletePipelineError =
@@ -1689,7 +1716,7 @@ export type DeletePipelineError =
  * Deletes the specified pipeline.
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineInput,
+  DeletePipelineInput & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1700,6 +1727,8 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeleteWebhookError =
@@ -1713,7 +1742,7 @@ export type DeleteWebhookError =
  * different URL.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookInput,
+  DeleteWebhookInput & RegionInput,
   DeleteWebhookOutput,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1724,6 +1753,8 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeregisterWebhookWithThirdPartyError =
@@ -1736,7 +1767,7 @@ export type DeregisterWebhookWithThirdPartyError =
  * that target an action type of GitHub.
  */
 export const deregisterWebhookWithThirdParty: API.OperationMethod<
-  DeregisterWebhookWithThirdPartyInput,
+  DeregisterWebhookWithThirdPartyInput & RegionInput,
   DeregisterWebhookWithThirdPartyOutput,
   DeregisterWebhookWithThirdPartyError,
   Credentials | HttpClient.HttpClient
@@ -1747,6 +1778,8 @@ export const deregisterWebhookWithThirdParty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterWebhookWithThirdParty",
+  telemetry: TELEMETRY,
+  span: "DeregisterWebhookWithThirdParty",
 }));
 
 export type DisableStageTransitionError =
@@ -1759,7 +1792,7 @@ export type DisableStageTransitionError =
  * pipeline.
  */
 export const disableStageTransition: API.OperationMethod<
-  DisableStageTransitionInput,
+  DisableStageTransitionInput & RegionInput,
   DisableStageTransitionResponse,
   DisableStageTransitionError,
   Credentials | HttpClient.HttpClient
@@ -1770,6 +1803,8 @@ export const disableStageTransition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableStageTransition",
+  telemetry: TELEMETRY,
+  span: "DisableStageTransition",
 }));
 
 export type EnableStageTransitionError =
@@ -1781,7 +1816,7 @@ export type EnableStageTransitionError =
  * Enables artifacts in a pipeline to transition to a stage in a pipeline.
  */
 export const enableStageTransition: API.OperationMethod<
-  EnableStageTransitionInput,
+  EnableStageTransitionInput & RegionInput,
   EnableStageTransitionResponse,
   EnableStageTransitionError,
   Credentials | HttpClient.HttpClient
@@ -1792,6 +1827,8 @@ export const enableStageTransition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableStageTransition",
+  telemetry: TELEMETRY,
+  span: "EnableStageTransition",
 }));
 
 export type GetActionTypeError = ActionTypeNotFoundException | ValidationException | CommonErrors;
@@ -1801,7 +1838,7 @@ export type GetActionTypeError = ActionTypeNotFoundException | ValidationExcepti
  * with any supported integration model.
  */
 export const getActionType: API.OperationMethod<
-  GetActionTypeInput,
+  GetActionTypeInput & RegionInput,
   GetActionTypeOutput,
   GetActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -1812,6 +1849,8 @@ export const getActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActionType",
+  telemetry: TELEMETRY,
+  span: "GetActionType",
 }));
 
 export type GetJobDetailsError = JobNotFoundException | ValidationException | CommonErrors;
@@ -1824,7 +1863,7 @@ export type GetJobDetailsError = JobNotFoundException | ValidationException | Co
  * secret values defined for the action.
  */
 export const getJobDetails: API.OperationMethod<
-  GetJobDetailsInput,
+  GetJobDetailsInput & RegionInput,
   GetJobDetailsOutput,
   GetJobDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1835,6 +1874,8 @@ export const getJobDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobDetails",
+  telemetry: TELEMETRY,
+  span: "GetJobDetails",
 }));
 
 export type GetPipelineError =
@@ -1848,7 +1889,7 @@ export type GetPipelineError =
  * used to update the pipeline structure with UpdatePipeline.
  */
 export const getPipeline: API.OperationMethod<
-  GetPipelineInput,
+  GetPipelineInput & RegionInput,
   GetPipelineOutput,
   GetPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1859,6 +1900,8 @@ export const getPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipeline",
+  telemetry: TELEMETRY,
+  span: "GetPipeline",
 }));
 
 export type GetPipelineExecutionError =
@@ -1872,7 +1915,7 @@ export type GetPipelineExecutionError =
  * pipeline.
  */
 export const getPipelineExecution: API.OperationMethod<
-  GetPipelineExecutionInput,
+  GetPipelineExecutionInput & RegionInput,
   GetPipelineExecutionOutput,
   GetPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1883,6 +1926,8 @@ export const getPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineExecution",
+  telemetry: TELEMETRY,
+  span: "GetPipelineExecution",
 }));
 
 export type GetPipelineStateError = PipelineNotFoundException | ValidationException | CommonErrors;
@@ -1895,7 +1940,7 @@ export type GetPipelineStateError = PipelineNotFoundException | ValidationExcept
  * current state.
  */
 export const getPipelineState: API.OperationMethod<
-  GetPipelineStateInput,
+  GetPipelineStateInput & RegionInput,
   GetPipelineStateOutput,
   GetPipelineStateError,
   Credentials | HttpClient.HttpClient
@@ -1906,6 +1951,8 @@ export const getPipelineState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineState",
+  telemetry: TELEMETRY,
+  span: "GetPipelineState",
 }));
 
 export type GetThirdPartyJobDetailsError =
@@ -1924,7 +1971,7 @@ export type GetThirdPartyJobDetailsError =
  * secret values defined for the action.
  */
 export const getThirdPartyJobDetails: API.OperationMethod<
-  GetThirdPartyJobDetailsInput,
+  GetThirdPartyJobDetailsInput & RegionInput,
   GetThirdPartyJobDetailsOutput,
   GetThirdPartyJobDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1940,6 +1987,8 @@ export const getThirdPartyJobDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThirdPartyJobDetails",
+  telemetry: TELEMETRY,
+  span: "GetThirdPartyJobDetails",
 }));
 
 export type ListActionExecutionsError =
@@ -1952,7 +2001,7 @@ export type ListActionExecutionsError =
  * Lists the action executions that have occurred in a pipeline.
  */
 export const listActionExecutions: API.PaginatedOperationMethod<
-  ListActionExecutionsInput,
+  ListActionExecutionsInput & RegionInput,
   ListActionExecutionsOutput,
   ListActionExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1975,6 +2024,8 @@ export const listActionExecutions: API.PaginatedOperationMethod<
     items: "actionExecutionDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActionExecutions",
 })) as any;
 
 export type ListActionTypesError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -1983,7 +2034,7 @@ export type ListActionTypesError = InvalidNextTokenException | ValidationExcepti
  * account.
  */
 export const listActionTypes: API.PaginatedOperationMethod<
-  ListActionTypesInput,
+  ListActionTypesInput & RegionInput,
   ListActionTypesOutput,
   ListActionTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1996,6 +2047,8 @@ export const listActionTypes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListActionTypes",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "actionTypes" } as const,
+  telemetry: TELEMETRY,
+  span: "ListActionTypes",
 })) as any;
 
 export type ListDeployActionExecutionTargetsError =
@@ -2008,7 +2061,7 @@ export type ListDeployActionExecutionTargetsError =
  * Lists the targets for the deploy action.
  */
 export const listDeployActionExecutionTargets: API.PaginatedOperationMethod<
-  ListDeployActionExecutionTargetsInput,
+  ListDeployActionExecutionTargetsInput & RegionInput,
   ListDeployActionExecutionTargetsOutput,
   ListDeployActionExecutionTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -2031,6 +2084,8 @@ export const listDeployActionExecutionTargets: API.PaginatedOperationMethod<
     items: "targets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployActionExecutionTargets",
 })) as any;
 
 export type ListPipelineExecutionsError =
@@ -2046,7 +2101,7 @@ export type ListPipelineExecutionsError =
  * February 1, 2024.
  */
 export const listPipelineExecutions: API.PaginatedOperationMethod<
-  ListPipelineExecutionsInput,
+  ListPipelineExecutionsInput & RegionInput,
   ListPipelineExecutionsOutput,
   ListPipelineExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2064,6 +2119,8 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
     items: "pipelineExecutionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineExecutions",
 })) as any;
 
 export type ListPipelinesError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -2071,7 +2128,7 @@ export type ListPipelinesError = InvalidNextTokenException | ValidationException
  * Gets a summary of all of the pipelines associated with your account.
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesInput,
+  ListPipelinesInput & RegionInput,
   ListPipelinesOutput,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -2089,6 +2146,8 @@ export const listPipelines: API.PaginatedOperationMethod<
     items: "pipelines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 })) as any;
 
 export type ListRuleExecutionsError =
@@ -2102,7 +2161,7 @@ export type ListRuleExecutionsError =
  * with rules.
  */
 export const listRuleExecutions: API.PaginatedOperationMethod<
-  ListRuleExecutionsInput,
+  ListRuleExecutionsInput & RegionInput,
   ListRuleExecutionsOutput,
   ListRuleExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2125,6 +2184,8 @@ export const listRuleExecutions: API.PaginatedOperationMethod<
     items: "ruleExecutionDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleExecutions",
 })) as any;
 
 export type ListRuleTypesError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -2134,7 +2195,7 @@ export type ListRuleTypesError = InvalidNextTokenException | ValidationException
  * stage conditions work?.For more information about rules, see the CodePipeline rule reference.
  */
 export const listRuleTypes: API.OperationMethod<
-  ListRuleTypesInput,
+  ListRuleTypesInput & RegionInput,
   ListRuleTypesOutput,
   ListRuleTypesError,
   Credentials | HttpClient.HttpClient
@@ -2145,6 +2206,8 @@ export const listRuleTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleTypes",
+  telemetry: TELEMETRY,
+  span: "ListRuleTypes",
 }));
 
 export type ListTagsForResourceError =
@@ -2158,7 +2221,7 @@ export type ListTagsForResourceError =
  * resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2181,6 +2244,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListWebhooksError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -2192,7 +2257,7 @@ export type ListWebhooksError = InvalidNextTokenException | ValidationException 
  * If a secret token was provided, it will be redacted in the response.
  */
 export const listWebhooks: API.PaginatedOperationMethod<
-  ListWebhooksInput,
+  ListWebhooksInput & RegionInput,
   ListWebhooksOutput,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient,
@@ -2210,6 +2275,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
     items: "webhooks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 })) as any;
 
 export type OverrideStageConditionError =
@@ -2227,7 +2294,7 @@ export type OverrideStageConditionError =
  * stage conditions work?.
  */
 export const overrideStageCondition: API.OperationMethod<
-  OverrideStageConditionInput,
+  OverrideStageConditionInput & RegionInput,
   OverrideStageConditionResponse,
   OverrideStageConditionError,
   Credentials | HttpClient.HttpClient
@@ -2246,6 +2313,8 @@ export const overrideStageCondition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OverrideStageCondition",
+  telemetry: TELEMETRY,
+  span: "OverrideStageCondition",
 }));
 
 export type PollForJobsError = ActionTypeNotFoundException | ValidationException | CommonErrors;
@@ -2261,7 +2330,7 @@ export type PollForJobsError = ActionTypeNotFoundException | ValidationException
  * secret values defined for the action.
  */
 export const pollForJobs: API.OperationMethod<
-  PollForJobsInput,
+  PollForJobsInput & RegionInput,
   PollForJobsOutput,
   PollForJobsError,
   Credentials | HttpClient.HttpClient
@@ -2272,6 +2341,8 @@ export const pollForJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForJobs",
+  telemetry: TELEMETRY,
+  span: "PollForJobs",
 }));
 
 export type PollForThirdPartyJobsError =
@@ -2287,7 +2358,7 @@ export type PollForThirdPartyJobsError =
  * access to that S3 bucket for input or output artifacts.
  */
 export const pollForThirdPartyJobs: API.OperationMethod<
-  PollForThirdPartyJobsInput,
+  PollForThirdPartyJobsInput & RegionInput,
   PollForThirdPartyJobsOutput,
   PollForThirdPartyJobsError,
   Credentials | HttpClient.HttpClient
@@ -2298,6 +2369,8 @@ export const pollForThirdPartyJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForThirdPartyJobs",
+  telemetry: TELEMETRY,
+  span: "PollForThirdPartyJobs",
 }));
 
 export type PutActionRevisionError =
@@ -2312,7 +2385,7 @@ export type PutActionRevisionError =
  * source.
  */
 export const putActionRevision: API.OperationMethod<
-  PutActionRevisionInput,
+  PutActionRevisionInput & RegionInput,
   PutActionRevisionOutput,
   PutActionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -2329,6 +2402,8 @@ export const putActionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionRevision",
+  telemetry: TELEMETRY,
+  span: "PutActionRevision",
 }));
 
 export type PutApprovalResultError =
@@ -2344,7 +2419,7 @@ export type PutApprovalResultError =
  * responses include Approved and Rejected.
  */
 export const putApprovalResult: API.OperationMethod<
-  PutApprovalResultInput,
+  PutApprovalResultInput & RegionInput,
   PutApprovalResultOutput,
   PutApprovalResultError,
   Credentials | HttpClient.HttpClient
@@ -2362,6 +2437,8 @@ export const putApprovalResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApprovalResult",
+  telemetry: TELEMETRY,
+  span: "PutApprovalResult",
 }));
 
 export type PutJobFailureResultError =
@@ -2374,7 +2451,7 @@ export type PutJobFailureResultError =
  * for custom actions only.
  */
 export const putJobFailureResult: API.OperationMethod<
-  PutJobFailureResultInput,
+  PutJobFailureResultInput & RegionInput,
   PutJobFailureResultResponse,
   PutJobFailureResultError,
   Credentials | HttpClient.HttpClient
@@ -2385,6 +2462,8 @@ export const putJobFailureResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutJobFailureResult",
+  telemetry: TELEMETRY,
+  span: "PutJobFailureResult",
 }));
 
 export type PutJobSuccessResultError =
@@ -2398,7 +2477,7 @@ export type PutJobSuccessResultError =
  * for custom actions only.
  */
 export const putJobSuccessResult: API.OperationMethod<
-  PutJobSuccessResultInput,
+  PutJobSuccessResultInput & RegionInput,
   PutJobSuccessResultResponse,
   PutJobSuccessResultError,
   Credentials | HttpClient.HttpClient
@@ -2414,6 +2493,8 @@ export const putJobSuccessResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutJobSuccessResult",
+  telemetry: TELEMETRY,
+  span: "PutJobSuccessResult",
 }));
 
 export type PutThirdPartyJobFailureResultError =
@@ -2427,7 +2508,7 @@ export type PutThirdPartyJobFailureResultError =
  * worker. Used for partner actions only.
  */
 export const putThirdPartyJobFailureResult: API.OperationMethod<
-  PutThirdPartyJobFailureResultInput,
+  PutThirdPartyJobFailureResultInput & RegionInput,
   PutThirdPartyJobFailureResultResponse,
   PutThirdPartyJobFailureResultError,
   Credentials | HttpClient.HttpClient
@@ -2443,6 +2524,8 @@ export const putThirdPartyJobFailureResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyJobFailureResult",
+  telemetry: TELEMETRY,
+  span: "PutThirdPartyJobFailureResult",
 }));
 
 export type PutThirdPartyJobSuccessResultError =
@@ -2456,7 +2539,7 @@ export type PutThirdPartyJobSuccessResultError =
  * worker. Used for partner actions only.
  */
 export const putThirdPartyJobSuccessResult: API.OperationMethod<
-  PutThirdPartyJobSuccessResultInput,
+  PutThirdPartyJobSuccessResultInput & RegionInput,
   PutThirdPartyJobSuccessResultResponse,
   PutThirdPartyJobSuccessResultError,
   Credentials | HttpClient.HttpClient
@@ -2472,6 +2555,8 @@ export const putThirdPartyJobSuccessResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyJobSuccessResult",
+  telemetry: TELEMETRY,
+  span: "PutThirdPartyJobSuccessResult",
 }));
 
 export type PutWebhookError =
@@ -2505,7 +2590,7 @@ export type PutWebhookError =
  * If a secret token was provided, it will be redacted in the response.
  */
 export const putWebhook: API.OperationMethod<
-  PutWebhookInput,
+  PutWebhookInput & RegionInput,
   PutWebhookOutput,
   PutWebhookError,
   Credentials | HttpClient.HttpClient
@@ -2525,6 +2610,8 @@ export const putWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWebhook",
+  telemetry: TELEMETRY,
+  span: "PutWebhook",
 }));
 
 export type RegisterWebhookWithThirdPartyError =
@@ -2536,7 +2623,7 @@ export type RegisterWebhookWithThirdPartyError =
  * with events to be detected.
  */
 export const registerWebhookWithThirdParty: API.OperationMethod<
-  RegisterWebhookWithThirdPartyInput,
+  RegisterWebhookWithThirdPartyInput & RegionInput,
   RegisterWebhookWithThirdPartyOutput,
   RegisterWebhookWithThirdPartyError,
   Credentials | HttpClient.HttpClient
@@ -2547,6 +2634,8 @@ export const registerWebhookWithThirdParty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterWebhookWithThirdParty",
+  telemetry: TELEMETRY,
+  span: "RegisterWebhookWithThirdParty",
 }));
 
 export type RetryStageExecutionError =
@@ -2569,7 +2658,7 @@ export type RetryStageExecutionError =
  * succeeded.
  */
 export const retryStageExecution: API.OperationMethod<
-  RetryStageExecutionInput,
+  RetryStageExecutionInput & RegionInput,
   RetryStageExecutionOutput,
   RetryStageExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2588,6 +2677,8 @@ export const retryStageExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryStageExecution",
+  telemetry: TELEMETRY,
+  span: "RetryStageExecution",
 }));
 
 export type RollbackStageError =
@@ -2603,7 +2694,7 @@ export type RollbackStageError =
  * Rolls back a stage execution.
  */
 export const rollbackStage: API.OperationMethod<
-  RollbackStageInput,
+  RollbackStageInput & RegionInput,
   RollbackStageOutput,
   RollbackStageError,
   Credentials | HttpClient.HttpClient
@@ -2622,6 +2713,8 @@ export const rollbackStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackStage",
+  telemetry: TELEMETRY,
+  span: "RollbackStage",
 }));
 
 export type StartPipelineExecutionError =
@@ -2635,7 +2728,7 @@ export type StartPipelineExecutionError =
  * to the source location specified as part of the pipeline.
  */
 export const startPipelineExecution: API.OperationMethod<
-  StartPipelineExecutionInput,
+  StartPipelineExecutionInput & RegionInput,
   StartPipelineExecutionOutput,
   StartPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2651,6 +2744,8 @@ export const startPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipelineExecution",
+  telemetry: TELEMETRY,
+  span: "StartPipelineExecution",
 }));
 
 export type StopPipelineExecutionError =
@@ -2669,7 +2764,7 @@ export type StopPipelineExecutionError =
  * state.
  */
 export const stopPipelineExecution: API.OperationMethod<
-  StopPipelineExecutionInput,
+  StopPipelineExecutionInput & RegionInput,
   StopPipelineExecutionOutput,
   StopPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2686,6 +2781,8 @@ export const stopPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipelineExecution",
+  telemetry: TELEMETRY,
+  span: "StopPipelineExecution",
 }));
 
 export type TagResourceError =
@@ -2701,7 +2798,7 @@ export type TagResourceError =
  * to manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2719,6 +2816,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2732,7 +2831,7 @@ export type UntagResourceError =
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2749,6 +2848,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateActionTypeError =
@@ -2763,7 +2864,7 @@ export type UpdateActionTypeError =
  * structure.
  */
 export const updateActionType: API.OperationMethod<
-  UpdateActionTypeInput,
+  UpdateActionTypeInput & RegionInput,
   UpdateActionTypeResponse,
   UpdateActionTypeError,
   Credentials | HttpClient.HttpClient
@@ -2774,6 +2875,8 @@ export const updateActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionType",
+  telemetry: TELEMETRY,
+  span: "UpdateActionType",
 }));
 
 export type UpdatePipelineError =
@@ -2791,7 +2894,7 @@ export type UpdatePipelineError =
  * pipeline by 1.
  */
 export const updatePipeline: API.OperationMethod<
-  UpdatePipelineInput,
+  UpdatePipelineInput & RegionInput,
   UpdatePipelineOutput,
   UpdatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -2809,6 +2912,8 @@ export const updatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

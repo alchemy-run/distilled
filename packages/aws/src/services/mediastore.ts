@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediastore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaStore",
+  service: "MediaStore",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ContainerInUseException
   extends /*@__PURE__*/ S.TaggedError<ContainerInUseException>()("ContainerInUseException", {
@@ -275,7 +292,7 @@ export type CreateContainerError =
  * the Amazon S3 service.
  */
 export const createContainer: API.OperationMethod<
-  CreateContainerInput,
+  CreateContainerInput & RegionInput,
   CreateContainerOutput,
   CreateContainerError,
   Credentials | HttpClient.HttpClient
@@ -286,6 +303,8 @@ export const createContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainer",
+  telemetry: TELEMETRY,
+  span: "CreateContainer",
 }));
 
 export type DeleteContainerError =
@@ -299,7 +318,7 @@ export type DeleteContainerError =
  * delete only empty containers.
  */
 export const deleteContainer: API.OperationMethod<
-  DeleteContainerInput,
+  DeleteContainerInput & RegionInput,
   DeleteContainerOutput,
   DeleteContainerError,
   Credentials | HttpClient.HttpClient
@@ -310,6 +329,8 @@ export const deleteContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainer",
+  telemetry: TELEMETRY,
+  span: "DeleteContainer",
 }));
 
 export type DeleteContainerPolicyError =
@@ -322,7 +343,7 @@ export type DeleteContainerPolicyError =
  * Deletes the access policy that is associated with the specified container.
  */
 export const deleteContainerPolicy: API.OperationMethod<
-  DeleteContainerPolicyInput,
+  DeleteContainerPolicyInput & RegionInput,
   DeleteContainerPolicyOutput,
   DeleteContainerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -338,6 +359,8 @@ export const deleteContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerPolicy",
 }));
 
 export type DeleteCorsPolicyError =
@@ -355,7 +378,7 @@ export type DeleteCorsPolicyError =
  * by default and can grant this permission to others.
  */
 export const deleteCorsPolicy: API.OperationMethod<
-  DeleteCorsPolicyInput,
+  DeleteCorsPolicyInput & RegionInput,
   DeleteCorsPolicyOutput,
   DeleteCorsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -371,6 +394,8 @@ export const deleteCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCorsPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteCorsPolicy",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -383,7 +408,7 @@ export type DeleteLifecyclePolicyError =
  * Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyInput,
+  DeleteLifecyclePolicyInput & RegionInput,
   DeleteLifecyclePolicyOutput,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -399,6 +424,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type DeleteMetricPolicyError =
@@ -411,7 +438,7 @@ export type DeleteMetricPolicyError =
  * Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
  */
 export const deleteMetricPolicy: API.OperationMethod<
-  DeleteMetricPolicyInput,
+  DeleteMetricPolicyInput & RegionInput,
   DeleteMetricPolicyOutput,
   DeleteMetricPolicyError,
   Credentials | HttpClient.HttpClient
@@ -427,6 +454,8 @@ export const deleteMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteMetricPolicy",
 }));
 
 export type DescribeContainerError =
@@ -443,7 +472,7 @@ export type DescribeContainerError =
  * ListContainers.
  */
 export const describeContainer: API.OperationMethod<
-  DescribeContainerInput,
+  DescribeContainerInput & RegionInput,
   DescribeContainerOutput,
   DescribeContainerError,
   Credentials | HttpClient.HttpClient
@@ -454,6 +483,8 @@ export const describeContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainer",
+  telemetry: TELEMETRY,
+  span: "DescribeContainer",
 }));
 
 export type GetContainerPolicyError =
@@ -468,7 +499,7 @@ export type GetContainerPolicyError =
  * Guide.
  */
 export const getContainerPolicy: API.OperationMethod<
-  GetContainerPolicyInput,
+  GetContainerPolicyInput & RegionInput,
   GetContainerPolicyOutput,
   GetContainerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -484,6 +515,8 @@ export const getContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerPolicy",
+  telemetry: TELEMETRY,
+  span: "GetContainerPolicy",
 }));
 
 export type GetCorsPolicyError =
@@ -501,7 +534,7 @@ export type GetCorsPolicyError =
  * permission and can grant it to others.
  */
 export const getCorsPolicy: API.OperationMethod<
-  GetCorsPolicyInput,
+  GetCorsPolicyInput & RegionInput,
   GetCorsPolicyOutput,
   GetCorsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -517,6 +550,8 @@ export const getCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCorsPolicy",
+  telemetry: TELEMETRY,
+  span: "GetCorsPolicy",
 }));
 
 export type GetLifecyclePolicyError =
@@ -529,7 +564,7 @@ export type GetLifecyclePolicyError =
  * Retrieves the object lifecycle policy that is assigned to a container.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyInput,
+  GetLifecyclePolicyInput & RegionInput,
   GetLifecyclePolicyOutput,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -545,6 +580,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicy",
 }));
 
 export type GetMetricPolicyError =
@@ -557,7 +594,7 @@ export type GetMetricPolicyError =
  * Returns the metric policy for the specified container.
  */
 export const getMetricPolicy: API.OperationMethod<
-  GetMetricPolicyInput,
+  GetMetricPolicyInput & RegionInput,
   GetMetricPolicyOutput,
   GetMetricPolicyError,
   Credentials | HttpClient.HttpClient
@@ -573,6 +610,8 @@ export const getMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricPolicy",
+  telemetry: TELEMETRY,
+  span: "GetMetricPolicy",
 }));
 
 export type ListContainersError = InternalServerError | CommonErrors;
@@ -590,7 +629,7 @@ export type ListContainersError = InternalServerError | CommonErrors;
  * container.
  */
 export const listContainers: API.PaginatedOperationMethod<
-  ListContainersInput,
+  ListContainersInput & RegionInput,
   ListContainersOutput,
   ListContainersError,
   Credentials | HttpClient.HttpClient,
@@ -607,6 +646,8 @@ export const listContainers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -618,7 +659,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags assigned to the specified container.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -629,6 +670,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutContainerPolicyError =
@@ -647,7 +690,7 @@ export type PutContainerPolicyError =
  * policy.
  */
 export const putContainerPolicy: API.OperationMethod<
-  PutContainerPolicyInput,
+  PutContainerPolicyInput & RegionInput,
   PutContainerPolicyOutput,
   PutContainerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -658,6 +701,8 @@ export const putContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContainerPolicy",
+  telemetry: TELEMETRY,
+  span: "PutContainerPolicy",
 }));
 
 export type PutCorsPolicyError =
@@ -681,7 +726,7 @@ export type PutCorsPolicyError =
  * To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore.
  */
 export const putCorsPolicy: API.OperationMethod<
-  PutCorsPolicyInput,
+  PutCorsPolicyInput & RegionInput,
   PutCorsPolicyOutput,
   PutCorsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -692,6 +737,8 @@ export const putCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCorsPolicy",
+  telemetry: TELEMETRY,
+  span: "PutCorsPolicy",
 }));
 
 export type PutLifecyclePolicyError =
@@ -705,7 +752,7 @@ export type PutLifecyclePolicyError =
  * For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy.
  */
 export const putLifecyclePolicy: API.OperationMethod<
-  PutLifecyclePolicyInput,
+  PutLifecyclePolicyInput & RegionInput,
   PutLifecyclePolicyOutput,
   PutLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -716,6 +763,8 @@ export const putLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "PutLifecyclePolicy",
 }));
 
 export type PutMetricPolicyError =
@@ -727,7 +776,7 @@ export type PutMetricPolicyError =
  * The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
  */
 export const putMetricPolicy: API.OperationMethod<
-  PutMetricPolicyInput,
+  PutMetricPolicyInput & RegionInput,
   PutMetricPolicyOutput,
   PutMetricPolicyError,
   Credentials | HttpClient.HttpClient
@@ -738,6 +787,8 @@ export const putMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricPolicy",
+  telemetry: TELEMETRY,
+  span: "PutMetricPolicy",
 }));
 
 export type StartAccessLoggingError =
@@ -749,7 +800,7 @@ export type StartAccessLoggingError =
  * Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.
  */
 export const startAccessLogging: API.OperationMethod<
-  StartAccessLoggingInput,
+  StartAccessLoggingInput & RegionInput,
   StartAccessLoggingOutput,
   StartAccessLoggingError,
   Credentials | HttpClient.HttpClient
@@ -760,6 +811,8 @@ export const startAccessLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccessLogging",
+  telemetry: TELEMETRY,
+  span: "StartAccessLogging",
 }));
 
 export type StopAccessLoggingError =
@@ -771,7 +824,7 @@ export type StopAccessLoggingError =
  * Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
  */
 export const stopAccessLogging: API.OperationMethod<
-  StopAccessLoggingInput,
+  StopAccessLoggingInput & RegionInput,
   StopAccessLoggingOutput,
   StopAccessLoggingError,
   Credentials | HttpClient.HttpClient
@@ -782,6 +835,8 @@ export const stopAccessLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAccessLogging",
+  telemetry: TELEMETRY,
+  span: "StopAccessLogging",
 }));
 
 export type TagResourceError =
@@ -795,7 +850,7 @@ export type TagResourceError =
  * tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -806,6 +861,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -817,7 +874,7 @@ export type UntagResourceError =
  * Removes tags from the specified container. You can specify one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -828,6 +885,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

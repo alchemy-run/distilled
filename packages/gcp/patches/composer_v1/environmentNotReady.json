@@ -1,0 +1,29 @@
+{
+  "description": "Type Composer's 400 for an environment that is busy. Observed live 2026-10-29: deleting an environment right after restartWebServer or saveSnapshot answers 400 'Cannot delete environment in state UPDATING. Environment must be in RUNNING or ERROR state.' It surfaced as an out-of-union BadRequest, so a provider could not wait the update out with a typed retry.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#EnvironmentNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The environment is busy (creating, updating or being deleted) and can't take this change yet (HTTP 400: 'Cannot delete environment in state ...'). Retryable once the operation finishes.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "includes": "Environment must be in RUNNING or ERROR state" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#DeleteProjectsLocationsEnvironments/errors/-",
+      "value": { "target": "com.gcp.composer_v1#EnvironmentNotReady" }
+    }
+  ]
+}

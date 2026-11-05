@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -241,6 +243,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53",
+  service: "Route53",
+  propagate: TxXray.propagate,
+} as const;
 
 export class CidrBlockInUseException
   extends /*@__PURE__*/ S.TaggedError<CidrBlockInUseException>()(
@@ -1846,7 +1862,7 @@ export type ActivateKeySigningKeyError =
  * operation changes the KSK status to `ACTIVE`.
  */
 export const activateKeySigningKey: API.OperationMethod<
-  ActivateKeySigningKeyRequest,
+  ActivateKeySigningKeyRequest & RegionInput,
   ActivateKeySigningKeyResponse,
   ActivateKeySigningKeyError,
   Credentials | HttpClient.HttpClient
@@ -1864,6 +1880,8 @@ export const activateKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateKeySigningKey",
+  telemetry: TELEMETRY,
+  span: "ActivateKeySigningKey",
 }));
 
 export type AssociateVPCWithHostedZoneError =
@@ -1904,7 +1922,7 @@ export type AssociateVPCWithHostedZoneError =
  * in the *Amazon Web Services General Reference*.
  */
 export const associateVPCWithHostedZone: API.OperationMethod<
-  AssociateVPCWithHostedZoneRequest,
+  AssociateVPCWithHostedZoneRequest & RegionInput,
   AssociateVPCWithHostedZoneResponse,
   AssociateVPCWithHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -1924,6 +1942,8 @@ export const associateVPCWithHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVPCWithHostedZone",
+  telemetry: TELEMETRY,
+  span: "AssociateVPCWithHostedZone",
 }));
 
 export type ChangeCidrCollectionError =
@@ -1957,7 +1977,7 @@ export type ChangeCidrCollectionError =
  * collection.
  */
 export const changeCidrCollection: API.OperationMethod<
-  ChangeCidrCollectionRequest,
+  ChangeCidrCollectionRequest & RegionInput,
   ChangeCidrCollectionResponse,
   ChangeCidrCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1975,6 +1995,8 @@ export const changeCidrCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeCidrCollection",
+  telemetry: TELEMETRY,
+  span: "ChangeCidrCollection",
 }));
 
 export type ChangeResourceRecordSetsError =
@@ -2071,7 +2093,7 @@ export type ChangeResourceRecordSetsError =
  * see Limits in the *Amazon Route 53 Developer Guide*.
  */
 export const changeResourceRecordSets: API.OperationMethod<
-  ChangeResourceRecordSetsRequest,
+  ChangeResourceRecordSetsRequest & RegionInput,
   ChangeResourceRecordSetsResponse,
   ChangeResourceRecordSetsError,
   Credentials | HttpClient.HttpClient
@@ -2088,6 +2110,8 @@ export const changeResourceRecordSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeResourceRecordSets",
+  telemetry: TELEMETRY,
+  span: "ChangeResourceRecordSets",
 }));
 
 export type ChangeTagsForResourceError =
@@ -2104,7 +2128,7 @@ export type ChangeTagsForResourceError =
  * Tags in the *Billing and Cost Management User Guide*.
  */
 export const changeTagsForResource: API.OperationMethod<
-  ChangeTagsForResourceRequest,
+  ChangeTagsForResourceRequest & RegionInput,
   ChangeTagsForResourceResponse,
   ChangeTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2121,6 +2145,8 @@ export const changeTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ChangeTagsForResource",
 }));
 
 export type CreateCidrCollectionError =
@@ -2133,7 +2159,7 @@ export type CreateCidrCollectionError =
  * Creates a CIDR collection in the current Amazon Web Services account.
  */
 export const createCidrCollection: API.OperationMethod<
-  CreateCidrCollectionRequest,
+  CreateCidrCollectionRequest & RegionInput,
   CreateCidrCollectionResponse,
   CreateCidrCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2149,6 +2175,8 @@ export const createCidrCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCidrCollection",
+  telemetry: TELEMETRY,
+  span: "CreateCidrCollection",
 }));
 
 export type CreateHealthCheckError =
@@ -2190,7 +2218,7 @@ export type CreateHealthCheckError =
  * CloudWatch User Guide.
  */
 export const createHealthCheck: API.OperationMethod<
-  CreateHealthCheckRequest,
+  CreateHealthCheckRequest & RegionInput,
   CreateHealthCheckResponse,
   CreateHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -2201,6 +2229,8 @@ export const createHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHealthCheck",
+  telemetry: TELEMETRY,
+  span: "CreateHealthCheck",
 }));
 
 export type CreateHostedZoneError =
@@ -2272,7 +2302,7 @@ export type CreateHostedZoneError =
  * in the *Amazon Web Services General Reference*.
  */
 export const createHostedZone: API.OperationMethod<
-  CreateHostedZoneRequest,
+  CreateHostedZoneRequest & RegionInput,
   CreateHostedZoneResponse,
   CreateHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -2293,6 +2323,8 @@ export const createHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHostedZone",
+  telemetry: TELEMETRY,
+  span: "CreateHostedZone",
 }));
 
 export type CreateKeySigningKeyError =
@@ -2312,7 +2344,7 @@ export type CreateKeySigningKeyError =
  * two KSKs per hosted zone.
  */
 export const createKeySigningKey: API.OperationMethod<
-  CreateKeySigningKeyRequest,
+  CreateKeySigningKeyRequest & RegionInput,
   CreateKeySigningKeyResponse,
   CreateKeySigningKeyError,
   Credentials | HttpClient.HttpClient
@@ -2334,6 +2366,8 @@ export const createKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeySigningKey",
+  telemetry: TELEMETRY,
+  span: "CreateKeySigningKey",
 }));
 
 export type CreateQueryLoggingConfigError =
@@ -2488,7 +2522,7 @@ export type CreateQueryLoggingConfigError =
  * the query logging configuration. For more information, see DeleteQueryLoggingConfig.
  */
 export const createQueryLoggingConfig: API.OperationMethod<
-  CreateQueryLoggingConfigRequest,
+  CreateQueryLoggingConfigRequest & RegionInput,
   CreateQueryLoggingConfigResponse,
   CreateQueryLoggingConfigError,
   Credentials | HttpClient.HttpClient
@@ -2506,6 +2540,8 @@ export const createQueryLoggingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueryLoggingConfig",
+  telemetry: TELEMETRY,
+  span: "CreateQueryLoggingConfig",
 }));
 
 export type CreateReusableDelegationSetError =
@@ -2568,7 +2604,7 @@ export type CreateReusableDelegationSetError =
  * set.
  */
 export const createReusableDelegationSet: API.OperationMethod<
-  CreateReusableDelegationSetRequest,
+  CreateReusableDelegationSetRequest & RegionInput,
   CreateReusableDelegationSetResponse,
   CreateReusableDelegationSetError,
   Credentials | HttpClient.HttpClient
@@ -2587,6 +2623,8 @@ export const createReusableDelegationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReusableDelegationSet",
+  telemetry: TELEMETRY,
+  span: "CreateReusableDelegationSet",
 }));
 
 export type CreateTrafficPolicyError =
@@ -2601,7 +2639,7 @@ export type CreateTrafficPolicyError =
  * www.example.com).
  */
 export const createTrafficPolicy: API.OperationMethod<
-  CreateTrafficPolicyRequest,
+  CreateTrafficPolicyRequest & RegionInput,
   CreateTrafficPolicyResponse,
   CreateTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2617,6 +2655,8 @@ export const createTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateTrafficPolicy",
 }));
 
 export type CreateTrafficPolicyInstanceError =
@@ -2642,7 +2682,7 @@ export type CreateTrafficPolicyInstanceError =
  * `State` response element.
  */
 export const createTrafficPolicyInstance: API.OperationMethod<
-  CreateTrafficPolicyInstanceRequest,
+  CreateTrafficPolicyInstanceRequest & RegionInput,
   CreateTrafficPolicyInstanceResponse,
   CreateTrafficPolicyInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2659,6 +2699,8 @@ export const createTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicyInstance",
+  telemetry: TELEMETRY,
+  span: "CreateTrafficPolicyInstance",
 }));
 
 export type CreateTrafficPolicyVersionError =
@@ -2678,7 +2720,7 @@ export type CreateTrafficPolicyVersionError =
  * need to start a new traffic policy.
  */
 export const createTrafficPolicyVersion: API.OperationMethod<
-  CreateTrafficPolicyVersionRequest,
+  CreateTrafficPolicyVersionRequest & RegionInput,
   CreateTrafficPolicyVersionResponse,
   CreateTrafficPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -2695,6 +2737,8 @@ export const createTrafficPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "CreateTrafficPolicyVersion",
 }));
 
 export type CreateVPCAssociationAuthorizationError =
@@ -2717,7 +2761,7 @@ export type CreateVPCAssociationAuthorizationError =
  * authorization request for each VPC.
  */
 export const createVPCAssociationAuthorization: API.OperationMethod<
-  CreateVPCAssociationAuthorizationRequest,
+  CreateVPCAssociationAuthorizationRequest & RegionInput,
   CreateVPCAssociationAuthorizationResponse,
   CreateVPCAssociationAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -2734,6 +2778,8 @@ export const createVPCAssociationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCAssociationAuthorization",
+  telemetry: TELEMETRY,
+  span: "CreateVPCAssociationAuthorization",
 }));
 
 export type DeactivateKeySigningKeyError =
@@ -2750,7 +2796,7 @@ export type DeactivateKeySigningKeyError =
  * This operation changes the KSK status to `INACTIVE`.
  */
 export const deactivateKeySigningKey: API.OperationMethod<
-  DeactivateKeySigningKeyRequest,
+  DeactivateKeySigningKeyRequest & RegionInput,
   DeactivateKeySigningKeyResponse,
   DeactivateKeySigningKeyError,
   Credentials | HttpClient.HttpClient
@@ -2769,6 +2815,8 @@ export const deactivateKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateKeySigningKey",
+  telemetry: TELEMETRY,
+  span: "DeactivateKeySigningKey",
 }));
 
 export type DeleteCidrCollectionError =
@@ -2782,7 +2830,7 @@ export type DeleteCidrCollectionError =
  * must be empty before it can be deleted.
  */
 export const deleteCidrCollection: API.OperationMethod<
-  DeleteCidrCollectionRequest,
+  DeleteCidrCollectionRequest & RegionInput,
   DeleteCidrCollectionResponse,
   DeleteCidrCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2798,6 +2846,8 @@ export const deleteCidrCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCidrCollection",
+  telemetry: TELEMETRY,
+  span: "DeleteCidrCollection",
 }));
 
 export type DeleteHealthCheckError =
@@ -2823,7 +2873,7 @@ export type DeleteHealthCheckError =
  * several hours before the health check is deleted from Route 53.
  */
 export const deleteHealthCheck: API.OperationMethod<
-  DeleteHealthCheckRequest,
+  DeleteHealthCheckRequest & RegionInput,
   DeleteHealthCheckResponse,
   DeleteHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -2834,6 +2884,8 @@ export const deleteHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHealthCheck",
+  telemetry: TELEMETRY,
+  span: "DeleteHealthCheck",
 }));
 
 export type DeleteHostedZoneError =
@@ -2888,7 +2940,7 @@ export type DeleteHostedZoneError =
  * associated with the current Amazon Web Services account.
  */
 export const deleteHostedZone: API.OperationMethod<
-  DeleteHostedZoneRequest,
+  DeleteHostedZoneRequest & RegionInput,
   DeleteHostedZoneResponse,
   DeleteHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -2905,6 +2957,8 @@ export const deleteHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostedZone",
+  telemetry: TELEMETRY,
+  span: "DeleteHostedZone",
 }));
 
 export type DeleteKeySigningKeyError =
@@ -2926,7 +2980,7 @@ export type DeleteKeySigningKeyError =
  * status.
  */
 export const deleteKeySigningKey: API.OperationMethod<
-  DeleteKeySigningKeyRequest,
+  DeleteKeySigningKeyRequest & RegionInput,
   DeleteKeySigningKeyResponse,
   DeleteKeySigningKeyError,
   Credentials | HttpClient.HttpClient
@@ -2944,6 +2998,8 @@ export const deleteKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeySigningKey",
+  telemetry: TELEMETRY,
+  span: "DeleteKeySigningKey",
 }));
 
 export type DeleteQueryLoggingConfigError =
@@ -2959,7 +3015,7 @@ export type DeleteQueryLoggingConfigError =
  * For more information about DNS query logs, see CreateQueryLoggingConfig.
  */
 export const deleteQueryLoggingConfig: API.OperationMethod<
-  DeleteQueryLoggingConfigRequest,
+  DeleteQueryLoggingConfigRequest & RegionInput,
   DeleteQueryLoggingConfigResponse,
   DeleteQueryLoggingConfigError,
   Credentials | HttpClient.HttpClient
@@ -2970,6 +3026,8 @@ export const deleteQueryLoggingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueryLoggingConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteQueryLoggingConfig",
 }));
 
 export type DeleteReusableDelegationSetError =
@@ -2989,7 +3047,7 @@ export type DeleteReusableDelegationSetError =
  * delegation set that you want to delete.
  */
 export const deleteReusableDelegationSet: API.OperationMethod<
-  DeleteReusableDelegationSetRequest,
+  DeleteReusableDelegationSetRequest & RegionInput,
   DeleteReusableDelegationSetResponse,
   DeleteReusableDelegationSetError,
   Credentials | HttpClient.HttpClient
@@ -3000,6 +3058,8 @@ export const deleteReusableDelegationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReusableDelegationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteReusableDelegationSet",
 }));
 
 export type DeleteTrafficPolicyError =
@@ -3023,7 +3083,7 @@ export type DeleteTrafficPolicyError =
  * including the traffic policy document, by running GetTrafficPolicy.
  */
 export const deleteTrafficPolicy: API.OperationMethod<
-  DeleteTrafficPolicyRequest,
+  DeleteTrafficPolicyRequest & RegionInput,
   DeleteTrafficPolicyResponse,
   DeleteTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3034,6 +3094,8 @@ export const deleteTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficPolicy",
 }));
 
 export type DeleteTrafficPolicyInstanceError =
@@ -3049,7 +3111,7 @@ export type DeleteTrafficPolicyInstanceError =
  * records.
  */
 export const deleteTrafficPolicyInstance: API.OperationMethod<
-  DeleteTrafficPolicyInstanceRequest,
+  DeleteTrafficPolicyInstanceRequest & RegionInput,
   DeleteTrafficPolicyInstanceResponse,
   DeleteTrafficPolicyInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3060,6 +3122,8 @@ export const deleteTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicyInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficPolicyInstance",
 }));
 
 export type DeleteVPCAssociationAuthorizationError =
@@ -3083,7 +3147,7 @@ export type DeleteVPCAssociationAuthorizationError =
  * `DisassociateVPCFromHostedZone`.
  */
 export const deleteVPCAssociationAuthorization: API.OperationMethod<
-  DeleteVPCAssociationAuthorizationRequest,
+  DeleteVPCAssociationAuthorizationRequest & RegionInput,
   DeleteVPCAssociationAuthorizationResponse,
   DeleteVPCAssociationAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -3100,6 +3164,8 @@ export const deleteVPCAssociationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCAssociationAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteVPCAssociationAuthorization",
 }));
 
 export type DisableHostedZoneDNSSECError =
@@ -3117,7 +3183,7 @@ export type DisableHostedZoneDNSSECError =
  * key-signing keys (KSKs) that are active in the hosted zone.
  */
 export const disableHostedZoneDNSSEC: API.OperationMethod<
-  DisableHostedZoneDNSSECRequest,
+  DisableHostedZoneDNSSECRequest & RegionInput,
   DisableHostedZoneDNSSECResponse,
   DisableHostedZoneDNSSECError,
   Credentials | HttpClient.HttpClient
@@ -3137,6 +3203,8 @@ export const disableHostedZoneDNSSEC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHostedZoneDNSSEC",
+  telemetry: TELEMETRY,
+  span: "DisableHostedZoneDNSSEC",
 }));
 
 export type DisassociateVPCFromHostedZoneError =
@@ -3186,7 +3254,7 @@ export type DisassociateVPCFromHostedZoneError =
  * in the *Amazon Web Services General Reference*.
  */
 export const disassociateVPCFromHostedZone: API.OperationMethod<
-  DisassociateVPCFromHostedZoneRequest,
+  DisassociateVPCFromHostedZoneRequest & RegionInput,
   DisassociateVPCFromHostedZoneResponse,
   DisassociateVPCFromHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -3203,6 +3271,8 @@ export const disassociateVPCFromHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVPCFromHostedZone",
+  telemetry: TELEMETRY,
+  span: "DisassociateVPCFromHostedZone",
 }));
 
 export type EnableHostedZoneDNSSECError =
@@ -3220,7 +3290,7 @@ export type EnableHostedZoneDNSSECError =
  * Enables DNSSEC signing in a specific hosted zone.
  */
 export const enableHostedZoneDNSSEC: API.OperationMethod<
-  EnableHostedZoneDNSSECRequest,
+  EnableHostedZoneDNSSECRequest & RegionInput,
   EnableHostedZoneDNSSECResponse,
   EnableHostedZoneDNSSECError,
   Credentials | HttpClient.HttpClient
@@ -3241,6 +3311,8 @@ export const enableHostedZoneDNSSEC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHostedZoneDNSSEC",
+  telemetry: TELEMETRY,
+  span: "EnableHostedZoneDNSSEC",
 }));
 
 export type GetAccountLimitError = InvalidInput | CommonErrors;
@@ -3256,7 +3328,7 @@ export type GetAccountLimitError = InvalidInput | CommonErrors;
  * the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/. Then choose **Service limits** in the navigation pane.
  */
 export const getAccountLimit: API.OperationMethod<
-  GetAccountLimitRequest,
+  GetAccountLimitRequest & RegionInput,
   GetAccountLimitResponse,
   GetAccountLimitError,
   Credentials | HttpClient.HttpClient
@@ -3267,6 +3339,8 @@ export const getAccountLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountLimit",
+  telemetry: TELEMETRY,
+  span: "GetAccountLimit",
 }));
 
 export type GetChangeError = InvalidInput | NoSuchChange | CommonErrors;
@@ -3282,7 +3356,7 @@ export type GetChangeError = InvalidInput | NoSuchChange | CommonErrors;
  * DNS servers managing the hosted zone.
  */
 export const getChange: API.OperationMethod<
-  GetChangeRequest,
+  GetChangeRequest & RegionInput,
   GetChangeResponse,
   GetChangeError,
   Credentials | HttpClient.HttpClient
@@ -3293,6 +3367,8 @@ export const getChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChange",
+  telemetry: TELEMETRY,
+  span: "GetChange",
 }));
 
 export type GetCheckerIpRangesError = CommonErrors;
@@ -3307,7 +3383,7 @@ export type GetCheckerIpRangesError = CommonErrors;
  * Guide.
  */
 export const getCheckerIpRanges: API.OperationMethod<
-  GetCheckerIpRangesRequest,
+  GetCheckerIpRangesRequest & RegionInput,
   GetCheckerIpRangesResponse,
   GetCheckerIpRangesError,
   Credentials | HttpClient.HttpClient
@@ -3318,6 +3394,8 @@ export const getCheckerIpRanges: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCheckerIpRanges",
+  telemetry: TELEMETRY,
+  span: "GetCheckerIpRanges",
 }));
 
 export type GetDNSSECError = InvalidArgument | InvalidInput | NoSuchHostedZone | CommonErrors;
@@ -3326,7 +3404,7 @@ export type GetDNSSECError = InvalidArgument | InvalidInput | NoSuchHostedZone |
  * keys (KSKs) in the hosted zone.
  */
 export const getDNSSEC: API.OperationMethod<
-  GetDNSSECRequest,
+  GetDNSSECRequest & RegionInput,
   GetDNSSECResponse,
   GetDNSSECError,
   Credentials | HttpClient.HttpClient
@@ -3337,6 +3415,8 @@ export const getDNSSEC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDNSSEC",
+  telemetry: TELEMETRY,
+  span: "GetDNSSEC",
 }));
 
 export type GetGeoLocationError = InvalidInput | NoSuchGeoLocation | CommonErrors;
@@ -3367,7 +3447,7 @@ export type GetGeoLocationError = InvalidInput | NoSuchGeoLocation | CommonError
  * code
  */
 export const getGeoLocation: API.OperationMethod<
-  GetGeoLocationRequest,
+  GetGeoLocationRequest & RegionInput,
   GetGeoLocationResponse,
   GetGeoLocationError,
   Credentials | HttpClient.HttpClient
@@ -3378,6 +3458,8 @@ export const getGeoLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeoLocation",
+  telemetry: TELEMETRY,
+  span: "GetGeoLocation",
 }));
 
 export type GetHealthCheckError =
@@ -3389,7 +3471,7 @@ export type GetHealthCheckError =
  * Gets information about a specified health check.
  */
 export const getHealthCheck: API.OperationMethod<
-  GetHealthCheckRequest,
+  GetHealthCheckRequest & RegionInput,
   GetHealthCheckResponse,
   GetHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -3400,6 +3482,8 @@ export const getHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheck",
+  telemetry: TELEMETRY,
+  span: "GetHealthCheck",
 }));
 
 export type GetHealthCheckCountError = CommonErrors;
@@ -3407,7 +3491,7 @@ export type GetHealthCheckCountError = CommonErrors;
  * Retrieves the number of health checks that are associated with the current Amazon Web Services account.
  */
 export const getHealthCheckCount: API.OperationMethod<
-  GetHealthCheckCountRequest,
+  GetHealthCheckCountRequest & RegionInput,
   GetHealthCheckCountResponse,
   GetHealthCheckCountError,
   Credentials | HttpClient.HttpClient
@@ -3418,6 +3502,8 @@ export const getHealthCheckCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheckCount",
+  telemetry: TELEMETRY,
+  span: "GetHealthCheckCount",
 }));
 
 export type GetHealthCheckLastFailureReasonError = InvalidInput | NoSuchHealthCheck | CommonErrors;
@@ -3425,7 +3511,7 @@ export type GetHealthCheckLastFailureReasonError = InvalidInput | NoSuchHealthCh
  * Gets the reason that a specified health check failed most recently.
  */
 export const getHealthCheckLastFailureReason: API.OperationMethod<
-  GetHealthCheckLastFailureReasonRequest,
+  GetHealthCheckLastFailureReasonRequest & RegionInput,
   GetHealthCheckLastFailureReasonResponse,
   GetHealthCheckLastFailureReasonError,
   Credentials | HttpClient.HttpClient
@@ -3436,6 +3522,8 @@ export const getHealthCheckLastFailureReason: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheckLastFailureReason",
+  telemetry: TELEMETRY,
+  span: "GetHealthCheckLastFailureReason",
 }));
 
 export type GetHealthCheckStatusError = InvalidInput | NoSuchHealthCheck | CommonErrors;
@@ -3447,7 +3535,7 @@ export type GetHealthCheckStatusError = InvalidInput | NoSuchHealthCheck | Commo
  * actionable responses.
  */
 export const getHealthCheckStatus: API.OperationMethod<
-  GetHealthCheckStatusRequest,
+  GetHealthCheckStatusRequest & RegionInput,
   GetHealthCheckStatusResponse,
   GetHealthCheckStatusError,
   Credentials | HttpClient.HttpClient
@@ -3458,6 +3546,8 @@ export const getHealthCheckStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheckStatus",
+  telemetry: TELEMETRY,
+  span: "GetHealthCheckStatus",
 }));
 
 export type GetHostedZoneError = InvalidInput | NoSuchHostedZone | CommonErrors;
@@ -3469,7 +3559,7 @@ export type GetHostedZoneError = InvalidInput | NoSuchHostedZone | CommonErrors;
  * associations by Route 53 Profiles. To get the associations to a Profile, call the ListProfileAssociations API.
  */
 export const getHostedZone: API.OperationMethod<
-  GetHostedZoneRequest,
+  GetHostedZoneRequest & RegionInput,
   GetHostedZoneResponse,
   GetHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -3480,6 +3570,8 @@ export const getHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZone",
+  telemetry: TELEMETRY,
+  span: "GetHostedZone",
 }));
 
 export type GetHostedZoneCountError = InvalidInput | CommonErrors;
@@ -3487,7 +3579,7 @@ export type GetHostedZoneCountError = InvalidInput | CommonErrors;
  * Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
  */
 export const getHostedZoneCount: API.OperationMethod<
-  GetHostedZoneCountRequest,
+  GetHostedZoneCountRequest & RegionInput,
   GetHostedZoneCountResponse,
   GetHostedZoneCountError,
   Credentials | HttpClient.HttpClient
@@ -3498,6 +3590,8 @@ export const getHostedZoneCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZoneCount",
+  telemetry: TELEMETRY,
+  span: "GetHostedZoneCount",
 }));
 
 export type GetHostedZoneLimitError =
@@ -3514,7 +3608,7 @@ export type GetHostedZoneLimitError =
  * open a case.
  */
 export const getHostedZoneLimit: API.OperationMethod<
-  GetHostedZoneLimitRequest,
+  GetHostedZoneLimitRequest & RegionInput,
   GetHostedZoneLimitResponse,
   GetHostedZoneLimitError,
   Credentials | HttpClient.HttpClient
@@ -3525,6 +3619,8 @@ export const getHostedZoneLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZoneLimit",
+  telemetry: TELEMETRY,
+  span: "GetHostedZoneLimit",
 }));
 
 export type GetQueryLoggingConfigError = InvalidInput | NoSuchQueryLoggingConfig | CommonErrors;
@@ -3535,7 +3631,7 @@ export type GetQueryLoggingConfigError = InvalidInput | NoSuchQueryLoggingConfig
  * Queries.
  */
 export const getQueryLoggingConfig: API.OperationMethod<
-  GetQueryLoggingConfigRequest,
+  GetQueryLoggingConfigRequest & RegionInput,
   GetQueryLoggingConfigResponse,
   GetQueryLoggingConfigError,
   Credentials | HttpClient.HttpClient
@@ -3546,6 +3642,8 @@ export const getQueryLoggingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryLoggingConfig",
+  telemetry: TELEMETRY,
+  span: "GetQueryLoggingConfig",
 }));
 
 export type GetReusableDelegationSetError =
@@ -3558,7 +3656,7 @@ export type GetReusableDelegationSetError =
  * name servers that are assigned to the delegation set.
  */
 export const getReusableDelegationSet: API.OperationMethod<
-  GetReusableDelegationSetRequest,
+  GetReusableDelegationSetRequest & RegionInput,
   GetReusableDelegationSetResponse,
   GetReusableDelegationSetError,
   Credentials | HttpClient.HttpClient
@@ -3569,6 +3667,8 @@ export const getReusableDelegationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReusableDelegationSet",
+  telemetry: TELEMETRY,
+  span: "GetReusableDelegationSet",
 }));
 
 export type GetReusableDelegationSetLimitError = InvalidInput | NoSuchDelegationSet | CommonErrors;
@@ -3581,7 +3681,7 @@ export type GetReusableDelegationSetLimitError = InvalidInput | NoSuchDelegation
  * open a case.
  */
 export const getReusableDelegationSetLimit: API.OperationMethod<
-  GetReusableDelegationSetLimitRequest,
+  GetReusableDelegationSetLimitRequest & RegionInput,
   GetReusableDelegationSetLimitResponse,
   GetReusableDelegationSetLimitError,
   Credentials | HttpClient.HttpClient
@@ -3592,6 +3692,8 @@ export const getReusableDelegationSetLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReusableDelegationSetLimit",
+  telemetry: TELEMETRY,
+  span: "GetReusableDelegationSetLimit",
 }));
 
 export type GetTrafficPolicyError = InvalidInput | NoSuchTrafficPolicy | CommonErrors;
@@ -3602,7 +3704,7 @@ export type GetTrafficPolicyError = InvalidInput | NoSuchTrafficPolicy | CommonE
  * `GetTrafficPolicy`, see DeleteTrafficPolicy.
  */
 export const getTrafficPolicy: API.OperationMethod<
-  GetTrafficPolicyRequest,
+  GetTrafficPolicyRequest & RegionInput,
   GetTrafficPolicyResponse,
   GetTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3613,6 +3715,8 @@ export const getTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "GetTrafficPolicy",
 }));
 
 export type GetTrafficPolicyInstanceError =
@@ -3631,7 +3735,7 @@ export type GetTrafficPolicyInstanceError =
  * records.
  */
 export const getTrafficPolicyInstance: API.OperationMethod<
-  GetTrafficPolicyInstanceRequest,
+  GetTrafficPolicyInstanceRequest & RegionInput,
   GetTrafficPolicyInstanceResponse,
   GetTrafficPolicyInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3642,6 +3746,8 @@ export const getTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicyInstance",
+  telemetry: TELEMETRY,
+  span: "GetTrafficPolicyInstance",
 }));
 
 export type GetTrafficPolicyInstanceCountError = CommonErrors;
@@ -3650,7 +3756,7 @@ export type GetTrafficPolicyInstanceCountError = CommonErrors;
  * Amazon Web Services account.
  */
 export const getTrafficPolicyInstanceCount: API.OperationMethod<
-  GetTrafficPolicyInstanceCountRequest,
+  GetTrafficPolicyInstanceCountRequest & RegionInput,
   GetTrafficPolicyInstanceCountResponse,
   GetTrafficPolicyInstanceCountError,
   Credentials | HttpClient.HttpClient
@@ -3661,6 +3767,8 @@ export const getTrafficPolicyInstanceCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicyInstanceCount",
+  telemetry: TELEMETRY,
+  span: "GetTrafficPolicyInstanceCount",
 }));
 
 export type ListCidrBlocksError =
@@ -3672,7 +3780,7 @@ export type ListCidrBlocksError =
  * Returns a paginated list of location objects and their CIDR blocks.
  */
 export const listCidrBlocks: API.PaginatedOperationMethod<
-  ListCidrBlocksRequest,
+  ListCidrBlocksRequest & RegionInput,
   ListCidrBlocksResponse,
   ListCidrBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -3690,6 +3798,8 @@ export const listCidrBlocks: API.PaginatedOperationMethod<
     items: "CidrBlocks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCidrBlocks",
 })) as any;
 
 export type ListCidrCollectionsError = InvalidInput | CommonErrors;
@@ -3698,7 +3808,7 @@ export type ListCidrCollectionsError = InvalidInput | CommonErrors;
  * (metadata only).
  */
 export const listCidrCollections: API.PaginatedOperationMethod<
-  ListCidrCollectionsRequest,
+  ListCidrCollectionsRequest & RegionInput,
   ListCidrCollectionsResponse,
   ListCidrCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3716,6 +3826,8 @@ export const listCidrCollections: API.PaginatedOperationMethod<
     items: "CidrCollections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCidrCollections",
 })) as any;
 
 export type ListCidrLocationsError = InvalidInput | NoSuchCidrCollectionException | CommonErrors;
@@ -3724,7 +3836,7 @@ export type ListCidrLocationsError = InvalidInput | NoSuchCidrCollectionExceptio
  * does not include CIDR blocks).
  */
 export const listCidrLocations: API.PaginatedOperationMethod<
-  ListCidrLocationsRequest,
+  ListCidrLocationsRequest & RegionInput,
   ListCidrLocationsResponse,
   ListCidrLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -3742,6 +3854,8 @@ export const listCidrLocations: API.PaginatedOperationMethod<
     items: "CidrLocations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCidrLocations",
 })) as any;
 
 export type ListGeoLocationsError = InvalidInput | CommonErrors;
@@ -3760,7 +3874,7 @@ export type ListGeoLocationsError = InvalidInput | CommonErrors;
  * type.
  */
 export const listGeoLocations: API.OperationMethod<
-  ListGeoLocationsRequest,
+  ListGeoLocationsRequest & RegionInput,
   ListGeoLocationsResponse,
   ListGeoLocationsError,
   Credentials | HttpClient.HttpClient
@@ -3771,6 +3885,8 @@ export const listGeoLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGeoLocations",
+  telemetry: TELEMETRY,
+  span: "ListGeoLocations",
 }));
 
 export type ListHealthChecksError = IncompatibleVersion | InvalidInput | CommonErrors;
@@ -3778,7 +3894,7 @@ export type ListHealthChecksError = IncompatibleVersion | InvalidInput | CommonE
  * Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
  */
 export const listHealthChecks: API.PaginatedOperationMethod<
-  ListHealthChecksRequest,
+  ListHealthChecksRequest & RegionInput,
   ListHealthChecksResponse,
   ListHealthChecksError,
   Credentials | HttpClient.HttpClient,
@@ -3796,6 +3912,8 @@ export const listHealthChecks: API.PaginatedOperationMethod<
     items: "HealthChecks",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHealthChecks",
 })) as any;
 
 export type ListHostedZonesError =
@@ -3813,7 +3931,7 @@ export type ListHostedZonesError =
  * up to 100.
  */
 export const listHostedZones: API.PaginatedOperationMethod<
-  ListHostedZonesRequest,
+  ListHostedZonesRequest & RegionInput,
   ListHostedZonesResponse,
   ListHostedZonesError,
   Credentials | HttpClient.HttpClient,
@@ -3831,6 +3949,8 @@ export const listHostedZones: API.PaginatedOperationMethod<
     items: "HostedZones",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHostedZones",
 })) as any;
 
 export type ListHostedZonesByNameError = InvalidDomainName | InvalidInput | CommonErrors;
@@ -3890,7 +4010,7 @@ export type ListHostedZonesByNameError = InvalidDomainName | InvalidInput | Comm
  * `hostedzoneid` parameters, respectively.
  */
 export const listHostedZonesByName: API.OperationMethod<
-  ListHostedZonesByNameRequest,
+  ListHostedZonesByNameRequest & RegionInput,
   ListHostedZonesByNameResponse,
   ListHostedZonesByNameError,
   Credentials | HttpClient.HttpClient
@@ -3901,6 +4021,8 @@ export const listHostedZonesByName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHostedZonesByName",
+  telemetry: TELEMETRY,
+  span: "ListHostedZonesByName",
 }));
 
 export type ListHostedZonesByVPCError = InvalidInput | InvalidPaginationToken | CommonErrors;
@@ -3939,7 +4061,7 @@ export type ListHostedZonesByVPCError = InvalidInput | InvalidPaginationToken | 
  * in the *Amazon Web Services General Reference*.
  */
 export const listHostedZonesByVPC: API.OperationMethod<
-  ListHostedZonesByVPCRequest,
+  ListHostedZonesByVPCRequest & RegionInput,
   ListHostedZonesByVPCResponse,
   ListHostedZonesByVPCError,
   Credentials | HttpClient.HttpClient
@@ -3950,6 +4072,8 @@ export const listHostedZonesByVPC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHostedZonesByVPC",
+  telemetry: TELEMETRY,
+  span: "ListHostedZonesByVPC",
 }));
 
 export type ListQueryLoggingConfigsError =
@@ -3967,7 +4091,7 @@ export type ListQueryLoggingConfigsError =
  * the *Amazon Route 53 Developer Guide*.
  */
 export const listQueryLoggingConfigs: API.PaginatedOperationMethod<
-  ListQueryLoggingConfigsRequest,
+  ListQueryLoggingConfigsRequest & RegionInput,
   ListQueryLoggingConfigsResponse,
   ListQueryLoggingConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3985,6 +4109,8 @@ export const listQueryLoggingConfigs: API.PaginatedOperationMethod<
     items: "QueryLoggingConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueryLoggingConfigs",
 })) as any;
 
 export type ListResourceRecordSetsError = InvalidInput | NoSuchHostedZone | CommonErrors;
@@ -4061,7 +4187,7 @@ export type ListResourceRecordSetsError = InvalidInput | NoSuchHostedZone | Comm
  * `StartRecordIdentifier`.
  */
 export const listResourceRecordSets: API.OperationMethod<
-  ListResourceRecordSetsRequest,
+  ListResourceRecordSetsRequest & RegionInput,
   ListResourceRecordSetsResponse,
   ListResourceRecordSetsError,
   Credentials | HttpClient.HttpClient
@@ -4072,6 +4198,8 @@ export const listResourceRecordSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceRecordSets",
+  telemetry: TELEMETRY,
+  span: "ListResourceRecordSets",
 }));
 
 export type ListReusableDelegationSetsError = InvalidInput | CommonErrors;
@@ -4080,7 +4208,7 @@ export type ListReusableDelegationSetsError = InvalidInput | CommonErrors;
  * Amazon Web Services account.
  */
 export const listReusableDelegationSets: API.OperationMethod<
-  ListReusableDelegationSetsRequest,
+  ListReusableDelegationSetsRequest & RegionInput,
   ListReusableDelegationSetsResponse,
   ListReusableDelegationSetsError,
   Credentials | HttpClient.HttpClient
@@ -4091,6 +4219,8 @@ export const listReusableDelegationSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReusableDelegationSets",
+  telemetry: TELEMETRY,
+  span: "ListReusableDelegationSets",
 }));
 
 export type ListTagsForResourceError =
@@ -4107,7 +4237,7 @@ export type ListTagsForResourceError =
  * Tags in the *Billing and Cost Management User Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4124,6 +4254,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTagsForResourcesError =
@@ -4140,7 +4272,7 @@ export type ListTagsForResourcesError =
  * Tags in the *Billing and Cost Management User Guide*.
  */
 export const listTagsForResources: API.OperationMethod<
-  ListTagsForResourcesRequest,
+  ListTagsForResourcesRequest & RegionInput,
   ListTagsForResourcesResponse,
   ListTagsForResourcesError,
   Credentials | HttpClient.HttpClient
@@ -4157,6 +4289,8 @@ export const listTagsForResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResources",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResources",
 }));
 
 export type ListTrafficPoliciesError = InvalidInput | CommonErrors;
@@ -4169,7 +4303,7 @@ export type ListTrafficPoliciesError = InvalidInput | CommonErrors;
  * `ListTrafficPolicies`, see DeleteTrafficPolicy.
  */
 export const listTrafficPolicies: API.OperationMethod<
-  ListTrafficPoliciesRequest,
+  ListTrafficPoliciesRequest & RegionInput,
   ListTrafficPoliciesResponse,
   ListTrafficPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -4180,6 +4314,8 @@ export const listTrafficPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicies",
+  telemetry: TELEMETRY,
+  span: "ListTrafficPolicies",
 }));
 
 export type ListTrafficPolicyInstancesError =
@@ -4200,7 +4336,7 @@ export type ListTrafficPolicyInstancesError =
  * of up to 100.
  */
 export const listTrafficPolicyInstances: API.OperationMethod<
-  ListTrafficPolicyInstancesRequest,
+  ListTrafficPolicyInstancesRequest & RegionInput,
   ListTrafficPolicyInstancesResponse,
   ListTrafficPolicyInstancesError,
   Credentials | HttpClient.HttpClient
@@ -4211,6 +4347,8 @@ export const listTrafficPolicyInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyInstances",
+  telemetry: TELEMETRY,
+  span: "ListTrafficPolicyInstances",
 }));
 
 export type ListTrafficPolicyInstancesByHostedZoneError =
@@ -4233,7 +4371,7 @@ export type ListTrafficPolicyInstancesByHostedZoneError =
  * of up to 100.
  */
 export const listTrafficPolicyInstancesByHostedZone: API.OperationMethod<
-  ListTrafficPolicyInstancesByHostedZoneRequest,
+  ListTrafficPolicyInstancesByHostedZoneRequest & RegionInput,
   ListTrafficPolicyInstancesByHostedZoneResponse,
   ListTrafficPolicyInstancesByHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -4244,6 +4382,8 @@ export const listTrafficPolicyInstancesByHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyInstancesByHostedZone",
+  telemetry: TELEMETRY,
+  span: "ListTrafficPolicyInstancesByHostedZone",
 }));
 
 export type ListTrafficPolicyInstancesByPolicyError =
@@ -4266,7 +4406,7 @@ export type ListTrafficPolicyInstancesByPolicyError =
  * of up to 100.
  */
 export const listTrafficPolicyInstancesByPolicy: API.OperationMethod<
-  ListTrafficPolicyInstancesByPolicyRequest,
+  ListTrafficPolicyInstancesByPolicyRequest & RegionInput,
   ListTrafficPolicyInstancesByPolicyResponse,
   ListTrafficPolicyInstancesByPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4277,6 +4417,8 @@ export const listTrafficPolicyInstancesByPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyInstancesByPolicy",
+  telemetry: TELEMETRY,
+  span: "ListTrafficPolicyInstancesByPolicy",
 }));
 
 export type ListTrafficPolicyVersionsError = InvalidInput | NoSuchTrafficPolicy | CommonErrors;
@@ -4287,7 +4429,7 @@ export type ListTrafficPolicyVersionsError = InvalidInput | NoSuchTrafficPolicy 
  * `VersionNumber`.
  */
 export const listTrafficPolicyVersions: API.OperationMethod<
-  ListTrafficPolicyVersionsRequest,
+  ListTrafficPolicyVersionsRequest & RegionInput,
   ListTrafficPolicyVersionsResponse,
   ListTrafficPolicyVersionsError,
   Credentials | HttpClient.HttpClient
@@ -4298,6 +4440,8 @@ export const listTrafficPolicyVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyVersions",
+  telemetry: TELEMETRY,
+  span: "ListTrafficPolicyVersions",
 }));
 
 export type ListVPCAssociationAuthorizationsError =
@@ -4314,7 +4458,7 @@ export type ListVPCAssociationAuthorizationsError =
  * element for each VPC that can be associated with the hosted zone.
  */
 export const listVPCAssociationAuthorizations: API.OperationMethod<
-  ListVPCAssociationAuthorizationsRequest,
+  ListVPCAssociationAuthorizationsRequest & RegionInput,
   ListVPCAssociationAuthorizationsResponse,
   ListVPCAssociationAuthorizationsError,
   Credentials | HttpClient.HttpClient
@@ -4325,6 +4469,8 @@ export const listVPCAssociationAuthorizations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVPCAssociationAuthorizations",
+  telemetry: TELEMETRY,
+  span: "ListVPCAssociationAuthorizations",
 }));
 
 export type TestDNSAnswerError = InvalidInput | NoSuchHostedZone | CommonErrors;
@@ -4341,7 +4487,7 @@ export type TestDNSAnswerError = InvalidInput | NoSuchHostedZone | CommonErrors;
  * returned.
  */
 export const testDNSAnswer: API.OperationMethod<
-  TestDNSAnswerRequest,
+  TestDNSAnswerRequest & RegionInput,
   TestDNSAnswerResponse,
   TestDNSAnswerError,
   Credentials | HttpClient.HttpClient
@@ -4352,6 +4498,8 @@ export const testDNSAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestDNSAnswer",
+  telemetry: TELEMETRY,
+  span: "TestDNSAnswer",
 }));
 
 export type UpdateHealthCheckError =
@@ -4367,7 +4515,7 @@ export type UpdateHealthCheckError =
  * Developer Guide.
  */
 export const updateHealthCheck: API.OperationMethod<
-  UpdateHealthCheckRequest,
+  UpdateHealthCheckRequest & RegionInput,
   UpdateHealthCheckResponse,
   UpdateHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -4378,6 +4526,8 @@ export const updateHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHealthCheck",
+  telemetry: TELEMETRY,
+  span: "UpdateHealthCheck",
 }));
 
 export type UpdateHostedZoneCommentError =
@@ -4389,7 +4539,7 @@ export type UpdateHostedZoneCommentError =
  * Updates the comment for a specified hosted zone.
  */
 export const updateHostedZoneComment: API.OperationMethod<
-  UpdateHostedZoneCommentRequest,
+  UpdateHostedZoneCommentRequest & RegionInput,
   UpdateHostedZoneCommentResponse,
   UpdateHostedZoneCommentError,
   Credentials | HttpClient.HttpClient
@@ -4400,6 +4550,8 @@ export const updateHostedZoneComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostedZoneComment",
+  telemetry: TELEMETRY,
+  span: "UpdateHostedZoneComment",
 }));
 
 export type UpdateHostedZoneFeaturesError =
@@ -4414,7 +4566,7 @@ export type UpdateHostedZoneFeaturesError =
  * Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
  */
 export const updateHostedZoneFeatures: API.OperationMethod<
-  UpdateHostedZoneFeaturesRequest,
+  UpdateHostedZoneFeaturesRequest & RegionInput,
   UpdateHostedZoneFeaturesResponse,
   UpdateHostedZoneFeaturesError,
   Credentials | HttpClient.HttpClient
@@ -4425,6 +4577,8 @@ export const updateHostedZoneFeatures: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostedZoneFeatures",
+  telemetry: TELEMETRY,
+  span: "UpdateHostedZoneFeatures",
 }));
 
 export type UpdateTrafficPolicyCommentError =
@@ -4436,7 +4590,7 @@ export type UpdateTrafficPolicyCommentError =
  * Updates the comment for a specified traffic policy version.
  */
 export const updateTrafficPolicyComment: API.OperationMethod<
-  UpdateTrafficPolicyCommentRequest,
+  UpdateTrafficPolicyCommentRequest & RegionInput,
   UpdateTrafficPolicyCommentResponse,
   UpdateTrafficPolicyCommentError,
   Credentials | HttpClient.HttpClient
@@ -4447,6 +4601,8 @@ export const updateTrafficPolicyComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicyComment",
+  telemetry: TELEMETRY,
+  span: "UpdateTrafficPolicyComment",
 }));
 
 export type UpdateTrafficPolicyInstanceError =
@@ -4482,7 +4638,7 @@ export type UpdateTrafficPolicyInstanceError =
  * with the root resource record set name.
  */
 export const updateTrafficPolicyInstance: API.OperationMethod<
-  UpdateTrafficPolicyInstanceRequest,
+  UpdateTrafficPolicyInstanceRequest & RegionInput,
   UpdateTrafficPolicyInstanceResponse,
   UpdateTrafficPolicyInstanceError,
   Credentials | HttpClient.HttpClient
@@ -4499,6 +4655,8 @@ export const updateTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicyInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateTrafficPolicyInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

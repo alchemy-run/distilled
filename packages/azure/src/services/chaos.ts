@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Chaos" },
+  prefix: "Chaos",
+  service: "Chaos",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CancelExperimentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1080,6 +1101,8 @@ export const CancelExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelExperiment",
 }));
 
 export type CapabilitiesCreateOrUpdateError = AzureOpError;
@@ -1095,6 +1118,8 @@ export const CapabilitiesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CapabilitiesCreateOrUpdate",
 }));
 
 export type DeleteCapabilityError = AzureOpError;
@@ -1110,6 +1135,8 @@ export const DeleteCapability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCapability",
 }));
 
 export type DeleteExperimentError = AzureOpError;
@@ -1125,6 +1152,8 @@ export const DeleteExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExperiment",
 }));
 
 export type DeleteTargetError = AzureOpError;
@@ -1140,6 +1169,8 @@ export const DeleteTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTarget",
 }));
 
 export type ExperimentsCreateOrUpdateError = AzureOpError;
@@ -1155,6 +1186,8 @@ export const ExperimentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsCreateOrUpdate",
 }));
 
 export type ExperimentsExecutionDetailsError = AzureOpError;
@@ -1170,6 +1203,8 @@ export const ExperimentsExecutionDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsExecutionDetails",
 }));
 
 export type GetCapabilityError = AzureOpError;
@@ -1185,6 +1220,8 @@ export const GetCapability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCapability",
 }));
 
 export type GetCapabilityTypeError = AzureOpError;
@@ -1200,6 +1237,8 @@ export const GetCapabilityType: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCapabilityType",
 }));
 
 export type GetExperimentError = AzureOpError;
@@ -1215,6 +1254,8 @@ export const GetExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentExecutionError = AzureOpError;
@@ -1230,6 +1271,8 @@ export const GetExperimentExecution: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentExecution",
 }));
 
 export type GetOperationStatusError = AzureOpError;
@@ -1245,6 +1288,8 @@ export const GetOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatus",
 }));
 
 export type GetTargetError = AzureOpError;
@@ -1260,6 +1305,8 @@ export const GetTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTarget",
 }));
 
 export type GetTargetTypeError = AzureOpError;
@@ -1275,6 +1322,8 @@ export const GetTargetType: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTargetType",
 }));
 
 export type ListCapabilitiesError = AzureOpError;
@@ -1290,6 +1339,8 @@ export const ListCapabilities: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapabilities",
 }));
 
 export type ListCapabilityTypesError = AzureOpError;
@@ -1305,6 +1356,8 @@ export const ListCapabilityTypes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapabilityTypes",
 }));
 
 export type ListExperimentAllError = AzureOpError;
@@ -1320,6 +1373,8 @@ export const ListExperimentAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentAll",
 }));
 
 export type ListExperimentAllExecutionsError = AzureOpError;
@@ -1335,6 +1390,8 @@ export const ListExperimentAllExecutions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentAllExecutions",
 }));
 
 export type ListExperimentsError = AzureOpError;
@@ -1350,6 +1407,8 @@ export const ListExperiments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperiments",
 }));
 
 export type ListOperationAllError = AzureOpError;
@@ -1365,6 +1424,8 @@ export const ListOperationAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperationAll",
 }));
 
 export type ListTargetsError = AzureOpError;
@@ -1380,6 +1441,8 @@ export const ListTargets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargets",
 }));
 
 export type ListTargetTypesError = AzureOpError;
@@ -1395,6 +1458,8 @@ export const ListTargetTypes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargetTypes",
 }));
 
 export type StartExperimentError = AzureOpError;
@@ -1410,6 +1475,8 @@ export const StartExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartExperiment",
 }));
 
 export type TargetsCreateOrUpdateError = AzureOpError;
@@ -1425,6 +1492,8 @@ export const TargetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TargetsCreateOrUpdate",
 }));
 
 export type UpdateExperimentError = AzureOpError;
@@ -1440,6 +1509,8 @@ export const UpdateExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

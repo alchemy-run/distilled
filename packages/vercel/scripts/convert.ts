@@ -12,7 +12,7 @@
  *   1. Read the full spec.
  *   2. Patches are Smithy ops on the converted models, under the names the
  *      spec gives; the finalizeConvert at the end applies them, then the
- *      deferred verbNoun names (see `@distilled.cloud/core/codegen/patches`).
+ *      deferred verbNoun names (see `@distilled.cloud/dev/codegen/patches`).
  *   3. Bucket operations by PRIMARY (first) tag — a single path can
  *      contribute different methods to different service buckets. The handful
  *      of operations the spec leaves untagged are routed by {@link UNTAGGED}.
@@ -29,9 +29,10 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-vercel/specs/openapi.json");
@@ -230,8 +231,7 @@ if (unrouted.length) {
 }
 
 // ---- 4. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
@@ -279,7 +279,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   });
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket
-  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += opCount;
 }

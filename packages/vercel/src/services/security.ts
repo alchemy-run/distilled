@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Security",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -5764,6 +5778,8 @@ export const addBypassIp: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddBypassIp",
 }));
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateError =
@@ -5792,6 +5808,8 @@ export const createSecurityFirewallConfigByConfigVersionActivate: API.OperationM
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityFirewallConfigByConfigVersionActivate",
 }));
 
 export type DeleteSecurityFirewallConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5807,6 +5825,8 @@ export const deleteSecurityFirewallConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityFirewallConfig",
 }));
 
 export type GenerateFirewallRuleError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5822,6 +5842,8 @@ export const generateFirewallRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateFirewallRule",
 }));
 
 export type GetActiveAttackStatusError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5837,6 +5859,8 @@ export const getActiveAttackStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveAttackStatus",
 }));
 
 export type GetBypassIpError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -5852,6 +5876,8 @@ export const getBypassIp: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBypassIp",
 }));
 
 export type GetFirewallConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5867,6 +5893,8 @@ export const getFirewallConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewallConfig",
 }));
 
 export type GetSecurityFirewallConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5882,6 +5910,8 @@ export const getSecurityFirewallConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFirewallConfig",
 }));
 
 export type GetSecurityFirewallEventsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5897,6 +5927,8 @@ export const getSecurityFirewallEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFirewallEvents",
 }));
 
 export type GetSecurityFirewallEventsSummaryError =
@@ -5916,6 +5948,8 @@ export const getSecurityFirewallEventsSummary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFirewallEventsSummary",
 }));
 
 export type PutFirewallConfigError =
@@ -5936,6 +5970,8 @@ export const putFirewallConfig: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFirewallConfig",
 }));
 
 export type RemoveBypassIpError =
@@ -5956,6 +5992,8 @@ export const removeBypassIp: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveBypassIp",
 }));
 
 export type UpdateAttackChallengeModeError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5971,6 +6009,8 @@ export const updateAttackChallengeMode: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttackChallengeMode",
 }));
 
 export type UpdateFirewallConfigError =
@@ -5991,6 +6031,8 @@ export const updateFirewallConfig: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

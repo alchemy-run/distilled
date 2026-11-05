@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WebAnalytics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -634,6 +647,8 @@ export const cancelWebAnalyticsContentAutopilotRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWebAnalyticsContentAutopilotRun",
 }));
 
 export type DismissWebAnalyticsContentAutopilotOpportunityError = PosthogOpError;
@@ -653,6 +668,8 @@ export const dismissWebAnalyticsContentAutopilotOpportunity: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissWebAnalyticsContentAutopilotOpportunity",
 }));
 
 export type EditWebAnalyticsContentAutopilotProposalError = PosthogOpError;
@@ -668,6 +685,8 @@ export const editWebAnalyticsContentAutopilotProposal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditWebAnalyticsContentAutopilotProposal",
 }));
 
 export type ExportWebAnalyticsContentAutopilotProposalError = PosthogOpError;
@@ -683,6 +702,8 @@ export const exportWebAnalyticsContentAutopilotProposal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportWebAnalyticsContentAutopilotProposal",
 }));
 
 export type FetchWebAnalyticsLlmsTxtError = BadRequest | PosthogOpError;
@@ -698,6 +719,8 @@ export const fetchWebAnalyticsLlmsTxt: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchWebAnalyticsLlmsTxt",
 }));
 
 export type RefreshWebAnalyticsContentAutopilotOpportunityError = PosthogOpError;
@@ -721,6 +744,8 @@ export const refreshWebAnalyticsContentAutopilotOpportunity: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshWebAnalyticsContentAutopilotOpportunity",
 }));
 
 export type RegenerateWebAnalyticsContentAutopilotProposalError = PosthogOpError;
@@ -744,6 +769,8 @@ export const regenerateWebAnalyticsContentAutopilotProposal: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateWebAnalyticsContentAutopilotProposal",
 }));
 
 export type RejectWebAnalyticsContentAutopilotProposalError = PosthogOpError;
@@ -759,6 +786,8 @@ export const rejectWebAnalyticsContentAutopilotProposal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectWebAnalyticsContentAutopilotProposal",
 }));
 
 export type StartWebAnalyticsContentAutopilotRunError = PosthogOpError;
@@ -774,6 +803,8 @@ export const startWebAnalyticsContentAutopilotRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartWebAnalyticsContentAutopilotRun",
 }));
 
 export type WebAnalyticsContentAutopilotOpportunitiesDraftError = PosthogOpError;
@@ -793,6 +824,8 @@ export const webAnalyticsContentAutopilotOpportunitiesDraft: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsContentAutopilotOpportunitiesDraft",
 }));
 
 export type WebAnalyticsContentAutopilotProfilesDiscoverError = PosthogOpError;
@@ -808,6 +841,8 @@ export const webAnalyticsContentAutopilotProfilesDiscover: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsContentAutopilotProfilesDiscover",
 }));
 
 export type WebAnalyticsRecapError = PosthogOpError;
@@ -823,6 +858,8 @@ export const webAnalyticsRecap: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsRecap",
 }));
 
 export type WebAnalyticsWeeklyDigestError = PosthogOpError;
@@ -838,6 +875,8 @@ export const webAnalyticsWeeklyDigest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsWeeklyDigest",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

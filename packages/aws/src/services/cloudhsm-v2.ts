@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -81,6 +83,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudhsmv2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudHSMV2",
+  service: "CloudHSMV2",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CloudHsmAccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<CloudHsmAccessDeniedException>()(
@@ -404,7 +421,7 @@ export type CopyBackupToRegionError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const copyBackupToRegion: API.OperationMethod<
-  CopyBackupToRegionRequest,
+  CopyBackupToRegionRequest & RegionInput,
   CopyBackupToRegionResponse,
   CopyBackupToRegionError,
   Credentials | HttpClient.HttpClient
@@ -422,6 +439,8 @@ export const copyBackupToRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBackupToRegion",
+  telemetry: TELEMETRY,
+  span: "CopyBackupToRegion",
 }));
 
 export type CreateClusterError =
@@ -439,7 +458,7 @@ export type CreateClusterError =
  * ARN in the value of the SourceBackupId parameter.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -457,6 +476,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateHsmError =
@@ -473,7 +494,7 @@ export type CreateHsmError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
  */
 export const createHsm: API.OperationMethod<
-  CreateHsmRequest,
+  CreateHsmRequest & RegionInput,
   CreateHsmResponse,
   CreateHsmError,
   Credentials | HttpClient.HttpClient
@@ -490,6 +511,8 @@ export const createHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
+  telemetry: TELEMETRY,
+  span: "CreateHsm",
 }));
 
 export type DeleteBackupError =
@@ -507,7 +530,7 @@ export type DeleteBackupError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const deleteBackup: API.OperationMethod<
-  DeleteBackupRequest,
+  DeleteBackupRequest & RegionInput,
   DeleteBackupResponse,
   DeleteBackupError,
   Credentials | HttpClient.HttpClient
@@ -524,6 +547,8 @@ export const deleteBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteBackup",
 }));
 
 export type DeleteClusterError =
@@ -541,7 +566,7 @@ export type DeleteClusterError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -559,6 +584,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteHsmError =
@@ -576,7 +603,7 @@ export type DeleteHsmError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
  */
 export const deleteHsm: API.OperationMethod<
-  DeleteHsmRequest,
+  DeleteHsmRequest & RegionInput,
   DeleteHsmResponse,
   DeleteHsmError,
   Credentials | HttpClient.HttpClient
@@ -593,6 +620,8 @@ export const deleteHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
+  telemetry: TELEMETRY,
+  span: "DeleteHsm",
 }));
 
 export type DeleteResourcePolicyError =
@@ -610,7 +639,7 @@ export type DeleteResourcePolicyError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -627,6 +656,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DescribeBackupsError =
@@ -649,7 +680,7 @@ export type DescribeBackupsError =
  * **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
  */
 export const describeBackups: API.PaginatedOperationMethod<
-  DescribeBackupsRequest,
+  DescribeBackupsRequest & RegionInput,
   DescribeBackupsResponse,
   DescribeBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -673,6 +704,8 @@ export const describeBackups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBackups",
 })) as any;
 
 export type DescribeClustersError =
@@ -694,7 +727,7 @@ export type DescribeClustersError =
  * **Cross-account use:** No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
  */
 export const describeClusters: API.PaginatedOperationMethod<
-  DescribeClustersRequest,
+  DescribeClustersRequest & RegionInput,
   DescribeClustersResponse,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient,
@@ -717,6 +750,8 @@ export const describeClusters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -732,7 +767,7 @@ export type GetResourcePolicyError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -749,6 +784,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type InitializeClusterError =
@@ -767,7 +804,7 @@ export type InitializeClusterError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
 export const initializeCluster: API.OperationMethod<
-  InitializeClusterRequest,
+  InitializeClusterRequest & RegionInput,
   InitializeClusterResponse,
   InitializeClusterError,
   Credentials | HttpClient.HttpClient
@@ -784,6 +821,8 @@ export const initializeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeCluster",
+  telemetry: TELEMETRY,
+  span: "InitializeCluster",
 }));
 
 export type ListTagsError =
@@ -806,7 +845,7 @@ export type ListTagsError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -830,6 +869,8 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 })) as any;
 
 export type ModifyBackupAttributesError =
@@ -845,7 +886,7 @@ export type ModifyBackupAttributesError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const modifyBackupAttributes: API.OperationMethod<
-  ModifyBackupAttributesRequest,
+  ModifyBackupAttributesRequest & RegionInput,
   ModifyBackupAttributesResponse,
   ModifyBackupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -862,6 +903,8 @@ export const modifyBackupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyBackupAttributes",
+  telemetry: TELEMETRY,
+  span: "ModifyBackupAttributes",
 }));
 
 export type ModifyClusterError =
@@ -877,7 +920,7 @@ export type ModifyClusterError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterRequest,
+  ModifyClusterRequest & RegionInput,
   ModifyClusterResponse,
   ModifyClusterError,
   Credentials | HttpClient.HttpClient
@@ -894,6 +937,8 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyCluster",
 }));
 
 export type PutResourcePolicyError =
@@ -923,7 +968,7 @@ export type PutResourcePolicyError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -940,6 +985,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RestoreBackupError =
@@ -957,7 +1004,7 @@ export type RestoreBackupError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const restoreBackup: API.OperationMethod<
-  RestoreBackupRequest,
+  RestoreBackupRequest & RegionInput,
   RestoreBackupResponse,
   RestoreBackupError,
   Credentials | HttpClient.HttpClient
@@ -974,6 +1021,8 @@ export const restoreBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreBackup",
+  telemetry: TELEMETRY,
+  span: "RestoreBackup",
 }));
 
 export type TagResourceError =
@@ -991,7 +1040,7 @@ export type TagResourceError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1010,6 +1059,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1026,7 +1077,7 @@ export type UntagResourceError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1044,6 +1095,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

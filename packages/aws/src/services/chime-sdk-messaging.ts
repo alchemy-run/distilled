@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://messaging-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKMessaging",
+  service: "ChimeSDKMessaging",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -952,7 +968,7 @@ export type AssociateChannelFlowError =
  * that makes the API call as the value in the header.
  */
 export const associateChannelFlow: API.OperationMethod<
-  AssociateChannelFlowRequest,
+  AssociateChannelFlowRequest & RegionInput,
   AssociateChannelFlowResponse,
   AssociateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -972,6 +988,8 @@ export const associateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "AssociateChannelFlow",
 }));
 
 export type BatchCreateChannelMembershipError =
@@ -988,7 +1006,7 @@ export type BatchCreateChannelMembershipError =
  * Adds a specified number of users and bots to a channel.
  */
 export const batchCreateChannelMembership: API.OperationMethod<
-  BatchCreateChannelMembershipRequest,
+  BatchCreateChannelMembershipRequest & RegionInput,
   BatchCreateChannelMembershipResponse,
   BatchCreateChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1008,6 +1026,8 @@ export const batchCreateChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateChannelMembership",
+  telemetry: TELEMETRY,
+  span: "BatchCreateChannelMembership",
 }));
 
 export type ChannelFlowCallbackError =
@@ -1031,7 +1051,7 @@ export type ChannelFlowCallbackError =
  * - Make no changes to the message
  */
 export const channelFlowCallback: API.OperationMethod<
-  ChannelFlowCallbackRequest,
+  ChannelFlowCallbackRequest & RegionInput,
   ChannelFlowCallbackResponse,
   ChannelFlowCallbackError,
   Credentials | HttpClient.HttpClient
@@ -1050,6 +1070,8 @@ export const channelFlowCallback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChannelFlowCallback",
+  telemetry: TELEMETRY,
+  span: "ChannelFlowCallback",
 }));
 
 export type CreateChannelError =
@@ -1073,7 +1095,7 @@ export type CreateChannelError =
  * the header.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1093,6 +1115,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateChannelBanError =
@@ -1119,7 +1143,7 @@ export type CreateChannelBanError =
  * the header.
  */
 export const createChannelBan: API.OperationMethod<
-  CreateChannelBanRequest,
+  CreateChannelBanRequest & RegionInput,
   CreateChannelBanResponse,
   CreateChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1139,6 +1163,8 @@ export const createChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelBan",
+  telemetry: TELEMETRY,
+  span: "CreateChannelBan",
 }));
 
 export type CreateChannelFlowError =
@@ -1169,7 +1195,7 @@ export type CreateChannelFlowError =
  * Message types in the *Amazon Chime developer guide*.
  */
 export const createChannelFlow: API.OperationMethod<
-  CreateChannelFlowRequest,
+  CreateChannelFlowRequest & RegionInput,
   CreateChannelFlowResponse,
   CreateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1189,6 +1215,8 @@ export const createChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "CreateChannelFlow",
 }));
 
 export type CreateChannelMembershipError =
@@ -1228,7 +1256,7 @@ export type CreateChannelMembershipError =
  * as the value in the header.
  */
 export const createChannelMembership: API.OperationMethod<
-  CreateChannelMembershipRequest,
+  CreateChannelMembershipRequest & RegionInput,
   CreateChannelMembershipResponse,
   CreateChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1249,6 +1277,8 @@ export const createChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelMembership",
+  telemetry: TELEMETRY,
+  span: "CreateChannelMembership",
 }));
 
 export type CreateChannelModeratorError =
@@ -1279,7 +1309,7 @@ export type CreateChannelModeratorError =
  * the header.
  */
 export const createChannelModerator: API.OperationMethod<
-  CreateChannelModeratorRequest,
+  CreateChannelModeratorRequest & RegionInput,
   CreateChannelModeratorResponse,
   CreateChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1299,6 +1329,8 @@ export const createChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelModerator",
+  telemetry: TELEMETRY,
+  span: "CreateChannelModerator",
 }));
 
 export type DeleteChannelError =
@@ -1319,7 +1351,7 @@ export type DeleteChannelError =
  * the header.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1338,6 +1370,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteChannelBanError =
@@ -1356,7 +1390,7 @@ export type DeleteChannelBanError =
  * the header.
  */
 export const deleteChannelBan: API.OperationMethod<
-  DeleteChannelBanRequest,
+  DeleteChannelBanRequest & RegionInput,
   DeleteChannelBanResponse,
   DeleteChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1374,6 +1408,8 @@ export const deleteChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelBan",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelBan",
 }));
 
 export type DeleteChannelFlowError =
@@ -1392,7 +1428,7 @@ export type DeleteChannelFlowError =
  * `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to disassociate a channel flow from all channels.
  */
 export const deleteChannelFlow: API.OperationMethod<
-  DeleteChannelFlowRequest,
+  DeleteChannelFlowRequest & RegionInput,
   DeleteChannelFlowResponse,
   DeleteChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1411,6 +1447,8 @@ export const deleteChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelFlow",
 }));
 
 export type DeleteChannelMembershipError =
@@ -1430,7 +1468,7 @@ export type DeleteChannelMembershipError =
  * the header.
  */
 export const deleteChannelMembership: API.OperationMethod<
-  DeleteChannelMembershipRequest,
+  DeleteChannelMembershipRequest & RegionInput,
   DeleteChannelMembershipResponse,
   DeleteChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1449,6 +1487,8 @@ export const deleteChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelMembership",
 }));
 
 export type DeleteChannelMessageError =
@@ -1469,7 +1509,7 @@ export type DeleteChannelMessageError =
  * the header.
  */
 export const deleteChannelMessage: API.OperationMethod<
-  DeleteChannelMessageRequest,
+  DeleteChannelMessageRequest & RegionInput,
   DeleteChannelMessageResponse,
   DeleteChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -1487,6 +1527,8 @@ export const deleteChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelMessage",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelMessage",
 }));
 
 export type DeleteChannelModeratorError =
@@ -1505,7 +1547,7 @@ export type DeleteChannelModeratorError =
  * the header.
  */
 export const deleteChannelModerator: API.OperationMethod<
-  DeleteChannelModeratorRequest,
+  DeleteChannelModeratorRequest & RegionInput,
   DeleteChannelModeratorResponse,
   DeleteChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1523,6 +1565,8 @@ export const deleteChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelModerator",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelModerator",
 }));
 
 export type DeleteMessagingStreamingConfigurationsError =
@@ -1538,7 +1582,7 @@ export type DeleteMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const deleteMessagingStreamingConfigurations: API.OperationMethod<
-  DeleteMessagingStreamingConfigurationsRequest,
+  DeleteMessagingStreamingConfigurationsRequest & RegionInput,
   DeleteMessagingStreamingConfigurationsResponse,
   DeleteMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1556,6 +1600,8 @@ export const deleteMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessagingStreamingConfigurations",
+  telemetry: TELEMETRY,
+  span: "DeleteMessagingStreamingConfigurations",
 }));
 
 export type DescribeChannelError =
@@ -1575,7 +1621,7 @@ export type DescribeChannelError =
  * the header.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1593,6 +1639,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeChannelBanError =
@@ -1612,7 +1660,7 @@ export type DescribeChannelBanError =
  * the header.
  */
 export const describeChannelBan: API.OperationMethod<
-  DescribeChannelBanRequest,
+  DescribeChannelBanRequest & RegionInput,
   DescribeChannelBanResponse,
   DescribeChannelBanError,
   Credentials | HttpClient.HttpClient
@@ -1631,6 +1679,8 @@ export const describeChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelBan",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelBan",
 }));
 
 export type DescribeChannelFlowError =
@@ -1645,7 +1695,7 @@ export type DescribeChannelFlowError =
  * Returns the full details of a channel flow in an Amazon Chime `AppInstance`. This is a developer API.
  */
 export const describeChannelFlow: API.OperationMethod<
-  DescribeChannelFlowRequest,
+  DescribeChannelFlowRequest & RegionInput,
   DescribeChannelFlowResponse,
   DescribeChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1663,6 +1713,8 @@ export const describeChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelFlow",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelFlow",
 }));
 
 export type DescribeChannelMembershipError =
@@ -1682,7 +1734,7 @@ export type DescribeChannelMembershipError =
  * the header.
  */
 export const describeChannelMembership: API.OperationMethod<
-  DescribeChannelMembershipRequest,
+  DescribeChannelMembershipRequest & RegionInput,
   DescribeChannelMembershipResponse,
   DescribeChannelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1701,6 +1753,8 @@ export const describeChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelMembership",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelMembership",
 }));
 
 export type DescribeChannelMembershipForAppInstanceUserError =
@@ -1720,7 +1774,7 @@ export type DescribeChannelMembershipForAppInstanceUserError =
  * the header.
  */
 export const describeChannelMembershipForAppInstanceUser: API.OperationMethod<
-  DescribeChannelMembershipForAppInstanceUserRequest,
+  DescribeChannelMembershipForAppInstanceUserRequest & RegionInput,
   DescribeChannelMembershipForAppInstanceUserResponse,
   DescribeChannelMembershipForAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1742,6 +1796,8 @@ export const describeChannelMembershipForAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelMembershipForAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelMembershipForAppInstanceUser",
 }));
 
 export type DescribeChannelModeratedByAppInstanceUserError =
@@ -1761,7 +1817,7 @@ export type DescribeChannelModeratedByAppInstanceUserError =
  * the header.
  */
 export const describeChannelModeratedByAppInstanceUser: API.OperationMethod<
-  DescribeChannelModeratedByAppInstanceUserRequest,
+  DescribeChannelModeratedByAppInstanceUserRequest & RegionInput,
   DescribeChannelModeratedByAppInstanceUserResponse,
   DescribeChannelModeratedByAppInstanceUserError,
   Credentials | HttpClient.HttpClient
@@ -1779,6 +1835,8 @@ export const describeChannelModeratedByAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelModeratedByAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelModeratedByAppInstanceUser",
 }));
 
 export type DescribeChannelModeratorError =
@@ -1798,7 +1856,7 @@ export type DescribeChannelModeratorError =
  * the header.
  */
 export const describeChannelModerator: API.OperationMethod<
-  DescribeChannelModeratorRequest,
+  DescribeChannelModeratorRequest & RegionInput,
   DescribeChannelModeratorResponse,
   DescribeChannelModeratorError,
   Credentials | HttpClient.HttpClient
@@ -1817,6 +1875,8 @@ export const describeChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelModerator",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelModerator",
 }));
 
 export type DisassociateChannelFlowError =
@@ -1840,7 +1900,7 @@ export type DisassociateChannelFlowError =
  * the header.
  */
 export const disassociateChannelFlow: API.OperationMethod<
-  DisassociateChannelFlowRequest,
+  DisassociateChannelFlowRequest & RegionInput,
   DisassociateChannelFlowResponse,
   DisassociateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -1860,6 +1920,8 @@ export const disassociateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "DisassociateChannelFlow",
 }));
 
 export type GetChannelMembershipPreferencesError =
@@ -1882,7 +1944,7 @@ export type GetChannelMembershipPreferencesError =
  * the header.
  */
 export const getChannelMembershipPreferences: API.OperationMethod<
-  GetChannelMembershipPreferencesRequest,
+  GetChannelMembershipPreferencesRequest & RegionInput,
   GetChannelMembershipPreferencesResponse,
   GetChannelMembershipPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1900,6 +1962,8 @@ export const getChannelMembershipPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMembershipPreferences",
+  telemetry: TELEMETRY,
+  span: "GetChannelMembershipPreferences",
 }));
 
 export type GetChannelMessageError =
@@ -1919,7 +1983,7 @@ export type GetChannelMessageError =
  * the header.
  */
 export const getChannelMessage: API.OperationMethod<
-  GetChannelMessageRequest,
+  GetChannelMessageRequest & RegionInput,
   GetChannelMessageResponse,
   GetChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -1938,6 +2002,8 @@ export const getChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMessage",
+  telemetry: TELEMETRY,
+  span: "GetChannelMessage",
 }));
 
 export type GetChannelMessageStatusError =
@@ -1979,7 +2045,7 @@ export type GetChannelMessageStatusError =
  * the header.
  */
 export const getChannelMessageStatus: API.OperationMethod<
-  GetChannelMessageStatusRequest,
+  GetChannelMessageStatusRequest & RegionInput,
   GetChannelMessageStatusResponse,
   GetChannelMessageStatusError,
   Credentials | HttpClient.HttpClient
@@ -1997,6 +2063,8 @@ export const getChannelMessageStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMessageStatus",
+  telemetry: TELEMETRY,
+  span: "GetChannelMessageStatus",
 }));
 
 export type GetMessagingSessionEndpointError =
@@ -2010,7 +2078,7 @@ export type GetMessagingSessionEndpointError =
  * The details of the endpoint for the messaging session.
  */
 export const getMessagingSessionEndpoint: API.OperationMethod<
-  GetMessagingSessionEndpointRequest,
+  GetMessagingSessionEndpointRequest & RegionInput,
   GetMessagingSessionEndpointResponse,
   GetMessagingSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2027,6 +2095,8 @@ export const getMessagingSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessagingSessionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetMessagingSessionEndpoint",
 }));
 
 export type GetMessagingStreamingConfigurationsError =
@@ -2043,7 +2113,7 @@ export type GetMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const getMessagingStreamingConfigurations: API.OperationMethod<
-  GetMessagingStreamingConfigurationsRequest,
+  GetMessagingStreamingConfigurationsRequest & RegionInput,
   GetMessagingStreamingConfigurationsResponse,
   GetMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2062,6 +2132,8 @@ export const getMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessagingStreamingConfigurations",
+  telemetry: TELEMETRY,
+  span: "GetMessagingStreamingConfigurations",
 }));
 
 export type ListChannelBansError =
@@ -2080,7 +2152,7 @@ export type ListChannelBansError =
  * the header.
  */
 export const listChannelBans: API.PaginatedOperationMethod<
-  ListChannelBansRequest,
+  ListChannelBansRequest & RegionInput,
   ListChannelBansResponse,
   ListChannelBansError,
   Credentials | HttpClient.HttpClient,
@@ -2104,6 +2176,8 @@ export const listChannelBans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelBans",
 })) as any;
 
 export type ListChannelFlowsError =
@@ -2118,7 +2192,7 @@ export type ListChannelFlowsError =
  * Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
  */
 export const listChannelFlows: API.PaginatedOperationMethod<
-  ListChannelFlowsRequest,
+  ListChannelFlowsRequest & RegionInput,
   ListChannelFlowsResponse,
   ListChannelFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -2142,6 +2216,8 @@ export const listChannelFlows: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelFlows",
 })) as any;
 
 export type ListChannelMembershipsError =
@@ -2163,7 +2239,7 @@ export type ListChannelMembershipsError =
  * ListChannelMembershipsForAppInstanceUser API.
  */
 export const listChannelMemberships: API.PaginatedOperationMethod<
-  ListChannelMembershipsRequest,
+  ListChannelMembershipsRequest & RegionInput,
   ListChannelMembershipsResponse,
   ListChannelMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -2187,6 +2263,8 @@ export const listChannelMemberships: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelMemberships",
 })) as any;
 
 export type ListChannelMembershipsForAppInstanceUserError =
@@ -2206,7 +2284,7 @@ export type ListChannelMembershipsForAppInstanceUserError =
  * the header.
  */
 export const listChannelMembershipsForAppInstanceUser: API.PaginatedOperationMethod<
-  ListChannelMembershipsForAppInstanceUserRequest,
+  ListChannelMembershipsForAppInstanceUserRequest & RegionInput,
   ListChannelMembershipsForAppInstanceUserResponse,
   ListChannelMembershipsForAppInstanceUserError,
   Credentials | HttpClient.HttpClient,
@@ -2230,6 +2308,8 @@ export const listChannelMembershipsForAppInstanceUser: API.PaginatedOperationMet
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelMembershipsForAppInstanceUser",
 })) as any;
 
 export type ListChannelMessagesError =
@@ -2254,7 +2334,7 @@ export type ListChannelMessagesError =
  * the header.
  */
 export const listChannelMessages: API.PaginatedOperationMethod<
-  ListChannelMessagesRequest,
+  ListChannelMessagesRequest & RegionInput,
   ListChannelMessagesResponse,
   ListChannelMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -2278,6 +2358,8 @@ export const listChannelMessages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelMessages",
 })) as any;
 
 export type ListChannelModeratorsError =
@@ -2296,7 +2378,7 @@ export type ListChannelModeratorsError =
  * the header.
  */
 export const listChannelModerators: API.PaginatedOperationMethod<
-  ListChannelModeratorsRequest,
+  ListChannelModeratorsRequest & RegionInput,
   ListChannelModeratorsResponse,
   ListChannelModeratorsError,
   Credentials | HttpClient.HttpClient,
@@ -2320,6 +2402,8 @@ export const listChannelModerators: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelModerators",
 })) as any;
 
 export type ListChannelsError =
@@ -2347,7 +2431,7 @@ export type ListChannelsError =
  * the header.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2371,6 +2455,8 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListChannelsAssociatedWithChannelFlowError =
@@ -2385,7 +2471,7 @@ export type ListChannelsAssociatedWithChannelFlowError =
  * Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
  */
 export const listChannelsAssociatedWithChannelFlow: API.PaginatedOperationMethod<
-  ListChannelsAssociatedWithChannelFlowRequest,
+  ListChannelsAssociatedWithChannelFlowRequest & RegionInput,
   ListChannelsAssociatedWithChannelFlowResponse,
   ListChannelsAssociatedWithChannelFlowError,
   Credentials | HttpClient.HttpClient,
@@ -2409,6 +2495,8 @@ export const listChannelsAssociatedWithChannelFlow: API.PaginatedOperationMethod
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelsAssociatedWithChannelFlow",
 })) as any;
 
 export type ListChannelsModeratedByAppInstanceUserError =
@@ -2427,7 +2515,7 @@ export type ListChannelsModeratedByAppInstanceUserError =
  * the header.
  */
 export const listChannelsModeratedByAppInstanceUser: API.PaginatedOperationMethod<
-  ListChannelsModeratedByAppInstanceUserRequest,
+  ListChannelsModeratedByAppInstanceUserRequest & RegionInput,
   ListChannelsModeratedByAppInstanceUserResponse,
   ListChannelsModeratedByAppInstanceUserError,
   Credentials | HttpClient.HttpClient,
@@ -2451,6 +2539,8 @@ export const listChannelsModeratedByAppInstanceUser: API.PaginatedOperationMetho
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelsModeratedByAppInstanceUser",
 })) as any;
 
 export type ListSubChannelsError =
@@ -2465,7 +2555,7 @@ export type ListSubChannelsError =
  * Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
  */
 export const listSubChannels: API.PaginatedOperationMethod<
-  ListSubChannelsRequest,
+  ListSubChannelsRequest & RegionInput,
   ListSubChannelsResponse,
   ListSubChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2489,6 +2579,8 @@ export const listSubChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubChannels",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2503,7 +2595,7 @@ export type ListTagsForResourceError =
  * Lists the tags applied to an Amazon Chime SDK messaging resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2521,6 +2613,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutChannelExpirationSettingsError =
@@ -2546,7 +2640,7 @@ export type PutChannelExpirationSettingsError =
  * the header.
  */
 export const putChannelExpirationSettings: API.OperationMethod<
-  PutChannelExpirationSettingsRequest,
+  PutChannelExpirationSettingsRequest & RegionInput,
   PutChannelExpirationSettingsResponse,
   PutChannelExpirationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2565,6 +2659,8 @@ export const putChannelExpirationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelExpirationSettings",
+  telemetry: TELEMETRY,
+  span: "PutChannelExpirationSettings",
 }));
 
 export type PutChannelMembershipPreferencesError =
@@ -2588,7 +2684,7 @@ export type PutChannelMembershipPreferencesError =
  * header.
  */
 export const putChannelMembershipPreferences: API.OperationMethod<
-  PutChannelMembershipPreferencesRequest,
+  PutChannelMembershipPreferencesRequest & RegionInput,
   PutChannelMembershipPreferencesResponse,
   PutChannelMembershipPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2607,6 +2703,8 @@ export const putChannelMembershipPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelMembershipPreferences",
+  telemetry: TELEMETRY,
+  span: "PutChannelMembershipPreferences",
 }));
 
 export type PutMessagingStreamingConfigurationsError =
@@ -2624,7 +2722,7 @@ export type PutMessagingStreamingConfigurationsError =
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
 export const putMessagingStreamingConfigurations: API.OperationMethod<
-  PutMessagingStreamingConfigurationsRequest,
+  PutMessagingStreamingConfigurationsRequest & RegionInput,
   PutMessagingStreamingConfigurationsResponse,
   PutMessagingStreamingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2644,6 +2742,8 @@ export const putMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMessagingStreamingConfigurations",
+  telemetry: TELEMETRY,
+  span: "PutMessagingStreamingConfigurations",
 }));
 
 export type RedactChannelMessageError =
@@ -2664,7 +2764,7 @@ export type RedactChannelMessageError =
  * the header.
  */
 export const redactChannelMessage: API.OperationMethod<
-  RedactChannelMessageRequest,
+  RedactChannelMessageRequest & RegionInput,
   RedactChannelMessageResponse,
   RedactChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2683,6 +2783,8 @@ export const redactChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactChannelMessage",
+  telemetry: TELEMETRY,
+  span: "RedactChannelMessage",
 }));
 
 export type SearchChannelsError =
@@ -2705,7 +2807,7 @@ export type SearchChannelsError =
  * This operation isn't supported for `AppInstanceUsers` with a large number of memberships.
  */
 export const searchChannels: API.PaginatedOperationMethod<
-  SearchChannelsRequest,
+  SearchChannelsRequest & RegionInput,
   SearchChannelsResponse,
   SearchChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2729,6 +2831,8 @@ export const searchChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchChannels",
 })) as any;
 
 export type SendChannelMessageError =
@@ -2753,7 +2857,7 @@ export type SendChannelMessageError =
  * `CONTROL` messages are limited to 30 bytes and do not contain metadata.
  */
 export const sendChannelMessage: API.OperationMethod<
-  SendChannelMessageRequest,
+  SendChannelMessageRequest & RegionInput,
   SendChannelMessageResponse,
   SendChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2772,6 +2876,8 @@ export const sendChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendChannelMessage",
+  telemetry: TELEMETRY,
+  span: "SendChannelMessage",
 }));
 
 export type TagResourceError =
@@ -2787,7 +2893,7 @@ export type TagResourceError =
  * Applies the specified tags to the specified Amazon Chime SDK messaging resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2806,6 +2912,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2820,7 +2928,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified Amazon Chime SDK messaging resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2838,6 +2946,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -2859,7 +2969,7 @@ export type UpdateChannelError =
  * the header.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2878,6 +2988,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateChannelFlowError =
@@ -2893,7 +3005,7 @@ export type UpdateChannelFlowError =
  * Updates channel flow attributes. This is a developer API.
  */
 export const updateChannelFlow: API.OperationMethod<
-  UpdateChannelFlowRequest,
+  UpdateChannelFlowRequest & RegionInput,
   UpdateChannelFlowResponse,
   UpdateChannelFlowError,
   Credentials | HttpClient.HttpClient
@@ -2912,6 +3024,8 @@ export const updateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelFlow",
 }));
 
 export type UpdateChannelMessageError =
@@ -2931,7 +3045,7 @@ export type UpdateChannelMessageError =
  * the header.
  */
 export const updateChannelMessage: API.OperationMethod<
-  UpdateChannelMessageRequest,
+  UpdateChannelMessageRequest & RegionInput,
   UpdateChannelMessageResponse,
   UpdateChannelMessageError,
   Credentials | HttpClient.HttpClient
@@ -2950,6 +3064,8 @@ export const updateChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelMessage",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelMessage",
 }));
 
 export type UpdateChannelReadMarkerError =
@@ -2969,7 +3085,7 @@ export type UpdateChannelReadMarkerError =
  * the header.
  */
 export const updateChannelReadMarker: API.OperationMethod<
-  UpdateChannelReadMarkerRequest,
+  UpdateChannelReadMarkerRequest & RegionInput,
   UpdateChannelReadMarkerResponse,
   UpdateChannelReadMarkerError,
   Credentials | HttpClient.HttpClient
@@ -2988,6 +3104,8 @@ export const updateChannelReadMarker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelReadMarker",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelReadMarker",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

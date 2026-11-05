@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -71,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://dlm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DLM",
+  service: "DLM",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -487,7 +503,7 @@ export type CreateLifecyclePolicyError =
  * the request body, or in the PolicyDetails request structure, but not both.
  */
 export const createLifecyclePolicy: API.OperationMethod<
-  CreateLifecyclePolicyRequest,
+  CreateLifecyclePolicyRequest & RegionInput,
   CreateLifecyclePolicyResponse,
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -498,6 +514,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLifecyclePolicy",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -513,7 +531,7 @@ export type DeleteLifecyclePolicyError =
  * policies.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -524,6 +542,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type GetLifecyclePoliciesError =
@@ -538,7 +558,7 @@ export type GetLifecyclePoliciesError =
  * To get complete information about a policy, use GetLifecyclePolicy.
  */
 export const getLifecyclePolicies: API.OperationMethod<
-  GetLifecyclePoliciesRequest,
+  GetLifecyclePoliciesRequest & RegionInput,
   GetLifecyclePoliciesResponse,
   GetLifecyclePoliciesError,
   Credentials | HttpClient.HttpClient
@@ -554,6 +574,8 @@ export const getLifecyclePolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicies",
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicies",
 }));
 
 export type GetLifecyclePolicyError =
@@ -565,7 +587,7 @@ export type GetLifecyclePolicyError =
  * Gets detailed information about the specified lifecycle policy.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyRequest,
+  GetLifecyclePolicyRequest & RegionInput,
   GetLifecyclePolicyResponse,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -576,6 +598,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicy",
 }));
 
 export type ListTagsForResourceError =
@@ -587,7 +611,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -598,6 +622,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -609,7 +635,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -620,6 +646,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -631,7 +659,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -642,6 +670,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLifecyclePolicyError =
@@ -657,7 +687,7 @@ export type UpdateLifecyclePolicyError =
  * policies.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
-  UpdateLifecyclePolicyRequest,
+  UpdateLifecyclePolicyRequest & RegionInput,
   UpdateLifecyclePolicyResponse,
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -673,6 +703,8 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateLifecyclePolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

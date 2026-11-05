@@ -15,6 +15,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
@@ -32,9 +33,10 @@ export interface ConnectConfig {
 }
 
 export class ConnectCredentials
-  extends /*@__PURE__*/ Context.Service<ConnectCredentials, Effect.Effect<ConnectConfig>>()(
-    "OnepasswordConnectCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    ConnectCredentials,
+    Effect.Effect<ConnectConfig, ConfigError>
+  >()("OnepasswordConnectCredentials") {}
 
 /** `OP_CONNECT_HOST` is the server root without `/v1`; append it when missing. */
 const connectHostToBaseUrl = (host: string): string => {
@@ -76,7 +78,6 @@ export const ConnectCredentialsFromEnv: Layer.Layer<ConnectCredentials> =
       /*@__PURE__*/ Effect.mapError(
         () => new ConfigError({ message: "OP_CONNECT_TOKEN environment variable is required" }),
       ),
-      Effect.orDie,
     ),
   );
 
@@ -98,9 +99,10 @@ export interface EventsConfig {
 }
 
 export class EventsCredentials
-  extends /*@__PURE__*/ Context.Service<EventsCredentials, Effect.Effect<EventsConfig>>()(
-    "OnepasswordEventsCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    EventsCredentials,
+    Effect.Effect<EventsConfig, ConfigError>
+  >()("OnepasswordEventsCredentials") {}
 
 /** Layer from an Events Reporting bearer token + optional regional host. */
 export const eventsCredentials = (config: {
@@ -127,7 +129,6 @@ export const EventsCredentialsFromEnv: Layer.Layer<EventsCredentials> = /*@__PUR
     /*@__PURE__*/ Effect.mapError(
       () => new ConfigError({ message: "OP_EVENTS_API_TOKEN environment variable is required" }),
     ),
-    Effect.orDie,
   ),
 );
 
@@ -155,9 +156,10 @@ export interface OAuthConfig {
  * `revokeAccessToken`).
  */
 export class OAuthCredentials
-  extends /*@__PURE__*/ Context.Service<OAuthCredentials, Effect.Effect<OAuthConfig>>()(
-    "OnepasswordOAuthCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    OAuthCredentials,
+    Effect.Effect<OAuthConfig, ConfigError>
+  >()("OnepasswordOAuthCredentials") {}
 
 /** Layer from OAuth application client credentials + optional regional host. */
 export const oauthCredentials = (config: {
@@ -196,7 +198,7 @@ const usersEnvConfig = /*@__PURE__*/ EffectConfig.all({
  */
 export const OAuthCredentialsFromEnv: Layer.Layer<OAuthCredentials> = /*@__PURE__*/ Layer.succeed(
   OAuthCredentials,
-  /*@__PURE__*/ usersEnvConfig.pipe(Effect.orDie),
+  /*@__PURE__*/ usersEnvConfig,
 );
 
 // ---------------------------------------------------------------------------
@@ -231,7 +233,7 @@ export const exchangeAccessToken = (
   ConfigError
 > =>
   Effect.gen(function* () {
-    const basic = btoa(`${config.clientId}:${Redacted.value(config.clientSecret)}`);
+    const basic = Base64.encode(`${config.clientId}:${Redacted.value(config.clientSecret)}`);
     const res = yield* Effect.tryPromise(() =>
       fetch(`${config.apiBaseUrl.replace(/\/+$/, "")}/v1/oauth/token`, {
         method: "POST",
@@ -374,9 +376,10 @@ export interface PartnershipConfig {
 }
 
 export class PartnershipCredentials
-  extends /*@__PURE__*/ Context.Service<PartnershipCredentials, Effect.Effect<PartnershipConfig>>()(
-    "OnepasswordPartnershipCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    PartnershipCredentials,
+    Effect.Effect<PartnershipConfig, ConfigError>
+  >()("OnepasswordPartnershipCredentials") {}
 
 /** Layer from a partner bearer token + optional host. */
 export const partnershipCredentials = (config: {
@@ -405,6 +408,5 @@ export const PartnershipCredentialsFromEnv: Layer.Layer<PartnershipCredentials> 
         () =>
           new ConfigError({ message: "OP_PARTNERSHIP_API_TOKEN environment variable is required" }),
       ),
-      Effect.orDie,
     ),
   );

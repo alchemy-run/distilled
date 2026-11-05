@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kendra.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "kendra",
+  service: "kendra",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2308,7 +2325,7 @@ export type AssociateEntitiesToExperienceError =
  * a search experience with no code.
  */
 export const associateEntitiesToExperience: API.OperationMethod<
-  AssociateEntitiesToExperienceRequest,
+  AssociateEntitiesToExperienceRequest & RegionInput,
   AssociateEntitiesToExperienceResponse,
   AssociateEntitiesToExperienceError,
   Credentials | HttpClient.HttpClient
@@ -2326,6 +2343,8 @@ export const associateEntitiesToExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEntitiesToExperience",
+  telemetry: TELEMETRY,
+  span: "AssociateEntitiesToExperience",
 }));
 
 export type AssociatePersonasToEntitiesError =
@@ -2344,7 +2363,7 @@ export type AssociatePersonasToEntitiesError =
  * a search experience with no code.
  */
 export const associatePersonasToEntities: API.OperationMethod<
-  AssociatePersonasToEntitiesRequest,
+  AssociatePersonasToEntitiesRequest & RegionInput,
   AssociatePersonasToEntitiesResponse,
   AssociatePersonasToEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2362,6 +2381,8 @@ export const associatePersonasToEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePersonasToEntities",
+  telemetry: TELEMETRY,
+  span: "AssociatePersonasToEntities",
 }));
 
 export type BatchDeleteDocumentError =
@@ -2387,7 +2408,7 @@ export type BatchDeleteDocumentError =
  * to an hour or more, depending on the number of documents you want to delete.
  */
 export const batchDeleteDocument: API.OperationMethod<
-  BatchDeleteDocumentRequest,
+  BatchDeleteDocumentRequest & RegionInput,
   BatchDeleteDocumentResponse,
   BatchDeleteDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2405,6 +2426,8 @@ export const batchDeleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDocument",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDocument",
 }));
 
 export type BatchDeleteFeaturedResultsSetError =
@@ -2420,7 +2443,7 @@ export type BatchDeleteFeaturedResultsSetError =
  * query, then one or more specific documents are featured in the search results.
  */
 export const batchDeleteFeaturedResultsSet: API.OperationMethod<
-  BatchDeleteFeaturedResultsSetRequest,
+  BatchDeleteFeaturedResultsSetRequest & RegionInput,
   BatchDeleteFeaturedResultsSetResponse,
   BatchDeleteFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -2437,6 +2460,8 @@ export const batchDeleteFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFeaturedResultsSet",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteFeaturedResultsSet",
 }));
 
 export type BatchGetDocumentStatusError =
@@ -2461,7 +2486,7 @@ export type BatchGetDocumentStatusError =
  * BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns `NOT_FOUND` as the status.
  */
 export const batchGetDocumentStatus: API.OperationMethod<
-  BatchGetDocumentStatusRequest,
+  BatchGetDocumentStatusRequest & RegionInput,
   BatchGetDocumentStatusResponse,
   BatchGetDocumentStatusError,
   Credentials | HttpClient.HttpClient
@@ -2479,6 +2504,8 @@ export const batchGetDocumentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDocumentStatus",
+  telemetry: TELEMETRY,
+  span: "BatchGetDocumentStatus",
 }));
 
 export type BatchPutDocumentError =
@@ -2509,7 +2536,7 @@ export type BatchPutDocumentError =
  * directly to an index.
  */
 export const batchPutDocument: API.OperationMethod<
-  BatchPutDocumentRequest,
+  BatchPutDocumentRequest & RegionInput,
   BatchPutDocumentResponse,
   BatchPutDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2528,6 +2555,8 @@ export const batchPutDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutDocument",
+  telemetry: TELEMETRY,
+  span: "BatchPutDocument",
 }));
 
 export type ClearQuerySuggestionsError =
@@ -2552,7 +2581,7 @@ export type ClearQuerySuggestionsError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const clearQuerySuggestions: API.OperationMethod<
-  ClearQuerySuggestionsRequest,
+  ClearQuerySuggestionsRequest & RegionInput,
   ClearQuerySuggestionsResponse,
   ClearQuerySuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -2570,6 +2599,8 @@ export const clearQuerySuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClearQuerySuggestions",
+  telemetry: TELEMETRY,
+  span: "ClearQuerySuggestions",
 }));
 
 export type CreateAccessControlConfigurationError =
@@ -2610,7 +2641,7 @@ export type CreateAccessControlConfigurationError =
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
 export const createAccessControlConfiguration: API.OperationMethod<
-  CreateAccessControlConfigurationRequest,
+  CreateAccessControlConfigurationRequest & RegionInput,
   CreateAccessControlConfigurationResponse,
   CreateAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2629,6 +2660,8 @@ export const createAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessControlConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateAccessControlConfiguration",
 }));
 
 export type CreateDataSourceError =
@@ -2657,7 +2690,7 @@ export type CreateDataSourceError =
  * SDK.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2677,6 +2710,8 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  telemetry: TELEMETRY,
+  span: "CreateDataSource",
 }));
 
 export type CreateExperienceError =
@@ -2695,7 +2730,7 @@ export type CreateExperienceError =
  * search experience with no code.
  */
 export const createExperience: API.OperationMethod<
-  CreateExperienceRequest,
+  CreateExperienceRequest & RegionInput,
   CreateExperienceResponse,
   CreateExperienceError,
   Credentials | HttpClient.HttpClient
@@ -2714,6 +2749,8 @@ export const createExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperience",
+  telemetry: TELEMETRY,
+  span: "CreateExperience",
 }));
 
 export type CreateFaqError =
@@ -2734,7 +2771,7 @@ export type CreateFaqError =
  * For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
  */
 export const createFaq: API.OperationMethod<
-  CreateFaqRequest,
+  CreateFaqRequest & RegionInput,
   CreateFaqResponse,
   CreateFaqError,
   Credentials | HttpClient.HttpClient
@@ -2753,6 +2790,8 @@ export const createFaq: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFaq",
+  telemetry: TELEMETRY,
+  span: "CreateFaq",
 }));
 
 export type CreateFeaturedResultsSetError =
@@ -2775,7 +2814,7 @@ export type CreateFeaturedResultsSetError =
  * increase this limit by contacting Support.
  */
 export const createFeaturedResultsSet: API.OperationMethod<
-  CreateFeaturedResultsSetRequest,
+  CreateFeaturedResultsSetRequest & RegionInput,
   CreateFeaturedResultsSetResponse,
   CreateFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -2794,6 +2833,8 @@ export const createFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeaturedResultsSet",
+  telemetry: TELEMETRY,
+  span: "CreateFeaturedResultsSet",
 }));
 
 export type CreateIndexError =
@@ -2822,7 +2863,7 @@ export type CreateIndexError =
  * SDK.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2843,6 +2884,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateQuerySuggestionsBlockListError =
@@ -2876,7 +2919,7 @@ export type CreateQuerySuggestionsBlockListError =
  * suggestions block list.
  */
 export const createQuerySuggestionsBlockList: API.OperationMethod<
-  CreateQuerySuggestionsBlockListRequest,
+  CreateQuerySuggestionsBlockListRequest & RegionInput,
   CreateQuerySuggestionsBlockListResponse,
   CreateQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -2895,6 +2938,8 @@ export const createQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuerySuggestionsBlockList",
+  telemetry: TELEMETRY,
+  span: "CreateQuerySuggestionsBlockList",
 }));
 
 export type CreateThesaurusError =
@@ -2915,7 +2960,7 @@ export type CreateThesaurusError =
  * custom synonyms to an index.
  */
 export const createThesaurus: API.OperationMethod<
-  CreateThesaurusRequest,
+  CreateThesaurusRequest & RegionInput,
   CreateThesaurusResponse,
   CreateThesaurusError,
   Credentials | HttpClient.HttpClient
@@ -2934,6 +2979,8 @@ export const createThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThesaurus",
+  telemetry: TELEMETRY,
+  span: "CreateThesaurus",
 }));
 
 export type DeleteAccessControlConfigurationError =
@@ -2951,7 +2998,7 @@ export type DeleteAccessControlConfigurationError =
  * or their group access to documents.
  */
 export const deleteAccessControlConfiguration: API.OperationMethod<
-  DeleteAccessControlConfigurationRequest,
+  DeleteAccessControlConfigurationRequest & RegionInput,
   DeleteAccessControlConfigurationResponse,
   DeleteAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2969,6 +3016,8 @@ export const deleteAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessControlConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessControlConfiguration",
 }));
 
 export type DeleteDataSourceError =
@@ -2990,7 +3039,7 @@ export type DeleteDataSourceError =
  * want to delete.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3008,6 +3057,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteExperienceError =
@@ -3024,7 +3075,7 @@ export type DeleteExperienceError =
  * experience with no code.
  */
 export const deleteExperience: API.OperationMethod<
-  DeleteExperienceRequest,
+  DeleteExperienceRequest & RegionInput,
   DeleteExperienceResponse,
   DeleteExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3042,6 +3093,8 @@ export const deleteExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperience",
+  telemetry: TELEMETRY,
+  span: "DeleteExperience",
 }));
 
 export type DeleteFaqError =
@@ -3056,7 +3109,7 @@ export type DeleteFaqError =
  * Removes a FAQ from an index.
  */
 export const deleteFaq: API.OperationMethod<
-  DeleteFaqRequest,
+  DeleteFaqRequest & RegionInput,
   DeleteFaqResponse,
   DeleteFaqError,
   Credentials | HttpClient.HttpClient
@@ -3074,6 +3127,8 @@ export const deleteFaq: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFaq",
+  telemetry: TELEMETRY,
+  span: "DeleteFaq",
 }));
 
 export type DeleteIndexError =
@@ -3090,7 +3145,7 @@ export type DeleteIndexError =
  * call to the `DescribeIndex` API is set to `DELETING`.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -3108,6 +3163,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeletePrincipalMappingError =
@@ -3136,7 +3193,7 @@ export type DeletePrincipalMappingError =
  * `DeletePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
 export const deletePrincipalMapping: API.OperationMethod<
-  DeletePrincipalMappingRequest,
+  DeletePrincipalMappingRequest & RegionInput,
   DeletePrincipalMappingResponse,
   DeletePrincipalMappingError,
   Credentials | HttpClient.HttpClient
@@ -3154,6 +3211,8 @@ export const deletePrincipalMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrincipalMapping",
+  telemetry: TELEMETRY,
+  span: "DeletePrincipalMapping",
 }));
 
 export type DeleteQuerySuggestionsBlockListError =
@@ -3175,7 +3234,7 @@ export type DeleteQuerySuggestionsBlockListError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const deleteQuerySuggestionsBlockList: API.OperationMethod<
-  DeleteQuerySuggestionsBlockListRequest,
+  DeleteQuerySuggestionsBlockListRequest & RegionInput,
   DeleteQuerySuggestionsBlockListResponse,
   DeleteQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -3193,6 +3252,8 @@ export const deleteQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuerySuggestionsBlockList",
+  telemetry: TELEMETRY,
+  span: "DeleteQuerySuggestionsBlockList",
 }));
 
 export type DeleteThesaurusError =
@@ -3207,7 +3268,7 @@ export type DeleteThesaurusError =
  * Deletes an Amazon Kendra thesaurus.
  */
 export const deleteThesaurus: API.OperationMethod<
-  DeleteThesaurusRequest,
+  DeleteThesaurusRequest & RegionInput,
   DeleteThesaurusResponse,
   DeleteThesaurusError,
   Credentials | HttpClient.HttpClient
@@ -3225,6 +3286,8 @@ export const deleteThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThesaurus",
+  telemetry: TELEMETRY,
+  span: "DeleteThesaurus",
 }));
 
 export type DescribeAccessControlConfigurationError =
@@ -3241,7 +3304,7 @@ export type DescribeAccessControlConfigurationError =
  * based on the user or their group access to documents.
  */
 export const describeAccessControlConfiguration: API.OperationMethod<
-  DescribeAccessControlConfigurationRequest,
+  DescribeAccessControlConfigurationRequest & RegionInput,
   DescribeAccessControlConfigurationResponse,
   DescribeAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3258,6 +3321,8 @@ export const describeAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccessControlConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeAccessControlConfiguration",
 }));
 
 export type DescribeDataSourceError =
@@ -3271,7 +3336,7 @@ export type DescribeDataSourceError =
  * Gets information about an Amazon Kendra data source connector.
  */
 export const describeDataSource: API.OperationMethod<
-  DescribeDataSourceRequest,
+  DescribeDataSourceRequest & RegionInput,
   DescribeDataSourceResponse,
   DescribeDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3288,6 +3353,8 @@ export const describeDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSource",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSource",
 }));
 
 export type DescribeExperienceError =
@@ -3304,7 +3371,7 @@ export type DescribeExperienceError =
  * a search experience with no code.
  */
 export const describeExperience: API.OperationMethod<
-  DescribeExperienceRequest,
+  DescribeExperienceRequest & RegionInput,
   DescribeExperienceResponse,
   DescribeExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3321,6 +3388,8 @@ export const describeExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExperience",
+  telemetry: TELEMETRY,
+  span: "DescribeExperience",
 }));
 
 export type DescribeFaqError =
@@ -3334,7 +3403,7 @@ export type DescribeFaqError =
  * Gets information about a FAQ.
  */
 export const describeFaq: API.OperationMethod<
-  DescribeFaqRequest,
+  DescribeFaqRequest & RegionInput,
   DescribeFaqResponse,
   DescribeFaqError,
   Credentials | HttpClient.HttpClient
@@ -3351,6 +3420,8 @@ export const describeFaq: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFaq",
+  telemetry: TELEMETRY,
+  span: "DescribeFaq",
 }));
 
 export type DescribeFeaturedResultsSetError =
@@ -3366,7 +3437,7 @@ export type DescribeFeaturedResultsSetError =
  * then one or more specific documents are featured in the search results.
  */
 export const describeFeaturedResultsSet: API.OperationMethod<
-  DescribeFeaturedResultsSetRequest,
+  DescribeFeaturedResultsSetRequest & RegionInput,
   DescribeFeaturedResultsSetResponse,
   DescribeFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -3383,6 +3454,8 @@ export const describeFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeaturedResultsSet",
+  telemetry: TELEMETRY,
+  span: "DescribeFeaturedResultsSet",
 }));
 
 export type DescribeIndexError =
@@ -3396,7 +3469,7 @@ export type DescribeIndexError =
  * Gets information about an Amazon Kendra index.
  */
 export const describeIndex: API.OperationMethod<
-  DescribeIndexRequest,
+  DescribeIndexRequest & RegionInput,
   DescribeIndexResponse,
   DescribeIndexError,
   Credentials | HttpClient.HttpClient
@@ -3413,6 +3486,8 @@ export const describeIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndex",
+  telemetry: TELEMETRY,
+  span: "DescribeIndex",
 }));
 
 export type DescribePrincipalMappingError =
@@ -3433,7 +3508,7 @@ export type DescribePrincipalMappingError =
  * `DescribePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
 export const describePrincipalMapping: API.OperationMethod<
-  DescribePrincipalMappingRequest,
+  DescribePrincipalMappingRequest & RegionInput,
   DescribePrincipalMappingResponse,
   DescribePrincipalMappingError,
   Credentials | HttpClient.HttpClient
@@ -3450,6 +3525,8 @@ export const describePrincipalMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrincipalMapping",
+  telemetry: TELEMETRY,
+  span: "DescribePrincipalMapping",
 }));
 
 export type DescribeQuerySuggestionsBlockListError =
@@ -3470,7 +3547,7 @@ export type DescribeQuerySuggestionsBlockListError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const describeQuerySuggestionsBlockList: API.OperationMethod<
-  DescribeQuerySuggestionsBlockListRequest,
+  DescribeQuerySuggestionsBlockListRequest & RegionInput,
   DescribeQuerySuggestionsBlockListResponse,
   DescribeQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -3487,6 +3564,8 @@ export const describeQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuerySuggestionsBlockList",
+  telemetry: TELEMETRY,
+  span: "DescribeQuerySuggestionsBlockList",
 }));
 
 export type DescribeQuerySuggestionsConfigError =
@@ -3506,7 +3585,7 @@ export type DescribeQuerySuggestionsConfigError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const describeQuerySuggestionsConfig: API.OperationMethod<
-  DescribeQuerySuggestionsConfigRequest,
+  DescribeQuerySuggestionsConfigRequest & RegionInput,
   DescribeQuerySuggestionsConfigResponse,
   DescribeQuerySuggestionsConfigError,
   Credentials | HttpClient.HttpClient
@@ -3523,6 +3602,8 @@ export const describeQuerySuggestionsConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuerySuggestionsConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeQuerySuggestionsConfig",
 }));
 
 export type DescribeThesaurusError =
@@ -3536,7 +3617,7 @@ export type DescribeThesaurusError =
  * Gets information about an Amazon Kendra thesaurus.
  */
 export const describeThesaurus: API.OperationMethod<
-  DescribeThesaurusRequest,
+  DescribeThesaurusRequest & RegionInput,
   DescribeThesaurusResponse,
   DescribeThesaurusError,
   Credentials | HttpClient.HttpClient
@@ -3553,6 +3634,8 @@ export const describeThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThesaurus",
+  telemetry: TELEMETRY,
+  span: "DescribeThesaurus",
 }));
 
 export type DisassociateEntitiesFromExperienceError =
@@ -3570,7 +3653,7 @@ export type DisassociateEntitiesFromExperienceError =
  * a search experience with no code.
  */
 export const disassociateEntitiesFromExperience: API.OperationMethod<
-  DisassociateEntitiesFromExperienceRequest,
+  DisassociateEntitiesFromExperienceRequest & RegionInput,
   DisassociateEntitiesFromExperienceResponse,
   DisassociateEntitiesFromExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3587,6 +3670,8 @@ export const disassociateEntitiesFromExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEntitiesFromExperience",
+  telemetry: TELEMETRY,
+  span: "DisassociateEntitiesFromExperience",
 }));
 
 export type DisassociatePersonasFromEntitiesError =
@@ -3604,7 +3689,7 @@ export type DisassociatePersonasFromEntitiesError =
  * search experience with no code.
  */
 export const disassociatePersonasFromEntities: API.OperationMethod<
-  DisassociatePersonasFromEntitiesRequest,
+  DisassociatePersonasFromEntitiesRequest & RegionInput,
   DisassociatePersonasFromEntitiesResponse,
   DisassociatePersonasFromEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -3621,6 +3706,8 @@ export const disassociatePersonasFromEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePersonasFromEntities",
+  telemetry: TELEMETRY,
+  span: "DisassociatePersonasFromEntities",
 }));
 
 export type GetQuerySuggestionsError =
@@ -3639,7 +3726,7 @@ export type GetQuerySuggestionsError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const getQuerySuggestions: API.OperationMethod<
-  GetQuerySuggestionsRequest,
+  GetQuerySuggestionsRequest & RegionInput,
   GetQuerySuggestionsResponse,
   GetQuerySuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -3658,6 +3745,8 @@ export const getQuerySuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuerySuggestions",
+  telemetry: TELEMETRY,
+  span: "GetQuerySuggestions",
 }));
 
 export type GetSnapshotsError =
@@ -3671,7 +3760,7 @@ export type GetSnapshotsError =
  * with your search application and how effective the application is.
  */
 export const getSnapshots: API.PaginatedOperationMethod<
-  GetSnapshotsRequest,
+  GetSnapshotsRequest & RegionInput,
   GetSnapshotsResponse,
   GetSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -3693,6 +3782,8 @@ export const getSnapshots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSnapshots",
 })) as any;
 
 export type ListAccessControlConfigurationsError =
@@ -3709,7 +3800,7 @@ export type ListAccessControlConfigurationsError =
  * documents.
  */
 export const listAccessControlConfigurations: API.PaginatedOperationMethod<
-  ListAccessControlConfigurationsRequest,
+  ListAccessControlConfigurationsRequest & RegionInput,
   ListAccessControlConfigurationsResponse,
   ListAccessControlConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3732,6 +3823,8 @@ export const listAccessControlConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessControlConfigurations",
 })) as any;
 
 export type ListDataSourcesError =
@@ -3745,7 +3838,7 @@ export type ListDataSourcesError =
  * Lists the data source connectors that you have created.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3768,6 +3861,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 })) as any;
 
 export type ListDataSourceSyncJobsError =
@@ -3782,7 +3877,7 @@ export type ListDataSourceSyncJobsError =
  * Gets statistics about synchronizing a data source connector.
  */
 export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
-  ListDataSourceSyncJobsRequest,
+  ListDataSourceSyncJobsRequest & RegionInput,
   ListDataSourceSyncJobsResponse,
   ListDataSourceSyncJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3806,6 +3901,8 @@ export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSourceSyncJobs",
 })) as any;
 
 export type ListEntityPersonasError =
@@ -3820,7 +3917,7 @@ export type ListEntityPersonasError =
  * Amazon Kendra experience.
  */
 export const listEntityPersonas: API.PaginatedOperationMethod<
-  ListEntityPersonasRequest,
+  ListEntityPersonasRequest & RegionInput,
   ListEntityPersonasResponse,
   ListEntityPersonasError,
   Credentials | HttpClient.HttpClient,
@@ -3843,6 +3940,8 @@ export const listEntityPersonas: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntityPersonas",
 })) as any;
 
 export type ListExperienceEntitiesError =
@@ -3860,7 +3959,7 @@ export type ListExperienceEntitiesError =
  * a search experience with no code.
  */
 export const listExperienceEntities: API.PaginatedOperationMethod<
-  ListExperienceEntitiesRequest,
+  ListExperienceEntitiesRequest & RegionInput,
   ListExperienceEntitiesResponse,
   ListExperienceEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3879,6 +3978,8 @@ export const listExperienceEntities: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListExperienceEntities",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperienceEntities",
 })) as any;
 
 export type ListExperiencesError =
@@ -3895,7 +3996,7 @@ export type ListExperiencesError =
  * search experience with no code.
  */
 export const listExperiences: API.PaginatedOperationMethod<
-  ListExperiencesRequest,
+  ListExperiencesRequest & RegionInput,
   ListExperiencesResponse,
   ListExperiencesError,
   Credentials | HttpClient.HttpClient,
@@ -3918,6 +4019,8 @@ export const listExperiences: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperiences",
 })) as any;
 
 export type ListFaqsError =
@@ -3931,7 +4034,7 @@ export type ListFaqsError =
  * Gets a list of FAQs associated with an index.
  */
 export const listFaqs: API.PaginatedOperationMethod<
-  ListFaqsRequest,
+  ListFaqsRequest & RegionInput,
   ListFaqsResponse,
   ListFaqsError,
   Credentials | HttpClient.HttpClient,
@@ -3954,6 +4057,8 @@ export const listFaqs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFaqs",
 })) as any;
 
 export type ListFeaturedResultsSetsError =
@@ -3969,7 +4074,7 @@ export type ListFeaturedResultsSetsError =
  * of a query, then one or more specific documents are featured in the search results.
  */
 export const listFeaturedResultsSets: API.OperationMethod<
-  ListFeaturedResultsSetsRequest,
+  ListFeaturedResultsSetsRequest & RegionInput,
   ListFeaturedResultsSetsResponse,
   ListFeaturedResultsSetsError,
   Credentials | HttpClient.HttpClient
@@ -3986,6 +4091,8 @@ export const listFeaturedResultsSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFeaturedResultsSets",
+  telemetry: TELEMETRY,
+  span: "ListFeaturedResultsSets",
 }));
 
 export type ListGroupsOlderThanOrderingIdError =
@@ -4003,7 +4110,7 @@ export type ListGroupsOlderThanOrderingIdError =
  * `ListGroupsOlderThanOrderingId` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
 export const listGroupsOlderThanOrderingId: API.PaginatedOperationMethod<
-  ListGroupsOlderThanOrderingIdRequest,
+  ListGroupsOlderThanOrderingIdRequest & RegionInput,
   ListGroupsOlderThanOrderingIdResponse,
   ListGroupsOlderThanOrderingIdError,
   Credentials | HttpClient.HttpClient,
@@ -4027,6 +4134,8 @@ export const listGroupsOlderThanOrderingId: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupsOlderThanOrderingId",
 })) as any;
 
 export type ListIndicesError =
@@ -4039,7 +4148,7 @@ export type ListIndicesError =
  * Lists the Amazon Kendra indexes that you created.
  */
 export const listIndices: API.PaginatedOperationMethod<
-  ListIndicesRequest,
+  ListIndicesRequest & RegionInput,
   ListIndicesResponse,
   ListIndicesError,
   Credentials | HttpClient.HttpClient,
@@ -4061,6 +4170,8 @@ export const listIndices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndices",
 })) as any;
 
 export type ListQuerySuggestionsBlockListsError =
@@ -4081,7 +4192,7 @@ export type ListQuerySuggestionsBlockListsError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const listQuerySuggestionsBlockLists: API.PaginatedOperationMethod<
-  ListQuerySuggestionsBlockListsRequest,
+  ListQuerySuggestionsBlockListsRequest & RegionInput,
   ListQuerySuggestionsBlockListsResponse,
   ListQuerySuggestionsBlockListsError,
   Credentials | HttpClient.HttpClient,
@@ -4104,6 +4215,8 @@ export const listQuerySuggestionsBlockLists: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQuerySuggestionsBlockLists",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4119,7 +4232,7 @@ export type ListTagsForResourceError =
  * other resources can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4137,6 +4250,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListThesauriError =
@@ -4150,7 +4265,7 @@ export type ListThesauriError =
  * Lists the thesauri for an index.
  */
 export const listThesauri: API.PaginatedOperationMethod<
-  ListThesauriRequest,
+  ListThesauriRequest & RegionInput,
   ListThesauriResponse,
   ListThesauriError,
   Credentials | HttpClient.HttpClient,
@@ -4173,6 +4288,8 @@ export const listThesauri: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThesauri",
 })) as any;
 
 export type PutPrincipalMappingError =
@@ -4202,7 +4319,7 @@ export type PutPrincipalMappingError =
  * validation exception is thrown.
  */
 export const putPrincipalMapping: API.OperationMethod<
-  PutPrincipalMappingRequest,
+  PutPrincipalMappingRequest & RegionInput,
   PutPrincipalMappingResponse,
   PutPrincipalMappingError,
   Credentials | HttpClient.HttpClient
@@ -4221,6 +4338,8 @@ export const putPrincipalMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPrincipalMapping",
+  telemetry: TELEMETRY,
+  span: "PutPrincipalMapping",
 }));
 
 export type QueryError =
@@ -4268,7 +4387,7 @@ export type QueryError =
  * `ValidationException` error.
  */
 export const query: API.OperationMethod<
-  QueryRequest,
+  QueryRequest & RegionInput,
   QueryResult,
   QueryError,
   Credentials | HttpClient.HttpClient
@@ -4287,6 +4406,8 @@ export const query: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Query",
+  telemetry: TELEMETRY,
+  span: "Query",
 }));
 
 export type RetrieveError =
@@ -4340,7 +4461,7 @@ export type RetrieveError =
  * `ValidationException` error.
  */
 export const retrieve: API.OperationMethod<
-  RetrieveRequest,
+  RetrieveRequest & RegionInput,
   RetrieveResult,
   RetrieveError,
   Credentials | HttpClient.HttpClient
@@ -4359,6 +4480,8 @@ export const retrieve: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Retrieve",
+  telemetry: TELEMETRY,
+  span: "Retrieve",
 }));
 
 export type StartDataSourceSyncJobError =
@@ -4380,7 +4503,7 @@ export type StartDataSourceSyncJobError =
  * the number of documents to sync.
  */
 export const startDataSourceSyncJob: API.OperationMethod<
-  StartDataSourceSyncJobRequest,
+  StartDataSourceSyncJobRequest & RegionInput,
   StartDataSourceSyncJobResponse,
   StartDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4399,6 +4522,8 @@ export const startDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceSyncJob",
+  telemetry: TELEMETRY,
+  span: "StartDataSourceSyncJob",
 }));
 
 export type StopDataSourceSyncJobError =
@@ -4413,7 +4538,7 @@ export type StopDataSourceSyncJobError =
  * synchronization job.
  */
 export const stopDataSourceSyncJob: API.OperationMethod<
-  StopDataSourceSyncJobRequest,
+  StopDataSourceSyncJobRequest & RegionInput,
   StopDataSourceSyncJobResponse,
   StopDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4430,6 +4555,8 @@ export const stopDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataSourceSyncJob",
+  telemetry: TELEMETRY,
+  span: "StopDataSourceSyncJob",
 }));
 
 export type SubmitFeedbackError =
@@ -4448,7 +4575,7 @@ export type SubmitFeedbackError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const submitFeedback: API.OperationMethod<
-  SubmitFeedbackRequest,
+  SubmitFeedbackRequest & RegionInput,
   SubmitFeedbackResponse,
   SubmitFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4466,6 +4593,8 @@ export const submitFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitFeedback",
+  telemetry: TELEMETRY,
+  span: "SubmitFeedback",
 }));
 
 export type TagResourceError =
@@ -4480,7 +4609,7 @@ export type TagResourceError =
  * the tag already exists, the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4497,6 +4626,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4510,7 +4641,7 @@ export type UntagResourceError =
  * Removes a tag from an index, FAQ, data source, or other resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4527,6 +4658,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessControlConfigurationError =
@@ -4567,7 +4700,7 @@ export type UpdateAccessControlConfigurationError =
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
 export const updateAccessControlConfiguration: API.OperationMethod<
-  UpdateAccessControlConfigurationRequest,
+  UpdateAccessControlConfigurationRequest & RegionInput,
   UpdateAccessControlConfigurationResponse,
   UpdateAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4586,6 +4719,8 @@ export const updateAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessControlConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessControlConfiguration",
 }));
 
 export type UpdateDataSourceError =
@@ -4600,7 +4735,7 @@ export type UpdateDataSourceError =
  * Updates an Amazon Kendra data source connector.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4618,6 +4753,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateExperienceError =
@@ -4634,7 +4771,7 @@ export type UpdateExperienceError =
  * search experience with no code.
  */
 export const updateExperience: API.OperationMethod<
-  UpdateExperienceRequest,
+  UpdateExperienceRequest & RegionInput,
   UpdateExperienceResponse,
   UpdateExperienceError,
   Credentials | HttpClient.HttpClient
@@ -4652,6 +4789,8 @@ export const updateExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperience",
+  telemetry: TELEMETRY,
+  span: "UpdateExperience",
 }));
 
 export type UpdateFeaturedResultsSetError =
@@ -4670,7 +4809,7 @@ export type UpdateFeaturedResultsSetError =
  * or more specific documents are featured in the search results.
  */
 export const updateFeaturedResultsSet: API.OperationMethod<
-  UpdateFeaturedResultsSetRequest,
+  UpdateFeaturedResultsSetRequest & RegionInput,
   UpdateFeaturedResultsSetResponse,
   UpdateFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -4688,6 +4827,8 @@ export const updateFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeaturedResultsSet",
+  telemetry: TELEMETRY,
+  span: "UpdateFeaturedResultsSet",
 }));
 
 export type UpdateIndexError =
@@ -4703,7 +4844,7 @@ export type UpdateIndexError =
  * Updates an Amazon Kendra index.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -4722,6 +4863,8 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdateQuerySuggestionsBlockListError =
@@ -4749,7 +4892,7 @@ export type UpdateQuerySuggestionsBlockListError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const updateQuerySuggestionsBlockList: API.OperationMethod<
-  UpdateQuerySuggestionsBlockListRequest,
+  UpdateQuerySuggestionsBlockListRequest & RegionInput,
   UpdateQuerySuggestionsBlockListResponse,
   UpdateQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -4767,6 +4910,8 @@ export const updateQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuerySuggestionsBlockList",
+  telemetry: TELEMETRY,
+  span: "UpdateQuerySuggestionsBlockList",
 }));
 
 export type UpdateQuerySuggestionsConfigError =
@@ -4796,7 +4941,7 @@ export type UpdateQuerySuggestionsConfigError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const updateQuerySuggestionsConfig: API.OperationMethod<
-  UpdateQuerySuggestionsConfigRequest,
+  UpdateQuerySuggestionsConfigRequest & RegionInput,
   UpdateQuerySuggestionsConfigResponse,
   UpdateQuerySuggestionsConfigError,
   Credentials | HttpClient.HttpClient
@@ -4814,6 +4959,8 @@ export const updateQuerySuggestionsConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuerySuggestionsConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateQuerySuggestionsConfig",
 }));
 
 export type UpdateThesaurusError =
@@ -4828,7 +4975,7 @@ export type UpdateThesaurusError =
  * Updates a thesaurus for an index.
  */
 export const updateThesaurus: API.OperationMethod<
-  UpdateThesaurusRequest,
+  UpdateThesaurusRequest & RegionInput,
   UpdateThesaurusResponse,
   UpdateThesaurusError,
   Credentials | HttpClient.HttpClient
@@ -4846,6 +4993,8 @@ export const updateThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThesaurus",
+  telemetry: TELEMETRY,
+  span: "UpdateThesaurus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

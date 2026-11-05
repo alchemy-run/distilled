@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Vps",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface AbortVpsSnapshotRequest {
   /** Service name */
   serviceName: string;
@@ -1815,6 +1829,8 @@ export const abortVpsSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AbortVpsSnapshot",
 }));
 
 export type ConfirmVpsTerminationError = OvhOpError;
@@ -1830,6 +1846,8 @@ export const confirmVpsTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmVpsTermination",
 }));
 
 export type CreateVpsAutomatedBackupRescheduleError = OvhOpError;
@@ -1845,6 +1863,8 @@ export const createVpsAutomatedBackupReschedule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsAutomatedBackupReschedule",
 }));
 
 export type CreateVpsBackupftpAccessError = OvhOpError;
@@ -1860,6 +1880,8 @@ export const createVpsBackupftpAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsBackupftpAccess",
 }));
 
 export type CreateVpsBackupftpPasswordError = OvhOpError;
@@ -1875,6 +1897,8 @@ export const createVpsBackupftpPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsBackupftpPassword",
 }));
 
 export type CreateVpsChangeContactError = OvhOpError;
@@ -1890,6 +1914,8 @@ export const createVpsChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsChangeContact",
 }));
 
 export type CreateVpsMigration2018Error = OvhOpError;
@@ -1905,6 +1931,8 @@ export const createVpsMigration2018: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsMigration2018",
 }));
 
 export type CreateVpsOpenConsoleAccessError = OvhOpError;
@@ -1920,6 +1948,8 @@ export const createVpsOpenConsoleAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsOpenConsoleAccess",
 }));
 
 export type CreateVpsReinstallError = OvhOpError;
@@ -1935,6 +1965,8 @@ export const createVpsReinstall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsReinstall",
 }));
 
 export type CreateVpsSecondaryDnsDomainError = OvhOpError;
@@ -1950,6 +1982,8 @@ export const createVpsSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsSecondaryDnsDomain",
 }));
 
 export type CreateVpsSnapshotError = OvhOpError;
@@ -1965,6 +1999,8 @@ export const createVpsSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsSnapshot",
 }));
 
 export type CreateVpsSnapshotRevertError = OvhOpError;
@@ -1980,6 +2016,8 @@ export const createVpsSnapshotRevert: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpsSnapshotRevert",
 }));
 
 export type DeleteVpsBackupftpAccessError = OvhOpError;
@@ -1995,6 +2033,8 @@ export const deleteVpsBackupftpAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpsBackupftpAccess",
 }));
 
 export type DeleteVpsIpsError = OvhOpError;
@@ -2010,6 +2050,8 @@ export const deleteVpsIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpsIps",
 }));
 
 export type DeleteVpsSecondaryDnsDomainError = OvhOpError;
@@ -2025,6 +2067,8 @@ export const deleteVpsSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpsSecondaryDnsDomain",
 }));
 
 export type DeleteVpsSnapshotError = OvhOpError;
@@ -2040,6 +2084,8 @@ export const deleteVpsSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpsSnapshot",
 }));
 
 export type DeleteVpsVeeamRestoredBackupError = OvhOpError;
@@ -2055,6 +2101,8 @@ export const deleteVpsVeeamRestoredBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpsVeeamRestoredBackup",
 }));
 
 export type DetachVpsAutomatedBackupBackupError = OvhOpError;
@@ -2070,6 +2118,8 @@ export const detachVpsAutomatedBackupBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachVpsAutomatedBackupBackup",
 }));
 
 export type GetVpsError = OvhOpError;
@@ -2081,6 +2131,8 @@ export const getVps: API.OperationMethod<GetVpsRequest, VpsVPSWithIAM, GetVpsErr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetVps",
   }));
 
 export type GetVpsAutomatedBackupError = OvhOpError;
@@ -2096,6 +2148,8 @@ export const getVpsAutomatedBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsAutomatedBackup",
 }));
 
 export type GetVpsBackupftpError = OvhOpError;
@@ -2111,6 +2165,8 @@ export const getVpsBackupftp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsBackupftp",
 }));
 
 export type GetVpsBackupftpAccessError = OvhOpError;
@@ -2126,6 +2182,8 @@ export const getVpsBackupftpAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsBackupftpAccess",
 }));
 
 export type GetVpsConsoleUrlError = OvhOpError;
@@ -2141,6 +2199,8 @@ export const getVpsConsoleUrl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsConsoleUrl",
 }));
 
 export type GetVpsDatacenterError = OvhOpError;
@@ -2156,6 +2216,8 @@ export const getVpsDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsDatacenter",
 }));
 
 export type GetVpsDiskError = OvhOpError;
@@ -2171,6 +2233,8 @@ export const getVpsDisk: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsDisk",
 }));
 
 export type GetVpsDiskUseError = OvhOpError;
@@ -2186,6 +2250,8 @@ export const getVpsDiskUse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsDiskUse",
 }));
 
 export type GetVpsDistributionError = OvhOpError;
@@ -2201,6 +2267,8 @@ export const getVpsDistribution: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsDistribution",
 }));
 
 export type GetVpsDistributionSoftwareError = OvhOpError;
@@ -2216,6 +2284,8 @@ export const getVpsDistributionSoftware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsDistributionSoftware",
 }));
 
 export type GetVpsImageAvailableError = OvhOpError;
@@ -2231,6 +2301,8 @@ export const getVpsImageAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsImageAvailable",
 }));
 
 export type GetVpsImageCurrentError = OvhOpError;
@@ -2246,6 +2318,8 @@ export const getVpsImageCurrent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsImageCurrent",
 }));
 
 export type GetVpsIpsError = OvhOpError;
@@ -2257,6 +2331,8 @@ export const getVpsIps: API.OperationMethod<GetVpsIpsRequest, VpsIp, GetVpsIpsEr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetVpsIps",
   }));
 
 export type GetVpsOptionError = OvhOpError;
@@ -2272,6 +2348,8 @@ export const getVpsOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsOption",
 }));
 
 export type GetVpsSecondaryDnsDomainError = OvhOpError;
@@ -2287,6 +2365,8 @@ export const getVpsSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsSecondaryDnsDomain",
 }));
 
 export type GetVpsSecondaryDnsDomainDnsServerError = OvhOpError;
@@ -2302,6 +2382,8 @@ export const getVpsSecondaryDnsDomainDnsServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsSecondaryDnsDomainDnsServer",
 }));
 
 export type GetVpsSecondaryDnsNameServerAvailableError = OvhOpError;
@@ -2317,6 +2399,8 @@ export const getVpsSecondaryDnsNameServerAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsSecondaryDnsNameServerAvailable",
 }));
 
 export type GetVpsServiceInfosError = OvhOpError;
@@ -2332,6 +2416,8 @@ export const getVpsServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsServiceInfos",
 }));
 
 export type GetVpsSnapshotError = OvhOpError;
@@ -2347,6 +2433,8 @@ export const getVpsSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsSnapshot",
 }));
 
 export type GetVpsSnapshotDownloadError = OvhOpError;
@@ -2362,6 +2450,8 @@ export const getVpsSnapshotDownload: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsSnapshotDownload",
 }));
 
 export type GetVpsStatusError = OvhOpError;
@@ -2377,6 +2467,8 @@ export const getVpsStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsStatus",
 }));
 
 export type GetVpsTaskError = OvhOpError;
@@ -2392,6 +2484,8 @@ export const getVpsTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsTask",
 }));
 
 export type GetVpsTemplateError = OvhOpError;
@@ -2407,6 +2501,8 @@ export const getVpsTemplate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsTemplate",
 }));
 
 export type GetVpsTemplateSoftwareError = OvhOpError;
@@ -2422,6 +2518,8 @@ export const getVpsTemplateSoftware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsTemplateSoftware",
 }));
 
 export type GetVpsVeeamError = OvhOpError;
@@ -2437,6 +2535,8 @@ export const getVpsVeeam: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsVeeam",
 }));
 
 export type GetVpsVeeamRestoredBackupError = OvhOpError;
@@ -2452,6 +2552,8 @@ export const getVpsVeeamRestoredBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsVeeamRestoredBackup",
 }));
 
 export type GetVpsVeeamRestorePointError = OvhOpError;
@@ -2467,6 +2569,8 @@ export const getVpsVeeamRestorePoint: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsVeeamRestorePoint",
 }));
 
 export type GetVpsVersionError = OvhOpError;
@@ -2482,6 +2586,8 @@ export const getVpsVersion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpsVersion",
 }));
 
 export type ListVpsError = OvhOpError;
@@ -2497,6 +2603,8 @@ export const listVps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVps",
 }));
 
 export type ListVpsAutomatedBackupAttachedBackupError = OvhOpError;
@@ -2512,6 +2620,8 @@ export const listVpsAutomatedBackupAttachedBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsAutomatedBackupAttachedBackup",
 }));
 
 export type ListVpsAutomatedBackupRestorePointsError = OvhOpError;
@@ -2527,6 +2637,8 @@ export const listVpsAutomatedBackupRestorePoints: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsAutomatedBackupRestorePoints",
 }));
 
 export type ListVpsAvailableUpgradeError = OvhOpError;
@@ -2542,6 +2654,8 @@ export const listVpsAvailableUpgrade: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsAvailableUpgrade",
 }));
 
 export type ListVpsBackupftpAccessError = OvhOpError;
@@ -2557,6 +2671,8 @@ export const listVpsBackupftpAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsBackupftpAccess",
 }));
 
 export type ListVpsBackupftpAuthorizableBlocksError = OvhOpError;
@@ -2572,6 +2688,8 @@ export const listVpsBackupftpAuthorizableBlocks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsBackupftpAuthorizableBlocks",
 }));
 
 export type ListVpsDatacenterError = OvhOpError;
@@ -2587,6 +2705,8 @@ export const listVpsDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsDatacenter",
 }));
 
 export type ListVpsDiskMonitoringError = OvhOpError;
@@ -2602,6 +2722,8 @@ export const listVpsDiskMonitoring: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsDiskMonitoring",
 }));
 
 export type ListVpsDisksError = OvhOpError;
@@ -2617,6 +2739,8 @@ export const listVpsDisks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsDisks",
 }));
 
 export type ListVpsDistributionSoftwareError = OvhOpError;
@@ -2632,6 +2756,8 @@ export const listVpsDistributionSoftware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsDistributionSoftware",
 }));
 
 export type ListVpsImageAvailableError = OvhOpError;
@@ -2647,6 +2773,8 @@ export const listVpsImageAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsImageAvailable",
 }));
 
 export type ListVpsIpCountryAvailableError = OvhOpError;
@@ -2662,6 +2790,8 @@ export const listVpsIpCountryAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsIpCountryAvailable",
 }));
 
 export type ListVpsIpsError = OvhOpError;
@@ -2677,6 +2807,8 @@ export const listVpsIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsIps",
 }));
 
 export type ListVpsMigration2018Error = OvhOpError;
@@ -2692,6 +2824,8 @@ export const listVpsMigration2018: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsMigration2018",
 }));
 
 export type ListVpsModelsError = OvhOpError;
@@ -2707,6 +2841,8 @@ export const listVpsModels: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsModels",
 }));
 
 export type ListVpsOptionError = OvhOpError;
@@ -2722,6 +2858,8 @@ export const listVpsOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsOption",
 }));
 
 export type ListVpsOrderRuleDatacenterError = OvhOpError;
@@ -2737,6 +2875,8 @@ export const listVpsOrderRuleDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsOrderRuleDatacenter",
 }));
 
 export type ListVpsOrderRuleOsChoicesError = OvhOpError;
@@ -2752,6 +2892,8 @@ export const listVpsOrderRuleOsChoices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsOrderRuleOsChoices",
 }));
 
 export type ListVpsSecondaryDnsDomainsError = OvhOpError;
@@ -2767,6 +2909,8 @@ export const listVpsSecondaryDnsDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsSecondaryDnsDomains",
 }));
 
 export type ListVpsTasksError = OvhOpError;
@@ -2782,6 +2926,8 @@ export const listVpsTasks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsTasks",
 }));
 
 export type ListVpsTemplatesError = OvhOpError;
@@ -2797,6 +2943,8 @@ export const listVpsTemplates: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsTemplates",
 }));
 
 export type ListVpsTemplateSoftwareError = OvhOpError;
@@ -2812,6 +2960,8 @@ export const listVpsTemplateSoftware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsTemplateSoftware",
 }));
 
 export type ListVpsVeeamRestorePointsError = OvhOpError;
@@ -2827,6 +2977,8 @@ export const listVpsVeeamRestorePoints: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpsVeeamRestorePoints",
 }));
 
 export type PutVpsError = OvhOpError;
@@ -2838,6 +2990,8 @@ export const putVps: API.OperationMethod<PutVpsRequest, PutVpsResponse, PutVpsEr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutVps",
   }));
 
 export type PutVpsBackupftpAccessError = OvhOpError;
@@ -2853,6 +3007,8 @@ export const putVpsBackupftpAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVpsBackupftpAccess",
 }));
 
 export type PutVpsDiskError = OvhOpError;
@@ -2868,6 +3024,8 @@ export const putVpsDisk: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVpsDisk",
 }));
 
 export type PutVpsIpsError = OvhOpError;
@@ -2883,6 +3041,8 @@ export const putVpsIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVpsIps",
 }));
 
 export type PutVpsSecondaryDnsDomainError = OvhOpError;
@@ -2898,6 +3058,8 @@ export const putVpsSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVpsSecondaryDnsDomain",
 }));
 
 export type PutVpsServiceInfosError = OvhOpError;
@@ -2913,6 +3075,8 @@ export const putVpsServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVpsServiceInfos",
 }));
 
 export type PutVpsSnapshotError = OvhOpError;
@@ -2928,6 +3092,8 @@ export const putVpsSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVpsSnapshot",
 }));
 
 export type RebootVpsError = OvhOpError;
@@ -2943,6 +3109,8 @@ export const rebootVps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebootVps",
 }));
 
 export type RebuildVpsError = OvhOpError;
@@ -2958,6 +3126,8 @@ export const rebuildVps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebuildVps",
 }));
 
 export type RestoreVpsAutomatedBackupError = OvhOpError;
@@ -2973,6 +3143,8 @@ export const restoreVpsAutomatedBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVpsAutomatedBackup",
 }));
 
 export type RestoreVpsVeeamRestorePointError = OvhOpError;
@@ -2988,6 +3160,8 @@ export const restoreVpsVeeamRestorePoint: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVpsVeeamRestorePoint",
 }));
 
 export type SetVpsPasswordError = OvhOpError;
@@ -3003,6 +3177,8 @@ export const setVpsPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetVpsPassword",
 }));
 
 export type StartVpsError = OvhOpError;
@@ -3014,6 +3190,8 @@ export const startVps: API.OperationMethod<StartVpsRequest, VpsTask, StartVpsErr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "StartVps",
   }));
 
 export type StopVpsError = OvhOpError;
@@ -3025,6 +3203,8 @@ export const stopVps: API.OperationMethod<StopVpsRequest, VpsTask, StopVpsError,
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "StopVps",
   }));
 
 export type TerminateVpsError = OvhOpError;
@@ -3040,6 +3220,8 @@ export const terminateVps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateVps",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

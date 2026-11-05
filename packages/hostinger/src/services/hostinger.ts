@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { HostingerOpError, HostingerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hostinger-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hostinger",
+  service: "Hostinger",
+  labels: "hostinger",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -7910,6 +7923,8 @@ export const activateHostingWordPressPluginV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateHostingWordPressPluginV1",
 }));
 
 export type ActivateHostingWordPressThemeV1Error = UnprocessableEntity | HostingerOpError;
@@ -7925,6 +7940,8 @@ export const activateHostingWordPressThemeV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateHostingWordPressThemeV1",
 }));
 
 export type ActivateVPSFirewallV1Error = UnprocessableEntity | HostingerOpError;
@@ -7940,6 +7957,8 @@ export const activateVPSFirewallV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateVPSFirewallV1",
 }));
 
 export type AgencyHostingBuildWebsiteNodeJSAssetsV1Error = UnprocessableEntity | HostingerOpError;
@@ -7955,6 +7974,8 @@ export const agencyHostingBuildWebsiteNodeJSAssetsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgencyHostingBuildWebsiteNodeJSAssetsV1",
 }));
 
 export type AgencyHostingChangeWebsiteDomainV1Error = UnprocessableEntity | HostingerOpError;
@@ -7970,6 +7991,8 @@ export const agencyHostingChangeWebsiteDomainV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgencyHostingChangeWebsiteDomainV1",
 }));
 
 export type AgencyHostingChangeWordPressVersionV1Error = UnprocessableEntity | HostingerOpError;
@@ -7985,6 +8008,8 @@ export const agencyHostingChangeWordPressVersionV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgencyHostingChangeWordPressVersionV1",
 }));
 
 export type AgencyHostingGenerateUploadURLV1Error = HostingerOpError;
@@ -8000,6 +8025,8 @@ export const agencyHostingGenerateUploadURLV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgencyHostingGenerateUploadURLV1",
 }));
 
 export type AgencyHostingImportWebsiteFromArchiveV1Error = UnprocessableEntity | HostingerOpError;
@@ -8015,6 +8042,8 @@ export const agencyHostingImportWebsiteFromArchiveV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgencyHostingImportWebsiteFromArchiveV1",
 }));
 
 export type AgencyHostingLinkDomainToWebsiteV1Error = UnprocessableEntity | HostingerOpError;
@@ -8030,6 +8059,8 @@ export const agencyHostingLinkDomainToWebsiteV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgencyHostingLinkDomainToWebsiteV1",
 }));
 
 export type AgencyHostingReinstallWebsiteSSLV1Error = UnprocessableEntity | HostingerOpError;
@@ -8045,6 +8076,8 @@ export const agencyHostingReinstallWebsiteSSLV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgencyHostingReinstallWebsiteSSLV1",
 }));
 
 export type AssignReachAContactToATagV1Error = HostingerOpError;
@@ -8060,6 +8093,8 @@ export const assignReachAContactToATagV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignReachAContactToATagV1",
 }));
 
 export type AssignReachContactsToATagV1Error = UnprocessableEntity | HostingerOpError;
@@ -8075,6 +8110,8 @@ export const assignReachContactsToATagV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignReachContactsToATagV1",
 }));
 
 export type AttachVPSPublicKeyV1Error = UnprocessableEntity | HostingerOpError;
@@ -8090,6 +8127,8 @@ export const attachVPSPublicKeyV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachVPSPublicKeyV1",
 }));
 
 export type BillingGetCatalogItemListV1Error = HostingerOpError;
@@ -8105,6 +8144,8 @@ export const billingGetCatalogItemListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingGetCatalogItemListV1",
 }));
 
 export type BillingGetPaymentMethodListV1Error = HostingerOpError;
@@ -8120,6 +8161,8 @@ export const billingGetPaymentMethodListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingGetPaymentMethodListV1",
 }));
 
 export type BillingGetSubscriptionListV1Error = HostingerOpError;
@@ -8135,6 +8178,8 @@ export const billingGetSubscriptionListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingGetSubscriptionListV1",
 }));
 
 export type CancelDomainPendingIRTPVerificationV1Error = HostingerOpError;
@@ -8150,6 +8195,8 @@ export const cancelDomainPendingIRTPVerificationV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDomainPendingIRTPVerificationV1",
 }));
 
 export type CancelEcommerceAnOrderV1Error = UnprocessableEntity | HostingerOpError;
@@ -8165,6 +8212,8 @@ export const cancelEcommerceAnOrderV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelEcommerceAnOrderV1",
 }));
 
 export type CheckDomainDomainAvailabilityV1Error = UnprocessableEntity | HostingerOpError;
@@ -8180,6 +8229,8 @@ export const checkDomainDomainAvailabilityV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDomainDomainAvailabilityV1",
 }));
 
 export type CheckHostingIfWooCommerceIsInstalledV1Error = HostingerOpError;
@@ -8195,6 +8246,8 @@ export const checkHostingIfWooCommerceIsInstalledV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckHostingIfWooCommerceIsInstalledV1",
 }));
 
 export type CheckHostingIfWordPressInstallationsAreValidV1Error =
@@ -8220,6 +8273,8 @@ export const checkHostingIfWordPressInstallationsAreValidV1: API.OperationMethod
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckHostingIfWordPressInstallationsAreValidV1",
 }));
 
 export type ClaimDomainFreeDomainTransferV1Error = UnprocessableEntity | HostingerOpError;
@@ -8235,6 +8290,8 @@ export const claimDomainFreeDomainTransferV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimDomainFreeDomainTransferV1",
 }));
 
 export type ClaimDomainFreeDomainV1Error = UnprocessableEntity | HostingerOpError;
@@ -8250,6 +8307,8 @@ export const claimDomainFreeDomainV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimDomainFreeDomainV1",
 }));
 
 export type ClearAgencyHostingWebsiteCacheV1Error = HostingerOpError;
@@ -8265,6 +8324,8 @@ export const clearAgencyHostingWebsiteCacheV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearAgencyHostingWebsiteCacheV1",
 }));
 
 export type ClearHostingNodeJsRuntimeLogsV1Error = HostingerOpError;
@@ -8280,6 +8341,8 @@ export const clearHostingNodeJsRuntimeLogsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearHostingNodeJsRuntimeLogsV1",
 }));
 
 export type ClearHostingWebsiteCacheV1Error = HostingerOpError;
@@ -8295,6 +8358,8 @@ export const clearHostingWebsiteCacheV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearHostingWebsiteCacheV1",
 }));
 
 export type CloneHorizonWebsiteV1Error = HostingerOpError;
@@ -8310,6 +8375,8 @@ export const cloneHorizonWebsiteV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneHorizonWebsiteV1",
 }));
 
 export type CompleteDomainDomainSetupV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -8325,6 +8392,8 @@ export const completeDomainDomainSetupV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteDomainDomainSetupV1",
 }));
 
 export type CreateAgencyHostingANewWebsiteV1Error = UnprocessableEntity | HostingerOpError;
@@ -8340,6 +8409,8 @@ export const createAgencyHostingANewWebsiteV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgencyHostingANewWebsiteV1",
 }));
 
 export type CreateAgencyHostingWebsiteCronJobV1Error = UnprocessableEntity | HostingerOpError;
@@ -8355,6 +8426,8 @@ export const createAgencyHostingWebsiteCronJobV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgencyHostingWebsiteCronJobV1",
 }));
 
 export type CreateAgencyHostingWebsiteDatabaseUserV1Error = UnprocessableEntity | HostingerOpError;
@@ -8374,6 +8447,8 @@ export const createAgencyHostingWebsiteDatabaseUserV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgencyHostingWebsiteDatabaseUserV1",
 }));
 
 export type CreateAgencyHostingWebsiteDatabaseV1Error = UnprocessableEntity | HostingerOpError;
@@ -8393,6 +8468,8 @@ export const createAgencyHostingWebsiteDatabaseV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgencyHostingWebsiteDatabaseV1",
 }));
 
 export type CreateBillingPurchaseOrderV1Error = UnprocessableEntity | HostingerOpError;
@@ -8408,6 +8485,8 @@ export const createBillingPurchaseOrderV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingPurchaseOrderV1",
 }));
 
 export type CreateDomainDomainForwardingV1Error = UnprocessableEntity | HostingerOpError;
@@ -8423,6 +8502,8 @@ export const createDomainDomainForwardingV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainDomainForwardingV1",
 }));
 
 export type CreateDomainWHOISProfileV1Error = UnprocessableEntity | HostingerOpError;
@@ -8438,6 +8519,8 @@ export const createDomainWHOISProfileV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainWHOISProfileV1",
 }));
 
 export type CreateEcommerceADiscountV1Error = UnprocessableEntity | HostingerOpError;
@@ -8453,6 +8536,8 @@ export const createEcommerceADiscountV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEcommerceADiscountV1",
 }));
 
 export type CreateEcommerceAProductVariantV1Error = UnprocessableEntity | HostingerOpError;
@@ -8468,6 +8553,8 @@ export const createEcommerceAProductVariantV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEcommerceAProductVariantV1",
 }));
 
 export type CreateEcommerceASalesChannelV1Error = UnprocessableEntity | HostingerOpError;
@@ -8487,6 +8574,8 @@ export const createEcommerceASalesChannelV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEcommerceASalesChannelV1",
 }));
 
 export type CreateEcommerceDigitalProductV1Error = UnprocessableEntity | HostingerOpError;
@@ -8502,6 +8591,8 @@ export const createEcommerceDigitalProductV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEcommerceDigitalProductV1",
 }));
 
 export type CreateEcommercePhysicalProductV1Error = UnprocessableEntity | HostingerOpError;
@@ -8517,6 +8608,8 @@ export const createEcommercePhysicalProductV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEcommercePhysicalProductV1",
 }));
 
 export type CreateEcommerceStoreV1Error = UnprocessableEntity | HostingerOpError;
@@ -8532,6 +8625,8 @@ export const createEcommerceStoreV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEcommerceStoreV1",
 }));
 
 export type CreateHorizonWebsiteV1Error = UnprocessableEntity | HostingerOpError;
@@ -8547,6 +8642,8 @@ export const createHorizonWebsiteV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHorizonWebsiteV1",
 }));
 
 export type CreateHostingAccountCronJobV1Error = UnprocessableEntity | HostingerOpError;
@@ -8562,6 +8659,8 @@ export const createHostingAccountCronJobV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingAccountCronJobV1",
 }));
 
 export type CreateHostingAccountDatabaseV1Error = UnprocessableEntity | HostingerOpError;
@@ -8577,6 +8676,8 @@ export const createHostingAccountDatabaseV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingAccountDatabaseV1",
 }));
 
 export type CreateHostingDatabaseRemoteConnectionV1Error = UnprocessableEntity | HostingerOpError;
@@ -8592,6 +8693,8 @@ export const createHostingDatabaseRemoteConnectionV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingDatabaseRemoteConnectionV1",
 }));
 
 export type CreateHostingLoginLinksV1Error = HostingerOpError;
@@ -8607,6 +8710,8 @@ export const createHostingLoginLinksV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingLoginLinksV1",
 }));
 
 export type CreateHostingWebsiteParkedDomainV1Error = UnprocessableEntity | HostingerOpError;
@@ -8622,6 +8727,8 @@ export const createHostingWebsiteParkedDomainV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebsiteParkedDomainV1",
 }));
 
 export type CreateHostingWebsiteRedirectV1Error = UnprocessableEntity | HostingerOpError;
@@ -8637,6 +8744,8 @@ export const createHostingWebsiteRedirectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebsiteRedirectV1",
 }));
 
 export type CreateHostingWebsiteSubdomainV1Error = UnprocessableEntity | HostingerOpError;
@@ -8652,6 +8761,8 @@ export const createHostingWebsiteSubdomainV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebsiteSubdomainV1",
 }));
 
 export type CreateHostingWebsiteV1Error = UnprocessableEntity | HostingerOpError;
@@ -8667,6 +8778,8 @@ export const createHostingWebsiteV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebsiteV1",
 }));
 
 export type CreateMailAliasV1Error = NotFound | Conflict | UnprocessableEntity | HostingerOpError;
@@ -8682,6 +8795,8 @@ export const createMailAliasV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMailAliasV1",
 }));
 
 export type CreateMailAPITokenV1Error =
@@ -8701,6 +8816,8 @@ export const createMailAPITokenV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMailAPITokenV1",
 }));
 
 export type CreateMailAutoreplyV1Error =
@@ -8720,6 +8837,8 @@ export const createMailAutoreplyV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMailAutoreplyV1",
 }));
 
 export type CreateMailCatchAllV1Error =
@@ -8739,6 +8858,8 @@ export const createMailCatchAllV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMailCatchAllV1",
 }));
 
 export type CreateMailForwarderV1Error =
@@ -8759,6 +8880,8 @@ export const createMailForwarderV1: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMailForwarderV1",
 }));
 
 export type CreateMailMailboxV1Error = NotFound | Conflict | UnprocessableEntity | HostingerOpError;
@@ -8774,6 +8897,8 @@ export const createMailMailboxV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMailMailboxV1",
 }));
 
 export type CreateMailWebhookV1Error =
@@ -8794,6 +8919,8 @@ export const createMailWebhookV1: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMailWebhookV1",
 }));
 
 export type CreateReachAContactFieldV1Error = UnprocessableEntity | HostingerOpError;
@@ -8809,6 +8936,8 @@ export const createReachAContactFieldV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReachAContactFieldV1",
 }));
 
 export type CreateReachADraftCampaignV1Error = UnprocessableEntity | HostingerOpError;
@@ -8824,6 +8953,8 @@ export const createReachADraftCampaignV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReachADraftCampaignV1",
 }));
 
 export type CreateReachAnEmailTemplateV1Error = UnprocessableEntity | HostingerOpError;
@@ -8839,6 +8970,8 @@ export const createReachAnEmailTemplateV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReachAnEmailTemplateV1",
 }));
 
 export type CreateReachAProfileSegmentV1Error = UnprocessableEntity | HostingerOpError;
@@ -8854,6 +8987,8 @@ export const createReachAProfileSegmentV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReachAProfileSegmentV1",
 }));
 
 export type CreateReachNewContactsV1Error = UnprocessableEntity | HostingerOpError;
@@ -8869,6 +9004,8 @@ export const createReachNewContactsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReachNewContactsV1",
 }));
 
 export type CreateVPSFirewallRuleV1Error = UnprocessableEntity | HostingerOpError;
@@ -8884,6 +9021,8 @@ export const createVPSFirewallRuleV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVPSFirewallRuleV1",
 }));
 
 export type CreateVPSNewFirewallV1Error = UnprocessableEntity | HostingerOpError;
@@ -8899,6 +9038,8 @@ export const createVPSNewFirewallV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVPSNewFirewallV1",
 }));
 
 export type CreateVPSNewProjectV1Error = UnprocessableEntity | HostingerOpError;
@@ -8914,6 +9055,8 @@ export const createVPSNewProjectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVPSNewProjectV1",
 }));
 
 export type CreateVPSPTRRecordV1Error = UnprocessableEntity | HostingerOpError;
@@ -8929,6 +9072,8 @@ export const createVPSPTRRecordV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVPSPTRRecordV1",
 }));
 
 export type CreateVPSPublicKeyV1Error = UnprocessableEntity | HostingerOpError;
@@ -8944,6 +9089,8 @@ export const createVPSPublicKeyV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVPSPublicKeyV1",
 }));
 
 export type CreateVPSSnapshotV1Error = HostingerOpError;
@@ -8959,6 +9106,8 @@ export const createVPSSnapshotV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVPSSnapshotV1",
 }));
 
 export type DeactivateHostingWordPressPluginV1Error = UnprocessableEntity | HostingerOpError;
@@ -8974,6 +9123,8 @@ export const deactivateHostingWordPressPluginV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateHostingWordPressPluginV1",
 }));
 
 export type DeactivateVPSFirewallV1Error = UnprocessableEntity | HostingerOpError;
@@ -8989,6 +9140,8 @@ export const deactivateVPSFirewallV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateVPSFirewallV1",
 }));
 
 export type DeleteAgencyHostingWebsiteCronJobV1Error = HostingerOpError;
@@ -9004,6 +9157,8 @@ export const deleteAgencyHostingWebsiteCronJobV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgencyHostingWebsiteCronJobV1",
 }));
 
 export type DeleteAgencyHostingWebsiteDatabaseUserV1Error = HostingerOpError;
@@ -9019,6 +9174,8 @@ export const deleteAgencyHostingWebsiteDatabaseUserV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgencyHostingWebsiteDatabaseUserV1",
 }));
 
 export type DeleteAgencyHostingWebsiteDatabaseV1Error = HostingerOpError;
@@ -9034,6 +9191,8 @@ export const deleteAgencyHostingWebsiteDatabaseV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgencyHostingWebsiteDatabaseV1",
 }));
 
 export type DeleteAgencyHostingWebsiteV1Error = HostingerOpError;
@@ -9049,6 +9208,8 @@ export const deleteAgencyHostingWebsiteV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgencyHostingWebsiteV1",
 }));
 
 export type DeleteBillingPaymentMethodV1Error = HostingerOpError;
@@ -9064,6 +9225,8 @@ export const deleteBillingPaymentMethodV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingPaymentMethodV1",
 }));
 
 export type DeleteDNSDNSRecordsV1Error = UnprocessableEntity | HostingerOpError;
@@ -9079,6 +9242,8 @@ export const deleteDNSDNSRecordsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDNSDNSRecordsV1",
 }));
 
 export type DeleteDomainDomainForwardingV1Error = HostingerOpError;
@@ -9094,6 +9259,8 @@ export const deleteDomainDomainForwardingV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainDomainForwardingV1",
 }));
 
 export type DeleteDomainWHOISProfileV1Error = HostingerOpError;
@@ -9109,6 +9276,8 @@ export const deleteDomainWHOISProfileV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainWHOISProfileV1",
 }));
 
 export type DeleteEcommerceAProductV1Error = HostingerOpError;
@@ -9124,6 +9293,8 @@ export const deleteEcommerceAProductV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEcommerceAProductV1",
 }));
 
 export type DeleteEcommerceAProductVariantV1Error = HostingerOpError;
@@ -9139,6 +9310,8 @@ export const deleteEcommerceAProductVariantV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEcommerceAProductVariantV1",
 }));
 
 export type DeleteEcommerceStoreV1Error = HostingerOpError;
@@ -9154,6 +9327,8 @@ export const deleteEcommerceStoreV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEcommerceStoreV1",
 }));
 
 export type DeleteHostingAccountCronJobV1Error = HostingerOpError;
@@ -9169,6 +9344,8 @@ export const deleteHostingAccountCronJobV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingAccountCronJobV1",
 }));
 
 export type DeleteHostingAccountDatabaseV1Error = HostingerOpError;
@@ -9184,6 +9361,8 @@ export const deleteHostingAccountDatabaseV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingAccountDatabaseV1",
 }));
 
 export type DeleteHostingDatabaseRemoteConnectionV1Error = HostingerOpError;
@@ -9199,6 +9378,8 @@ export const deleteHostingDatabaseRemoteConnectionV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingDatabaseRemoteConnectionV1",
 }));
 
 export type DeleteHostingGitAutoDeploymentSettingsV1Error = HostingerOpError;
@@ -9214,6 +9395,8 @@ export const deleteHostingGitAutoDeploymentSettingsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingGitAutoDeploymentSettingsV1",
 }));
 
 export type DeleteHostingWebsiteParkedDomainV1Error = HostingerOpError;
@@ -9229,6 +9412,8 @@ export const deleteHostingWebsiteParkedDomainV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebsiteParkedDomainV1",
 }));
 
 export type DeleteHostingWebsiteRedirectV1Error = UnprocessableEntity | HostingerOpError;
@@ -9244,6 +9429,8 @@ export const deleteHostingWebsiteRedirectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebsiteRedirectV1",
 }));
 
 export type DeleteHostingWebsiteSubdomainV1Error = HostingerOpError;
@@ -9259,6 +9446,8 @@ export const deleteHostingWebsiteSubdomainV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebsiteSubdomainV1",
 }));
 
 export type DeleteHostingWebsiteV1Error = UnprocessableEntity | HostingerOpError;
@@ -9274,6 +9463,8 @@ export const deleteHostingWebsiteV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebsiteV1",
 }));
 
 export type DeleteHostingWordPressInstallationV1Error = UnprocessableEntity | HostingerOpError;
@@ -9289,6 +9480,8 @@ export const deleteHostingWordPressInstallationV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWordPressInstallationV1",
 }));
 
 export type DeleteMailAliasV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -9304,6 +9497,8 @@ export const deleteMailAliasV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMailAliasV1",
 }));
 
 export type DeleteMailAutoreplyV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -9319,6 +9514,8 @@ export const deleteMailAutoreplyV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMailAutoreplyV1",
 }));
 
 export type DeleteMailCatchAllV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -9334,6 +9531,8 @@ export const deleteMailCatchAllV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMailCatchAllV1",
 }));
 
 export type DeleteMailForwarderV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -9349,6 +9548,8 @@ export const deleteMailForwarderV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMailForwarderV1",
 }));
 
 export type DeleteMailMailboxV1Error = NotFound | Conflict | HostingerOpError;
@@ -9364,6 +9565,8 @@ export const deleteMailMailboxV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMailMailboxV1",
 }));
 
 export type DeleteMailWebhookV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -9379,6 +9582,8 @@ export const deleteMailWebhookV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMailWebhookV1",
 }));
 
 export type DeleteReachAContactFieldV1Error = HostingerOpError;
@@ -9394,6 +9599,8 @@ export const deleteReachAContactFieldV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReachAContactFieldV1",
 }));
 
 export type DeleteReachAProfileContactV1Error = HostingerOpError;
@@ -9409,6 +9616,8 @@ export const deleteReachAProfileContactV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReachAProfileContactV1",
 }));
 
 export type DeleteReachAProfileSegmentV1Error = HostingerOpError;
@@ -9424,6 +9633,8 @@ export const deleteReachAProfileSegmentV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReachAProfileSegmentV1",
 }));
 
 export type DeleteReachATagV1Error = HostingerOpError;
@@ -9439,6 +9650,8 @@ export const deleteReachATagV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReachATagV1",
 }));
 
 export type DeleteReachFormV1Error = Conflict | HostingerOpError;
@@ -9454,6 +9667,8 @@ export const deleteReachFormV1: API.OperationMethod<
   errors: [Conflict, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReachFormV1",
 }));
 
 export type DeleteVPSFirewallRuleV1Error = HostingerOpError;
@@ -9469,6 +9684,8 @@ export const deleteVPSFirewallRuleV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVPSFirewallRuleV1",
 }));
 
 export type DeleteVPSFirewallV1Error = HostingerOpError;
@@ -9484,6 +9701,8 @@ export const deleteVPSFirewallV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVPSFirewallV1",
 }));
 
 export type DeleteVPSProjectV1Error = UnprocessableEntity | HostingerOpError;
@@ -9499,6 +9718,8 @@ export const deleteVPSProjectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVPSProjectV1",
 }));
 
 export type DeleteVPSPTRRecordV1Error = HostingerOpError;
@@ -9514,6 +9735,8 @@ export const deleteVPSPTRRecordV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVPSPTRRecordV1",
 }));
 
 export type DeleteVPSPublicKeyV1Error = HostingerOpError;
@@ -9529,6 +9752,8 @@ export const deleteVPSPublicKeyV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVPSPublicKeyV1",
 }));
 
 export type DeleteVPSSnapshotV1Error = HostingerOpError;
@@ -9544,6 +9769,8 @@ export const deleteVPSSnapshotV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVPSSnapshotV1",
 }));
 
 export type DeployHostingWebsiteGitRepositoryV1Error = UnprocessableEntity | HostingerOpError;
@@ -9559,6 +9786,8 @@ export const deployHostingWebsiteGitRepositoryV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHostingWebsiteGitRepositoryV1",
 }));
 
 export type DeployHostingWordPressPluginV1Error = UnprocessableEntity | HostingerOpError;
@@ -9574,6 +9803,8 @@ export const deployHostingWordPressPluginV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHostingWordPressPluginV1",
 }));
 
 export type DeployHostingWordPressThemeV1Error = UnprocessableEntity | HostingerOpError;
@@ -9589,6 +9820,8 @@ export const deployHostingWordPressThemeV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHostingWordPressThemeV1",
 }));
 
 export type DisableBillingAutoRenewalV1Error = HostingerOpError;
@@ -9604,6 +9837,8 @@ export const disableBillingAutoRenewalV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableBillingAutoRenewalV1",
 }));
 
 export type DisableDomainDomainLockV1Error = HostingerOpError;
@@ -9619,6 +9854,8 @@ export const disableDomainDomainLockV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableDomainDomainLockV1",
 }));
 
 export type DisableDomainPrivacyProtectionV1Error = HostingerOpError;
@@ -9634,6 +9871,8 @@ export const disableDomainPrivacyProtectionV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableDomainPrivacyProtectionV1",
 }));
 
 export type DNSGetDNSSnapshotListV1Error = HostingerOpError;
@@ -9649,6 +9888,8 @@ export const dNSGetDNSSnapshotListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DNSGetDNSSnapshotListV1",
 }));
 
 export type DomainsAcceptIncomingDomainMoveV1Error = UnprocessableEntity | HostingerOpError;
@@ -9664,6 +9905,8 @@ export const domainsAcceptIncomingDomainMoveV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsAcceptIncomingDomainMoveV1",
 }));
 
 export type DomainsCancelOutgoingDomainMoveV1Error = HostingerOpError;
@@ -9679,6 +9922,8 @@ export const domainsCancelOutgoingDomainMoveV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsCancelOutgoingDomainMoveV1",
 }));
 
 export type DomainsChangeWHOISProfileForDomainV1Error = UnprocessableEntity | HostingerOpError;
@@ -9694,6 +9939,8 @@ export const domainsChangeWHOISProfileForDomainV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsChangeWHOISProfileForDomainV1",
 }));
 
 export type DomainsGetDomainListV1Error = HostingerOpError;
@@ -9709,6 +9956,8 @@ export const domainsGetDomainListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsGetDomainListV1",
 }));
 
 export type DomainsGetIncomingDomainMoveListV1Error = HostingerOpError;
@@ -9724,6 +9973,8 @@ export const domainsGetIncomingDomainMoveListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsGetIncomingDomainMoveListV1",
 }));
 
 export type DomainsGetIncomingDomainMoveV1Error = HostingerOpError;
@@ -9739,6 +9990,8 @@ export const domainsGetIncomingDomainMoveV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsGetIncomingDomainMoveV1",
 }));
 
 export type DomainsGetOutgoingDomainMoveListV1Error = HostingerOpError;
@@ -9754,6 +10007,8 @@ export const domainsGetOutgoingDomainMoveListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsGetOutgoingDomainMoveListV1",
 }));
 
 export type DomainsGetOutgoingDomainMoveV1Error = HostingerOpError;
@@ -9769,6 +10024,8 @@ export const domainsGetOutgoingDomainMoveV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsGetOutgoingDomainMoveV1",
 }));
 
 export type DomainsGetTransferListV1Error = HostingerOpError;
@@ -9784,6 +10041,8 @@ export const domainsGetTransferListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsGetTransferListV1",
 }));
 
 export type DomainsGetWHOISProfileListV1Error = HostingerOpError;
@@ -9799,6 +10058,8 @@ export const domainsGetWHOISProfileListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsGetWHOISProfileListV1",
 }));
 
 export type DomainsPurchaseNewDomainV1Error = UnprocessableEntity | HostingerOpError;
@@ -9814,6 +10075,8 @@ export const domainsPurchaseNewDomainV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsPurchaseNewDomainV1",
 }));
 
 export type DomainsRejectIncomingDomainMoveV1Error = HostingerOpError;
@@ -9829,6 +10092,8 @@ export const domainsRejectIncomingDomainMoveV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsRejectIncomingDomainMoveV1",
 }));
 
 export type DomainsStartOutgoingDomainMoveV1Error = UnprocessableEntity | HostingerOpError;
@@ -9844,6 +10109,8 @@ export const domainsStartOutgoingDomainMoveV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsStartOutgoingDomainMoveV1",
 }));
 
 export type DomainsSuggestDomainNamesFromADescriptionV1Error =
@@ -9865,6 +10132,8 @@ export const domainsSuggestDomainNamesFromADescriptionV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsSuggestDomainNamesFromADescriptionV1",
 }));
 
 export type DomainsSuggestDomainNamesFromADomainV1Error = UnprocessableEntity | HostingerOpError;
@@ -9880,6 +10149,8 @@ export const domainsSuggestDomainNamesFromADomainV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsSuggestDomainNamesFromADomainV1",
 }));
 
 export type DomainsUnsetDefaultWHOISProfileV1Error = HostingerOpError;
@@ -9895,6 +10166,8 @@ export const domainsUnsetDefaultWHOISProfileV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsUnsetDefaultWHOISProfileV1",
 }));
 
 export type EcommerceCreateAPaymentProviderConnectLinkV1Error = HostingerOpError;
@@ -9918,6 +10191,8 @@ export const ecommerceCreateAPaymentProviderConnectLinkV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EcommerceCreateAPaymentProviderConnectLinkV1",
 }));
 
 export type EcommerceCreateAProductImageUploadURLV1Error = HostingerOpError;
@@ -9933,6 +10208,8 @@ export const ecommerceCreateAProductImageUploadURLV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EcommerceCreateAProductImageUploadURLV1",
 }));
 
 export type EcommerceFulfilAnOrderV1Error = UnprocessableEntity | HostingerOpError;
@@ -9948,6 +10225,8 @@ export const ecommerceFulfilAnOrderV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EcommerceFulfilAnOrderV1",
 }));
 
 export type EcommerceUploadAndAttachAProductImageV1Error =
@@ -9966,6 +10245,8 @@ export const ecommerceUploadAndAttachAProductImageV1: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EcommerceUploadAndAttachAProductImageV1",
 }));
 
 export type EditHorizonWebsiteV1Error = UnprocessableEntity | HostingerOpError;
@@ -9981,6 +10262,8 @@ export const editHorizonWebsiteV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditHorizonWebsiteV1",
 }));
 
 export type EnableBillingAutoRenewalV1Error = HostingerOpError;
@@ -9996,6 +10279,8 @@ export const enableBillingAutoRenewalV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableBillingAutoRenewalV1",
 }));
 
 export type EnableDomainDomainLockV1Error = HostingerOpError;
@@ -10011,6 +10296,8 @@ export const enableDomainDomainLockV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableDomainDomainLockV1",
 }));
 
 export type EnableDomainPrivacyProtectionV1Error = HostingerOpError;
@@ -10026,6 +10313,8 @@ export const enableDomainPrivacyProtectionV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableDomainPrivacyProtectionV1",
 }));
 
 export type EnableEcommerceManualPaymentMethodV1Error = UnprocessableEntity | HostingerOpError;
@@ -10041,6 +10330,8 @@ export const enableEcommerceManualPaymentMethodV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableEcommerceManualPaymentMethodV1",
 }));
 
 export type GenerateHostingAFreeSubdomainV1Error = HostingerOpError;
@@ -10056,6 +10347,8 @@ export const generateHostingAFreeSubdomainV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateHostingAFreeSubdomainV1",
 }));
 
 export type GenerateHostingGitSSHKeyV1Error = UnprocessableEntity | HostingerOpError;
@@ -10071,6 +10364,8 @@ export const generateHostingGitSSHKeyV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateHostingGitSSHKeyV1",
 }));
 
 export type GetAgencyHostingWebsiteDetailsV1Error = HostingerOpError;
@@ -10086,6 +10381,8 @@ export const getAgencyHostingWebsiteDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgencyHostingWebsiteDetailsV1",
 }));
 
 export type GetAgencyHostingWebsiteSetupStatusV1Error = HostingerOpError;
@@ -10101,6 +10398,8 @@ export const getAgencyHostingWebsiteSetupStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgencyHostingWebsiteSetupStatusV1",
 }));
 
 export type GetAgencyHostingWebsiteSSLStatusV1Error = HostingerOpError;
@@ -10116,6 +10415,8 @@ export const getAgencyHostingWebsiteSSLStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgencyHostingWebsiteSSLStatusV1",
 }));
 
 export type GetAgencyHostingWordPressSettingsV1Error = HostingerOpError;
@@ -10131,6 +10432,8 @@ export const getAgencyHostingWordPressSettingsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgencyHostingWordPressSettingsV1",
 }));
 
 export type GetDNSDNSRecordsV1Error = HostingerOpError;
@@ -10146,6 +10449,8 @@ export const getDNSDNSRecordsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDNSDNSRecordsV1",
 }));
 
 export type GetDNSDNSSnapshotV1Error = HostingerOpError;
@@ -10161,6 +10466,8 @@ export const getDNSDNSSnapshotV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDNSDNSSnapshotV1",
 }));
 
 export type GetDomainDomainAuthorizationCodeV1Error = HostingerOpError;
@@ -10176,6 +10483,8 @@ export const getDomainDomainAuthorizationCodeV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainDomainAuthorizationCodeV1",
 }));
 
 export type GetDomainDomainDetailsV1Error = HostingerOpError;
@@ -10191,6 +10500,8 @@ export const getDomainDomainDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainDomainDetailsV1",
 }));
 
 export type GetDomainDomainForwardingV1Error = HostingerOpError;
@@ -10206,6 +10517,8 @@ export const getDomainDomainForwardingV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainDomainForwardingV1",
 }));
 
 export type GetDomainDomainRenewalInformationV1Error = HostingerOpError;
@@ -10225,6 +10538,8 @@ export const getDomainDomainRenewalInformationV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainDomainRenewalInformationV1",
 }));
 
 export type GetDomainPendingIRTPVerificationV1Error = HostingerOpError;
@@ -10240,6 +10555,8 @@ export const getDomainPendingIRTPVerificationV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainPendingIRTPVerificationV1",
 }));
 
 export type GetDomainTransferV1Error = HostingerOpError;
@@ -10255,6 +10572,8 @@ export const getDomainTransferV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainTransferV1",
 }));
 
 export type GetDomainWHOISProfileUsageV1Error = HostingerOpError;
@@ -10270,6 +10589,8 @@ export const getDomainWHOISProfileUsageV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainWHOISProfileUsageV1",
 }));
 
 export type GetDomainWHOISProfileV1Error = HostingerOpError;
@@ -10285,6 +10606,8 @@ export const getDomainWHOISProfileV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainWHOISProfileV1",
 }));
 
 export type GetEcommerceAnOrderV1Error = HostingerOpError;
@@ -10300,6 +10623,8 @@ export const getEcommerceAnOrderV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEcommerceAnOrderV1",
 }));
 
 export type GetEcommerceCustomStorefrontSetupInstructionsV1Error = HostingerOpError;
@@ -10323,6 +10648,8 @@ export const getEcommerceCustomStorefrontSetupInstructionsV1: API.OperationMetho
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEcommerceCustomStorefrontSetupInstructionsV1",
 }));
 
 export type GetEcommerceStoreMetadataV1Error = HostingerOpError;
@@ -10338,6 +10665,8 @@ export const getEcommerceStoreMetadataV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEcommerceStoreMetadataV1",
 }));
 
 export type GetEcommerceStoresV1Error = HostingerOpError;
@@ -10353,6 +10682,8 @@ export const getEcommerceStoresV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEcommerceStoresV1",
 }));
 
 export type GetHorizonWebsiteV1Error = HostingerOpError;
@@ -10368,6 +10699,8 @@ export const getHorizonWebsiteV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHorizonWebsiteV1",
 }));
 
 export type GetHostingAIOptionStatusV1Error = HostingerOpError;
@@ -10383,6 +10716,8 @@ export const getHostingAIOptionStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingAIOptionStatusV1",
 }));
 
 export type GetHostingCronJobOutputV1Error = HostingerOpError;
@@ -10398,6 +10733,8 @@ export const getHostingCronJobOutputV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingCronJobOutputV1",
 }));
 
 export type GetHostingGitAutoDeploymentSettingsV1Error = HostingerOpError;
@@ -10413,6 +10750,8 @@ export const getHostingGitAutoDeploymentSettingsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingGitAutoDeploymentSettingsV1",
 }));
 
 export type GetHostingGitSSHPublicKeyV1Error = HostingerOpError;
@@ -10428,6 +10767,8 @@ export const getHostingGitSSHPublicKeyV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingGitSSHPublicKeyV1",
 }));
 
 export type GetHostingInstallationJWTTokenV1Error = HostingerOpError;
@@ -10443,6 +10784,8 @@ export const getHostingInstallationJWTTokenV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingInstallationJWTTokenV1",
 }));
 
 export type GetHostingLiteSpeedCacheStatusV1Error = HostingerOpError;
@@ -10458,6 +10801,8 @@ export const getHostingLiteSpeedCacheStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingLiteSpeedCacheStatusV1",
 }));
 
 export type GetHostingMaintenanceStatusV1Error = HostingerOpError;
@@ -10473,6 +10818,8 @@ export const getHostingMaintenanceStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingMaintenanceStatusV1",
 }));
 
 export type GetHostingMemcachedObjectCacheStatusV1Error = HostingerOpError;
@@ -10488,6 +10835,8 @@ export const getHostingMemcachedObjectCacheStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingMemcachedObjectCacheStatusV1",
 }));
 
 export type GetHostingNodeJsBuildDetailsV1Error = HostingerOpError;
@@ -10503,6 +10852,8 @@ export const getHostingNodeJsBuildDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingNodeJsBuildDetailsV1",
 }));
 
 export type GetHostingNodeJSBuildLogsV1Error = UnprocessableEntity | HostingerOpError;
@@ -10518,6 +10869,8 @@ export const getHostingNodeJSBuildLogsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingNodeJSBuildLogsV1",
 }));
 
 export type GetHostingNodeJsBuildSettingsV1Error = HostingerOpError;
@@ -10533,6 +10886,8 @@ export const getHostingNodeJsBuildSettingsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingNodeJsBuildSettingsV1",
 }));
 
 export type GetHostingNodeJsRuntimeLogsV1Error = UnprocessableEntity | HostingerOpError;
@@ -10548,6 +10903,8 @@ export const getHostingNodeJsRuntimeLogsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingNodeJsRuntimeLogsV1",
 }));
 
 export type GetHostingPHPDetailsV1Error = HostingerOpError;
@@ -10563,6 +10920,8 @@ export const getHostingPHPDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPHPDetailsV1",
 }));
 
 export type GetHostingPHPInfoV1Error = HostingerOpError;
@@ -10578,6 +10937,8 @@ export const getHostingPHPInfoV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPHPInfoV1",
 }));
 
 export type GetHostingPhpMyAdminLinkV1Error = HostingerOpError;
@@ -10593,6 +10954,8 @@ export const getHostingPhpMyAdminLinkV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPhpMyAdminLinkV1",
 }));
 
 export type GetHostingSSLStatusV1Error = HostingerOpError;
@@ -10608,6 +10971,8 @@ export const getHostingSSLStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingSSLStatusV1",
 }));
 
 export type GetHostingWebsiteFileContentV1Error = UnprocessableEntity | HostingerOpError;
@@ -10623,6 +10988,8 @@ export const getHostingWebsiteFileContentV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebsiteFileContentV1",
 }));
 
 export type GetHostingWordPressCoreVersionV1Error = HostingerOpError;
@@ -10638,6 +11005,8 @@ export const getHostingWordPressCoreVersionV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWordPressCoreVersionV1",
 }));
 
 export type GetMailOrderPlanV1Error = NotFound | HostingerOpError;
@@ -10653,6 +11022,8 @@ export const getMailOrderPlanV1: API.OperationMethod<
   errors: [NotFound, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMailOrderPlanV1",
 }));
 
 export type GetMailWebhookV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -10668,6 +11039,8 @@ export const getMailWebhookV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMailWebhookV1",
 }));
 
 export type GetReachAutomationDetailsV1Error = HostingerOpError;
@@ -10683,6 +11056,8 @@ export const getReachAutomationDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachAutomationDetailsV1",
 }));
 
 export type GetReachCampaignDetailsV1Error = HostingerOpError;
@@ -10698,6 +11073,8 @@ export const getReachCampaignDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachCampaignDetailsV1",
 }));
 
 export type GetReachCampaignPerformanceV1Error = HostingerOpError;
@@ -10713,6 +11090,8 @@ export const getReachCampaignPerformanceV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachCampaignPerformanceV1",
 }));
 
 export type GetReachConnectedSendingDomainV1Error = HostingerOpError;
@@ -10728,6 +11107,8 @@ export const getReachConnectedSendingDomainV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachConnectedSendingDomainV1",
 }));
 
 export type GetReachContactDetailsV1Error = HostingerOpError;
@@ -10743,6 +11124,8 @@ export const getReachContactDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachContactDetailsV1",
 }));
 
 export type GetReachFormDetailsV1Error = HostingerOpError;
@@ -10758,6 +11141,8 @@ export const getReachFormDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachFormDetailsV1",
 }));
 
 export type GetReachProfileDomainDNSStatusV1Error = HostingerOpError;
@@ -10773,6 +11158,8 @@ export const getReachProfileDomainDNSStatusV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachProfileDomainDNSStatusV1",
 }));
 
 export type GetReachProfileSegmentDetailsV1Error = HostingerOpError;
@@ -10788,6 +11175,8 @@ export const getReachProfileSegmentDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachProfileSegmentDetailsV1",
 }));
 
 export type GetReachRemainingPlanLimitsV1Error = HostingerOpError;
@@ -10803,6 +11192,8 @@ export const getReachRemainingPlanLimitsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReachRemainingPlanLimitsV1",
 }));
 
 export type GetV2DomainVerificationsDIRECTError = UnprocessableEntity | HostingerOpError;
@@ -10822,6 +11213,8 @@ export const getV2DomainVerificationsDIRECT: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2DomainVerificationsDIRECT",
 }));
 
 export type GetVPSActionDetailsV1Error = HostingerOpError;
@@ -10837,6 +11230,8 @@ export const getVPSActionDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSActionDetailsV1",
 }));
 
 export type GetVPSActionsV1Error = HostingerOpError;
@@ -10852,6 +11247,8 @@ export const getVPSActionsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSActionsV1",
 }));
 
 export type GetVPSAttachedPublicKeysV1Error = HostingerOpError;
@@ -10867,6 +11264,8 @@ export const getVPSAttachedPublicKeysV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSAttachedPublicKeysV1",
 }));
 
 export type GetVPSBackupsV1Error = HostingerOpError;
@@ -10882,6 +11281,8 @@ export const getVPSBackupsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSBackupsV1",
 }));
 
 export type GetVPSFirewallDetailsV1Error = HostingerOpError;
@@ -10897,6 +11298,8 @@ export const getVPSFirewallDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSFirewallDetailsV1",
 }));
 
 export type GetVPSMetricsV1Error = UnprocessableEntity | HostingerOpError;
@@ -10912,6 +11315,8 @@ export const getVPSMetricsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSMetricsV1",
 }));
 
 export type GetVPSProjectContainersV1Error = UnprocessableEntity | HostingerOpError;
@@ -10927,6 +11332,8 @@ export const getVPSProjectContainersV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSProjectContainersV1",
 }));
 
 export type GetVPSProjectContentsV1Error = UnprocessableEntity | HostingerOpError;
@@ -10942,6 +11349,8 @@ export const getVPSProjectContentsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSProjectContentsV1",
 }));
 
 export type GetVPSProjectLogsV1Error = UnprocessableEntity | HostingerOpError;
@@ -10957,6 +11366,8 @@ export const getVPSProjectLogsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSProjectLogsV1",
 }));
 
 export type GetVPSPublicKeysV1Error = HostingerOpError;
@@ -10972,6 +11383,8 @@ export const getVPSPublicKeysV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSPublicKeysV1",
 }));
 
 export type GetVPSScanMetricsV1Error = UnprocessableEntity | HostingerOpError;
@@ -10987,6 +11400,8 @@ export const getVPSScanMetricsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSScanMetricsV1",
 }));
 
 export type GetVPSSnapshotV1Error = HostingerOpError;
@@ -11002,6 +11417,8 @@ export const getVPSSnapshotV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSSnapshotV1",
 }));
 
 export type GetVPSTemplateDetailsV1Error = HostingerOpError;
@@ -11017,6 +11434,8 @@ export const getVPSTemplateDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSTemplateDetailsV1",
 }));
 
 export type GetVPSTemplatesV1Error = HostingerOpError;
@@ -11032,6 +11451,8 @@ export const getVPSTemplatesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSTemplatesV1",
 }));
 
 export type GetVPSVirtualMachineDetailsV1Error = HostingerOpError;
@@ -11047,6 +11468,8 @@ export const getVPSVirtualMachineDetailsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSVirtualMachineDetailsV1",
 }));
 
 export type GetVPSVirtualMachinesV1Error = HostingerOpError;
@@ -11062,6 +11485,8 @@ export const getVPSVirtualMachinesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVPSVirtualMachinesV1",
 }));
 
 export type HorizonsGetWebsiteListV1Error = HostingerOpError;
@@ -11077,6 +11502,8 @@ export const horizonsGetWebsiteListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HorizonsGetWebsiteListV1",
 }));
 
 export type HostingAnalyseFailedNodeJsBuildV1Error = UnprocessableEntity | HostingerOpError;
@@ -11092,6 +11519,8 @@ export const hostingAnalyseFailedNodeJsBuildV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingAnalyseFailedNodeJsBuildV1",
 }));
 
 export type HostingChangeDatabasePasswordV1Error = UnprocessableEntity | HostingerOpError;
@@ -11107,6 +11536,8 @@ export const hostingChangeDatabasePasswordV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingChangeDatabasePasswordV1",
 }));
 
 export type HostingDeployStaticSiteArchiveV1Error = UnprocessableEntity | HostingerOpError;
@@ -11122,6 +11553,8 @@ export const hostingDeployStaticSiteArchiveV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingDeployStaticSiteArchiveV1",
 }));
 
 export type HostingDetectWordPressInstallationsV1Error = HostingerOpError;
@@ -11137,6 +11570,8 @@ export const hostingDetectWordPressInstallationsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingDetectWordPressInstallationsV1",
 }));
 
 export type HostingGenerateUploadURLV1Error = Conflict | UnprocessableEntity | HostingerOpError;
@@ -11152,6 +11587,8 @@ export const hostingGenerateUploadURLV1: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingGenerateUploadURLV1",
 }));
 
 export type HostingGetNodeJsBuildSettingsFromArchiveV1Error =
@@ -11169,6 +11606,8 @@ export const hostingGetNodeJsBuildSettingsFromArchiveV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingGetNodeJsBuildSettingsFromArchiveV1",
 }));
 
 export type HostingListWebsiteFilesAndDirectoriesV1Error = UnprocessableEntity | HostingerOpError;
@@ -11184,6 +11623,8 @@ export const hostingListWebsiteFilesAndDirectoriesV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingListWebsiteFilesAndDirectoriesV1",
 }));
 
 export type HostingRepairDatabaseV1Error = HostingerOpError;
@@ -11199,6 +11640,8 @@ export const hostingRepairDatabaseV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingRepairDatabaseV1",
 }));
 
 export type HostingSetupWebsiteDatabaseV1Error = UnprocessableEntity | HostingerOpError;
@@ -11214,6 +11657,8 @@ export const hostingSetupWebsiteDatabaseV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingSetupWebsiteDatabaseV1",
 }));
 
 export type ImportHostingWordPressWebsiteV1Error = UnprocessableEntity | HostingerOpError;
@@ -11229,6 +11674,8 @@ export const importHostingWordPressWebsiteV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportHostingWordPressWebsiteV1",
 }));
 
 export type InstallAgencyHostingWebsiteSSLV1Error = UnprocessableEntity | HostingerOpError;
@@ -11244,6 +11691,8 @@ export const installAgencyHostingWebsiteSSLV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallAgencyHostingWebsiteSSLV1",
 }));
 
 export type InstallHostingSSLV1Error = UnprocessableEntity | HostingerOpError;
@@ -11259,6 +11708,8 @@ export const installHostingSSLV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallHostingSSLV1",
 }));
 
 export type InstallHostingWordPressPluginsV1Error = UnprocessableEntity | HostingerOpError;
@@ -11274,6 +11725,8 @@ export const installHostingWordPressPluginsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallHostingWordPressPluginsV1",
 }));
 
 export type InstallHostingWordPressThemeV1Error = UnprocessableEntity | HostingerOpError;
@@ -11289,6 +11742,8 @@ export const installHostingWordPressThemeV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallHostingWordPressThemeV1",
 }));
 
 export type InstallHostingWordPressV1Error = UnprocessableEntity | HostingerOpError;
@@ -11304,6 +11759,8 @@ export const installHostingWordPressV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallHostingWordPressV1",
 }));
 
 export type InstallVPSMonarxV1Error = UnprocessableEntity | HostingerOpError;
@@ -11319,6 +11776,8 @@ export const installVPSMonarxV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallVPSMonarxV1",
 }));
 
 export type ListAgencyHostingAgencyPlanOrderDiskUsageMetricsV1Error =
@@ -11344,6 +11803,8 @@ export const listAgencyHostingAgencyPlanOrderDiskUsageMetricsV1: API.OperationMe
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingAgencyPlanOrderDiskUsageMetricsV1",
 }));
 
 export type ListAgencyHostingAgencyPlanWebsitesV1Error = HostingerOpError;
@@ -11359,6 +11820,8 @@ export const listAgencyHostingAgencyPlanWebsitesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingAgencyPlanWebsitesV1",
 }));
 
 export type ListAgencyHostingAvailableDatacentersV1Error = HostingerOpError;
@@ -11374,6 +11837,8 @@ export const listAgencyHostingAvailableDatacentersV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingAvailableDatacentersV1",
 }));
 
 export type ListAgencyHostingAvailablePHPVersionsForAnOrderV1Error = HostingerOpError;
@@ -11397,6 +11862,8 @@ export const listAgencyHostingAvailablePHPVersionsForAnOrderV1: API.OperationMet
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingAvailablePHPVersionsForAnOrderV1",
 }));
 
 export type ListAgencyHostingAvailablePHPVersionsForAWebsiteV1Error = HostingerOpError;
@@ -11420,6 +11887,8 @@ export const listAgencyHostingAvailablePHPVersionsForAWebsiteV1: API.OperationMe
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingAvailablePHPVersionsForAWebsiteV1",
 }));
 
 export type ListAgencyHostingAvailableWordPressVersionsV1Error = HostingerOpError;
@@ -11443,6 +11912,8 @@ export const listAgencyHostingAvailableWordPressVersionsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingAvailableWordPressVersionsV1",
 }));
 
 export type ListAgencyHostingDomainsV1Error = HostingerOpError;
@@ -11458,6 +11929,8 @@ export const listAgencyHostingDomainsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingDomainsV1",
 }));
 
 export type ListAgencyHostingOrderResourceUsageMetricsV1Error =
@@ -11483,6 +11956,8 @@ export const listAgencyHostingOrderResourceUsageMetricsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingOrderResourceUsageMetricsV1",
 }));
 
 export type ListAgencyHostingOrdersV1Error = HostingerOpError;
@@ -11498,6 +11973,8 @@ export const listAgencyHostingOrdersV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingOrdersV1",
 }));
 
 export type ListAgencyHostingPHPExtensionsForAWebsiteV1Error = HostingerOpError;
@@ -11521,6 +11998,8 @@ export const listAgencyHostingPHPExtensionsForAWebsiteV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingPHPExtensionsForAWebsiteV1",
 }));
 
 export type ListAgencyHostingPHPOptionsForAWebsiteV1Error = HostingerOpError;
@@ -11536,6 +12015,8 @@ export const listAgencyHostingPHPOptionsForAWebsiteV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingPHPOptionsForAWebsiteV1",
 }));
 
 export type ListAgencyHostingWebsiteCronJobsV1Error = HostingerOpError;
@@ -11551,6 +12032,8 @@ export const listAgencyHostingWebsiteCronJobsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingWebsiteCronJobsV1",
 }));
 
 export type ListAgencyHostingWebsiteDatabasesV1Error = HostingerOpError;
@@ -11566,6 +12049,8 @@ export const listAgencyHostingWebsiteDatabasesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingWebsiteDatabasesV1",
 }));
 
 export type ListAgencyHostingWebsiteProcessesV1Error = HostingerOpError;
@@ -11581,6 +12066,8 @@ export const listAgencyHostingWebsiteProcessesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgencyHostingWebsiteProcessesV1",
 }));
 
 export type ListEcommerceDiscountsV1Error = HostingerOpError;
@@ -11596,6 +12083,8 @@ export const listEcommerceDiscountsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEcommerceDiscountsV1",
 }));
 
 export type ListEcommerceProductsV1Error = HostingerOpError;
@@ -11611,6 +12100,8 @@ export const listEcommerceProductsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEcommerceProductsV1",
 }));
 
 export type ListEcommerceProductVariantsV1Error = HostingerOpError;
@@ -11626,6 +12117,8 @@ export const listEcommerceProductVariantsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEcommerceProductVariantsV1",
 }));
 
 export type ListEcommerceSalesChannelsV1Error = HostingerOpError;
@@ -11641,6 +12134,8 @@ export const listEcommerceSalesChannelsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEcommerceSalesChannelsV1",
 }));
 
 export type ListEcommerceStoreOrdersV1Error = HostingerOpError;
@@ -11656,6 +12151,8 @@ export const listEcommerceStoreOrdersV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEcommerceStoreOrdersV1",
 }));
 
 export type ListEcommerceStorePaymentProvidersV1Error = HostingerOpError;
@@ -11675,6 +12172,8 @@ export const listEcommerceStorePaymentProvidersV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEcommerceStorePaymentProvidersV1",
 }));
 
 export type ListHostingAccountCronJobsV1Error = HostingerOpError;
@@ -11690,6 +12189,8 @@ export const listHostingAccountCronJobsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingAccountCronJobsV1",
 }));
 
 export type ListHostingAccountDatabasesV1Error = HostingerOpError;
@@ -11705,6 +12206,8 @@ export const listHostingAccountDatabasesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingAccountDatabasesV1",
 }));
 
 export type ListHostingAvailableDatacentersV1Error = HostingerOpError;
@@ -11720,6 +12223,8 @@ export const listHostingAvailableDatacentersV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingAvailableDatacentersV1",
 }));
 
 export type ListHostingAvailableWordPressCoreUpdatesV1Error = HostingerOpError;
@@ -11739,6 +12244,8 @@ export const listHostingAvailableWordPressCoreUpdatesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingAvailableWordPressCoreUpdatesV1",
 }));
 
 export type ListHostingAvailableWordPressPluginsV1Error = HostingerOpError;
@@ -11754,6 +12261,8 @@ export const listHostingAvailableWordPressPluginsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingAvailableWordPressPluginsV1",
 }));
 
 export type ListHostingDatabaseRemoteConnectionsV1Error = HostingerOpError;
@@ -11769,6 +12278,8 @@ export const listHostingDatabaseRemoteConnectionsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingDatabaseRemoteConnectionsV1",
 }));
 
 export type ListHostingGitInstallationRepositoriesV1Error = NotFound | HostingerOpError;
@@ -11784,6 +12295,8 @@ export const listHostingGitInstallationRepositoriesV1: API.OperationMethod<
   errors: [NotFound, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingGitInstallationRepositoriesV1",
 }));
 
 export type ListHostingGitInstallationsV1Error = UnprocessableEntity | HostingerOpError;
@@ -11799,6 +12312,8 @@ export const listHostingGitInstallationsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingGitInstallationsV1",
 }));
 
 export type ListHostingInstalledWordPressPluginsV1Error = HostingerOpError;
@@ -11814,6 +12329,8 @@ export const listHostingInstalledWordPressPluginsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingInstalledWordPressPluginsV1",
 }));
 
 export type ListHostingInstalledWordPressThemesV1Error = HostingerOpError;
@@ -11829,6 +12346,8 @@ export const listHostingInstalledWordPressThemesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingInstalledWordPressThemesV1",
 }));
 
 export type ListHostingNodeJSBuildsV1Error = HostingerOpError;
@@ -11844,6 +12363,8 @@ export const listHostingNodeJSBuildsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingNodeJSBuildsV1",
 }));
 
 export type ListHostingNodeJsEnvironmentVariablesV1Error = HostingerOpError;
@@ -11859,6 +12380,8 @@ export const listHostingNodeJsEnvironmentVariablesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingNodeJsEnvironmentVariablesV1",
 }));
 
 export type ListHostingNodeJsVulnerabilitiesV1Error = HostingerOpError;
@@ -11874,6 +12397,8 @@ export const listHostingNodeJsVulnerabilitiesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingNodeJsVulnerabilitiesV1",
 }));
 
 export type ListHostingOrdersV1Error = HostingerOpError;
@@ -11889,6 +12414,8 @@ export const listHostingOrdersV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingOrdersV1",
 }));
 
 export type ListHostingSuggestedWordPressPluginsV1Error = HostingerOpError;
@@ -11904,6 +12431,8 @@ export const listHostingSuggestedWordPressPluginsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingSuggestedWordPressPluginsV1",
 }));
 
 export type ListHostingWebsiteGitRepositoriesV1Error = HostingerOpError;
@@ -11919,6 +12448,8 @@ export const listHostingWebsiteGitRepositoriesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebsiteGitRepositoriesV1",
 }));
 
 export type ListHostingWebsiteParkedDomainsV1Error = HostingerOpError;
@@ -11934,6 +12465,8 @@ export const listHostingWebsiteParkedDomainsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebsiteParkedDomainsV1",
 }));
 
 export type ListHostingWebsiteRedirectsV1Error = HostingerOpError;
@@ -11949,6 +12482,8 @@ export const listHostingWebsiteRedirectsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebsiteRedirectsV1",
 }));
 
 export type ListHostingWebsiteSetupsV1Error = UnprocessableEntity | HostingerOpError;
@@ -11964,6 +12499,8 @@ export const listHostingWebsiteSetupsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebsiteSetupsV1",
 }));
 
 export type ListHostingWebsiteSubdomainsV1Error = HostingerOpError;
@@ -11979,6 +12516,8 @@ export const listHostingWebsiteSubdomainsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebsiteSubdomainsV1",
 }));
 
 export type ListHostingWebsitesV1Error = HostingerOpError;
@@ -11994,6 +12533,8 @@ export const listHostingWebsitesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebsitesV1",
 }));
 
 export type ListHostingWordPressInstallationsV1Error = HostingerOpError;
@@ -12009,6 +12550,8 @@ export const listHostingWordPressInstallationsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWordPressInstallationsV1",
 }));
 
 export type ListHostingWordPressThemesV1Error = HostingerOpError;
@@ -12024,6 +12567,8 @@ export const listHostingWordPressThemesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWordPressThemesV1",
 }));
 
 export type ListMailAccessLogsV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12039,6 +12584,8 @@ export const listMailAccessLogsV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailAccessLogsV1",
 }));
 
 export type ListMailActionLogsV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12054,6 +12601,8 @@ export const listMailActionLogsV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailActionLogsV1",
 }));
 
 export type ListMailAliasesV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12069,6 +12618,8 @@ export const listMailAliasesV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailAliasesV1",
 }));
 
 export type ListMailAPITokensV1Error = UnprocessableEntity | HostingerOpError;
@@ -12084,6 +12635,8 @@ export const listMailAPITokensV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailAPITokensV1",
 }));
 
 export type ListMailAutorepliesV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12099,6 +12652,8 @@ export const listMailAutorepliesV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailAutorepliesV1",
 }));
 
 export type ListMailCatchAllsV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12114,6 +12669,8 @@ export const listMailCatchAllsV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailCatchAllsV1",
 }));
 
 export type ListMailForwardersV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12129,6 +12686,8 @@ export const listMailForwardersV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailForwardersV1",
 }));
 
 export type ListMailInboundLogsV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12144,6 +12703,8 @@ export const listMailInboundLogsV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailInboundLogsV1",
 }));
 
 export type ListMailMailboxActionLogsV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12159,6 +12720,8 @@ export const listMailMailboxActionLogsV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailMailboxActionLogsV1",
 }));
 
 export type ListMailMailboxesV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12174,6 +12737,8 @@ export const listMailMailboxesV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailMailboxesV1",
 }));
 
 export type ListMailOrdersV1Error = UnprocessableEntity | HostingerOpError;
@@ -12189,6 +12754,8 @@ export const listMailOrdersV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailOrdersV1",
 }));
 
 export type ListMailOutboundLogsV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12204,6 +12771,8 @@ export const listMailOutboundLogsV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailOutboundLogsV1",
 }));
 
 export type ListMailWebhookDeliveryLogsV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12219,6 +12788,8 @@ export const listMailWebhookDeliveryLogsV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailWebhookDeliveryLogsV1",
 }));
 
 export type ListMailWebhooksV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12234,6 +12805,8 @@ export const listMailWebhooksV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMailWebhooksV1",
 }));
 
 export type ListReachAutomationStepsV1Error = HostingerOpError;
@@ -12249,6 +12822,8 @@ export const listReachAutomationStepsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachAutomationStepsV1",
 }));
 
 export type ListReachAutomationsV1Error = HostingerOpError;
@@ -12264,6 +12839,8 @@ export const listReachAutomationsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachAutomationsV1",
 }));
 
 export type ListReachCampaignsV1Error = HostingerOpError;
@@ -12279,6 +12856,8 @@ export const listReachCampaignsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachCampaignsV1",
 }));
 
 export type ListReachContactFieldsV1Error = HostingerOpError;
@@ -12294,6 +12873,8 @@ export const listReachContactFieldsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachContactFieldsV1",
 }));
 
 export type ListReachEmailTemplatesV1Error = HostingerOpError;
@@ -12309,6 +12890,8 @@ export const listReachEmailTemplatesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachEmailTemplatesV1",
 }));
 
 export type ListReachFormsV1Error = HostingerOpError;
@@ -12324,6 +12907,8 @@ export const listReachFormsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachFormsV1",
 }));
 
 export type ListReachPlanFeatureAccessV1Error = HostingerOpError;
@@ -12339,6 +12924,8 @@ export const listReachPlanFeatureAccessV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachPlanFeatureAccessV1",
 }));
 
 export type ListReachProfileContactsV1Error = HostingerOpError;
@@ -12354,6 +12941,8 @@ export const listReachProfileContactsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachProfileContactsV1",
 }));
 
 export type ListReachProfileSegmentContactsV1Error = HostingerOpError;
@@ -12369,6 +12958,8 @@ export const listReachProfileSegmentContactsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachProfileSegmentContactsV1",
 }));
 
 export type ListReachProfileSegmentsV1Error = HostingerOpError;
@@ -12384,6 +12975,8 @@ export const listReachProfileSegmentsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachProfileSegmentsV1",
 }));
 
 export type ListReachProfilesV1Error = HostingerOpError;
@@ -12399,6 +12992,8 @@ export const listReachProfilesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachProfilesV1",
 }));
 
 export type ListReachProfileTagsV1Error = HostingerOpError;
@@ -12414,6 +13009,8 @@ export const listReachProfileTagsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachProfileTagsV1",
 }));
 
 export type ListReachSegmentFilterAttributesV1Error = HostingerOpError;
@@ -12433,6 +13030,8 @@ export const listReachSegmentFilterAttributesV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReachSegmentFilterAttributesV1",
 }));
 
 export type MailChangeMailboxPasswordV1Error =
@@ -12452,6 +13051,8 @@ export const mailChangeMailboxPasswordV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MailChangeMailboxPasswordV1",
 }));
 
 export type MailUpdateForwarderKeepCopySettingV1Error =
@@ -12470,6 +13071,8 @@ export const mailUpdateForwarderKeepCopySettingV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MailUpdateForwarderKeepCopySettingV1",
 }));
 
 export type PatchHostingNodeJsVulnerabilitiesV1Error = UnprocessableEntity | HostingerOpError;
@@ -12485,6 +13088,8 @@ export const patchHostingNodeJsVulnerabilitiesV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchHostingNodeJsVulnerabilitiesV1",
 }));
 
 export type PreviewReachContactsMatchingConditionsV1Error = UnprocessableEntity | HostingerOpError;
@@ -12500,6 +13105,8 @@ export const previewReachContactsMatchingConditionsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewReachContactsMatchingConditionsV1",
 }));
 
 export type PublishHorizonWebsiteV1Error = HostingerOpError;
@@ -12515,6 +13122,8 @@ export const publishHorizonWebsiteV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishHorizonWebsiteV1",
 }));
 
 export type PurgeHostingLiteSpeedCacheV1Error = HostingerOpError;
@@ -12530,6 +13139,8 @@ export const purgeHostingLiteSpeedCacheV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeHostingLiteSpeedCacheV1",
 }));
 
 export type ReachCountProfileSegmentContactsV1Error = HostingerOpError;
@@ -12549,6 +13160,8 @@ export const reachCountProfileSegmentContactsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReachCountProfileSegmentContactsV1",
 }));
 
 export type ReachCreateContactsInBulkV1Error = UnprocessableEntity | HostingerOpError;
@@ -12564,6 +13177,8 @@ export const reachCreateContactsInBulkV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReachCreateContactsInBulkV1",
 }));
 
 export type ReachCreateOrFindTagsV1Error = UnprocessableEntity | HostingerOpError;
@@ -12579,6 +13194,8 @@ export const reachCreateOrFindTagsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReachCreateOrFindTagsV1",
 }));
 
 export type RecreateVPSVirtualMachineV1Error = UnprocessableEntity | HostingerOpError;
@@ -12594,6 +13211,8 @@ export const recreateVPSVirtualMachineV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecreateVPSVirtualMachineV1",
 }));
 
 export type RegenerateMailWebhookSecretV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12609,6 +13228,8 @@ export const regenerateMailWebhookSecretV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateMailWebhookSecretV1",
 }));
 
 export type RemoveReachAContactFromATagV1Error = HostingerOpError;
@@ -12624,6 +13245,8 @@ export const removeReachAContactFromATagV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveReachAContactFromATagV1",
 }));
 
 export type RemoveReachContactsFromATagV1Error = UnprocessableEntity | HostingerOpError;
@@ -12639,6 +13262,8 @@ export const removeReachContactsFromATagV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveReachContactsFromATagV1",
 }));
 
 export type RenameReachATagV1Error = UnprocessableEntity | HostingerOpError;
@@ -12654,6 +13279,8 @@ export const renameReachATagV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameReachATagV1",
 }));
 
 export type RenewBillingSubscriptionV1Error = UnprocessableEntity | HostingerOpError;
@@ -12669,6 +13296,8 @@ export const renewBillingSubscriptionV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewBillingSubscriptionV1",
 }));
 
 export type ReplaceAgencyHostingWebsitePHPExtensionsV1Error =
@@ -12686,6 +13315,8 @@ export const replaceAgencyHostingWebsitePHPExtensionsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAgencyHostingWebsitePHPExtensionsV1",
 }));
 
 export type ReplaceAgencyHostingWebsitePHPOptionsV1Error = UnprocessableEntity | HostingerOpError;
@@ -12701,6 +13332,8 @@ export const replaceAgencyHostingWebsitePHPOptionsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAgencyHostingWebsitePHPOptionsV1",
 }));
 
 export type ReplaceHostingNodeJsEnvironmentVariablesV1Error =
@@ -12718,6 +13351,8 @@ export const replaceHostingNodeJsEnvironmentVariablesV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceHostingNodeJsEnvironmentVariablesV1",
 }));
 
 export type ReplaceVPSAllFirewallRulesInGroupV1Error = UnprocessableEntity | HostingerOpError;
@@ -12733,6 +13368,8 @@ export const replaceVPSAllFirewallRulesInGroupV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceVPSAllFirewallRulesInGroupV1",
 }));
 
 export type ResendMailCatchAllConfirmationV1Error =
@@ -12752,6 +13389,8 @@ export const resendMailCatchAllConfirmationV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendMailCatchAllConfirmationV1",
 }));
 
 export type ResendMailForwarderConfirmationV1Error =
@@ -12771,6 +13410,8 @@ export const resendMailForwarderConfirmationV1: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendMailForwarderConfirmationV1",
 }));
 
 export type ResetDNSDNSRecordsV1Error = UnprocessableEntity | HostingerOpError;
@@ -12786,6 +13427,8 @@ export const resetDNSDNSRecordsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetDNSDNSRecordsV1",
 }));
 
 export type ResetHostingPHPExtensionsV1Error = HostingerOpError;
@@ -12801,6 +13444,8 @@ export const resetHostingPHPExtensionsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetHostingPHPExtensionsV1",
 }));
 
 export type ResetVPSHostnameV1Error = HostingerOpError;
@@ -12816,6 +13461,8 @@ export const resetVPSHostnameV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetVPSHostnameV1",
 }));
 
 export type RestartHostingNodeJsApplicationV1Error = HostingerOpError;
@@ -12831,6 +13478,8 @@ export const restartHostingNodeJsApplicationV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartHostingNodeJsApplicationV1",
 }));
 
 export type RestartVPSProjectV1Error = UnprocessableEntity | HostingerOpError;
@@ -12846,6 +13495,8 @@ export const restartVPSProjectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartVPSProjectV1",
 }));
 
 export type RestartVPSVirtualMachineV1Error = HostingerOpError;
@@ -12861,6 +13512,8 @@ export const restartVPSVirtualMachineV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartVPSVirtualMachineV1",
 }));
 
 export type RestoreDNSDNSSnapshotV1Error = HostingerOpError;
@@ -12876,6 +13529,8 @@ export const restoreDNSDNSSnapshotV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDNSDNSSnapshotV1",
 }));
 
 export type RestoreVPSBackupV1Error = HostingerOpError;
@@ -12891,6 +13546,8 @@ export const restoreVPSBackupV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVPSBackupV1",
 }));
 
 export type RestoreVPSSnapshotV1Error = HostingerOpError;
@@ -12906,6 +13563,8 @@ export const restoreVPSSnapshotV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVPSSnapshotV1",
 }));
 
 export type RevokeMailAPITokenV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -12921,6 +13580,8 @@ export const revokeMailAPITokenV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeMailAPITokenV1",
 }));
 
 export type SearchHostingWordPressPluginsV1Error = HostingerOpError;
@@ -12936,6 +13597,8 @@ export const searchHostingWordPressPluginsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchHostingWordPressPluginsV1",
 }));
 
 export type SetBillingDefaultPaymentMethodV1Error = HostingerOpError;
@@ -12951,6 +13614,8 @@ export const setBillingDefaultPaymentMethodV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetBillingDefaultPaymentMethodV1",
 }));
 
 export type SetDomainWHOISProfileAsDefaultV1Error = HostingerOpError;
@@ -12966,6 +13631,8 @@ export const setDomainWHOISProfileAsDefaultV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDomainWHOISProfileAsDefaultV1",
 }));
 
 export type SetEcommerceStoreShippingV1Error = UnprocessableEntity | HostingerOpError;
@@ -12981,6 +13648,8 @@ export const setEcommerceStoreShippingV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetEcommerceStoreShippingV1",
 }));
 
 export type SetHostingAIOptionStatusV1Error = UnprocessableEntity | HostingerOpError;
@@ -12996,6 +13665,8 @@ export const setHostingAIOptionStatusV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetHostingAIOptionStatusV1",
 }));
 
 export type SetVPSHostnameV1Error = UnprocessableEntity | HostingerOpError;
@@ -13011,6 +13682,8 @@ export const setVPSHostnameV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetVPSHostnameV1",
 }));
 
 export type SetVPSNameserversV1Error = UnprocessableEntity | HostingerOpError;
@@ -13026,6 +13699,8 @@ export const setVPSNameserversV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetVPSNameserversV1",
 }));
 
 export type SetVPSPanelPasswordV1Error = UnprocessableEntity | HostingerOpError;
@@ -13041,6 +13716,8 @@ export const setVPSPanelPasswordV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetVPSPanelPasswordV1",
 }));
 
 export type SetVPSRootPasswordV1Error = UnprocessableEntity | HostingerOpError;
@@ -13056,6 +13733,8 @@ export const setVPSRootPasswordV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetVPSRootPasswordV1",
 }));
 
 export type StartDomainDomainTransferV1Error = UnprocessableEntity | HostingerOpError;
@@ -13071,6 +13750,8 @@ export const startDomainDomainTransferV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartDomainDomainTransferV1",
 }));
 
 export type StartHostingNodeJsBuildV1Error = UnprocessableEntity | HostingerOpError;
@@ -13086,6 +13767,8 @@ export const startHostingNodeJsBuildV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartHostingNodeJsBuildV1",
 }));
 
 export type StartVPSProjectV1Error = UnprocessableEntity | HostingerOpError;
@@ -13101,6 +13784,8 @@ export const startVPSProjectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVPSProjectV1",
 }));
 
 export type StartVPSRecoveryModeV1Error = UnprocessableEntity | HostingerOpError;
@@ -13116,6 +13801,8 @@ export const startVPSRecoveryModeV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVPSRecoveryModeV1",
 }));
 
 export type StartVPSVirtualMachineV1Error = HostingerOpError;
@@ -13131,6 +13818,8 @@ export const startVPSVirtualMachineV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVPSVirtualMachineV1",
 }));
 
 export type StopVPSProjectV1Error = UnprocessableEntity | HostingerOpError;
@@ -13146,6 +13835,8 @@ export const stopVPSProjectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopVPSProjectV1",
 }));
 
 export type StopVPSRecoveryModeV1Error = HostingerOpError;
@@ -13161,6 +13852,8 @@ export const stopVPSRecoveryModeV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopVPSRecoveryModeV1",
 }));
 
 export type StopVPSVirtualMachineV1Error = HostingerOpError;
@@ -13176,6 +13869,8 @@ export const stopVPSVirtualMachineV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopVPSVirtualMachineV1",
 }));
 
 export type SyncVPSFirewallToAllAssignedVMsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13191,6 +13886,8 @@ export const syncVPSFirewallToAllAssignedVMsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncVPSFirewallToAllAssignedVMsV1",
 }));
 
 export type TestMailWebhookV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -13206,6 +13903,8 @@ export const testMailWebhookV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestMailWebhookV1",
 }));
 
 export type ToggleHostingCachelessModeV1Error = UnprocessableEntity | HostingerOpError;
@@ -13221,6 +13920,8 @@ export const toggleHostingCachelessModeV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleHostingCachelessModeV1",
 }));
 
 export type ToggleHostingHTTPSRedirectV1Error = UnprocessableEntity | HostingerOpError;
@@ -13236,6 +13937,8 @@ export const toggleHostingHTTPSRedirectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleHostingHTTPSRedirectV1",
 }));
 
 export type ToggleHostingMaintenanceModeV1Error = UnprocessableEntity | HostingerOpError;
@@ -13251,6 +13954,8 @@ export const toggleHostingMaintenanceModeV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleHostingMaintenanceModeV1",
 }));
 
 export type ToggleHostingMemcachedObjectCacheV1Error = UnprocessableEntity | HostingerOpError;
@@ -13266,6 +13971,8 @@ export const toggleHostingMemcachedObjectCacheV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleHostingMemcachedObjectCacheV1",
 }));
 
 export type ToggleHostingWebsiteCacheV1Error = UnprocessableEntity | HostingerOpError;
@@ -13281,6 +13988,8 @@ export const toggleHostingWebsiteCacheV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleHostingWebsiteCacheV1",
 }));
 
 export type UninstallAgencyHostingWebsiteSSLV1Error = UnprocessableEntity | HostingerOpError;
@@ -13296,6 +14005,8 @@ export const uninstallAgencyHostingWebsiteSSLV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UninstallAgencyHostingWebsiteSSLV1",
 }));
 
 export type UninstallHostingSSLV1Error = UnprocessableEntity | HostingerOpError;
@@ -13311,6 +14022,8 @@ export const uninstallHostingSSLV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UninstallHostingSSLV1",
 }));
 
 export type UninstallHostingWordPressPluginsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13326,6 +14039,8 @@ export const uninstallHostingWordPressPluginsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UninstallHostingWordPressPluginsV1",
 }));
 
 export type UninstallHostingWordPressThemesV1Error = UnprocessableEntity | HostingerOpError;
@@ -13341,6 +14056,8 @@ export const uninstallHostingWordPressThemesV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UninstallHostingWordPressThemesV1",
 }));
 
 export type UninstallVPSMonarxV1Error = UnprocessableEntity | HostingerOpError;
@@ -13356,6 +14073,8 @@ export const uninstallVPSMonarxV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UninstallVPSMonarxV1",
 }));
 
 export type UnlinkAgencyHostingDomainFromWebsiteV1Error = HostingerOpError;
@@ -13371,6 +14090,8 @@ export const unlinkAgencyHostingDomainFromWebsiteV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkAgencyHostingDomainFromWebsiteV1",
 }));
 
 export type UpdateAgencyHostingWebsitePHPVersionV1Error = UnprocessableEntity | HostingerOpError;
@@ -13386,6 +14107,8 @@ export const updateAgencyHostingWebsitePHPVersionV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgencyHostingWebsitePHPVersionV1",
 }));
 
 export type UpdateDNSDNSRecordsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13401,6 +14124,8 @@ export const updateDNSDNSRecordsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDNSDNSRecordsV1",
 }));
 
 export type UpdateDomainDomainForwardingV1Error = UnprocessableEntity | HostingerOpError;
@@ -13416,6 +14141,8 @@ export const updateDomainDomainForwardingV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainDomainForwardingV1",
 }));
 
 export type UpdateDomainDomainNameserversV1Error = UnprocessableEntity | HostingerOpError;
@@ -13431,6 +14158,8 @@ export const updateDomainDomainNameserversV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainDomainNameserversV1",
 }));
 
 export type UpdateEcommerceAProductV1Error = UnprocessableEntity | HostingerOpError;
@@ -13446,6 +14175,8 @@ export const updateEcommerceAProductV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEcommerceAProductV1",
 }));
 
 export type UpdateEcommerceProductVariantsInBatchV1Error = UnprocessableEntity | HostingerOpError;
@@ -13461,6 +14192,8 @@ export const updateEcommerceProductVariantsInBatchV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEcommerceProductVariantsInBatchV1",
 }));
 
 export type UpdateEcommerceSalesChannelV1Error = UnprocessableEntity | HostingerOpError;
@@ -13480,6 +14213,8 @@ export const updateEcommerceSalesChannelV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEcommerceSalesChannelV1",
 }));
 
 export type UpdateHostingGitAutoDeploymentSettingsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13495,6 +14230,8 @@ export const updateHostingGitAutoDeploymentSettingsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingGitAutoDeploymentSettingsV1",
 }));
 
 export type UpdateHostingHostingerWordPressPluginV1Error = UnprocessableEntity | HostingerOpError;
@@ -13510,6 +14247,8 @@ export const updateHostingHostingerWordPressPluginV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingHostingerWordPressPluginV1",
 }));
 
 export type UpdateHostingNodeJsBuildSettingsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13525,6 +14264,8 @@ export const updateHostingNodeJsBuildSettingsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingNodeJsBuildSettingsV1",
 }));
 
 export type UpdateHostingPHPExtensionsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13540,6 +14281,8 @@ export const updateHostingPHPExtensionsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingPHPExtensionsV1",
 }));
 
 export type UpdateHostingPHPOptionsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13555,6 +14298,8 @@ export const updateHostingPHPOptionsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingPHPOptionsV1",
 }));
 
 export type UpdateHostingPHPVersionV1Error = UnprocessableEntity | HostingerOpError;
@@ -13570,6 +14315,8 @@ export const updateHostingPHPVersionV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingPHPVersionV1",
 }));
 
 export type UpdateHostingWordPressCoreV1Error = UnprocessableEntity | HostingerOpError;
@@ -13585,6 +14332,8 @@ export const updateHostingWordPressCoreV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingWordPressCoreV1",
 }));
 
 export type UpdateHostingWordPressPluginsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13600,6 +14349,8 @@ export const updateHostingWordPressPluginsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingWordPressPluginsV1",
 }));
 
 export type UpdateHostingWordPressThemesV1Error = UnprocessableEntity | HostingerOpError;
@@ -13615,6 +14366,8 @@ export const updateHostingWordPressThemesV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingWordPressThemesV1",
 }));
 
 export type UpdateMailAutoreplyV1Error = NotFound | UnprocessableEntity | HostingerOpError;
@@ -13630,6 +14383,8 @@ export const updateMailAutoreplyV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMailAutoreplyV1",
 }));
 
 export type UpdateMailWebhookV1Error =
@@ -13649,6 +14404,8 @@ export const updateMailWebhookV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMailWebhookV1",
 }));
 
 export type UpdateReachAContactFieldV1Error = UnprocessableEntity | HostingerOpError;
@@ -13664,6 +14421,8 @@ export const updateReachAContactFieldV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReachAContactFieldV1",
 }));
 
 export type UpdateReachAContactV1Error = UnprocessableEntity | HostingerOpError;
@@ -13679,6 +14438,8 @@ export const updateReachAContactV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReachAContactV1",
 }));
 
 export type UpdateReachAProfileSegmentV1Error = UnprocessableEntity | HostingerOpError;
@@ -13694,6 +14455,8 @@ export const updateReachAProfileSegmentV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReachAProfileSegmentV1",
 }));
 
 export type UpdateVPSFirewallRuleV1Error = UnprocessableEntity | HostingerOpError;
@@ -13709,6 +14472,8 @@ export const updateVPSFirewallRuleV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVPSFirewallRuleV1",
 }));
 
 export type UpdateVPSProjectV1Error = UnprocessableEntity | HostingerOpError;
@@ -13724,6 +14489,8 @@ export const updateVPSProjectV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVPSProjectV1",
 }));
 
 export type ValidateDNSDNSRecordsV1Error = UnprocessableEntity | HostingerOpError;
@@ -13739,6 +14506,8 @@ export const validateDNSDNSRecordsV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateDNSDNSRecordsV1",
 }));
 
 export type VerifyHostingDomainOwnershipV1Error = UnprocessableEntity | HostingerOpError;
@@ -13754,6 +14523,8 @@ export const verifyHostingDomainOwnershipV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyHostingDomainOwnershipV1",
 }));
 
 export type VPSCreatePostInstallScriptV1Error = UnprocessableEntity | HostingerOpError;
@@ -13769,6 +14540,8 @@ export const vPSCreatePostInstallScriptV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSCreatePostInstallScriptV1",
 }));
 
 export type VPSDeletePostInstallScriptV1Error = HostingerOpError;
@@ -13784,6 +14557,8 @@ export const vPSDeletePostInstallScriptV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSDeletePostInstallScriptV1",
 }));
 
 export type VPSGetDataCenterListV1Error = HostingerOpError;
@@ -13799,6 +14574,8 @@ export const vPSGetDataCenterListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSGetDataCenterListV1",
 }));
 
 export type VPSGetFirewallListV1Error = HostingerOpError;
@@ -13814,6 +14591,8 @@ export const vPSGetFirewallListV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSGetFirewallListV1",
 }));
 
 export type VPSGetPostInstallScriptsV1Error = HostingerOpError;
@@ -13829,6 +14608,8 @@ export const vPSGetPostInstallScriptsV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSGetPostInstallScriptsV1",
 }));
 
 export type VPSGetPostInstallScriptV1Error = HostingerOpError;
@@ -13844,6 +14625,8 @@ export const vPSGetPostInstallScriptV1: API.OperationMethod<
   errors: [UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSGetPostInstallScriptV1",
 }));
 
 export type VPSGetProjectListV1Error = UnprocessableEntity | HostingerOpError;
@@ -13859,6 +14642,8 @@ export const vPSGetProjectListV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSGetProjectListV1",
 }));
 
 export type VPSPurchaseNewVirtualMachineV1Error = UnprocessableEntity | HostingerOpError;
@@ -13874,6 +14659,8 @@ export const vPSPurchaseNewVirtualMachineV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSPurchaseNewVirtualMachineV1",
 }));
 
 export type VPSSetupPurchasedVirtualMachineV1Error = UnprocessableEntity | HostingerOpError;
@@ -13889,6 +14676,8 @@ export const vPSSetupPurchasedVirtualMachineV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSSetupPurchasedVirtualMachineV1",
 }));
 
 export type VPSUpdatePostInstallScriptV1Error = UnprocessableEntity | HostingerOpError;
@@ -13904,6 +14693,8 @@ export const vPSUpdatePostInstallScriptV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownHostingerError],
   protocol: HostingerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VPSUpdatePostInstallScriptV1",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

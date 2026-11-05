@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { MongodbAtlasOpError, MongodbAtlasOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "mongodb-atlas-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "MongoDBAtlas",
+  service: "MongodbAtlas",
+  labels: "mongodb_atlas",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -30568,7 +30581,7 @@ export type UpgradeGroupClusterTenantUpgradeRequestEncryptionAtRestProvider =
 /** Collection of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels. Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use Resource Tags instead. */
 export type UpgradeGroupClusterTenantUpgradeRequestLabelsList = Array<ComponentLabel>;
 /** Maximum instance size to which your cluster can automatically scale. */
-export type AzureComputeAutoScalingRulesMaxInstanceSize =
+export type AWSCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize =
   | "M10"
   | "M20"
   | "M30"
@@ -30592,7 +30605,7 @@ export type AzureComputeAutoScalingRulesMaxInstanceSize =
   | "M400_NVME"
   | "M600_NVME";
 /** Minimum instance size to which your cluster can automatically scale. */
-export type AzureComputeAutoScalingRulesMinInstanceSize =
+export type AWSCloudProviderSettingsInputAutoScalingComputeMinInstanceSize =
   | "M10"
   | "M20"
   | "M30"
@@ -30616,15 +30629,16 @@ export type AzureComputeAutoScalingRulesMinInstanceSize =
   | "M400_NVME"
   | "M600_NVME";
 /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
-export interface AzureComputeAutoScalingRules {
+export interface AWSCloudProviderSettingsInputAutoScalingCompute {
   /** Maximum instance size to which your cluster can automatically scale. */
-  maxInstanceSize?: AzureComputeAutoScalingRulesMaxInstanceSize | (string & {});
+  maxInstanceSize?: AWSCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize | (string & {});
   /** Minimum instance size to which your cluster can automatically scale. */
-  minInstanceSize?: AzureComputeAutoScalingRulesMinInstanceSize | (string & {});
+  minInstanceSize?: AWSCloudProviderSettingsInputAutoScalingComputeMinInstanceSize | (string & {});
 }
 /** Range of instance sizes to which your cluster can scale. */
-export interface CloudProviderAzureAutoScaling {
-  compute?: AzureComputeAutoScalingRules;
+export interface AWSCloudProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AWSCloudProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AWSCloudProviderSettingsInputDiskTypeName =
@@ -30728,7 +30742,8 @@ export type AWSCloudProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface AWSCloudProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AWSCloudProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AWSCloudProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -30744,6 +30759,70 @@ export interface AWSCloudProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AWSCloudProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface AzureCloudProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?:
+    | AzureCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize
+    | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?:
+    | AzureCloudProviderSettingsInputAutoScalingComputeMinInstanceSize
+    | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface AzureCloudProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AzureCloudProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AzureCloudProviderSettingsInputDiskTypeName =
@@ -30847,7 +30926,8 @@ export type AzureCloudProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface AzureCloudProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AzureCloudProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AzureCloudProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -30863,6 +30943,66 @@ export interface AzureCloudProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AzureCloudProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface CloudGCPProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: CloudGCPProviderSettingsInputAutoScalingComputeMaxInstanceSize | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: CloudGCPProviderSettingsInputAutoScalingComputeMinInstanceSize | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface CloudGCPProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: CloudGCPProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type CloudGCPProviderSettingsInputDiskTypeName =
@@ -30966,7 +31106,8 @@ export type CloudGCPProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface CloudGCPProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: CloudGCPProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: CloudGCPProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -30982,6 +31123,70 @@ export interface CloudGCPProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: CloudGCPProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFreeProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?:
+    | ClusterFreeProviderSettingsInputAutoScalingComputeMaxInstanceSize
+    | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?:
+    | ClusterFreeProviderSettingsInputAutoScalingComputeMinInstanceSize
+    | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFreeProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFreeProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFreeProviderSettingsInputDiskTypeName =
@@ -31085,7 +31290,8 @@ export type ClusterFreeProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface ClusterFreeProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFreeProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFreeProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31101,6 +31307,70 @@ export interface ClusterFreeProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: ClusterFreeProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFlexProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?:
+    | ClusterFlexProviderSettingsInputAutoScalingComputeMaxInstanceSize
+    | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?:
+    | ClusterFlexProviderSettingsInputAutoScalingComputeMinInstanceSize
+    | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFlexProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFlexProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFlexProviderSettingsInputDiskTypeName =
@@ -31204,7 +31474,8 @@ export type ClusterFlexProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface ClusterFlexProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFlexProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFlexProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31362,6 +31633,66 @@ export type LegacyAtlasClusterEncryptionAtRestProvider = "NONE" | "AWS" | "AZURE
 export type LegacyAtlasClusterLabelsList = Array<ComponentLabel>;
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type LegacyAtlasClusterLinksList = Array<Link>;
+/** Maximum instance size to which your cluster can automatically scale. */
+export type AWSCloudProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type AWSCloudProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface AWSCloudProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: AWSCloudProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: AWSCloudProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface AWSCloudProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AWSCloudProviderSettingsAutoScalingCompute;
+}
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AWSCloudProviderSettingsDiskTypeName =
   | "P2"
@@ -31463,7 +31794,8 @@ export type AWSCloudProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2" | 
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type AWSCloudProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface AWSCloudProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AWSCloudProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AWSCloudProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31481,6 +31813,66 @@ export interface AWSCloudProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AWSCloudProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface AzureCloudProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: AzureCloudProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: AzureCloudProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface AzureCloudProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AzureCloudProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AzureCloudProviderSettingsDiskTypeName =
@@ -31583,7 +31975,8 @@ export type AzureCloudProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2" 
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type AzureCloudProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface AzureCloudProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AzureCloudProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AzureCloudProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31601,6 +31994,66 @@ export interface AzureCloudProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AzureCloudProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface CloudGCPProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: CloudGCPProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: CloudGCPProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface CloudGCPProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: CloudGCPProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type CloudGCPProviderSettingsDiskTypeName =
@@ -31703,7 +32156,8 @@ export type CloudGCPProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2" | 
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type CloudGCPProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface CloudGCPProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: CloudGCPProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: CloudGCPProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31721,6 +32175,66 @@ export interface CloudGCPProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: CloudGCPProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFreeProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: ClusterFreeProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: ClusterFreeProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFreeProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFreeProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFreeProviderSettingsDiskTypeName =
@@ -31823,7 +32337,8 @@ export type ClusterFreeProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2"
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type ClusterFreeProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface ClusterFreeProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFreeProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFreeProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31841,6 +32356,66 @@ export interface ClusterFreeProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: ClusterFreeProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFlexProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: ClusterFlexProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: ClusterFlexProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFlexProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFlexProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFlexProviderSettingsDiskTypeName =
@@ -31943,7 +32518,8 @@ export type ClusterFlexProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2"
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type ClusterFlexProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface ClusterFlexProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFlexProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFlexProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -32156,6 +32732,8 @@ export const acceptGroupStreamVpcPeeringConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptGroupStreamVpcPeeringConnection",
 }));
 
 export type AcknowledgeGroupAlertError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -32171,6 +32749,8 @@ export const acknowledgeGroupAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgeGroupAlert",
 }));
 
 export type AddGroupApiKeyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -32186,6 +32766,8 @@ export const addGroupApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGroupApiKey",
 }));
 
 export type AddGroupTeamsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -32201,6 +32783,8 @@ export const addGroupTeams: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGroupTeams",
 }));
 
 export type AddGroupUserRoleError =
@@ -32221,6 +32805,8 @@ export const addGroupUserRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGroupUserRole",
 }));
 
 export type AddGroupUsersError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -32236,6 +32822,8 @@ export const addGroupUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGroupUsers",
 }));
 
 export type AddOrgTeamUserError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -32251,6 +32839,8 @@ export const addOrgTeamUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrgTeamUser",
 }));
 
 export type AddOrgUserRoleError =
@@ -32271,6 +32861,8 @@ export const addOrgUserRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrgUserRole",
 }));
 
 export type AuthorizeGroupCloudProviderAccessRoleError =
@@ -32291,6 +32883,8 @@ export const authorizeGroupCloudProviderAccessRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeGroupCloudProviderAccessRole",
 }));
 
 export type CancelGroupClusterBackupRestoreJobError =
@@ -32310,6 +32904,8 @@ export const cancelGroupClusterBackupRestoreJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelGroupClusterBackupRestoreJob",
 }));
 
 export type CreateFederationSettingConnectedOrgConfigRoleMappingError =
@@ -32333,6 +32929,8 @@ export const createFederationSettingConnectedOrgConfigRoleMapping: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFederationSettingConnectedOrgConfigRoleMapping",
 }));
 
 export type CreateFederationSettingIdentityProviderError =
@@ -32352,6 +32950,8 @@ export const createFederationSettingIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFederationSettingIdentityProvider",
 }));
 
 export type CreateGroupError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -32367,6 +32967,8 @@ export const createGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupAccessListEntryError =
@@ -32386,6 +32988,8 @@ export const createGroupAccessListEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupAccessListEntry",
 }));
 
 export type CreateGroupAiModelApiKeyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -32401,6 +33005,8 @@ export const createGroupAiModelApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupAiModelApiKey",
 }));
 
 export type CreateGroupAlertConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -32416,6 +33022,8 @@ export const createGroupAlertConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupAlertConfig",
 }));
 
 export type CreateGroupApiKeyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -32431,6 +33039,8 @@ export const createGroupApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupApiKey",
 }));
 
 export type CreateGroupBackupExportBucketError =
@@ -32450,6 +33060,8 @@ export const createGroupBackupExportBucket: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupBackupExportBucket",
 }));
 
 export type CreateGroupBackupPrivateEndpointError =
@@ -32470,6 +33082,8 @@ export const createGroupBackupPrivateEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupBackupPrivateEndpoint",
 }));
 
 export type CreateGroupCloudProviderAccessError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -32485,6 +33099,8 @@ export const createGroupCloudProviderAccess: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupCloudProviderAccess",
 }));
 
 export type CreateGroupClusterError =
@@ -32506,6 +33122,8 @@ export const createGroupCluster: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupCluster",
 }));
 
 export type CreateGroupClusterBackupExportError =
@@ -32526,6 +33144,8 @@ export const createGroupClusterBackupExport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterBackupExport",
 }));
 
 export type CreateGroupClusterBackupRestoreJobError =
@@ -32546,6 +33166,8 @@ export const createGroupClusterBackupRestoreJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterBackupRestoreJob",
 }));
 
 export type CreateGroupClusterCollectionRestoreJobError =
@@ -32566,6 +33188,8 @@ export const createGroupClusterCollectionRestoreJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterCollectionRestoreJob",
 }));
 
 export type CreateGroupClusterGlobalWriteCustomZoneMappingError =
@@ -32589,6 +33213,8 @@ export const createGroupClusterGlobalWriteCustomZoneMapping: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterGlobalWriteCustomZoneMapping",
 }));
 
 export type CreateGroupClusterGlobalWriteManagedNamespaceError =
@@ -32612,6 +33238,8 @@ export const createGroupClusterGlobalWriteManagedNamespace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterGlobalWriteManagedNamespace",
 }));
 
 export type CreateGroupClusterIndexRollingIndexError =
@@ -32632,6 +33260,8 @@ export const createGroupClusterIndexRollingIndex: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterIndexRollingIndex",
 }));
 
 export type CreateGroupClusterOnlineArchiveError =
@@ -32652,6 +33282,8 @@ export const createGroupClusterOnlineArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterOnlineArchive",
 }));
 
 export type CreateGroupClusterOverloadSimulationError =
@@ -32672,6 +33304,8 @@ export const createGroupClusterOverloadSimulation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterOverloadSimulation",
 }));
 
 export type CreateGroupClusterSearchDeploymentError =
@@ -32692,6 +33326,8 @@ export const createGroupClusterSearchDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterSearchDeployment",
 }));
 
 export type CreateGroupClusterSearchIndexError =
@@ -32712,6 +33348,8 @@ export const createGroupClusterSearchIndex: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupClusterSearchIndex",
 }));
 
 export type CreateGroupContainerError =
@@ -32732,6 +33370,8 @@ export const createGroupContainer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupContainer",
 }));
 
 export type CreateGroupCustomDbRoleRoleError =
@@ -32752,6 +33392,8 @@ export const createGroupCustomDbRoleRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupCustomDbRoleRole",
 }));
 
 export type CreateGroupDatabaseUserError =
@@ -32772,6 +33414,8 @@ export const createGroupDatabaseUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupDatabaseUser",
 }));
 
 export type CreateGroupDatabaseUserCertError =
@@ -32792,6 +33436,8 @@ export const createGroupDatabaseUserCert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupDatabaseUserCert",
 }));
 
 export type CreateGroupDataFederationError =
@@ -32811,6 +33457,8 @@ export const createGroupDataFederation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupDataFederation",
 }));
 
 export type CreateGroupEncryptionAtRestPrivateEndpointError =
@@ -32837,6 +33485,8 @@ export const createGroupEncryptionAtRestPrivateEndpoint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupEncryptionAtRestPrivateEndpoint",
 }));
 
 export type CreateGroupFlexClusterError =
@@ -32858,6 +33508,8 @@ export const createGroupFlexCluster: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupFlexCluster",
 }));
 
 export type CreateGroupFlexClusterBackupRestoreJobError =
@@ -32878,6 +33530,8 @@ export const createGroupFlexClusterBackupRestoreJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupFlexClusterBackupRestoreJob",
 }));
 
 export type CreateGroupIntegrationError =
@@ -32898,6 +33552,8 @@ export const createGroupIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupIntegration",
 }));
 
 export type CreateGroupLiveMigrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -32913,6 +33569,8 @@ export const createGroupLiveMigration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupLiveMigration",
 }));
 
 export type CreateGroupLogIntegrationError =
@@ -32932,6 +33590,8 @@ export const createGroupLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupLogIntegration",
 }));
 
 export type CreateGroupMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -32947,6 +33607,8 @@ export const createGroupMcpConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupMcpConfig",
 }));
 
 export type CreateGroupMcpConfigSecretError =
@@ -32967,6 +33629,8 @@ export const createGroupMcpConfigSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupMcpConfigSecret",
 }));
 
 export type CreateGroupMetricIntegrationError =
@@ -32986,6 +33650,8 @@ export const createGroupMetricIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupMetricIntegration",
 }));
 
 export type CreateGroupPeerError =
@@ -33006,6 +33672,8 @@ export const createGroupPeer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupPeer",
 }));
 
 export type CreateGroupPrivateEndpointEndpointServiceError =
@@ -33025,6 +33693,8 @@ export const createGroupPrivateEndpointEndpointService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupPrivateEndpointEndpointService",
 }));
 
 export type CreateGroupPrivateEndpointEndpointServiceEndpointError =
@@ -33050,6 +33720,8 @@ export const createGroupPrivateEndpointEndpointServiceEndpoint: API.OperationMet
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupPrivateEndpointEndpointServiceEndpoint",
 }));
 
 export type CreateGroupPrivateNetworkSettingEndpointIdError =
@@ -33073,6 +33745,8 @@ export const createGroupPrivateNetworkSettingEndpointId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupPrivateNetworkSettingEndpointId",
 }));
 
 export type CreateGroupServiceAccountError =
@@ -33092,6 +33766,8 @@ export const createGroupServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupServiceAccount",
 }));
 
 export type CreateGroupServiceAccountAccessListError =
@@ -33112,6 +33788,8 @@ export const createGroupServiceAccountAccessList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupServiceAccountAccessList",
 }));
 
 export type CreateGroupServiceAccountSecretError =
@@ -33131,6 +33809,8 @@ export const createGroupServiceAccountSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupServiceAccountSecret",
 }));
 
 export type CreateGroupStreamConnectionError =
@@ -33151,6 +33831,8 @@ export const createGroupStreamConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupStreamConnection",
 }));
 
 export type CreateGroupStreamConnectionFailoverConnectionError =
@@ -33175,6 +33857,8 @@ export const createGroupStreamConnectionFailoverConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupStreamConnectionFailoverConnection",
 }));
 
 export type CreateGroupStreamPrivateLinkConnectionError =
@@ -33195,6 +33879,8 @@ export const createGroupStreamPrivateLinkConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupStreamPrivateLinkConnection",
 }));
 
 export type CreateGroupStreamProcessorError =
@@ -33215,6 +33901,8 @@ export const createGroupStreamProcessor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupStreamProcessor",
 }));
 
 export type CreateGroupStreamWorkspaceError =
@@ -33234,6 +33922,8 @@ export const createGroupStreamWorkspace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupStreamWorkspace",
 }));
 
 export type CreateOrgError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -33249,6 +33939,8 @@ export const createOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrg",
 }));
 
 export type CreateOrgApiKeyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -33264,6 +33956,8 @@ export const createOrgApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgApiKey",
 }));
 
 export type CreateOrgApiKeyAccessListEntryError =
@@ -33284,6 +33978,8 @@ export const createOrgApiKeyAccessListEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgApiKeyAccessListEntry",
 }));
 
 export type CreateOrgBillingCostExplorerUsageProcessError =
@@ -33307,6 +34003,8 @@ export const createOrgBillingCostExplorerUsageProcess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgBillingCostExplorerUsageProcess",
 }));
 
 export type CreateOrgInvoiceReportError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -33322,6 +34020,8 @@ export const createOrgInvoiceReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgInvoiceReport",
 }));
 
 export type CreateOrgLiveMigrationLinkTokenError =
@@ -33341,6 +34041,8 @@ export const createOrgLiveMigrationLinkToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgLiveMigrationLinkToken",
 }));
 
 export type CreateOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -33356,6 +34058,8 @@ export const createOrgLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgLogIntegration",
 }));
 
 export type CreateOrgMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -33371,6 +34075,8 @@ export const createOrgMcpConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgMcpConfig",
 }));
 
 export type CreateOrgMcpConfigSecretError =
@@ -33391,6 +34097,8 @@ export const createOrgMcpConfigSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgMcpConfigSecret",
 }));
 
 export type CreateOrgResourcePolicyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -33406,6 +34114,8 @@ export const createOrgResourcePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgResourcePolicy",
 }));
 
 export type CreateOrgServiceAccountError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -33421,6 +34131,8 @@ export const createOrgServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgServiceAccount",
 }));
 
 export type CreateOrgServiceAccountAccessListError =
@@ -33441,6 +34153,8 @@ export const createOrgServiceAccountAccessList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgServiceAccountAccessList",
 }));
 
 export type CreateOrgServiceAccountSecretError =
@@ -33460,6 +34174,8 @@ export const createOrgServiceAccountSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgServiceAccountSecret",
 }));
 
 export type CreateOrgTeamError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -33475,6 +34191,8 @@ export const createOrgTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgTeam",
 }));
 
 export type CreateOrgUserError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -33490,6 +34208,8 @@ export const createOrgUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgUser",
 }));
 
 export type CutoverGroupLiveMigrationError =
@@ -33509,6 +34229,8 @@ export const cutoverGroupLiveMigration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CutoverGroupLiveMigration",
 }));
 
 export type DeauthorizeGroupCloudProviderAccessRoleError =
@@ -33528,6 +34250,8 @@ export const deauthorizeGroupCloudProviderAccessRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeauthorizeGroupCloudProviderAccessRole",
 }));
 
 export type DeferGroupMaintenanceWindowError =
@@ -33547,6 +34271,8 @@ export const deferGroupMaintenanceWindow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeferGroupMaintenanceWindow",
 }));
 
 export type DeleteFederationSettingError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -33562,6 +34288,8 @@ export const deleteFederationSetting: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFederationSetting",
 }));
 
 export type DeleteFederationSettingConnectedOrgConfigRoleMappingError =
@@ -33589,6 +34317,8 @@ export const deleteFederationSettingConnectedOrgConfigRoleMapping: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFederationSettingConnectedOrgConfigRoleMapping",
 }));
 
 export type DeleteFederationSettingIdentityProviderError =
@@ -33608,6 +34338,8 @@ export const deleteFederationSettingIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFederationSettingIdentityProvider",
 }));
 
 export type DeleteGroupError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -33623,6 +34355,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteGroupAccessListEntryError =
@@ -33642,6 +34376,8 @@ export const deleteGroupAccessListEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupAccessListEntry",
 }));
 
 export type DeleteGroupAiModelApiKeyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -33657,6 +34393,8 @@ export const deleteGroupAiModelApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupAiModelApiKey",
 }));
 
 export type DeleteGroupAlertConfigError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -33672,6 +34410,8 @@ export const deleteGroupAlertConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupAlertConfig",
 }));
 
 export type DeleteGroupBackupExportBucketError =
@@ -33691,6 +34431,8 @@ export const deleteGroupBackupExportBucket: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupBackupExportBucket",
 }));
 
 export type DeleteGroupBackupPrivateEndpointError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -33706,6 +34448,8 @@ export const deleteGroupBackupPrivateEndpoint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupBackupPrivateEndpoint",
 }));
 
 export type DeleteGroupClusterError =
@@ -33726,6 +34470,8 @@ export const deleteGroupCluster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupCluster",
 }));
 
 export type DeleteGroupClusterBackupScheduleError =
@@ -33745,6 +34491,8 @@ export const deleteGroupClusterBackupSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterBackupSchedule",
 }));
 
 export type DeleteGroupClusterBackupSnapshotError =
@@ -33764,6 +34512,8 @@ export const deleteGroupClusterBackupSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterBackupSnapshot",
 }));
 
 export type DeleteGroupClusterBackupSnapshotShardedClusterError =
@@ -33790,6 +34540,8 @@ export const deleteGroupClusterBackupSnapshotShardedCluster: API.OperationMethod
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterBackupSnapshotShardedCluster",
 }));
 
 export type DeleteGroupClusterGlobalWriteCustomZoneMappingError =
@@ -33812,6 +34564,8 @@ export const deleteGroupClusterGlobalWriteCustomZoneMapping: API.OperationMethod
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterGlobalWriteCustomZoneMapping",
 }));
 
 export type DeleteGroupClusterGlobalWriteManagedNamespacesError =
@@ -33835,6 +34589,8 @@ export const deleteGroupClusterGlobalWriteManagedNamespaces: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterGlobalWriteManagedNamespaces",
 }));
 
 export type DeleteGroupClusterOnlineArchiveError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -33850,6 +34606,8 @@ export const deleteGroupClusterOnlineArchive: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterOnlineArchive",
 }));
 
 export type DeleteGroupClusterOverloadSimulationError =
@@ -33870,6 +34628,8 @@ export const deleteGroupClusterOverloadSimulation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterOverloadSimulation",
 }));
 
 export type DeleteGroupClusterSearchDeploymentError =
@@ -33890,6 +34650,8 @@ export const deleteGroupClusterSearchDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterSearchDeployment",
 }));
 
 export type DeleteGroupClusterSearchIndexError =
@@ -33909,6 +34671,8 @@ export const deleteGroupClusterSearchIndex: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterSearchIndex",
 }));
 
 export type DeleteGroupClusterSearchIndexByNameError =
@@ -33928,6 +34692,8 @@ export const deleteGroupClusterSearchIndexByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupClusterSearchIndexByName",
 }));
 
 export type DeleteGroupContainerError =
@@ -33948,6 +34714,8 @@ export const deleteGroupContainer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupContainer",
 }));
 
 export type DeleteGroupCustomDbRoleRoleError =
@@ -33968,6 +34736,8 @@ export const deleteGroupCustomDbRoleRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupCustomDbRoleRole",
 }));
 
 export type DeleteGroupDatabaseUserError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -33983,6 +34753,8 @@ export const deleteGroupDatabaseUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupDatabaseUser",
 }));
 
 export type DeleteGroupDataFederationError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -33998,6 +34770,8 @@ export const deleteGroupDataFederation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupDataFederation",
 }));
 
 export type DeleteGroupDataFederationLimitError =
@@ -34017,6 +34791,8 @@ export const deleteGroupDataFederationLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupDataFederationLimit",
 }));
 
 export type DeleteGroupFlexClusterError =
@@ -34037,6 +34813,8 @@ export const deleteGroupFlexCluster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupFlexCluster",
 }));
 
 export type DeleteGroupIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34052,6 +34830,8 @@ export const deleteGroupIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupIntegration",
 }));
 
 export type DeleteGroupLimitError =
@@ -34072,6 +34852,8 @@ export const deleteGroupLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupLimit",
 }));
 
 export type DeleteGroupLogIntegrationError =
@@ -34091,6 +34873,8 @@ export const deleteGroupLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupLogIntegration",
 }));
 
 export type DeleteGroupMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34106,6 +34890,8 @@ export const deleteGroupMcpConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupMcpConfig",
 }));
 
 export type DeleteGroupMcpConfigSecretError = Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -34121,6 +34907,8 @@ export const deleteGroupMcpConfigSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupMcpConfigSecret",
 }));
 
 export type DeleteGroupMetricIntegrationError =
@@ -34140,6 +34928,8 @@ export const deleteGroupMetricIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupMetricIntegration",
 }));
 
 export type DeleteGroupPeerError = Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -34155,6 +34945,8 @@ export const deleteGroupPeer: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupPeer",
 }));
 
 export type DeleteGroupPrivateEndpointEndpointServiceError =
@@ -34178,6 +34970,8 @@ export const deleteGroupPrivateEndpointEndpointService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupPrivateEndpointEndpointService",
 }));
 
 export type DeleteGroupPrivateEndpointEndpointServiceEndpointError =
@@ -34205,6 +34999,8 @@ export const deleteGroupPrivateEndpointEndpointServiceEndpoint: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupPrivateEndpointEndpointServiceEndpoint",
 }));
 
 export type DeleteGroupPrivateNetworkSettingEndpointIdError =
@@ -34227,6 +35023,8 @@ export const deleteGroupPrivateNetworkSettingEndpointId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupPrivateNetworkSettingEndpointId",
 }));
 
 export type DeleteGroupServiceAccountError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34242,6 +35040,8 @@ export const deleteGroupServiceAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupServiceAccount",
 }));
 
 export type DeleteGroupServiceAccountAccessListEntryError =
@@ -34265,6 +35065,8 @@ export const deleteGroupServiceAccountAccessListEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupServiceAccountAccessListEntry",
 }));
 
 export type DeleteGroupServiceAccountSecretError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34280,6 +35082,8 @@ export const deleteGroupServiceAccountSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupServiceAccountSecret",
 }));
 
 export type DeleteGroupStreamConnectionError =
@@ -34299,6 +35103,8 @@ export const deleteGroupStreamConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupStreamConnection",
 }));
 
 export type DeleteGroupStreamConnectionFailoverConnectionError =
@@ -34325,6 +35131,8 @@ export const deleteGroupStreamConnectionFailoverConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupStreamConnectionFailoverConnection",
 }));
 
 export type DeleteGroupStreamPrivateLinkConnectionError =
@@ -34343,6 +35151,8 @@ export const deleteGroupStreamPrivateLinkConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupStreamPrivateLinkConnection",
 }));
 
 export type DeleteGroupStreamProcessorError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34358,6 +35168,8 @@ export const deleteGroupStreamProcessor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupStreamProcessor",
 }));
 
 export type DeleteGroupStreamVpcPeeringConnectionError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34373,6 +35185,8 @@ export const deleteGroupStreamVpcPeeringConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupStreamVpcPeeringConnection",
 }));
 
 export type DeleteGroupStreamWorkspaceError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34388,6 +35202,8 @@ export const deleteGroupStreamWorkspace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupStreamWorkspace",
 }));
 
 export type DeleteGroupUserSecurityLdapUserToDnMappingError =
@@ -34410,6 +35226,8 @@ export const deleteGroupUserSecurityLdapUserToDnMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupUserSecurityLdapUserToDnMapping",
 }));
 
 export type DeleteOrgError =
@@ -34431,6 +35249,8 @@ export const deleteOrg: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrg",
 }));
 
 export type DeleteOrgApiKeyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34446,6 +35266,8 @@ export const deleteOrgApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgApiKey",
 }));
 
 export type DeleteOrgApiKeyAccessListEntryError =
@@ -34465,6 +35287,8 @@ export const deleteOrgApiKeyAccessListEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgApiKeyAccessListEntry",
 }));
 
 export type DeleteOrgLiveMigrationLinkTokensError =
@@ -34484,6 +35308,8 @@ export const deleteOrgLiveMigrationLinkTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgLiveMigrationLinkTokens",
 }));
 
 export type DeleteOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34499,6 +35325,8 @@ export const deleteOrgLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgLogIntegration",
 }));
 
 export type DeleteOrgMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34514,6 +35342,8 @@ export const deleteOrgMcpConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgMcpConfig",
 }));
 
 export type DeleteOrgMcpConfigSecretError = Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -34529,6 +35359,8 @@ export const deleteOrgMcpConfigSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgMcpConfigSecret",
 }));
 
 export type DeleteOrgResourcePolicyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34544,6 +35376,8 @@ export const deleteOrgResourcePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgResourcePolicy",
 }));
 
 export type DeleteOrgServiceAccountError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34559,6 +35393,8 @@ export const deleteOrgServiceAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgServiceAccount",
 }));
 
 export type DeleteOrgServiceAccountAccessListEntryError =
@@ -34578,6 +35414,8 @@ export const deleteOrgServiceAccountAccessListEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgServiceAccountAccessListEntry",
 }));
 
 export type DeleteOrgServiceAccountSecretError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34593,6 +35431,8 @@ export const deleteOrgServiceAccountSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgServiceAccountSecret",
 }));
 
 export type DeleteOrgTeamError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34608,6 +35448,8 @@ export const deleteOrgTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgTeam",
 }));
 
 export type DisableGroupBackupCompliancePolicyError =
@@ -34627,6 +35469,8 @@ export const disableGroupBackupCompliancePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableGroupBackupCompliancePolicy",
 }));
 
 export type DisableGroupManagedSlowMsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34642,6 +35486,8 @@ export const disableGroupManagedSlowMs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableGroupManagedSlowMs",
 }));
 
 export type DisableGroupUserSecurityCustomerX509Error = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34657,6 +35503,8 @@ export const disableGroupUserSecurityCustomerX509: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableGroupUserSecurityCustomerX509",
 }));
 
 export type DownloadGroupClusterLogError =
@@ -34677,6 +35525,8 @@ export const downloadGroupClusterLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGroupClusterLog",
 }));
 
 export type DownloadGroupClusterOnlineArchiveQueryLogsError =
@@ -34700,6 +35550,8 @@ export const downloadGroupClusterOnlineArchiveQueryLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGroupClusterOnlineArchiveQueryLogs",
 }));
 
 export type DownloadGroupDataFederationQueryLogsError =
@@ -34720,6 +35572,8 @@ export const downloadGroupDataFederationQueryLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGroupDataFederationQueryLogs",
 }));
 
 export type DownloadGroupFlexClusterBackupError =
@@ -34740,6 +35594,8 @@ export const downloadGroupFlexClusterBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGroupFlexClusterBackup",
 }));
 
 export type DownloadGroupStreamAuditLogsError =
@@ -34760,6 +35616,8 @@ export const downloadGroupStreamAuditLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGroupStreamAuditLogs",
 }));
 
 export type DownloadGroupStreamOperationalLogsError =
@@ -34780,6 +35638,8 @@ export const downloadGroupStreamOperationalLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGroupStreamOperationalLogs",
 }));
 
 export type EnableGroupManagedSlowMsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34795,6 +35655,8 @@ export const enableGroupManagedSlowMs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableGroupManagedSlowMs",
 }));
 
 export type EndGroupClusterOutageSimulationError =
@@ -34814,6 +35676,8 @@ export const endGroupClusterOutageSimulation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndGroupClusterOutageSimulation",
 }));
 
 export type GetFederationSettingConnectedOrgConfigError =
@@ -34833,6 +35697,8 @@ export const getFederationSettingConnectedOrgConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFederationSettingConnectedOrgConfig",
 }));
 
 export type GetFederationSettingConnectedOrgConfigRoleMappingError =
@@ -34856,6 +35722,8 @@ export const getFederationSettingConnectedOrgConfigRoleMapping: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFederationSettingConnectedOrgConfigRoleMapping",
 }));
 
 export type GetFederationSettingIdentityProviderError =
@@ -34875,6 +35743,8 @@ export const getFederationSettingIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFederationSettingIdentityProvider",
 }));
 
 export type GetFederationSettingIdentityProviderMetadataError =
@@ -34902,6 +35772,8 @@ export const getFederationSettingIdentityProviderMetadata: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFederationSettingIdentityProviderMetadata",
 }));
 
 export type GetGroupError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34917,6 +35789,8 @@ export const getGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupAccessListEntryError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -34932,6 +35806,8 @@ export const getGroupAccessListEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAccessListEntry",
 }));
 
 export type GetGroupAccessListStatusError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34947,6 +35823,8 @@ export const getGroupAccessListStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAccessListStatus",
 }));
 
 export type GetGroupActivityFeedError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -34962,6 +35840,8 @@ export const getGroupActivityFeed: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupActivityFeed",
 }));
 
 export type GetGroupAiModelApiCloudGeographyModelGroupNameRateLimitsError =
@@ -34985,6 +35865,8 @@ export const getGroupAiModelApiCloudGeographyModelGroupNameRateLimits: API.Opera
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAiModelApiCloudGeographyModelGroupNameRateLimits",
 }));
 
 export type GetGroupAiModelApiKeyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35000,6 +35882,8 @@ export const getGroupAiModelApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAiModelApiKey",
 }));
 
 export type GetGroupAiModelApiRateLimitsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35015,6 +35899,8 @@ export const getGroupAiModelApiRateLimits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAiModelApiRateLimits",
 }));
 
 export type GetGroupAlertError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35030,6 +35916,8 @@ export const getGroupAlert: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAlert",
 }));
 
 export type GetGroupAlertAlertConfigsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35045,6 +35933,8 @@ export const getGroupAlertAlertConfigs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAlertAlertConfigs",
 }));
 
 export type GetGroupAlertConfigError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35060,6 +35950,8 @@ export const getGroupAlertConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAlertConfig",
 }));
 
 export type GetGroupAlertConfigAlertsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35075,6 +35967,8 @@ export const getGroupAlertConfigAlerts: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAlertConfigAlerts",
 }));
 
 export type GetGroupAuditLogError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35090,6 +35984,8 @@ export const getGroupAuditLog: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAuditLog",
 }));
 
 export type GetGroupAwsCustomDnsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35105,6 +36001,8 @@ export const getGroupAwsCustomDns: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAwsCustomDns",
 }));
 
 export type GetGroupBackupCompliancePolicyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35120,6 +36018,8 @@ export const getGroupBackupCompliancePolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupBackupCompliancePolicy",
 }));
 
 export type GetGroupBackupExportBucketError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35135,6 +36035,8 @@ export const getGroupBackupExportBucket: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupBackupExportBucket",
 }));
 
 export type GetGroupBackupPrivateEndpointError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35150,6 +36052,8 @@ export const getGroupBackupPrivateEndpoint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupBackupPrivateEndpoint",
 }));
 
 export type GetGroupByNameError =
@@ -35170,6 +36074,8 @@ export const getGroupByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupByName",
 }));
 
 export type GetGroupCloudProviderAccessError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35185,6 +36091,8 @@ export const getGroupCloudProviderAccess: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupCloudProviderAccess",
 }));
 
 export type GetGroupClusterError = Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -35200,6 +36108,8 @@ export const getGroupCluster: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupCluster",
 }));
 
 export type GetGroupClusterAdaptiveSettingsError =
@@ -35219,6 +36129,8 @@ export const getGroupClusterAdaptiveSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterAdaptiveSettings",
 }));
 
 export type GetGroupClusterBackupExportError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35234,6 +36146,8 @@ export const getGroupClusterBackupExport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterBackupExport",
 }));
 
 export type GetGroupClusterBackupRestoreJobError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35249,6 +36163,8 @@ export const getGroupClusterBackupRestoreJob: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterBackupRestoreJob",
 }));
 
 export type GetGroupClusterBackupScheduleError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35264,6 +36180,8 @@ export const getGroupClusterBackupSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterBackupSchedule",
 }));
 
 export type GetGroupClusterBackupSnapshotError =
@@ -35283,6 +36201,8 @@ export const getGroupClusterBackupSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterBackupSnapshot",
 }));
 
 export type GetGroupClusterBackupSnapshotDatabaseError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35298,6 +36218,8 @@ export const getGroupClusterBackupSnapshotDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterBackupSnapshotDatabase",
 }));
 
 export type GetGroupClusterBackupSnapshotDatabaseCollectionError =
@@ -35320,6 +36242,8 @@ export const getGroupClusterBackupSnapshotDatabaseCollection: API.OperationMetho
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterBackupSnapshotDatabaseCollection",
 }));
 
 export type GetGroupClusterBackupSnapshotShardedClusterError =
@@ -35343,6 +36267,8 @@ export const getGroupClusterBackupSnapshotShardedCluster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterBackupSnapshotShardedCluster",
 }));
 
 export type GetGroupClusterCollectionRestoreJobError =
@@ -35362,6 +36288,8 @@ export const getGroupClusterCollectionRestoreJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterCollectionRestoreJob",
 }));
 
 export type GetGroupClusterCollectionRestoreJobCollectionError =
@@ -35385,6 +36313,8 @@ export const getGroupClusterCollectionRestoreJobCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterCollectionRestoreJobCollection",
 }));
 
 export type GetGroupClusterCollStatNamespacesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35400,6 +36330,8 @@ export const getGroupClusterCollStatNamespaces: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterCollStatNamespaces",
 }));
 
 export type GetGroupClusterGlobalWritesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35415,6 +36347,8 @@ export const getGroupClusterGlobalWrites: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterGlobalWrites",
 }));
 
 export type GetGroupClusterOnlineArchiveError =
@@ -35434,6 +36368,8 @@ export const getGroupClusterOnlineArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterOnlineArchive",
 }));
 
 export type GetGroupClusterOutageSimulationError =
@@ -35453,6 +36389,8 @@ export const getGroupClusterOutageSimulation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterOutageSimulation",
 }));
 
 export type GetGroupClusterOverloadSimulationError =
@@ -35472,6 +36410,8 @@ export const getGroupClusterOverloadSimulation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterOverloadSimulation",
 }));
 
 export type GetGroupClusterProcessArgsError =
@@ -35491,6 +36431,8 @@ export const getGroupClusterProcessArgs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterProcessArgs",
 }));
 
 export type GetGroupClusterQueryShapeError =
@@ -35510,6 +36452,8 @@ export const getGroupClusterQueryShape: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterQueryShape",
 }));
 
 export type GetGroupClusterQueryShapeInsightDetailsError =
@@ -35529,6 +36473,8 @@ export const getGroupClusterQueryShapeInsightDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterQueryShapeInsightDetails",
 }));
 
 export type GetGroupClusterSearchDeploymentError =
@@ -35548,6 +36494,8 @@ export const getGroupClusterSearchDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterSearchDeployment",
 }));
 
 export type GetGroupClusterSearchIndexError =
@@ -35567,6 +36515,8 @@ export const getGroupClusterSearchIndex: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterSearchIndex",
 }));
 
 export type GetGroupClusterSearchIndexByNameError =
@@ -35586,6 +36536,8 @@ export const getGroupClusterSearchIndexByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterSearchIndexByName",
 }));
 
 export type GetGroupClusterStatusError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35601,6 +36553,8 @@ export const getGroupClusterStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupClusterStatus",
 }));
 
 export type GetGroupContainerError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35616,6 +36570,8 @@ export const getGroupContainer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupContainer",
 }));
 
 export type GetGroupCustomDbRoleRoleError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35631,6 +36587,8 @@ export const getGroupCustomDbRoleRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupCustomDbRoleRole",
 }));
 
 export type GetGroupDatabaseUserError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35646,6 +36604,8 @@ export const getGroupDatabaseUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupDatabaseUser",
 }));
 
 export type GetGroupDataFederationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -35661,6 +36621,8 @@ export const getGroupDataFederation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupDataFederation",
 }));
 
 export type GetGroupDataFederationLimitError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35676,6 +36638,8 @@ export const getGroupDataFederationLimit: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupDataFederationLimit",
 }));
 
 export type GetGroupDbAccessHistoryClusterError =
@@ -35695,6 +36659,8 @@ export const getGroupDbAccessHistoryCluster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupDbAccessHistoryCluster",
 }));
 
 export type GetGroupDbAccessHistoryProcessError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35710,6 +36676,8 @@ export const getGroupDbAccessHistoryProcess: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupDbAccessHistoryProcess",
 }));
 
 export type GetGroupEncryptionAtRestError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35725,6 +36693,8 @@ export const getGroupEncryptionAtRest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupEncryptionAtRest",
 }));
 
 export type GetGroupEncryptionAtRestPrivateEndpointError =
@@ -35743,6 +36713,8 @@ export const getGroupEncryptionAtRestPrivateEndpoint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupEncryptionAtRestPrivateEndpoint",
 }));
 
 export type GetGroupEventError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35758,6 +36730,8 @@ export const getGroupEvent: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupEvent",
 }));
 
 export type GetGroupFlexClusterError =
@@ -35778,6 +36752,8 @@ export const getGroupFlexCluster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupFlexCluster",
 }));
 
 export type GetGroupFlexClusterBackupRestoreJobError =
@@ -35797,6 +36773,8 @@ export const getGroupFlexClusterBackupRestoreJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupFlexClusterBackupRestoreJob",
 }));
 
 export type GetGroupFlexClusterBackupSnapshotError =
@@ -35816,6 +36794,8 @@ export const getGroupFlexClusterBackupSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupFlexClusterBackupSnapshot",
 }));
 
 export type GetGroupHostFtsMetricIndexMeasurementsError =
@@ -35835,6 +36815,8 @@ export const getGroupHostFtsMetricIndexMeasurements: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupHostFtsMetricIndexMeasurements",
 }));
 
 export type GetGroupIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -35850,6 +36832,8 @@ export const getGroupIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupIntegration",
 }));
 
 export type GetGroupIpAddressesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35865,6 +36849,8 @@ export const getGroupIpAddresses: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupIpAddresses",
 }));
 
 export type GetGroupLimitError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -35880,6 +36866,8 @@ export const getGroupLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupLimit",
 }));
 
 export type GetGroupLiveMigrationError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35895,6 +36883,8 @@ export const getGroupLiveMigration: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupLiveMigration",
 }));
 
 export type GetGroupLiveMigrationValidateStatusError =
@@ -35914,6 +36904,8 @@ export const getGroupLiveMigrationValidateStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupLiveMigrationValidateStatus",
 }));
 
 export type GetGroupLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -35929,6 +36921,8 @@ export const getGroupLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupLogIntegration",
 }));
 
 export type GetGroupMaintenanceWindowError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35944,6 +36938,8 @@ export const getGroupMaintenanceWindow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupMaintenanceWindow",
 }));
 
 export type GetGroupManagedSlowMsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35959,6 +36955,8 @@ export const getGroupManagedSlowMs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupManagedSlowMs",
 }));
 
 export type GetGroupMcpConfigError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35974,6 +36972,8 @@ export const getGroupMcpConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupMcpConfig",
 }));
 
 export type GetGroupMcpConfigSecretError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -35989,6 +36989,8 @@ export const getGroupMcpConfigSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupMcpConfigSecret",
 }));
 
 export type GetGroupMetricIntegrationError =
@@ -36008,6 +37010,8 @@ export const getGroupMetricIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupMetricIntegration",
 }));
 
 export type GetGroupMongoDbVersionsError =
@@ -36028,6 +37032,8 @@ export const getGroupMongoDbVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupMongoDbVersions",
 }));
 
 export type GetGroupPeerError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36043,6 +37049,8 @@ export const getGroupPeer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupPeer",
 }));
 
 export type GetGroupPrivateEndpointEndpointServiceError =
@@ -36062,6 +37070,8 @@ export const getGroupPrivateEndpointEndpointService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupPrivateEndpointEndpointService",
 }));
 
 export type GetGroupPrivateEndpointEndpointServiceEndpointError =
@@ -36085,6 +37095,8 @@ export const getGroupPrivateEndpointEndpointServiceEndpoint: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupPrivateEndpointEndpointServiceEndpoint",
 }));
 
 export type GetGroupPrivateEndpointRegionalModeError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36100,6 +37112,8 @@ export const getGroupPrivateEndpointRegionalMode: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupPrivateEndpointRegionalMode",
 }));
 
 export type GetGroupPrivateNetworkSettingEndpointIdError =
@@ -36119,6 +37133,8 @@ export const getGroupPrivateNetworkSettingEndpointId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupPrivateNetworkSettingEndpointId",
 }));
 
 export type GetGroupProcessError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36134,6 +37150,8 @@ export const getGroupProcess: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupProcess",
 }));
 
 export type GetGroupProcessCollStatNamespacesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36149,6 +37167,8 @@ export const getGroupProcessCollStatNamespaces: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupProcessCollStatNamespaces",
 }));
 
 export type GetGroupProcessDatabaseError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36164,6 +37184,8 @@ export const getGroupProcessDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupProcessDatabase",
 }));
 
 export type GetGroupProcessDatabaseMeasurementsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36179,6 +37201,8 @@ export const getGroupProcessDatabaseMeasurements: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupProcessDatabaseMeasurements",
 }));
 
 export type GetGroupProcessDiskError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36194,6 +37218,8 @@ export const getGroupProcessDisk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupProcessDisk",
 }));
 
 export type GetGroupProcessDiskMeasurementsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36209,6 +37235,8 @@ export const getGroupProcessDiskMeasurements: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupProcessDiskMeasurements",
 }));
 
 export type GetGroupProcessMeasurementsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36224,6 +37252,8 @@ export const getGroupProcessMeasurements: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupProcessMeasurements",
 }));
 
 export type GetGroupSampleDatasetLoadError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36239,6 +37269,8 @@ export const getGroupSampleDatasetLoad: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupSampleDatasetLoad",
 }));
 
 export type GetGroupServiceAccountError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36254,6 +37286,8 @@ export const getGroupServiceAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupServiceAccount",
 }));
 
 export type GetGroupSettingsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36269,6 +37303,8 @@ export const getGroupSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupSettings",
 }));
 
 export type GetGroupStreamAccountDetailsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36284,6 +37320,8 @@ export const getGroupStreamAccountDetails: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupStreamAccountDetails",
 }));
 
 export type GetGroupStreamConnectionError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36299,6 +37337,8 @@ export const getGroupStreamConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupStreamConnection",
 }));
 
 export type GetGroupStreamConnectionFailoverConnectionError =
@@ -36317,6 +37357,8 @@ export const getGroupStreamConnectionFailoverConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupStreamConnectionFailoverConnection",
 }));
 
 export type GetGroupStreamPrivateLinkConnectionError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36332,6 +37374,8 @@ export const getGroupStreamPrivateLinkConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupStreamPrivateLinkConnection",
 }));
 
 export type GetGroupStreamProcessorError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36347,6 +37391,8 @@ export const getGroupStreamProcessor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupStreamProcessor",
 }));
 
 export type GetGroupStreamProcessorsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36362,6 +37408,8 @@ export const getGroupStreamProcessors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupStreamProcessors",
 }));
 
 export type GetGroupStreamWorkspaceError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36377,6 +37425,8 @@ export const getGroupStreamWorkspace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupStreamWorkspace",
 }));
 
 export type GetGroupTeamError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36392,6 +37442,8 @@ export const getGroupTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupTeam",
 }));
 
 export type GetGroupUserError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36407,6 +37459,8 @@ export const getGroupUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupUser",
 }));
 
 export type GetGroupUserSecurityError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36422,6 +37476,8 @@ export const getGroupUserSecurity: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupUserSecurity",
 }));
 
 export type GetGroupUserSecurityLdapVerifyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36437,6 +37493,8 @@ export const getGroupUserSecurityLdapVerify: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupUserSecurityLdapVerify",
 }));
 
 export type GetOrgError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -36452,6 +37510,8 @@ export const getOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrg",
 }));
 
 export type GetOrgActivityFeedError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36467,6 +37527,8 @@ export const getOrgActivityFeed: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgActivityFeed",
 }));
 
 export type GetOrgAiModelApiCloudGeographyModelGroupNameRateLimitsError =
@@ -36490,6 +37552,8 @@ export const getOrgAiModelApiCloudGeographyModelGroupNameRateLimits: API.Operati
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgAiModelApiCloudGeographyModelGroupNameRateLimits",
 }));
 
 export type GetOrgAiModelApiKeyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36505,6 +37569,8 @@ export const getOrgAiModelApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgAiModelApiKey",
 }));
 
 export type GetOrgAiModelApiRateLimitsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36520,6 +37586,8 @@ export const getOrgAiModelApiRateLimits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgAiModelApiRateLimits",
 }));
 
 export type GetOrgApiKeyError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36535,6 +37603,8 @@ export const getOrgApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgApiKey",
 }));
 
 export type GetOrgApiKeyAccessListEntryError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36550,6 +37620,8 @@ export const getOrgApiKeyAccessListEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgApiKeyAccessListEntry",
 }));
 
 export type GetOrgAssociatedInvoicesError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36565,6 +37637,8 @@ export const getOrgAssociatedInvoices: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgAssociatedInvoices",
 }));
 
 export type GetOrgBillingCostExplorerUsageError =
@@ -36584,6 +37658,8 @@ export const getOrgBillingCostExplorerUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgBillingCostExplorerUsage",
 }));
 
 export type GetOrgDelegationSettingsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36599,6 +37675,8 @@ export const getOrgDelegationSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgDelegationSettings",
 }));
 
 export type GetOrgEventError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36614,6 +37692,8 @@ export const getOrgEvent: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgEvent",
 }));
 
 export type GetOrgFederationSettingsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36629,6 +37709,8 @@ export const getOrgFederationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgFederationSettings",
 }));
 
 export type GetOrgGroupsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36644,6 +37726,8 @@ export const getOrgGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgGroups",
 }));
 
 export type GetOrgInvoiceError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36659,6 +37743,8 @@ export const getOrgInvoice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgInvoice",
 }));
 
 export type GetOrgInvoiceCsvError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36674,6 +37760,8 @@ export const getOrgInvoiceCsv: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgInvoiceCsv",
 }));
 
 export type GetOrgInvoiceReportError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36689,6 +37777,8 @@ export const getOrgInvoiceReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgInvoiceReport",
 }));
 
 export type GetOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36704,6 +37794,8 @@ export const getOrgLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgLogIntegration",
 }));
 
 export type GetOrgMaintenanceSettingsError =
@@ -36723,6 +37815,8 @@ export const getOrgMaintenanceSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgMaintenanceSettings",
 }));
 
 export type GetOrgMcpConfigError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36738,6 +37832,8 @@ export const getOrgMcpConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgMcpConfig",
 }));
 
 export type GetOrgMcpConfigSecretError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36753,6 +37849,8 @@ export const getOrgMcpConfigSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgMcpConfigSecret",
 }));
 
 export type GetOrgNonCompliantResourcesError =
@@ -36772,6 +37870,8 @@ export const getOrgNonCompliantResources: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgNonCompliantResources",
 }));
 
 export type GetOrgResourcePolicyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36787,6 +37887,8 @@ export const getOrgResourcePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgResourcePolicy",
 }));
 
 export type GetOrgServiceAccountError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36802,6 +37904,8 @@ export const getOrgServiceAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgServiceAccount",
 }));
 
 export type GetOrgServiceAccountGroupsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36817,6 +37921,8 @@ export const getOrgServiceAccountGroups: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgServiceAccountGroups",
 }));
 
 export type GetOrgSettingsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36832,6 +37938,8 @@ export const getOrgSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgSettings",
 }));
 
 export type GetOrgTeamError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36847,6 +37955,8 @@ export const getOrgTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgTeam",
 }));
 
 export type GetOrgTeamByNameError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36862,6 +37972,8 @@ export const getOrgTeamByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgTeamByName",
 }));
 
 export type GetOrgUserError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36877,6 +37989,8 @@ export const getOrgUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgUser",
 }));
 
 export type GetRateLimitError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -36892,6 +38006,8 @@ export const getRateLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRateLimit",
 }));
 
 export type GetSkuError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36907,6 +38023,8 @@ export const getSku: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSku",
 }));
 
 export type GetSystemStatusError = Forbidden | MongodbAtlasOpError;
@@ -36922,6 +38040,8 @@ export const getSystemStatus: API.OperationMethod<
   errors: [Forbidden, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSystemStatus",
 }));
 
 export type GrantGroupClusterMongoDbEmployeeAccessError =
@@ -36942,6 +38062,8 @@ export const grantGroupClusterMongoDbEmployeeAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrantGroupClusterMongoDbEmployeeAccess",
 }));
 
 export type InviteGroupServiceAccountError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -36957,6 +38079,8 @@ export const inviteGroupServiceAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteGroupServiceAccount",
 }));
 
 export type ListAlertConfigMatcherFieldNamesError = Forbidden | MongodbAtlasOpError;
@@ -36972,6 +38096,8 @@ export const listAlertConfigMatcherFieldNames: API.OperationMethod<
   errors: [Forbidden, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertConfigMatcherFieldNames",
 }));
 
 export type ListClusterDetailsError = Forbidden | MongodbAtlasOpError;
@@ -36987,6 +38113,8 @@ export const listClusterDetails: API.OperationMethod<
   errors: [Forbidden, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterDetails",
 }));
 
 export type ListControlPlaneIpAddressesError = MongodbAtlasOpError;
@@ -37002,6 +38130,8 @@ export const listControlPlaneIpAddresses: API.OperationMethod<
   errors: [UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListControlPlaneIpAddresses",
 }));
 
 export type ListEventTypesError = Forbidden | MongodbAtlasOpError;
@@ -37017,6 +38147,8 @@ export const listEventTypes: API.OperationMethod<
   errors: [Forbidden, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventTypes",
 }));
 
 export type ListFederationSettingConnectedOrgConfigRoleMappingsError =
@@ -37040,6 +38172,8 @@ export const listFederationSettingConnectedOrgConfigRoleMappings: API.OperationM
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFederationSettingConnectedOrgConfigRoleMappings",
 }));
 
 export type ListFederationSettingConnectedOrgConfigsError =
@@ -37059,6 +38193,8 @@ export const listFederationSettingConnectedOrgConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFederationSettingConnectedOrgConfigs",
 }));
 
 export type ListFederationSettingIdentityProvidersError =
@@ -37078,6 +38214,8 @@ export const listFederationSettingIdentityProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFederationSettingIdentityProviders",
 }));
 
 export type ListGroupAccessListEntriesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37093,6 +38231,8 @@ export const listGroupAccessListEntries: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupAccessListEntries",
 }));
 
 export type ListGroupAiModelApiKeysError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37108,6 +38248,8 @@ export const listGroupAiModelApiKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupAiModelApiKeys",
 }));
 
 export type ListGroupAlertConfigsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37123,6 +38265,8 @@ export const listGroupAlertConfigs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupAlertConfigs",
 }));
 
 export type ListGroupAlertsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -37138,6 +38282,8 @@ export const listGroupAlerts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupAlerts",
 }));
 
 export type ListGroupApiKeysError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37153,6 +38299,8 @@ export const listGroupApiKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupApiKeys",
 }));
 
 export type ListGroupBackupExportBucketsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37168,6 +38316,8 @@ export const listGroupBackupExportBuckets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupBackupExportBuckets",
 }));
 
 export type ListGroupBackupPrivateEndpointsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37187,6 +38337,8 @@ export const listGroupBackupPrivateEndpoints: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupBackupPrivateEndpoints",
 }));
 
 export type ListGroupCloudProviderAccessError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37202,6 +38354,8 @@ export const listGroupCloudProviderAccess: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupCloudProviderAccess",
 }));
 
 export type ListGroupClusterBackupExportsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37217,6 +38371,8 @@ export const listGroupClusterBackupExports: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterBackupExports",
 }));
 
 export type ListGroupClusterBackupRestoreJobsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37232,6 +38388,8 @@ export const listGroupClusterBackupRestoreJobs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterBackupRestoreJobs",
 }));
 
 export type ListGroupClusterBackupSnapshotDatabaseCollectionsError =
@@ -37255,6 +38413,8 @@ export const listGroupClusterBackupSnapshotDatabaseCollections: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterBackupSnapshotDatabaseCollections",
 }));
 
 export type ListGroupClusterBackupSnapshotDatabasesError =
@@ -37274,6 +38434,8 @@ export const listGroupClusterBackupSnapshotDatabases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterBackupSnapshotDatabases",
 }));
 
 export type ListGroupClusterBackupSnapshotsError =
@@ -37293,6 +38455,8 @@ export const listGroupClusterBackupSnapshots: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterBackupSnapshots",
 }));
 
 export type ListGroupClusterBackupSnapshotShardedClustersError =
@@ -37316,6 +38480,8 @@ export const listGroupClusterBackupSnapshotShardedClusters: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterBackupSnapshotShardedClusters",
 }));
 
 export type ListGroupClusterCollectionRestoreJobCollectionsError =
@@ -37343,6 +38509,8 @@ export const listGroupClusterCollectionRestoreJobCollections: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterCollectionRestoreJobCollections",
 }));
 
 export type ListGroupClusterCollectionRestoreJobsError =
@@ -37362,6 +38530,8 @@ export const listGroupClusterCollectionRestoreJobs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterCollectionRestoreJobs",
 }));
 
 export type ListGroupClusterCollStatMeasurementsError =
@@ -37381,6 +38551,8 @@ export const listGroupClusterCollStatMeasurements: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterCollStatMeasurements",
 }));
 
 export type ListGroupClusterCollStatPinnedNamespacesError =
@@ -37400,6 +38572,8 @@ export const listGroupClusterCollStatPinnedNamespaces: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterCollStatPinnedNamespaces",
 }));
 
 export type ListGroupClusterOnlineArchivesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37415,6 +38589,8 @@ export const listGroupClusterOnlineArchives: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterOnlineArchives",
 }));
 
 export type ListGroupClusterOverloadSimulationsError =
@@ -37434,6 +38610,8 @@ export const listGroupClusterOverloadSimulations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterOverloadSimulations",
 }));
 
 export type ListGroupClusterPerformanceAdvisorDropIndexSuggestionsError =
@@ -37457,6 +38635,8 @@ export const listGroupClusterPerformanceAdvisorDropIndexSuggestions: API.Operati
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterPerformanceAdvisorDropIndexSuggestions",
 }));
 
 export type ListGroupClusterPerformanceAdvisorSchemaAdviceError =
@@ -37480,6 +38660,8 @@ export const listGroupClusterPerformanceAdvisorSchemaAdvice: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterPerformanceAdvisorSchemaAdvice",
 }));
 
 export type ListGroupClusterPerformanceAdvisorSuggestedIndexesError =
@@ -37503,6 +38685,8 @@ export const listGroupClusterPerformanceAdvisorSuggestedIndexes: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterPerformanceAdvisorSuggestedIndexes",
 }));
 
 export type ListGroupClusterProviderRegionsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37518,6 +38702,8 @@ export const listGroupClusterProviderRegions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterProviderRegions",
 }));
 
 export type ListGroupClusterQueryShapeInsightSummariesError =
@@ -37537,6 +38723,8 @@ export const listGroupClusterQueryShapeInsightSummaries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterQueryShapeInsightSummaries",
 }));
 
 export type ListGroupClusterQueryShapesError =
@@ -37556,6 +38744,8 @@ export const listGroupClusterQueryShapes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterQueryShapes",
 }));
 
 export type ListGroupClustersError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37571,6 +38761,8 @@ export const listGroupClusters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusters",
 }));
 
 export type ListGroupClusterSearchIndexError =
@@ -37590,6 +38782,8 @@ export const listGroupClusterSearchIndex: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterSearchIndex",
 }));
 
 export type ListGroupClusterSearchIndexesError =
@@ -37609,6 +38803,8 @@ export const listGroupClusterSearchIndexes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupClusterSearchIndexes",
 }));
 
 export type ListGroupCollStatMetricsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -37624,6 +38820,8 @@ export const listGroupCollStatMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupCollStatMetrics",
 }));
 
 export type ListGroupContainerAllError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37639,6 +38837,8 @@ export const listGroupContainerAll: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupContainerAll",
 }));
 
 export type ListGroupContainersError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37654,6 +38854,8 @@ export const listGroupContainers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupContainers",
 }));
 
 export type ListGroupCustomDbRoleRolesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37669,6 +38871,8 @@ export const listGroupCustomDbRoleRoles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupCustomDbRoleRoles",
 }));
 
 export type ListGroupDatabaseUserCertsError =
@@ -37688,6 +38892,8 @@ export const listGroupDatabaseUserCerts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupDatabaseUserCerts",
 }));
 
 export type ListGroupDatabaseUsersError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37703,6 +38909,8 @@ export const listGroupDatabaseUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupDatabaseUsers",
 }));
 
 export type ListGroupDataFederationError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37718,6 +38926,8 @@ export const listGroupDataFederation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupDataFederation",
 }));
 
 export type ListGroupDataFederationLimitsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37733,6 +38943,8 @@ export const listGroupDataFederationLimits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupDataFederationLimits",
 }));
 
 export type ListGroupEncryptionAtRestPrivateEndpointsError =
@@ -37751,6 +38963,8 @@ export const listGroupEncryptionAtRestPrivateEndpoints: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupEncryptionAtRestPrivateEndpoints",
 }));
 
 export type ListGroupEventsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -37766,6 +38980,8 @@ export const listGroupEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupEvents",
 }));
 
 export type ListGroupFlexClusterBackupRestoreJobsError =
@@ -37789,6 +39005,8 @@ export const listGroupFlexClusterBackupRestoreJobs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupFlexClusterBackupRestoreJobs",
 }));
 
 export type ListGroupFlexClusterBackupSnapshotsError =
@@ -37808,6 +39026,8 @@ export const listGroupFlexClusterBackupSnapshots: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupFlexClusterBackupSnapshots",
 }));
 
 export type ListGroupFlexClustersError = Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -37823,6 +39043,8 @@ export const listGroupFlexClusters: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupFlexClusters",
 }));
 
 export type ListGroupHostFtsMetricIndexMeasurementsError =
@@ -37842,6 +39064,8 @@ export const listGroupHostFtsMetricIndexMeasurements: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupHostFtsMetricIndexMeasurements",
 }));
 
 export type ListGroupHostFtsMetricMeasurementsError =
@@ -37861,6 +39085,8 @@ export const listGroupHostFtsMetricMeasurements: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupHostFtsMetricMeasurements",
 }));
 
 export type ListGroupHostFtsMetricsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -37876,6 +39102,8 @@ export const listGroupHostFtsMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupHostFtsMetrics",
 }));
 
 export type ListGroupIntegrationsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -37891,6 +39119,8 @@ export const listGroupIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupIntegrations",
 }));
 
 export type ListGroupLimitsError =
@@ -37911,6 +39141,8 @@ export const listGroupLimits: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupLimits",
 }));
 
 export type ListGroupLogIntegrationsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -37926,6 +39158,8 @@ export const listGroupLogIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupLogIntegrations",
 }));
 
 export type ListGroupMcpConfigsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37941,6 +39175,8 @@ export const listGroupMcpConfigs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMcpConfigs",
 }));
 
 export type ListGroupMcpConfigSecretsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -37956,6 +39192,8 @@ export const listGroupMcpConfigSecrets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMcpConfigSecrets",
 }));
 
 export type ListGroupMetricIntegrationsError =
@@ -37975,6 +39213,8 @@ export const listGroupMetricIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMetricIntegrations",
 }));
 
 export type ListGroupPeersError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -37990,6 +39230,8 @@ export const listGroupPeers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupPeers",
 }));
 
 export type ListGroupPrivateEndpointEndpointServiceError =
@@ -38009,6 +39251,8 @@ export const listGroupPrivateEndpointEndpointService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupPrivateEndpointEndpointService",
 }));
 
 export type ListGroupPrivateNetworkSettingEndpointIdsError =
@@ -38028,6 +39272,8 @@ export const listGroupPrivateNetworkSettingEndpointIds: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupPrivateNetworkSettingEndpointIds",
 }));
 
 export type ListGroupProcessCollStatMeasurementsError =
@@ -38047,6 +39293,8 @@ export const listGroupProcessCollStatMeasurements: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProcessCollStatMeasurements",
 }));
 
 export type ListGroupProcessDatabasesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38062,6 +39310,8 @@ export const listGroupProcessDatabases: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProcessDatabases",
 }));
 
 export type ListGroupProcessDisksError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38077,6 +39327,8 @@ export const listGroupProcessDisks: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProcessDisks",
 }));
 
 export type ListGroupProcessesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38092,6 +39344,8 @@ export const listGroupProcesses: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProcesses",
 }));
 
 export type ListGroupProcessPerformanceAdvisorNamespacesError =
@@ -38114,6 +39368,8 @@ export const listGroupProcessPerformanceAdvisorNamespaces: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProcessPerformanceAdvisorNamespaces",
 }));
 
 export type ListGroupProcessPerformanceAdvisorSlowQueryLogsError =
@@ -38136,6 +39392,8 @@ export const listGroupProcessPerformanceAdvisorSlowQueryLogs: API.OperationMetho
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProcessPerformanceAdvisorSlowQueryLogs",
 }));
 
 export type ListGroupProcessPerformanceAdvisorSuggestedIndexesError =
@@ -38158,6 +39416,8 @@ export const listGroupProcessPerformanceAdvisorSuggestedIndexes: API.OperationMe
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProcessPerformanceAdvisorSuggestedIndexes",
 }));
 
 export type ListGroupsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38173,6 +39433,8 @@ export const listGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListGroupServiceAccountAccessListError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38188,6 +39450,8 @@ export const listGroupServiceAccountAccessList: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupServiceAccountAccessList",
 }));
 
 export type ListGroupServiceAccountsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38203,6 +39467,8 @@ export const listGroupServiceAccounts: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupServiceAccounts",
 }));
 
 export type ListGroupStreamActiveVpcPeeringConnectionsError =
@@ -38225,6 +39491,8 @@ export const listGroupStreamActiveVpcPeeringConnections: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupStreamActiveVpcPeeringConnections",
 }));
 
 export type ListGroupStreamConnectionFailoverConnectionsError =
@@ -38248,6 +39516,8 @@ export const listGroupStreamConnectionFailoverConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupStreamConnectionFailoverConnections",
 }));
 
 export type ListGroupStreamConnectionsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38263,6 +39533,8 @@ export const listGroupStreamConnections: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupStreamConnections",
 }));
 
 export type ListGroupStreamPrivateLinkConnectionsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38278,6 +39550,8 @@ export const listGroupStreamPrivateLinkConnections: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupStreamPrivateLinkConnections",
 }));
 
 export type ListGroupStreamVpcPeeringConnectionsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38293,6 +39567,8 @@ export const listGroupStreamVpcPeeringConnections: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupStreamVpcPeeringConnections",
 }));
 
 export type ListGroupStreamWorkspacesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38308,6 +39584,8 @@ export const listGroupStreamWorkspaces: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupStreamWorkspaces",
 }));
 
 export type ListGroupTeamsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38323,6 +39601,8 @@ export const listGroupTeams: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupTeams",
 }));
 
 export type ListGroupUsersError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38338,6 +39618,8 @@ export const listGroupUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupUsers",
 }));
 
 export type ListOrgAiModelApiKeysError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38353,6 +39635,8 @@ export const listOrgAiModelApiKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgAiModelApiKeys",
 }));
 
 export type ListOrgApiKeyAccessListEntriesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38368,6 +39652,8 @@ export const listOrgApiKeyAccessListEntries: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgApiKeyAccessListEntries",
 }));
 
 export type ListOrgApiKeysError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38383,6 +39669,8 @@ export const listOrgApiKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgApiKeys",
 }));
 
 export type ListOrgEventsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38398,6 +39686,8 @@ export const listOrgEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgEvents",
 }));
 
 export type ListOrgInvoicePendingError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38413,6 +39703,8 @@ export const listOrgInvoicePending: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgInvoicePending",
 }));
 
 export type ListOrgInvoiceReportsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38428,6 +39720,8 @@ export const listOrgInvoiceReports: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgInvoiceReports",
 }));
 
 export type ListOrgInvoicesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38443,6 +39737,8 @@ export const listOrgInvoices: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgInvoices",
 }));
 
 export type ListOrgLiveMigrationAvailableProjectsError =
@@ -38462,6 +39758,8 @@ export const listOrgLiveMigrationAvailableProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgLiveMigrationAvailableProjects",
 }));
 
 export type ListOrgLogIntegrationsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38477,6 +39775,8 @@ export const listOrgLogIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgLogIntegrations",
 }));
 
 export type ListOrgMcpConfigsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38492,6 +39792,8 @@ export const listOrgMcpConfigs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgMcpConfigs",
 }));
 
 export type ListOrgMcpConfigSecretsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38507,6 +39809,8 @@ export const listOrgMcpConfigSecrets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgMcpConfigSecrets",
 }));
 
 export type ListOrgResourcePoliciesError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38522,6 +39826,8 @@ export const listOrgResourcePolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgResourcePolicies",
 }));
 
 export type ListOrgsError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -38537,6 +39843,8 @@ export const listOrgs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgs",
 }));
 
 export type ListOrgServiceAccountAccessListError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38552,6 +39860,8 @@ export const listOrgServiceAccountAccessList: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgServiceAccountAccessList",
 }));
 
 export type ListOrgServiceAccountsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38567,6 +39877,8 @@ export const listOrgServiceAccounts: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgServiceAccounts",
 }));
 
 export type ListOrgTeamsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38582,6 +39894,8 @@ export const listOrgTeams: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgTeams",
 }));
 
 export type ListOrgTeamUsersError =
@@ -38602,6 +39916,8 @@ export const listOrgTeamUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgTeamUsers",
 }));
 
 export type ListOrgUsersError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38617,6 +39933,8 @@ export const listOrgUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgUsers",
 }));
 
 export type ListRateLimitsError = BadRequest | Forbidden | MongodbAtlasOpError;
@@ -38632,6 +39950,8 @@ export const listRateLimits: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRateLimits",
 }));
 
 export type ListSkusError = Forbidden | MongodbAtlasOpError;
@@ -38647,6 +39967,8 @@ export const listSkus: API.OperationMethod<
   errors: [Forbidden, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkus",
 }));
 
 export type MigrateGroupError = PaymentRequired | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38662,6 +39984,8 @@ export const migrateGroup: API.OperationMethod<
   errors: [PaymentRequired, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateGroup",
 }));
 
 export type PinGroupClusterCollStatPinnedNamespacesError =
@@ -38681,6 +40005,8 @@ export const pinGroupClusterCollStatPinnedNamespaces: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PinGroupClusterCollStatPinnedNamespaces",
 }));
 
 export type PinGroupClusterFeatureCompatibilityVersionError =
@@ -38709,6 +40035,8 @@ export const pinGroupClusterFeatureCompatibilityVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PinGroupClusterFeatureCompatibilityVersion",
 }));
 
 export type RejectGroupStreamVpcPeeringConnectionError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38724,6 +40052,8 @@ export const rejectGroupStreamVpcPeeringConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectGroupStreamVpcPeeringConnection",
 }));
 
 export type RemoveFederationSettingConnectedOrgConfigError =
@@ -38747,6 +40077,8 @@ export const removeFederationSettingConnectedOrgConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveFederationSettingConnectedOrgConfig",
 }));
 
 export type RemoveGroupApiKeyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38762,6 +40094,8 @@ export const removeGroupApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGroupApiKey",
 }));
 
 export type RemoveGroupTeamError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38777,6 +40111,8 @@ export const removeGroupTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGroupTeam",
 }));
 
 export type RemoveGroupUserError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38792,6 +40128,8 @@ export const removeGroupUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGroupUser",
 }));
 
 export type RemoveGroupUserRoleError =
@@ -38812,6 +40150,8 @@ export const removeGroupUserRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGroupUserRole",
 }));
 
 export type RemoveOrgTeamUserError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38827,6 +40167,8 @@ export const removeOrgTeamUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrgTeamUser",
 }));
 
 export type RemoveOrgUserError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38842,6 +40184,8 @@ export const removeOrgUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrgUser",
 }));
 
 export type RemoveOrgUserRoleError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -38857,6 +40201,8 @@ export const removeOrgUserRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrgUserRole",
 }));
 
 export type RenameOrgTeamError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -38872,6 +40218,8 @@ export const renameOrgTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameOrgTeam",
 }));
 
 export type RequestGroupEncryptionAtRestPrivateEndpointDeletionError =
@@ -38898,6 +40246,8 @@ export const requestGroupEncryptionAtRestPrivateEndpointDeletion: API.OperationM
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestGroupEncryptionAtRestPrivateEndpointDeletion",
 }));
 
 export type RequestGroupSampleDatasetLoadError =
@@ -38918,6 +40268,8 @@ export const requestGroupSampleDatasetLoad: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestGroupSampleDatasetLoad",
 }));
 
 export type ResetGroupAiModelApiCloudGeographyModelGroupNameRateLimitsError =
@@ -38941,6 +40293,8 @@ export const resetGroupAiModelApiCloudGeographyModelGroupNameRateLimits: API.Ope
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetGroupAiModelApiCloudGeographyModelGroupNameRateLimits",
 }));
 
 export type ResetGroupAiModelApiRateLimitsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -38956,6 +40310,8 @@ export const resetGroupAiModelApiRateLimits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetGroupAiModelApiRateLimits",
 }));
 
 export type ResetGroupMaintenanceWindowError =
@@ -38975,6 +40331,8 @@ export const resetGroupMaintenanceWindow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetGroupMaintenanceWindow",
 }));
 
 export type ResetOrgMaintenanceSettingsError =
@@ -38994,6 +40352,8 @@ export const resetOrgMaintenanceSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetOrgMaintenanceSettings",
 }));
 
 export type RestartGroupClusterPrimariesError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -39009,6 +40369,8 @@ export const restartGroupClusterPrimaries: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartGroupClusterPrimaries",
 }));
 
 export type RevokeFederationSettingIdentityProviderJwksError =
@@ -39036,6 +40398,8 @@ export const revokeFederationSettingIdentityProviderJwks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeFederationSettingIdentityProviderJwks",
 }));
 
 export type RevokeGroupClusterMongoDbEmployeeAccessError =
@@ -39056,6 +40420,8 @@ export const revokeGroupClusterMongoDbEmployeeAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeGroupClusterMongoDbEmployeeAccess",
 }));
 
 export type SearchOrgInvoiceLineItemsError =
@@ -39075,6 +40441,8 @@ export const searchOrgInvoiceLineItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchOrgInvoiceLineItems",
 }));
 
 export type SetGroupDataFederationLimitError =
@@ -39094,6 +40462,8 @@ export const setGroupDataFederationLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGroupDataFederationLimit",
 }));
 
 export type SetGroupLimitError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -39109,6 +40479,8 @@ export const setGroupLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGroupLimit",
 }));
 
 export type StartGroupClusterOutageSimulationError =
@@ -39129,6 +40501,8 @@ export const startGroupClusterOutageSimulation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartGroupClusterOutageSimulation",
 }));
 
 export type StartGroupStreamProcessorError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -39144,6 +40518,8 @@ export const startGroupStreamProcessor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartGroupStreamProcessor",
 }));
 
 export type StartGroupStreamProcessorWithError =
@@ -39163,6 +40539,8 @@ export const startGroupStreamProcessorWith: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartGroupStreamProcessorWith",
 }));
 
 export type StopGroupStreamProcessorError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -39178,6 +40556,8 @@ export const stopGroupStreamProcessor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopGroupStreamProcessor",
 }));
 
 export type TakeGroupClusterBackupSnapshotsError =
@@ -39197,6 +40577,8 @@ export const takeGroupClusterBackupSnapshots: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TakeGroupClusterBackupSnapshots",
 }));
 
 export type TenantGroupFlexClusterUpgradeError =
@@ -39218,6 +40600,8 @@ export const tenantGroupFlexClusterUpgrade: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TenantGroupFlexClusterUpgrade",
 }));
 
 export type ToggleGroupAlertConfigError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -39233,6 +40617,8 @@ export const toggleGroupAlertConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleGroupAlertConfig",
 }));
 
 export type ToggleGroupAwsCustomDnsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -39248,6 +40634,8 @@ export const toggleGroupAwsCustomDns: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleGroupAwsCustomDns",
 }));
 
 export type ToggleGroupMaintenanceWindowAutoDeferError =
@@ -39267,6 +40655,8 @@ export const toggleGroupMaintenanceWindowAutoDefer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleGroupMaintenanceWindowAutoDefer",
 }));
 
 export type ToggleGroupPrivateEndpointRegionalModeError =
@@ -39286,6 +40676,8 @@ export const toggleGroupPrivateEndpointRegionalMode: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleGroupPrivateEndpointRegionalMode",
 }));
 
 export type UnpinGroupClusterCollStatUnpinNamespacesError =
@@ -39305,6 +40697,8 @@ export const unpinGroupClusterCollStatUnpinNamespaces: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpinGroupClusterCollStatUnpinNamespaces",
 }));
 
 export type UnpinGroupClusterFeatureCompatibilityVersionError =
@@ -39334,6 +40728,8 @@ export const unpinGroupClusterFeatureCompatibilityVersion: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpinGroupClusterFeatureCompatibilityVersion",
 }));
 
 export type UpdateFederationSettingConnectedOrgConfigError =
@@ -39353,6 +40749,8 @@ export const updateFederationSettingConnectedOrgConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFederationSettingConnectedOrgConfig",
 }));
 
 export type UpdateFederationSettingConnectedOrgConfigRoleMappingError =
@@ -39376,6 +40774,8 @@ export const updateFederationSettingConnectedOrgConfigRoleMapping: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFederationSettingConnectedOrgConfigRoleMapping",
 }));
 
 export type UpdateFederationSettingIdentityProviderError =
@@ -39395,6 +40795,8 @@ export const updateFederationSettingIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFederationSettingIdentityProvider",
 }));
 
 export type UpdateGroupError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -39410,6 +40812,8 @@ export const updateGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateGroupAiModelApiCloudGeographyModelGroupNameRateLimitsError =
@@ -39433,6 +40837,8 @@ export const updateGroupAiModelApiCloudGeographyModelGroupNameRateLimits: API.Op
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupAiModelApiCloudGeographyModelGroupNameRateLimits",
 }));
 
 export type UpdateGroupAiModelApiKeyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -39448,6 +40854,8 @@ export const updateGroupAiModelApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupAiModelApiKey",
 }));
 
 export type UpdateGroupAlertConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -39463,6 +40871,8 @@ export const updateGroupAlertConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupAlertConfig",
 }));
 
 export type UpdateGroupApiKeyRolesError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -39478,6 +40888,8 @@ export const updateGroupApiKeyRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupApiKeyRoles",
 }));
 
 export type UpdateGroupAuditLogError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -39493,6 +40905,8 @@ export const updateGroupAuditLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupAuditLog",
 }));
 
 export type UpdateGroupBackupCompliancePolicyError =
@@ -39512,6 +40926,8 @@ export const updateGroupBackupCompliancePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupBackupCompliancePolicy",
 }));
 
 export type UpdateGroupBackupExportBucketError =
@@ -39531,6 +40947,8 @@ export const updateGroupBackupExportBucket: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupBackupExportBucket",
 }));
 
 export type UpdateGroupClusterError =
@@ -39551,6 +40969,8 @@ export const updateGroupCluster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupCluster",
 }));
 
 export type UpdateGroupClusterAdaptiveSettingsError =
@@ -39571,6 +40991,8 @@ export const updateGroupClusterAdaptiveSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterAdaptiveSettings",
 }));
 
 export type UpdateGroupClusterBackupScheduleError =
@@ -39590,6 +41012,8 @@ export const updateGroupClusterBackupSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterBackupSchedule",
 }));
 
 export type UpdateGroupClusterBackupSnapshotError =
@@ -39609,6 +41033,8 @@ export const updateGroupClusterBackupSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterBackupSnapshot",
 }));
 
 export type UpdateGroupClusterCollStatPinnedNamespacesError =
@@ -39632,6 +41058,8 @@ export const updateGroupClusterCollStatPinnedNamespaces: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterCollStatPinnedNamespaces",
 }));
 
 export type UpdateGroupClusterOnlineArchiveError =
@@ -39652,6 +41080,8 @@ export const updateGroupClusterOnlineArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterOnlineArchive",
 }));
 
 export type UpdateGroupClusterProcessArgsError =
@@ -39671,6 +41101,8 @@ export const updateGroupClusterProcessArgs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterProcessArgs",
 }));
 
 export type UpdateGroupClusterQueryShapeError =
@@ -39690,6 +41122,8 @@ export const updateGroupClusterQueryShape: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterQueryShape",
 }));
 
 export type UpdateGroupClusterSearchDeploymentError =
@@ -39710,6 +41144,8 @@ export const updateGroupClusterSearchDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterSearchDeployment",
 }));
 
 export type UpdateGroupClusterSearchIndexError =
@@ -39730,6 +41166,8 @@ export const updateGroupClusterSearchIndex: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterSearchIndex",
 }));
 
 export type UpdateGroupClusterSearchIndexByNameError =
@@ -39750,6 +41188,8 @@ export const updateGroupClusterSearchIndexByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupClusterSearchIndexByName",
 }));
 
 export type UpdateGroupContainerError =
@@ -39770,6 +41210,8 @@ export const updateGroupContainer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupContainer",
 }));
 
 export type UpdateGroupCustomDbRoleRoleError =
@@ -39790,6 +41232,8 @@ export const updateGroupCustomDbRoleRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupCustomDbRoleRole",
 }));
 
 export type UpdateGroupDatabaseUserError =
@@ -39810,6 +41254,8 @@ export const updateGroupDatabaseUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupDatabaseUser",
 }));
 
 export type UpdateGroupDataFederationError =
@@ -39829,6 +41275,8 @@ export const updateGroupDataFederation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupDataFederation",
 }));
 
 export type UpdateGroupEncryptionAtRestError =
@@ -39849,6 +41297,8 @@ export const updateGroupEncryptionAtRest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupEncryptionAtRest",
 }));
 
 export type UpdateGroupFlexClusterError =
@@ -39870,6 +41320,8 @@ export const updateGroupFlexCluster: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupFlexCluster",
 }));
 
 export type UpdateGroupIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -39885,6 +41337,8 @@ export const updateGroupIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupIntegration",
 }));
 
 export type UpdateGroupLogIntegrationError =
@@ -39904,6 +41358,8 @@ export const updateGroupLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupLogIntegration",
 }));
 
 export type UpdateGroupMaintenanceWindowError =
@@ -39923,6 +41379,8 @@ export const updateGroupMaintenanceWindow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupMaintenanceWindow",
 }));
 
 export type UpdateGroupMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -39938,6 +41396,8 @@ export const updateGroupMcpConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupMcpConfig",
 }));
 
 export type UpdateGroupMetricIntegrationError =
@@ -39957,6 +41417,8 @@ export const updateGroupMetricIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupMetricIntegration",
 }));
 
 export type UpdateGroupPeerError =
@@ -39977,6 +41439,8 @@ export const updateGroupPeer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupPeer",
 }));
 
 export type UpdateGroupPrivateEndpointEndpointServiceError =
@@ -39996,6 +41460,8 @@ export const updateGroupPrivateEndpointEndpointService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupPrivateEndpointEndpointService",
 }));
 
 export type UpdateGroupServiceAccountError =
@@ -40015,6 +41481,8 @@ export const updateGroupServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupServiceAccount",
 }));
 
 export type UpdateGroupSettingsError = Forbidden | NotFound | MongodbAtlasOpError;
@@ -40030,6 +41498,8 @@ export const updateGroupSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupSettings",
 }));
 
 export type UpdateGroupStreamConnectionError =
@@ -40050,6 +41520,8 @@ export const updateGroupStreamConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupStreamConnection",
 }));
 
 export type UpdateGroupStreamConnectionFailoverConnectionError =
@@ -40072,6 +41544,8 @@ export const updateGroupStreamConnectionFailoverConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupStreamConnectionFailoverConnection",
 }));
 
 export type UpdateGroupStreamPrivateLinkConnectionError =
@@ -40092,6 +41566,8 @@ export const updateGroupStreamPrivateLinkConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupStreamPrivateLinkConnection",
 }));
 
 export type UpdateGroupStreamProcessorError =
@@ -40111,6 +41587,8 @@ export const updateGroupStreamProcessor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupStreamProcessor",
 }));
 
 export type UpdateGroupStreamWorkspaceError =
@@ -40130,6 +41608,8 @@ export const updateGroupStreamWorkspace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupStreamWorkspace",
 }));
 
 export type UpdateGroupTeamError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40145,6 +41625,8 @@ export const updateGroupTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupTeam",
 }));
 
 export type UpdateGroupUserSecurityError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40160,6 +41642,8 @@ export const updateGroupUserSecurity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupUserSecurity",
 }));
 
 export type UpdateOrgError = BadRequest | Forbidden | NotFound | Conflict | MongodbAtlasOpError;
@@ -40175,6 +41659,8 @@ export const updateOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrg",
 }));
 
 export type UpdateOrgApiKeyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40190,6 +41676,8 @@ export const updateOrgApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgApiKey",
 }));
 
 export type UpdateOrgDelegationSettingsError =
@@ -40209,6 +41697,8 @@ export const updateOrgDelegationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgDelegationSettings",
 }));
 
 export type UpdateOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40224,6 +41714,8 @@ export const updateOrgLogIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgLogIntegration",
 }));
 
 export type UpdateOrgMaintenanceSettingsError =
@@ -40243,6 +41735,8 @@ export const updateOrgMaintenanceSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgMaintenanceSettings",
 }));
 
 export type UpdateOrgMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40258,6 +41752,8 @@ export const updateOrgMcpConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgMcpConfig",
 }));
 
 export type UpdateOrgResourcePolicyError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40273,6 +41769,8 @@ export const updateOrgResourcePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgResourcePolicy",
 }));
 
 export type UpdateOrgServiceAccountError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40288,6 +41786,8 @@ export const updateOrgServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgServiceAccount",
 }));
 
 export type UpdateOrgSettingsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40303,6 +41803,8 @@ export const updateOrgSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgSettings",
 }));
 
 export type UpdateOrgUserError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
@@ -40318,6 +41820,8 @@ export const updateOrgUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgUser",
 }));
 
 export type UpgradeGroupClusterTenantUpgradeError =
@@ -40339,6 +41843,8 @@ export const upgradeGroupClusterTenantUpgrade: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpgradeGroupClusterTenantUpgrade",
 }));
 
 export type ValidateGroupLiveMigrationsError =
@@ -40358,6 +41864,8 @@ export const validateGroupLiveMigrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateGroupLiveMigrations",
 }));
 
 export type ValidateOrgResourcePoliciesError =
@@ -40377,6 +41885,8 @@ export const validateOrgResourcePolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateOrgResourcePolicies",
 }));
 
 export type VerifyGroupUserSecurityLdapError =
@@ -40396,6 +41906,8 @@ export const verifyGroupUserSecurityLdap: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyGroupUserSecurityLdap",
 }));
 
 export type WithGroupStreamSampleConnectionsError =
@@ -40415,6 +41927,8 @@ export const withGroupStreamSampleConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WithGroupStreamSampleConnections",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

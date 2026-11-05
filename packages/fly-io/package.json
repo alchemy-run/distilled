@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/fly-io",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.18",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -19,9 +19,8 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
-      "module": "./lib/index.full.js",
-      "module-sync": "./lib/index.js",
-      "default": "./lib/index.full.js"
+      "distilled-lazy": "./lib/index.lazy.js",
+      "default": "./lib/index.js"
     },
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
@@ -63,33 +62,43 @@
       "types": "./lib/services/machines.d.ts",
       "bun": "./src/services/machines.ts",
       "worker": "./src/services/machines.ts",
+      "distilled-lazy": "./lib/services.lazy/machines.js",
       "default": "./lib/services/machines.js"
     },
     "./sprites": {
       "types": "./lib/services/sprites.d.ts",
       "bun": "./src/services/sprites.ts",
       "worker": "./src/services/sprites.ts",
+      "distilled-lazy": "./lib/services.lazy/sprites.js",
       "default": "./lib/services/sprites.js"
     },
     "./mpg": {
       "types": "./lib/services/mpg.d.ts",
       "bun": "./src/services/mpg.ts",
       "worker": "./src/services/mpg.ts",
+      "distilled-lazy": "./lib/services.lazy/mpg.js",
       "default": "./lib/services/mpg.js"
     },
     "./addons": {
       "types": "./lib/services/addons.d.ts",
       "bun": "./src/services/addons.ts",
       "worker": "./src/services/addons.ts",
+      "distilled-lazy": "./lib/services.lazy/addons.js",
       "default": "./lib/services/addons.js"
+    },
+    "./builders": {
+      "types": "./lib/services/builders.d.ts",
+      "bun": "./src/services/builders.ts",
+      "worker": "./src/services/builders.ts",
+      "distilled-lazy": "./lib/services.lazy/builders.js",
+      "default": "./lib/services/builders.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "module": "./lib/services.full/*.js",
-      "module-sync": "./lib/services/*.js",
-      "default": "./lib/services.full/*.js"
+      "distilled-lazy": "./lib/services.lazy/*.js",
+      "default": "./lib/services/*.js"
     }
   },
   "scripts": {
@@ -104,13 +113,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-21",
+    "generatedAt": "2026-11-03",
     "specUpdatedAt": "2026-10-08"
   }
 }

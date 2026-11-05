@@ -13,6 +13,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Ldp",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1942,6 +1956,8 @@ export const createDbaasLogChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogChangeContact",
 }));
 
 export type CreateDbaasLogEncryptionKeyError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -1957,6 +1973,8 @@ export const createDbaasLogEncryptionKey: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogEncryptionKey",
 }));
 
 export type CreateDbaasLogInputError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -1972,6 +1990,8 @@ export const createDbaasLogInput: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogInput",
 }));
 
 export type CreateDbaasLogInputConfigtestError = Forbidden | NotFound | OvhOpError;
@@ -1987,6 +2007,8 @@ export const createDbaasLogInputConfigtest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogInputConfigtest",
 }));
 
 export type CreateDbaasLogInputEndError = Forbidden | NotFound | OvhOpError;
@@ -2002,6 +2024,8 @@ export const createDbaasLogInputEnd: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogInputEnd",
 }));
 
 export type CreateDbaasLogInputLogUrlError = Forbidden | NotFound | OvhOpError;
@@ -2017,6 +2041,8 @@ export const createDbaasLogInputLogUrl: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogInputLogUrl",
 }));
 
 export type CreateDbaasLogOutputGraylogDashboardError = Forbidden | NotFound | OvhOpError;
@@ -2032,6 +2058,8 @@ export const createDbaasLogOutputGraylogDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputGraylogDashboard",
 }));
 
 export type CreateDbaasLogOutputGraylogStreamError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2047,6 +2075,8 @@ export const createDbaasLogOutputGraylogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputGraylogStream",
 }));
 
 export type CreateDbaasLogOutputGraylogStreamAlertError =
@@ -2066,6 +2096,8 @@ export const createDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputGraylogStreamAlert",
 }));
 
 export type CreateDbaasLogOutputGraylogStreamArchiveUrlError = NotFound | OvhOpError;
@@ -2081,6 +2113,8 @@ export const createDbaasLogOutputGraylogStreamArchiveUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputGraylogStreamArchiveUrl",
 }));
 
 export type CreateDbaasLogOutputGraylogStreamRuleError =
@@ -2100,6 +2134,8 @@ export const createDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputGraylogStreamRule",
 }));
 
 export type CreateDbaasLogOutputMetricTenantError = Forbidden | Conflict | OvhOpError;
@@ -2115,6 +2151,8 @@ export const createDbaasLogOutputMetricTenant: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputMetricTenant",
 }));
 
 export type CreateDbaasLogOutputOpensearchAliasError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2130,6 +2168,8 @@ export const createDbaasLogOutputOpensearchAlias: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputOpensearchAlias",
 }));
 
 export type CreateDbaasLogOutputOpensearchAliasIndexError =
@@ -2149,6 +2189,8 @@ export const createDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputOpensearchAliasIndex",
 }));
 
 export type CreateDbaasLogOutputOpensearchAliasStreamError = Forbidden | NotFound | OvhOpError;
@@ -2164,6 +2206,8 @@ export const createDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputOpensearchAliasStream",
 }));
 
 export type CreateDbaasLogOutputOpensearchIndexError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2179,6 +2223,8 @@ export const createDbaasLogOutputOpensearchIndex: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputOpensearchIndex",
 }));
 
 export type CreateDbaasLogOutputOpensearchOsdError = Forbidden | NotFound | OvhOpError;
@@ -2194,6 +2240,8 @@ export const createDbaasLogOutputOpensearchOsd: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogOutputOpensearchOsd",
 }));
 
 export type CreateDbaasLogRoleError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2209,6 +2257,8 @@ export const createDbaasLogRole: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogRole",
 }));
 
 export type CreateDbaasLogRoleMemberError = Forbidden | NotFound | OvhOpError;
@@ -2224,6 +2274,8 @@ export const createDbaasLogRoleMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogRoleMember",
 }));
 
 export type CreateDbaasLogRolePermissionAliasError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2239,6 +2291,8 @@ export const createDbaasLogRolePermissionAlias: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogRolePermissionAlias",
 }));
 
 export type CreateDbaasLogRolePermissionDashboardError =
@@ -2258,6 +2312,8 @@ export const createDbaasLogRolePermissionDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogRolePermissionDashboard",
 }));
 
 export type CreateDbaasLogRolePermissionIndexError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2273,6 +2329,8 @@ export const createDbaasLogRolePermissionIndex: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogRolePermissionIndex",
 }));
 
 export type CreateDbaasLogRolePermissionOsdError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2288,6 +2346,8 @@ export const createDbaasLogRolePermissionOsd: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogRolePermissionOsd",
 }));
 
 export type CreateDbaasLogRolePermissionStreamError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2303,6 +2363,8 @@ export const createDbaasLogRolePermissionStream: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogRolePermissionStream",
 }));
 
 export type CreateDbaasLogTokenError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -2318,6 +2380,8 @@ export const createDbaasLogToken: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogToken",
 }));
 
 export type CreateDbaasLogUserChangePasswordError = Forbidden | NotFound | OvhOpError;
@@ -2333,6 +2397,8 @@ export const createDbaasLogUserChangePassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbaasLogUserChangePassword",
 }));
 
 export type DeleteDbaasLogEncryptionKeyError = Forbidden | NotFound | OvhOpError;
@@ -2348,6 +2414,8 @@ export const deleteDbaasLogEncryptionKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogEncryptionKey",
 }));
 
 export type DeleteDbaasLogInputError = Forbidden | NotFound | OvhOpError;
@@ -2363,6 +2431,8 @@ export const deleteDbaasLogInput: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogInput",
 }));
 
 export type DeleteDbaasLogOutputGraylogDashboardError = Forbidden | NotFound | OvhOpError;
@@ -2378,6 +2448,8 @@ export const deleteDbaasLogOutputGraylogDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputGraylogDashboard",
 }));
 
 export type DeleteDbaasLogOutputGraylogStreamError = Forbidden | NotFound | OvhOpError;
@@ -2393,6 +2465,8 @@ export const deleteDbaasLogOutputGraylogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputGraylogStream",
 }));
 
 export type DeleteDbaasLogOutputGraylogStreamAlertError = Forbidden | NotFound | OvhOpError;
@@ -2408,6 +2482,8 @@ export const deleteDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputGraylogStreamAlert",
 }));
 
 export type DeleteDbaasLogOutputGraylogStreamRuleError = Forbidden | NotFound | OvhOpError;
@@ -2423,6 +2499,8 @@ export const deleteDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputGraylogStreamRule",
 }));
 
 export type DeleteDbaasLogOutputGraylogStreamSubscriptionError = NotFound | OvhOpError;
@@ -2442,6 +2520,8 @@ export const deleteDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputGraylogStreamSubscription",
 }));
 
 export type DeleteDbaasLogOutputMetricTenantError = Forbidden | NotFound | OvhOpError;
@@ -2457,6 +2537,8 @@ export const deleteDbaasLogOutputMetricTenant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputMetricTenant",
 }));
 
 export type DeleteDbaasLogOutputMetricTenantSubscriptionError = NotFound | OvhOpError;
@@ -2472,6 +2554,8 @@ export const deleteDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputMetricTenantSubscription",
 }));
 
 export type DeleteDbaasLogOutputOpensearchAliasError = Forbidden | NotFound | OvhOpError;
@@ -2487,6 +2571,8 @@ export const deleteDbaasLogOutputOpensearchAlias: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputOpensearchAlias",
 }));
 
 export type DeleteDbaasLogOutputOpensearchAliasIndexError = Forbidden | NotFound | OvhOpError;
@@ -2502,6 +2588,8 @@ export const deleteDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputOpensearchAliasIndex",
 }));
 
 export type DeleteDbaasLogOutputOpensearchAliasStreamError = Forbidden | NotFound | OvhOpError;
@@ -2517,6 +2605,8 @@ export const deleteDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputOpensearchAliasStream",
 }));
 
 export type DeleteDbaasLogOutputOpensearchIndexError = Forbidden | NotFound | OvhOpError;
@@ -2532,6 +2622,8 @@ export const deleteDbaasLogOutputOpensearchIndex: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputOpensearchIndex",
 }));
 
 export type DeleteDbaasLogOutputOpensearchOsdError = Forbidden | NotFound | OvhOpError;
@@ -2547,6 +2639,8 @@ export const deleteDbaasLogOutputOpensearchOsd: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogOutputOpensearchOsd",
 }));
 
 export type DeleteDbaasLogRoleError = Forbidden | NotFound | OvhOpError;
@@ -2562,6 +2656,8 @@ export const deleteDbaasLogRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogRole",
 }));
 
 export type DeleteDbaasLogRoleMemberError = Forbidden | NotFound | OvhOpError;
@@ -2577,6 +2673,8 @@ export const deleteDbaasLogRoleMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogRoleMember",
 }));
 
 export type DeleteDbaasLogRolePermissionError = Forbidden | NotFound | OvhOpError;
@@ -2592,6 +2690,8 @@ export const deleteDbaasLogRolePermission: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogRolePermission",
 }));
 
 export type DeleteDbaasLogTokenError = Forbidden | NotFound | OvhOpError;
@@ -2607,6 +2707,8 @@ export const deleteDbaasLogToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbaasLogToken",
 }));
 
 export type DuplicateDbaasLogsOutputGraylogDashboardError =
@@ -2626,6 +2728,8 @@ export const duplicateDbaasLogsOutputGraylogDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateDbaasLogsOutputGraylogDashboard",
 }));
 
 export type GetDbaasLogError = NotFound | OvhOpError;
@@ -2641,6 +2745,8 @@ export const getDbaasLog: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLog",
 }));
 
 export type GetDbaasLogClusterError = NotFound | OvhOpError;
@@ -2656,6 +2762,8 @@ export const getDbaasLogCluster: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogCluster",
 }));
 
 export type GetDbaasLogClusterRetentionError = Forbidden | NotFound | OvhOpError;
@@ -2671,6 +2779,8 @@ export const getDbaasLogClusterRetention: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogClusterRetention",
 }));
 
 export type GetDbaasLogEncryptionKeyError = Forbidden | NotFound | OvhOpError;
@@ -2686,6 +2796,8 @@ export const getDbaasLogEncryptionKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogEncryptionKey",
 }));
 
 export type GetDbaasLogInputError = NotFound | OvhOpError;
@@ -2701,6 +2813,8 @@ export const getDbaasLogInput: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogInput",
 }));
 
 export type GetDbaasLogInputConfigtestResultError = NotFound | OvhOpError;
@@ -2716,6 +2830,8 @@ export const getDbaasLogInputConfigtestResult: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogInputConfigtestResult",
 }));
 
 export type GetDbaasLogInputConfigurationFlowggerError = NotFound | OvhOpError;
@@ -2731,6 +2847,8 @@ export const getDbaasLogInputConfigurationFlowgger: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogInputConfigurationFlowgger",
 }));
 
 export type GetDbaasLogInputConfigurationLogstashError = NotFound | OvhOpError;
@@ -2746,6 +2864,8 @@ export const getDbaasLogInputConfigurationLogstash: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogInputConfigurationLogstash",
 }));
 
 export type GetDbaasLogInputEngineError = NotFound | OvhOpError;
@@ -2761,6 +2881,8 @@ export const getDbaasLogInputEngine: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogInputEngine",
 }));
 
 export type GetDbaasLogInputEngineHelperError = NotFound | OvhOpError;
@@ -2776,6 +2898,8 @@ export const getDbaasLogInputEngineHelper: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogInputEngineHelper",
 }));
 
 export type GetDbaasLogMetricsError = NotFound | OvhOpError;
@@ -2791,6 +2915,8 @@ export const getDbaasLogMetrics: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogMetrics",
 }));
 
 export type GetDbaasLogOperationError = NotFound | OvhOpError;
@@ -2806,6 +2932,8 @@ export const getDbaasLogOperation: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOperation",
 }));
 
 export type GetDbaasLogOutputGraylogDashboardError = NotFound | OvhOpError;
@@ -2821,6 +2949,8 @@ export const getDbaasLogOutputGraylogDashboard: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputGraylogDashboard",
 }));
 
 export type GetDbaasLogOutputGraylogStreamError = NotFound | OvhOpError;
@@ -2836,6 +2966,8 @@ export const getDbaasLogOutputGraylogStream: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputGraylogStream",
 }));
 
 export type GetDbaasLogOutputGraylogStreamAlertError = NotFound | OvhOpError;
@@ -2851,6 +2983,8 @@ export const getDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputGraylogStreamAlert",
 }));
 
 export type GetDbaasLogOutputGraylogStreamArchiveError = NotFound | OvhOpError;
@@ -2866,6 +3000,8 @@ export const getDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputGraylogStreamArchive",
 }));
 
 export type GetDbaasLogOutputGraylogStreamRuleError = NotFound | OvhOpError;
@@ -2881,6 +3017,8 @@ export const getDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputGraylogStreamRule",
 }));
 
 export type GetDbaasLogOutputGraylogStreamSubscriptionError = NotFound | OvhOpError;
@@ -2896,6 +3034,8 @@ export const getDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputGraylogStreamSubscription",
 }));
 
 export type GetDbaasLogOutputMetricTenantError = Forbidden | NotFound | OvhOpError;
@@ -2911,6 +3051,8 @@ export const getDbaasLogOutputMetricTenant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputMetricTenant",
 }));
 
 export type GetDbaasLogOutputMetricTenantSubscriptionError = NotFound | OvhOpError;
@@ -2926,6 +3068,8 @@ export const getDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputMetricTenantSubscription",
 }));
 
 export type GetDbaasLogOutputOpensearchAliasError = NotFound | OvhOpError;
@@ -2941,6 +3085,8 @@ export const getDbaasLogOutputOpensearchAlias: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputOpensearchAlias",
 }));
 
 export type GetDbaasLogOutputOpensearchIndexError = NotFound | OvhOpError;
@@ -2956,6 +3102,8 @@ export const getDbaasLogOutputOpensearchIndex: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputOpensearchIndex",
 }));
 
 export type GetDbaasLogOutputOpensearchOsdError = NotFound | OvhOpError;
@@ -2971,6 +3119,8 @@ export const getDbaasLogOutputOpensearchOsd: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogOutputOpensearchOsd",
 }));
 
 export type GetDbaasLogRoleError = Forbidden | NotFound | OvhOpError;
@@ -2986,6 +3136,8 @@ export const getDbaasLogRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogRole",
 }));
 
 export type GetDbaasLogRoleMemberError = Forbidden | NotFound | OvhOpError;
@@ -3001,6 +3153,8 @@ export const getDbaasLogRoleMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogRoleMember",
 }));
 
 export type GetDbaasLogRolePermissionError = NotFound | OvhOpError;
@@ -3016,6 +3170,8 @@ export const getDbaasLogRolePermission: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogRolePermission",
 }));
 
 export type GetDbaasLogServiceInfosError = OvhOpError;
@@ -3031,6 +3187,8 @@ export const getDbaasLogServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogServiceInfos",
 }));
 
 export type GetDbaasLogTokenError = Forbidden | NotFound | OvhOpError;
@@ -3046,6 +3204,8 @@ export const getDbaasLogToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbaasLogToken",
 }));
 
 export type ListDbaasLogClusterError = NotFound | OvhOpError;
@@ -3061,6 +3221,8 @@ export const listDbaasLogCluster: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogCluster",
 }));
 
 export type ListDbaasLogClusterRetentionError = Forbidden | NotFound | OvhOpError;
@@ -3076,6 +3238,8 @@ export const listDbaasLogClusterRetention: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogClusterRetention",
 }));
 
 export type ListDbaasLogEncryptionKeyError = NotFound | OvhOpError;
@@ -3091,6 +3255,8 @@ export const listDbaasLogEncryptionKey: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogEncryptionKey",
 }));
 
 export type ListDbaasLogInputError = NotFound | OvhOpError;
@@ -3106,6 +3272,8 @@ export const listDbaasLogInput: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogInput",
 }));
 
 export type ListDbaasLogInputActionError = NotFound | OvhOpError;
@@ -3121,6 +3289,8 @@ export const listDbaasLogInputAction: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogInputAction",
 }));
 
 export type ListDbaasLogInputEngineError = OvhOpError;
@@ -3136,6 +3306,8 @@ export const listDbaasLogInputEngine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogInputEngine",
 }));
 
 export type ListDbaasLogInputEngineHelperError = OvhOpError;
@@ -3151,6 +3323,8 @@ export const listDbaasLogInputEngineHelper: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogInputEngineHelper",
 }));
 
 export type ListDbaasLogInputUrlError = NotFound | OvhOpError;
@@ -3166,6 +3340,8 @@ export const listDbaasLogInputUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogInputUrl",
 }));
 
 export type ListDbaasLogOperationError = NotFound | OvhOpError;
@@ -3181,6 +3357,8 @@ export const listDbaasLogOperation: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOperation",
 }));
 
 export type ListDbaasLogOutputGraylogDashboardError = NotFound | OvhOpError;
@@ -3196,6 +3374,8 @@ export const listDbaasLogOutputGraylogDashboard: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogDashboard",
 }));
 
 export type ListDbaasLogOutputGraylogDashboardUrlError = NotFound | OvhOpError;
@@ -3211,6 +3391,8 @@ export const listDbaasLogOutputGraylogDashboardUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogDashboardUrl",
 }));
 
 export type ListDbaasLogOutputGraylogStreamError = NotFound | OvhOpError;
@@ -3226,6 +3408,8 @@ export const listDbaasLogOutputGraylogStream: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogStream",
 }));
 
 export type ListDbaasLogOutputGraylogStreamAlertError = NotFound | OvhOpError;
@@ -3241,6 +3425,8 @@ export const listDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogStreamAlert",
 }));
 
 export type ListDbaasLogOutputGraylogStreamArchiveError = NotFound | OvhOpError;
@@ -3256,6 +3442,8 @@ export const listDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogStreamArchive",
 }));
 
 export type ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyError = NotFound | OvhOpError;
@@ -3279,6 +3467,8 @@ export const listDbaasLogOutputGraylogStreamArchiveEncryptionKey: API.OperationM
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogStreamArchiveEncryptionKey",
 }));
 
 export type ListDbaasLogOutputGraylogStreamRuleError = NotFound | OvhOpError;
@@ -3294,6 +3484,8 @@ export const listDbaasLogOutputGraylogStreamRule: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogStreamRule",
 }));
 
 export type ListDbaasLogOutputGraylogStreamSubscriptionError = NotFound | OvhOpError;
@@ -3313,6 +3505,8 @@ export const listDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogStreamSubscription",
 }));
 
 export type ListDbaasLogOutputGraylogStreamUrlError = NotFound | OvhOpError;
@@ -3328,6 +3522,8 @@ export const listDbaasLogOutputGraylogStreamUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputGraylogStreamUrl",
 }));
 
 export type ListDbaasLogOutputMetricTenantError = NotFound | OvhOpError;
@@ -3343,6 +3539,8 @@ export const listDbaasLogOutputMetricTenant: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputMetricTenant",
 }));
 
 export type ListDbaasLogOutputMetricTenantSubscriptionError = NotFound | OvhOpError;
@@ -3362,6 +3560,8 @@ export const listDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputMetricTenantSubscription",
 }));
 
 export type ListDbaasLogOutputMetricTenantUrlError = NotFound | OvhOpError;
@@ -3377,6 +3577,8 @@ export const listDbaasLogOutputMetricTenantUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputMetricTenantUrl",
 }));
 
 export type ListDbaasLogOutputOpensearchAliasError = NotFound | OvhOpError;
@@ -3392,6 +3594,8 @@ export const listDbaasLogOutputOpensearchAlias: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchAlias",
 }));
 
 export type ListDbaasLogOutputOpensearchAliasIndexError = NotFound | OvhOpError;
@@ -3407,6 +3611,8 @@ export const listDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchAliasIndex",
 }));
 
 export type ListDbaasLogOutputOpensearchAliasStreamError = NotFound | OvhOpError;
@@ -3422,6 +3628,8 @@ export const listDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchAliasStream",
 }));
 
 export type ListDbaasLogOutputOpensearchAliasUrlError = NotFound | OvhOpError;
@@ -3437,6 +3645,8 @@ export const listDbaasLogOutputOpensearchAliasUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchAliasUrl",
 }));
 
 export type ListDbaasLogOutputOpensearchIndexError = NotFound | OvhOpError;
@@ -3452,6 +3662,8 @@ export const listDbaasLogOutputOpensearchIndex: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchIndex",
 }));
 
 export type ListDbaasLogOutputOpensearchIndexUrlError = NotFound | OvhOpError;
@@ -3467,6 +3679,8 @@ export const listDbaasLogOutputOpensearchIndexUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchIndexUrl",
 }));
 
 export type ListDbaasLogOutputOpensearchOsdError = NotFound | OvhOpError;
@@ -3482,6 +3696,8 @@ export const listDbaasLogOutputOpensearchOsd: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchOsd",
 }));
 
 export type ListDbaasLogOutputOpensearchOsdUrlError = NotFound | OvhOpError;
@@ -3497,6 +3713,8 @@ export const listDbaasLogOutputOpensearchOsdUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogOutputOpensearchOsdUrl",
 }));
 
 export type ListDbaasLogRoleError = Forbidden | NotFound | OvhOpError;
@@ -3512,6 +3730,8 @@ export const listDbaasLogRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogRole",
 }));
 
 export type ListDbaasLogRoleMemberError = Forbidden | NotFound | OvhOpError;
@@ -3527,6 +3747,8 @@ export const listDbaasLogRoleMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogRoleMember",
 }));
 
 export type ListDbaasLogRolePermissionError = NotFound | OvhOpError;
@@ -3542,6 +3764,8 @@ export const listDbaasLogRolePermission: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogRolePermission",
 }));
 
 export type ListDbaasLogsError = OvhOpError;
@@ -3557,6 +3781,8 @@ export const listDbaasLogs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogs",
 }));
 
 export type ListDbaasLogTokenError = Forbidden | NotFound | OvhOpError;
@@ -3572,6 +3798,8 @@ export const listDbaasLogToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogToken",
 }));
 
 export type ListDbaasLogUrlError = NotFound | OvhOpError;
@@ -3587,6 +3815,8 @@ export const listDbaasLogUrl: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbaasLogUrl",
 }));
 
 export type PutDbaasLogError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -3602,6 +3832,8 @@ export const putDbaasLog: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLog",
 }));
 
 export type PutDbaasLogClusterError = Forbidden | NotFound | OvhOpError;
@@ -3617,6 +3849,8 @@ export const putDbaasLogCluster: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogCluster",
 }));
 
 export type PutDbaasLogInputError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -3632,6 +3866,8 @@ export const putDbaasLogInput: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogInput",
 }));
 
 export type PutDbaasLogInputConfigurationFlowggerError = Forbidden | NotFound | OvhOpError;
@@ -3647,6 +3883,8 @@ export const putDbaasLogInputConfigurationFlowgger: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogInputConfigurationFlowgger",
 }));
 
 export type PutDbaasLogInputConfigurationLogstashError = Forbidden | NotFound | OvhOpError;
@@ -3662,6 +3900,8 @@ export const putDbaasLogInputConfigurationLogstash: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogInputConfigurationLogstash",
 }));
 
 export type PutDbaasLogOutputGraylogDashboardError = Forbidden | NotFound | OvhOpError;
@@ -3677,6 +3917,8 @@ export const putDbaasLogOutputGraylogDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogOutputGraylogDashboard",
 }));
 
 export type PutDbaasLogOutputGraylogStreamError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -3692,6 +3934,8 @@ export const putDbaasLogOutputGraylogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogOutputGraylogStream",
 }));
 
 export type PutDbaasLogOutputGraylogStreamAlertError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -3707,6 +3951,8 @@ export const putDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogOutputGraylogStreamAlert",
 }));
 
 export type PutDbaasLogOutputMetricTenantError = Forbidden | NotFound | Conflict | OvhOpError;
@@ -3722,6 +3968,8 @@ export const putDbaasLogOutputMetricTenant: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogOutputMetricTenant",
 }));
 
 export type PutDbaasLogOutputOpensearchAliasError = Forbidden | NotFound | OvhOpError;
@@ -3737,6 +3985,8 @@ export const putDbaasLogOutputOpensearchAlias: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogOutputOpensearchAlias",
 }));
 
 export type PutDbaasLogOutputOpensearchIndexError = Forbidden | NotFound | OvhOpError;
@@ -3752,6 +4002,8 @@ export const putDbaasLogOutputOpensearchIndex: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogOutputOpensearchIndex",
 }));
 
 export type PutDbaasLogOutputOpensearchOsdError = Forbidden | NotFound | OvhOpError;
@@ -3767,6 +4019,8 @@ export const putDbaasLogOutputOpensearchOsd: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogOutputOpensearchOsd",
 }));
 
 export type PutDbaasLogRoleError = Forbidden | NotFound | OvhOpError;
@@ -3782,6 +4036,8 @@ export const putDbaasLogRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogRole",
 }));
 
 export type PutDbaasLogRoleMemberError = Forbidden | NotFound | OvhOpError;
@@ -3797,6 +4053,8 @@ export const putDbaasLogRoleMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogRoleMember",
 }));
 
 export type PutDbaasLogServiceInfosError = OvhOpError;
@@ -3812,6 +4070,8 @@ export const putDbaasLogServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDbaasLogServiceInfos",
 }));
 
 export type RestartDbaasLogsInputError = Forbidden | NotFound | OvhOpError;
@@ -3827,6 +4087,8 @@ export const restartDbaasLogsInput: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartDbaasLogsInput",
 }));
 
 export type StartDbaasLogsInputError = Forbidden | NotFound | OvhOpError;
@@ -3842,6 +4104,8 @@ export const startDbaasLogsInput: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartDbaasLogsInput",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

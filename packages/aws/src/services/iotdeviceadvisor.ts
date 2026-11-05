@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.iotdeviceadvisor.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IotDeviceAdvisor",
+  service: "IotDeviceAdvisor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -383,7 +399,7 @@ export type CreateSuiteDefinitionError =
  * Requires permission to access the CreateSuiteDefinition action.
  */
 export const createSuiteDefinition: API.OperationMethod<
-  CreateSuiteDefinitionRequest,
+  CreateSuiteDefinitionRequest & RegionInput,
   CreateSuiteDefinitionResponse,
   CreateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -394,6 +410,8 @@ export const createSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateSuiteDefinition",
 }));
 
 export type DeleteSuiteDefinitionError =
@@ -406,7 +424,7 @@ export type DeleteSuiteDefinitionError =
  * Requires permission to access the DeleteSuiteDefinition action.
  */
 export const deleteSuiteDefinition: API.OperationMethod<
-  DeleteSuiteDefinitionRequest,
+  DeleteSuiteDefinitionRequest & RegionInput,
   DeleteSuiteDefinitionResponse,
   DeleteSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -417,6 +435,8 @@ export const deleteSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteSuiteDefinition",
 }));
 
 export type GetEndpointError =
@@ -428,7 +448,7 @@ export type GetEndpointError =
  * Gets information about an Device Advisor endpoint.
  */
 export const getEndpoint: API.OperationMethod<
-  GetEndpointRequest,
+  GetEndpointRequest & RegionInput,
   GetEndpointResponse,
   GetEndpointError,
   Credentials | HttpClient.HttpClient
@@ -439,6 +459,8 @@ export const getEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetEndpoint",
 }));
 
 export type GetSuiteDefinitionError =
@@ -452,7 +474,7 @@ export type GetSuiteDefinitionError =
  * Requires permission to access the GetSuiteDefinition action.
  */
 export const getSuiteDefinition: API.OperationMethod<
-  GetSuiteDefinitionRequest,
+  GetSuiteDefinitionRequest & RegionInput,
   GetSuiteDefinitionResponse,
   GetSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -463,6 +485,8 @@ export const getSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "GetSuiteDefinition",
 }));
 
 export type GetSuiteRunError =
@@ -476,7 +500,7 @@ export type GetSuiteRunError =
  * Requires permission to access the GetSuiteRun action.
  */
 export const getSuiteRun: API.OperationMethod<
-  GetSuiteRunRequest,
+  GetSuiteRunRequest & RegionInput,
   GetSuiteRunResponse,
   GetSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -487,6 +511,8 @@ export const getSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRun",
+  telemetry: TELEMETRY,
+  span: "GetSuiteRun",
 }));
 
 export type GetSuiteRunReportError =
@@ -500,7 +526,7 @@ export type GetSuiteRunReportError =
  * Requires permission to access the GetSuiteRunReport action.
  */
 export const getSuiteRunReport: API.OperationMethod<
-  GetSuiteRunReportRequest,
+  GetSuiteRunReportRequest & RegionInput,
   GetSuiteRunReportResponse,
   GetSuiteRunReportError,
   Credentials | HttpClient.HttpClient
@@ -511,6 +537,8 @@ export const getSuiteRunReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRunReport",
+  telemetry: TELEMETRY,
+  span: "GetSuiteRunReport",
 }));
 
 export type ListSuiteDefinitionsError =
@@ -523,7 +551,7 @@ export type ListSuiteDefinitionsError =
  * Requires permission to access the ListSuiteDefinitions action.
  */
 export const listSuiteDefinitions: API.PaginatedOperationMethod<
-  ListSuiteDefinitionsRequest,
+  ListSuiteDefinitionsRequest & RegionInput,
   ListSuiteDefinitionsResponse,
   ListSuiteDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -540,6 +568,8 @@ export const listSuiteDefinitions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuiteDefinitions",
 })) as any;
 
 export type ListSuiteRunsError = InternalServerException | ValidationException | CommonErrors;
@@ -550,7 +580,7 @@ export type ListSuiteRunsError = InternalServerException | ValidationException |
  * Requires permission to access the ListSuiteRuns action.
  */
 export const listSuiteRuns: API.PaginatedOperationMethod<
-  ListSuiteRunsRequest,
+  ListSuiteRunsRequest & RegionInput,
   ListSuiteRunsResponse,
   ListSuiteRunsError,
   Credentials | HttpClient.HttpClient,
@@ -567,6 +597,8 @@ export const listSuiteRuns: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuiteRuns",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -580,7 +612,7 @@ export type ListTagsForResourceError =
  * Requires permission to access the ListTagsForResource action.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -591,6 +623,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartSuiteRunError =
@@ -604,7 +638,7 @@ export type StartSuiteRunError =
  * Requires permission to access the StartSuiteRun action.
  */
 export const startSuiteRun: API.OperationMethod<
-  StartSuiteRunRequest,
+  StartSuiteRunRequest & RegionInput,
   StartSuiteRunResponse,
   StartSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -615,6 +649,8 @@ export const startSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSuiteRun",
+  telemetry: TELEMETRY,
+  span: "StartSuiteRun",
 }));
 
 export type StopSuiteRunError =
@@ -628,7 +664,7 @@ export type StopSuiteRunError =
  * Requires permission to access the StopSuiteRun action.
  */
 export const stopSuiteRun: API.OperationMethod<
-  StopSuiteRunRequest,
+  StopSuiteRunRequest & RegionInput,
   StopSuiteRunResponse,
   StopSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -639,6 +675,8 @@ export const stopSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSuiteRun",
+  telemetry: TELEMETRY,
+  span: "StopSuiteRun",
 }));
 
 export type TagResourceError =
@@ -652,7 +690,7 @@ export type TagResourceError =
  * Requires permission to access the TagResource action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -663,6 +701,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -676,7 +716,7 @@ export type UntagResourceError =
  * Requires permission to access the UntagResource action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -687,6 +727,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateSuiteDefinitionError =
@@ -699,7 +741,7 @@ export type UpdateSuiteDefinitionError =
  * Requires permission to access the UpdateSuiteDefinition action.
  */
 export const updateSuiteDefinition: API.OperationMethod<
-  UpdateSuiteDefinitionRequest,
+  UpdateSuiteDefinitionRequest & RegionInput,
   UpdateSuiteDefinitionResponse,
   UpdateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -710,6 +752,8 @@ export const updateSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateSuiteDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

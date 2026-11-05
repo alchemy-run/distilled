@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediapackage.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaPackage",
+  service: "MediaPackage",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
@@ -862,7 +878,7 @@ export type ConfigureLogsError =
  * Changes the Channel's properities to configure log subscription
  */
 export const configureLogs: API.OperationMethod<
-  ConfigureLogsRequest,
+  ConfigureLogsRequest & RegionInput,
   ConfigureLogsResponse,
   ConfigureLogsError,
   Credentials | HttpClient.HttpClient
@@ -880,6 +896,8 @@ export const configureLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogs",
+  telemetry: TELEMETRY,
+  span: "ConfigureLogs",
 }));
 
 export type CreateChannelError =
@@ -894,7 +912,7 @@ export type CreateChannelError =
  * Creates a new Channel.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -912,6 +930,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateHarvestJobError =
@@ -926,7 +946,7 @@ export type CreateHarvestJobError =
  * Creates a new HarvestJob record.
  */
 export const createHarvestJob: API.OperationMethod<
-  CreateHarvestJobRequest,
+  CreateHarvestJobRequest & RegionInput,
   CreateHarvestJobResponse,
   CreateHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -944,6 +964,8 @@ export const createHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarvestJob",
+  telemetry: TELEMETRY,
+  span: "CreateHarvestJob",
 }));
 
 export type CreateOriginEndpointError =
@@ -958,7 +980,7 @@ export type CreateOriginEndpointError =
  * Creates a new OriginEndpoint record.
  */
 export const createOriginEndpoint: API.OperationMethod<
-  CreateOriginEndpointRequest,
+  CreateOriginEndpointRequest & RegionInput,
   CreateOriginEndpointResponse,
   CreateOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -976,6 +998,8 @@ export const createOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateOriginEndpoint",
 }));
 
 export type DeleteChannelError =
@@ -990,7 +1014,7 @@ export type DeleteChannelError =
  * Deletes an existing Channel.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1008,6 +1032,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteOriginEndpointError =
@@ -1022,7 +1048,7 @@ export type DeleteOriginEndpointError =
  * Deletes an existing OriginEndpoint.
  */
 export const deleteOriginEndpoint: API.OperationMethod<
-  DeleteOriginEndpointRequest,
+  DeleteOriginEndpointRequest & RegionInput,
   DeleteOriginEndpointResponse,
   DeleteOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1040,6 +1066,8 @@ export const deleteOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginEndpoint",
 }));
 
 export type DescribeChannelError =
@@ -1054,7 +1082,7 @@ export type DescribeChannelError =
  * Gets details about a Channel.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -1072,6 +1100,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeHarvestJobError =
@@ -1086,7 +1116,7 @@ export type DescribeHarvestJobError =
  * Gets details about an existing HarvestJob.
  */
 export const describeHarvestJob: API.OperationMethod<
-  DescribeHarvestJobRequest,
+  DescribeHarvestJobRequest & RegionInput,
   DescribeHarvestJobResponse,
   DescribeHarvestJobError,
   Credentials | HttpClient.HttpClient
@@ -1104,6 +1134,8 @@ export const describeHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHarvestJob",
+  telemetry: TELEMETRY,
+  span: "DescribeHarvestJob",
 }));
 
 export type DescribeOriginEndpointError =
@@ -1118,7 +1150,7 @@ export type DescribeOriginEndpointError =
  * Gets details about an existing OriginEndpoint.
  */
 export const describeOriginEndpoint: API.OperationMethod<
-  DescribeOriginEndpointRequest,
+  DescribeOriginEndpointRequest & RegionInput,
   DescribeOriginEndpointResponse,
   DescribeOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1136,6 +1168,8 @@ export const describeOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeOriginEndpoint",
 }));
 
 export type ListChannelsError =
@@ -1150,7 +1184,7 @@ export type ListChannelsError =
  * Returns a collection of Channels.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1175,6 +1209,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Channels",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListHarvestJobsError =
@@ -1189,7 +1225,7 @@ export type ListHarvestJobsError =
  * Returns a collection of HarvestJob records.
  */
 export const listHarvestJobs: API.PaginatedOperationMethod<
-  ListHarvestJobsRequest,
+  ListHarvestJobsRequest & RegionInput,
   ListHarvestJobsResponse,
   ListHarvestJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1214,6 +1250,8 @@ export const listHarvestJobs: API.PaginatedOperationMethod<
     items: "HarvestJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHarvestJobs",
 })) as any;
 
 export type ListOriginEndpointsError =
@@ -1228,7 +1266,7 @@ export type ListOriginEndpointsError =
  * Returns a collection of OriginEndpoint records.
  */
 export const listOriginEndpoints: API.PaginatedOperationMethod<
-  ListOriginEndpointsRequest,
+  ListOriginEndpointsRequest & RegionInput,
   ListOriginEndpointsResponse,
   ListOriginEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1253,6 +1291,8 @@ export const listOriginEndpoints: API.PaginatedOperationMethod<
     items: "OriginEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginEndpoints",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -1260,7 +1300,7 @@ export type ListTagsForResourceError = CommonErrors;
  *
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1271,6 +1311,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RotateChannelCredentialsError =
@@ -1285,7 +1327,7 @@ export type RotateChannelCredentialsError =
  * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
  */
 export const rotateChannelCredentials: API.OperationMethod<
-  RotateChannelCredentialsRequest,
+  RotateChannelCredentialsRequest & RegionInput,
   RotateChannelCredentialsResponse,
   RotateChannelCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1303,6 +1345,8 @@ export const rotateChannelCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateChannelCredentials",
+  telemetry: TELEMETRY,
+  span: "RotateChannelCredentials",
 }));
 
 export type RotateIngestEndpointCredentialsError =
@@ -1317,7 +1361,7 @@ export type RotateIngestEndpointCredentialsError =
  * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
  */
 export const rotateIngestEndpointCredentials: API.OperationMethod<
-  RotateIngestEndpointCredentialsRequest,
+  RotateIngestEndpointCredentialsRequest & RegionInput,
   RotateIngestEndpointCredentialsResponse,
   RotateIngestEndpointCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1335,6 +1379,8 @@ export const rotateIngestEndpointCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateIngestEndpointCredentials",
+  telemetry: TELEMETRY,
+  span: "RotateIngestEndpointCredentials",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -1342,7 +1388,7 @@ export type TagResourceError = CommonErrors;
  *
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1353,6 +1399,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -1360,7 +1408,7 @@ export type UntagResourceError = CommonErrors;
  *
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1371,6 +1419,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -1385,7 +1435,7 @@ export type UpdateChannelError =
  * Updates an existing Channel.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1403,6 +1453,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateOriginEndpointError =
@@ -1417,7 +1469,7 @@ export type UpdateOriginEndpointError =
  * Updates an existing OriginEndpoint.
  */
 export const updateOriginEndpoint: API.OperationMethod<
-  UpdateOriginEndpointRequest,
+  UpdateOriginEndpointRequest & RegionInput,
   UpdateOriginEndpointResponse,
   UpdateOriginEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1435,6 +1487,8 @@ export const updateOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

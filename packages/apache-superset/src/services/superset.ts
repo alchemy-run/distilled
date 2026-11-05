@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { ApacheSupersetOpError, ApacheSupersetOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "apache-superset-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "ApacheSuperset",
+  service: "ApacheSuperset",
+  labels: "apache_superset",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -10074,6 +10087,8 @@ export const bulkTagCreate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkTagCreate",
 }));
 
 export type CopyDashboardError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -10089,6 +10104,8 @@ export const copyDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyDashboard",
 }));
 
 export type CreateAnnotationLayerError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -10104,6 +10121,8 @@ export const createAnnotationLayer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnotationLayer",
 }));
 
 export type CreateAnnotationLayerAnnotationError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -10119,6 +10138,8 @@ export const createAnnotationLayerAnnotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnotationLayerAnnotation",
 }));
 
 export type CreateChartError = BadRequest | Forbidden | UnprocessableEntity | ApacheSupersetOpError;
@@ -10134,6 +10155,8 @@ export const createChart: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChart",
 }));
 
 export type CreateChartDataError = BadRequest | Forbidden | ApacheSupersetOpError;
@@ -10149,6 +10172,8 @@ export const createChartData: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChartData",
 }));
 
 export type CreateChartFavoriteError = NotFound | ApacheSupersetOpError;
@@ -10164,6 +10189,8 @@ export const createChartFavorite: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChartFavorite",
 }));
 
 export type CreateCssTemplateError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10179,6 +10206,8 @@ export const createCssTemplate: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCssTemplate",
 }));
 
 export type CreateDashboardError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -10194,6 +10223,8 @@ export const createDashboard: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDashboardCacheDashboardScreenshotError =
@@ -10212,6 +10243,8 @@ export const createDashboardCacheDashboardScreenshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardCacheDashboardScreenshot",
 }));
 
 export type CreateDashboardEmbeddedError = ApacheSupersetOpError;
@@ -10227,6 +10260,8 @@ export const createDashboardEmbedded: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardEmbedded",
 }));
 
 export type CreateDashboardFavoriteError = NotFound | ApacheSupersetOpError;
@@ -10242,6 +10277,8 @@ export const createDashboardFavorite: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardFavorite",
 }));
 
 export type CreateDashboardFilterStateError =
@@ -10260,6 +10297,8 @@ export const createDashboardFilterState: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardFilterState",
 }));
 
 export type CreateDashboardPermalinkError =
@@ -10278,6 +10317,8 @@ export const createDashboardPermalink: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardPermalink",
 }));
 
 export type CreateDatabaseError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -10293,6 +10334,8 @@ export const createDatabase: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateDatasetError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10308,6 +10351,8 @@ export const createDataset: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasourceCompatibleError =
@@ -10327,6 +10372,8 @@ export const createDatasourceCompatible: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasourceCompatible",
 }));
 
 export type CreateDatasourceQueryError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -10342,6 +10389,8 @@ export const createDatasourceQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasourceQuery",
 }));
 
 export type CreateExploreFormDataError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10357,6 +10406,8 @@ export const createExploreFormData: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExploreFormData",
 }));
 
 export type CreateExplorePermalinkError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10372,6 +10423,8 @@ export const createExplorePermalink: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExplorePermalink",
 }));
 
 export type CreateLogError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10386,6 +10439,8 @@ export const createLog: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLog",
 }));
 
 export type CreateReportError = BadRequest | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -10401,6 +10456,8 @@ export const createReport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReport",
 }));
 
 export type CreateRowlevelsecurityError =
@@ -10421,6 +10478,8 @@ export const createRowlevelsecurity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRowlevelsecurity",
 }));
 
 export type CreateSavedQueryError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10436,6 +10495,8 @@ export const createSavedQuery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedQuery",
 }));
 
 export type CreateSecurityGroupError = BadRequest | ApacheSupersetOpError;
@@ -10450,6 +10511,8 @@ export const createSecurityGroup: API.OperationMethod<
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityGroup",
 }));
 
 export type CreateSecurityGuestTokenError = BadRequest | ApacheSupersetOpError;
@@ -10465,6 +10528,8 @@ export const createSecurityGuestToken: API.OperationMethod<
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityGuestToken",
 }));
 
 export type CreateSecurityPermissionsResourceError =
@@ -10482,6 +10547,8 @@ export const createSecurityPermissionsResource: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityPermissionsResource",
 }));
 
 export type CreateSecurityResourceError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10496,6 +10563,8 @@ export const createSecurityResource: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityResource",
 }));
 
 export type CreateSecurityRoleError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10510,6 +10579,8 @@ export const createSecurityRole: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityRole",
 }));
 
 export type CreateSecurityRolePermissionsError =
@@ -10528,6 +10599,8 @@ export const createSecurityRolePermissions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityRolePermissions",
 }));
 
 export type CreateSecurityUserError = BadRequest | ApacheSupersetOpError;
@@ -10542,6 +10615,8 @@ export const createSecurityUser: API.OperationMethod<
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityUser",
 }));
 
 export type CreateSqllabEstimateError = BadRequest | Forbidden | ApacheSupersetOpError;
@@ -10557,6 +10632,8 @@ export const createSqllabEstimate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqllabEstimate",
 }));
 
 export type CreateSqllabFormatSqlError = BadRequest | Forbidden | ApacheSupersetOpError;
@@ -10572,6 +10649,8 @@ export const createSqllabFormatSql: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqllabFormatSql",
 }));
 
 export type CreateSqllabPermalinkError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10587,6 +10666,8 @@ export const createSqllabPermalink: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqllabPermalink",
 }));
 
 export type CreateTagError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10602,6 +10683,8 @@ export const createTag: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag",
 }));
 
 export type CreateTagFavoriteError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -10617,6 +10700,8 @@ export const createTagFavorite: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagFavorite",
 }));
 
 export type CreateThemeError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -10632,6 +10717,8 @@ export const createTheme: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTheme",
 }));
 
 export type DeleteAnnotationLayerError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -10647,6 +10734,8 @@ export const deleteAnnotationLayer: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotationLayer",
 }));
 
 export type DeleteAnnotationLayerAnnotationError =
@@ -10665,6 +10754,8 @@ export const deleteAnnotationLayerAnnotation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotationLayerAnnotation",
 }));
 
 export type DeleteAnnotationLayerAnnotationByAnnotationIdError =
@@ -10691,6 +10782,8 @@ export const deleteAnnotationLayerAnnotationByAnnotationId: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotationLayerAnnotationByAnnotationId",
 }));
 
 export type DeleteAnnotationLayerByPkError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -10706,6 +10799,8 @@ export const deleteAnnotationLayerByPk: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotationLayerByPk",
 }));
 
 export type DeleteChartError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -10721,6 +10816,8 @@ export const deleteChart: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChart",
 }));
 
 export type DeleteChartByPkError =
@@ -10740,6 +10837,8 @@ export const deleteChartByPk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChartByPk",
 }));
 
 export type DeleteChartFavoritesError = NotFound | ApacheSupersetOpError;
@@ -10755,6 +10854,8 @@ export const deleteChartFavorites: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChartFavorites",
 }));
 
 export type DeleteCssTemplateError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -10770,6 +10871,8 @@ export const deleteCssTemplate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCssTemplate",
 }));
 
 export type DeleteCssTemplateByPkError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -10785,6 +10888,8 @@ export const deleteCssTemplateByPk: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCssTemplateByPk",
 }));
 
 export type DeleteDashboardError =
@@ -10804,6 +10909,8 @@ export const deleteDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDashboardByPkError =
@@ -10823,6 +10930,8 @@ export const deleteDashboardByPk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardByPk",
 }));
 
 export type DeleteDashboardEmbeddedError = ApacheSupersetOpError;
@@ -10838,6 +10947,8 @@ export const deleteDashboardEmbedded: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardEmbedded",
 }));
 
 export type DeleteDashboardFavoritesError = NotFound | ApacheSupersetOpError;
@@ -10853,6 +10964,8 @@ export const deleteDashboardFavorites: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardFavorites",
 }));
 
 export type DeleteDashboardFilterStateError =
@@ -10872,6 +10985,8 @@ export const deleteDashboardFilterState: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardFilterState",
 }));
 
 export type DeleteDatabaseError =
@@ -10891,6 +11006,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteDatasetError =
@@ -10911,6 +11028,8 @@ export const deleteDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDatasetByPkError =
@@ -10930,6 +11049,8 @@ export const deleteDatasetByPk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetByPk",
 }));
 
 export type DeleteDatasetColumnError =
@@ -10949,6 +11070,8 @@ export const deleteDatasetColumn: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetColumn",
 }));
 
 export type DeleteDatasetMetricError =
@@ -10968,6 +11091,8 @@ export const deleteDatasetMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetMetric",
 }));
 
 export type DeleteExploreFormDataError =
@@ -10987,6 +11112,8 @@ export const deleteExploreFormData: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExploreFormData",
 }));
 
 export type DeleteReportError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11002,6 +11129,8 @@ export const deleteReport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReport",
 }));
 
 export type DeleteReportByPkError =
@@ -11021,6 +11150,8 @@ export const deleteReportByPk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReportByPk",
 }));
 
 export type DeleteRowlevelsecurityError =
@@ -11040,6 +11171,8 @@ export const deleteRowlevelsecurity: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRowlevelsecurity",
 }));
 
 export type DeleteRowlevelsecurityByPkError =
@@ -11058,6 +11191,8 @@ export const deleteRowlevelsecurityByPk: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRowlevelsecurityByPk",
 }));
 
 export type DeleteSavedQueryError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11073,6 +11208,8 @@ export const deleteSavedQuery: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSavedQuery",
 }));
 
 export type DeleteSavedQueryByPkError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11088,6 +11225,8 @@ export const deleteSavedQueryByPk: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSavedQueryByPk",
 }));
 
 export type DeleteSecurityGroupError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11102,6 +11241,8 @@ export const deleteSecurityGroup: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityGroup",
 }));
 
 export type DeleteSecurityPermissionsResourceError =
@@ -11119,6 +11260,8 @@ export const deleteSecurityPermissionsResource: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityPermissionsResource",
 }));
 
 export type DeleteSecurityResourceError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11133,6 +11276,8 @@ export const deleteSecurityResource: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityResource",
 }));
 
 export type DeleteSecurityRoleError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11147,6 +11292,8 @@ export const deleteSecurityRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityRole",
 }));
 
 export type DeleteSecurityUserError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11161,6 +11308,8 @@ export const deleteSecurityUser: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityUser",
 }));
 
 export type DeleteSecurityUserRegistrationError =
@@ -11178,6 +11327,8 @@ export const deleteSecurityUserRegistration: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityUserRegistration",
 }));
 
 export type DeleteSecurityUserSessionsError = NotFound | ApacheSupersetOpError;
@@ -11192,6 +11343,8 @@ export const deleteSecurityUserSessions: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityUserSessions",
 }));
 
 export type DeleteTagError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11207,6 +11360,8 @@ export const deleteTag: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag",
 }));
 
 export type DeleteTag2Error = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11222,6 +11377,8 @@ export const deleteTag2: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag2",
 }));
 
 export type DeleteTagByPkError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11237,6 +11394,8 @@ export const deleteTagByPk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagByPk",
 }));
 
 export type DeleteTagFavoritesError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11252,6 +11411,8 @@ export const deleteTagFavorites: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagFavorites",
 }));
 
 export type DeleteThemeError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11267,6 +11428,8 @@ export const deleteTheme: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTheme",
 }));
 
 export type DeleteThemeByPkError =
@@ -11286,6 +11449,8 @@ export const deleteThemeByPk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThemeByPk",
 }));
 
 export type DeleteThemeUnsetSystemDarkError = Forbidden | ApacheSupersetOpError;
@@ -11301,6 +11466,8 @@ export const deleteThemeUnsetSystemDark: API.OperationMethod<
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThemeUnsetSystemDark",
 }));
 
 export type DeleteThemeUnsetSystemDefaultError = Forbidden | ApacheSupersetOpError;
@@ -11316,6 +11483,8 @@ export const deleteThemeUnsetSystemDefault: API.OperationMethod<
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThemeUnsetSystemDefault",
 }));
 
 export type DuplicateDatasetError =
@@ -11336,6 +11505,8 @@ export const duplicateDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateDataset",
 }));
 
 export type ExecuteReportError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11351,6 +11522,8 @@ export const executeReport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteReport",
 }));
 
 export type ExecuteSqllabError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11366,6 +11539,8 @@ export const executeSqllab: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteSqllab",
 }));
 
 export type ExportDashboardXlsxError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11381,6 +11556,8 @@ export const exportDashboardXlsx: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDashboardXlsx",
 }));
 
 export type ExportSqllabStreamingError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11396,6 +11573,8 @@ export const exportSqllabStreaming: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSqllabStreaming",
 }));
 
 export type GetAnnotationLayerError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -11411,6 +11590,8 @@ export const getAnnotationLayer: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotationLayer",
 }));
 
 export type GetAnnotationLayerAnnotationError =
@@ -11430,6 +11611,8 @@ export const getAnnotationLayerAnnotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotationLayerAnnotation",
 }));
 
 export type GetAnnotationLayerByPkError =
@@ -11449,6 +11632,8 @@ export const getAnnotationLayerByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotationLayerByPk",
 }));
 
 export type GetAnnotationLayerRelatedError =
@@ -11468,6 +11653,8 @@ export const getAnnotationLayerRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotationLayerRelated",
 }));
 
 export type GetAssetExportError = NotFound | ApacheSupersetOpError;
@@ -11483,6 +11670,8 @@ export const getAssetExport: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetExport",
 }));
 
 export type GetAvailableDomainsError = Forbidden | ApacheSupersetOpError;
@@ -11498,6 +11687,8 @@ export const getAvailableDomains: API.OperationMethod<
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailableDomains",
 }));
 
 export type GetChartError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -11513,6 +11704,8 @@ export const getChart: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChart",
 }));
 
 export type GetChartCacheScreenshotError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -11528,6 +11721,8 @@ export const getChartCacheScreenshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChartCacheScreenshot",
 }));
 
 export type GetChartExportError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -11543,6 +11738,8 @@ export const getChartExport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChartExport",
 }));
 
 export type GetChartRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11558,6 +11755,8 @@ export const getChartRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChartRelated",
 }));
 
 export type GetChartScreenshotError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -11573,6 +11772,8 @@ export const getChartScreenshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChartScreenshot",
 }));
 
 export type GetChartThumbnailError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -11588,6 +11789,8 @@ export const getChartThumbnail: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChartThumbnail",
 }));
 
 export type GetChartVersionError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11603,6 +11806,8 @@ export const getChartVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChartVersion",
 }));
 
 export type GetCssTemplateError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -11618,6 +11823,8 @@ export const getCssTemplate: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCssTemplate",
 }));
 
 export type GetCssTemplateByPkError =
@@ -11637,6 +11844,8 @@ export const getCssTemplateByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCssTemplateByPk",
 }));
 
 export type GetCssTemplateRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11652,6 +11861,8 @@ export const getCssTemplateRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCssTemplateRelated",
 }));
 
 export type GetDashboardError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11667,6 +11878,8 @@ export const getDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetDashboardEmbeddedError = ApacheSupersetOpError;
@@ -11682,6 +11895,8 @@ export const getDashboardEmbedded: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardEmbedded",
 }));
 
 export type GetDashboardExportError =
@@ -11702,6 +11917,8 @@ export const getDashboardExport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardExport",
 }));
 
 export type GetDashboardExportAsExampleError =
@@ -11721,6 +11938,8 @@ export const getDashboardExportAsExample: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardExportAsExample",
 }));
 
 export type GetDashboardExportXlsxDownloadError = ApacheSupersetOpError;
@@ -11736,6 +11955,8 @@ export const getDashboardExportXlsxDownload: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardExportXlsxDownload",
 }));
 
 export type GetDashboardExportXlsxStatusError = Forbidden | ApacheSupersetOpError;
@@ -11751,6 +11972,8 @@ export const getDashboardExportXlsxStatus: API.OperationMethod<
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardExportXlsxStatus",
 }));
 
 export type GetDashboardFilterStateError =
@@ -11770,6 +11993,8 @@ export const getDashboardFilterState: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardFilterState",
 }));
 
 export type GetDashboardPermalinkError =
@@ -11789,6 +12014,8 @@ export const getDashboardPermalink: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardPermalink",
 }));
 
 export type GetDashboardRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11804,6 +12031,8 @@ export const getDashboardRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardRelated",
 }));
 
 export type GetDashboardScreenshotError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -11819,6 +12048,8 @@ export const getDashboardScreenshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardScreenshot",
 }));
 
 export type GetDashboardThumbnailError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -11834,6 +12065,8 @@ export const getDashboardThumbnail: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardThumbnail",
 }));
 
 export type GetDashboardVersionError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11849,6 +12082,8 @@ export const getDashboardVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardVersion",
 }));
 
 export type GetDatabaseError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -11864,6 +12099,8 @@ export const getDatabase: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabaseByPkError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -11879,6 +12116,8 @@ export const getDatabaseByPk: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseByPk",
 }));
 
 export type GetDatabaseConnectionError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -11894,6 +12133,8 @@ export const getDatabaseConnection: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseConnection",
 }));
 
 export type GetDatabaseExportError = NotFound | ApacheSupersetOpError;
@@ -11909,6 +12150,8 @@ export const getDatabaseExport: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseExport",
 }));
 
 export type GetDatabaseOauth2Error = BadRequest | NotFound | ApacheSupersetOpError;
@@ -11924,6 +12167,8 @@ export const getDatabaseOauth2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseOauth2",
 }));
 
 export type GetDatabaseRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -11939,6 +12184,8 @@ export const getDatabaseRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseRelated",
 }));
 
 export type GetDatabaseRelatedObjectsError = NotFound | ApacheSupersetOpError;
@@ -11954,6 +12201,8 @@ export const getDatabaseRelatedObjects: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseRelatedObjects",
 }));
 
 export type GetDatabaseSelectStarError =
@@ -11973,6 +12222,8 @@ export const getDatabaseSelectStar: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSelectStar",
 }));
 
 export type GetDatabaseSelectStar2Error =
@@ -11992,6 +12243,8 @@ export const getDatabaseSelectStar2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSelectStar2",
 }));
 
 export type GetDatabaseTableError =
@@ -12011,6 +12264,8 @@ export const getDatabaseTable: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseTable",
 }));
 
 export type GetDatabaseTableExtraError =
@@ -12030,6 +12285,8 @@ export const getDatabaseTableExtra: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseTableExtra",
 }));
 
 export type GetDatabaseTableMetadataError = NotFound | ApacheSupersetOpError;
@@ -12045,6 +12302,8 @@ export const getDatabaseTableMetadata: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseTableMetadata",
 }));
 
 export type GetDatabaseTableMetadataExtraError = NotFound | ApacheSupersetOpError;
@@ -12060,6 +12319,8 @@ export const getDatabaseTableMetadataExtra: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseTableMetadataExtra",
 }));
 
 export type GetDatasetError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12075,6 +12336,8 @@ export const getDataset: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDatasetByIdOrUuidError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12090,6 +12353,8 @@ export const getDatasetByIdOrUuid: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetByIdOrUuid",
 }));
 
 export type GetDatasetDistinctError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -12105,6 +12370,8 @@ export const getDatasetDistinct: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetDistinct",
 }));
 
 export type GetDatasetDrillInfoError =
@@ -12124,6 +12391,8 @@ export const getDatasetDrillInfo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetDrillInfo",
 }));
 
 export type GetDatasetExportError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -12139,6 +12408,8 @@ export const getDatasetExport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetExport",
 }));
 
 export type GetDatasetOrCreateError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12154,6 +12425,8 @@ export const getDatasetOrCreate: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetOrCreate",
 }));
 
 export type GetDatasetPurgeImpactError = Forbidden | NotFound | ApacheSupersetOpError;
@@ -12169,6 +12442,8 @@ export const getDatasetPurgeImpact: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetPurgeImpact",
 }));
 
 export type GetDatasetRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -12184,6 +12459,8 @@ export const getDatasetRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetRelated",
 }));
 
 export type GetDatasetRelatedObjectsError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -12199,6 +12476,8 @@ export const getDatasetRelatedObjects: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetRelatedObjects",
 }));
 
 export type GetDatasetRelatedObjects2Error = NotFound | ApacheSupersetOpError;
@@ -12214,6 +12493,8 @@ export const getDatasetRelatedObjects2: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetRelatedObjects2",
 }));
 
 export type GetDatasetVersionError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -12229,6 +12510,8 @@ export const getDatasetVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetVersion",
 }));
 
 export type GetDatasourceError = Forbidden | ApacheSupersetOpError;
@@ -12244,6 +12527,8 @@ export const getDatasource: API.OperationMethod<
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasource",
 }));
 
 export type GetDatasourceByDatasourceIdError =
@@ -12263,6 +12548,8 @@ export const getDatasourceByDatasourceId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasourceByDatasourceId",
 }));
 
 export type GetEmbeddedDashboardError = NotFound | ApacheSupersetOpError;
@@ -12278,6 +12565,8 @@ export const getEmbeddedDashboard: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbeddedDashboard",
 }));
 
 export type GetExploreError = BadRequest | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -12293,6 +12582,8 @@ export const getExplore: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExplore",
 }));
 
 export type GetExploreFormDataError =
@@ -12312,6 +12603,8 @@ export const getExploreFormData: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExploreFormData",
 }));
 
 export type GetExplorePermalinkError =
@@ -12331,6 +12624,8 @@ export const getExplorePermalink: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExplorePermalink",
 }));
 
 export type GetLogError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12346,6 +12641,8 @@ export const getLog: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLog",
 }));
 
 export type GetLogByPkError = BadRequest | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -12361,6 +12658,8 @@ export const getLogByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogByPk",
 }));
 
 export type GetMeError = ApacheSupersetOpError;
@@ -12376,6 +12675,8 @@ export const getMe: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMe",
 }));
 
 export type GetMeRolesError = ApacheSupersetOpError;
@@ -12391,6 +12692,8 @@ export const getMeRoles: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeRoles",
 }));
 
 export type GetQueryError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12406,6 +12709,8 @@ export const getQuery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuery",
 }));
 
 export type GetQueryByPkError = BadRequest | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -12421,6 +12726,8 @@ export const getQueryByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryByPk",
 }));
 
 export type GetQueryDistinctError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -12436,6 +12743,8 @@ export const getQueryDistinct: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryDistinct",
 }));
 
 export type GetQueryRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -12451,6 +12760,8 @@ export const getQueryRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryRelated",
 }));
 
 export type GetReportError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12466,6 +12777,8 @@ export const getReport: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetReportByPkError =
@@ -12485,6 +12798,8 @@ export const getReportByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportByPk",
 }));
 
 export type GetReportLogError = BadRequest | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -12500,6 +12815,8 @@ export const getReportLog: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportLog",
 }));
 
 export type GetReportRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -12515,6 +12832,8 @@ export const getReportRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportRelated",
 }));
 
 export type GetRowlevelsecurityError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12530,6 +12849,8 @@ export const getRowlevelsecurity: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRowlevelsecurity",
 }));
 
 export type GetRowlevelsecurityByPkError =
@@ -12549,6 +12870,8 @@ export const getRowlevelsecurityByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRowlevelsecurityByPk",
 }));
 
 export type GetRowlevelsecurityRelatedError =
@@ -12568,6 +12891,8 @@ export const getRowlevelsecurityRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRowlevelsecurityRelated",
 }));
 
 export type GetSavedQueryError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12583,6 +12908,8 @@ export const getSavedQuery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedQuery",
 }));
 
 export type GetSavedQueryByPkError =
@@ -12602,6 +12929,8 @@ export const getSavedQueryByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedQueryByPk",
 }));
 
 export type GetSavedQueryDistinctError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -12617,6 +12946,8 @@ export const getSavedQueryDistinct: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedQueryDistinct",
 }));
 
 export type GetSavedQueryExportError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -12632,6 +12963,8 @@ export const getSavedQueryExport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedQueryExport",
 }));
 
 export type GetSavedQueryRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -12647,6 +12980,8 @@ export const getSavedQueryRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedQueryRelated",
 }));
 
 export type GetSecurityCsrfTokenError = ApacheSupersetOpError;
@@ -12662,6 +12997,8 @@ export const getSecurityCsrfToken: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityCsrfToken",
 }));
 
 export type GetSecurityGroupError =
@@ -12681,6 +13018,8 @@ export const getSecurityGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityGroup",
 }));
 
 export type GetSecurityGroupsError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12696,6 +13035,8 @@ export const getSecurityGroups: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityGroups",
 }));
 
 export type GetSecurityPermissionsError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12711,6 +13052,8 @@ export const getSecurityPermissions: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityPermissions",
 }));
 
 export type GetSecurityPermissionsByPkError =
@@ -12730,6 +13073,8 @@ export const getSecurityPermissionsByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityPermissionsByPk",
 }));
 
 export type GetSecurityPermissionsResourceError =
@@ -12749,6 +13094,8 @@ export const getSecurityPermissionsResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityPermissionsResource",
 }));
 
 export type GetSecurityPermissionsResourcesError =
@@ -12767,6 +13114,8 @@ export const getSecurityPermissionsResources: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityPermissionsResources",
 }));
 
 export type GetSecurityResourceError =
@@ -12786,6 +13135,8 @@ export const getSecurityResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityResource",
 }));
 
 export type GetSecurityResourcesError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12801,6 +13152,8 @@ export const getSecurityResources: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityResources",
 }));
 
 export type GetSecurityRoleError =
@@ -12820,6 +13173,8 @@ export const getSecurityRole: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityRole",
 }));
 
 export type GetSecurityRolesError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12835,6 +13190,8 @@ export const getSecurityRoles: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityRoles",
 }));
 
 export type GetSecuritySubjectError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12850,6 +13207,8 @@ export const getSecuritySubject: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecuritySubject",
 }));
 
 export type GetSecuritySubjectByPkError =
@@ -12869,6 +13228,8 @@ export const getSecuritySubjectByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecuritySubjectByPk",
 }));
 
 export type GetSecurityUserError =
@@ -12888,6 +13249,8 @@ export const getSecurityUser: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityUser",
 }));
 
 export type GetSecurityUserRegistrationError =
@@ -12907,6 +13270,8 @@ export const getSecurityUserRegistration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityUserRegistration",
 }));
 
 export type GetSecurityUserRegistrationsError =
@@ -12925,6 +13290,8 @@ export const getSecurityUserRegistrations: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityUserRegistrations",
 }));
 
 export type GetSecurityUsersError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12940,6 +13307,8 @@ export const getSecurityUsers: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityUsers",
 }));
 
 export type GetSqllabExportError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -12955,6 +13324,8 @@ export const getSqllabExport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqllabExport",
 }));
 
 export type GetSqllabPermalinkError =
@@ -12974,6 +13345,8 @@ export const getSqllabPermalink: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqllabPermalink",
 }));
 
 export type GetTagError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -12989,6 +13362,8 @@ export const getTag: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTag",
 }));
 
 export type GetTagByPkError = BadRequest | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -13004,6 +13379,8 @@ export const getTagByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagByPk",
 }));
 
 export type GetTagRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13019,6 +13396,8 @@ export const getTagRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagRelated",
 }));
 
 export type GetThemeError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13034,6 +13413,8 @@ export const getTheme: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTheme",
 }));
 
 export type GetThemeByPkError = BadRequest | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -13049,6 +13430,8 @@ export const getThemeByPk: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThemeByPk",
 }));
 
 export type GetThemeExportError =
@@ -13068,6 +13451,8 @@ export const getThemeExport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThemeExport",
 }));
 
 export type GetThemeRelatedError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13083,6 +13468,8 @@ export const getThemeRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThemeRelated",
 }));
 
 export type GetThemeSystemError = Forbidden | ApacheSupersetOpError;
@@ -13098,6 +13485,8 @@ export const getThemeSystem: API.OperationMethod<
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThemeSystem",
 }));
 
 export type GetUserAvatarPngError = NotFound | ApacheSupersetOpError;
@@ -13113,6 +13502,8 @@ export const getUserAvatarPng: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAvatarPng",
 }));
 
 export type ImportAssetError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13128,6 +13519,8 @@ export const importAsset: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAsset",
 }));
 
 export type ImportChartError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13143,6 +13536,8 @@ export const importChart: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportChart",
 }));
 
 export type ImportDashboardError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13158,6 +13553,8 @@ export const importDashboard: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDashboard",
 }));
 
 export type ImportDatabaseError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13173,6 +13570,8 @@ export const importDatabase: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDatabase",
 }));
 
 export type ImportDatasetError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13188,6 +13587,8 @@ export const importDataset: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDataset",
 }));
 
 export type ImportSavedQueryError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13203,6 +13604,8 @@ export const importSavedQuery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSavedQuery",
 }));
 
 export type ImportThemeError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13218,6 +13621,8 @@ export const importTheme: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTheme",
 }));
 
 export type InvalidateCachekeyError = BadRequest | ApacheSupersetOpError;
@@ -13233,6 +13638,8 @@ export const invalidateCachekey: API.OperationMethod<
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateCachekey",
 }));
 
 export type ListAdvancedDataTypeConvertError =
@@ -13252,6 +13659,8 @@ export const listAdvancedDataTypeConvert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvancedDataTypeConvert",
 }));
 
 export type ListAdvancedDataTypeTypesError = Forbidden | NotFound | ApacheSupersetOpError;
@@ -13267,6 +13676,8 @@ export const listAdvancedDataTypeTypes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvancedDataTypeTypes",
 }));
 
 export type ListAnnotationLayerAnnotationError =
@@ -13285,6 +13696,8 @@ export const listAnnotationLayerAnnotation: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnnotationLayerAnnotation",
 }));
 
 export type ListAnnotationLayerInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13300,6 +13713,8 @@ export const listAnnotationLayerInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnnotationLayerInfo",
 }));
 
 export type ListChartError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13315,6 +13730,8 @@ export const listChart: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChart",
 }));
 
 export type ListChartActivityError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13330,6 +13747,8 @@ export const listChartActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChartActivity",
 }));
 
 export type ListChartDataError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13345,6 +13764,8 @@ export const listChartData: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChartData",
 }));
 
 export type ListChartDeckLayersError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -13360,6 +13781,8 @@ export const listChartDeckLayers: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChartDeckLayers",
 }));
 
 export type ListChartFavoriteStatusError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -13375,6 +13798,8 @@ export const listChartFavoriteStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChartFavoriteStatus",
 }));
 
 export type ListChartInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13390,6 +13815,8 @@ export const listChartInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChartInfo",
 }));
 
 export type ListChartVersionsError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13405,6 +13832,8 @@ export const listChartVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChartVersions",
 }));
 
 export type ListCssTemplateInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13420,6 +13849,8 @@ export const listCssTemplateInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCssTemplateInfo",
 }));
 
 export type ListDashboardError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13435,6 +13866,8 @@ export const listDashboard: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboard",
 }));
 
 export type ListDashboardActivityError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13450,6 +13883,8 @@ export const listDashboardActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardActivity",
 }));
 
 export type ListDashboardChartsError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13465,6 +13900,8 @@ export const listDashboardCharts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardCharts",
 }));
 
 export type ListDashboardDatasetsError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13480,6 +13917,8 @@ export const listDashboardDatasets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardDatasets",
 }));
 
 export type ListDashboardFavoriteStatusError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -13495,6 +13934,8 @@ export const listDashboardFavoriteStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardFavoriteStatus",
 }));
 
 export type ListDashboardInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13510,6 +13951,8 @@ export const listDashboardInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardInfo",
 }));
 
 export type ListDashboardTabsError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13525,6 +13968,8 @@ export const listDashboardTabs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardTabs",
 }));
 
 export type ListDashboardVersionsError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13540,6 +13985,8 @@ export const listDashboardVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardVersions",
 }));
 
 export type ListDatabaseAvailableError = BadRequest | ApacheSupersetOpError;
@@ -13555,6 +14002,8 @@ export const listDatabaseAvailable: API.OperationMethod<
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseAvailable",
 }));
 
 export type ListDatabaseCatalogsError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -13570,6 +14019,8 @@ export const listDatabaseCatalogs: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseCatalogs",
 }));
 
 export type ListDatabaseFunctionNamesError = NotFound | ApacheSupersetOpError;
@@ -13585,6 +14036,8 @@ export const listDatabaseFunctionNames: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseFunctionNames",
 }));
 
 export type ListDatabaseInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13600,6 +14053,8 @@ export const listDatabaseInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseInfo",
 }));
 
 export type ListDatabaseSchemasError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -13615,6 +14070,8 @@ export const listDatabaseSchemas: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseSchemas",
 }));
 
 export type ListDatabaseSchemasAccessForFileUploadError = NotFound | ApacheSupersetOpError;
@@ -13630,6 +14087,8 @@ export const listDatabaseSchemasAccessForFileUpload: API.OperationMethod<
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseSchemasAccessForFileUpload",
 }));
 
 export type ListDatabaseTablesError =
@@ -13649,6 +14108,8 @@ export const listDatabaseTables: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseTables",
 }));
 
 export type ListDatasetActivityError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13664,6 +14125,8 @@ export const listDatasetActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetActivity",
 }));
 
 export type ListDatasetInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13679,6 +14142,8 @@ export const listDatasetInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetInfo",
 }));
 
 export type ListDatasetVersionsError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -13694,6 +14159,8 @@ export const listDatasetVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetVersions",
 }));
 
 export type ListDatasourceColumnValuesError =
@@ -13713,6 +14180,8 @@ export const listDatasourceColumnValues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasourceColumnValues",
 }));
 
 export type ListLogRecentActivityError = BadRequest | Forbidden | ApacheSupersetOpError;
@@ -13728,6 +14197,8 @@ export const listLogRecentActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogRecentActivity",
 }));
 
 export type ListMenuError = ApacheSupersetOpError;
@@ -13743,6 +14214,8 @@ export const listMenu: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMenu",
 }));
 
 export type ListQueryUpdatedSinceError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -13758,6 +14231,8 @@ export const listQueryUpdatedSince: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueryUpdatedSince",
 }));
 
 export type ListReportInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13773,6 +14248,8 @@ export const listReportInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportInfo",
 }));
 
 export type ListReportLogError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13788,6 +14265,8 @@ export const listReportLog: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportLog",
 }));
 
 export type ListReportSlackChannelsError =
@@ -13807,6 +14286,8 @@ export const listReportSlackChannels: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportSlackChannels",
 }));
 
 export type ListRowlevelsecurityInfoError =
@@ -13825,6 +14306,8 @@ export const listRowlevelsecurityInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRowlevelsecurityInfo",
 }));
 
 export type ListSavedQueryInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13840,6 +14323,8 @@ export const listSavedQueryInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavedQueryInfo",
 }));
 
 export type ListSecurityGroupInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13855,6 +14340,8 @@ export const listSecurityGroupInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityGroupInfo",
 }));
 
 export type ListSecurityPermissionsInfoError =
@@ -13873,6 +14360,8 @@ export const listSecurityPermissionsInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityPermissionsInfo",
 }));
 
 export type ListSecurityPermissionsResourceInfoError =
@@ -13891,6 +14380,8 @@ export const listSecurityPermissionsResourceInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityPermissionsResourceInfo",
 }));
 
 export type ListSecurityResourceInfoError =
@@ -13909,6 +14400,8 @@ export const listSecurityResourceInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityResourceInfo",
 }));
 
 export type ListSecurityRoleInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13924,6 +14417,8 @@ export const listSecurityRoleInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityRoleInfo",
 }));
 
 export type ListSecurityRolePermissionsError =
@@ -13942,6 +14437,8 @@ export const listSecurityRolePermissions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityRolePermissions",
 }));
 
 export type ListSecurityRoleSearchError = BadRequest | Forbidden | ApacheSupersetOpError;
@@ -13957,6 +14454,8 @@ export const listSecurityRoleSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityRoleSearch",
 }));
 
 export type ListSecuritySubjectInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13972,6 +14471,8 @@ export const listSecuritySubjectInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecuritySubjectInfo",
 }));
 
 export type ListSecurityUserInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -13987,6 +14488,8 @@ export const listSecurityUserInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityUserInfo",
 }));
 
 export type ListSecurityUserRegistrationInfoError =
@@ -14005,6 +14508,8 @@ export const listSecurityUserRegistrationInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityUserRegistrationInfo",
 }));
 
 export type ListSqllabError = BadRequest | Forbidden | ApacheSupersetOpError;
@@ -14020,6 +14525,8 @@ export const listSqllab: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqllab",
 }));
 
 export type ListSqllabResultsError = BadRequest | Forbidden | NotFound | ApacheSupersetOpError;
@@ -14035,6 +14542,8 @@ export const listSqllabResults: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqllabResults",
 }));
 
 export type ListTagFavoriteStatusError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14050,6 +14559,8 @@ export const listTagFavoriteStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagFavoriteStatus",
 }));
 
 export type ListTagGetObjectsError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14065,6 +14576,8 @@ export const listTagGetObjects: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagGetObjects",
 }));
 
 export type ListTagInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -14080,6 +14593,8 @@ export const listTagInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagInfo",
 }));
 
 export type ListThemeInfoError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -14095,6 +14610,8 @@ export const listThemeInfo: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListThemeInfo",
 }));
 
 export type LoginSecurityError = BadRequest | ApacheSupersetOpError;
@@ -14110,6 +14627,8 @@ export const loginSecurity: API.OperationMethod<
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginSecurity",
 }));
 
 export type PurgeChartError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -14125,6 +14644,8 @@ export const purgeChart: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeChart",
 }));
 
 export type PurgeDashboardError =
@@ -14144,6 +14665,8 @@ export const purgeDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeDashboard",
 }));
 
 export type PurgeDatasetError =
@@ -14172,6 +14695,8 @@ export const purgeDataset: API.OperationMethod<
   ],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeDataset",
 }));
 
 export type PutAnnotationLayerError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14187,6 +14712,8 @@ export const putAnnotationLayer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAnnotationLayer",
 }));
 
 export type PutAnnotationLayerAnnotationError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14202,6 +14729,8 @@ export const putAnnotationLayerAnnotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAnnotationLayerAnnotation",
 }));
 
 export type PutChartError =
@@ -14222,6 +14751,8 @@ export const putChart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutChart",
 }));
 
 export type PutChartWarmUpCacheError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14237,6 +14768,8 @@ export const putChartWarmUpCache: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutChartWarmUpCache",
 }));
 
 export type PutCssTemplateError =
@@ -14256,6 +14789,8 @@ export const putCssTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCssTemplate",
 }));
 
 export type PutDashboardError =
@@ -14276,6 +14811,8 @@ export const putDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboard",
 }));
 
 export type PutDashboardChartCustomizationsError =
@@ -14296,6 +14833,8 @@ export const putDashboardChartCustomizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboardChartCustomizations",
 }));
 
 export type PutDashboardColorsError =
@@ -14316,6 +14855,8 @@ export const putDashboardColors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboardColors",
 }));
 
 export type PutDashboardEmbeddedError = ApacheSupersetOpError;
@@ -14331,6 +14872,8 @@ export const putDashboardEmbedded: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboardEmbedded",
 }));
 
 export type PutDashboardFiltersError =
@@ -14351,6 +14894,8 @@ export const putDashboardFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboardFilters",
 }));
 
 export type PutDashboardFilterStateError =
@@ -14370,6 +14915,8 @@ export const putDashboardFilterState: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboardFilterState",
 }));
 
 export type PutDatabaseError =
@@ -14390,6 +14937,8 @@ export const putDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDatabase",
 }));
 
 export type PutDatasetError =
@@ -14418,6 +14967,8 @@ export const putDataset: API.OperationMethod<
   ],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDataset",
 }));
 
 export type PutDatasetRefreshError =
@@ -14437,6 +14988,8 @@ export const putDatasetRefresh: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDatasetRefresh",
 }));
 
 export type PutDatasetWarmUpCacheError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14452,6 +15005,8 @@ export const putDatasetWarmUpCache: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDatasetWarmUpCache",
 }));
 
 export type PutExploreFormDataError =
@@ -14471,6 +15026,8 @@ export const putExploreFormData: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutExploreFormData",
 }));
 
 export type PutMeError = BadRequest | ApacheSupersetOpError;
@@ -14486,6 +15043,8 @@ export const putMe: API.OperationMethod<
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMe",
 }));
 
 export type PutReportError =
@@ -14506,6 +15065,8 @@ export const putReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutReport",
 }));
 
 export type PutRowlevelsecurityError =
@@ -14526,6 +15087,8 @@ export const putRowlevelsecurity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRowlevelsecurity",
 }));
 
 export type PutSavedQueryError =
@@ -14545,6 +15108,8 @@ export const putSavedQuery: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSavedQuery",
 }));
 
 export type PutSecurityGroupError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14559,6 +15124,8 @@ export const putSecurityGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityGroup",
 }));
 
 export type PutSecurityPermissionsResourceError =
@@ -14577,6 +15144,8 @@ export const putSecurityPermissionsResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityPermissionsResource",
 }));
 
 export type PutSecurityResourceError =
@@ -14595,6 +15164,8 @@ export const putSecurityResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityResource",
 }));
 
 export type PutSecurityRoleError =
@@ -14613,6 +15184,8 @@ export const putSecurityRole: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityRole",
 }));
 
 export type PutSecurityRoleGroupsError =
@@ -14631,6 +15204,8 @@ export const putSecurityRoleGroups: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityRoleGroups",
 }));
 
 export type PutSecurityRoleUsersError =
@@ -14649,6 +15224,8 @@ export const putSecurityRoleUsers: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityRoleUsers",
 }));
 
 export type PutSecurityUserError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14663,6 +15240,8 @@ export const putSecurityUser: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityUser",
 }));
 
 export type PutTagError =
@@ -14683,6 +15262,8 @@ export const putTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTag",
 }));
 
 export type PutThemeError =
@@ -14703,6 +15284,8 @@ export const putTheme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTheme",
 }));
 
 export type PutThemeSetSystemDarkError =
@@ -14723,6 +15306,8 @@ export const putThemeSetSystemDark: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutThemeSetSystemDark",
 }));
 
 export type PutThemeSetSystemDefaultError =
@@ -14743,6 +15328,8 @@ export const putThemeSetSystemDefault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutThemeSetSystemDefault",
 }));
 
 export type RefreshSecurityError = ApacheSupersetOpError;
@@ -14758,6 +15345,8 @@ export const refreshSecurity: API.OperationMethod<
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshSecurity",
 }));
 
 export type RestoreChartError = Forbidden | NotFound | UnprocessableEntity | ApacheSupersetOpError;
@@ -14773,6 +15362,8 @@ export const restoreChart: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreChart",
 }));
 
 export type RestoreChartVersionError =
@@ -14793,6 +15384,8 @@ export const restoreChartVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreChartVersion",
 }));
 
 export type RestoreDashboardError =
@@ -14812,6 +15405,8 @@ export const restoreDashboard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDashboard",
 }));
 
 export type RestoreDashboardVersionError =
@@ -14832,6 +15427,8 @@ export const restoreDashboardVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDashboardVersion",
 }));
 
 export type RestoreDatasetError =
@@ -14851,6 +15448,8 @@ export const restoreDataset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDataset",
 }));
 
 export type RestoreDatasetVersionError =
@@ -14871,6 +15470,8 @@ export const restoreDatasetVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDatasetVersion",
 }));
 
 export type StopQueryError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14886,6 +15487,8 @@ export const stopQuery: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopQuery",
 }));
 
 export type SubscribeReportError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -14901,6 +15504,8 @@ export const subscribeReport: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeReport",
 }));
 
 export type SyncDatabasePermissionsError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14916,6 +15521,8 @@ export const syncDatabasePermissions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncDatabasePermissions",
 }));
 
 export type TestDatabaseConnectionError = BadRequest | UnprocessableEntity | ApacheSupersetOpError;
@@ -14931,6 +15538,8 @@ export const testDatabaseConnection: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestDatabaseConnection",
 }));
 
 export type UpdateTagError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14946,6 +15555,8 @@ export const updateTag: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTag",
 }));
 
 export type UploadDatabaseError =
@@ -14965,6 +15576,8 @@ export const uploadDatabase: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadDatabase",
 }));
 
 export type UploadDatabaseMetadataError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -14980,6 +15593,8 @@ export const uploadDatabaseMetadata: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadDatabaseMetadata",
 }));
 
 export type ValidateDatabaseParametersError =
@@ -14998,6 +15613,8 @@ export const validateDatabaseParameters: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateDatabaseParameters",
 }));
 
 export type ValidateDatabaseSqlError = BadRequest | NotFound | ApacheSupersetOpError;
@@ -15013,6 +15630,8 @@ export const validateDatabaseSql: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateDatabaseSql",
 }));
 
 export type ValidateDatasourceExpressionError =
@@ -15032,6 +15651,8 @@ export const validateDatasourceExpression: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateDatasourceExpression",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

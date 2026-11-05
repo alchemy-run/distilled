@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -67,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SupportAuthZ",
+  service: "SupportAuthZ",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -330,7 +346,7 @@ export type CreateSupportPermitError =
  * Creates a support permit that authorizes an AWS support operator to perform specified actions on specified resources. The permit is cryptographically signed using a customer-managed AWS KMS key (ECC_NIST_P384, SIGN_VERIFY) to ensure non-repudiation.
  */
 export const createSupportPermit: API.OperationMethod<
-  CreateSupportPermitInput,
+  CreateSupportPermitInput & RegionInput,
   CreateSupportPermitOutput,
   CreateSupportPermitError,
   Credentials | HttpClient.HttpClient
@@ -348,6 +364,8 @@ export const createSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSupportPermit",
+  telemetry: TELEMETRY,
+  span: "CreateSupportPermit",
 }));
 
 export type DeleteSupportPermitError =
@@ -361,7 +379,7 @@ export type DeleteSupportPermitError =
  * Deletes a support permit, revoking the authorization previously granted to the AWS support operator.
  */
 export const deleteSupportPermit: API.OperationMethod<
-  DeleteSupportPermitInput,
+  DeleteSupportPermitInput & RegionInput,
   DeleteSupportPermitOutput,
   DeleteSupportPermitError,
   Credentials | HttpClient.HttpClient
@@ -378,6 +396,8 @@ export const deleteSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSupportPermit",
+  telemetry: TELEMETRY,
+  span: "DeleteSupportPermit",
 }));
 
 export type GetActionError =
@@ -391,7 +411,7 @@ export type GetActionError =
  * Retrieves the description of a specific support action.
  */
 export const getAction: API.OperationMethod<
-  GetActionInput,
+  GetActionInput & RegionInput,
   GetActionOutput,
   GetActionError,
   Credentials | HttpClient.HttpClient
@@ -408,6 +428,8 @@ export const getAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAction",
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetSupportPermitError =
@@ -421,7 +443,7 @@ export type GetSupportPermitError =
  * Retrieves the details of a support permit by its ARN or name.
  */
 export const getSupportPermit: API.OperationMethod<
-  GetSupportPermitInput,
+  GetSupportPermitInput & RegionInput,
   GetSupportPermitOutput,
   GetSupportPermitError,
   Credentials | HttpClient.HttpClient
@@ -438,6 +460,8 @@ export const getSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSupportPermit",
+  telemetry: TELEMETRY,
+  span: "GetSupportPermit",
 }));
 
 export type ListActionsError =
@@ -450,7 +474,7 @@ export type ListActionsError =
  * Lists available support actions for a specified AWS service. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listActions: API.PaginatedOperationMethod<
-  ListActionsInput,
+  ListActionsInput & RegionInput,
   ListActionsOutput,
   ListActionsError,
   Credentials | HttpClient.HttpClient,
@@ -473,6 +497,8 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 })) as any;
 
 export type ListSupportPermitRequestsError =
@@ -485,7 +511,7 @@ export type ListSupportPermitRequestsError =
  * Lists permit requests from AWS support operators. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listSupportPermitRequests: API.PaginatedOperationMethod<
-  ListSupportPermitRequestsInput,
+  ListSupportPermitRequestsInput & RegionInput,
   ListSupportPermitRequestsOutput,
   ListSupportPermitRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -508,6 +534,8 @@ export const listSupportPermitRequests: API.PaginatedOperationMethod<
     items: "supportPermitRequests",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupportPermitRequests",
 })) as any;
 
 export type ListSupportPermitsError =
@@ -520,7 +548,7 @@ export type ListSupportPermitsError =
  * Lists all support permits in the caller's account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listSupportPermits: API.PaginatedOperationMethod<
-  ListSupportPermitsInput,
+  ListSupportPermitsInput & RegionInput,
   ListSupportPermitsOutput,
   ListSupportPermitsError,
   Credentials | HttpClient.HttpClient,
@@ -543,6 +571,8 @@ export const listSupportPermits: API.PaginatedOperationMethod<
     items: "supportPermits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupportPermits",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -556,7 +586,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with a support permit resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -573,6 +603,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectSupportPermitRequestError =
@@ -587,7 +619,7 @@ export type RejectSupportPermitRequestError =
  * Rejects a permit request from an AWS support operator. The operator cannot proceed with the requested action.
  */
 export const rejectSupportPermitRequest: API.OperationMethod<
-  RejectSupportPermitRequestInput,
+  RejectSupportPermitRequestInput & RegionInput,
   RejectSupportPermitRequestOutput,
   RejectSupportPermitRequestError,
   Credentials | HttpClient.HttpClient
@@ -605,6 +637,8 @@ export const rejectSupportPermitRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSupportPermitRequest",
+  telemetry: TELEMETRY,
+  span: "RejectSupportPermitRequest",
 }));
 
 export type TagResourceError =
@@ -618,7 +652,7 @@ export type TagResourceError =
  * Adds or overwrites one or more tags for a support permit resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -635,6 +669,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -648,7 +684,7 @@ export type UntagResourceError =
  * Removes one or more tags from a support permit resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -665,6 +701,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

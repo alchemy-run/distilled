@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -74,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://discovery.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationDiscoveryService",
+  service: "ApplicationDiscoveryService",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AuthorizationErrorException
   extends /*@__PURE__*/ S.TaggedError<AuthorizationErrorException>()(
@@ -695,7 +712,7 @@ export type AssociateConfigurationItemsToApplicationError =
  * Associates one or more configuration items with an application.
  */
 export const associateConfigurationItemsToApplication: API.OperationMethod<
-  AssociateConfigurationItemsToApplicationRequest,
+  AssociateConfigurationItemsToApplicationRequest & RegionInput,
   AssociateConfigurationItemsToApplicationResponse,
   AssociateConfigurationItemsToApplicationError,
   Credentials | HttpClient.HttpClient
@@ -712,6 +729,8 @@ export const associateConfigurationItemsToApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConfigurationItemsToApplication",
+  telemetry: TELEMETRY,
+  span: "AssociateConfigurationItemsToApplication",
 }));
 
 export type BatchDeleteAgentsError =
@@ -726,7 +745,7 @@ export type BatchDeleteAgentsError =
  * To delete the data collected, use `StartBatchDeleteConfigurationTask`.
  */
 export const batchDeleteAgents: API.OperationMethod<
-  BatchDeleteAgentsRequest,
+  BatchDeleteAgentsRequest & RegionInput,
   BatchDeleteAgentsResponse,
   BatchDeleteAgentsError,
   Credentials | HttpClient.HttpClient
@@ -742,6 +761,8 @@ export const batchDeleteAgents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAgents",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteAgents",
 }));
 
 export type BatchDeleteImportDataError =
@@ -762,7 +783,7 @@ export type BatchDeleteImportDataError =
  * from the deleted records will also be deleted.
  */
 export const batchDeleteImportData: API.OperationMethod<
-  BatchDeleteImportDataRequest,
+  BatchDeleteImportDataRequest & RegionInput,
   BatchDeleteImportDataResponse,
   BatchDeleteImportDataError,
   Credentials | HttpClient.HttpClient
@@ -779,6 +800,8 @@ export const batchDeleteImportData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImportData",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteImportData",
 }));
 
 export type CreateApplicationError =
@@ -792,7 +815,7 @@ export type CreateApplicationError =
  * Creates an application with the given name and description.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -809,6 +832,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateTagsError =
@@ -826,7 +851,7 @@ export type CreateTagsError =
  * Do not store sensitive information (like personal data) in tags.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -844,6 +869,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type DeleteApplicationsError =
@@ -858,7 +885,7 @@ export type DeleteApplicationsError =
  * items.
  */
 export const deleteApplications: API.OperationMethod<
-  DeleteApplicationsRequest,
+  DeleteApplicationsRequest & RegionInput,
   DeleteApplicationsResponse,
   DeleteApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -875,6 +902,8 @@ export const deleteApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplications",
+  telemetry: TELEMETRY,
+  span: "DeleteApplications",
 }));
 
 export type DeleteTagsError =
@@ -890,7 +919,7 @@ export type DeleteTagsError =
  * accepts a list of multiple configuration items.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -908,6 +937,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DescribeAgentsError =
@@ -923,7 +954,7 @@ export type DescribeAgentsError =
  * without passing any parameters.
  */
 export const describeAgents: API.PaginatedOperationMethod<
-  DescribeAgentsRequest,
+  DescribeAgentsRequest & RegionInput,
   DescribeAgentsResponse,
   DescribeAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -947,6 +978,8 @@ export const describeAgents: API.PaginatedOperationMethod<
     items: "agentsInfo",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAgents",
 })) as any;
 
 export type DescribeBatchDeleteConfigurationTaskError =
@@ -959,7 +992,7 @@ export type DescribeBatchDeleteConfigurationTaskError =
  * Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
  */
 export const describeBatchDeleteConfigurationTask: API.OperationMethod<
-  DescribeBatchDeleteConfigurationTaskRequest,
+  DescribeBatchDeleteConfigurationTaskRequest & RegionInput,
   DescribeBatchDeleteConfigurationTaskResponse,
   DescribeBatchDeleteConfigurationTaskError,
   Credentials | HttpClient.HttpClient
@@ -975,6 +1008,8 @@ export const describeBatchDeleteConfigurationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchDeleteConfigurationTask",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchDeleteConfigurationTask",
 }));
 
 export type DescribeConfigurationsError =
@@ -1006,7 +1041,7 @@ export type DescribeConfigurationsError =
  * Discovery Service User Guide.
  */
 export const describeConfigurations: API.OperationMethod<
-  DescribeConfigurationsRequest,
+  DescribeConfigurationsRequest & RegionInput,
   DescribeConfigurationsResponse,
   DescribeConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1023,6 +1058,8 @@ export const describeConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurations",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurations",
 }));
 
 export type DescribeContinuousExportsError =
@@ -1040,7 +1077,7 @@ export type DescribeContinuousExportsError =
  * any parameters.
  */
 export const describeContinuousExports: API.PaginatedOperationMethod<
-  DescribeContinuousExportsRequest,
+  DescribeContinuousExportsRequest & RegionInput,
   DescribeContinuousExportsResponse,
   DescribeContinuousExportsError,
   Credentials | HttpClient.HttpClient,
@@ -1066,6 +1103,8 @@ export const describeContinuousExports: API.PaginatedOperationMethod<
     items: "descriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeContinuousExports",
 })) as any;
 
 export type DescribeExportConfigurationsError =
@@ -1080,7 +1119,7 @@ export type DescribeExportConfigurationsError =
  * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
  */
 export const describeExportConfigurations: API.PaginatedOperationMethod<
-  DescribeExportConfigurationsRequest,
+  DescribeExportConfigurationsRequest & RegionInput,
   DescribeExportConfigurationsResponse,
   DescribeExportConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1105,6 +1144,8 @@ export const describeExportConfigurations: API.PaginatedOperationMethod<
     items: "exportsInfo",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeExportConfigurations",
 })) as any;
 
 export type DescribeExportTasksError =
@@ -1119,7 +1160,7 @@ export type DescribeExportTasksError =
  * export tasks.
  */
 export const describeExportTasks: API.PaginatedOperationMethod<
-  DescribeExportTasksRequest,
+  DescribeExportTasksRequest & RegionInput,
   DescribeExportTasksResponse,
   DescribeExportTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1143,6 +1184,8 @@ export const describeExportTasks: API.PaginatedOperationMethod<
     items: "exportsInfo",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeExportTasks",
 })) as any;
 
 export type DescribeImportTasksError =
@@ -1157,7 +1200,7 @@ export type DescribeImportTasksError =
  * IDs, the Amazon S3 Object URL for the import file, and more.
  */
 export const describeImportTasks: API.PaginatedOperationMethod<
-  DescribeImportTasksRequest,
+  DescribeImportTasksRequest & RegionInput,
   DescribeImportTasksResponse,
   DescribeImportTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1181,6 +1224,8 @@ export const describeImportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImportTasks",
 })) as any;
 
 export type DescribeTagsError =
@@ -1207,7 +1252,7 @@ export type DescribeTagsError =
  * listed if you call `DescribeTags` as is without passing any parameters.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsRequest,
+  DescribeTagsRequest & RegionInput,
   DescribeTagsResponse,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -1232,6 +1277,8 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 })) as any;
 
 export type DisassociateConfigurationItemsFromApplicationError =
@@ -1245,7 +1292,7 @@ export type DisassociateConfigurationItemsFromApplicationError =
  * Disassociates one or more configuration items from an application.
  */
 export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
-  DisassociateConfigurationItemsFromApplicationRequest,
+  DisassociateConfigurationItemsFromApplicationRequest & RegionInput,
   DisassociateConfigurationItemsFromApplicationResponse,
   DisassociateConfigurationItemsFromApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1270,6 +1317,8 @@ export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConfigurationItemsFromApplication",
+  telemetry: TELEMETRY,
+  span: "DisassociateConfigurationItemsFromApplication",
 }));
 
 export type ExportConfigurationsError =
@@ -1290,7 +1339,7 @@ export type ExportConfigurationsError =
  * two configuration exports in six hours.
  */
 export const exportConfigurations: API.OperationMethod<
-  ExportConfigurationsRequest,
+  ExportConfigurationsRequest & RegionInput,
   ExportConfigurationsResponse,
   ExportConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1308,6 +1357,8 @@ export const exportConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportConfigurations",
+  telemetry: TELEMETRY,
+  span: "ExportConfigurations",
 }));
 
 export type GetDiscoverySummaryError =
@@ -1324,7 +1375,7 @@ export type GetDiscoverySummaryError =
  * prompt as shown in the example.
  */
 export const getDiscoverySummary: API.OperationMethod<
-  GetDiscoverySummaryRequest,
+  GetDiscoverySummaryRequest & RegionInput,
   GetDiscoverySummaryResponse,
   GetDiscoverySummaryError,
   Credentials | HttpClient.HttpClient
@@ -1341,6 +1392,8 @@ export const getDiscoverySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiscoverySummary",
+  telemetry: TELEMETRY,
+  span: "GetDiscoverySummary",
 }));
 
 export type ListConfigurationsError =
@@ -1357,7 +1410,7 @@ export type ListConfigurationsError =
  * search results.
  */
 export const listConfigurations: API.PaginatedOperationMethod<
-  ListConfigurationsRequest,
+  ListConfigurationsRequest & RegionInput,
   ListConfigurationsResponse,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1382,6 +1435,8 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "configurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 })) as any;
 
 export type ListServerNeighborsError =
@@ -1396,7 +1451,7 @@ export type ListServerNeighborsError =
  * server.
  */
 export const listServerNeighbors: API.OperationMethod<
-  ListServerNeighborsRequest,
+  ListServerNeighborsRequest & RegionInput,
   ListServerNeighborsResponse,
   ListServerNeighborsError,
   Credentials | HttpClient.HttpClient
@@ -1413,6 +1468,8 @@ export const listServerNeighbors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServerNeighbors",
+  telemetry: TELEMETRY,
+  span: "ListServerNeighbors",
 }));
 
 export type StartBatchDeleteConfigurationTaskError =
@@ -1429,7 +1486,7 @@ export type StartBatchDeleteConfigurationTaskError =
  * task to remove the configurationItems. Returns a unique deletion task identifier.
  */
 export const startBatchDeleteConfigurationTask: API.OperationMethod<
-  StartBatchDeleteConfigurationTaskRequest,
+  StartBatchDeleteConfigurationTaskRequest & RegionInput,
   StartBatchDeleteConfigurationTaskResponse,
   StartBatchDeleteConfigurationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1448,6 +1505,8 @@ export const startBatchDeleteConfigurationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchDeleteConfigurationTask",
+  telemetry: TELEMETRY,
+  span: "StartBatchDeleteConfigurationTask",
 }));
 
 export type StartContinuousExportError =
@@ -1464,7 +1523,7 @@ export type StartContinuousExportError =
  * Start the continuous flow of agent's discovered data into Amazon Athena.
  */
 export const startContinuousExport: API.OperationMethod<
-  StartContinuousExportRequest,
+  StartContinuousExportRequest & RegionInput,
   StartContinuousExportResponse,
   StartContinuousExportError,
   Credentials | HttpClient.HttpClient
@@ -1484,6 +1543,8 @@ export const startContinuousExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContinuousExport",
+  telemetry: TELEMETRY,
+  span: "StartContinuousExport",
 }));
 
 export type StartDataCollectionByAgentIdsError =
@@ -1497,7 +1558,7 @@ export type StartDataCollectionByAgentIdsError =
  * Instructs the specified agents to start collecting data.
  */
 export const startDataCollectionByAgentIds: API.OperationMethod<
-  StartDataCollectionByAgentIdsRequest,
+  StartDataCollectionByAgentIdsRequest & RegionInput,
   StartDataCollectionByAgentIdsResponse,
   StartDataCollectionByAgentIdsError,
   Credentials | HttpClient.HttpClient
@@ -1514,6 +1575,8 @@ export const startDataCollectionByAgentIds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataCollectionByAgentIds",
+  telemetry: TELEMETRY,
+  span: "StartDataCollectionByAgentIds",
 }));
 
 export type StartExportTaskError =
@@ -1551,7 +1614,7 @@ export type StartExportTaskError =
  * criteria of the recommendation.
  */
 export const startExportTask: API.OperationMethod<
-  StartExportTaskRequest,
+  StartExportTaskRequest & RegionInput,
   StartExportTaskResponse,
   StartExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1569,6 +1632,8 @@ export const startExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
+  telemetry: TELEMETRY,
+  span: "StartExportTask",
 }));
 
 export type StartImportTaskError =
@@ -1610,7 +1675,7 @@ export type StartImportTaskError =
  * Guide.
  */
 export const startImportTask: API.OperationMethod<
-  StartImportTaskRequest,
+  StartImportTaskRequest & RegionInput,
   StartImportTaskResponse,
   StartImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1628,6 +1693,8 @@ export const startImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportTask",
+  telemetry: TELEMETRY,
+  span: "StartImportTask",
 }));
 
 export type StopContinuousExportError =
@@ -1644,7 +1711,7 @@ export type StopContinuousExportError =
  * Stop the continuous flow of agent's discovered data into Amazon Athena.
  */
 export const stopContinuousExport: API.OperationMethod<
-  StopContinuousExportRequest,
+  StopContinuousExportRequest & RegionInput,
   StopContinuousExportResponse,
   StopContinuousExportError,
   Credentials | HttpClient.HttpClient
@@ -1664,6 +1731,8 @@ export const stopContinuousExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContinuousExport",
+  telemetry: TELEMETRY,
+  span: "StopContinuousExport",
 }));
 
 export type StopDataCollectionByAgentIdsError =
@@ -1677,7 +1746,7 @@ export type StopDataCollectionByAgentIdsError =
  * Instructs the specified agents to stop collecting data.
  */
 export const stopDataCollectionByAgentIds: API.OperationMethod<
-  StopDataCollectionByAgentIdsRequest,
+  StopDataCollectionByAgentIdsRequest & RegionInput,
   StopDataCollectionByAgentIdsResponse,
   StopDataCollectionByAgentIdsError,
   Credentials | HttpClient.HttpClient
@@ -1694,6 +1763,8 @@ export const stopDataCollectionByAgentIds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataCollectionByAgentIds",
+  telemetry: TELEMETRY,
+  span: "StopDataCollectionByAgentIds",
 }));
 
 export type UpdateApplicationError =
@@ -1707,7 +1778,7 @@ export type UpdateApplicationError =
  * Updates metadata about an application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1724,6 +1795,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

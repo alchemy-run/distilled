@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { GrafanaOpError, GrafanaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "grafana-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Grafana",
+  service: "Grafana",
+  labels: "grafana",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3347,6 +3360,8 @@ export const addDataSource: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDataSource",
 }));
 
 export type AddOrgInviteError = BadRequest | Forbidden | GrafanaOpError;
@@ -3362,6 +3377,8 @@ export const addOrgInvite: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrgInvite",
 }));
 
 export type AddOrgUserError = Forbidden | GrafanaOpError;
@@ -3377,6 +3394,8 @@ export const addOrgUser: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrgUser",
 }));
 
 export type AddOrgUserToCurrentOrgError = Forbidden | GrafanaOpError;
@@ -3392,6 +3411,8 @@ export const addOrgUserToCurrentOrg: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrgUserToCurrentOrg",
 }));
 
 export type AddTeamGroupApiError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3407,6 +3428,8 @@ export const addTeamGroupApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeamGroupApi",
 }));
 
 export type AddTeamMemberError = Forbidden | NotFound | GrafanaOpError;
@@ -3422,6 +3445,8 @@ export const addTeamMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeamMember",
 }));
 
 export type AddTeamRoleError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3437,6 +3462,8 @@ export const addTeamRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeamRole",
 }));
 
 export type AddUserRoleError = Forbidden | NotFound | GrafanaOpError;
@@ -3452,6 +3479,8 @@ export const addUserRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddUserRole",
 }));
 
 export type AdminCreateUserError = BadRequest | Forbidden | GrafanaOpError;
@@ -3467,6 +3496,8 @@ export const adminCreateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminCreateUser",
 }));
 
 export type AdminDeleteUserError = Forbidden | NotFound | GrafanaOpError;
@@ -3482,6 +3513,8 @@ export const adminDeleteUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUser",
 }));
 
 export type AdminDisableUserError = Forbidden | NotFound | GrafanaOpError;
@@ -3497,6 +3530,8 @@ export const adminDisableUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminDisableUser",
 }));
 
 export type AdminEnableUserError = Forbidden | NotFound | GrafanaOpError;
@@ -3512,6 +3547,8 @@ export const adminEnableUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminEnableUser",
 }));
 
 export type AdminGetSettingsError = Forbidden | GrafanaOpError;
@@ -3527,6 +3564,8 @@ export const adminGetSettings: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetSettings",
 }));
 
 export type AdminGetStatsError = Forbidden | GrafanaOpError;
@@ -3542,6 +3581,8 @@ export const adminGetStats: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetStats",
 }));
 
 export type AdminGetUserAuthTokensError = Forbidden | GrafanaOpError;
@@ -3557,6 +3598,8 @@ export const adminGetUserAuthTokens: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminGetUserAuthTokens",
 }));
 
 export type AdminLogoutUserError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3572,6 +3615,8 @@ export const adminLogoutUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminLogoutUser",
 }));
 
 export type AdminProvisioningReloadAccessControlError = Forbidden | GrafanaOpError;
@@ -3587,6 +3632,8 @@ export const adminProvisioningReloadAccessControl: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminProvisioningReloadAccessControl",
 }));
 
 export type AdminProvisioningReloadDashboardsError = Forbidden | GrafanaOpError;
@@ -3602,6 +3649,8 @@ export const adminProvisioningReloadDashboards: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminProvisioningReloadDashboards",
 }));
 
 export type AdminProvisioningReloadDatasourcesError = Forbidden | GrafanaOpError;
@@ -3617,6 +3666,8 @@ export const adminProvisioningReloadDatasources: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminProvisioningReloadDatasources",
 }));
 
 export type AdminProvisioningReloadPluginsError = Forbidden | GrafanaOpError;
@@ -3632,6 +3683,8 @@ export const adminProvisioningReloadPlugins: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminProvisioningReloadPlugins",
 }));
 
 export type AdminRevokeUserAuthTokenError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3647,6 +3700,8 @@ export const adminRevokeUserAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminRevokeUserAuthToken",
 }));
 
 export type AdminUpdateUserPasswordError = BadRequest | Forbidden | GrafanaOpError;
@@ -3662,6 +3717,8 @@ export const adminUpdateUserPassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminUpdateUserPassword",
 }));
 
 export type AdminUpdateUserPermissionsError = BadRequest | Forbidden | GrafanaOpError;
@@ -3677,6 +3734,8 @@ export const adminUpdateUserPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdminUpdateUserPermissions",
 }));
 
 export type CallDatasourceResourceWithUIDError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3692,6 +3751,8 @@ export const callDatasourceResourceWithUID: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CallDatasourceResourceWithUID",
 }));
 
 export type CancelSnapshotError = BadRequest | Forbidden | GrafanaOpError;
@@ -3707,6 +3768,8 @@ export const cancelSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelSnapshot",
 }));
 
 export type ChangeUserPasswordError = BadRequest | Forbidden | GrafanaOpError;
@@ -3722,6 +3785,8 @@ export const changeUserPassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeUserPassword",
 }));
 
 export type CheckDatasourceHealthWithUIDError = BadRequest | Forbidden | GrafanaOpError;
@@ -3737,6 +3802,8 @@ export const checkDatasourceHealthWithUID: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDatasourceHealthWithUID",
 }));
 
 export type CleanDataSourceCacheError = GrafanaOpError;
@@ -3752,6 +3819,8 @@ export const cleanDataSourceCache: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CleanDataSourceCache",
 }));
 
 export type CreateAnnotationError = BadRequest | Forbidden | GrafanaOpError;
@@ -3767,6 +3836,8 @@ export const createAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnotation",
 }));
 
 export type CreateCloudMigrationTokenError = Forbidden | GrafanaOpError;
@@ -3782,6 +3853,8 @@ export const createCloudMigrationToken: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudMigrationToken",
 }));
 
 export type CreateCorrelationError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3797,6 +3870,8 @@ export const createCorrelation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCorrelation",
 }));
 
 export type CreateDashboardSnapshotError = Forbidden | GrafanaOpError;
@@ -3812,6 +3887,8 @@ export const createDashboardSnapshot: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardSnapshot",
 }));
 
 export type CreateLibraryElementError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3827,6 +3904,8 @@ export const createLibraryElement: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLibraryElement",
 }));
 
 export type CreateOrgError = Forbidden | Conflict | GrafanaOpError;
@@ -3842,6 +3921,8 @@ export const createOrg: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrg",
 }));
 
 export type CreatePublicDashboardError = BadRequest | Forbidden | GrafanaOpError;
@@ -3857,6 +3938,8 @@ export const createPublicDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicDashboard",
 }));
 
 export type CreateQueryError = BadRequest | GrafanaOpError;
@@ -3872,6 +3955,8 @@ export const createQuery: API.OperationMethod<
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuery",
 }));
 
 export type CreateRecordingRuleError = Forbidden | NotFound | GrafanaOpError;
@@ -3887,6 +3972,8 @@ export const createRecordingRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecordingRule",
 }));
 
 export type CreateRecordingRuleWriteTargetError =
@@ -3906,6 +3993,8 @@ export const createRecordingRuleWriteTarget: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecordingRuleWriteTarget",
 }));
 
 export type CreateReportError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -3921,6 +4010,8 @@ export const createReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReport",
 }));
 
 export type CreateRoleError = BadRequest | Forbidden | GrafanaOpError;
@@ -3936,6 +4027,8 @@ export const createRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateServiceAccountError = BadRequest | Forbidden | GrafanaOpError;
@@ -3951,6 +4044,8 @@ export const createServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccount",
 }));
 
 export type CreateSessionError = BadRequest | Forbidden | GrafanaOpError;
@@ -3966,6 +4061,8 @@ export const createSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateSnapshotError = BadRequest | Forbidden | GrafanaOpError;
@@ -3981,6 +4078,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateTeamError = Forbidden | Conflict | GrafanaOpError;
@@ -3996,6 +4095,8 @@ export const createTeam: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type CreateTokenError = BadRequest | Forbidden | NotFound | Conflict | GrafanaOpError;
@@ -4011,6 +4112,8 @@ export const createToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DatasourceProxyDELETEByUIDcallsError =
@@ -4030,6 +4133,8 @@ export const datasourceProxyDELETEByUIDcalls: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatasourceProxyDELETEByUIDcalls",
 }));
 
 export type DatasourceProxyGETByUIDcallsError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4045,6 +4150,8 @@ export const datasourceProxyGETByUIDcalls: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatasourceProxyGETByUIDcalls",
 }));
 
 export type DatasourceProxyPOSTByUIDcallsError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4060,6 +4167,8 @@ export const datasourceProxyPOSTByUIDcalls: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatasourceProxyPOSTByUIDcalls",
 }));
 
 export type DeleteAnnotationError = Forbidden | GrafanaOpError;
@@ -4075,6 +4184,8 @@ export const deleteAnnotation: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotation",
 }));
 
 export type DeleteCloudMigrationTokenError = BadRequest | Forbidden | GrafanaOpError;
@@ -4090,6 +4201,8 @@ export const deleteCloudMigrationToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudMigrationToken",
 }));
 
 export type DeleteCorrelationError = Forbidden | NotFound | GrafanaOpError;
@@ -4105,6 +4218,8 @@ export const deleteCorrelation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCorrelation",
 }));
 
 export type DeleteDashboardSnapshotError = Forbidden | NotFound | GrafanaOpError;
@@ -4120,6 +4235,8 @@ export const deleteDashboardSnapshot: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardSnapshot",
 }));
 
 export type DeleteDashboardSnapshotByDeleteKeyError = Forbidden | NotFound | GrafanaOpError;
@@ -4135,6 +4252,8 @@ export const deleteDashboardSnapshotByDeleteKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardSnapshotByDeleteKey",
 }));
 
 export type DeleteDataSourceByUIDError = Forbidden | NotFound | GrafanaOpError;
@@ -4150,6 +4269,8 @@ export const deleteDataSourceByUID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataSourceByUID",
 }));
 
 export type DeleteLibraryElementByUIDError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4165,6 +4286,8 @@ export const deleteLibraryElementByUID: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLibraryElementByUID",
 }));
 
 export type DeleteLicenseTokenError = BadRequest | Forbidden | UnprocessableEntity | GrafanaOpError;
@@ -4180,6 +4303,8 @@ export const deleteLicenseToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseToken",
 }));
 
 export type DeleteOrgError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4195,6 +4320,8 @@ export const deleteOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrg",
 }));
 
 export type DeletePublicDashboardError = BadRequest | Forbidden | GrafanaOpError;
@@ -4210,6 +4337,8 @@ export const deletePublicDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicDashboard",
 }));
 
 export type DeleteQueryError = GrafanaOpError;
@@ -4225,6 +4354,8 @@ export const deleteQuery: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQuery",
 }));
 
 export type DeleteRecordingRuleError = Forbidden | NotFound | GrafanaOpError;
@@ -4240,6 +4371,8 @@ export const deleteRecordingRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecordingRule",
 }));
 
 export type DeleteRecordingRuleWriteTargetError = Forbidden | NotFound | GrafanaOpError;
@@ -4255,6 +4388,8 @@ export const deleteRecordingRuleWriteTarget: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecordingRuleWriteTarget",
 }));
 
 export type DeleteRoleError = BadRequest | Forbidden | GrafanaOpError;
@@ -4270,6 +4405,8 @@ export const deleteRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRole",
 }));
 
 export type DeleteServiceAccountError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4285,6 +4422,8 @@ export const deleteServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccount",
 }));
 
 export type DeleteSessionError = BadRequest | Forbidden | GrafanaOpError;
@@ -4300,6 +4439,8 @@ export const deleteSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type DeleteTeamError = Forbidden | NotFound | Conflict | GrafanaOpError;
@@ -4315,6 +4456,8 @@ export const deleteTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
 }));
 
 export type DeleteTokenError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4330,6 +4473,8 @@ export const deleteToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type DisableDataSourceCacheError = GrafanaOpError;
@@ -4345,6 +4490,8 @@ export const disableDataSourceCache: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableDataSourceCache",
 }));
 
 export type EnableDataSourceCacheError = GrafanaOpError;
@@ -4360,6 +4507,8 @@ export const enableDataSourceCache: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableDataSourceCache",
 }));
 
 export type GetAccessControlStatusError = Forbidden | NotFound | GrafanaOpError;
@@ -4375,6 +4524,8 @@ export const getAccessControlStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessControlStatus",
 }));
 
 export type GetAnnotationError = GrafanaOpError;
@@ -4390,6 +4541,8 @@ export const getAnnotation: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotation",
 }));
 
 export type GetAnnotationsError = GrafanaOpError;
@@ -4405,6 +4558,8 @@ export const getAnnotations: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotations",
 }));
 
 export type GetAnnotationTagsError = GrafanaOpError;
@@ -4420,6 +4575,8 @@ export const getAnnotationTags: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotationTags",
 }));
 
 export type GetCloudMigrationTokenError = Forbidden | NotFound | GrafanaOpError;
@@ -4435,6 +4592,8 @@ export const getCloudMigrationToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudMigrationToken",
 }));
 
 export type GetCorrelationError = NotFound | GrafanaOpError;
@@ -4450,6 +4609,8 @@ export const getCorrelation: API.OperationMethod<
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCorrelation",
 }));
 
 export type GetCorrelationsError = NotFound | GrafanaOpError;
@@ -4465,6 +4626,8 @@ export const getCorrelations: API.OperationMethod<
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCorrelations",
 }));
 
 export type GetCorrelationsBySourceUIDError = NotFound | GrafanaOpError;
@@ -4480,6 +4643,8 @@ export const getCorrelationsBySourceUID: API.OperationMethod<
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCorrelationsBySourceUID",
 }));
 
 export type GetCurrentOrgError = Forbidden | GrafanaOpError;
@@ -4495,6 +4660,8 @@ export const getCurrentOrg: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentOrg",
 }));
 
 export type GetCurrentOrgQuotaError = Forbidden | NotFound | GrafanaOpError;
@@ -4510,6 +4677,8 @@ export const getCurrentOrgQuota: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentOrgQuota",
 }));
 
 export type GetDashboardSnapshotError = BadRequest | NotFound | GrafanaOpError;
@@ -4525,6 +4694,8 @@ export const getDashboardSnapshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardSnapshot",
 }));
 
 export type GetDataSourceByUIDError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4540,6 +4711,8 @@ export const getDataSourceByUID: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSourceByUID",
 }));
 
 export type GetDataSourceCacheConfigError = GrafanaOpError;
@@ -4555,6 +4728,8 @@ export const getDataSourceCacheConfig: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSourceCacheConfig",
 }));
 
 export type GetDataSourcesError = Forbidden | GrafanaOpError;
@@ -4570,6 +4745,8 @@ export const getDataSources: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSources",
 }));
 
 export type GetHealthError = GrafanaOpError;
@@ -4585,6 +4762,8 @@ export const getHealth: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealth",
 }));
 
 export type GetJWKSError = GrafanaOpError;
@@ -4600,6 +4779,8 @@ export const getJWKS: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJWKS",
 }));
 
 export type GetLDAPStatusError = Forbidden | GrafanaOpError;
@@ -4615,6 +4796,8 @@ export const getLDAPStatus: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLDAPStatus",
 }));
 
 export type GetLibraryElementByNameError = NotFound | GrafanaOpError;
@@ -4630,6 +4813,8 @@ export const getLibraryElementByName: API.OperationMethod<
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLibraryElementByName",
 }));
 
 export type GetLibraryElementByUIDError = Forbidden | NotFound | GrafanaOpError;
@@ -4645,6 +4830,8 @@ export const getLibraryElementByUID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLibraryElementByUID",
 }));
 
 export type GetLibraryElementConnectionsError = Forbidden | NotFound | GrafanaOpError;
@@ -4660,6 +4847,8 @@ export const getLibraryElementConnections: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLibraryElementConnections",
 }));
 
 export type GetLibraryElementsError = GrafanaOpError;
@@ -4675,6 +4864,8 @@ export const getLibraryElements: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLibraryElements",
 }));
 
 export type GetLicenseTokenError = GrafanaOpError;
@@ -4690,6 +4881,8 @@ export const getLicenseToken: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicenseToken",
 }));
 
 export type GetMetadataError = GrafanaOpError;
@@ -4705,6 +4898,8 @@ export const getMetadata: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadata",
 }));
 
 export type GetOrgError = Forbidden | GrafanaOpError;
@@ -4720,6 +4915,8 @@ export const getOrg: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrg",
 }));
 
 export type GetOrgByNameError = Forbidden | GrafanaOpError;
@@ -4735,6 +4932,8 @@ export const getOrgByName: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgByName",
 }));
 
 export type GetOrgQuotaError = Forbidden | NotFound | GrafanaOpError;
@@ -4750,6 +4949,8 @@ export const getOrgQuota: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgQuota",
 }));
 
 export type GetOrgUsersError = Forbidden | GrafanaOpError;
@@ -4765,6 +4966,8 @@ export const getOrgUsers: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgUsers",
 }));
 
 export type GetOrgUsersForCurrentOrgError = Forbidden | GrafanaOpError;
@@ -4780,6 +4983,8 @@ export const getOrgUsersForCurrentOrg: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgUsersForCurrentOrg",
 }));
 
 export type GetOrgUsersForCurrentOrgLookupError = Forbidden | GrafanaOpError;
@@ -4795,6 +5000,8 @@ export const getOrgUsersForCurrentOrgLookup: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgUsersForCurrentOrgLookup",
 }));
 
 export type GetPendingOrgInvitesError = Forbidden | GrafanaOpError;
@@ -4810,6 +5017,8 @@ export const getPendingOrgInvites: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPendingOrgInvites",
 }));
 
 export type GetProviderSettingsError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4825,6 +5034,8 @@ export const getProviderSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderSettings",
 }));
 
 export type GetPublicAnnotationsError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4840,6 +5051,8 @@ export const getPublicAnnotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicAnnotations",
 }));
 
 export type GetPublicDashboardError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -4855,6 +5068,8 @@ export const getPublicDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicDashboard",
 }));
 
 export type GetRecordingRuleWriteTargetError = Forbidden | NotFound | GrafanaOpError;
@@ -4870,6 +5085,8 @@ export const getRecordingRuleWriteTarget: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecordingRuleWriteTarget",
 }));
 
 export type GetReportsError = Forbidden | GrafanaOpError;
@@ -4885,6 +5102,8 @@ export const getReports: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReports",
 }));
 
 export type GetReportsByDashboardUIDError = Forbidden | GrafanaOpError;
@@ -4900,6 +5119,8 @@ export const getReportsByDashboardUID: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportsByDashboardUID",
 }));
 
 export type GetReportSettingsError = Forbidden | GrafanaOpError;
@@ -4915,6 +5136,8 @@ export const getReportSettings: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportSettings",
 }));
 
 export type GetResourceDependenciesError = GrafanaOpError;
@@ -4930,6 +5153,8 @@ export const getResourceDependencies: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceDependencies",
 }));
 
 export type GetResourceDescriptionError = Forbidden | GrafanaOpError;
@@ -4945,6 +5170,8 @@ export const getResourceDescription: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceDescription",
 }));
 
 export type GetResourcePermissionsError = Forbidden | NotFound | GrafanaOpError;
@@ -4960,6 +5187,8 @@ export const getResourcePermissions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcePermissions",
 }));
 
 export type GetRoleError = Forbidden | GrafanaOpError;
@@ -4971,6 +5200,8 @@ export const getRole: API.OperationMethod<GetRoleRequest, RoleDTO, GetRoleError,
     errors: [Forbidden, UnknownGrafanaError],
     protocol: GrafanaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRole",
   }));
 
 export type GetRoleAssignmentsError = Forbidden | NotFound | GrafanaOpError;
@@ -4986,6 +5217,8 @@ export const getRoleAssignments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleAssignments",
 }));
 
 export type GetSAMLLogoutError = NotFound | GrafanaOpError;
@@ -5001,6 +5234,8 @@ export const getSAMLLogout: API.OperationMethod<
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSAMLLogout",
 }));
 
 export type GetServiceAccountError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5016,6 +5251,8 @@ export const getServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccount",
 }));
 
 export type GetSessionError = BadRequest | Forbidden | GrafanaOpError;
@@ -5031,6 +5268,8 @@ export const getSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionListError = Forbidden | GrafanaOpError;
@@ -5046,6 +5285,8 @@ export const getSessionList: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionList",
 }));
 
 export type GetSettingsImageError = Forbidden | NotFound | GrafanaOpError;
@@ -5061,6 +5302,8 @@ export const getSettingsImage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingsImage",
 }));
 
 export type GetShapshotListError = BadRequest | Forbidden | GrafanaOpError;
@@ -5076,6 +5319,8 @@ export const getShapshotList: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShapshotList",
 }));
 
 export type GetSharingOptionsError = GrafanaOpError;
@@ -5091,6 +5336,8 @@ export const getSharingOptions: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharingOptions",
 }));
 
 export type GetSignedInUserError = Forbidden | NotFound | GrafanaOpError;
@@ -5106,6 +5353,8 @@ export const getSignedInUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignedInUser",
 }));
 
 export type GetSignedInUserOrgListError = Forbidden | GrafanaOpError;
@@ -5121,6 +5370,8 @@ export const getSignedInUserOrgList: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignedInUserOrgList",
 }));
 
 export type GetSignedInUserTeamListError = Forbidden | GrafanaOpError;
@@ -5136,6 +5387,8 @@ export const getSignedInUserTeamList: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignedInUserTeamList",
 }));
 
 export type GetSLOError = BadRequest | Forbidden | GrafanaOpError;
@@ -5151,6 +5404,8 @@ export const getSLO: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSLO",
 }));
 
 export type GetSnapshotError = BadRequest | Forbidden | GrafanaOpError;
@@ -5166,6 +5421,8 @@ export const getSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetStatusError = GrafanaOpError;
@@ -5181,6 +5438,8 @@ export const getStatus: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatus",
 }));
 
 export type GetSyncStatusError = Forbidden | GrafanaOpError;
@@ -5196,6 +5455,8 @@ export const getSyncStatus: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyncStatus",
 }));
 
 export type GetTeamError = Forbidden | NotFound | GrafanaOpError;
@@ -5207,6 +5468,8 @@ export const getTeam: API.OperationMethod<GetTeamRequest, TeamDTO, GetTeamError,
     errors: [Forbidden, NotFound, UnknownGrafanaError],
     protocol: GrafanaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTeam",
   }));
 
 export type GetTeamGroupsApiError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5222,6 +5485,8 @@ export const getTeamGroupsApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamGroupsApi",
 }));
 
 export type GetTeamLBACRulesApiError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5237,6 +5502,8 @@ export const getTeamLBACRulesApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamLBACRulesApi",
 }));
 
 export type GetTeamMembersError = Forbidden | NotFound | GrafanaOpError;
@@ -5252,6 +5519,8 @@ export const getTeamMembers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamMembers",
 }));
 
 export type GetTeamPreferencesError = GrafanaOpError;
@@ -5267,6 +5536,8 @@ export const getTeamPreferences: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamPreferences",
 }));
 
 export type GetUserError = Forbidden | NotFound | GrafanaOpError;
@@ -5282,6 +5553,8 @@ export const getUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserAuthTokensError = Forbidden | GrafanaOpError;
@@ -5297,6 +5570,8 @@ export const getUserAuthTokens: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAuthTokens",
 }));
 
 export type GetUserByLoginOrEmailError = Forbidden | NotFound | GrafanaOpError;
@@ -5312,6 +5587,8 @@ export const getUserByLoginOrEmail: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserByLoginOrEmail",
 }));
 
 export type GetUserFromLDAPError = Forbidden | GrafanaOpError;
@@ -5327,6 +5604,8 @@ export const getUserFromLDAP: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserFromLDAP",
 }));
 
 export type GetUserOrgListError = Forbidden | NotFound | GrafanaOpError;
@@ -5342,6 +5621,8 @@ export const getUserOrgList: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserOrgList",
 }));
 
 export type GetUserQuotaError = Forbidden | NotFound | GrafanaOpError;
@@ -5357,6 +5638,8 @@ export const getUserQuota: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserQuota",
 }));
 
 export type GetUserQuotasError = Forbidden | NotFound | GrafanaOpError;
@@ -5372,6 +5655,8 @@ export const getUserQuotas: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserQuotas",
 }));
 
 export type GetUserTeamsError = Forbidden | NotFound | GrafanaOpError;
@@ -5387,6 +5672,8 @@ export const getUserTeams: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserTeams",
 }));
 
 export type ImportDashboardError = BadRequest | UnprocessableEntity | GrafanaOpError;
@@ -5402,6 +5689,8 @@ export const importDashboard: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDashboard",
 }));
 
 export type InterpolateDashboardError = BadRequest | UnprocessableEntity | GrafanaOpError;
@@ -5417,6 +5706,8 @@ export const interpolateDashboard: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InterpolateDashboard",
 }));
 
 export type ListAllProvidersSettingsError = BadRequest | Forbidden | GrafanaOpError;
@@ -5432,6 +5723,8 @@ export const listAllProvidersSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllProvidersSettings",
 }));
 
 export type ListDevicesError = Forbidden | NotFound | GrafanaOpError;
@@ -5447,6 +5740,8 @@ export const listDevices: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 }));
 
 export type ListPublicDashboardsError = Forbidden | GrafanaOpError;
@@ -5462,6 +5757,8 @@ export const listPublicDashboards: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicDashboards",
 }));
 
 export type ListRecordingRulesError = Forbidden | NotFound | GrafanaOpError;
@@ -5477,6 +5774,8 @@ export const listRecordingRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecordingRules",
 }));
 
 export type ListRolesError = Forbidden | GrafanaOpError;
@@ -5492,6 +5791,8 @@ export const listRoles: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
 }));
 
 export type ListSortOptionsError = GrafanaOpError;
@@ -5507,6 +5808,8 @@ export const listSortOptions: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSortOptions",
 }));
 
 export type ListTeamRolesError = BadRequest | Forbidden | GrafanaOpError;
@@ -5522,6 +5825,8 @@ export const listTeamRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamRoles",
 }));
 
 export type ListTeamsRolesError = BadRequest | Forbidden | GrafanaOpError;
@@ -5537,6 +5842,8 @@ export const listTeamsRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamsRoles",
 }));
 
 export type ListTokensError = BadRequest | Forbidden | GrafanaOpError;
@@ -5552,6 +5859,8 @@ export const listTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTokens",
 }));
 
 export type ListUserRolesError = BadRequest | Forbidden | GrafanaOpError;
@@ -5567,6 +5876,8 @@ export const listUserRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRoles",
 }));
 
 export type ListUsersRolesError = BadRequest | Forbidden | GrafanaOpError;
@@ -5582,6 +5893,8 @@ export const listUsersRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersRoles",
 }));
 
 export type MassDeleteAnnotationsError = GrafanaOpError;
@@ -5597,6 +5910,8 @@ export const massDeleteAnnotations: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MassDeleteAnnotations",
 }));
 
 export type PatchProviderSettingsError = BadRequest | Forbidden | GrafanaOpError;
@@ -5612,6 +5927,8 @@ export const patchProviderSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProviderSettings",
 }));
 
 export type PatchQueryCommentError = BadRequest | GrafanaOpError;
@@ -5627,6 +5944,8 @@ export const patchQueryComment: API.OperationMethod<
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchQueryComment",
 }));
 
 export type PostACSError = Forbidden | GrafanaOpError;
@@ -5642,6 +5961,8 @@ export const postACS: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostACS",
 }));
 
 export type PostGraphiteAnnotationError = BadRequest | Forbidden | GrafanaOpError;
@@ -5657,6 +5978,8 @@ export const postGraphiteAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostGraphiteAnnotation",
 }));
 
 export type PostLicenseTokenError = BadRequest | GrafanaOpError;
@@ -5672,6 +5995,8 @@ export const postLicenseToken: API.OperationMethod<
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostLicenseToken",
 }));
 
 export type PostRenewLicenseTokenError = NotFound | GrafanaOpError;
@@ -5687,6 +6012,8 @@ export const postRenewLicenseToken: API.OperationMethod<
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRenewLicenseToken",
 }));
 
 export type PostSLOError = BadRequest | Forbidden | GrafanaOpError;
@@ -5702,6 +6029,8 @@ export const postSLO: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSLO",
 }));
 
 export type PostSyncUserWithLDAPError = Forbidden | GrafanaOpError;
@@ -5717,6 +6046,8 @@ export const postSyncUserWithLDAP: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSyncUserWithLDAP",
 }));
 
 export type QueryMetricsWithExpressionsError = BadRequest | Forbidden | GrafanaOpError;
@@ -5732,6 +6063,8 @@ export const queryMetricsWithExpressions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryMetricsWithExpressions",
 }));
 
 export type QueryPublicDashboardError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5747,6 +6080,8 @@ export const queryPublicDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryPublicDashboard",
 }));
 
 export type RefreshLicenseStatsError = GrafanaOpError;
@@ -5762,6 +6097,8 @@ export const refreshLicenseStats: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshLicenseStats",
 }));
 
 export type ReloadLDAPCfgError = GrafanaOpError;
@@ -5777,6 +6114,8 @@ export const reloadLDAPCfg: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReloadLDAPCfg",
 }));
 
 export type RemoveOrgUserError = BadRequest | Forbidden | GrafanaOpError;
@@ -5792,6 +6131,8 @@ export const removeOrgUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrgUser",
 }));
 
 export type RemoveOrgUserForCurrentOrgError = BadRequest | Forbidden | GrafanaOpError;
@@ -5807,6 +6148,8 @@ export const removeOrgUserForCurrentOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrgUserForCurrentOrg",
 }));
 
 export type RemoveProviderSettingsError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5822,6 +6165,8 @@ export const removeProviderSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveProviderSettings",
 }));
 
 export type RemoveTeamGroupApiQueryError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5837,6 +6182,8 @@ export const removeTeamGroupApiQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamGroupApiQuery",
 }));
 
 export type RemoveTeamMemberError = Forbidden | NotFound | GrafanaOpError;
@@ -5852,6 +6199,8 @@ export const removeTeamMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamMember",
 }));
 
 export type RemoveTeamRoleError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5867,6 +6216,8 @@ export const removeTeamRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamRole",
 }));
 
 export type RemoveUserRoleError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -5882,6 +6233,8 @@ export const removeUserRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserRole",
 }));
 
 export type RenderReportCSVsError = BadRequest | GrafanaOpError;
@@ -5897,6 +6250,8 @@ export const renderReportCSVs: API.OperationMethod<
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderReportCSVs",
 }));
 
 export type RenderReportPDFsError = BadRequest | GrafanaOpError;
@@ -5912,6 +6267,8 @@ export const renderReportPDFs: API.OperationMethod<
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderReportPDFs",
 }));
 
 export type RevokeInviteError = Forbidden | NotFound | GrafanaOpError;
@@ -5927,6 +6284,8 @@ export const revokeInvite: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeInvite",
 }));
 
 export type RevokeUserAuthTokenError = BadRequest | Forbidden | GrafanaOpError;
@@ -5942,6 +6301,8 @@ export const revokeUserAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserAuthToken",
 }));
 
 export type RouteConvertPrometheusCortexDeleteNamespaceError = Forbidden | GrafanaOpError;
@@ -5965,6 +6326,8 @@ export const routeConvertPrometheusCortexDeleteNamespace: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusCortexDeleteNamespace",
 }));
 
 export type RouteConvertPrometheusCortexDeleteRuleGroupError = Forbidden | GrafanaOpError;
@@ -5988,6 +6351,8 @@ export const routeConvertPrometheusCortexDeleteRuleGroup: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusCortexDeleteRuleGroup",
 }));
 
 export type RouteConvertPrometheusCortexGetNamespaceError = Forbidden | NotFound | GrafanaOpError;
@@ -6003,6 +6368,8 @@ export const routeConvertPrometheusCortexGetNamespace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusCortexGetNamespace",
 }));
 
 export type RouteConvertPrometheusCortexGetRuleGroupError = Forbidden | NotFound | GrafanaOpError;
@@ -6018,6 +6385,8 @@ export const routeConvertPrometheusCortexGetRuleGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusCortexGetRuleGroup",
 }));
 
 export type RouteConvertPrometheusCortexGetRulesError = Forbidden | NotFound | GrafanaOpError;
@@ -6033,6 +6402,8 @@ export const routeConvertPrometheusCortexGetRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusCortexGetRules",
 }));
 
 export type RouteConvertPrometheusCortexPostRuleGroupError = Forbidden | GrafanaOpError;
@@ -6052,6 +6423,8 @@ export const routeConvertPrometheusCortexPostRuleGroup: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusCortexPostRuleGroup",
 }));
 
 export type RouteConvertPrometheusCortexPostRuleGroupsError = Forbidden | GrafanaOpError;
@@ -6071,6 +6444,8 @@ export const routeConvertPrometheusCortexPostRuleGroups: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusCortexPostRuleGroups",
 }));
 
 export type RouteConvertPrometheusDeleteNamespaceError = Forbidden | GrafanaOpError;
@@ -6086,6 +6461,8 @@ export const routeConvertPrometheusDeleteNamespace: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusDeleteNamespace",
 }));
 
 export type RouteConvertPrometheusDeleteRuleGroupError = Forbidden | GrafanaOpError;
@@ -6101,6 +6478,8 @@ export const routeConvertPrometheusDeleteRuleGroup: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusDeleteRuleGroup",
 }));
 
 export type RouteConvertPrometheusGetNamespaceError = Forbidden | NotFound | GrafanaOpError;
@@ -6116,6 +6495,8 @@ export const routeConvertPrometheusGetNamespace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusGetNamespace",
 }));
 
 export type RouteConvertPrometheusGetRuleGroupError = Forbidden | NotFound | GrafanaOpError;
@@ -6131,6 +6512,8 @@ export const routeConvertPrometheusGetRuleGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusGetRuleGroup",
 }));
 
 export type RouteConvertPrometheusGetRulesError = Forbidden | NotFound | GrafanaOpError;
@@ -6146,6 +6529,8 @@ export const routeConvertPrometheusGetRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusGetRules",
 }));
 
 export type RouteConvertPrometheusPostRuleGroupError = Forbidden | GrafanaOpError;
@@ -6161,6 +6546,8 @@ export const routeConvertPrometheusPostRuleGroup: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusPostRuleGroup",
 }));
 
 export type RouteConvertPrometheusPostRuleGroupsError = Forbidden | GrafanaOpError;
@@ -6176,6 +6563,8 @@ export const routeConvertPrometheusPostRuleGroups: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteConvertPrometheusPostRuleGroups",
 }));
 
 export type RouteExportMuteTimingError = Forbidden | GrafanaOpError;
@@ -6191,6 +6580,8 @@ export const routeExportMuteTiming: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteExportMuteTiming",
 }));
 
 export type RouteExportMuteTimingsError = Forbidden | GrafanaOpError;
@@ -6206,6 +6597,8 @@ export const routeExportMuteTimings: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteExportMuteTimings",
 }));
 
 export type RouteGetAlertRuleExportError = Forbidden | NotFound | GrafanaOpError;
@@ -6221,6 +6614,8 @@ export const routeGetAlertRuleExport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteGetAlertRuleExport",
 }));
 
 export type RouteGetAlertRuleGroupExportError = Forbidden | NotFound | GrafanaOpError;
@@ -6236,6 +6631,8 @@ export const routeGetAlertRuleGroupExport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteGetAlertRuleGroupExport",
 }));
 
 export type RouteGetAlertRulesExportError = Forbidden | NotFound | GrafanaOpError;
@@ -6251,6 +6648,8 @@ export const routeGetAlertRulesExport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteGetAlertRulesExport",
 }));
 
 export type RouteGetContactpointsExportError = Forbidden | GrafanaOpError;
@@ -6266,6 +6665,8 @@ export const routeGetContactpointsExport: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteGetContactpointsExport",
 }));
 
 export type RouteGetPolicyTreeExportError = Forbidden | NotFound | GrafanaOpError;
@@ -6281,6 +6682,8 @@ export const routeGetPolicyTreeExport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RouteGetPolicyTreeExport",
 }));
 
 export type SaveReportSettingsError = BadRequest | Forbidden | GrafanaOpError;
@@ -6296,6 +6699,8 @@ export const saveReportSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SaveReportSettings",
 }));
 
 export type SearchError = UnprocessableEntity | GrafanaOpError;
@@ -6310,6 +6715,8 @@ export const search: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search",
 }));
 
 export type SearchDashboardSnapshotsError = GrafanaOpError;
@@ -6325,6 +6732,8 @@ export const searchDashboardSnapshots: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchDashboardSnapshots",
 }));
 
 export type SearchDevicesError = Forbidden | NotFound | GrafanaOpError;
@@ -6340,6 +6749,8 @@ export const searchDevices: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchDevices",
 }));
 
 export type SearchOrgsError = Forbidden | Conflict | GrafanaOpError;
@@ -6355,6 +6766,8 @@ export const searchOrgs: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchOrgs",
 }));
 
 export type SearchOrgServiceAccountsWithPagingError = Forbidden | GrafanaOpError;
@@ -6370,6 +6783,8 @@ export const searchOrgServiceAccountsWithPaging: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchOrgServiceAccountsWithPaging",
 }));
 
 export type SearchOrgUsersError = Forbidden | GrafanaOpError;
@@ -6385,6 +6800,8 @@ export const searchOrgUsers: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchOrgUsers",
 }));
 
 export type SearchQueriesError = GrafanaOpError;
@@ -6400,6 +6817,8 @@ export const searchQueries: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchQueries",
 }));
 
 export type SearchTeamGroupsError = BadRequest | Forbidden | GrafanaOpError;
@@ -6415,6 +6834,8 @@ export const searchTeamGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTeamGroups",
 }));
 
 export type SearchTeamsError = Forbidden | GrafanaOpError;
@@ -6430,6 +6851,8 @@ export const searchTeams: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTeams",
 }));
 
 export type SearchUsersError = Forbidden | GrafanaOpError;
@@ -6445,6 +6868,8 @@ export const searchUsers: API.OperationMethod<
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchUsers",
 }));
 
 export type SearchUsersWithPagingError = Forbidden | NotFound | GrafanaOpError;
@@ -6460,6 +6885,8 @@ export const searchUsersWithPaging: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchUsersWithPaging",
 }));
 
 export type SendReportError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6475,6 +6902,8 @@ export const sendReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendReport",
 }));
 
 export type SendTestEmailError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6490,6 +6919,8 @@ export const sendTestEmail: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTestEmail",
 }));
 
 export type SetDataSourceCacheConfigError = BadRequest | GrafanaOpError;
@@ -6505,6 +6936,8 @@ export const setDataSourceCacheConfig: API.OperationMethod<
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDataSourceCacheConfig",
 }));
 
 export type SetResourcePermissionsError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6520,6 +6953,8 @@ export const setResourcePermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetResourcePermissions",
 }));
 
 export type SetResourcePermissionsForBuiltInRoleError =
@@ -6539,6 +6974,8 @@ export const setResourcePermissionsForBuiltInRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetResourcePermissionsForBuiltInRole",
 }));
 
 export type SetResourcePermissionsForTeamError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6554,6 +6991,8 @@ export const setResourcePermissionsForTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetResourcePermissionsForTeam",
 }));
 
 export type SetResourcePermissionsForUserError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6569,6 +7008,8 @@ export const setResourcePermissionsForUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetResourcePermissionsForUser",
 }));
 
 export type SetRoleAssignmentsError = Forbidden | NotFound | GrafanaOpError;
@@ -6584,6 +7025,8 @@ export const setRoleAssignments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRoleAssignments",
 }));
 
 export type SetTeamMembershipsError = Forbidden | NotFound | GrafanaOpError;
@@ -6599,6 +7042,8 @@ export const setTeamMemberships: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTeamMemberships",
 }));
 
 export type SetTeamRolesError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6614,6 +7059,8 @@ export const setTeamRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTeamRoles",
 }));
 
 export type SetUserRolesError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6629,6 +7076,8 @@ export const setUserRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetUserRoles",
 }));
 
 export type StarQueryError = GrafanaOpError;
@@ -6644,6 +7093,8 @@ export const starQuery: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StarQuery",
 }));
 
 export type TestCreateRecordingRuleError =
@@ -6663,6 +7114,8 @@ export const testCreateRecordingRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestCreateRecordingRule",
 }));
 
 export type UnstarQueryError = GrafanaOpError;
@@ -6678,6 +7131,8 @@ export const unstarQuery: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnstarQuery",
 }));
 
 export type UpdateAnnotationError = BadRequest | Forbidden | GrafanaOpError;
@@ -6693,6 +7148,8 @@ export const updateAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotation",
 }));
 
 export type UpdateAnnotationByAnnotationIdError = Forbidden | NotFound | GrafanaOpError;
@@ -6708,6 +7165,8 @@ export const updateAnnotationByAnnotationId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotationByAnnotationId",
 }));
 
 export type UpdateCorrelationError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6723,6 +7182,8 @@ export const updateCorrelation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCorrelation",
 }));
 
 export type UpdateCurrentOrgError = BadRequest | Forbidden | GrafanaOpError;
@@ -6738,6 +7199,8 @@ export const updateCurrentOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentOrg",
 }));
 
 export type UpdateCurrentOrgAddressError = BadRequest | Forbidden | GrafanaOpError;
@@ -6753,6 +7216,8 @@ export const updateCurrentOrgAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentOrgAddress",
 }));
 
 export type UpdateDataSourceByUIDError = Forbidden | Conflict | GrafanaOpError;
@@ -6768,6 +7233,8 @@ export const updateDataSourceByUID: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataSourceByUID",
 }));
 
 export type UpdateFolderPermissionsError = Forbidden | NotFound | GrafanaOpError;
@@ -6783,6 +7250,8 @@ export const updateFolderPermissions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFolderPermissions",
 }));
 
 export type UpdateLibraryElementError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6798,6 +7267,8 @@ export const updateLibraryElement: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLibraryElement",
 }));
 
 export type UpdateOrgError = BadRequest | Forbidden | GrafanaOpError;
@@ -6813,6 +7284,8 @@ export const updateOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrg",
 }));
 
 export type UpdateOrgAddressError = BadRequest | Forbidden | GrafanaOpError;
@@ -6828,6 +7301,8 @@ export const updateOrgAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgAddress",
 }));
 
 export type UpdateOrgQuotaError = Forbidden | NotFound | GrafanaOpError;
@@ -6843,6 +7318,8 @@ export const updateOrgQuota: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgQuota",
 }));
 
 export type UpdateOrgUserError = BadRequest | Forbidden | GrafanaOpError;
@@ -6858,6 +7335,8 @@ export const updateOrgUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgUser",
 }));
 
 export type UpdateOrgUserForCurrentOrgError = BadRequest | Forbidden | GrafanaOpError;
@@ -6873,6 +7352,8 @@ export const updateOrgUserForCurrentOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgUserForCurrentOrg",
 }));
 
 export type UpdateProviderSettingsError = BadRequest | Forbidden | GrafanaOpError;
@@ -6888,6 +7369,8 @@ export const updateProviderSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProviderSettings",
 }));
 
 export type UpdatePublicDashboardError = BadRequest | Forbidden | GrafanaOpError;
@@ -6903,6 +7386,8 @@ export const updatePublicDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePublicDashboard",
 }));
 
 export type UpdateRecordingRuleError = Forbidden | NotFound | GrafanaOpError;
@@ -6918,6 +7403,8 @@ export const updateRecordingRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRecordingRule",
 }));
 
 export type UpdateRoleError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6933,6 +7420,8 @@ export const updateRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 export type UpdateServiceAccountError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6948,6 +7437,8 @@ export const updateServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAccount",
 }));
 
 export type UpdateSignedInUserError = Forbidden | Conflict | GrafanaOpError;
@@ -6963,6 +7454,8 @@ export const updateSignedInUser: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignedInUser",
 }));
 
 export type UpdateTeamError = Forbidden | NotFound | Conflict | GrafanaOpError;
@@ -6978,6 +7471,8 @@ export const updateTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 export type UpdateTeamLBACRulesApiError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -6993,6 +7488,8 @@ export const updateTeamLBACRulesApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamLBACRulesApi",
 }));
 
 export type UpdateTeamMemberError = Forbidden | NotFound | GrafanaOpError;
@@ -7008,6 +7505,8 @@ export const updateTeamMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamMember",
 }));
 
 export type UpdateTeamPreferencesError = BadRequest | GrafanaOpError;
@@ -7023,6 +7522,8 @@ export const updateTeamPreferences: API.OperationMethod<
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamPreferences",
 }));
 
 export type UpdateUserError = Forbidden | NotFound | Conflict | GrafanaOpError;
@@ -7038,6 +7539,8 @@ export const updateUser: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserEmailError = GrafanaOpError;
@@ -7053,6 +7556,8 @@ export const updateUserEmail: API.OperationMethod<
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserEmail",
 }));
 
 export type UpdateUserQuotaError = Forbidden | NotFound | GrafanaOpError;
@@ -7068,6 +7573,8 @@ export const updateUserQuota: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserQuota",
 }));
 
 export type UploadSnapshotError = BadRequest | Forbidden | GrafanaOpError;
@@ -7083,6 +7590,8 @@ export const uploadSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadSnapshot",
 }));
 
 export type UserSetUsingOrgError = BadRequest | Forbidden | GrafanaOpError;
@@ -7098,6 +7607,8 @@ export const userSetUsingOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserSetUsingOrg",
 }));
 
 export type ViewPublicDashboardError = BadRequest | Forbidden | NotFound | GrafanaOpError;
@@ -7113,6 +7624,8 @@ export const viewPublicDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ViewPublicDashboard",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

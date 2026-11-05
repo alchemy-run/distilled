@@ -10,6 +10,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Gitignore",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export interface GetAllTemplatesRequest {}
 export type GetAllTemplatesResponseBodyList = Array<string>;
 export type GetAllTemplatesResponse = GetAllTemplatesResponseBodyList;
@@ -34,6 +52,8 @@ export const getAllTemplates: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllTemplates",
 }));
 
 export type GetTemplateError = GithubOpError;
@@ -49,6 +69,8 @@ export const getTemplate: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

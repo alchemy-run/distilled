@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -74,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rds.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DocDB",
+  service: "DocDB",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AuthorizationNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<AuthorizationNotFoundFault>()(
@@ -1585,7 +1602,7 @@ export type AddSourceIdentifierToSubscriptionError =
  * subscription.
  */
 export const addSourceIdentifierToSubscription: API.OperationMethod<
-  AddSourceIdentifierToSubscriptionMessage,
+  AddSourceIdentifierToSubscriptionMessage & RegionInput,
   AddSourceIdentifierToSubscriptionResult,
   AddSourceIdentifierToSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1596,6 +1613,8 @@ export const addSourceIdentifierToSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddSourceIdentifierToSubscription",
+  telemetry: TELEMETRY,
+  span: "AddSourceIdentifierToSubscription",
 }));
 
 export type AddTagsToResourceError =
@@ -1610,7 +1629,7 @@ export type AddTagsToResourceError =
  * an Identity and Access Management (IAM) policy for Amazon DocumentDB.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceMessage,
+  AddTagsToResourceMessage & RegionInput,
   AddTagsToResourceResponse,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1621,6 +1640,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type ApplyPendingMaintenanceActionError =
@@ -1633,7 +1654,7 @@ export type ApplyPendingMaintenanceActionError =
  * to an Amazon DocumentDB instance).
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionMessage,
+  ApplyPendingMaintenanceActionMessage & RegionInput,
   ApplyPendingMaintenanceActionResult,
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -1644,6 +1665,8 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
+  telemetry: TELEMETRY,
+  span: "ApplyPendingMaintenanceAction",
 }));
 
 export type CopyDBClusterParameterGroupError =
@@ -1655,7 +1678,7 @@ export type CopyDBClusterParameterGroupError =
  * Copies the specified cluster parameter group.
  */
 export const copyDBClusterParameterGroup: API.OperationMethod<
-  CopyDBClusterParameterGroupMessage,
+  CopyDBClusterParameterGroupMessage & RegionInput,
   CopyDBClusterParameterGroupResult,
   CopyDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1670,6 +1693,8 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CopyDBClusterParameterGroup",
 }));
 
 export type CopyDBClusterSnapshotError =
@@ -1695,7 +1720,7 @@ export type CopyDBClusterSnapshotError =
  * snapshot is in the *copying* status.
  */
 export const copyDBClusterSnapshot: API.OperationMethod<
-  CopyDBClusterSnapshotMessage,
+  CopyDBClusterSnapshotMessage & RegionInput,
   CopyDBClusterSnapshotResult,
   CopyDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1713,6 +1738,8 @@ export const copyDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyDBClusterSnapshot",
 }));
 
 export type CreateDBClusterError =
@@ -1739,7 +1766,7 @@ export type CreateDBClusterError =
  * Creates a new Amazon DocumentDB cluster.
  */
 export const createDBCluster: API.OperationMethod<
-  CreateDBClusterMessage,
+  CreateDBClusterMessage & RegionInput,
   CreateDBClusterResult,
   CreateDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -1769,6 +1796,8 @@ export const createDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBCluster",
+  telemetry: TELEMETRY,
+  span: "CreateDBCluster",
 }));
 
 export type CreateDBClusterParameterGroupError =
@@ -1798,7 +1827,7 @@ export type CreateDBClusterParameterGroupError =
  * Modifying Amazon DocumentDB Cluster Parameter Groups.
  */
 export const createDBClusterParameterGroup: API.OperationMethod<
-  CreateDBClusterParameterGroupMessage,
+  CreateDBClusterParameterGroupMessage & RegionInput,
   CreateDBClusterParameterGroupResult,
   CreateDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1809,6 +1838,8 @@ export const createDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDBClusterParameterGroup",
 }));
 
 export type CreateDBClusterSnapshotError =
@@ -1822,7 +1853,7 @@ export type CreateDBClusterSnapshotError =
  * Creates a snapshot of a cluster.
  */
 export const createDBClusterSnapshot: API.OperationMethod<
-  CreateDBClusterSnapshotMessage,
+  CreateDBClusterSnapshotMessage & RegionInput,
   CreateDBClusterSnapshotResult,
   CreateDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1839,6 +1870,8 @@ export const createDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateDBClusterSnapshot",
 }));
 
 export type CreateDBInstanceError =
@@ -1862,7 +1895,7 @@ export type CreateDBInstanceError =
  * Creates a new instance.
  */
 export const createDBInstance: API.OperationMethod<
-  CreateDBInstanceMessage,
+  CreateDBInstanceMessage & RegionInput,
   CreateDBInstanceResult,
   CreateDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1889,6 +1922,8 @@ export const createDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBInstance",
+  telemetry: TELEMETRY,
+  span: "CreateDBInstance",
 }));
 
 export type CreateDBSubnetGroupError =
@@ -1903,7 +1938,7 @@ export type CreateDBSubnetGroupError =
  * least two Availability Zones in the Amazon Web Services Region.
  */
 export const createDBSubnetGroup: API.OperationMethod<
-  CreateDBSubnetGroupMessage,
+  CreateDBSubnetGroupMessage & RegionInput,
   CreateDBSubnetGroupResult,
   CreateDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1920,6 +1955,8 @@ export const createDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDBSubnetGroup",
 }));
 
 export type CreateEventSubscriptionError =
@@ -1939,7 +1976,7 @@ export type CreateEventSubscriptionError =
  * If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance` and `SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events for the specified source. If you specify a `SourceType` but do not specify a `SourceIdentifier`, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the `SourceType` or the `SourceIdentifier`, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
  */
 export const createEventSubscription: API.OperationMethod<
-  CreateEventSubscriptionMessage,
+  CreateEventSubscriptionMessage & RegionInput,
   CreateEventSubscriptionResult,
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1958,6 +1995,8 @@ export const createEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateEventSubscription",
 }));
 
 export type CreateGlobalClusterError =
@@ -1976,7 +2015,7 @@ export type CreateGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const createGlobalCluster: API.OperationMethod<
-  CreateGlobalClusterMessage,
+  CreateGlobalClusterMessage & RegionInput,
   CreateGlobalClusterResult,
   CreateGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -1992,6 +2031,8 @@ export const createGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "CreateGlobalCluster",
 }));
 
 export type DeleteDBClusterError =
@@ -2005,7 +2046,7 @@ export type DeleteDBClusterError =
  * Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
  */
 export const deleteDBCluster: API.OperationMethod<
-  DeleteDBClusterMessage,
+  DeleteDBClusterMessage & RegionInput,
   DeleteDBClusterResult,
   DeleteDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2022,6 +2063,8 @@ export const deleteDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteDBCluster",
 }));
 
 export type DeleteDBClusterParameterGroupError =
@@ -2032,7 +2075,7 @@ export type DeleteDBClusterParameterGroupError =
  * Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
  */
 export const deleteDBClusterParameterGroup: API.OperationMethod<
-  DeleteDBClusterParameterGroupMessage,
+  DeleteDBClusterParameterGroupMessage & RegionInput,
   DeleteDBClusterParameterGroupResponse,
   DeleteDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2043,6 +2086,8 @@ export const deleteDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBClusterParameterGroup",
 }));
 
 export type DeleteDBClusterSnapshotError =
@@ -2055,7 +2100,7 @@ export type DeleteDBClusterSnapshotError =
  * The cluster snapshot must be in the `available` state to be deleted.
  */
 export const deleteDBClusterSnapshot: API.OperationMethod<
-  DeleteDBClusterSnapshotMessage,
+  DeleteDBClusterSnapshotMessage & RegionInput,
   DeleteDBClusterSnapshotResult,
   DeleteDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2066,6 +2111,8 @@ export const deleteDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteDBClusterSnapshot",
 }));
 
 export type DeleteDBInstanceError =
@@ -2079,7 +2126,7 @@ export type DeleteDBInstanceError =
  * Deletes a previously provisioned instance.
  */
 export const deleteDBInstance: API.OperationMethod<
-  DeleteDBInstanceMessage,
+  DeleteDBInstanceMessage & RegionInput,
   DeleteDBInstanceResult,
   DeleteDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2096,6 +2143,8 @@ export const deleteDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteDBInstance",
 }));
 
 export type DeleteDBSubnetGroupError =
@@ -2110,7 +2159,7 @@ export type DeleteDBSubnetGroupError =
  * instances.
  */
 export const deleteDBSubnetGroup: API.OperationMethod<
-  DeleteDBSubnetGroupMessage,
+  DeleteDBSubnetGroupMessage & RegionInput,
   DeleteDBSubnetGroupResponse,
   DeleteDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2121,6 +2170,8 @@ export const deleteDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBSubnetGroup",
 }));
 
 export type DeleteEventSubscriptionError =
@@ -2131,7 +2182,7 @@ export type DeleteEventSubscriptionError =
  * Deletes an Amazon DocumentDB event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
-  DeleteEventSubscriptionMessage,
+  DeleteEventSubscriptionMessage & RegionInput,
   DeleteEventSubscriptionResult,
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2142,6 +2193,8 @@ export const deleteEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteEventSubscription",
 }));
 
 export type DeleteGlobalClusterError =
@@ -2154,7 +2207,7 @@ export type DeleteGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const deleteGlobalCluster: API.OperationMethod<
-  DeleteGlobalClusterMessage,
+  DeleteGlobalClusterMessage & RegionInput,
   DeleteGlobalClusterResult,
   DeleteGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2165,6 +2218,8 @@ export const deleteGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalCluster",
 }));
 
 export type DescribeCertificatesError = CertificateNotFoundFault | CommonErrors;
@@ -2172,7 +2227,7 @@ export type DescribeCertificatesError = CertificateNotFoundFault | CommonErrors;
  * Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
  */
 export const describeCertificates: API.PaginatedOperationMethod<
-  DescribeCertificatesMessage,
+  DescribeCertificatesMessage & RegionInput,
   CertificateMessage,
   DescribeCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2190,6 +2245,8 @@ export const describeCertificates: API.PaginatedOperationMethod<
     items: "Certificates",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCertificates",
 })) as any;
 
 export type DescribeDBClusterParameterGroupsError = DBParameterGroupNotFoundFault | CommonErrors;
@@ -2197,7 +2254,7 @@ export type DescribeDBClusterParameterGroupsError = DBParameterGroupNotFoundFaul
  * Returns a list of `DBClusterParameterGroup` descriptions. If a `DBClusterParameterGroupName` parameter is specified, the list contains only the description of the specified cluster parameter group.
  */
 export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
-  DescribeDBClusterParameterGroupsMessage,
+  DescribeDBClusterParameterGroupsMessage & RegionInput,
   DBClusterParameterGroupsMessage,
   DescribeDBClusterParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2215,6 +2272,8 @@ export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
     items: "DBClusterParameterGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterParameterGroups",
 })) as any;
 
 export type DescribeDBClusterParametersError = DBParameterGroupNotFoundFault | CommonErrors;
@@ -2223,7 +2282,7 @@ export type DescribeDBClusterParametersError = DBParameterGroupNotFoundFault | C
  * group.
  */
 export const describeDBClusterParameters: API.PaginatedOperationMethod<
-  DescribeDBClusterParametersMessage,
+  DescribeDBClusterParametersMessage & RegionInput,
   DBClusterParameterGroupDetails,
   DescribeDBClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -2241,6 +2300,8 @@ export const describeDBClusterParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterParameters",
 })) as any;
 
 export type DescribeDBClustersError = DBClusterNotFoundFault | CommonErrors;
@@ -2253,7 +2314,7 @@ export type DescribeDBClustersError = DBClusterNotFoundFault | CommonErrors;
  * parameter to return only Amazon DocumentDB clusters.
  */
 export const describeDBClusters: API.PaginatedOperationMethod<
-  DescribeDBClustersMessage,
+  DescribeDBClustersMessage & RegionInput,
   DBClusterMessage,
   DescribeDBClustersError,
   Credentials | HttpClient.HttpClient,
@@ -2271,6 +2332,8 @@ export const describeDBClusters: API.PaginatedOperationMethod<
     items: "DBClusters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusters",
 })) as any;
 
 export type DescribeDBClusterSnapshotAttributesError =
@@ -2284,7 +2347,7 @@ export type DescribeDBClusterSnapshotAttributesError =
  * `DescribeDBClusterSnapshotAttributes` returns the `restore` attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If `all` is included in the list of values for the `restore` attribute, then the manual cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.
  */
 export const describeDBClusterSnapshotAttributes: API.OperationMethod<
-  DescribeDBClusterSnapshotAttributesMessage,
+  DescribeDBClusterSnapshotAttributesMessage & RegionInput,
   DescribeDBClusterSnapshotAttributesResult,
   DescribeDBClusterSnapshotAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2295,6 +2358,8 @@ export const describeDBClusterSnapshotAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterSnapshotAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterSnapshotAttributes",
 }));
 
 export type DescribeDBClusterSnapshotsError = DBClusterSnapshotNotFoundFault | CommonErrors;
@@ -2302,7 +2367,7 @@ export type DescribeDBClusterSnapshotsError = DBClusterSnapshotNotFoundFault | C
  * Returns information about cluster snapshots. This API operation supports pagination.
  */
 export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
-  DescribeDBClusterSnapshotsMessage,
+  DescribeDBClusterSnapshotsMessage & RegionInput,
   DBClusterSnapshotMessage,
   DescribeDBClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2320,6 +2385,8 @@ export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
     items: "DBClusterSnapshots",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterSnapshots",
 })) as any;
 
 export type DescribeDBEngineVersionsError = CommonErrors;
@@ -2327,7 +2394,7 @@ export type DescribeDBEngineVersionsError = CommonErrors;
  * Returns a list of the available engines.
  */
 export const describeDBEngineVersions: API.PaginatedOperationMethod<
-  DescribeDBEngineVersionsMessage,
+  DescribeDBEngineVersionsMessage & RegionInput,
   DBEngineVersionMessage,
   DescribeDBEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2345,6 +2412,8 @@ export const describeDBEngineVersions: API.PaginatedOperationMethod<
     items: "DBEngineVersions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBEngineVersions",
 })) as any;
 
 export type DescribeDBInstancesError = DBInstanceNotFoundFault | CommonErrors;
@@ -2352,7 +2421,7 @@ export type DescribeDBInstancesError = DBInstanceNotFoundFault | CommonErrors;
  * Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
  */
 export const describeDBInstances: API.PaginatedOperationMethod<
-  DescribeDBInstancesMessage,
+  DescribeDBInstancesMessage & RegionInput,
   DBInstanceMessage,
   DescribeDBInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2370,6 +2439,8 @@ export const describeDBInstances: API.PaginatedOperationMethod<
     items: "DBInstances",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBInstances",
 })) as any;
 
 export type DescribeDBSubnetGroupsError = DBSubnetGroupNotFoundFault | CommonErrors;
@@ -2378,7 +2449,7 @@ export type DescribeDBSubnetGroupsError = DBSubnetGroupNotFoundFault | CommonErr
  * `DBSubnetGroupName` is specified, the list will contain only the descriptions of the specified `DBSubnetGroup`.
  */
 export const describeDBSubnetGroups: API.PaginatedOperationMethod<
-  DescribeDBSubnetGroupsMessage,
+  DescribeDBSubnetGroupsMessage & RegionInput,
   DBSubnetGroupMessage,
   DescribeDBSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2396,6 +2467,8 @@ export const describeDBSubnetGroups: API.PaginatedOperationMethod<
     items: "DBSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBSubnetGroups",
 })) as any;
 
 export type DescribeEngineDefaultClusterParametersError = CommonErrors;
@@ -2404,7 +2477,7 @@ export type DescribeEngineDefaultClusterParametersError = CommonErrors;
  * engine.
  */
 export const describeEngineDefaultClusterParameters: API.OperationMethod<
-  DescribeEngineDefaultClusterParametersMessage,
+  DescribeEngineDefaultClusterParametersMessage & RegionInput,
   DescribeEngineDefaultClusterParametersResult,
   DescribeEngineDefaultClusterParametersError,
   Credentials | HttpClient.HttpClient
@@ -2415,6 +2488,8 @@ export const describeEngineDefaultClusterParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngineDefaultClusterParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeEngineDefaultClusterParameters",
 }));
 
 export type DescribeEventCategoriesError = CommonErrors;
@@ -2423,7 +2498,7 @@ export type DescribeEventCategoriesError = CommonErrors;
  * specified source type.
  */
 export const describeEventCategories: API.OperationMethod<
-  DescribeEventCategoriesMessage,
+  DescribeEventCategoriesMessage & RegionInput,
   EventCategoriesMessage,
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -2434,6 +2509,8 @@ export const describeEventCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
+  telemetry: TELEMETRY,
+  span: "DescribeEventCategories",
 }));
 
 export type DescribeEventsError = CommonErrors;
@@ -2441,7 +2518,7 @@ export type DescribeEventsError = CommonErrors;
  * Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2459,6 +2536,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeEventSubscriptionsError = SubscriptionNotFoundFault | CommonErrors;
@@ -2468,7 +2547,7 @@ export type DescribeEventSubscriptionsError = SubscriptionNotFoundFault | Common
  * If you specify a `SubscriptionName`, lists the description for that subscription.
  */
 export const describeEventSubscriptions: API.PaginatedOperationMethod<
-  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsMessage & RegionInput,
   EventSubscriptionsMessage,
   DescribeEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2486,6 +2565,8 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
     items: "EventSubscriptionsList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventSubscriptions",
 })) as any;
 
 export type DescribeGlobalClustersError = GlobalClusterNotFoundFault | CommonErrors;
@@ -2495,7 +2576,7 @@ export type DescribeGlobalClustersError = GlobalClusterNotFoundFault | CommonErr
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const describeGlobalClusters: API.PaginatedOperationMethod<
-  DescribeGlobalClustersMessage,
+  DescribeGlobalClustersMessage & RegionInput,
   GlobalClustersMessage,
   DescribeGlobalClustersError,
   Credentials | HttpClient.HttpClient,
@@ -2513,6 +2594,8 @@ export const describeGlobalClusters: API.PaginatedOperationMethod<
     items: "GlobalClusters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalClusters",
 })) as any;
 
 export type DescribeOrderableDBInstanceOptionsError = CommonErrors;
@@ -2520,7 +2603,7 @@ export type DescribeOrderableDBInstanceOptionsError = CommonErrors;
  * Returns a list of orderable instance options for the specified engine.
  */
 export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
-  DescribeOrderableDBInstanceOptionsMessage,
+  DescribeOrderableDBInstanceOptionsMessage & RegionInput,
   OrderableDBInstanceOptionsMessage,
   DescribeOrderableDBInstanceOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2538,6 +2621,8 @@ export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
     items: "OrderableDBInstanceOptions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrderableDBInstanceOptions",
 })) as any;
 
 export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | CommonErrors;
@@ -2546,7 +2631,7 @@ export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | Com
  * maintenance action.
  */
 export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
-  DescribePendingMaintenanceActionsMessage,
+  DescribePendingMaintenanceActionsMessage & RegionInput,
   PendingMaintenanceActionsMessage,
   DescribePendingMaintenanceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2564,6 +2649,8 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
     items: "PendingMaintenanceActions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePendingMaintenanceActions",
 })) as any;
 
 export type FailoverDBClusterError =
@@ -2579,7 +2666,7 @@ export type FailoverDBClusterError =
  * If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
  */
 export const failoverDBCluster: API.OperationMethod<
-  FailoverDBClusterMessage,
+  FailoverDBClusterMessage & RegionInput,
   FailoverDBClusterResult,
   FailoverDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2590,6 +2677,8 @@ export const failoverDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverDBCluster",
+  telemetry: TELEMETRY,
+  span: "FailoverDBCluster",
 }));
 
 export type FailoverGlobalClusterError =
@@ -2606,7 +2695,7 @@ export type FailoverGlobalClusterError =
  * However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
  */
 export const failoverGlobalCluster: API.OperationMethod<
-  FailoverGlobalClusterMessage,
+  FailoverGlobalClusterMessage & RegionInput,
   FailoverGlobalClusterResult,
   FailoverGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2622,6 +2711,8 @@ export const failoverGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "FailoverGlobalCluster",
 }));
 
 export type ListTagsForResourceError =
@@ -2633,7 +2724,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an Amazon DocumentDB resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   TagListMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2644,6 +2735,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyDBClusterError =
@@ -2666,7 +2759,7 @@ export type ModifyDBClusterError =
  * request.
  */
 export const modifyDBCluster: API.OperationMethod<
-  ModifyDBClusterMessage,
+  ModifyDBClusterMessage & RegionInput,
   ModifyDBClusterResult,
   ModifyDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2690,6 +2783,8 @@ export const modifyDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyDBCluster",
 }));
 
 export type ModifyDBClusterParameterGroupError =
@@ -2716,7 +2811,7 @@ export type ModifyDBClusterParameterGroupError =
  * defined by the `character_set_database` parameter.
  */
 export const modifyDBClusterParameterGroup: API.OperationMethod<
-  ModifyDBClusterParameterGroupMessage,
+  ModifyDBClusterParameterGroupMessage & RegionInput,
   DBClusterParameterGroupNameMessage,
   ModifyDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2727,6 +2822,8 @@ export const modifyDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyDBClusterParameterGroup",
 }));
 
 export type ModifyDBClusterSnapshotAttributeError =
@@ -2740,7 +2837,7 @@ export type ModifyDBClusterSnapshotAttributeError =
  * To share a manual cluster snapshot with other Amazon Web Services accounts, specify `restore` as the `AttributeName`, and use the `ValuesToAdd` parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value `all` to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the `all` value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the `ValuesToAdd` parameter. You can't use `all` as a value for that parameter in this case.
  */
 export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
-  ModifyDBClusterSnapshotAttributeMessage,
+  ModifyDBClusterSnapshotAttributeMessage & RegionInput,
   ModifyDBClusterSnapshotAttributeResult,
   ModifyDBClusterSnapshotAttributeError,
   Credentials | HttpClient.HttpClient
@@ -2755,6 +2852,8 @@ export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterSnapshotAttribute",
+  telemetry: TELEMETRY,
+  span: "ModifyDBClusterSnapshotAttribute",
 }));
 
 export type ModifyDBInstanceError =
@@ -2776,7 +2875,7 @@ export type ModifyDBInstanceError =
  * Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
  */
 export const modifyDBInstance: API.OperationMethod<
-  ModifyDBInstanceMessage,
+  ModifyDBInstanceMessage & RegionInput,
   ModifyDBInstanceResult,
   ModifyDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2801,6 +2900,8 @@ export const modifyDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBInstance",
+  telemetry: TELEMETRY,
+  span: "ModifyDBInstance",
 }));
 
 export type ModifyDBSubnetGroupError =
@@ -2814,7 +2915,7 @@ export type ModifyDBSubnetGroupError =
  * Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
  */
 export const modifyDBSubnetGroup: API.OperationMethod<
-  ModifyDBSubnetGroupMessage,
+  ModifyDBSubnetGroupMessage & RegionInput,
   ModifyDBSubnetGroupResult,
   ModifyDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2831,6 +2932,8 @@ export const modifyDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyDBSubnetGroup",
 }));
 
 export type ModifyEventSubscriptionError =
@@ -2845,7 +2948,7 @@ export type ModifyEventSubscriptionError =
  * Modifies an existing Amazon DocumentDB event notification subscription.
  */
 export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionMessage & RegionInput,
   ModifyEventSubscriptionResult,
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2863,6 +2966,8 @@ export const modifyEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
+  telemetry: TELEMETRY,
+  span: "ModifyEventSubscription",
 }));
 
 export type ModifyGlobalClusterError =
@@ -2875,7 +2980,7 @@ export type ModifyGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const modifyGlobalCluster: API.OperationMethod<
-  ModifyGlobalClusterMessage,
+  ModifyGlobalClusterMessage & RegionInput,
   ModifyGlobalClusterResult,
   ModifyGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2886,6 +2991,8 @@ export const modifyGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyGlobalCluster",
 }));
 
 export type RebootDBInstanceError =
@@ -2903,7 +3010,7 @@ export type RebootDBInstanceError =
  * *rebooting*.
  */
 export const rebootDBInstance: API.OperationMethod<
-  RebootDBInstanceMessage,
+  RebootDBInstanceMessage & RegionInput,
   RebootDBInstanceResult,
   RebootDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2914,6 +3021,8 @@ export const rebootDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBInstance",
+  telemetry: TELEMETRY,
+  span: "RebootDBInstance",
 }));
 
 export type RemoveFromGlobalClusterError =
@@ -2927,7 +3036,7 @@ export type RemoveFromGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const removeFromGlobalCluster: API.OperationMethod<
-  RemoveFromGlobalClusterMessage,
+  RemoveFromGlobalClusterMessage & RegionInput,
   RemoveFromGlobalClusterResult,
   RemoveFromGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2938,6 +3047,8 @@ export const removeFromGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFromGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "RemoveFromGlobalCluster",
 }));
 
 export type RemoveSourceIdentifierFromSubscriptionError =
@@ -2949,7 +3060,7 @@ export type RemoveSourceIdentifierFromSubscriptionError =
  * subscription.
  */
 export const removeSourceIdentifierFromSubscription: API.OperationMethod<
-  RemoveSourceIdentifierFromSubscriptionMessage,
+  RemoveSourceIdentifierFromSubscriptionMessage & RegionInput,
   RemoveSourceIdentifierFromSubscriptionResult,
   RemoveSourceIdentifierFromSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2960,6 +3071,8 @@ export const removeSourceIdentifierFromSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveSourceIdentifierFromSubscription",
+  telemetry: TELEMETRY,
+  span: "RemoveSourceIdentifierFromSubscription",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -2971,7 +3084,7 @@ export type RemoveTagsFromResourceError =
  * Removes metadata tags from an Amazon DocumentDB resource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceMessage,
+  RemoveTagsFromResourceMessage & RegionInput,
   RemoveTagsFromResourceResponse,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2982,6 +3095,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetDBClusterParameterGroupError =
@@ -3000,7 +3115,7 @@ export type ResetDBClusterParameterGroupError =
  * instance reboot.
  */
 export const resetDBClusterParameterGroup: API.OperationMethod<
-  ResetDBClusterParameterGroupMessage,
+  ResetDBClusterParameterGroupMessage & RegionInput,
   DBClusterParameterGroupNameMessage,
   ResetDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -3011,6 +3126,8 @@ export const resetDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetDBClusterParameterGroup",
 }));
 
 export type RestoreDBClusterFromSnapshotError =
@@ -3038,7 +3155,7 @@ export type RestoreDBClusterFromSnapshotError =
  * If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
  */
 export const restoreDBClusterFromSnapshot: API.OperationMethod<
-  RestoreDBClusterFromSnapshotMessage,
+  RestoreDBClusterFromSnapshotMessage & RegionInput,
   RestoreDBClusterFromSnapshotResult,
   RestoreDBClusterFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3065,6 +3182,8 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreDBClusterFromSnapshot",
 }));
 
 export type RestoreDBClusterToPointInTimeError =
@@ -3093,7 +3212,7 @@ export type RestoreDBClusterToPointInTimeError =
  * the new cluster is created with the default security group.
  */
 export const restoreDBClusterToPointInTime: API.OperationMethod<
-  RestoreDBClusterToPointInTimeMessage,
+  RestoreDBClusterToPointInTimeMessage & RegionInput,
   RestoreDBClusterToPointInTimeResult,
   RestoreDBClusterToPointInTimeError,
   Credentials | HttpClient.HttpClient
@@ -3121,6 +3240,8 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterToPointInTime",
+  telemetry: TELEMETRY,
+  span: "RestoreDBClusterToPointInTime",
 }));
 
 export type StartDBClusterError =
@@ -3134,7 +3255,7 @@ export type StartDBClusterError =
  * Starting an Amazon DocumentDB Cluster.
  */
 export const startDBCluster: API.OperationMethod<
-  StartDBClusterMessage,
+  StartDBClusterMessage & RegionInput,
   StartDBClusterResult,
   StartDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -3145,6 +3266,8 @@ export const startDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBCluster",
+  telemetry: TELEMETRY,
+  span: "StartDBCluster",
 }));
 
 export type StopDBClusterError =
@@ -3159,7 +3282,7 @@ export type StopDBClusterError =
  * Starting an Amazon DocumentDB Cluster.
  */
 export const stopDBCluster: API.OperationMethod<
-  StopDBClusterMessage,
+  StopDBClusterMessage & RegionInput,
   StopDBClusterResult,
   StopDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -3170,6 +3293,8 @@ export const stopDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBCluster",
+  telemetry: TELEMETRY,
+  span: "StopDBCluster",
 }));
 
 export type SwitchoverGlobalClusterError =
@@ -3182,7 +3307,7 @@ export type SwitchoverGlobalClusterError =
  * Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
  */
 export const switchoverGlobalCluster: API.OperationMethod<
-  SwitchoverGlobalClusterMessage,
+  SwitchoverGlobalClusterMessage & RegionInput,
   SwitchoverGlobalClusterResult,
   SwitchoverGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -3198,6 +3323,8 @@ export const switchoverGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "SwitchoverGlobalCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

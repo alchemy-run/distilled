@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Accounts",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2889,6 +2902,8 @@ export const createAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type DeleteAccountError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -2904,6 +2919,8 @@ export const deleteAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type FormCompanyError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -2919,6 +2936,8 @@ export const formCompany: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FormCompany",
 }));
 
 export type GetAccountError = Forbidden | NotFound | WhopOpError;
@@ -2934,6 +2953,8 @@ export const getAccount: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountFeesError = NotFound | WhopOpError;
@@ -2949,6 +2970,8 @@ export const getAccountFees: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountFees",
 }));
 
 export type GetAccountPreferencesError = NotFound | WhopOpError;
@@ -2964,6 +2987,8 @@ export const getAccountPreferences: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountPreferences",
 }));
 
 export type ListAccountReservesError = Forbidden | WhopOpError;
@@ -2979,6 +3004,8 @@ export const listAccountReserves: API.OperationMethod<
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountReserves",
 }));
 
 export type ListAccountsError = BadRequest | Forbidden | WhopOpError;
@@ -2996,6 +3023,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccounts",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -3026,6 +3055,8 @@ export const retryAccountAdsPayment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryAccountAdsPayment",
 }));
 
 export type SuspendAccountError = Forbidden | NotFound | Conflict | WhopOpError;
@@ -3041,6 +3072,8 @@ export const suspendAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendAccount",
 }));
 
 export type TransferAccountOwnershipError = Forbidden | Conflict | WhopOpError;
@@ -3056,6 +3089,8 @@ export const transferAccountOwnership: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferAccountOwnership",
 }));
 
 export type UpdateAccountError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -3071,6 +3106,8 @@ export const updateAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateAccountFeesError = BadRequest | Forbidden | WhopOpError;
@@ -3086,6 +3123,8 @@ export const updateAccountFees: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountFees",
 }));
 
 export type UpdateAccountPreferencesError =
@@ -3106,6 +3145,8 @@ export const updateAccountPreferences: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountPreferences",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

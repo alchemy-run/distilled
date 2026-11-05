@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StorageMover" },
+  prefix: "Storagemover",
+  service: "Storagemover",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
 export type TimeMinute = 0 | 30;
 /** The time of day. */
@@ -1520,6 +1541,8 @@ export const AgentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgentsCreateOrUpdate",
 }));
 
 export type ConnectionsCreateOrUpdateError = AzureOpError;
@@ -1535,6 +1558,8 @@ export const ConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectionsCreateOrUpdate",
 }));
 
 export type DeleteAgentError = AzureOpError;
@@ -1550,6 +1575,8 @@ export const DeleteAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgent",
 }));
 
 export type DeleteConnectionError = AzureOpError;
@@ -1565,6 +1592,8 @@ export const DeleteConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteEndpointError = AzureOpError;
@@ -1580,6 +1609,8 @@ export const DeleteEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteJobDefinitionError = AzureOpError;
@@ -1595,6 +1626,8 @@ export const DeleteJobDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJobDefinition",
 }));
 
 export type DeleteProjectError = AzureOpError;
@@ -1610,6 +1643,8 @@ export const DeleteProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteStorageMoverError = AzureOpError;
@@ -1625,6 +1660,8 @@ export const DeleteStorageMover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageMover",
 }));
 
 export type EndpointsCreateOrUpdateError = AzureOpError;
@@ -1640,6 +1677,8 @@ export const EndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndpointsCreateOrUpdate",
 }));
 
 export type GetAgentError = AzureOpError;
@@ -1655,6 +1694,8 @@ export const GetAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgent",
 }));
 
 export type GetConnectionError = AzureOpError;
@@ -1670,6 +1711,8 @@ export const GetConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetEndpointError = AzureOpError;
@@ -1685,6 +1728,8 @@ export const GetEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpoint",
 }));
 
 export type GetJobDefinitionError = AzureOpError;
@@ -1700,6 +1745,8 @@ export const GetJobDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobDefinition",
 }));
 
 export type GetJobRunError = AzureOpError;
@@ -1715,6 +1762,8 @@ export const GetJobRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobRun",
 }));
 
 export type GetProjectError = AzureOpError;
@@ -1730,6 +1779,8 @@ export const GetProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetStorageMoverError = AzureOpError;
@@ -1745,6 +1796,8 @@ export const GetStorageMover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageMover",
 }));
 
 export type JobDefinitionsCreateOrUpdateError = AzureOpError;
@@ -1760,6 +1813,8 @@ export const JobDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JobDefinitionsCreateOrUpdate",
 }));
 
 export type JobDefinitionsReconcileJobError = AzureOpError;
@@ -1775,6 +1830,8 @@ export const JobDefinitionsReconcileJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JobDefinitionsReconcileJob",
 }));
 
 export type ListAgentsError = AzureOpError;
@@ -1790,6 +1847,8 @@ export const ListAgents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgents",
 }));
 
 export type ListConnectionsError = AzureOpError;
@@ -1805,6 +1864,8 @@ export const ListConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 }));
 
 export type ListEndpointsError = AzureOpError;
@@ -1820,6 +1881,8 @@ export const ListEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEndpoints",
 }));
 
 export type ListJobDefinitionsError = AzureOpError;
@@ -1835,6 +1898,8 @@ export const ListJobDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobDefinitions",
 }));
 
 export type ListJobRunsError = AzureOpError;
@@ -1850,6 +1915,8 @@ export const ListJobRuns: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobRuns",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1865,6 +1932,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProjectsError = AzureOpError;
@@ -1880,6 +1949,8 @@ export const ListProjects: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListStorageMoverBySubscriptionError = AzureOpError;
@@ -1895,6 +1966,8 @@ export const ListStorageMoverBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageMoverBySubscription",
 }));
 
 export type ListStorageMoversError = AzureOpError;
@@ -1910,6 +1983,8 @@ export const ListStorageMovers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageMovers",
 }));
 
 export type ProjectsCreateOrUpdateError = AzureOpError;
@@ -1925,6 +2000,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectsCreateOrUpdate",
 }));
 
 export type StartJobDefinitionJobError = AzureOpError;
@@ -1940,6 +2017,8 @@ export const StartJobDefinitionJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartJobDefinitionJob",
 }));
 
 export type StopJobDefinitionJobError = AzureOpError;
@@ -1955,6 +2034,8 @@ export const StopJobDefinitionJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopJobDefinitionJob",
 }));
 
 export type StorageMoversCreateOrUpdateError = AzureOpError;
@@ -1970,6 +2051,8 @@ export const StorageMoversCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageMoversCreateOrUpdate",
 }));
 
 export type UpdateAgentError = AzureOpError;
@@ -1985,6 +2068,8 @@ export const UpdateAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgent",
 }));
 
 export type UpdateEndpointError = AzureOpError;
@@ -2000,6 +2085,8 @@ export const UpdateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateJobDefinitionError = AzureOpError;
@@ -2015,6 +2102,8 @@ export const UpdateJobDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJobDefinition",
 }));
 
 export type UpdateProjectError = AzureOpError;
@@ -2030,6 +2119,8 @@ export const UpdateProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateStorageMoverError = AzureOpError;
@@ -2045,6 +2136,8 @@ export const UpdateStorageMover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageMover",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://sdb.{R}.{D}","properties":{},"headers":{}}',
   ["us-east-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SimpleDBv2",
+  service: "SimpleDBv2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -190,7 +206,7 @@ export type GetExportError = InvalidParameterValueException | NoSuchExportExcept
  * Returns information for an existing domain export.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   GetExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -201,6 +217,8 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type ListExportsError =
@@ -212,7 +230,7 @@ export type ListExportsError =
  * Lists all exports that were created. The results are paginated and can be filtered by domain name.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -230,6 +248,8 @@ export const listExports: API.PaginatedOperationMethod<
     items: "exportSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 })) as any;
 
 export type StartDomainExportError =
@@ -243,7 +263,7 @@ export type StartDomainExportError =
  * Initiates the export of a SimpleDB domain to an S3 bucket.
  */
 export const startDomainExport: API.OperationMethod<
-  StartDomainExportRequest,
+  StartDomainExportRequest & RegionInput,
   StartDomainExportResponse,
   StartDomainExportError,
   Credentials | HttpClient.HttpClient
@@ -260,6 +280,8 @@ export const startDomainExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainExport",
+  telemetry: TELEMETRY,
+  span: "StartDomainExport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

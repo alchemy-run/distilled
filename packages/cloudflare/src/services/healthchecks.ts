@@ -36,6 +36,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Healthchecks",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1033,6 +1047,8 @@ export const createHealthcheck: API.OperationMethod<
   errors: [HealthcheckAlreadyExists, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHealthcheck",
 }));
 
 export type CreatePreviewError = CloudflareOpError;
@@ -1048,6 +1064,8 @@ export const createPreview: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePreview",
 }));
 
 export type DeleteHealthcheckError = HealthcheckNotFound | Forbidden | CloudflareOpError;
@@ -1063,6 +1081,8 @@ export const deleteHealthcheck: API.OperationMethod<
   errors: [HealthcheckNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHealthcheck",
 }));
 
 export type DeletePreviewError = CloudflareOpError;
@@ -1078,6 +1098,8 @@ export const deletePreview: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePreview",
 }));
 
 export type GetHealthcheckError = HealthcheckNotFound | Forbidden | CloudflareOpError;
@@ -1093,6 +1115,8 @@ export const getHealthcheck: API.OperationMethod<
   errors: [HealthcheckNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealthcheck",
 }));
 
 export type GetPreviewError = CloudflareOpError;
@@ -1108,6 +1132,8 @@ export const getPreview: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreview",
 }));
 
 export type ListHealthchecksError = Forbidden | CloudflareOpError;
@@ -1125,6 +1151,8 @@ export const listHealthchecks: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListHealthchecks",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1149,6 +1177,8 @@ export const patchHealthcheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchHealthcheck",
 }));
 
 export type UpdateHealthcheckError = HealthcheckNotFound | Forbidden | CloudflareOpError;
@@ -1164,6 +1194,8 @@ export const updateHealthcheck: API.OperationMethod<
   errors: [HealthcheckNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHealthcheck",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

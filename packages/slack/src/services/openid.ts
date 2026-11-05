@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Openid",
+  propagate: "w3c",
+} as const;
+
 /** The `grant_type` param as described in the OAuth spec. */
 export type ConnectTokenRequestGrantType = "authorization_code" | "refresh_token";
 export interface ConnectTokenRequest {
@@ -92,6 +105,8 @@ export const connectToken: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectToken",
 }));
 
 export type UserInfoError = SlackOpError;
@@ -107,6 +122,8 @@ export const userInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

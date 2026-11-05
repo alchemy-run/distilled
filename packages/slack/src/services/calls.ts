@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Calls",
+  propagate: "w3c",
+} as const;
+
 /** The list of users to register as participants in the Call. [Read more on how to specify users here](/apis/web-api/using-the-calls-api#users). */
 export type AddCallRequestUsersList = Array<unknown>;
 export interface AddCallRequest {
@@ -110,6 +123,8 @@ export const addCall: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCall",
 }));
 
 export type AddParticipantError = SlackOpError;
@@ -125,6 +140,8 @@ export const addParticipant: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddParticipant",
 }));
 
 export type CallsEndError = SlackOpError;
@@ -140,6 +157,8 @@ export const callsEnd: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CallsEnd",
 }));
 
 export type CallsInfoError = SlackOpError;
@@ -155,6 +174,8 @@ export const callsInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CallsInfo",
 }));
 
 export type RemoveParticipantError = SlackOpError;
@@ -170,6 +191,8 @@ export const removeParticipant: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveParticipant",
 }));
 
 export type UpdateCallError = SlackOpError;
@@ -185,6 +208,8 @@ export const updateCall: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCall",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

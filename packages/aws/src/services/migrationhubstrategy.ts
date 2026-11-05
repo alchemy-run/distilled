@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://migrationhub-strategy.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MigrationHubStrategy",
+  service: "MigrationHubStrategy",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -727,7 +743,7 @@ export type GetApplicationComponentDetailsError =
  * Retrieves details about an application component.
  */
 export const getApplicationComponentDetails: API.OperationMethod<
-  GetApplicationComponentDetailsRequest,
+  GetApplicationComponentDetailsRequest & RegionInput,
   GetApplicationComponentDetailsResponse,
   GetApplicationComponentDetailsError,
   Credentials | HttpClient.HttpClient
@@ -738,6 +754,8 @@ export const getApplicationComponentDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentDetails",
+  telemetry: TELEMETRY,
+  span: "GetApplicationComponentDetails",
 }));
 
 export type GetApplicationComponentStrategiesError =
@@ -750,7 +768,7 @@ export type GetApplicationComponentStrategiesError =
  * running on a server.
  */
 export const getApplicationComponentStrategies: API.OperationMethod<
-  GetApplicationComponentStrategiesRequest,
+  GetApplicationComponentStrategiesRequest & RegionInput,
   GetApplicationComponentStrategiesResponse,
   GetApplicationComponentStrategiesError,
   Credentials | HttpClient.HttpClient
@@ -761,6 +779,8 @@ export const getApplicationComponentStrategies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentStrategies",
+  telemetry: TELEMETRY,
+  span: "GetApplicationComponentStrategies",
 }));
 
 export type GetAssessmentError =
@@ -773,7 +793,7 @@ export type GetAssessmentError =
  * Retrieves the status of an on-going assessment.
  */
 export const getAssessment: API.OperationMethod<
-  GetAssessmentRequest,
+  GetAssessmentRequest & RegionInput,
   GetAssessmentResponse,
   GetAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -789,6 +809,8 @@ export const getAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessment",
+  telemetry: TELEMETRY,
+  span: "GetAssessment",
 }));
 
 export type GetImportFileTaskError =
@@ -802,7 +824,7 @@ export type GetImportFileTaskError =
  * Retrieves the details about a specific import task.
  */
 export const getImportFileTask: API.OperationMethod<
-  GetImportFileTaskRequest,
+  GetImportFileTaskRequest & RegionInput,
   GetImportFileTaskResponse,
   GetImportFileTaskError,
   Credentials | HttpClient.HttpClient
@@ -819,6 +841,8 @@ export const getImportFileTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportFileTask",
+  telemetry: TELEMETRY,
+  span: "GetImportFileTask",
 }));
 
 export type GetLatestAssessmentIdError =
@@ -831,7 +855,7 @@ export type GetLatestAssessmentIdError =
  * Retrieve the latest ID of a specific assessment task.
  */
 export const getLatestAssessmentId: API.OperationMethod<
-  GetLatestAssessmentIdRequest,
+  GetLatestAssessmentIdRequest & RegionInput,
   GetLatestAssessmentIdResponse,
   GetLatestAssessmentIdError,
   Credentials | HttpClient.HttpClient
@@ -847,6 +871,8 @@ export const getLatestAssessmentId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLatestAssessmentId",
+  telemetry: TELEMETRY,
+  span: "GetLatestAssessmentId",
 }));
 
 export type GetPortfolioPreferencesError =
@@ -859,7 +885,7 @@ export type GetPortfolioPreferencesError =
  * Retrieves your migration and modernization preferences.
  */
 export const getPortfolioPreferences: API.OperationMethod<
-  GetPortfolioPreferencesRequest,
+  GetPortfolioPreferencesRequest & RegionInput,
   GetPortfolioPreferencesResponse,
   GetPortfolioPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -875,6 +901,8 @@ export const getPortfolioPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortfolioPreferences",
+  telemetry: TELEMETRY,
+  span: "GetPortfolioPreferences",
 }));
 
 export type GetPortfolioSummaryError =
@@ -887,7 +915,7 @@ export type GetPortfolioSummaryError =
  * number of anti-patterns.
  */
 export const getPortfolioSummary: API.OperationMethod<
-  GetPortfolioSummaryRequest,
+  GetPortfolioSummaryRequest & RegionInput,
   GetPortfolioSummaryResponse,
   GetPortfolioSummaryError,
   Credentials | HttpClient.HttpClient
@@ -898,6 +926,8 @@ export const getPortfolioSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortfolioSummary",
+  telemetry: TELEMETRY,
+  span: "GetPortfolioSummary",
 }));
 
 export type GetRecommendationReportDetailsError =
@@ -911,7 +941,7 @@ export type GetRecommendationReportDetailsError =
  * Retrieves detailed information about the specified recommendation report.
  */
 export const getRecommendationReportDetails: API.OperationMethod<
-  GetRecommendationReportDetailsRequest,
+  GetRecommendationReportDetailsRequest & RegionInput,
   GetRecommendationReportDetailsResponse,
   GetRecommendationReportDetailsError,
   Credentials | HttpClient.HttpClient
@@ -928,6 +958,8 @@ export const getRecommendationReportDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendationReportDetails",
+  telemetry: TELEMETRY,
+  span: "GetRecommendationReportDetails",
 }));
 
 export type GetServerDetailsError =
@@ -941,7 +973,7 @@ export type GetServerDetailsError =
  * Retrieves detailed information about a specified server.
  */
 export const getServerDetails: API.PaginatedOperationMethod<
-  GetServerDetailsRequest,
+  GetServerDetailsRequest & RegionInput,
   GetServerDetailsResponse,
   GetServerDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -965,6 +997,8 @@ export const getServerDetails: API.PaginatedOperationMethod<
     items: "associatedApplications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetServerDetails",
 })) as any;
 
 export type GetServerStrategiesError =
@@ -978,7 +1012,7 @@ export type GetServerStrategiesError =
  * Retrieves recommended strategies and tools for the specified server.
  */
 export const getServerStrategies: API.OperationMethod<
-  GetServerStrategiesRequest,
+  GetServerStrategiesRequest & RegionInput,
   GetServerStrategiesResponse,
   GetServerStrategiesError,
   Credentials | HttpClient.HttpClient
@@ -995,6 +1029,8 @@ export const getServerStrategies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServerStrategies",
+  telemetry: TELEMETRY,
+  span: "GetServerStrategies",
 }));
 
 export type ListAnalyzableServersError =
@@ -1007,7 +1043,7 @@ export type ListAnalyzableServersError =
  * Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
  */
 export const listAnalyzableServers: API.PaginatedOperationMethod<
-  ListAnalyzableServersRequest,
+  ListAnalyzableServersRequest & RegionInput,
   ListAnalyzableServersResponse,
   ListAnalyzableServersError,
   Credentials | HttpClient.HttpClient,
@@ -1030,6 +1066,8 @@ export const listAnalyzableServers: API.PaginatedOperationMethod<
     items: "analyzableServers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalyzableServers",
 })) as any;
 
 export type ListApplicationComponentsError =
@@ -1042,7 +1080,7 @@ export type ListApplicationComponentsError =
  * Retrieves a list of all the application components (processes).
  */
 export const listApplicationComponents: API.PaginatedOperationMethod<
-  ListApplicationComponentsRequest,
+  ListApplicationComponentsRequest & RegionInput,
   ListApplicationComponentsResponse,
   ListApplicationComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1065,6 +1103,8 @@ export const listApplicationComponents: API.PaginatedOperationMethod<
     items: "applicationComponentInfos",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationComponents",
 })) as any;
 
 export type ListCollectorsError =
@@ -1077,7 +1117,7 @@ export type ListCollectorsError =
  * Retrieves a list of all the installed collectors.
  */
 export const listCollectors: API.PaginatedOperationMethod<
-  ListCollectorsRequest,
+  ListCollectorsRequest & RegionInput,
   ListCollectorsResponse,
   ListCollectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1100,6 +1140,8 @@ export const listCollectors: API.PaginatedOperationMethod<
     items: "Collectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollectors",
 })) as any;
 
 export type ListImportFileTaskError =
@@ -1112,7 +1154,7 @@ export type ListImportFileTaskError =
  * Retrieves a list of all the imports performed.
  */
 export const listImportFileTask: API.PaginatedOperationMethod<
-  ListImportFileTaskRequest,
+  ListImportFileTaskRequest & RegionInput,
   ListImportFileTaskResponse,
   ListImportFileTaskError,
   Credentials | HttpClient.HttpClient,
@@ -1135,6 +1177,8 @@ export const listImportFileTask: API.PaginatedOperationMethod<
     items: "taskInfos",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportFileTask",
 })) as any;
 
 export type ListServersError =
@@ -1147,7 +1191,7 @@ export type ListServersError =
  * Returns a list of all the servers.
  */
 export const listServers: API.PaginatedOperationMethod<
-  ListServersRequest,
+  ListServersRequest & RegionInput,
   ListServersResponse,
   ListServersError,
   Credentials | HttpClient.HttpClient,
@@ -1170,6 +1214,8 @@ export const listServers: API.PaginatedOperationMethod<
     items: "serverInfos",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServers",
 })) as any;
 
 export type PutPortfolioPreferencesError =
@@ -1183,7 +1229,7 @@ export type PutPortfolioPreferencesError =
  * Saves the specified migration and modernization preferences.
  */
 export const putPortfolioPreferences: API.OperationMethod<
-  PutPortfolioPreferencesRequest,
+  PutPortfolioPreferencesRequest & RegionInput,
   PutPortfolioPreferencesResponse,
   PutPortfolioPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1200,6 +1246,8 @@ export const putPortfolioPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPortfolioPreferences",
+  telemetry: TELEMETRY,
+  span: "PutPortfolioPreferences",
 }));
 
 export type StartAssessmentError =
@@ -1212,7 +1260,7 @@ export type StartAssessmentError =
  * Starts the assessment of an on-premises environment.
  */
 export const startAssessment: API.OperationMethod<
-  StartAssessmentRequest,
+  StartAssessmentRequest & RegionInput,
   StartAssessmentResponse,
   StartAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1228,6 +1276,8 @@ export const startAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessment",
+  telemetry: TELEMETRY,
+  span: "StartAssessment",
 }));
 
 export type StartImportFileTaskError =
@@ -1241,7 +1291,7 @@ export type StartImportFileTaskError =
  * Starts a file import.
  */
 export const startImportFileTask: API.OperationMethod<
-  StartImportFileTaskRequest,
+  StartImportFileTaskRequest & RegionInput,
   StartImportFileTaskResponse,
   StartImportFileTaskError,
   Credentials | HttpClient.HttpClient
@@ -1258,6 +1308,8 @@ export const startImportFileTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportFileTask",
+  telemetry: TELEMETRY,
+  span: "StartImportFileTask",
 }));
 
 export type StartRecommendationReportGenerationError =
@@ -1271,7 +1323,7 @@ export type StartRecommendationReportGenerationError =
  * Starts generating a recommendation report.
  */
 export const startRecommendationReportGeneration: API.OperationMethod<
-  StartRecommendationReportGenerationRequest,
+  StartRecommendationReportGenerationRequest & RegionInput,
   StartRecommendationReportGenerationResponse,
   StartRecommendationReportGenerationError,
   Credentials | HttpClient.HttpClient
@@ -1288,6 +1340,8 @@ export const startRecommendationReportGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendationReportGeneration",
+  telemetry: TELEMETRY,
+  span: "StartRecommendationReportGeneration",
 }));
 
 export type StopAssessmentError =
@@ -1300,7 +1354,7 @@ export type StopAssessmentError =
  * Stops the assessment of an on-premises environment.
  */
 export const stopAssessment: API.OperationMethod<
-  StopAssessmentRequest,
+  StopAssessmentRequest & RegionInput,
   StopAssessmentResponse,
   StopAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1316,6 +1370,8 @@ export const stopAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAssessment",
+  telemetry: TELEMETRY,
+  span: "StopAssessment",
 }));
 
 export type UpdateApplicationComponentConfigError =
@@ -1328,7 +1384,7 @@ export type UpdateApplicationComponentConfigError =
  * Updates the configuration of an application component.
  */
 export const updateApplicationComponentConfig: API.OperationMethod<
-  UpdateApplicationComponentConfigRequest,
+  UpdateApplicationComponentConfigRequest & RegionInput,
   UpdateApplicationComponentConfigResponse,
   UpdateApplicationComponentConfigError,
   Credentials | HttpClient.HttpClient
@@ -1344,6 +1400,8 @@ export const updateApplicationComponentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationComponentConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationComponentConfig",
 }));
 
 export type UpdateServerConfigError =
@@ -1356,7 +1414,7 @@ export type UpdateServerConfigError =
  * Updates the configuration of the specified server.
  */
 export const updateServerConfig: API.OperationMethod<
-  UpdateServerConfigRequest,
+  UpdateServerConfigRequest & RegionInput,
   UpdateServerConfigResponse,
   UpdateServerConfigError,
   Credentials | HttpClient.HttpClient
@@ -1372,6 +1430,8 @@ export const updateServerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServerConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateServerConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

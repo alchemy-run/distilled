@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://route53profiles.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53Profiles",
+  service: "Route53Profiles",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -325,7 +341,7 @@ export type AssociateProfileError =
  * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
  */
 export const associateProfile: API.OperationMethod<
-  AssociateProfileRequest,
+  AssociateProfileRequest & RegionInput,
   AssociateProfileResponse,
   AssociateProfileError,
   Credentials | HttpClient.HttpClient
@@ -345,6 +361,8 @@ export const associateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProfile",
+  telemetry: TELEMETRY,
+  span: "AssociateProfile",
 }));
 
 export type AssociateResourceToProfileError =
@@ -361,7 +379,7 @@ export type AssociateResourceToProfileError =
  * Associates a DNS reource configuration to a Route 53 Profile.
  */
 export const associateResourceToProfile: API.OperationMethod<
-  AssociateResourceToProfileRequest,
+  AssociateResourceToProfileRequest & RegionInput,
   AssociateResourceToProfileResponse,
   AssociateResourceToProfileError,
   Credentials | HttpClient.HttpClient
@@ -381,6 +399,8 @@ export const associateResourceToProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceToProfile",
+  telemetry: TELEMETRY,
+  span: "AssociateResourceToProfile",
 }));
 
 export type CreateProfileError =
@@ -394,7 +414,7 @@ export type CreateProfileError =
  * Creates an empty Route 53 Profile.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   CreateProfileResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -411,6 +431,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type DeleteProfileError =
@@ -424,7 +446,7 @@ export type DeleteProfileError =
  * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileRequest,
+  DeleteProfileRequest & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -441,6 +463,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DisassociateProfileError =
@@ -455,7 +479,7 @@ export type DisassociateProfileError =
  * Dissociates a specified Route 53 Profile from the specified VPC.
  */
 export const disassociateProfile: API.OperationMethod<
-  DisassociateProfileRequest,
+  DisassociateProfileRequest & RegionInput,
   DisassociateProfileResponse,
   DisassociateProfileError,
   Credentials | HttpClient.HttpClient
@@ -473,6 +497,8 @@ export const disassociateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProfile",
+  telemetry: TELEMETRY,
+  span: "DisassociateProfile",
 }));
 
 export type DisassociateResourceFromProfileError =
@@ -489,7 +515,7 @@ export type DisassociateResourceFromProfileError =
  * Dissoaciated a specified resource, from the Route 53 Profile.
  */
 export const disassociateResourceFromProfile: API.OperationMethod<
-  DisassociateResourceFromProfileRequest,
+  DisassociateResourceFromProfileRequest & RegionInput,
   DisassociateResourceFromProfileResponse,
   DisassociateResourceFromProfileError,
   Credentials | HttpClient.HttpClient
@@ -509,6 +535,8 @@ export const disassociateResourceFromProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceFromProfile",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourceFromProfile",
 }));
 
 export type GetProfileError =
@@ -521,7 +549,7 @@ export type GetProfileError =
  * Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   GetProfileResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -537,6 +565,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetProfileAssociationError =
@@ -549,7 +579,7 @@ export type GetProfileAssociationError =
  * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
  */
 export const getProfileAssociation: API.OperationMethod<
-  GetProfileAssociationRequest,
+  GetProfileAssociationRequest & RegionInput,
   GetProfileAssociationResponse,
   GetProfileAssociationError,
   Credentials | HttpClient.HttpClient
@@ -565,6 +595,8 @@ export const getProfileAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileAssociation",
+  telemetry: TELEMETRY,
+  span: "GetProfileAssociation",
 }));
 
 export type GetProfileResourceAssociationError =
@@ -578,7 +610,7 @@ export type GetProfileResourceAssociationError =
  * Returns information about a specified Route 53 Profile resource association.
  */
 export const getProfileResourceAssociation: API.OperationMethod<
-  GetProfileResourceAssociationRequest,
+  GetProfileResourceAssociationRequest & RegionInput,
   GetProfileResourceAssociationResponse,
   GetProfileResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -595,6 +627,8 @@ export const getProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetProfileResourceAssociation",
 }));
 
 export type ListProfileAssociationsError =
@@ -608,7 +642,7 @@ export type ListProfileAssociationsError =
  * Lists all the VPCs that the specified Route 53 Profile is associated with.
  */
 export const listProfileAssociations: API.PaginatedOperationMethod<
-  ListProfileAssociationsRequest,
+  ListProfileAssociationsRequest & RegionInput,
   ListProfileAssociationsResponse,
   ListProfileAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -632,6 +666,8 @@ export const listProfileAssociations: API.PaginatedOperationMethod<
     items: "ProfileAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileAssociations",
 })) as any;
 
 export type ListProfileResourceAssociationsError =
@@ -647,7 +683,7 @@ export type ListProfileResourceAssociationsError =
  * Lists all the resource associations for the specified Route 53 Profile.
  */
 export const listProfileResourceAssociations: API.PaginatedOperationMethod<
-  ListProfileResourceAssociationsRequest,
+  ListProfileResourceAssociationsRequest & RegionInput,
   ListProfileResourceAssociationsResponse,
   ListProfileResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -673,6 +709,8 @@ export const listProfileResourceAssociations: API.PaginatedOperationMethod<
     items: "ProfileResourceAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileResourceAssociations",
 })) as any;
 
 export type ListProfilesError =
@@ -686,7 +724,7 @@ export type ListProfilesError =
  * Lists all the Route 53 Profiles associated with your Amazon Web Services account.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesRequest,
+  ListProfilesRequest & RegionInput,
   ListProfilesResponse,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -710,6 +748,8 @@ export const listProfiles: API.PaginatedOperationMethod<
     items: "ProfileSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -723,7 +763,7 @@ export type ListTagsForResourceError =
  * Lists the tags that you associated with the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -740,6 +780,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -752,7 +794,7 @@ export type TagResourceError =
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -768,6 +810,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -781,7 +825,7 @@ export type UntagResourceError =
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -798,6 +842,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateProfileResourceAssociationError =
@@ -814,7 +860,7 @@ export type UpdateProfileResourceAssociationError =
  * Updates the specified Route 53 Profile resourse association.
  */
 export const updateProfileResourceAssociation: API.OperationMethod<
-  UpdateProfileResourceAssociationRequest,
+  UpdateProfileResourceAssociationRequest & RegionInput,
   UpdateProfileResourceAssociationResponse,
   UpdateProfileResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -834,6 +880,8 @@ export const updateProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfileResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateProfileResourceAssociation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

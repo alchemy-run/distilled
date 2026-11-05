@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "LogDrains",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -974,6 +988,8 @@ export const createConfigurableLogDrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigurableLogDrain",
 }));
 
 export type CreateLogDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -989,6 +1005,8 @@ export const createLogDrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogDrain",
 }));
 
 export type DeleteConfigurableLogDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1004,6 +1022,8 @@ export const deleteConfigurableLogDrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurableLogDrain",
 }));
 
 export type DeleteIntegrationLogDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1019,6 +1039,8 @@ export const deleteIntegrationLogDrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationLogDrain",
 }));
 
 export type GetAllLogDrainsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1034,6 +1056,8 @@ export const getAllLogDrains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllLogDrains",
 }));
 
 export type GetConfigurableLogDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1049,6 +1073,8 @@ export const getConfigurableLogDrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurableLogDrain",
 }));
 
 export type GetIntegrationLogDrainsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1064,6 +1090,8 @@ export const getIntegrationLogDrains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationLogDrains",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

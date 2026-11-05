@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -113,6 +115,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.detective.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Detective",
+  service: "Detective",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -636,7 +652,7 @@ export type AcceptInvitationError =
  * The member account status in the graph must be `INVITED`.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -653,6 +669,8 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptInvitation",
 }));
 
 export type BatchGetGraphMemberDatasourcesError =
@@ -665,7 +683,7 @@ export type BatchGetGraphMemberDatasourcesError =
  * Gets data source package information for the behavior graph.
  */
 export const batchGetGraphMemberDatasources: API.OperationMethod<
-  BatchGetGraphMemberDatasourcesRequest,
+  BatchGetGraphMemberDatasourcesRequest & RegionInput,
   BatchGetGraphMemberDatasourcesResponse,
   BatchGetGraphMemberDatasourcesError,
   Credentials | HttpClient.HttpClient
@@ -681,6 +699,8 @@ export const batchGetGraphMemberDatasources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetGraphMemberDatasources",
+  telemetry: TELEMETRY,
+  span: "BatchGetGraphMemberDatasources",
 }));
 
 export type BatchGetMembershipDatasourcesError =
@@ -693,7 +713,7 @@ export type BatchGetMembershipDatasourcesError =
  * Gets information on the data source package history for an account.
  */
 export const batchGetMembershipDatasources: API.OperationMethod<
-  BatchGetMembershipDatasourcesRequest,
+  BatchGetMembershipDatasourcesRequest & RegionInput,
   BatchGetMembershipDatasourcesResponse,
   BatchGetMembershipDatasourcesError,
   Credentials | HttpClient.HttpClient
@@ -709,6 +729,8 @@ export const batchGetMembershipDatasources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMembershipDatasources",
+  telemetry: TELEMETRY,
+  span: "BatchGetMembershipDatasources",
 }));
 
 export type CreateGraphError =
@@ -732,7 +754,7 @@ export type CreateGraphError =
  * always returns the same behavior graph ARN. It does not create a new behavior graph.
  */
 export const createGraph: API.OperationMethod<
-  CreateGraphRequest,
+  CreateGraphRequest & RegionInput,
   CreateGraphResponse,
   CreateGraphError,
   Credentials | HttpClient.HttpClient
@@ -748,6 +770,8 @@ export const createGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraph",
+  telemetry: TELEMETRY,
+  span: "CreateGraph",
 }));
 
 export type CreateMembersError =
@@ -791,7 +815,7 @@ export type CreateMembersError =
  * graph.
  */
 export const createMembers: API.OperationMethod<
-  CreateMembersRequest,
+  CreateMembersRequest & RegionInput,
   CreateMembersResponse,
   CreateMembersError,
   Credentials | HttpClient.HttpClient
@@ -808,6 +832,8 @@ export const createMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
+  telemetry: TELEMETRY,
+  span: "CreateMembers",
 }));
 
 export type DeleteGraphError =
@@ -824,7 +850,7 @@ export type DeleteGraphError =
  * graph.
  */
 export const deleteGraph: API.OperationMethod<
-  DeleteGraphRequest,
+  DeleteGraphRequest & RegionInput,
   DeleteGraphResponse,
   DeleteGraphError,
   Credentials | HttpClient.HttpClient
@@ -840,6 +866,8 @@ export const deleteGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraph",
+  telemetry: TELEMETRY,
+  span: "DeleteGraph",
 }));
 
 export type DeleteMembersError =
@@ -868,7 +896,7 @@ export type DeleteMembersError =
  * uses the `DeleteGraph` API method.
  */
 export const deleteMembers: API.OperationMethod<
-  DeleteMembersRequest,
+  DeleteMembersRequest & RegionInput,
   DeleteMembersResponse,
   DeleteMembersError,
   Credentials | HttpClient.HttpClient
@@ -885,6 +913,8 @@ export const deleteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
+  telemetry: TELEMETRY,
+  span: "DeleteMembers",
 }));
 
 export type DescribeOrganizationConfigurationError =
@@ -901,7 +931,7 @@ export type DescribeOrganizationConfigurationError =
  * Can only be called by the Detective administrator account for the organization.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -917,6 +947,8 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfiguration",
 }));
 
 export type DisableOrganizationAdminAccountError =
@@ -937,7 +969,7 @@ export type DisableOrganizationAdminAccountError =
  * To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -953,6 +985,8 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationAdminAccount",
 }));
 
 export type DisassociateMembershipError =
@@ -972,7 +1006,7 @@ export type DisassociateMembershipError =
  * accounts.
  */
 export const disassociateMembership: API.OperationMethod<
-  DisassociateMembershipRequest,
+  DisassociateMembershipRequest & RegionInput,
   DisassociateMembershipResponse,
   DisassociateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -989,6 +1023,8 @@ export const disassociateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembership",
+  telemetry: TELEMETRY,
+  span: "DisassociateMembership",
 }));
 
 export type EnableOrganizationAdminAccountError =
@@ -1016,7 +1052,7 @@ export type EnableOrganizationAdminAccountError =
  * organization management account cannot be the delegated administrator account.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1032,6 +1068,8 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationAdminAccount",
 }));
 
 export type GetInvestigationError =
@@ -1045,7 +1083,7 @@ export type GetInvestigationError =
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `GetInvestigation` returns the investigation results of an investigation for a behavior graph.
  */
 export const getInvestigation: API.OperationMethod<
-  GetInvestigationRequest,
+  GetInvestigationRequest & RegionInput,
   GetInvestigationResponse,
   GetInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -1062,6 +1100,8 @@ export const getInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigation",
+  telemetry: TELEMETRY,
+  span: "GetInvestigation",
 }));
 
 export type GetMembersError =
@@ -1075,7 +1115,7 @@ export type GetMembersError =
  * graph.
  */
 export const getMembers: API.OperationMethod<
-  GetMembersRequest,
+  GetMembersRequest & RegionInput,
   GetMembersResponse,
   GetMembersError,
   Credentials | HttpClient.HttpClient
@@ -1091,6 +1131,8 @@ export const getMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
+  telemetry: TELEMETRY,
+  span: "GetMembers",
 }));
 
 export type ListDatasourcePackagesError =
@@ -1103,7 +1145,7 @@ export type ListDatasourcePackagesError =
  * Lists data source packages in the behavior graph.
  */
 export const listDatasourcePackages: API.PaginatedOperationMethod<
-  ListDatasourcePackagesRequest,
+  ListDatasourcePackagesRequest & RegionInput,
   ListDatasourcePackagesResponse,
   ListDatasourcePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1125,6 +1167,8 @@ export const listDatasourcePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasourcePackages",
 })) as any;
 
 export type ListGraphsError =
@@ -1140,7 +1184,7 @@ export type ListGraphsError =
  * a Region, the results always contain a single behavior graph.
  */
 export const listGraphs: API.PaginatedOperationMethod<
-  ListGraphsRequest,
+  ListGraphsRequest & RegionInput,
   ListGraphsResponse,
   ListGraphsError,
   Credentials | HttpClient.HttpClient,
@@ -1157,6 +1201,8 @@ export const listGraphs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphs",
 })) as any;
 
 export type ListIndicatorsError =
@@ -1170,7 +1216,7 @@ export type ListIndicatorsError =
  * Gets the indicators from an investigation. You can use the information from the indicators to determine if an IAM user and/or IAM role is involved in an unusual activity that could indicate malicious behavior and its impact.
  */
 export const listIndicators: API.OperationMethod<
-  ListIndicatorsRequest,
+  ListIndicatorsRequest & RegionInput,
   ListIndicatorsResponse,
   ListIndicatorsError,
   Credentials | HttpClient.HttpClient
@@ -1187,6 +1233,8 @@ export const listIndicators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIndicators",
+  telemetry: TELEMETRY,
+  span: "ListIndicators",
 }));
 
 export type ListInvestigationsError =
@@ -1205,7 +1253,7 @@ export type ListInvestigationsError =
  * investigations.
  */
 export const listInvestigations: API.OperationMethod<
-  ListInvestigationsRequest,
+  ListInvestigationsRequest & RegionInput,
   ListInvestigationsResponse,
   ListInvestigationsError,
   Credentials | HttpClient.HttpClient
@@ -1222,6 +1270,8 @@ export const listInvestigations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvestigations",
+  telemetry: TELEMETRY,
+  span: "ListInvestigations",
 }));
 
 export type ListInvitationsError =
@@ -1240,7 +1290,7 @@ export type ListInvitationsError =
  * resigned from or was removed from.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1257,6 +1307,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListMembersError =
@@ -1276,7 +1328,7 @@ export type ListMembersError =
  * accounts.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1298,6 +1350,8 @@ export const listMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListOrganizationAdminAccountsError =
@@ -1311,7 +1365,7 @@ export type ListOrganizationAdminAccountsError =
  * organization. Can only be called by the organization management account.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1333,6 +1387,8 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAdminAccounts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1345,7 +1401,7 @@ export type ListTagsForResourceError =
  * Returns the tag values that are assigned to a behavior graph.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1361,6 +1417,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectInvitationError =
@@ -1380,7 +1438,7 @@ export type RejectInvitationError =
  * not receive an invitation.
  */
 export const rejectInvitation: API.OperationMethod<
-  RejectInvitationRequest,
+  RejectInvitationRequest & RegionInput,
   RejectInvitationResponse,
   RejectInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1397,6 +1455,8 @@ export const rejectInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectInvitation",
 }));
 
 export type StartInvestigationError =
@@ -1410,7 +1470,7 @@ export type StartInvestigationError =
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `StartInvestigation` initiates an investigation on an entity in a behavior graph.
  */
 export const startInvestigation: API.OperationMethod<
-  StartInvestigationRequest,
+  StartInvestigationRequest & RegionInput,
   StartInvestigationResponse,
   StartInvestigationError,
   Credentials | HttpClient.HttpClient
@@ -1427,6 +1487,8 @@ export const startInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInvestigation",
+  telemetry: TELEMETRY,
+  span: "StartInvestigation",
 }));
 
 export type StartMonitoringMemberError =
@@ -1450,7 +1512,7 @@ export type StartMonitoringMemberError =
  * `ACCEPTED_BUT_DISABLED`.
  */
 export const startMonitoringMember: API.OperationMethod<
-  StartMonitoringMemberRequest,
+  StartMonitoringMemberRequest & RegionInput,
   StartMonitoringMemberResponse,
   StartMonitoringMemberError,
   Credentials | HttpClient.HttpClient
@@ -1468,6 +1530,8 @@ export const startMonitoringMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitoringMember",
+  telemetry: TELEMETRY,
+  span: "StartMonitoringMember",
 }));
 
 export type TagResourceError =
@@ -1480,7 +1544,7 @@ export type TagResourceError =
  * Applies tag values to a behavior graph.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1496,6 +1560,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1508,7 +1574,7 @@ export type UntagResourceError =
  * Removes tags from a behavior graph.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1524,6 +1590,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatasourcePackagesError =
@@ -1537,7 +1605,7 @@ export type UpdateDatasourcePackagesError =
  * Starts a data source package for the Detective behavior graph.
  */
 export const updateDatasourcePackages: API.OperationMethod<
-  UpdateDatasourcePackagesRequest,
+  UpdateDatasourcePackagesRequest & RegionInput,
   UpdateDatasourcePackagesResponse,
   UpdateDatasourcePackagesError,
   Credentials | HttpClient.HttpClient
@@ -1554,6 +1622,8 @@ export const updateDatasourcePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasourcePackages",
+  telemetry: TELEMETRY,
+  span: "UpdateDatasourcePackages",
 }));
 
 export type UpdateInvestigationStateError =
@@ -1567,7 +1637,7 @@ export type UpdateInvestigationStateError =
  * Updates the state of an investigation.
  */
 export const updateInvestigationState: API.OperationMethod<
-  UpdateInvestigationStateRequest,
+  UpdateInvestigationStateRequest & RegionInput,
   UpdateInvestigationStateResponse,
   UpdateInvestigationStateError,
   Credentials | HttpClient.HttpClient
@@ -1584,6 +1654,8 @@ export const updateInvestigationState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationState",
+  telemetry: TELEMETRY,
+  span: "UpdateInvestigationState",
 }));
 
 export type UpdateOrganizationConfigurationError =
@@ -1598,7 +1670,7 @@ export type UpdateOrganizationConfigurationError =
  * organization.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1614,6 +1686,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

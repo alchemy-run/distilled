@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -80,6 +82,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://servicecatalog-appregistry.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServiceCatalogAppRegistry",
+  service: "ServiceCatalogAppRegistry",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -469,7 +485,7 @@ export type AssociateAttributeGroupError =
  * user-defined details that are machine-readable, such as third-party integrations.
  */
 export const associateAttributeGroup: API.OperationMethod<
-  AssociateAttributeGroupRequest,
+  AssociateAttributeGroupRequest & RegionInput,
   AssociateAttributeGroupResponse,
   AssociateAttributeGroupError,
   Credentials | HttpClient.HttpClient
@@ -487,6 +503,8 @@ export const associateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateAttributeGroup",
 }));
 
 export type AssociateResourceError =
@@ -523,7 +541,7 @@ export type AssociateResourceError =
  * For more information, see TagResources in the *Resource Groups Tagging API Reference*.
  */
 export const associateResource: API.OperationMethod<
-  AssociateResourceRequest,
+  AssociateResourceRequest & RegionInput,
   AssociateResourceResponse,
   AssociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -541,6 +559,8 @@ export const associateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResource",
+  telemetry: TELEMETRY,
+  span: "AssociateResource",
 }));
 
 export type CreateApplicationError =
@@ -554,7 +574,7 @@ export type CreateApplicationError =
  * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -571,6 +591,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateAttributeGroupError =
@@ -586,7 +608,7 @@ export type CreateAttributeGroupError =
  * tools.
  */
 export const createAttributeGroup: API.OperationMethod<
-  CreateAttributeGroupRequest,
+  CreateAttributeGroupRequest & RegionInput,
   CreateAttributeGroupResponse,
   CreateAttributeGroupError,
   Credentials | HttpClient.HttpClient
@@ -602,6 +624,8 @@ export const createAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "CreateAttributeGroup",
 }));
 
 export type DeleteApplicationError =
@@ -613,7 +637,7 @@ export type DeleteApplicationError =
  * Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -624,6 +648,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteAttributeGroupError =
@@ -635,7 +661,7 @@ export type DeleteAttributeGroupError =
  * Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
  */
 export const deleteAttributeGroup: API.OperationMethod<
-  DeleteAttributeGroupRequest,
+  DeleteAttributeGroupRequest & RegionInput,
   DeleteAttributeGroupResponse,
   DeleteAttributeGroupError,
   Credentials | HttpClient.HttpClient
@@ -646,6 +672,8 @@ export const deleteAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteAttributeGroup",
 }));
 
 export type DisassociateAttributeGroupError =
@@ -657,7 +685,7 @@ export type DisassociateAttributeGroupError =
  * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
  */
 export const disassociateAttributeGroup: API.OperationMethod<
-  DisassociateAttributeGroupRequest,
+  DisassociateAttributeGroupRequest & RegionInput,
   DisassociateAttributeGroupResponse,
   DisassociateAttributeGroupError,
   Credentials | HttpClient.HttpClient
@@ -668,6 +696,8 @@ export const disassociateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateAttributeGroup",
 }));
 
 export type DisassociateResourceError =
@@ -701,7 +731,7 @@ export type DisassociateResourceError =
  * For more information, see UntagResources in the *Resource Groups Tagging API Reference*.
  */
 export const disassociateResource: API.OperationMethod<
-  DisassociateResourceRequest,
+  DisassociateResourceRequest & RegionInput,
   DisassociateResourceResponse,
   DisassociateResourceError,
   Credentials | HttpClient.HttpClient
@@ -717,6 +747,8 @@ export const disassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateResource",
 }));
 
 export type GetApplicationError =
@@ -745,7 +777,7 @@ export type GetApplicationError =
  * avoiding the ABA addressing problem.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -761,6 +793,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetAssociatedResourceError =
@@ -772,7 +806,7 @@ export type GetAssociatedResourceError =
  * Gets the resource associated with the application.
  */
 export const getAssociatedResource: API.OperationMethod<
-  GetAssociatedResourceRequest,
+  GetAssociatedResourceRequest & RegionInput,
   GetAssociatedResourceResponse,
   GetAssociatedResourceError,
   Credentials | HttpClient.HttpClient
@@ -783,6 +817,8 @@ export const getAssociatedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedResource",
+  telemetry: TELEMETRY,
+  span: "GetAssociatedResource",
 }));
 
 export type GetAttributeGroupError =
@@ -798,7 +834,7 @@ export type GetAttributeGroupError =
  * by its ARN, ID, or name.
  */
 export const getAttributeGroup: API.OperationMethod<
-  GetAttributeGroupRequest,
+  GetAttributeGroupRequest & RegionInput,
   GetAttributeGroupResponse,
   GetAttributeGroupError,
   Credentials | HttpClient.HttpClient
@@ -814,6 +850,8 @@ export const getAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "GetAttributeGroup",
 }));
 
 export type GetConfigurationError = InternalServerException | CommonErrors;
@@ -822,7 +860,7 @@ export type GetConfigurationError = InternalServerException | CommonErrors;
  * from an account.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationRequest,
+  GetConfigurationRequest & RegionInput,
   GetConfigurationResponse,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -833,6 +871,8 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type ListApplicationsError = InternalServerException | ValidationException | CommonErrors;
@@ -840,7 +880,7 @@ export type ListApplicationsError = InternalServerException | ValidationExceptio
  * Retrieves a list of all of your applications. Results are paginated.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -858,6 +898,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListAssociatedAttributeGroupsError =
@@ -869,7 +911,7 @@ export type ListAssociatedAttributeGroupsError =
  * Lists all attribute groups that are associated with specified application. Results are paginated.
  */
 export const listAssociatedAttributeGroups: API.PaginatedOperationMethod<
-  ListAssociatedAttributeGroupsRequest,
+  ListAssociatedAttributeGroupsRequest & RegionInput,
   ListAssociatedAttributeGroupsResponse,
   ListAssociatedAttributeGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -887,6 +929,8 @@ export const listAssociatedAttributeGroups: API.PaginatedOperationMethod<
     items: "attributeGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedAttributeGroups",
 })) as any;
 
 export type ListAssociatedResourcesError =
@@ -913,7 +957,7 @@ export type ListAssociatedResourcesError =
  * using this API.
  */
 export const listAssociatedResources: API.PaginatedOperationMethod<
-  ListAssociatedResourcesRequest,
+  ListAssociatedResourcesRequest & RegionInput,
   ListAssociatedResourcesResponse,
   ListAssociatedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -931,6 +975,8 @@ export const listAssociatedResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedResources",
 })) as any;
 
 export type ListAttributeGroupsError = InternalServerException | ValidationException | CommonErrors;
@@ -938,7 +984,7 @@ export type ListAttributeGroupsError = InternalServerException | ValidationExcep
  * Lists all attribute groups which you have access to. Results are paginated.
  */
 export const listAttributeGroups: API.PaginatedOperationMethod<
-  ListAttributeGroupsRequest,
+  ListAttributeGroupsRequest & RegionInput,
   ListAttributeGroupsResponse,
   ListAttributeGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -956,6 +1002,8 @@ export const listAttributeGroups: API.PaginatedOperationMethod<
     items: "attributeGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttributeGroups",
 })) as any;
 
 export type ListAttributeGroupsForApplicationError =
@@ -967,7 +1015,7 @@ export type ListAttributeGroupsForApplicationError =
  * Lists the details of all attribute groups associated with a specific application. The results display in pages.
  */
 export const listAttributeGroupsForApplication: API.PaginatedOperationMethod<
-  ListAttributeGroupsForApplicationRequest,
+  ListAttributeGroupsForApplicationRequest & RegionInput,
   ListAttributeGroupsForApplicationResponse,
   ListAttributeGroupsForApplicationError,
   Credentials | HttpClient.HttpClient,
@@ -985,6 +1033,8 @@ export const listAttributeGroupsForApplication: API.PaginatedOperationMethod<
     items: "attributeGroupsDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttributeGroupsForApplication",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -996,7 +1046,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1007,6 +1057,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutConfigurationError =
@@ -1019,7 +1071,7 @@ export type PutConfigurationError =
  * to an account.
  */
 export const putConfiguration: API.OperationMethod<
-  PutConfigurationRequest,
+  PutConfigurationRequest & RegionInput,
   PutConfigurationResponse,
   PutConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1030,6 +1082,8 @@ export const putConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutConfiguration",
 }));
 
 export type SyncResourceError =
@@ -1045,7 +1099,7 @@ export type SyncResourceError =
  * Specifically, the resource's AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
  */
 export const syncResource: API.OperationMethod<
-  SyncResourceRequest,
+  SyncResourceRequest & RegionInput,
   SyncResourceResponse,
   SyncResourceError,
   Credentials | HttpClient.HttpClient
@@ -1062,6 +1116,8 @@ export const syncResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SyncResource",
+  telemetry: TELEMETRY,
+  span: "SyncResource",
 }));
 
 export type TagResourceError =
@@ -1077,7 +1133,7 @@ export type TagResourceError =
  * This operation returns an empty response if the call was successful.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1088,6 +1144,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1101,7 +1159,7 @@ export type UntagResourceError =
  * This operation returns an empty response if the call was successful.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1112,6 +1170,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -1125,7 +1185,7 @@ export type UpdateApplicationError =
  * Updates an existing application with new attributes.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1142,6 +1202,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateAttributeGroupError =
@@ -1154,7 +1216,7 @@ export type UpdateAttributeGroupError =
  * Updates an existing attribute group with new details.
  */
 export const updateAttributeGroup: API.OperationMethod<
-  UpdateAttributeGroupRequest,
+  UpdateAttributeGroupRequest & RegionInput,
   UpdateAttributeGroupResponse,
   UpdateAttributeGroupError,
   Credentials | HttpClient.HttpClient
@@ -1170,6 +1232,8 @@ export const updateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateAttributeGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

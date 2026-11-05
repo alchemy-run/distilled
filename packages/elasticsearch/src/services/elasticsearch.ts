@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { ElasticsearchOpError, ElasticsearchOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "elasticsearch-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Elasticsearch",
+  service: "Elasticsearch",
+  labels: "elasticsearch",
+  propagate: "w3c",
+} as const;
+
 export interface ArchiveNodesClearRepositoriesMeteringRequest {
   /** Comma-separated list of node IDs or names used to limit returned information. */
   node_id: string;
@@ -43242,6 +43255,8 @@ export const archiveNodesClearRepositoriesMetering: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveNodesClearRepositoriesMetering",
 }));
 
 export type AsyncSearchDeleteError = ElasticsearchOpError;
@@ -43257,6 +43272,8 @@ export const asyncSearchDelete: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncSearchDelete",
 }));
 
 export type AsyncSearchGetError = ElasticsearchOpError;
@@ -43272,6 +43289,8 @@ export const asyncSearchGet: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncSearchGet",
 }));
 
 export type AsyncSearchStatusError = ElasticsearchOpError;
@@ -43287,6 +43306,8 @@ export const asyncSearchStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncSearchStatus",
 }));
 
 export type AsyncSearchSubmitError = ElasticsearchOpError;
@@ -43302,6 +43323,8 @@ export const asyncSearchSubmit: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncSearchSubmit",
 }));
 
 export type AsyncSearchSubmit1Error = ElasticsearchOpError;
@@ -43317,6 +43340,8 @@ export const asyncSearchSubmit1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncSearchSubmit1",
 }));
 
 export type AuthenticateSecurityError = ElasticsearchOpError;
@@ -43332,6 +43357,8 @@ export const authenticateSecurity: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthenticateSecurity",
 }));
 
 export type AuthenticateSecurityOidcError = ElasticsearchOpError;
@@ -43347,6 +43374,8 @@ export const authenticateSecurityOidc: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthenticateSecurityOidc",
 }));
 
 export type AuthenticateSecuritySamlError = ElasticsearchOpError;
@@ -43362,6 +43391,8 @@ export const authenticateSecuritySaml: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthenticateSecuritySaml",
 }));
 
 export type BulkError = ElasticsearchOpError;
@@ -43377,6 +43408,8 @@ export const bulk: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Bulk",
 }));
 
 export type Bulk1Error = ElasticsearchOpError;
@@ -43392,6 +43425,8 @@ export const bulk1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Bulk1",
 }));
 
 export type Bulk2Error = ElasticsearchOpError;
@@ -43407,6 +43442,8 @@ export const bulk2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Bulk2",
 }));
 
 export type Bulk3Error = ElasticsearchOpError;
@@ -43422,6 +43459,8 @@ export const bulk3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Bulk3",
 }));
 
 export type CancelConnectorSyncJobError = ElasticsearchOpError;
@@ -43437,6 +43476,8 @@ export const cancelConnectorSyncJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelConnectorSyncJob",
 }));
 
 export type CancelReindexError = ElasticsearchOpError;
@@ -43452,6 +43493,8 @@ export const cancelReindex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelReindex",
 }));
 
 export type CancelTaskError = ElasticsearchOpError;
@@ -43467,6 +43510,8 @@ export const cancelTask: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTask",
 }));
 
 export type CatAliasesError = ElasticsearchOpError;
@@ -43482,6 +43527,8 @@ export const catAliases: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatAliases",
 }));
 
 export type CatAliases1Error = ElasticsearchOpError;
@@ -43497,6 +43544,8 @@ export const catAliases1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatAliases1",
 }));
 
 export type CatAllocationError = ElasticsearchOpError;
@@ -43512,6 +43561,8 @@ export const catAllocation: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatAllocation",
 }));
 
 export type CatAllocation1Error = ElasticsearchOpError;
@@ -43527,6 +43578,8 @@ export const catAllocation1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatAllocation1",
 }));
 
 export type CatCircuitBreakerError = ElasticsearchOpError;
@@ -43542,6 +43595,8 @@ export const catCircuitBreaker: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatCircuitBreaker",
 }));
 
 export type CatCircuitBreaker1Error = ElasticsearchOpError;
@@ -43557,6 +43612,8 @@ export const catCircuitBreaker1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatCircuitBreaker1",
 }));
 
 export type CatComponentTemplatesError = ElasticsearchOpError;
@@ -43572,6 +43629,8 @@ export const catComponentTemplates: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatComponentTemplates",
 }));
 
 export type CatComponentTemplates1Error = ElasticsearchOpError;
@@ -43587,6 +43646,8 @@ export const catComponentTemplates1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatComponentTemplates1",
 }));
 
 export type CatCountError = ElasticsearchOpError;
@@ -43602,6 +43663,8 @@ export const catCount: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatCount",
 }));
 
 export type CatCount1Error = ElasticsearchOpError;
@@ -43617,6 +43680,8 @@ export const catCount1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatCount1",
 }));
 
 export type CatCount2Error = ElasticsearchOpError;
@@ -43632,6 +43697,8 @@ export const catCount2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatCount2",
 }));
 
 export type CatCount3Error = ElasticsearchOpError;
@@ -43647,6 +43714,8 @@ export const catCount3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatCount3",
 }));
 
 export type CatFielddataError = ElasticsearchOpError;
@@ -43662,6 +43731,8 @@ export const catFielddata: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatFielddata",
 }));
 
 export type CatFielddata1Error = ElasticsearchOpError;
@@ -43677,6 +43748,8 @@ export const catFielddata1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatFielddata1",
 }));
 
 export type CatHealthError = ElasticsearchOpError;
@@ -43692,6 +43765,8 @@ export const catHealth: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatHealth",
 }));
 
 export type CatHelpError = ElasticsearchOpError;
@@ -43707,6 +43782,8 @@ export const catHelp: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatHelp",
 }));
 
 export type CatIndicesError = ElasticsearchOpError;
@@ -43722,6 +43799,8 @@ export const catIndices: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatIndices",
 }));
 
 export type CatIndices1Error = ElasticsearchOpError;
@@ -43737,6 +43816,8 @@ export const catIndices1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatIndices1",
 }));
 
 export type CatMasterError = ElasticsearchOpError;
@@ -43752,6 +43833,8 @@ export const catMaster: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMaster",
 }));
 
 export type CatMlDatafeedsError = ElasticsearchOpError;
@@ -43767,6 +43850,8 @@ export const catMlDatafeeds: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlDatafeeds",
 }));
 
 export type CatMlDatafeeds1Error = ElasticsearchOpError;
@@ -43782,6 +43867,8 @@ export const catMlDatafeeds1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlDatafeeds1",
 }));
 
 export type CatMlDataFrameAnalyticsError = ElasticsearchOpError;
@@ -43797,6 +43884,8 @@ export const catMlDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlDataFrameAnalytics",
 }));
 
 export type CatMlDataFrameAnalytics1Error = ElasticsearchOpError;
@@ -43812,6 +43901,8 @@ export const catMlDataFrameAnalytics1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlDataFrameAnalytics1",
 }));
 
 export type CatMlJobsError = ElasticsearchOpError;
@@ -43827,6 +43918,8 @@ export const catMlJobs: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlJobs",
 }));
 
 export type CatMlJobs1Error = ElasticsearchOpError;
@@ -43842,6 +43935,8 @@ export const catMlJobs1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlJobs1",
 }));
 
 export type CatMlTrainedModelsError = ElasticsearchOpError;
@@ -43857,6 +43952,8 @@ export const catMlTrainedModels: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlTrainedModels",
 }));
 
 export type CatMlTrainedModels1Error = ElasticsearchOpError;
@@ -43872,6 +43969,8 @@ export const catMlTrainedModels1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatMlTrainedModels1",
 }));
 
 export type CatNodeattrsError = ElasticsearchOpError;
@@ -43887,6 +43986,8 @@ export const catNodeattrs: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatNodeattrs",
 }));
 
 export type CatNodesError = ElasticsearchOpError;
@@ -43902,6 +44003,8 @@ export const catNodes: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatNodes",
 }));
 
 export type CatPendingTasksError = ElasticsearchOpError;
@@ -43917,6 +44020,8 @@ export const catPendingTasks: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatPendingTasks",
 }));
 
 export type CatPluginsError = ElasticsearchOpError;
@@ -43932,6 +44037,8 @@ export const catPlugins: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatPlugins",
 }));
 
 export type CatRecoveryError = ElasticsearchOpError;
@@ -43947,6 +44054,8 @@ export const catRecovery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatRecovery",
 }));
 
 export type CatRecovery1Error = ElasticsearchOpError;
@@ -43962,6 +44071,8 @@ export const catRecovery1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatRecovery1",
 }));
 
 export type CatRepositoriesError = ElasticsearchOpError;
@@ -43977,6 +44088,8 @@ export const catRepositories: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatRepositories",
 }));
 
 export type CatSegmentsError = ElasticsearchOpError;
@@ -43992,6 +44105,8 @@ export const catSegments: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatSegments",
 }));
 
 export type CatSegments1Error = ElasticsearchOpError;
@@ -44007,6 +44122,8 @@ export const catSegments1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatSegments1",
 }));
 
 export type CatShardsError = ElasticsearchOpError;
@@ -44022,6 +44139,8 @@ export const catShards: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatShards",
 }));
 
 export type CatShards1Error = ElasticsearchOpError;
@@ -44037,6 +44156,8 @@ export const catShards1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatShards1",
 }));
 
 export type CatSnapshotsError = ElasticsearchOpError;
@@ -44052,6 +44173,8 @@ export const catSnapshots: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatSnapshots",
 }));
 
 export type CatSnapshots1Error = ElasticsearchOpError;
@@ -44067,6 +44190,8 @@ export const catSnapshots1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatSnapshots1",
 }));
 
 export type CatTasksError = ElasticsearchOpError;
@@ -44082,6 +44207,8 @@ export const catTasks: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatTasks",
 }));
 
 export type CatTemplatesError = ElasticsearchOpError;
@@ -44097,6 +44224,8 @@ export const catTemplates: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatTemplates",
 }));
 
 export type CatTemplates1Error = ElasticsearchOpError;
@@ -44112,6 +44241,8 @@ export const catTemplates1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatTemplates1",
 }));
 
 export type CatThreadPoolError = ElasticsearchOpError;
@@ -44127,6 +44258,8 @@ export const catThreadPool: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatThreadPool",
 }));
 
 export type CatThreadPool1Error = ElasticsearchOpError;
@@ -44142,6 +44275,8 @@ export const catThreadPool1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatThreadPool1",
 }));
 
 export type CatTransformsError = ElasticsearchOpError;
@@ -44157,6 +44292,8 @@ export const catTransforms: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatTransforms",
 }));
 
 export type CatTransforms1Error = ElasticsearchOpError;
@@ -44172,6 +44309,8 @@ export const catTransforms1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatTransforms1",
 }));
 
 export type CcrDeleteAutoFollowPatternError = ElasticsearchOpError;
@@ -44187,6 +44326,8 @@ export const ccrDeleteAutoFollowPattern: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrDeleteAutoFollowPattern",
 }));
 
 export type CcrFollowInfoError = ElasticsearchOpError;
@@ -44202,6 +44343,8 @@ export const ccrFollowInfo: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrFollowInfo",
 }));
 
 export type CcrFollowStatsError = ElasticsearchOpError;
@@ -44217,6 +44360,8 @@ export const ccrFollowStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrFollowStats",
 }));
 
 export type CcrForgetFollowerError = ElasticsearchOpError;
@@ -44232,6 +44377,8 @@ export const ccrForgetFollower: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrForgetFollower",
 }));
 
 export type CcrGetAutoFollowPatternError = ElasticsearchOpError;
@@ -44247,6 +44394,8 @@ export const ccrGetAutoFollowPattern: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrGetAutoFollowPattern",
 }));
 
 export type CcrGetAutoFollowPattern1Error = ElasticsearchOpError;
@@ -44262,6 +44411,8 @@ export const ccrGetAutoFollowPattern1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrGetAutoFollowPattern1",
 }));
 
 export type CcrPauseAutoFollowPatternError = ElasticsearchOpError;
@@ -44277,6 +44428,8 @@ export const ccrPauseAutoFollowPattern: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrPauseAutoFollowPattern",
 }));
 
 export type CcrPutAutoFollowPatternError = ElasticsearchOpError;
@@ -44292,6 +44445,8 @@ export const ccrPutAutoFollowPattern: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrPutAutoFollowPattern",
 }));
 
 export type CcrResumeAutoFollowPatternError = ElasticsearchOpError;
@@ -44307,6 +44462,8 @@ export const ccrResumeAutoFollowPattern: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrResumeAutoFollowPattern",
 }));
 
 export type CcrResumeFollowError = ElasticsearchOpError;
@@ -44322,6 +44479,8 @@ export const ccrResumeFollow: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrResumeFollow",
 }));
 
 export type CcrStatsError = ElasticsearchOpError;
@@ -44337,6 +44496,8 @@ export const ccrStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CcrStats",
 }));
 
 export type ClaimConnectorSyncJobError = ElasticsearchOpError;
@@ -44352,6 +44513,8 @@ export const claimConnectorSyncJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimConnectorSyncJob",
 }));
 
 export type ClearScrollError = ElasticsearchOpError;
@@ -44367,6 +44530,8 @@ export const clearScroll: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearScroll",
 }));
 
 export type ClearScroll1Error = ElasticsearchOpError;
@@ -44382,6 +44547,8 @@ export const clearScroll1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearScroll1",
 }));
 
 export type CloneIndexError = ElasticsearchOpError;
@@ -44397,6 +44564,8 @@ export const cloneIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneIndex",
 }));
 
 export type CloneSnapshotError = ElasticsearchOpError;
@@ -44412,6 +44581,8 @@ export const cloneSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneSnapshot",
 }));
 
 export type ClosePointInTimeError = ElasticsearchOpError;
@@ -44427,6 +44598,8 @@ export const closePointInTime: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClosePointInTime",
 }));
 
 export type ClusterAllocationExplainError = ElasticsearchOpError;
@@ -44442,6 +44615,8 @@ export const clusterAllocationExplain: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterAllocationExplain",
 }));
 
 export type ClusterAllocationExplain1Error = ElasticsearchOpError;
@@ -44457,6 +44632,8 @@ export const clusterAllocationExplain1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterAllocationExplain1",
 }));
 
 export type ClusterDeleteComponentTemplateError = ElasticsearchOpError;
@@ -44472,6 +44649,8 @@ export const clusterDeleteComponentTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterDeleteComponentTemplate",
 }));
 
 export type ClusterDeleteVotingConfigExclusionsError = ElasticsearchOpError;
@@ -44487,6 +44666,8 @@ export const clusterDeleteVotingConfigExclusions: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterDeleteVotingConfigExclusions",
 }));
 
 export type ClusterGetComponentTemplateError = ElasticsearchOpError;
@@ -44502,6 +44683,8 @@ export const clusterGetComponentTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterGetComponentTemplate",
 }));
 
 export type ClusterGetComponentTemplate1Error = ElasticsearchOpError;
@@ -44517,6 +44700,8 @@ export const clusterGetComponentTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterGetComponentTemplate1",
 }));
 
 export type ClusterGetSettingsError = ElasticsearchOpError;
@@ -44532,6 +44717,8 @@ export const clusterGetSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterGetSettings",
 }));
 
 export type ClusterHealthError = ElasticsearchOpError;
@@ -44547,6 +44734,8 @@ export const clusterHealth: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterHealth",
 }));
 
 export type ClusterHealth1Error = ElasticsearchOpError;
@@ -44562,6 +44751,8 @@ export const clusterHealth1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterHealth1",
 }));
 
 export type ClusterInfoError = ElasticsearchOpError;
@@ -44577,6 +44768,8 @@ export const clusterInfo: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterInfo",
 }));
 
 export type ClusterPendingTasksError = ElasticsearchOpError;
@@ -44592,6 +44785,8 @@ export const clusterPendingTasks: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterPendingTasks",
 }));
 
 export type ClusterPostVotingConfigExclusionsError = ElasticsearchOpError;
@@ -44607,6 +44802,8 @@ export const clusterPostVotingConfigExclusions: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterPostVotingConfigExclusions",
 }));
 
 export type ClusterPutComponentTemplateError = ElasticsearchOpError;
@@ -44622,6 +44819,8 @@ export const clusterPutComponentTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterPutComponentTemplate",
 }));
 
 export type ClusterPutComponentTemplate1Error = ElasticsearchOpError;
@@ -44637,6 +44836,8 @@ export const clusterPutComponentTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterPutComponentTemplate1",
 }));
 
 export type ClusterPutSettingsError = ElasticsearchOpError;
@@ -44652,6 +44853,8 @@ export const clusterPutSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterPutSettings",
 }));
 
 export type ClusterRemoteInfoError = ElasticsearchOpError;
@@ -44667,6 +44870,8 @@ export const clusterRemoteInfo: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterRemoteInfo",
 }));
 
 export type ClusterRerouteError = ElasticsearchOpError;
@@ -44682,6 +44887,8 @@ export const clusterReroute: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterReroute",
 }));
 
 export type ClusterStateError = ElasticsearchOpError;
@@ -44697,6 +44904,8 @@ export const clusterState: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterState",
 }));
 
 export type ClusterState1Error = ElasticsearchOpError;
@@ -44712,6 +44921,8 @@ export const clusterState1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterState1",
 }));
 
 export type ClusterState2Error = ElasticsearchOpError;
@@ -44727,6 +44938,8 @@ export const clusterState2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterState2",
 }));
 
 export type ClusterStatsError = ElasticsearchOpError;
@@ -44742,6 +44955,8 @@ export const clusterStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterStats",
 }));
 
 export type ClusterStats1Error = ElasticsearchOpError;
@@ -44757,6 +44972,8 @@ export const clusterStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterStats1",
 }));
 
 export type ConnectorCheckInError = ElasticsearchOpError;
@@ -44772,6 +44989,8 @@ export const connectorCheckIn: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorCheckIn",
 }));
 
 export type ConnectorPut1Error = ElasticsearchOpError;
@@ -44787,6 +45006,8 @@ export const connectorPut1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorPut1",
 }));
 
 export type ConnectorSyncJobCheckInError = ElasticsearchOpError;
@@ -44802,6 +45023,8 @@ export const connectorSyncJobCheckIn: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorSyncJobCheckIn",
 }));
 
 export type ConnectorSyncJobErrorError = ElasticsearchOpError;
@@ -44817,6 +45040,8 @@ export const connectorSyncJobError: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorSyncJobError",
 }));
 
 export type ConnectorSyncJobUpdateStatsError = ElasticsearchOpError;
@@ -44832,6 +45057,8 @@ export const connectorSyncJobUpdateStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorSyncJobUpdateStats",
 }));
 
 export type ConnectorUpdateActiveFilteringError = ElasticsearchOpError;
@@ -44847,6 +45074,8 @@ export const connectorUpdateActiveFiltering: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateActiveFiltering",
 }));
 
 export type ConnectorUpdateApiKeyIdError = ElasticsearchOpError;
@@ -44862,6 +45091,8 @@ export const connectorUpdateApiKeyId: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateApiKeyId",
 }));
 
 export type ConnectorUpdateConfigurationError = ElasticsearchOpError;
@@ -44877,6 +45108,8 @@ export const connectorUpdateConfiguration: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateConfiguration",
 }));
 
 export type ConnectorUpdateErrorError = ElasticsearchOpError;
@@ -44892,6 +45125,8 @@ export const connectorUpdateError: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateError",
 }));
 
 export type ConnectorUpdateFeaturesError = ElasticsearchOpError;
@@ -44907,6 +45142,8 @@ export const connectorUpdateFeatures: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateFeatures",
 }));
 
 export type ConnectorUpdateFilteringError = ElasticsearchOpError;
@@ -44922,6 +45159,8 @@ export const connectorUpdateFiltering: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateFiltering",
 }));
 
 export type ConnectorUpdateFilteringValidationError = ElasticsearchOpError;
@@ -44937,6 +45176,8 @@ export const connectorUpdateFilteringValidation: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateFilteringValidation",
 }));
 
 export type ConnectorUpdateIndexNameError = ElasticsearchOpError;
@@ -44952,6 +45193,8 @@ export const connectorUpdateIndexName: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateIndexName",
 }));
 
 export type ConnectorUpdateNameError = ElasticsearchOpError;
@@ -44967,6 +45210,8 @@ export const connectorUpdateName: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateName",
 }));
 
 export type ConnectorUpdateNativeError = ElasticsearchOpError;
@@ -44982,6 +45227,8 @@ export const connectorUpdateNative: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateNative",
 }));
 
 export type ConnectorUpdatePipelineError = ElasticsearchOpError;
@@ -44997,6 +45244,8 @@ export const connectorUpdatePipeline: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdatePipeline",
 }));
 
 export type ConnectorUpdateSchedulingError = ElasticsearchOpError;
@@ -45012,6 +45261,8 @@ export const connectorUpdateScheduling: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateScheduling",
 }));
 
 export type ConnectorUpdateServiceTypeError = ElasticsearchOpError;
@@ -45027,6 +45278,8 @@ export const connectorUpdateServiceType: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateServiceType",
 }));
 
 export type ConnectorUpdateStatusError = ElasticsearchOpError;
@@ -45042,6 +45295,8 @@ export const connectorUpdateStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorUpdateStatus",
 }));
 
 export type CountError = ElasticsearchOpError;
@@ -45057,6 +45312,8 @@ export const count: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Count",
 }));
 
 export type Count1Error = ElasticsearchOpError;
@@ -45072,6 +45329,8 @@ export const count1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Count1",
 }));
 
 export type Count2Error = ElasticsearchOpError;
@@ -45087,6 +45346,8 @@ export const count2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Count2",
 }));
 
 export type Count3Error = ElasticsearchOpError;
@@ -45102,6 +45363,8 @@ export const count3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Count3",
 }));
 
 export type CreateError = ElasticsearchOpError;
@@ -45117,6 +45380,8 @@ export const create: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Create",
 }));
 
 export type Create1Error = ElasticsearchOpError;
@@ -45132,6 +45397,8 @@ export const create1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Create1",
 }));
 
 export type CreateIndexError = ElasticsearchOpError;
@@ -45147,6 +45414,8 @@ export const createIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateSnapshotError = ElasticsearchOpError;
@@ -45162,6 +45431,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type DanglingIndicesDeleteDanglingIndexError = ElasticsearchOpError;
@@ -45177,6 +45448,8 @@ export const danglingIndicesDeleteDanglingIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DanglingIndicesDeleteDanglingIndex",
 }));
 
 export type DanglingIndicesImportDanglingIndexError = ElasticsearchOpError;
@@ -45192,6 +45465,8 @@ export const danglingIndicesImportDanglingIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DanglingIndicesImportDanglingIndex",
 }));
 
 export type DanglingIndicesListDanglingIndicesError = ElasticsearchOpError;
@@ -45207,6 +45482,8 @@ export const danglingIndicesListDanglingIndices: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DanglingIndicesListDanglingIndices",
 }));
 
 export type DeleteError = ElasticsearchOpError;
@@ -45222,6 +45499,8 @@ export const Delete: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Delete",
 }));
 
 export type DeleteByQueryError = ElasticsearchOpError;
@@ -45237,6 +45516,8 @@ export const deleteByQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteByQuery",
 }));
 
 export type DeleteByQueryRethrottleError = ElasticsearchOpError;
@@ -45252,6 +45533,8 @@ export const deleteByQueryRethrottle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteByQueryRethrottle",
 }));
 
 export type DeleteConnectorError = ElasticsearchOpError;
@@ -45267,6 +45550,8 @@ export const deleteConnector: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteConnectorSyncJobError = ElasticsearchOpError;
@@ -45282,6 +45567,8 @@ export const deleteConnectorSyncJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorSyncJob",
 }));
 
 export type DeleteEqlError = ElasticsearchOpError;
@@ -45297,6 +45584,8 @@ export const deleteEql: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEql",
 }));
 
 export type DeleteEsqlAsyncQueryError = ElasticsearchOpError;
@@ -45312,6 +45601,8 @@ export const deleteEsqlAsyncQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEsqlAsyncQuery",
 }));
 
 export type DeleteIndexError = ElasticsearchOpError;
@@ -45327,6 +45618,8 @@ export const deleteIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteIndexTemplateError = ElasticsearchOpError;
@@ -45342,6 +45635,8 @@ export const deleteIndexTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIndexTemplate",
 }));
 
 export type DeleteInferenceError = ElasticsearchOpError;
@@ -45357,6 +45652,8 @@ export const deleteInference: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInference",
 }));
 
 export type DeleteLicenseError = ElasticsearchOpError;
@@ -45372,6 +45669,8 @@ export const deleteLicense: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLicense",
 }));
 
 export type DeleteScriptError = ElasticsearchOpError;
@@ -45387,6 +45686,8 @@ export const deleteScript: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScript",
 }));
 
 export type DeleteSnapshotError = ElasticsearchOpError;
@@ -45402,6 +45703,8 @@ export const deleteSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteSynonymError = ElasticsearchOpError;
@@ -45417,6 +45720,8 @@ export const deleteSynonym: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSynonym",
 }));
 
 export type DeleteSynonymRuleError = ElasticsearchOpError;
@@ -45432,6 +45737,8 @@ export const deleteSynonymRule: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSynonymRule",
 }));
 
 export type DeleteTransformError = ElasticsearchOpError;
@@ -45447,6 +45754,8 @@ export const deleteTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransform",
 }));
 
 export type DisableStreamsLogError = ElasticsearchOpError;
@@ -45462,6 +45771,8 @@ export const disableStreamsLog: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableStreamsLog",
 }));
 
 export type EnableStreamsLogError = ElasticsearchOpError;
@@ -45477,6 +45788,8 @@ export const enableStreamsLog: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableStreamsLog",
 }));
 
 export type EnrichDeletePolicyError = ElasticsearchOpError;
@@ -45492,6 +45805,8 @@ export const enrichDeletePolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrichDeletePolicy",
 }));
 
 export type EnrichExecutePolicyError = ElasticsearchOpError;
@@ -45507,6 +45822,8 @@ export const enrichExecutePolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrichExecutePolicy",
 }));
 
 export type EnrichGetPolicyError = ElasticsearchOpError;
@@ -45522,6 +45839,8 @@ export const enrichGetPolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrichGetPolicy",
 }));
 
 export type EnrichGetPolicy1Error = ElasticsearchOpError;
@@ -45537,6 +45856,8 @@ export const enrichGetPolicy1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrichGetPolicy1",
 }));
 
 export type EnrichPutPolicyError = ElasticsearchOpError;
@@ -45552,6 +45873,8 @@ export const enrichPutPolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrichPutPolicy",
 }));
 
 export type EnrichStatsError = ElasticsearchOpError;
@@ -45567,6 +45890,8 @@ export const enrichStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrichStats",
 }));
 
 export type EqlGetStatusError = ElasticsearchOpError;
@@ -45582,6 +45907,8 @@ export const eqlGetStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EqlGetStatus",
 }));
 
 export type EqlSearch1Error = ElasticsearchOpError;
@@ -45597,6 +45924,8 @@ export const eqlSearch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EqlSearch1",
 }));
 
 export type EsqlAsyncQueryError = ElasticsearchOpError;
@@ -45612,6 +45941,8 @@ export const esqlAsyncQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlAsyncQuery",
 }));
 
 export type EsqlDeleteDatasetError = ElasticsearchOpError;
@@ -45627,6 +45958,8 @@ export const esqlDeleteDataset: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlDeleteDataset",
 }));
 
 export type EsqlDeleteDataSourceError = ElasticsearchOpError;
@@ -45642,6 +45975,8 @@ export const esqlDeleteDataSource: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlDeleteDataSource",
 }));
 
 export type EsqlDeleteViewError = ElasticsearchOpError;
@@ -45657,6 +45992,8 @@ export const esqlDeleteView: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlDeleteView",
 }));
 
 export type EsqlGetDatasetError = ElasticsearchOpError;
@@ -45672,6 +46009,8 @@ export const esqlGetDataset: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlGetDataset",
 }));
 
 export type EsqlGetDataset1Error = ElasticsearchOpError;
@@ -45687,6 +46026,8 @@ export const esqlGetDataset1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlGetDataset1",
 }));
 
 export type EsqlGetDataSourceError = ElasticsearchOpError;
@@ -45702,6 +46043,8 @@ export const esqlGetDataSource: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlGetDataSource",
 }));
 
 export type EsqlGetDataSource1Error = ElasticsearchOpError;
@@ -45717,6 +46060,8 @@ export const esqlGetDataSource1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlGetDataSource1",
 }));
 
 export type EsqlGetQueryError = ElasticsearchOpError;
@@ -45732,6 +46077,8 @@ export const esqlGetQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlGetQuery",
 }));
 
 export type EsqlGetViewError = ElasticsearchOpError;
@@ -45747,6 +46094,8 @@ export const esqlGetView: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlGetView",
 }));
 
 export type EsqlGetView1Error = ElasticsearchOpError;
@@ -45762,6 +46111,8 @@ export const esqlGetView1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlGetView1",
 }));
 
 export type EsqlListQueriesError = ElasticsearchOpError;
@@ -45777,6 +46128,8 @@ export const esqlListQueries: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlListQueries",
 }));
 
 export type EsqlPutDatasetError = ElasticsearchOpError;
@@ -45792,6 +46145,8 @@ export const esqlPutDataset: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlPutDataset",
 }));
 
 export type EsqlPutDataSourceError = ElasticsearchOpError;
@@ -45807,6 +46162,8 @@ export const esqlPutDataSource: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlPutDataSource",
 }));
 
 export type EsqlPutViewError = ElasticsearchOpError;
@@ -45822,6 +46179,8 @@ export const esqlPutView: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlPutView",
 }));
 
 export type EsqlQueryError = ElasticsearchOpError;
@@ -45837,6 +46196,8 @@ export const esqlQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EsqlQuery",
 }));
 
 export type ExecuteScriptsPainlessError = ElasticsearchOpError;
@@ -45852,6 +46213,8 @@ export const executeScriptsPainless: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteScriptsPainless",
 }));
 
 export type ExplainError = ElasticsearchOpError;
@@ -45867,6 +46230,8 @@ export const explain: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Explain",
 }));
 
 export type Explain1Error = ElasticsearchOpError;
@@ -45882,6 +46247,8 @@ export const explain1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Explain1",
 }));
 
 export type FieldCapsError = ElasticsearchOpError;
@@ -45897,6 +46264,8 @@ export const fieldCaps: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FieldCaps",
 }));
 
 export type FieldCaps1Error = ElasticsearchOpError;
@@ -45912,6 +46281,8 @@ export const fieldCaps1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FieldCaps1",
 }));
 
 export type FieldCaps2Error = ElasticsearchOpError;
@@ -45927,6 +46298,8 @@ export const fieldCaps2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FieldCaps2",
 }));
 
 export type FieldCaps3Error = ElasticsearchOpError;
@@ -45942,6 +46315,8 @@ export const fieldCaps3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FieldCaps3",
 }));
 
 export type FleetGlobalCheckpointsError = ElasticsearchOpError;
@@ -45957,6 +46332,8 @@ export const fleetGlobalCheckpoints: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FleetGlobalCheckpoints",
 }));
 
 export type FleetMsearchError = ElasticsearchOpError;
@@ -45972,6 +46349,8 @@ export const fleetMsearch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FleetMsearch",
 }));
 
 export type FleetMsearch1Error = ElasticsearchOpError;
@@ -45987,6 +46366,8 @@ export const fleetMsearch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FleetMsearch1",
 }));
 
 export type FleetMsearch2Error = ElasticsearchOpError;
@@ -46002,6 +46383,8 @@ export const fleetMsearch2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FleetMsearch2",
 }));
 
 export type FleetMsearch3Error = ElasticsearchOpError;
@@ -46017,6 +46400,8 @@ export const fleetMsearch3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FleetMsearch3",
 }));
 
 export type FleetSearch1Error = ElasticsearchOpError;
@@ -46032,6 +46417,8 @@ export const fleetSearch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FleetSearch1",
 }));
 
 export type FlushIndexError = ElasticsearchOpError;
@@ -46047,6 +46434,8 @@ export const flushIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushIndex",
 }));
 
 export type FollowCcrError = ElasticsearchOpError;
@@ -46062,6 +46451,8 @@ export const followCcr: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FollowCcr",
 }));
 
 export type FollowCcrPauseError = ElasticsearchOpError;
@@ -46077,6 +46468,8 @@ export const followCcrPause: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FollowCcrPause",
 }));
 
 export type GetError = ElasticsearchOpError;
@@ -46092,6 +46485,8 @@ export const get: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Get",
 }));
 
 export type GetConnectorError = ElasticsearchOpError;
@@ -46107,6 +46502,8 @@ export const getConnector: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetConnectorSyncJobError = ElasticsearchOpError;
@@ -46122,6 +46519,8 @@ export const getConnectorSyncJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectorSyncJob",
 }));
 
 export type GetEqlError = ElasticsearchOpError;
@@ -46137,6 +46536,8 @@ export const getEql: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEql",
 }));
 
 export type GetEsqlAsyncQueryError = ElasticsearchOpError;
@@ -46152,6 +46553,8 @@ export const getEsqlAsyncQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEsqlAsyncQuery",
 }));
 
 export type GetFeaturesError = ElasticsearchOpError;
@@ -46167,6 +46570,8 @@ export const getFeatures: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatures",
 }));
 
 export type GetIndexError = ElasticsearchOpError;
@@ -46182,6 +46587,8 @@ export const getIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetIndexTemplateError = ElasticsearchOpError;
@@ -46197,6 +46604,8 @@ export const getIndexTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndexTemplate",
 }));
 
 export type GetIndexTemplate1Error = ElasticsearchOpError;
@@ -46212,6 +46621,8 @@ export const getIndexTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndexTemplate1",
 }));
 
 export type GetInferenceError = ElasticsearchOpError;
@@ -46227,6 +46638,8 @@ export const getInference: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInference",
 }));
 
 export type GetLicenseError = ElasticsearchOpError;
@@ -46242,6 +46655,8 @@ export const getLicense: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicense",
 }));
 
 export type GetReindexError = ElasticsearchOpError;
@@ -46257,6 +46672,8 @@ export const getReindex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReindex",
 }));
 
 export type GetScriptError = ElasticsearchOpError;
@@ -46272,6 +46689,8 @@ export const getScript: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScript",
 }));
 
 export type GetScriptContextError = ElasticsearchOpError;
@@ -46287,6 +46706,8 @@ export const getScriptContext: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptContext",
 }));
 
 export type GetScriptLanguagesError = ElasticsearchOpError;
@@ -46302,6 +46723,8 @@ export const getScriptLanguages: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptLanguages",
 }));
 
 export type GetSnapshotError = ElasticsearchOpError;
@@ -46317,6 +46740,8 @@ export const getSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetSourceError = ElasticsearchOpError;
@@ -46332,6 +46757,8 @@ export const getSource: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSource",
 }));
 
 export type GetSynonymError = ElasticsearchOpError;
@@ -46347,6 +46774,8 @@ export const getSynonym: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynonym",
 }));
 
 export type GetSynonymRuleError = ElasticsearchOpError;
@@ -46362,6 +46791,8 @@ export const getSynonymRule: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynonymRule",
 }));
 
 export type GetSynonymsSetsError = ElasticsearchOpError;
@@ -46377,6 +46808,8 @@ export const getSynonymsSets: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynonymsSets",
 }));
 
 export type GetTaskError = ElasticsearchOpError;
@@ -46392,6 +46825,8 @@ export const getTask: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type GetTransformError = ElasticsearchOpError;
@@ -46407,6 +46842,8 @@ export const getTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransform",
 }));
 
 export type GetTransform1Error = ElasticsearchOpError;
@@ -46422,6 +46859,8 @@ export const getTransform1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransform1",
 }));
 
 export type GetTransformStatsError = ElasticsearchOpError;
@@ -46437,6 +46876,8 @@ export const getTransformStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformStats",
 }));
 
 export type GraphExploreError = ElasticsearchOpError;
@@ -46452,6 +46893,8 @@ export const graphExplore: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GraphExplore",
 }));
 
 export type GraphExplore1Error = ElasticsearchOpError;
@@ -46467,6 +46910,8 @@ export const graphExplore1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GraphExplore1",
 }));
 
 export type HealthReportError = ElasticsearchOpError;
@@ -46482,6 +46927,8 @@ export const healthReport: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HealthReport",
 }));
 
 export type HealthReport1Error = ElasticsearchOpError;
@@ -46497,6 +46944,8 @@ export const healthReport1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HealthReport1",
 }));
 
 export type IlmDeleteLifecycleError = ElasticsearchOpError;
@@ -46512,6 +46961,8 @@ export const ilmDeleteLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmDeleteLifecycle",
 }));
 
 export type IlmExplainLifecycleError = ElasticsearchOpError;
@@ -46527,6 +46978,8 @@ export const ilmExplainLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmExplainLifecycle",
 }));
 
 export type IlmGetLifecycleError = ElasticsearchOpError;
@@ -46542,6 +46995,8 @@ export const ilmGetLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmGetLifecycle",
 }));
 
 export type IlmGetLifecycle1Error = ElasticsearchOpError;
@@ -46557,6 +47012,8 @@ export const ilmGetLifecycle1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmGetLifecycle1",
 }));
 
 export type IlmGetStatusError = ElasticsearchOpError;
@@ -46572,6 +47029,8 @@ export const ilmGetStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmGetStatus",
 }));
 
 export type IlmMigrateToDataTiersError = ElasticsearchOpError;
@@ -46587,6 +47046,8 @@ export const ilmMigrateToDataTiers: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmMigrateToDataTiers",
 }));
 
 export type IlmMoveToStepError = ElasticsearchOpError;
@@ -46602,6 +47063,8 @@ export const ilmMoveToStep: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmMoveToStep",
 }));
 
 export type IlmPutLifecycleError = ElasticsearchOpError;
@@ -46617,6 +47080,8 @@ export const ilmPutLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmPutLifecycle",
 }));
 
 export type IlmRemovePolicyError = ElasticsearchOpError;
@@ -46632,6 +47097,8 @@ export const ilmRemovePolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IlmRemovePolicy",
 }));
 
 export type IndicesAddBlockError = ElasticsearchOpError;
@@ -46647,6 +47114,8 @@ export const indicesAddBlock: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesAddBlock",
 }));
 
 export type IndicesAnalyzeError = ElasticsearchOpError;
@@ -46662,6 +47131,8 @@ export const indicesAnalyze: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesAnalyze",
 }));
 
 export type IndicesAnalyze1Error = ElasticsearchOpError;
@@ -46677,6 +47148,8 @@ export const indicesAnalyze1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesAnalyze1",
 }));
 
 export type IndicesAnalyze2Error = ElasticsearchOpError;
@@ -46692,6 +47165,8 @@ export const indicesAnalyze2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesAnalyze2",
 }));
 
 export type IndicesAnalyze3Error = ElasticsearchOpError;
@@ -46707,6 +47182,8 @@ export const indicesAnalyze3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesAnalyze3",
 }));
 
 export type IndicesCancelMigrateReindexError = ElasticsearchOpError;
@@ -46722,6 +47199,8 @@ export const indicesCancelMigrateReindex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesCancelMigrateReindex",
 }));
 
 export type IndicesClearCacheError = ElasticsearchOpError;
@@ -46737,6 +47216,8 @@ export const indicesClearCache: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesClearCache",
 }));
 
 export type IndicesClearCache1Error = ElasticsearchOpError;
@@ -46752,6 +47233,8 @@ export const indicesClearCache1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesClearCache1",
 }));
 
 export type IndicesClone1Error = ElasticsearchOpError;
@@ -46767,6 +47250,8 @@ export const indicesClone1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesClone1",
 }));
 
 export type IndicesCloseError = ElasticsearchOpError;
@@ -46782,6 +47267,8 @@ export const indicesClose: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesClose",
 }));
 
 export type IndicesCreateDataStreamError = ElasticsearchOpError;
@@ -46797,6 +47284,8 @@ export const indicesCreateDataStream: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesCreateDataStream",
 }));
 
 export type IndicesCreateFromError = ElasticsearchOpError;
@@ -46812,6 +47301,8 @@ export const indicesCreateFrom: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesCreateFrom",
 }));
 
 export type IndicesCreateFrom1Error = ElasticsearchOpError;
@@ -46827,6 +47318,8 @@ export const indicesCreateFrom1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesCreateFrom1",
 }));
 
 export type IndicesDataStreamsStatsError = ElasticsearchOpError;
@@ -46842,6 +47335,8 @@ export const indicesDataStreamsStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDataStreamsStats",
 }));
 
 export type IndicesDataStreamsStats1Error = ElasticsearchOpError;
@@ -46857,6 +47352,8 @@ export const indicesDataStreamsStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDataStreamsStats1",
 }));
 
 export type IndicesDeleteAliasError = ElasticsearchOpError;
@@ -46872,6 +47369,8 @@ export const indicesDeleteAlias: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDeleteAlias",
 }));
 
 export type IndicesDeleteAlias1Error = ElasticsearchOpError;
@@ -46887,6 +47386,8 @@ export const indicesDeleteAlias1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDeleteAlias1",
 }));
 
 export type IndicesDeleteDataLifecycleError = ElasticsearchOpError;
@@ -46902,6 +47403,8 @@ export const indicesDeleteDataLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDeleteDataLifecycle",
 }));
 
 export type IndicesDeleteDataStreamError = ElasticsearchOpError;
@@ -46917,6 +47420,8 @@ export const indicesDeleteDataStream: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDeleteDataStream",
 }));
 
 export type IndicesDeleteDataStreamOptionsError = ElasticsearchOpError;
@@ -46932,6 +47437,8 @@ export const indicesDeleteDataStreamOptions: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDeleteDataStreamOptions",
 }));
 
 export type IndicesDiskUsageError = ElasticsearchOpError;
@@ -46947,6 +47454,8 @@ export const indicesDiskUsage: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDiskUsage",
 }));
 
 export type IndicesDownsampleError = ElasticsearchOpError;
@@ -46962,6 +47471,8 @@ export const indicesDownsample: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesDownsample",
 }));
 
 export type IndicesExplainDataLifecycleError = ElasticsearchOpError;
@@ -46977,6 +47488,8 @@ export const indicesExplainDataLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesExplainDataLifecycle",
 }));
 
 export type IndicesFieldUsageStatsError = ElasticsearchOpError;
@@ -46992,6 +47505,8 @@ export const indicesFieldUsageStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesFieldUsageStats",
 }));
 
 export type IndicesFlush1Error = ElasticsearchOpError;
@@ -47007,6 +47522,8 @@ export const indicesFlush1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesFlush1",
 }));
 
 export type IndicesFlush2Error = ElasticsearchOpError;
@@ -47022,6 +47539,8 @@ export const indicesFlush2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesFlush2",
 }));
 
 export type IndicesFlush3Error = ElasticsearchOpError;
@@ -47037,6 +47556,8 @@ export const indicesFlush3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesFlush3",
 }));
 
 export type IndicesForcemergeError = ElasticsearchOpError;
@@ -47052,6 +47573,8 @@ export const indicesForcemerge: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesForcemerge",
 }));
 
 export type IndicesForcemerge1Error = ElasticsearchOpError;
@@ -47067,6 +47590,8 @@ export const indicesForcemerge1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesForcemerge1",
 }));
 
 export type IndicesGetAliasError = ElasticsearchOpError;
@@ -47082,6 +47607,8 @@ export const indicesGetAlias: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetAlias",
 }));
 
 export type IndicesGetAlias1Error = ElasticsearchOpError;
@@ -47097,6 +47624,8 @@ export const indicesGetAlias1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetAlias1",
 }));
 
 export type IndicesGetAlias2Error = ElasticsearchOpError;
@@ -47112,6 +47641,8 @@ export const indicesGetAlias2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetAlias2",
 }));
 
 export type IndicesGetAlias3Error = ElasticsearchOpError;
@@ -47127,6 +47658,8 @@ export const indicesGetAlias3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetAlias3",
 }));
 
 export type IndicesGetDataLifecycleError = ElasticsearchOpError;
@@ -47142,6 +47675,8 @@ export const indicesGetDataLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetDataLifecycle",
 }));
 
 export type IndicesGetDataLifecycleStatsError = ElasticsearchOpError;
@@ -47157,6 +47692,8 @@ export const indicesGetDataLifecycleStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetDataLifecycleStats",
 }));
 
 export type IndicesGetDataStreamError = ElasticsearchOpError;
@@ -47172,6 +47709,8 @@ export const indicesGetDataStream: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetDataStream",
 }));
 
 export type IndicesGetDataStream1Error = ElasticsearchOpError;
@@ -47187,6 +47726,8 @@ export const indicesGetDataStream1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetDataStream1",
 }));
 
 export type IndicesGetDataStreamMappingsError = ElasticsearchOpError;
@@ -47202,6 +47743,8 @@ export const indicesGetDataStreamMappings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetDataStreamMappings",
 }));
 
 export type IndicesGetDataStreamOptionsError = ElasticsearchOpError;
@@ -47217,6 +47760,8 @@ export const indicesGetDataStreamOptions: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetDataStreamOptions",
 }));
 
 export type IndicesGetDataStreamSettingsError = ElasticsearchOpError;
@@ -47232,6 +47777,8 @@ export const indicesGetDataStreamSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetDataStreamSettings",
 }));
 
 export type IndicesGetFieldMappingError = ElasticsearchOpError;
@@ -47247,6 +47794,8 @@ export const indicesGetFieldMapping: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetFieldMapping",
 }));
 
 export type IndicesGetFieldMapping1Error = ElasticsearchOpError;
@@ -47262,6 +47811,8 @@ export const indicesGetFieldMapping1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetFieldMapping1",
 }));
 
 export type IndicesGetMappingError = ElasticsearchOpError;
@@ -47277,6 +47828,8 @@ export const indicesGetMapping: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetMapping",
 }));
 
 export type IndicesGetMapping1Error = ElasticsearchOpError;
@@ -47292,6 +47845,8 @@ export const indicesGetMapping1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetMapping1",
 }));
 
 export type IndicesGetMigrateReindexStatusError = ElasticsearchOpError;
@@ -47307,6 +47862,8 @@ export const indicesGetMigrateReindexStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetMigrateReindexStatus",
 }));
 
 export type IndicesGetSettingsError = ElasticsearchOpError;
@@ -47322,6 +47879,8 @@ export const indicesGetSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetSettings",
 }));
 
 export type IndicesGetSettings1Error = ElasticsearchOpError;
@@ -47337,6 +47896,8 @@ export const indicesGetSettings1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetSettings1",
 }));
 
 export type IndicesGetSettings2Error = ElasticsearchOpError;
@@ -47352,6 +47913,8 @@ export const indicesGetSettings2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetSettings2",
 }));
 
 export type IndicesGetSettings3Error = ElasticsearchOpError;
@@ -47367,6 +47930,8 @@ export const indicesGetSettings3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesGetSettings3",
 }));
 
 export type IndicesMigrateReindexError = ElasticsearchOpError;
@@ -47382,6 +47947,8 @@ export const indicesMigrateReindex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesMigrateReindex",
 }));
 
 export type IndicesMigrateToDataStreamError = ElasticsearchOpError;
@@ -47397,6 +47964,8 @@ export const indicesMigrateToDataStream: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesMigrateToDataStream",
 }));
 
 export type IndicesModifyDataStreamError = ElasticsearchOpError;
@@ -47412,6 +47981,8 @@ export const indicesModifyDataStream: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesModifyDataStream",
 }));
 
 export type IndicesOpenError = ElasticsearchOpError;
@@ -47427,6 +47998,8 @@ export const indicesOpen: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesOpen",
 }));
 
 export type IndicesPromoteDataStreamError = ElasticsearchOpError;
@@ -47442,6 +48015,8 @@ export const indicesPromoteDataStream: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPromoteDataStream",
 }));
 
 export type IndicesPutAliasError = ElasticsearchOpError;
@@ -47457,6 +48032,8 @@ export const indicesPutAlias: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutAlias",
 }));
 
 export type IndicesPutAlias1Error = ElasticsearchOpError;
@@ -47472,6 +48049,8 @@ export const indicesPutAlias1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutAlias1",
 }));
 
 export type IndicesPutAlias2Error = ElasticsearchOpError;
@@ -47487,6 +48066,8 @@ export const indicesPutAlias2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutAlias2",
 }));
 
 export type IndicesPutAlias3Error = ElasticsearchOpError;
@@ -47502,6 +48083,8 @@ export const indicesPutAlias3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutAlias3",
 }));
 
 export type IndicesPutDataLifecycleError = ElasticsearchOpError;
@@ -47517,6 +48100,8 @@ export const indicesPutDataLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutDataLifecycle",
 }));
 
 export type IndicesPutDataStreamMappingsError = ElasticsearchOpError;
@@ -47532,6 +48117,8 @@ export const indicesPutDataStreamMappings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutDataStreamMappings",
 }));
 
 export type IndicesPutDataStreamOptionsError = ElasticsearchOpError;
@@ -47547,6 +48134,8 @@ export const indicesPutDataStreamOptions: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutDataStreamOptions",
 }));
 
 export type IndicesPutDataStreamSettingsError = ElasticsearchOpError;
@@ -47562,6 +48151,8 @@ export const indicesPutDataStreamSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutDataStreamSettings",
 }));
 
 export type IndicesPutMappingError = ElasticsearchOpError;
@@ -47577,6 +48168,8 @@ export const indicesPutMapping: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutMapping",
 }));
 
 export type IndicesPutMapping1Error = ElasticsearchOpError;
@@ -47592,6 +48185,8 @@ export const indicesPutMapping1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutMapping1",
 }));
 
 export type IndicesPutSettingsError = ElasticsearchOpError;
@@ -47607,6 +48202,8 @@ export const indicesPutSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutSettings",
 }));
 
 export type IndicesPutSettings1Error = ElasticsearchOpError;
@@ -47622,6 +48219,8 @@ export const indicesPutSettings1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesPutSettings1",
 }));
 
 export type IndicesRecoveryError = ElasticsearchOpError;
@@ -47637,6 +48236,8 @@ export const indicesRecovery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRecovery",
 }));
 
 export type IndicesRecovery1Error = ElasticsearchOpError;
@@ -47652,6 +48253,8 @@ export const indicesRecovery1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRecovery1",
 }));
 
 export type IndicesRefresh1Error = ElasticsearchOpError;
@@ -47667,6 +48270,8 @@ export const indicesRefresh1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRefresh1",
 }));
 
 export type IndicesRefresh2Error = ElasticsearchOpError;
@@ -47682,6 +48287,8 @@ export const indicesRefresh2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRefresh2",
 }));
 
 export type IndicesRefresh3Error = ElasticsearchOpError;
@@ -47697,6 +48304,8 @@ export const indicesRefresh3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRefresh3",
 }));
 
 export type IndicesReloadSearchAnalyzersError = ElasticsearchOpError;
@@ -47712,6 +48321,8 @@ export const indicesReloadSearchAnalyzers: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesReloadSearchAnalyzers",
 }));
 
 export type IndicesReloadSearchAnalyzers1Error = ElasticsearchOpError;
@@ -47727,6 +48338,8 @@ export const indicesReloadSearchAnalyzers1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesReloadSearchAnalyzers1",
 }));
 
 export type IndicesRemoveBlockError = ElasticsearchOpError;
@@ -47742,6 +48355,8 @@ export const indicesRemoveBlock: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRemoveBlock",
 }));
 
 export type IndicesResolveClusterError = ElasticsearchOpError;
@@ -47757,6 +48372,8 @@ export const indicesResolveCluster: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesResolveCluster",
 }));
 
 export type IndicesResolveCluster1Error = ElasticsearchOpError;
@@ -47772,6 +48389,8 @@ export const indicesResolveCluster1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesResolveCluster1",
 }));
 
 export type IndicesResolveIndexError = ElasticsearchOpError;
@@ -47787,6 +48406,8 @@ export const indicesResolveIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesResolveIndex",
 }));
 
 export type IndicesResolveIndex1Error = ElasticsearchOpError;
@@ -47802,6 +48423,8 @@ export const indicesResolveIndex1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesResolveIndex1",
 }));
 
 export type IndicesRolloverError = ElasticsearchOpError;
@@ -47817,6 +48440,8 @@ export const indicesRollover: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRollover",
 }));
 
 export type IndicesRollover1Error = ElasticsearchOpError;
@@ -47832,6 +48457,8 @@ export const indicesRollover1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesRollover1",
 }));
 
 export type IndicesSegmentsError = ElasticsearchOpError;
@@ -47847,6 +48474,8 @@ export const indicesSegments: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesSegments",
 }));
 
 export type IndicesSegments1Error = ElasticsearchOpError;
@@ -47862,6 +48491,8 @@ export const indicesSegments1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesSegments1",
 }));
 
 export type IndicesShardStoresError = ElasticsearchOpError;
@@ -47877,6 +48508,8 @@ export const indicesShardStores: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesShardStores",
 }));
 
 export type IndicesShardStores1Error = ElasticsearchOpError;
@@ -47892,6 +48525,8 @@ export const indicesShardStores1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesShardStores1",
 }));
 
 export type IndicesShrinkError = ElasticsearchOpError;
@@ -47907,6 +48542,8 @@ export const indicesShrink: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesShrink",
 }));
 
 export type IndicesShrink1Error = ElasticsearchOpError;
@@ -47922,6 +48559,8 @@ export const indicesShrink1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesShrink1",
 }));
 
 export type IndicesSimulateIndexTemplateError = ElasticsearchOpError;
@@ -47937,6 +48576,8 @@ export const indicesSimulateIndexTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesSimulateIndexTemplate",
 }));
 
 export type IndicesSimulateTemplateError = ElasticsearchOpError;
@@ -47952,6 +48593,8 @@ export const indicesSimulateTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesSimulateTemplate",
 }));
 
 export type IndicesSimulateTemplate1Error = ElasticsearchOpError;
@@ -47967,6 +48610,8 @@ export const indicesSimulateTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesSimulateTemplate1",
 }));
 
 export type IndicesSplitError = ElasticsearchOpError;
@@ -47982,6 +48627,8 @@ export const indicesSplit: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesSplit",
 }));
 
 export type IndicesSplit1Error = ElasticsearchOpError;
@@ -47997,6 +48644,8 @@ export const indicesSplit1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesSplit1",
 }));
 
 export type IndicesStatsError = ElasticsearchOpError;
@@ -48012,6 +48661,8 @@ export const indicesStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesStats",
 }));
 
 export type IndicesStats1Error = ElasticsearchOpError;
@@ -48027,6 +48678,8 @@ export const indicesStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesStats1",
 }));
 
 export type IndicesStats2Error = ElasticsearchOpError;
@@ -48042,6 +48695,8 @@ export const indicesStats2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesStats2",
 }));
 
 export type IndicesStats3Error = ElasticsearchOpError;
@@ -48057,6 +48712,8 @@ export const indicesStats3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesStats3",
 }));
 
 export type IndicesUpdateAliasesError = ElasticsearchOpError;
@@ -48072,6 +48729,8 @@ export const indicesUpdateAliases: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesUpdateAliases",
 }));
 
 export type IndicesValidateQueryError = ElasticsearchOpError;
@@ -48087,6 +48746,8 @@ export const indicesValidateQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesValidateQuery",
 }));
 
 export type IndicesValidateQuery1Error = ElasticsearchOpError;
@@ -48102,6 +48763,8 @@ export const indicesValidateQuery1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesValidateQuery1",
 }));
 
 export type IndicesValidateQuery2Error = ElasticsearchOpError;
@@ -48117,6 +48780,8 @@ export const indicesValidateQuery2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesValidateQuery2",
 }));
 
 export type IndicesValidateQuery3Error = ElasticsearchOpError;
@@ -48132,6 +48797,8 @@ export const indicesValidateQuery3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndicesValidateQuery3",
 }));
 
 export type InferenceChatCompletionUnifiedError = ElasticsearchOpError;
@@ -48147,6 +48814,8 @@ export const inferenceChatCompletionUnified: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceChatCompletionUnified",
 }));
 
 export type InferenceCompletionError = ElasticsearchOpError;
@@ -48162,6 +48831,8 @@ export const inferenceCompletion: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceCompletion",
 }));
 
 export type InferenceDelete1Error = ElasticsearchOpError;
@@ -48177,6 +48848,8 @@ export const inferenceDelete1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceDelete1",
 }));
 
 export type InferenceDeleteRegionPolicyError = ElasticsearchOpError;
@@ -48192,6 +48865,8 @@ export const inferenceDeleteRegionPolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceDeleteRegionPolicy",
 }));
 
 export type InferenceEmbeddingError = ElasticsearchOpError;
@@ -48207,6 +48882,8 @@ export const inferenceEmbedding: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceEmbedding",
 }));
 
 export type InferenceGet1Error = ElasticsearchOpError;
@@ -48222,6 +48899,8 @@ export const inferenceGet1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceGet1",
 }));
 
 export type InferenceGet2Error = ElasticsearchOpError;
@@ -48237,6 +48916,8 @@ export const inferenceGet2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceGet2",
 }));
 
 export type InferenceGet3Error = ElasticsearchOpError;
@@ -48252,6 +48933,8 @@ export const inferenceGet3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceGet3",
 }));
 
 export type InferenceGetRegionPolicyError = ElasticsearchOpError;
@@ -48267,6 +48950,8 @@ export const inferenceGetRegionPolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceGetRegionPolicy",
 }));
 
 export type InferenceInferenceError = ElasticsearchOpError;
@@ -48282,6 +48967,8 @@ export const inferenceInference: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceInference",
 }));
 
 export type InferenceInference1Error = ElasticsearchOpError;
@@ -48297,6 +48984,8 @@ export const inferenceInference1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceInference1",
 }));
 
 export type InferenceNonStreamingChatCompletionError = ElasticsearchOpError;
@@ -48312,6 +49001,8 @@ export const inferenceNonStreamingChatCompletion: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceNonStreamingChatCompletion",
 }));
 
 export type InferencePut1Error = ElasticsearchOpError;
@@ -48327,6 +49018,8 @@ export const inferencePut1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePut1",
 }));
 
 export type InferencePutAi21Error = ElasticsearchOpError;
@@ -48342,6 +49035,8 @@ export const inferencePutAi21: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutAi21",
 }));
 
 export type InferencePutAlibabacloudError = ElasticsearchOpError;
@@ -48357,6 +49052,8 @@ export const inferencePutAlibabacloud: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutAlibabacloud",
 }));
 
 export type InferencePutAmazonbedrockError = ElasticsearchOpError;
@@ -48372,6 +49069,8 @@ export const inferencePutAmazonbedrock: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutAmazonbedrock",
 }));
 
 export type InferencePutAmazonsagemakerError = ElasticsearchOpError;
@@ -48387,6 +49086,8 @@ export const inferencePutAmazonsagemaker: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutAmazonsagemaker",
 }));
 
 export type InferencePutAnthropicError = ElasticsearchOpError;
@@ -48402,6 +49103,8 @@ export const inferencePutAnthropic: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutAnthropic",
 }));
 
 export type InferencePutAzureaistudioError = ElasticsearchOpError;
@@ -48417,6 +49120,8 @@ export const inferencePutAzureaistudio: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutAzureaistudio",
 }));
 
 export type InferencePutAzureopenaiError = ElasticsearchOpError;
@@ -48432,6 +49137,8 @@ export const inferencePutAzureopenai: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutAzureopenai",
 }));
 
 export type InferencePutCohereError = ElasticsearchOpError;
@@ -48447,6 +49154,8 @@ export const inferencePutCohere: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutCohere",
 }));
 
 export type InferencePutContextualaiError = ElasticsearchOpError;
@@ -48462,6 +49171,8 @@ export const inferencePutContextualai: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutContextualai",
 }));
 
 export type InferencePutCustomError = ElasticsearchOpError;
@@ -48477,6 +49188,8 @@ export const inferencePutCustom: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutCustom",
 }));
 
 export type InferencePutDeepseekError = ElasticsearchOpError;
@@ -48492,6 +49205,8 @@ export const inferencePutDeepseek: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutDeepseek",
 }));
 
 export type InferencePutElasticsearchError = ElasticsearchOpError;
@@ -48507,6 +49222,8 @@ export const inferencePutElasticsearch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutElasticsearch",
 }));
 
 export type InferencePutFireworksaiError = ElasticsearchOpError;
@@ -48522,6 +49239,8 @@ export const inferencePutFireworksai: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutFireworksai",
 }));
 
 export type InferencePutGoogleaistudioError = ElasticsearchOpError;
@@ -48537,6 +49256,8 @@ export const inferencePutGoogleaistudio: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutGoogleaistudio",
 }));
 
 export type InferencePutGooglevertexaiError = ElasticsearchOpError;
@@ -48552,6 +49273,8 @@ export const inferencePutGooglevertexai: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutGooglevertexai",
 }));
 
 export type InferencePutGroqError = ElasticsearchOpError;
@@ -48567,6 +49290,8 @@ export const inferencePutGroq: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutGroq",
 }));
 
 export type InferencePutHuggingFaceError = ElasticsearchOpError;
@@ -48582,6 +49307,8 @@ export const inferencePutHuggingFace: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutHuggingFace",
 }));
 
 export type InferencePutJinaaiError = ElasticsearchOpError;
@@ -48597,6 +49324,8 @@ export const inferencePutJinaai: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutJinaai",
 }));
 
 export type InferencePutLlamaError = ElasticsearchOpError;
@@ -48612,6 +49341,8 @@ export const inferencePutLlama: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutLlama",
 }));
 
 export type InferencePutMistralError = ElasticsearchOpError;
@@ -48627,6 +49358,8 @@ export const inferencePutMistral: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutMistral",
 }));
 
 export type InferencePutNvidiaError = ElasticsearchOpError;
@@ -48642,6 +49375,8 @@ export const inferencePutNvidia: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutNvidia",
 }));
 
 export type InferencePutOpenaiError = ElasticsearchOpError;
@@ -48657,6 +49392,8 @@ export const inferencePutOpenai: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutOpenai",
 }));
 
 export type InferencePutOpenshiftAiError = ElasticsearchOpError;
@@ -48672,6 +49409,8 @@ export const inferencePutOpenshiftAi: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutOpenshiftAi",
 }));
 
 export type InferencePutRegionPolicyError = ElasticsearchOpError;
@@ -48687,6 +49426,8 @@ export const inferencePutRegionPolicy: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutRegionPolicy",
 }));
 
 export type InferencePutVoyageaiError = ElasticsearchOpError;
@@ -48702,6 +49443,8 @@ export const inferencePutVoyageai: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutVoyageai",
 }));
 
 export type InferencePutWatsonxError = ElasticsearchOpError;
@@ -48717,6 +49460,8 @@ export const inferencePutWatsonx: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferencePutWatsonx",
 }));
 
 export type InferenceRerankError = ElasticsearchOpError;
@@ -48732,6 +49477,8 @@ export const inferenceRerank: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceRerank",
 }));
 
 export type InferenceSparseEmbeddingError = ElasticsearchOpError;
@@ -48747,6 +49494,8 @@ export const inferenceSparseEmbedding: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceSparseEmbedding",
 }));
 
 export type InferenceStreamCompletionError = ElasticsearchOpError;
@@ -48762,6 +49511,8 @@ export const inferenceStreamCompletion: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceStreamCompletion",
 }));
 
 export type InferenceTextEmbeddingError = ElasticsearchOpError;
@@ -48777,6 +49528,8 @@ export const inferenceTextEmbedding: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceTextEmbedding",
 }));
 
 export type InferenceUpdate1Error = ElasticsearchOpError;
@@ -48792,6 +49545,8 @@ export const inferenceUpdate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceUpdate1",
 }));
 
 export type InfoError = ElasticsearchOpError;
@@ -48807,6 +49562,8 @@ export const info: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Info",
 }));
 
 export type IngestDeleteGeoipDatabaseError = ElasticsearchOpError;
@@ -48822,6 +49579,8 @@ export const ingestDeleteGeoipDatabase: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestDeleteGeoipDatabase",
 }));
 
 export type IngestDeleteIpLocationDatabaseError = ElasticsearchOpError;
@@ -48837,6 +49596,8 @@ export const ingestDeleteIpLocationDatabase: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestDeleteIpLocationDatabase",
 }));
 
 export type IngestDeletePipelineError = ElasticsearchOpError;
@@ -48852,6 +49613,8 @@ export const ingestDeletePipeline: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestDeletePipeline",
 }));
 
 export type IngestGeoIpStatsError = ElasticsearchOpError;
@@ -48867,6 +49630,8 @@ export const ingestGeoIpStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestGeoIpStats",
 }));
 
 export type IngestGetGeoipDatabaseError = ElasticsearchOpError;
@@ -48882,6 +49647,8 @@ export const ingestGetGeoipDatabase: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestGetGeoipDatabase",
 }));
 
 export type IngestGetGeoipDatabase1Error = ElasticsearchOpError;
@@ -48897,6 +49664,8 @@ export const ingestGetGeoipDatabase1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestGetGeoipDatabase1",
 }));
 
 export type IngestGetIpLocationDatabaseError = ElasticsearchOpError;
@@ -48912,6 +49681,8 @@ export const ingestGetIpLocationDatabase: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestGetIpLocationDatabase",
 }));
 
 export type IngestGetIpLocationDatabase1Error = ElasticsearchOpError;
@@ -48927,6 +49698,8 @@ export const ingestGetIpLocationDatabase1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestGetIpLocationDatabase1",
 }));
 
 export type IngestGetPipelineError = ElasticsearchOpError;
@@ -48942,6 +49715,8 @@ export const ingestGetPipeline: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestGetPipeline",
 }));
 
 export type IngestGetPipeline1Error = ElasticsearchOpError;
@@ -48957,6 +49732,8 @@ export const ingestGetPipeline1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestGetPipeline1",
 }));
 
 export type IngestProcessorGrokError = ElasticsearchOpError;
@@ -48972,6 +49749,8 @@ export const ingestProcessorGrok: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestProcessorGrok",
 }));
 
 export type IngestPutGeoipDatabaseError = ElasticsearchOpError;
@@ -48987,6 +49766,8 @@ export const ingestPutGeoipDatabase: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestPutGeoipDatabase",
 }));
 
 export type IngestPutIpLocationDatabaseError = ElasticsearchOpError;
@@ -49002,6 +49783,8 @@ export const ingestPutIpLocationDatabase: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestPutIpLocationDatabase",
 }));
 
 export type IngestPutPipelineError = ElasticsearchOpError;
@@ -49017,6 +49800,8 @@ export const ingestPutPipeline: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestPutPipeline",
 }));
 
 export type IngestSimulateError = ElasticsearchOpError;
@@ -49032,6 +49817,8 @@ export const ingestSimulate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestSimulate",
 }));
 
 export type IngestSimulate1Error = ElasticsearchOpError;
@@ -49047,6 +49834,8 @@ export const ingestSimulate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestSimulate1",
 }));
 
 export type IngestSimulate2Error = ElasticsearchOpError;
@@ -49062,6 +49851,8 @@ export const ingestSimulate2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestSimulate2",
 }));
 
 export type IngestSimulate3Error = ElasticsearchOpError;
@@ -49077,6 +49868,8 @@ export const ingestSimulate3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestSimulate3",
 }));
 
 export type InvalidateSecuritySamlError = ElasticsearchOpError;
@@ -49092,6 +49885,8 @@ export const invalidateSecuritySaml: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateSecuritySaml",
 }));
 
 export type LicenseGetBasicStatusError = ElasticsearchOpError;
@@ -49107,6 +49902,8 @@ export const licenseGetBasicStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseGetBasicStatus",
 }));
 
 export type LicenseGetTrialStatusError = ElasticsearchOpError;
@@ -49122,6 +49919,8 @@ export const licenseGetTrialStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseGetTrialStatus",
 }));
 
 export type LicensePost1Error = ElasticsearchOpError;
@@ -49137,6 +49936,8 @@ export const licensePost1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicensePost1",
 }));
 
 export type LicensePostStartBasicError = ElasticsearchOpError;
@@ -49152,6 +49953,8 @@ export const licensePostStartBasic: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicensePostStartBasic",
 }));
 
 export type LicensePostStartTrialError = ElasticsearchOpError;
@@ -49167,6 +49970,8 @@ export const licensePostStartTrial: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicensePostStartTrial",
 }));
 
 export type ListError = ElasticsearchOpError;
@@ -49182,6 +49987,8 @@ export const list: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "List",
 }));
 
 export type List1Error = ElasticsearchOpError;
@@ -49197,6 +50004,8 @@ export const list1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "List1",
 }));
 
 export type List2Error = ElasticsearchOpError;
@@ -49212,6 +50021,8 @@ export const list2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "List2",
 }));
 
 export type ListConnectorError = ElasticsearchOpError;
@@ -49227,6 +50038,8 @@ export const listConnector: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnector",
 }));
 
 export type ListConnectorSyncJobError = ElasticsearchOpError;
@@ -49242,6 +50055,8 @@ export const listConnectorSyncJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectorSyncJob",
 }));
 
 export type ListReindexError = ElasticsearchOpError;
@@ -49257,6 +50072,8 @@ export const listReindex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReindex",
 }));
 
 export type ListTasksError = ElasticsearchOpError;
@@ -49272,6 +50089,8 @@ export const listTasks: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 }));
 
 export type LogoutSecurityOidcError = ElasticsearchOpError;
@@ -49287,6 +50106,8 @@ export const logoutSecurityOidc: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogoutSecurityOidc",
 }));
 
 export type LogoutSecuritySamlError = ElasticsearchOpError;
@@ -49302,6 +50123,8 @@ export const logoutSecuritySaml: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogoutSecuritySaml",
 }));
 
 export type LogoutSecuritySamlCompleteError = ElasticsearchOpError;
@@ -49317,6 +50140,8 @@ export const logoutSecuritySamlComplete: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogoutSecuritySamlComplete",
 }));
 
 export type LogstashDeletePipelineError = ElasticsearchOpError;
@@ -49332,6 +50157,8 @@ export const logstashDeletePipeline: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogstashDeletePipeline",
 }));
 
 export type LogstashGetPipelineError = ElasticsearchOpError;
@@ -49347,6 +50174,8 @@ export const logstashGetPipeline: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogstashGetPipeline",
 }));
 
 export type LogstashGetPipeline1Error = ElasticsearchOpError;
@@ -49362,6 +50191,8 @@ export const logstashGetPipeline1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogstashGetPipeline1",
 }));
 
 export type LogstashPutPipelineError = ElasticsearchOpError;
@@ -49377,6 +50208,8 @@ export const logstashPutPipeline: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogstashPutPipeline",
 }));
 
 export type MgetError = ElasticsearchOpError;
@@ -49392,6 +50225,8 @@ export const mget: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mget",
 }));
 
 export type Mget1Error = ElasticsearchOpError;
@@ -49407,6 +50242,8 @@ export const mget1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mget1",
 }));
 
 export type Mget2Error = ElasticsearchOpError;
@@ -49422,6 +50259,8 @@ export const mget2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mget2",
 }));
 
 export type Mget3Error = ElasticsearchOpError;
@@ -49437,6 +50276,8 @@ export const mget3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mget3",
 }));
 
 export type MigrationDeprecationsError = ElasticsearchOpError;
@@ -49452,6 +50293,8 @@ export const migrationDeprecations: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrationDeprecations",
 }));
 
 export type MigrationDeprecations1Error = ElasticsearchOpError;
@@ -49467,6 +50310,8 @@ export const migrationDeprecations1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrationDeprecations1",
 }));
 
 export type MigrationGetFeatureUpgradeStatusError = ElasticsearchOpError;
@@ -49482,6 +50327,8 @@ export const migrationGetFeatureUpgradeStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrationGetFeatureUpgradeStatus",
 }));
 
 export type MigrationPostFeatureUpgradeError = ElasticsearchOpError;
@@ -49497,6 +50344,8 @@ export const migrationPostFeatureUpgrade: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrationPostFeatureUpgrade",
 }));
 
 export type MlClearTrainedModelDeploymentCacheError = ElasticsearchOpError;
@@ -49512,6 +50361,8 @@ export const mlClearTrainedModelDeploymentCache: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlClearTrainedModelDeploymentCache",
 }));
 
 export type MlCloseJobError = ElasticsearchOpError;
@@ -49527,6 +50378,8 @@ export const mlCloseJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlCloseJob",
 }));
 
 export type MlDeleteCalendarError = ElasticsearchOpError;
@@ -49542,6 +50395,8 @@ export const mlDeleteCalendar: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteCalendar",
 }));
 
 export type MlDeleteCalendarEventError = ElasticsearchOpError;
@@ -49557,6 +50412,8 @@ export const mlDeleteCalendarEvent: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteCalendarEvent",
 }));
 
 export type MlDeleteCalendarJobError = ElasticsearchOpError;
@@ -49572,6 +50429,8 @@ export const mlDeleteCalendarJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteCalendarJob",
 }));
 
 export type MlDeleteDatafeedError = ElasticsearchOpError;
@@ -49587,6 +50446,8 @@ export const mlDeleteDatafeed: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteDatafeed",
 }));
 
 export type MlDeleteDataFrameAnalyticsError = ElasticsearchOpError;
@@ -49602,6 +50463,8 @@ export const mlDeleteDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteDataFrameAnalytics",
 }));
 
 export type MlDeleteExpiredDataError = ElasticsearchOpError;
@@ -49617,6 +50480,8 @@ export const mlDeleteExpiredData: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteExpiredData",
 }));
 
 export type MlDeleteExpiredData1Error = ElasticsearchOpError;
@@ -49632,6 +50497,8 @@ export const mlDeleteExpiredData1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteExpiredData1",
 }));
 
 export type MlDeleteFilterError = ElasticsearchOpError;
@@ -49647,6 +50514,8 @@ export const mlDeleteFilter: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteFilter",
 }));
 
 export type MlDeleteForecastError = ElasticsearchOpError;
@@ -49662,6 +50531,8 @@ export const mlDeleteForecast: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteForecast",
 }));
 
 export type MlDeleteForecast1Error = ElasticsearchOpError;
@@ -49677,6 +50548,8 @@ export const mlDeleteForecast1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteForecast1",
 }));
 
 export type MlDeleteJobError = ElasticsearchOpError;
@@ -49692,6 +50565,8 @@ export const mlDeleteJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteJob",
 }));
 
 export type MlDeleteModelSnapshotError = ElasticsearchOpError;
@@ -49707,6 +50582,8 @@ export const mlDeleteModelSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteModelSnapshot",
 }));
 
 export type MlDeleteTrainedModelError = ElasticsearchOpError;
@@ -49722,6 +50599,8 @@ export const mlDeleteTrainedModel: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteTrainedModel",
 }));
 
 export type MlDeleteTrainedModelAliasError = ElasticsearchOpError;
@@ -49737,6 +50616,8 @@ export const mlDeleteTrainedModelAlias: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlDeleteTrainedModelAlias",
 }));
 
 export type MlEstimateModelMemoryError = ElasticsearchOpError;
@@ -49752,6 +50633,8 @@ export const mlEstimateModelMemory: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlEstimateModelMemory",
 }));
 
 export type MlEvaluateDataFrameError = ElasticsearchOpError;
@@ -49767,6 +50650,8 @@ export const mlEvaluateDataFrame: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlEvaluateDataFrame",
 }));
 
 export type MlExplainDataFrameAnalyticsError = ElasticsearchOpError;
@@ -49782,6 +50667,8 @@ export const mlExplainDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlExplainDataFrameAnalytics",
 }));
 
 export type MlExplainDataFrameAnalytics1Error = ElasticsearchOpError;
@@ -49797,6 +50684,8 @@ export const mlExplainDataFrameAnalytics1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlExplainDataFrameAnalytics1",
 }));
 
 export type MlExplainDataFrameAnalytics2Error = ElasticsearchOpError;
@@ -49812,6 +50701,8 @@ export const mlExplainDataFrameAnalytics2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlExplainDataFrameAnalytics2",
 }));
 
 export type MlExplainDataFrameAnalytics3Error = ElasticsearchOpError;
@@ -49827,6 +50718,8 @@ export const mlExplainDataFrameAnalytics3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlExplainDataFrameAnalytics3",
 }));
 
 export type MlForecastError = ElasticsearchOpError;
@@ -49842,6 +50735,8 @@ export const mlForecast: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlForecast",
 }));
 
 export type MlGetBucketsError = ElasticsearchOpError;
@@ -49857,6 +50752,8 @@ export const mlGetBuckets: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetBuckets",
 }));
 
 export type MlGetBuckets1Error = ElasticsearchOpError;
@@ -49872,6 +50769,8 @@ export const mlGetBuckets1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetBuckets1",
 }));
 
 export type MlGetBuckets2Error = ElasticsearchOpError;
@@ -49887,6 +50786,8 @@ export const mlGetBuckets2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetBuckets2",
 }));
 
 export type MlGetBuckets3Error = ElasticsearchOpError;
@@ -49902,6 +50803,8 @@ export const mlGetBuckets3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetBuckets3",
 }));
 
 export type MlGetCalendarEventsError = ElasticsearchOpError;
@@ -49917,6 +50820,8 @@ export const mlGetCalendarEvents: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCalendarEvents",
 }));
 
 export type MlGetCalendarsError = ElasticsearchOpError;
@@ -49932,6 +50837,8 @@ export const mlGetCalendars: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCalendars",
 }));
 
 export type MlGetCalendars1Error = ElasticsearchOpError;
@@ -49947,6 +50854,8 @@ export const mlGetCalendars1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCalendars1",
 }));
 
 export type MlGetCalendars2Error = ElasticsearchOpError;
@@ -49962,6 +50871,8 @@ export const mlGetCalendars2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCalendars2",
 }));
 
 export type MlGetCalendars3Error = ElasticsearchOpError;
@@ -49977,6 +50888,8 @@ export const mlGetCalendars3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCalendars3",
 }));
 
 export type MlGetCategoriesError = ElasticsearchOpError;
@@ -49992,6 +50905,8 @@ export const mlGetCategories: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCategories",
 }));
 
 export type MlGetCategories1Error = ElasticsearchOpError;
@@ -50007,6 +50922,8 @@ export const mlGetCategories1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCategories1",
 }));
 
 export type MlGetCategories2Error = ElasticsearchOpError;
@@ -50022,6 +50939,8 @@ export const mlGetCategories2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCategories2",
 }));
 
 export type MlGetCategories3Error = ElasticsearchOpError;
@@ -50037,6 +50956,8 @@ export const mlGetCategories3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetCategories3",
 }));
 
 export type MlGetDatafeedsError = ElasticsearchOpError;
@@ -50052,6 +50973,8 @@ export const mlGetDatafeeds: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDatafeeds",
 }));
 
 export type MlGetDatafeeds1Error = ElasticsearchOpError;
@@ -50067,6 +50990,8 @@ export const mlGetDatafeeds1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDatafeeds1",
 }));
 
 export type MlGetDatafeedStatsError = ElasticsearchOpError;
@@ -50082,6 +51007,8 @@ export const mlGetDatafeedStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDatafeedStats",
 }));
 
 export type MlGetDatafeedStats1Error = ElasticsearchOpError;
@@ -50097,6 +51024,8 @@ export const mlGetDatafeedStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDatafeedStats1",
 }));
 
 export type MlGetDataFrameAnalyticsError = ElasticsearchOpError;
@@ -50112,6 +51041,8 @@ export const mlGetDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDataFrameAnalytics",
 }));
 
 export type MlGetDataFrameAnalytics1Error = ElasticsearchOpError;
@@ -50127,6 +51058,8 @@ export const mlGetDataFrameAnalytics1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDataFrameAnalytics1",
 }));
 
 export type MlGetDataFrameAnalyticsStatsError = ElasticsearchOpError;
@@ -50142,6 +51075,8 @@ export const mlGetDataFrameAnalyticsStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDataFrameAnalyticsStats",
 }));
 
 export type MlGetDataFrameAnalyticsStats1Error = ElasticsearchOpError;
@@ -50157,6 +51092,8 @@ export const mlGetDataFrameAnalyticsStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetDataFrameAnalyticsStats1",
 }));
 
 export type MlGetFiltersError = ElasticsearchOpError;
@@ -50172,6 +51109,8 @@ export const mlGetFilters: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetFilters",
 }));
 
 export type MlGetFilters1Error = ElasticsearchOpError;
@@ -50187,6 +51126,8 @@ export const mlGetFilters1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetFilters1",
 }));
 
 export type MlGetInfluencersError = ElasticsearchOpError;
@@ -50202,6 +51143,8 @@ export const mlGetInfluencers: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetInfluencers",
 }));
 
 export type MlGetInfluencers1Error = ElasticsearchOpError;
@@ -50217,6 +51160,8 @@ export const mlGetInfluencers1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetInfluencers1",
 }));
 
 export type MlGetJobsError = ElasticsearchOpError;
@@ -50232,6 +51177,8 @@ export const mlGetJobs: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetJobs",
 }));
 
 export type MlGetJobs1Error = ElasticsearchOpError;
@@ -50247,6 +51194,8 @@ export const mlGetJobs1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetJobs1",
 }));
 
 export type MlGetJobStatsError = ElasticsearchOpError;
@@ -50262,6 +51211,8 @@ export const mlGetJobStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetJobStats",
 }));
 
 export type MlGetJobStats1Error = ElasticsearchOpError;
@@ -50277,6 +51228,8 @@ export const mlGetJobStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetJobStats1",
 }));
 
 export type MlGetMemoryStatsError = ElasticsearchOpError;
@@ -50292,6 +51245,8 @@ export const mlGetMemoryStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetMemoryStats",
 }));
 
 export type MlGetMemoryStats1Error = ElasticsearchOpError;
@@ -50307,6 +51262,8 @@ export const mlGetMemoryStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetMemoryStats1",
 }));
 
 export type MlGetModelSnapshotsError = ElasticsearchOpError;
@@ -50322,6 +51279,8 @@ export const mlGetModelSnapshots: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetModelSnapshots",
 }));
 
 export type MlGetModelSnapshots1Error = ElasticsearchOpError;
@@ -50337,6 +51296,8 @@ export const mlGetModelSnapshots1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetModelSnapshots1",
 }));
 
 export type MlGetModelSnapshots2Error = ElasticsearchOpError;
@@ -50352,6 +51313,8 @@ export const mlGetModelSnapshots2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetModelSnapshots2",
 }));
 
 export type MlGetModelSnapshots3Error = ElasticsearchOpError;
@@ -50367,6 +51330,8 @@ export const mlGetModelSnapshots3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetModelSnapshots3",
 }));
 
 export type MlGetModelSnapshotUpgradeStatsError = ElasticsearchOpError;
@@ -50382,6 +51347,8 @@ export const mlGetModelSnapshotUpgradeStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetModelSnapshotUpgradeStats",
 }));
 
 export type MlGetOverallBucketsError = ElasticsearchOpError;
@@ -50397,6 +51364,8 @@ export const mlGetOverallBuckets: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetOverallBuckets",
 }));
 
 export type MlGetOverallBuckets1Error = ElasticsearchOpError;
@@ -50412,6 +51381,8 @@ export const mlGetOverallBuckets1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetOverallBuckets1",
 }));
 
 export type MlGetRecordsError = ElasticsearchOpError;
@@ -50427,6 +51398,8 @@ export const mlGetRecords: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetRecords",
 }));
 
 export type MlGetRecords1Error = ElasticsearchOpError;
@@ -50442,6 +51415,8 @@ export const mlGetRecords1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetRecords1",
 }));
 
 export type MlGetTrainedModelsError = ElasticsearchOpError;
@@ -50457,6 +51432,8 @@ export const mlGetTrainedModels: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetTrainedModels",
 }));
 
 export type MlGetTrainedModels1Error = ElasticsearchOpError;
@@ -50472,6 +51449,8 @@ export const mlGetTrainedModels1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetTrainedModels1",
 }));
 
 export type MlGetTrainedModelsStatsError = ElasticsearchOpError;
@@ -50487,6 +51466,8 @@ export const mlGetTrainedModelsStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetTrainedModelsStats",
 }));
 
 export type MlGetTrainedModelsStats1Error = ElasticsearchOpError;
@@ -50502,6 +51483,8 @@ export const mlGetTrainedModelsStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlGetTrainedModelsStats1",
 }));
 
 export type MlInferTrainedModelError = ElasticsearchOpError;
@@ -50517,6 +51500,8 @@ export const mlInferTrainedModel: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlInferTrainedModel",
 }));
 
 export type MlInfoError = ElasticsearchOpError;
@@ -50532,6 +51517,8 @@ export const mlInfo: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlInfo",
 }));
 
 export type MlOpenJobError = ElasticsearchOpError;
@@ -50547,6 +51534,8 @@ export const mlOpenJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlOpenJob",
 }));
 
 export type MlPostCalendarEventsError = ElasticsearchOpError;
@@ -50562,6 +51551,8 @@ export const mlPostCalendarEvents: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPostCalendarEvents",
 }));
 
 export type MlPreviewDatafeedError = ElasticsearchOpError;
@@ -50577,6 +51568,8 @@ export const mlPreviewDatafeed: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDatafeed",
 }));
 
 export type MlPreviewDatafeed1Error = ElasticsearchOpError;
@@ -50592,6 +51585,8 @@ export const mlPreviewDatafeed1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDatafeed1",
 }));
 
 export type MlPreviewDatafeed2Error = ElasticsearchOpError;
@@ -50607,6 +51602,8 @@ export const mlPreviewDatafeed2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDatafeed2",
 }));
 
 export type MlPreviewDatafeed3Error = ElasticsearchOpError;
@@ -50622,6 +51619,8 @@ export const mlPreviewDatafeed3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDatafeed3",
 }));
 
 export type MlPreviewDataFrameAnalyticsError = ElasticsearchOpError;
@@ -50637,6 +51636,8 @@ export const mlPreviewDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDataFrameAnalytics",
 }));
 
 export type MlPreviewDataFrameAnalytics1Error = ElasticsearchOpError;
@@ -50652,6 +51653,8 @@ export const mlPreviewDataFrameAnalytics1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDataFrameAnalytics1",
 }));
 
 export type MlPreviewDataFrameAnalytics2Error = ElasticsearchOpError;
@@ -50667,6 +51670,8 @@ export const mlPreviewDataFrameAnalytics2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDataFrameAnalytics2",
 }));
 
 export type MlPreviewDataFrameAnalytics3Error = ElasticsearchOpError;
@@ -50682,6 +51687,8 @@ export const mlPreviewDataFrameAnalytics3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPreviewDataFrameAnalytics3",
 }));
 
 export type MlPutCalendarError = ElasticsearchOpError;
@@ -50697,6 +51704,8 @@ export const mlPutCalendar: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutCalendar",
 }));
 
 export type MlPutCalendarJobError = ElasticsearchOpError;
@@ -50712,6 +51721,8 @@ export const mlPutCalendarJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutCalendarJob",
 }));
 
 export type MlPutDatafeedError = ElasticsearchOpError;
@@ -50727,6 +51738,8 @@ export const mlPutDatafeed: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutDatafeed",
 }));
 
 export type MlPutDataFrameAnalyticsError = ElasticsearchOpError;
@@ -50742,6 +51755,8 @@ export const mlPutDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutDataFrameAnalytics",
 }));
 
 export type MlPutFilterError = ElasticsearchOpError;
@@ -50757,6 +51772,8 @@ export const mlPutFilter: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutFilter",
 }));
 
 export type MlPutJobError = ElasticsearchOpError;
@@ -50772,6 +51789,8 @@ export const mlPutJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutJob",
 }));
 
 export type MlPutTrainedModelError = ElasticsearchOpError;
@@ -50787,6 +51806,8 @@ export const mlPutTrainedModel: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutTrainedModel",
 }));
 
 export type MlPutTrainedModelAliasError = ElasticsearchOpError;
@@ -50802,6 +51823,8 @@ export const mlPutTrainedModelAlias: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutTrainedModelAlias",
 }));
 
 export type MlPutTrainedModelDefinitionPartError = ElasticsearchOpError;
@@ -50817,6 +51840,8 @@ export const mlPutTrainedModelDefinitionPart: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutTrainedModelDefinitionPart",
 }));
 
 export type MlPutTrainedModelVocabularyError = ElasticsearchOpError;
@@ -50832,6 +51857,8 @@ export const mlPutTrainedModelVocabulary: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlPutTrainedModelVocabulary",
 }));
 
 export type MlResetJobError = ElasticsearchOpError;
@@ -50847,6 +51874,8 @@ export const mlResetJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlResetJob",
 }));
 
 export type MlRevertModelSnapshotError = ElasticsearchOpError;
@@ -50862,6 +51891,8 @@ export const mlRevertModelSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlRevertModelSnapshot",
 }));
 
 export type MlSetUpgradeModeError = ElasticsearchOpError;
@@ -50877,6 +51908,8 @@ export const mlSetUpgradeMode: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlSetUpgradeMode",
 }));
 
 export type MlStartDatafeedError = ElasticsearchOpError;
@@ -50892,6 +51925,8 @@ export const mlStartDatafeed: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlStartDatafeed",
 }));
 
 export type MlStartDataFrameAnalyticsError = ElasticsearchOpError;
@@ -50907,6 +51942,8 @@ export const mlStartDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlStartDataFrameAnalytics",
 }));
 
 export type MlStartTrainedModelDeploymentError = ElasticsearchOpError;
@@ -50922,6 +51959,8 @@ export const mlStartTrainedModelDeployment: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlStartTrainedModelDeployment",
 }));
 
 export type MlStopDatafeedError = ElasticsearchOpError;
@@ -50937,6 +51976,8 @@ export const mlStopDatafeed: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlStopDatafeed",
 }));
 
 export type MlStopDataFrameAnalyticsError = ElasticsearchOpError;
@@ -50952,6 +51993,8 @@ export const mlStopDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlStopDataFrameAnalytics",
 }));
 
 export type MlStopTrainedModelDeploymentError = ElasticsearchOpError;
@@ -50967,6 +52010,8 @@ export const mlStopTrainedModelDeployment: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlStopTrainedModelDeployment",
 }));
 
 export type MlUpdateDatafeedError = ElasticsearchOpError;
@@ -50982,6 +52027,8 @@ export const mlUpdateDatafeed: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlUpdateDatafeed",
 }));
 
 export type MlUpdateDataFrameAnalyticsError = ElasticsearchOpError;
@@ -50997,6 +52044,8 @@ export const mlUpdateDataFrameAnalytics: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlUpdateDataFrameAnalytics",
 }));
 
 export type MlUpdateFilterError = ElasticsearchOpError;
@@ -51012,6 +52061,8 @@ export const mlUpdateFilter: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlUpdateFilter",
 }));
 
 export type MlUpdateJobError = ElasticsearchOpError;
@@ -51027,6 +52078,8 @@ export const mlUpdateJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlUpdateJob",
 }));
 
 export type MlUpdateModelSnapshotError = ElasticsearchOpError;
@@ -51042,6 +52095,8 @@ export const mlUpdateModelSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlUpdateModelSnapshot",
 }));
 
 export type MlUpdateTrainedModelDeploymentError = ElasticsearchOpError;
@@ -51057,6 +52112,8 @@ export const mlUpdateTrainedModelDeployment: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlUpdateTrainedModelDeployment",
 }));
 
 export type MlUpgradeJobSnapshotError = ElasticsearchOpError;
@@ -51072,6 +52129,8 @@ export const mlUpgradeJobSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MlUpgradeJobSnapshot",
 }));
 
 export type MsearchError = ElasticsearchOpError;
@@ -51087,6 +52146,8 @@ export const msearch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Msearch",
 }));
 
 export type Msearch1Error = ElasticsearchOpError;
@@ -51102,6 +52163,8 @@ export const msearch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Msearch1",
 }));
 
 export type Msearch2Error = ElasticsearchOpError;
@@ -51117,6 +52180,8 @@ export const msearch2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Msearch2",
 }));
 
 export type Msearch3Error = ElasticsearchOpError;
@@ -51132,6 +52197,8 @@ export const msearch3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Msearch3",
 }));
 
 export type MsearchTemplateError = ElasticsearchOpError;
@@ -51147,6 +52214,8 @@ export const msearchTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MsearchTemplate",
 }));
 
 export type MsearchTemplate1Error = ElasticsearchOpError;
@@ -51162,6 +52231,8 @@ export const msearchTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MsearchTemplate1",
 }));
 
 export type MsearchTemplate2Error = ElasticsearchOpError;
@@ -51177,6 +52248,8 @@ export const msearchTemplate2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MsearchTemplate2",
 }));
 
 export type MsearchTemplate3Error = ElasticsearchOpError;
@@ -51192,6 +52265,8 @@ export const msearchTemplate3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MsearchTemplate3",
 }));
 
 export type MtermvectorsError = ElasticsearchOpError;
@@ -51207,6 +52282,8 @@ export const mtermvectors: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mtermvectors",
 }));
 
 export type Mtermvectors1Error = ElasticsearchOpError;
@@ -51222,6 +52299,8 @@ export const mtermvectors1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mtermvectors1",
 }));
 
 export type Mtermvectors2Error = ElasticsearchOpError;
@@ -51237,6 +52316,8 @@ export const mtermvectors2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mtermvectors2",
 }));
 
 export type Mtermvectors3Error = ElasticsearchOpError;
@@ -51252,6 +52333,8 @@ export const mtermvectors3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Mtermvectors3",
 }));
 
 export type NodesGetRepositoriesMeteringInfoError = ElasticsearchOpError;
@@ -51267,6 +52350,8 @@ export const nodesGetRepositoriesMeteringInfo: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesGetRepositoriesMeteringInfo",
 }));
 
 export type NodesHotThreadsError = ElasticsearchOpError;
@@ -51282,6 +52367,8 @@ export const nodesHotThreads: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesHotThreads",
 }));
 
 export type NodesHotThreads1Error = ElasticsearchOpError;
@@ -51297,6 +52384,8 @@ export const nodesHotThreads1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesHotThreads1",
 }));
 
 export type NodesInfoError = ElasticsearchOpError;
@@ -51312,6 +52401,8 @@ export const nodesInfo: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesInfo",
 }));
 
 export type NodesInfo1Error = ElasticsearchOpError;
@@ -51327,6 +52418,8 @@ export const nodesInfo1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesInfo1",
 }));
 
 export type NodesInfo2Error = ElasticsearchOpError;
@@ -51342,6 +52435,8 @@ export const nodesInfo2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesInfo2",
 }));
 
 export type NodesInfo3Error = ElasticsearchOpError;
@@ -51357,6 +52452,8 @@ export const nodesInfo3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesInfo3",
 }));
 
 export type NodesReloadSecureSettingsError = ElasticsearchOpError;
@@ -51372,6 +52469,8 @@ export const nodesReloadSecureSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesReloadSecureSettings",
 }));
 
 export type NodesReloadSecureSettings1Error = ElasticsearchOpError;
@@ -51387,6 +52486,8 @@ export const nodesReloadSecureSettings1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesReloadSecureSettings1",
 }));
 
 export type NodesStatsError = ElasticsearchOpError;
@@ -51402,6 +52503,8 @@ export const nodesStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesStats",
 }));
 
 export type NodesStats1Error = ElasticsearchOpError;
@@ -51417,6 +52520,8 @@ export const nodesStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesStats1",
 }));
 
 export type NodesStats2Error = ElasticsearchOpError;
@@ -51432,6 +52537,8 @@ export const nodesStats2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesStats2",
 }));
 
 export type NodesStats3Error = ElasticsearchOpError;
@@ -51447,6 +52554,8 @@ export const nodesStats3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesStats3",
 }));
 
 export type NodesStats4Error = ElasticsearchOpError;
@@ -51462,6 +52571,8 @@ export const nodesStats4: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesStats4",
 }));
 
 export type NodesStats5Error = ElasticsearchOpError;
@@ -51477,6 +52588,8 @@ export const nodesStats5: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesStats5",
 }));
 
 export type NodesUsageError = ElasticsearchOpError;
@@ -51492,6 +52605,8 @@ export const nodesUsage: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesUsage",
 }));
 
 export type NodesUsage1Error = ElasticsearchOpError;
@@ -51507,6 +52622,8 @@ export const nodesUsage1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesUsage1",
 }));
 
 export type NodesUsage2Error = ElasticsearchOpError;
@@ -51522,6 +52639,8 @@ export const nodesUsage2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesUsage2",
 }));
 
 export type NodesUsage3Error = ElasticsearchOpError;
@@ -51537,6 +52656,8 @@ export const nodesUsage3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodesUsage3",
 }));
 
 export type OpenPointInTimeError = ElasticsearchOpError;
@@ -51552,6 +52673,8 @@ export const openPointInTime: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OpenPointInTime",
 }));
 
 export type PostConnectorError = ElasticsearchOpError;
@@ -51567,6 +52690,8 @@ export const postConnector: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostConnector",
 }));
 
 export type PostConnectorSyncJobError = ElasticsearchOpError;
@@ -51582,6 +52707,8 @@ export const postConnectorSyncJob: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostConnectorSyncJob",
 }));
 
 export type PostLicenseError = ElasticsearchOpError;
@@ -51597,6 +52724,8 @@ export const postLicense: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostLicense",
 }));
 
 export type PutConnectorError = ElasticsearchOpError;
@@ -51612,6 +52741,8 @@ export const putConnector: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConnector",
 }));
 
 export type PutIndexTemplateError = ElasticsearchOpError;
@@ -51627,6 +52758,8 @@ export const putIndexTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIndexTemplate",
 }));
 
 export type PutIndexTemplate1Error = ElasticsearchOpError;
@@ -51642,6 +52775,8 @@ export const putIndexTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIndexTemplate1",
 }));
 
 export type PutInferenceError = ElasticsearchOpError;
@@ -51657,6 +52792,8 @@ export const putInference: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutInference",
 }));
 
 export type PutScriptError = ElasticsearchOpError;
@@ -51672,6 +52809,8 @@ export const putScript: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScript",
 }));
 
 export type PutScript1Error = ElasticsearchOpError;
@@ -51687,6 +52826,8 @@ export const putScript1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScript1",
 }));
 
 export type PutScript2Error = ElasticsearchOpError;
@@ -51702,6 +52843,8 @@ export const putScript2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScript2",
 }));
 
 export type PutScript3Error = ElasticsearchOpError;
@@ -51717,6 +52860,8 @@ export const putScript3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScript3",
 }));
 
 export type PutSynonymError = ElasticsearchOpError;
@@ -51732,6 +52877,8 @@ export const putSynonym: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSynonym",
 }));
 
 export type PutSynonymRuleError = ElasticsearchOpError;
@@ -51747,6 +52894,8 @@ export const putSynonymRule: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSynonymRule",
 }));
 
 export type PutTransformError = ElasticsearchOpError;
@@ -51762,6 +52911,8 @@ export const putTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTransform",
 }));
 
 export type QueryRulesDeleteRuleError = ElasticsearchOpError;
@@ -51777,6 +52928,8 @@ export const queryRulesDeleteRule: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesDeleteRule",
 }));
 
 export type QueryRulesDeleteRulesetError = ElasticsearchOpError;
@@ -51792,6 +52945,8 @@ export const queryRulesDeleteRuleset: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesDeleteRuleset",
 }));
 
 export type QueryRulesGetRuleError = ElasticsearchOpError;
@@ -51807,6 +52962,8 @@ export const queryRulesGetRule: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesGetRule",
 }));
 
 export type QueryRulesGetRulesetError = ElasticsearchOpError;
@@ -51822,6 +52979,8 @@ export const queryRulesGetRuleset: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesGetRuleset",
 }));
 
 export type QueryRulesListRulesetsError = ElasticsearchOpError;
@@ -51837,6 +52996,8 @@ export const queryRulesListRulesets: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesListRulesets",
 }));
 
 export type QueryRulesPutRuleError = ElasticsearchOpError;
@@ -51852,6 +53013,8 @@ export const queryRulesPutRule: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesPutRule",
 }));
 
 export type QueryRulesPutRulesetError = ElasticsearchOpError;
@@ -51867,6 +53030,8 @@ export const queryRulesPutRuleset: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesPutRuleset",
 }));
 
 export type QueryRulesTestError = ElasticsearchOpError;
@@ -51882,6 +53047,8 @@ export const queryRulesTest: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRulesTest",
 }));
 
 export type RankEvalError = ElasticsearchOpError;
@@ -51897,6 +53064,8 @@ export const rankEval: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RankEval",
 }));
 
 export type RankEval1Error = ElasticsearchOpError;
@@ -51912,6 +53081,8 @@ export const rankEval1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RankEval1",
 }));
 
 export type RankEval2Error = ElasticsearchOpError;
@@ -51927,6 +53098,8 @@ export const rankEval2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RankEval2",
 }));
 
 export type RankEval3Error = ElasticsearchOpError;
@@ -51942,6 +53115,8 @@ export const rankEval3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RankEval3",
 }));
 
 export type RefreshIndexError = ElasticsearchOpError;
@@ -51957,6 +53132,8 @@ export const refreshIndex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshIndex",
 }));
 
 export type ReindexError = ElasticsearchOpError;
@@ -51972,6 +53149,8 @@ export const reindex: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Reindex",
 }));
 
 export type ReindexRethrottleError = ElasticsearchOpError;
@@ -51987,6 +53166,8 @@ export const reindexRethrottle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReindexRethrottle",
 }));
 
 export type RenderSearchTemplateError = ElasticsearchOpError;
@@ -52002,6 +53183,8 @@ export const renderSearchTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderSearchTemplate",
 }));
 
 export type RenderSearchTemplate1Error = ElasticsearchOpError;
@@ -52017,6 +53200,8 @@ export const renderSearchTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderSearchTemplate1",
 }));
 
 export type RenderSearchTemplate2Error = ElasticsearchOpError;
@@ -52032,6 +53217,8 @@ export const renderSearchTemplate2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderSearchTemplate2",
 }));
 
 export type RenderSearchTemplate3Error = ElasticsearchOpError;
@@ -52047,6 +53234,8 @@ export const renderSearchTemplate3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderSearchTemplate3",
 }));
 
 export type ResetEncryptionError = ElasticsearchOpError;
@@ -52062,6 +53251,8 @@ export const resetEncryption: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetEncryption",
 }));
 
 export type ResetFeaturesError = ElasticsearchOpError;
@@ -52077,6 +53268,8 @@ export const resetFeatures: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetFeatures",
 }));
 
 export type ResetTransformError = ElasticsearchOpError;
@@ -52092,6 +53285,8 @@ export const resetTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetTransform",
 }));
 
 export type RestoreSnapshotError = ElasticsearchOpError;
@@ -52107,6 +53302,8 @@ export const restoreSnapshot: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreSnapshot",
 }));
 
 export type RetryIlmError = ElasticsearchOpError;
@@ -52122,6 +53319,8 @@ export const retryIlm: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryIlm",
 }));
 
 export type ScriptsPainlessExecute1Error = ElasticsearchOpError;
@@ -52137,6 +53336,8 @@ export const scriptsPainlessExecute1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScriptsPainlessExecute1",
 }));
 
 export type ScrollError = ElasticsearchOpError;
@@ -52152,6 +53353,8 @@ export const scroll: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Scroll",
 }));
 
 export type Scroll1Error = ElasticsearchOpError;
@@ -52167,6 +53370,8 @@ export const scroll1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Scroll1",
 }));
 
 export type Scroll2Error = ElasticsearchOpError;
@@ -52182,6 +53387,8 @@ export const scroll2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Scroll2",
 }));
 
 export type Scroll3Error = ElasticsearchOpError;
@@ -52197,6 +53404,8 @@ export const scroll3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Scroll3",
 }));
 
 export type SearchError = ElasticsearchOpError;
@@ -52212,6 +53421,8 @@ export const search: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search",
 }));
 
 export type Search1Error = ElasticsearchOpError;
@@ -52227,6 +53438,8 @@ export const search1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search1",
 }));
 
 export type Search2Error = ElasticsearchOpError;
@@ -52242,6 +53455,8 @@ export const search2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search2",
 }));
 
 export type Search3Error = ElasticsearchOpError;
@@ -52257,6 +53472,8 @@ export const search3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search3",
 }));
 
 export type SearchableSnapshotsCacheStatsError = ElasticsearchOpError;
@@ -52272,6 +53489,8 @@ export const searchableSnapshotsCacheStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchableSnapshotsCacheStats",
 }));
 
 export type SearchableSnapshotsCacheStats1Error = ElasticsearchOpError;
@@ -52287,6 +53506,8 @@ export const searchableSnapshotsCacheStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchableSnapshotsCacheStats1",
 }));
 
 export type SearchableSnapshotsClearCacheError = ElasticsearchOpError;
@@ -52302,6 +53523,8 @@ export const searchableSnapshotsClearCache: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchableSnapshotsClearCache",
 }));
 
 export type SearchableSnapshotsClearCache1Error = ElasticsearchOpError;
@@ -52317,6 +53540,8 @@ export const searchableSnapshotsClearCache1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchableSnapshotsClearCache1",
 }));
 
 export type SearchableSnapshotsMountError = ElasticsearchOpError;
@@ -52332,6 +53557,8 @@ export const searchableSnapshotsMount: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchableSnapshotsMount",
 }));
 
 export type SearchableSnapshotsStatsError = ElasticsearchOpError;
@@ -52347,6 +53574,8 @@ export const searchableSnapshotsStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchableSnapshotsStats",
 }));
 
 export type SearchableSnapshotsStats1Error = ElasticsearchOpError;
@@ -52362,6 +53591,8 @@ export const searchableSnapshotsStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchableSnapshotsStats1",
 }));
 
 export type SearchApplicationDeleteError = ElasticsearchOpError;
@@ -52377,6 +53608,8 @@ export const searchApplicationDelete: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApplicationDelete",
 }));
 
 export type SearchApplicationGetError = ElasticsearchOpError;
@@ -52392,6 +53625,8 @@ export const searchApplicationGet: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApplicationGet",
 }));
 
 export type SearchApplicationListError = ElasticsearchOpError;
@@ -52407,6 +53642,8 @@ export const searchApplicationList: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApplicationList",
 }));
 
 export type SearchApplicationPutError = ElasticsearchOpError;
@@ -52422,6 +53659,8 @@ export const searchApplicationPut: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApplicationPut",
 }));
 
 export type SearchApplicationRenderQueryError = ElasticsearchOpError;
@@ -52437,6 +53676,8 @@ export const searchApplicationRenderQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApplicationRenderQuery",
 }));
 
 export type SearchApplicationSearchError = ElasticsearchOpError;
@@ -52452,6 +53693,8 @@ export const searchApplicationSearch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApplicationSearch",
 }));
 
 export type SearchApplicationSearch1Error = ElasticsearchOpError;
@@ -52467,6 +53710,8 @@ export const searchApplicationSearch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApplicationSearch1",
 }));
 
 export type SearchEqlError = ElasticsearchOpError;
@@ -52482,6 +53727,8 @@ export const searchEql: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchEql",
 }));
 
 export type SearchFleetError = ElasticsearchOpError;
@@ -52497,6 +53744,8 @@ export const searchFleet: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchFleet",
 }));
 
 export type SearchMvtError = ElasticsearchOpError;
@@ -52512,6 +53761,8 @@ export const searchMvt: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchMvt",
 }));
 
 export type SearchMvt1Error = ElasticsearchOpError;
@@ -52527,6 +53778,8 @@ export const searchMvt1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchMvt1",
 }));
 
 export type SearchShardsError = ElasticsearchOpError;
@@ -52542,6 +53795,8 @@ export const searchShards: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchShards",
 }));
 
 export type SearchShards1Error = ElasticsearchOpError;
@@ -52557,6 +53812,8 @@ export const searchShards1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchShards1",
 }));
 
 export type SearchShards2Error = ElasticsearchOpError;
@@ -52572,6 +53829,8 @@ export const searchShards2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchShards2",
 }));
 
 export type SearchShards3Error = ElasticsearchOpError;
@@ -52587,6 +53846,8 @@ export const searchShards3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchShards3",
 }));
 
 export type SearchTemplateError = ElasticsearchOpError;
@@ -52602,6 +53863,8 @@ export const searchTemplate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTemplate",
 }));
 
 export type SearchTemplate1Error = ElasticsearchOpError;
@@ -52617,6 +53880,8 @@ export const searchTemplate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTemplate1",
 }));
 
 export type SearchTemplate2Error = ElasticsearchOpError;
@@ -52632,6 +53897,8 @@ export const searchTemplate2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTemplate2",
 }));
 
 export type SearchTemplate3Error = ElasticsearchOpError;
@@ -52647,6 +53914,8 @@ export const searchTemplate3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTemplate3",
 }));
 
 export type SecurityActivateUserProfileError = ElasticsearchOpError;
@@ -52662,6 +53931,8 @@ export const securityActivateUserProfile: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityActivateUserProfile",
 }));
 
 export type SecurityBulkDeleteRoleError = ElasticsearchOpError;
@@ -52677,6 +53948,8 @@ export const securityBulkDeleteRole: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityBulkDeleteRole",
 }));
 
 export type SecurityBulkPutRoleError = ElasticsearchOpError;
@@ -52692,6 +53965,8 @@ export const securityBulkPutRole: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityBulkPutRole",
 }));
 
 export type SecurityBulkUpdateApiKeysError = ElasticsearchOpError;
@@ -52707,6 +53982,8 @@ export const securityBulkUpdateApiKeys: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityBulkUpdateApiKeys",
 }));
 
 export type SecurityChangePasswordError = ElasticsearchOpError;
@@ -52722,6 +53999,8 @@ export const securityChangePassword: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityChangePassword",
 }));
 
 export type SecurityChangePassword1Error = ElasticsearchOpError;
@@ -52737,6 +54016,8 @@ export const securityChangePassword1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityChangePassword1",
 }));
 
 export type SecurityChangePassword2Error = ElasticsearchOpError;
@@ -52752,6 +54033,8 @@ export const securityChangePassword2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityChangePassword2",
 }));
 
 export type SecurityChangePassword3Error = ElasticsearchOpError;
@@ -52767,6 +54050,8 @@ export const securityChangePassword3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityChangePassword3",
 }));
 
 export type SecurityClearApiKeyCacheError = ElasticsearchOpError;
@@ -52782,6 +54067,8 @@ export const securityClearApiKeyCache: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityClearApiKeyCache",
 }));
 
 export type SecurityClearCachedPrivilegesError = ElasticsearchOpError;
@@ -52797,6 +54084,8 @@ export const securityClearCachedPrivileges: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityClearCachedPrivileges",
 }));
 
 export type SecurityClearCachedRealmsError = ElasticsearchOpError;
@@ -52812,6 +54101,8 @@ export const securityClearCachedRealms: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityClearCachedRealms",
 }));
 
 export type SecurityClearCachedRolesError = ElasticsearchOpError;
@@ -52827,6 +54118,8 @@ export const securityClearCachedRoles: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityClearCachedRoles",
 }));
 
 export type SecurityClearCachedServiceTokensError = ElasticsearchOpError;
@@ -52842,6 +54135,8 @@ export const securityClearCachedServiceTokens: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityClearCachedServiceTokens",
 }));
 
 export type SecurityCloneApiKeyError = ElasticsearchOpError;
@@ -52857,6 +54152,8 @@ export const securityCloneApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCloneApiKey",
 }));
 
 export type SecurityCloneApiKey1Error = ElasticsearchOpError;
@@ -52872,6 +54169,8 @@ export const securityCloneApiKey1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCloneApiKey1",
 }));
 
 export type SecurityCreateApiKeyError = ElasticsearchOpError;
@@ -52887,6 +54186,8 @@ export const securityCreateApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCreateApiKey",
 }));
 
 export type SecurityCreateApiKey1Error = ElasticsearchOpError;
@@ -52902,6 +54203,8 @@ export const securityCreateApiKey1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCreateApiKey1",
 }));
 
 export type SecurityCreateCrossClusterApiKeyError = ElasticsearchOpError;
@@ -52917,6 +54220,8 @@ export const securityCreateCrossClusterApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCreateCrossClusterApiKey",
 }));
 
 export type SecurityCreateServiceTokenError = ElasticsearchOpError;
@@ -52932,6 +54237,8 @@ export const securityCreateServiceToken: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCreateServiceToken",
 }));
 
 export type SecurityCreateServiceToken1Error = ElasticsearchOpError;
@@ -52947,6 +54254,8 @@ export const securityCreateServiceToken1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCreateServiceToken1",
 }));
 
 export type SecurityCreateServiceToken2Error = ElasticsearchOpError;
@@ -52962,6 +54271,8 @@ export const securityCreateServiceToken2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityCreateServiceToken2",
 }));
 
 export type SecurityDelegatePkiError = ElasticsearchOpError;
@@ -52977,6 +54288,8 @@ export const securityDelegatePki: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDelegatePki",
 }));
 
 export type SecurityDeletePrivilegesError = ElasticsearchOpError;
@@ -52992,6 +54305,8 @@ export const securityDeletePrivileges: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDeletePrivileges",
 }));
 
 export type SecurityDeleteRoleError = ElasticsearchOpError;
@@ -53007,6 +54322,8 @@ export const securityDeleteRole: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDeleteRole",
 }));
 
 export type SecurityDeleteRoleMappingError = ElasticsearchOpError;
@@ -53022,6 +54339,8 @@ export const securityDeleteRoleMapping: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDeleteRoleMapping",
 }));
 
 export type SecurityDeleteServiceTokenError = ElasticsearchOpError;
@@ -53037,6 +54356,8 @@ export const securityDeleteServiceToken: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDeleteServiceToken",
 }));
 
 export type SecurityDeleteUserError = ElasticsearchOpError;
@@ -53052,6 +54373,8 @@ export const securityDeleteUser: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDeleteUser",
 }));
 
 export type SecurityDeleteUserManagedServiceAccountError = ElasticsearchOpError;
@@ -53067,6 +54390,8 @@ export const securityDeleteUserManagedServiceAccount: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDeleteUserManagedServiceAccount",
 }));
 
 export type SecurityDisableUserError = ElasticsearchOpError;
@@ -53082,6 +54407,8 @@ export const securityDisableUser: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDisableUser",
 }));
 
 export type SecurityDisableUser1Error = ElasticsearchOpError;
@@ -53097,6 +54424,8 @@ export const securityDisableUser1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDisableUser1",
 }));
 
 export type SecurityDisableUserProfileError = ElasticsearchOpError;
@@ -53112,6 +54441,8 @@ export const securityDisableUserProfile: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDisableUserProfile",
 }));
 
 export type SecurityDisableUserProfile1Error = ElasticsearchOpError;
@@ -53127,6 +54458,8 @@ export const securityDisableUserProfile1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityDisableUserProfile1",
 }));
 
 export type SecurityEnableUserError = ElasticsearchOpError;
@@ -53142,6 +54475,8 @@ export const securityEnableUser: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityEnableUser",
 }));
 
 export type SecurityEnableUser1Error = ElasticsearchOpError;
@@ -53157,6 +54492,8 @@ export const securityEnableUser1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityEnableUser1",
 }));
 
 export type SecurityEnableUserProfileError = ElasticsearchOpError;
@@ -53172,6 +54509,8 @@ export const securityEnableUserProfile: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityEnableUserProfile",
 }));
 
 export type SecurityEnableUserProfile1Error = ElasticsearchOpError;
@@ -53187,6 +54526,8 @@ export const securityEnableUserProfile1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityEnableUserProfile1",
 }));
 
 export type SecurityEnrollKibanaError = ElasticsearchOpError;
@@ -53202,6 +54543,8 @@ export const securityEnrollKibana: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityEnrollKibana",
 }));
 
 export type SecurityEnrollNodeError = ElasticsearchOpError;
@@ -53217,6 +54560,8 @@ export const securityEnrollNode: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityEnrollNode",
 }));
 
 export type SecurityGetApiKeyError = ElasticsearchOpError;
@@ -53232,6 +54577,8 @@ export const securityGetApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetApiKey",
 }));
 
 export type SecurityGetBuiltinPrivilegesError = ElasticsearchOpError;
@@ -53247,6 +54594,8 @@ export const securityGetBuiltinPrivileges: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetBuiltinPrivileges",
 }));
 
 export type SecurityGetPrivilegesError = ElasticsearchOpError;
@@ -53262,6 +54611,8 @@ export const securityGetPrivileges: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetPrivileges",
 }));
 
 export type SecurityGetPrivileges1Error = ElasticsearchOpError;
@@ -53277,6 +54628,8 @@ export const securityGetPrivileges1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetPrivileges1",
 }));
 
 export type SecurityGetPrivileges2Error = ElasticsearchOpError;
@@ -53292,6 +54645,8 @@ export const securityGetPrivileges2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetPrivileges2",
 }));
 
 export type SecurityGetRoleError = ElasticsearchOpError;
@@ -53307,6 +54662,8 @@ export const securityGetRole: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetRole",
 }));
 
 export type SecurityGetRole1Error = ElasticsearchOpError;
@@ -53322,6 +54679,8 @@ export const securityGetRole1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetRole1",
 }));
 
 export type SecurityGetRoleMappingError = ElasticsearchOpError;
@@ -53337,6 +54696,8 @@ export const securityGetRoleMapping: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetRoleMapping",
 }));
 
 export type SecurityGetRoleMapping1Error = ElasticsearchOpError;
@@ -53352,6 +54713,8 @@ export const securityGetRoleMapping1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetRoleMapping1",
 }));
 
 export type SecurityGetServiceAccountsError = ElasticsearchOpError;
@@ -53367,6 +54730,8 @@ export const securityGetServiceAccounts: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetServiceAccounts",
 }));
 
 export type SecurityGetServiceAccounts1Error = ElasticsearchOpError;
@@ -53382,6 +54747,8 @@ export const securityGetServiceAccounts1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetServiceAccounts1",
 }));
 
 export type SecurityGetServiceAccounts2Error = ElasticsearchOpError;
@@ -53397,6 +54764,8 @@ export const securityGetServiceAccounts2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetServiceAccounts2",
 }));
 
 export type SecurityGetServiceCredentialsError = ElasticsearchOpError;
@@ -53412,6 +54781,8 @@ export const securityGetServiceCredentials: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetServiceCredentials",
 }));
 
 export type SecurityGetSettingsError = ElasticsearchOpError;
@@ -53427,6 +54798,8 @@ export const securityGetSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetSettings",
 }));
 
 export type SecurityGetStatsError = ElasticsearchOpError;
@@ -53442,6 +54815,8 @@ export const securityGetStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetStats",
 }));
 
 export type SecurityGetTokenError = ElasticsearchOpError;
@@ -53457,6 +54832,8 @@ export const securityGetToken: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetToken",
 }));
 
 export type SecurityGetUserError = ElasticsearchOpError;
@@ -53472,6 +54849,8 @@ export const securityGetUser: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetUser",
 }));
 
 export type SecurityGetUser1Error = ElasticsearchOpError;
@@ -53487,6 +54866,8 @@ export const securityGetUser1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetUser1",
 }));
 
 export type SecurityGetUserPrivilegesError = ElasticsearchOpError;
@@ -53502,6 +54883,8 @@ export const securityGetUserPrivileges: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetUserPrivileges",
 }));
 
 export type SecurityGetUserProfileError = ElasticsearchOpError;
@@ -53517,6 +54900,8 @@ export const securityGetUserProfile: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGetUserProfile",
 }));
 
 export type SecurityGrantApiKeyError = ElasticsearchOpError;
@@ -53532,6 +54917,8 @@ export const securityGrantApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityGrantApiKey",
 }));
 
 export type SecurityHasPrivilegesError = ElasticsearchOpError;
@@ -53547,6 +54934,8 @@ export const securityHasPrivileges: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityHasPrivileges",
 }));
 
 export type SecurityHasPrivileges1Error = ElasticsearchOpError;
@@ -53562,6 +54951,8 @@ export const securityHasPrivileges1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityHasPrivileges1",
 }));
 
 export type SecurityHasPrivileges2Error = ElasticsearchOpError;
@@ -53577,6 +54968,8 @@ export const securityHasPrivileges2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityHasPrivileges2",
 }));
 
 export type SecurityHasPrivileges3Error = ElasticsearchOpError;
@@ -53592,6 +54985,8 @@ export const securityHasPrivileges3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityHasPrivileges3",
 }));
 
 export type SecurityHasPrivilegesUserProfileError = ElasticsearchOpError;
@@ -53607,6 +55002,8 @@ export const securityHasPrivilegesUserProfile: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityHasPrivilegesUserProfile",
 }));
 
 export type SecurityHasPrivilegesUserProfile1Error = ElasticsearchOpError;
@@ -53622,6 +55019,8 @@ export const securityHasPrivilegesUserProfile1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityHasPrivilegesUserProfile1",
 }));
 
 export type SecurityInvalidateApiKeyError = ElasticsearchOpError;
@@ -53637,6 +55036,8 @@ export const securityInvalidateApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityInvalidateApiKey",
 }));
 
 export type SecurityInvalidateTokenError = ElasticsearchOpError;
@@ -53652,6 +55053,8 @@ export const securityInvalidateToken: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityInvalidateToken",
 }));
 
 export type SecurityOidcPrepareAuthenticationError = ElasticsearchOpError;
@@ -53667,6 +55070,8 @@ export const securityOidcPrepareAuthentication: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityOidcPrepareAuthentication",
 }));
 
 export type SecurityPutPrivilegesError = ElasticsearchOpError;
@@ -53682,6 +55087,8 @@ export const securityPutPrivileges: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutPrivileges",
 }));
 
 export type SecurityPutPrivileges1Error = ElasticsearchOpError;
@@ -53697,6 +55104,8 @@ export const securityPutPrivileges1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutPrivileges1",
 }));
 
 export type SecurityPutRoleError = ElasticsearchOpError;
@@ -53712,6 +55121,8 @@ export const securityPutRole: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutRole",
 }));
 
 export type SecurityPutRole1Error = ElasticsearchOpError;
@@ -53727,6 +55138,8 @@ export const securityPutRole1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutRole1",
 }));
 
 export type SecurityPutRoleMappingError = ElasticsearchOpError;
@@ -53742,6 +55155,8 @@ export const securityPutRoleMapping: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutRoleMapping",
 }));
 
 export type SecurityPutRoleMapping1Error = ElasticsearchOpError;
@@ -53757,6 +55172,8 @@ export const securityPutRoleMapping1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutRoleMapping1",
 }));
 
 export type SecurityPutUserError = ElasticsearchOpError;
@@ -53772,6 +55189,8 @@ export const securityPutUser: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutUser",
 }));
 
 export type SecurityPutUser1Error = ElasticsearchOpError;
@@ -53787,6 +55206,8 @@ export const securityPutUser1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutUser1",
 }));
 
 export type SecurityPutUserManagedServiceAccountError = ElasticsearchOpError;
@@ -53802,6 +55223,8 @@ export const securityPutUserManagedServiceAccount: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPutUserManagedServiceAccount",
 }));
 
 export type SecurityQueryApiKeysError = ElasticsearchOpError;
@@ -53817,6 +55240,8 @@ export const securityQueryApiKeys: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityQueryApiKeys",
 }));
 
 export type SecurityQueryApiKeys1Error = ElasticsearchOpError;
@@ -53832,6 +55257,8 @@ export const securityQueryApiKeys1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityQueryApiKeys1",
 }));
 
 export type SecurityQueryRoleError = ElasticsearchOpError;
@@ -53847,6 +55274,8 @@ export const securityQueryRole: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityQueryRole",
 }));
 
 export type SecurityQueryRole1Error = ElasticsearchOpError;
@@ -53862,6 +55291,8 @@ export const securityQueryRole1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityQueryRole1",
 }));
 
 export type SecurityQueryUserError = ElasticsearchOpError;
@@ -53877,6 +55308,8 @@ export const securityQueryUser: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityQueryUser",
 }));
 
 export type SecurityQueryUser1Error = ElasticsearchOpError;
@@ -53892,6 +55325,8 @@ export const securityQueryUser1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityQueryUser1",
 }));
 
 export type SecuritySamlPrepareAuthenticationError = ElasticsearchOpError;
@@ -53907,6 +55342,8 @@ export const securitySamlPrepareAuthentication: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecuritySamlPrepareAuthentication",
 }));
 
 export type SecuritySamlServiceProviderMetadataError = ElasticsearchOpError;
@@ -53922,6 +55359,8 @@ export const securitySamlServiceProviderMetadata: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecuritySamlServiceProviderMetadata",
 }));
 
 export type SecuritySuggestUserProfilesError = ElasticsearchOpError;
@@ -53937,6 +55376,8 @@ export const securitySuggestUserProfiles: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecuritySuggestUserProfiles",
 }));
 
 export type SecuritySuggestUserProfiles1Error = ElasticsearchOpError;
@@ -53952,6 +55393,8 @@ export const securitySuggestUserProfiles1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecuritySuggestUserProfiles1",
 }));
 
 export type SecurityUpdateApiKeyError = ElasticsearchOpError;
@@ -53967,6 +55410,8 @@ export const securityUpdateApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityUpdateApiKey",
 }));
 
 export type SecurityUpdateCrossClusterApiKeyError = ElasticsearchOpError;
@@ -53982,6 +55427,8 @@ export const securityUpdateCrossClusterApiKey: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityUpdateCrossClusterApiKey",
 }));
 
 export type SecurityUpdateSettingsError = ElasticsearchOpError;
@@ -53997,6 +55444,8 @@ export const securityUpdateSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityUpdateSettings",
 }));
 
 export type SecurityUpdateUserProfileDataError = ElasticsearchOpError;
@@ -54012,6 +55461,8 @@ export const securityUpdateUserProfileData: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityUpdateUserProfileData",
 }));
 
 export type SecurityUpdateUserProfileData1Error = ElasticsearchOpError;
@@ -54027,6 +55478,8 @@ export const securityUpdateUserProfileData1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityUpdateUserProfileData1",
 }));
 
 export type SimulateIngestError = ElasticsearchOpError;
@@ -54042,6 +55495,8 @@ export const simulateIngest: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SimulateIngest",
 }));
 
 export type SimulateIngest1Error = ElasticsearchOpError;
@@ -54057,6 +55512,8 @@ export const simulateIngest1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SimulateIngest1",
 }));
 
 export type SimulateIngest2Error = ElasticsearchOpError;
@@ -54072,6 +55529,8 @@ export const simulateIngest2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SimulateIngest2",
 }));
 
 export type SimulateIngest3Error = ElasticsearchOpError;
@@ -54087,6 +55546,8 @@ export const simulateIngest3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SimulateIngest3",
 }));
 
 export type SlmDeleteLifecycleError = ElasticsearchOpError;
@@ -54102,6 +55563,8 @@ export const slmDeleteLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmDeleteLifecycle",
 }));
 
 export type SlmExecuteLifecycleError = ElasticsearchOpError;
@@ -54117,6 +55580,8 @@ export const slmExecuteLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmExecuteLifecycle",
 }));
 
 export type SlmExecuteRetentionError = ElasticsearchOpError;
@@ -54132,6 +55597,8 @@ export const slmExecuteRetention: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmExecuteRetention",
 }));
 
 export type SlmGetLifecycleError = ElasticsearchOpError;
@@ -54147,6 +55614,8 @@ export const slmGetLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmGetLifecycle",
 }));
 
 export type SlmGetLifecycle1Error = ElasticsearchOpError;
@@ -54162,6 +55631,8 @@ export const slmGetLifecycle1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmGetLifecycle1",
 }));
 
 export type SlmGetStatsError = ElasticsearchOpError;
@@ -54177,6 +55648,8 @@ export const slmGetStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmGetStats",
 }));
 
 export type SlmGetStatusError = ElasticsearchOpError;
@@ -54192,6 +55665,8 @@ export const slmGetStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmGetStatus",
 }));
 
 export type SlmPutLifecycleError = ElasticsearchOpError;
@@ -54207,6 +55682,8 @@ export const slmPutLifecycle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SlmPutLifecycle",
 }));
 
 export type SnapshotCleanupRepositoryError = ElasticsearchOpError;
@@ -54222,6 +55699,8 @@ export const snapshotCleanupRepository: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotCleanupRepository",
 }));
 
 export type SnapshotCreate1Error = ElasticsearchOpError;
@@ -54237,6 +55716,8 @@ export const snapshotCreate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotCreate1",
 }));
 
 export type SnapshotCreateRepositoryError = ElasticsearchOpError;
@@ -54252,6 +55733,8 @@ export const snapshotCreateRepository: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotCreateRepository",
 }));
 
 export type SnapshotCreateRepository1Error = ElasticsearchOpError;
@@ -54267,6 +55750,8 @@ export const snapshotCreateRepository1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotCreateRepository1",
 }));
 
 export type SnapshotDeleteRepositoryError = ElasticsearchOpError;
@@ -54282,6 +55767,8 @@ export const snapshotDeleteRepository: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotDeleteRepository",
 }));
 
 export type SnapshotGetRepositoryError = ElasticsearchOpError;
@@ -54297,6 +55784,8 @@ export const snapshotGetRepository: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotGetRepository",
 }));
 
 export type SnapshotGetRepository1Error = ElasticsearchOpError;
@@ -54312,6 +55801,8 @@ export const snapshotGetRepository1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotGetRepository1",
 }));
 
 export type SnapshotRepositoryAnalyzeError = ElasticsearchOpError;
@@ -54327,6 +55818,8 @@ export const snapshotRepositoryAnalyze: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotRepositoryAnalyze",
 }));
 
 export type SnapshotRepositoryVerifyIntegrityError = ElasticsearchOpError;
@@ -54342,6 +55835,8 @@ export const snapshotRepositoryVerifyIntegrity: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotRepositoryVerifyIntegrity",
 }));
 
 export type SnapshotStatusError = ElasticsearchOpError;
@@ -54357,6 +55852,8 @@ export const snapshotStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotStatus",
 }));
 
 export type SnapshotStatus1Error = ElasticsearchOpError;
@@ -54372,6 +55869,8 @@ export const snapshotStatus1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotStatus1",
 }));
 
 export type SnapshotStatus2Error = ElasticsearchOpError;
@@ -54387,6 +55886,8 @@ export const snapshotStatus2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotStatus2",
 }));
 
 export type SnapshotVerifyRepositoryError = ElasticsearchOpError;
@@ -54402,6 +55903,8 @@ export const snapshotVerifyRepository: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnapshotVerifyRepository",
 }));
 
 export type SqlClearCursorError = ElasticsearchOpError;
@@ -54417,6 +55920,8 @@ export const sqlClearCursor: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlClearCursor",
 }));
 
 export type SqlDeleteAsyncError = ElasticsearchOpError;
@@ -54432,6 +55937,8 @@ export const sqlDeleteAsync: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlDeleteAsync",
 }));
 
 export type SqlGetAsyncError = ElasticsearchOpError;
@@ -54447,6 +55954,8 @@ export const sqlGetAsync: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlGetAsync",
 }));
 
 export type SqlGetAsyncStatusError = ElasticsearchOpError;
@@ -54462,6 +55971,8 @@ export const sqlGetAsyncStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlGetAsyncStatus",
 }));
 
 export type SqlQueryError = ElasticsearchOpError;
@@ -54477,6 +55988,8 @@ export const sqlQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlQuery",
 }));
 
 export type SqlQuery1Error = ElasticsearchOpError;
@@ -54492,6 +56005,8 @@ export const sqlQuery1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlQuery1",
 }));
 
 export type SqlTranslateError = ElasticsearchOpError;
@@ -54507,6 +56022,8 @@ export const sqlTranslate: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlTranslate",
 }));
 
 export type SqlTranslate1Error = ElasticsearchOpError;
@@ -54522,6 +56039,8 @@ export const sqlTranslate1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlTranslate1",
 }));
 
 export type SslCertificatesError = ElasticsearchOpError;
@@ -54537,6 +56056,8 @@ export const sslCertificates: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SslCertificates",
 }));
 
 export type StartIlmError = ElasticsearchOpError;
@@ -54552,6 +56073,8 @@ export const startIlm: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartIlm",
 }));
 
 export type StartSlmError = ElasticsearchOpError;
@@ -54567,6 +56090,8 @@ export const startSlm: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSlm",
 }));
 
 export type StartTransformError = ElasticsearchOpError;
@@ -54582,6 +56107,8 @@ export const startTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartTransform",
 }));
 
 export type StartWatcherError = ElasticsearchOpError;
@@ -54597,6 +56124,8 @@ export const startWatcher: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartWatcher",
 }));
 
 export type StopEsqlAsyncQueryError = ElasticsearchOpError;
@@ -54612,6 +56141,8 @@ export const stopEsqlAsyncQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopEsqlAsyncQuery",
 }));
 
 export type StopIlmError = ElasticsearchOpError;
@@ -54627,6 +56158,8 @@ export const stopIlm: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopIlm",
 }));
 
 export type StopSlmError = ElasticsearchOpError;
@@ -54642,6 +56175,8 @@ export const stopSlm: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSlm",
 }));
 
 export type StopTransformError = ElasticsearchOpError;
@@ -54657,6 +56192,8 @@ export const stopTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopTransform",
 }));
 
 export type StopWatcherError = ElasticsearchOpError;
@@ -54672,6 +56209,8 @@ export const stopWatcher: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopWatcher",
 }));
 
 export type StreamsStatusError = ElasticsearchOpError;
@@ -54687,6 +56226,8 @@ export const streamsStatus: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamsStatus",
 }));
 
 export type TasksCancel1Error = ElasticsearchOpError;
@@ -54702,6 +56243,8 @@ export const tasksCancel1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksCancel1",
 }));
 
 export type TermsEnumError = ElasticsearchOpError;
@@ -54717,6 +56260,8 @@ export const termsEnum: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TermsEnum",
 }));
 
 export type TermsEnum1Error = ElasticsearchOpError;
@@ -54732,6 +56277,8 @@ export const termsEnum1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TermsEnum1",
 }));
 
 export type TermvectorsError = ElasticsearchOpError;
@@ -54747,6 +56294,8 @@ export const termvectors: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Termvectors",
 }));
 
 export type Termvectors1Error = ElasticsearchOpError;
@@ -54762,6 +56311,8 @@ export const termvectors1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Termvectors1",
 }));
 
 export type Termvectors2Error = ElasticsearchOpError;
@@ -54777,6 +56328,8 @@ export const termvectors2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Termvectors2",
 }));
 
 export type Termvectors3Error = ElasticsearchOpError;
@@ -54792,6 +56345,8 @@ export const termvectors3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Termvectors3",
 }));
 
 export type TextStructureFindFieldStructureError = ElasticsearchOpError;
@@ -54807,6 +56362,8 @@ export const textStructureFindFieldStructure: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TextStructureFindFieldStructure",
 }));
 
 export type TextStructureFindMessageStructureError = ElasticsearchOpError;
@@ -54822,6 +56379,8 @@ export const textStructureFindMessageStructure: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TextStructureFindMessageStructure",
 }));
 
 export type TextStructureFindMessageStructure1Error = ElasticsearchOpError;
@@ -54837,6 +56396,8 @@ export const textStructureFindMessageStructure1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TextStructureFindMessageStructure1",
 }));
 
 export type TextStructureFindStructureError = ElasticsearchOpError;
@@ -54852,6 +56413,8 @@ export const textStructureFindStructure: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TextStructureFindStructure",
 }));
 
 export type TextStructureTestGrokPatternError = ElasticsearchOpError;
@@ -54867,6 +56430,8 @@ export const textStructureTestGrokPattern: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TextStructureTestGrokPattern",
 }));
 
 export type TextStructureTestGrokPattern1Error = ElasticsearchOpError;
@@ -54882,6 +56447,8 @@ export const textStructureTestGrokPattern1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TextStructureTestGrokPattern1",
 }));
 
 export type TransformGetNodeStatsError = ElasticsearchOpError;
@@ -54897,6 +56464,8 @@ export const transformGetNodeStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformGetNodeStats",
 }));
 
 export type TransformPreviewTransformError = ElasticsearchOpError;
@@ -54912,6 +56481,8 @@ export const transformPreviewTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformPreviewTransform",
 }));
 
 export type TransformPreviewTransform1Error = ElasticsearchOpError;
@@ -54927,6 +56498,8 @@ export const transformPreviewTransform1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformPreviewTransform1",
 }));
 
 export type TransformPreviewTransform2Error = ElasticsearchOpError;
@@ -54942,6 +56515,8 @@ export const transformPreviewTransform2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformPreviewTransform2",
 }));
 
 export type TransformPreviewTransform3Error = ElasticsearchOpError;
@@ -54957,6 +56532,8 @@ export const transformPreviewTransform3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformPreviewTransform3",
 }));
 
 export type TransformScheduleNowTransformError = ElasticsearchOpError;
@@ -54972,6 +56549,8 @@ export const transformScheduleNowTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformScheduleNowTransform",
 }));
 
 export type TransformSetUpgradeModeError = ElasticsearchOpError;
@@ -54987,6 +56566,8 @@ export const transformSetUpgradeMode: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformSetUpgradeMode",
 }));
 
 export type TransformUpgradeTransformsError = ElasticsearchOpError;
@@ -55002,6 +56583,8 @@ export const transformUpgradeTransforms: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformUpgradeTransforms",
 }));
 
 export type UnfollowCcrError = ElasticsearchOpError;
@@ -55017,6 +56600,8 @@ export const unfollowCcr: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnfollowCcr",
 }));
 
 export type UpdateError = ElasticsearchOpError;
@@ -55032,6 +56617,8 @@ export const update: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 export type UpdateByQueryError = ElasticsearchOpError;
@@ -55047,6 +56634,8 @@ export const updateByQuery: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateByQuery",
 }));
 
 export type UpdateByQueryRethrottleError = ElasticsearchOpError;
@@ -55062,6 +56651,8 @@ export const updateByQueryRethrottle: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateByQueryRethrottle",
 }));
 
 export type UpdateInferenceError = ElasticsearchOpError;
@@ -55077,6 +56668,8 @@ export const updateInference: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInference",
 }));
 
 export type UpdateTransformError = ElasticsearchOpError;
@@ -55092,6 +56685,8 @@ export const updateTransform: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransform",
 }));
 
 export type WatcherAckWatch1Error = ElasticsearchOpError;
@@ -55107,6 +56702,8 @@ export const watcherAckWatch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherAckWatch1",
 }));
 
 export type WatcherAckWatch2Error = ElasticsearchOpError;
@@ -55122,6 +56719,8 @@ export const watcherAckWatch2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherAckWatch2",
 }));
 
 export type WatcherAckWatch3Error = ElasticsearchOpError;
@@ -55137,6 +56736,8 @@ export const watcherAckWatch3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherAckWatch3",
 }));
 
 export type WatcherActivateWatchError = ElasticsearchOpError;
@@ -55152,6 +56753,8 @@ export const watcherActivateWatch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherActivateWatch",
 }));
 
 export type WatcherActivateWatch1Error = ElasticsearchOpError;
@@ -55167,6 +56770,8 @@ export const watcherActivateWatch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherActivateWatch1",
 }));
 
 export type WatcherDeactivateWatchError = ElasticsearchOpError;
@@ -55182,6 +56787,8 @@ export const watcherDeactivateWatch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherDeactivateWatch",
 }));
 
 export type WatcherDeactivateWatch1Error = ElasticsearchOpError;
@@ -55197,6 +56804,8 @@ export const watcherDeactivateWatch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherDeactivateWatch1",
 }));
 
 export type WatcherDeleteWatchError = ElasticsearchOpError;
@@ -55212,6 +56821,8 @@ export const watcherDeleteWatch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherDeleteWatch",
 }));
 
 export type WatcherExecuteWatchError = ElasticsearchOpError;
@@ -55227,6 +56838,8 @@ export const watcherExecuteWatch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherExecuteWatch",
 }));
 
 export type WatcherExecuteWatch1Error = ElasticsearchOpError;
@@ -55242,6 +56855,8 @@ export const watcherExecuteWatch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherExecuteWatch1",
 }));
 
 export type WatcherExecuteWatch2Error = ElasticsearchOpError;
@@ -55257,6 +56872,8 @@ export const watcherExecuteWatch2: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherExecuteWatch2",
 }));
 
 export type WatcherExecuteWatch3Error = ElasticsearchOpError;
@@ -55272,6 +56889,8 @@ export const watcherExecuteWatch3: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherExecuteWatch3",
 }));
 
 export type WatcherGetSettingsError = ElasticsearchOpError;
@@ -55287,6 +56906,8 @@ export const watcherGetSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherGetSettings",
 }));
 
 export type WatcherGetWatchError = ElasticsearchOpError;
@@ -55302,6 +56923,8 @@ export const watcherGetWatch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherGetWatch",
 }));
 
 export type WatcherPutWatchError = ElasticsearchOpError;
@@ -55317,6 +56940,8 @@ export const watcherPutWatch: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherPutWatch",
 }));
 
 export type WatcherPutWatch1Error = ElasticsearchOpError;
@@ -55332,6 +56957,8 @@ export const watcherPutWatch1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherPutWatch1",
 }));
 
 export type WatcherQueryWatchesError = ElasticsearchOpError;
@@ -55347,6 +56974,8 @@ export const watcherQueryWatches: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherQueryWatches",
 }));
 
 export type WatcherQueryWatches1Error = ElasticsearchOpError;
@@ -55362,6 +56991,8 @@ export const watcherQueryWatches1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherQueryWatches1",
 }));
 
 export type WatcherStatsError = ElasticsearchOpError;
@@ -55377,6 +57008,8 @@ export const watcherStats: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherStats",
 }));
 
 export type WatcherStats1Error = ElasticsearchOpError;
@@ -55392,6 +57025,8 @@ export const watcherStats1: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherStats1",
 }));
 
 export type WatcherUpdateSettingsError = ElasticsearchOpError;
@@ -55407,6 +57042,8 @@ export const watcherUpdateSettings: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatcherUpdateSettings",
 }));
 
 export type WatchWatcherAckError = ElasticsearchOpError;
@@ -55422,6 +57059,8 @@ export const watchWatcherAck: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchWatcherAck",
 }));
 
 export type XpackInfoError = ElasticsearchOpError;
@@ -55437,6 +57076,8 @@ export const xpackInfo: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "XpackInfo",
 }));
 
 export type XpackUsageError = ElasticsearchOpError;
@@ -55452,6 +57093,8 @@ export const xpackUsage: API.OperationMethod<
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "XpackUsage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

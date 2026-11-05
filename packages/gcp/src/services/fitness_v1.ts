@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "fitness" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Fitness",
+  service: "fitness",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -467,6 +486,8 @@ export const aggregateUsersDataset: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateUsersDataset",
 }));
 
 export type CreateUsersDataSourcesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -482,6 +503,8 @@ export const createUsersDataSources: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersDataSources",
 }));
 
 export type DeleteUsersDataSourcesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -497,6 +520,8 @@ export const deleteUsersDataSources: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersDataSources",
 }));
 
 export type DeleteUsersDataSourcesDatasetsError =
@@ -517,6 +542,8 @@ export const deleteUsersDataSourcesDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersDataSourcesDatasets",
 }));
 
 export type DeleteUsersSessionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -532,6 +559,8 @@ export const deleteUsersSessions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSessions",
 }));
 
 export type GetUsersDataSourcesError = NotFound | Forbidden | GcpOpError;
@@ -547,6 +576,8 @@ export const getUsersDataSources: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersDataSources",
 }));
 
 export type GetUsersDataSourcesDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -563,6 +594,8 @@ export const getUsersDataSourcesDatasets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersDataSourcesDatasets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -579,6 +612,8 @@ export const listUsersDataSources: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersDataSources",
 }));
 
 export type ListUsersDataSourcesDataPointChangesError = NotFound | Forbidden | GcpOpError;
@@ -595,6 +630,8 @@ export const listUsersDataSourcesDataPointChanges: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersDataSourcesDataPointChanges",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -612,6 +649,8 @@ export const listUsersSessions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSessions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -633,6 +672,8 @@ export const patchUsersDataSourcesDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersDataSourcesDatasets",
 }));
 
 export type UpdateUsersDataSourcesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -648,6 +689,8 @@ export const updateUsersDataSources: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersDataSources",
 }));
 
 export type UpdateUsersSessionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -663,6 +706,8 @@ export const updateUsersSessions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersSessions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

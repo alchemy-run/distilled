@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Blocks",
+  propagate: "w3c",
+} as const;
+
 export type ValidateBlockRequestBlocksCase1ItemMap = { [key: string]: unknown | undefined };
 export type ValidateBlockRequestBlocksCase1List = Array<ValidateBlockRequestBlocksCase1ItemMap>;
 /** A JSON-encoded array of [structured blocks](/reference/block-kit/blocks). Provide exactly one of `blocks`, `view`, or `message`. */
@@ -40,6 +53,8 @@ export const validateBlock: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateBlock",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

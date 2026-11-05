@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Info",
+  propagate: "w3c",
+} as const;
+
 export interface GetUserHomeDirRequest {}
 export interface UserHomeDirResponse {
   dir: string;
@@ -35,6 +47,8 @@ export const getUserHomeDir: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserHomeDir",
 }));
 
 export type GetVersionError = DaytonaOpError;
@@ -50,6 +64,8 @@ export const getVersion: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetWorkDirError = DaytonaOpError;
@@ -65,6 +81,8 @@ export const getWorkDir: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkDir",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

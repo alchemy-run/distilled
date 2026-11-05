@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ivsrealtime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IVSRealTime",
+  service: "IVSRealTime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1063,7 +1079,7 @@ export type CreateEncoderConfigurationError =
  * Creates an EncoderConfiguration object.
  */
 export const createEncoderConfiguration: API.OperationMethod<
-  CreateEncoderConfigurationRequest,
+  CreateEncoderConfigurationRequest & RegionInput,
   CreateEncoderConfigurationResponse,
   CreateEncoderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1082,6 +1098,8 @@ export const createEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEncoderConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateEncoderConfiguration",
 }));
 
 export type CreateIngestConfigurationError =
@@ -1094,7 +1112,7 @@ export type CreateIngestConfigurationError =
  * Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
  */
 export const createIngestConfiguration: API.OperationMethod<
-  CreateIngestConfigurationRequest,
+  CreateIngestConfigurationRequest & RegionInput,
   CreateIngestConfigurationResponse,
   CreateIngestConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1110,6 +1128,8 @@ export const createIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateIngestConfiguration",
 }));
 
 export type CreateParticipantTokenError =
@@ -1125,7 +1145,7 @@ export type CreateParticipantTokenError =
  * Encryption keys are owned by Amazon IVS and never used directly by your application.
  */
 export const createParticipantToken: API.OperationMethod<
-  CreateParticipantTokenRequest,
+  CreateParticipantTokenRequest & RegionInput,
   CreateParticipantTokenResponse,
   CreateParticipantTokenError,
   Credentials | HttpClient.HttpClient
@@ -1142,6 +1162,8 @@ export const createParticipantToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipantToken",
+  telemetry: TELEMETRY,
+  span: "CreateParticipantToken",
 }));
 
 export type CreateStageError =
@@ -1155,7 +1177,7 @@ export type CreateStageError =
  * Creates a new stage (and optionally participant tokens).
  */
 export const createStage: API.OperationMethod<
-  CreateStageRequest,
+  CreateStageRequest & RegionInput,
   CreateStageResponse,
   CreateStageError,
   Credentials | HttpClient.HttpClient
@@ -1172,6 +1194,8 @@ export const createStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
+  telemetry: TELEMETRY,
+  span: "CreateStage",
 }));
 
 export type CreateStorageConfigurationError =
@@ -1187,7 +1211,7 @@ export type CreateStorageConfigurationError =
  * Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket.
  */
 export const createStorageConfiguration: API.OperationMethod<
-  CreateStorageConfigurationRequest,
+  CreateStorageConfigurationRequest & RegionInput,
   CreateStorageConfigurationResponse,
   CreateStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1206,6 +1230,8 @@ export const createStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateStorageConfiguration",
 }));
 
 export type DeleteEncoderConfigurationError =
@@ -1220,7 +1246,7 @@ export type DeleteEncoderConfigurationError =
  * Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.
  */
 export const deleteEncoderConfiguration: API.OperationMethod<
-  DeleteEncoderConfigurationRequest,
+  DeleteEncoderConfigurationRequest & RegionInput,
   DeleteEncoderConfigurationResponse,
   DeleteEncoderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1238,6 +1264,8 @@ export const deleteEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEncoderConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEncoderConfiguration",
 }));
 
 export type DeleteIngestConfigurationError =
@@ -1251,7 +1279,7 @@ export type DeleteIngestConfigurationError =
  * Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless `force` is set to `true`.
  */
 export const deleteIngestConfiguration: API.OperationMethod<
-  DeleteIngestConfigurationRequest,
+  DeleteIngestConfigurationRequest & RegionInput,
   DeleteIngestConfigurationResponse,
   DeleteIngestConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1268,6 +1296,8 @@ export const deleteIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteIngestConfiguration",
 }));
 
 export type DeletePublicKeyError =
@@ -1281,7 +1311,7 @@ export type DeletePublicKeyError =
  * Deletes the specified public key used to sign stage participant tokens. This invalidates future participant tokens generated using the key pair's private key.
  */
 export const deletePublicKey: API.OperationMethod<
-  DeletePublicKeyRequest,
+  DeletePublicKeyRequest & RegionInput,
   DeletePublicKeyResponse,
   DeletePublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -1298,6 +1328,8 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
+  telemetry: TELEMETRY,
+  span: "DeletePublicKey",
 }));
 
 export type DeleteStageError =
@@ -1312,7 +1344,7 @@ export type DeleteStageError =
  * Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the `stageArn` from the associated IngestConfiguration, if there are participants using the IngestConfiguration to publish to the stage.
  */
 export const deleteStage: API.OperationMethod<
-  DeleteStageRequest,
+  DeleteStageRequest & RegionInput,
   DeleteStageResponse,
   DeleteStageError,
   Credentials | HttpClient.HttpClient
@@ -1330,6 +1362,8 @@ export const deleteStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
+  telemetry: TELEMETRY,
+  span: "DeleteStage",
 }));
 
 export type DeleteStorageConfigurationError =
@@ -1346,7 +1380,7 @@ export type DeleteStorageConfigurationError =
  * If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete, then use DeleteStorageConfiguration.
  */
 export const deleteStorageConfiguration: API.OperationMethod<
-  DeleteStorageConfigurationRequest,
+  DeleteStorageConfigurationRequest & RegionInput,
   DeleteStorageConfigurationResponse,
   DeleteStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1364,6 +1398,8 @@ export const deleteStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteStorageConfiguration",
 }));
 
 export type DisconnectParticipantError =
@@ -1376,7 +1412,7 @@ export type DisconnectParticipantError =
  * Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration, DisconnectParticipant also updates the `stageArn` in the IngestConfiguration to be an empty string.
  */
 export const disconnectParticipant: API.OperationMethod<
-  DisconnectParticipantRequest,
+  DisconnectParticipantRequest & RegionInput,
   DisconnectParticipantResponse,
   DisconnectParticipantError,
   Credentials | HttpClient.HttpClient
@@ -1392,6 +1428,8 @@ export const disconnectParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectParticipant",
+  telemetry: TELEMETRY,
+  span: "DisconnectParticipant",
 }));
 
 export type GetCompositionError =
@@ -1406,7 +1444,7 @@ export type GetCompositionError =
  * Get information about the specified Composition resource.
  */
 export const getComposition: API.OperationMethod<
-  GetCompositionRequest,
+  GetCompositionRequest & RegionInput,
   GetCompositionResponse,
   GetCompositionError,
   Credentials | HttpClient.HttpClient
@@ -1424,6 +1462,8 @@ export const getComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComposition",
+  telemetry: TELEMETRY,
+  span: "GetComposition",
 }));
 
 export type GetEncoderConfigurationError =
@@ -1438,7 +1478,7 @@ export type GetEncoderConfigurationError =
  * Gets information about the specified EncoderConfiguration resource.
  */
 export const getEncoderConfiguration: API.OperationMethod<
-  GetEncoderConfigurationRequest,
+  GetEncoderConfigurationRequest & RegionInput,
   GetEncoderConfigurationResponse,
   GetEncoderConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1456,6 +1496,8 @@ export const getEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncoderConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEncoderConfiguration",
 }));
 
 export type GetIngestConfigurationError =
@@ -1467,7 +1509,7 @@ export type GetIngestConfigurationError =
  * Gets information about the specified IngestConfiguration.
  */
 export const getIngestConfiguration: API.OperationMethod<
-  GetIngestConfigurationRequest,
+  GetIngestConfigurationRequest & RegionInput,
   GetIngestConfigurationResponse,
   GetIngestConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1478,6 +1520,8 @@ export const getIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetIngestConfiguration",
 }));
 
 export type GetParticipantError =
@@ -1489,7 +1533,7 @@ export type GetParticipantError =
  * Gets information about the specified participant token.
  */
 export const getParticipant: API.OperationMethod<
-  GetParticipantRequest,
+  GetParticipantRequest & RegionInput,
   GetParticipantResponse,
   GetParticipantError,
   Credentials | HttpClient.HttpClient
@@ -1500,6 +1544,8 @@ export const getParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParticipant",
+  telemetry: TELEMETRY,
+  span: "GetParticipant",
 }));
 
 export type GetPublicKeyError =
@@ -1511,7 +1557,7 @@ export type GetPublicKeyError =
  * Gets information for the specified public key.
  */
 export const getPublicKey: API.OperationMethod<
-  GetPublicKeyRequest,
+  GetPublicKeyRequest & RegionInput,
   GetPublicKeyResponse,
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -1522,6 +1568,8 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type GetStageError =
@@ -1534,7 +1582,7 @@ export type GetStageError =
  * Gets information for the specified stage.
  */
 export const getStage: API.OperationMethod<
-  GetStageRequest,
+  GetStageRequest & RegionInput,
   GetStageResponse,
   GetStageError,
   Credentials | HttpClient.HttpClient
@@ -1550,6 +1598,8 @@ export const getStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
+  telemetry: TELEMETRY,
+  span: "GetStage",
 }));
 
 export type GetStageSessionError =
@@ -1561,7 +1611,7 @@ export type GetStageSessionError =
  * Gets information for the specified stage session.
  */
 export const getStageSession: API.OperationMethod<
-  GetStageSessionRequest,
+  GetStageSessionRequest & RegionInput,
   GetStageSessionResponse,
   GetStageSessionError,
   Credentials | HttpClient.HttpClient
@@ -1572,6 +1622,8 @@ export const getStageSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStageSession",
+  telemetry: TELEMETRY,
+  span: "GetStageSession",
 }));
 
 export type GetStorageConfigurationError =
@@ -1586,7 +1638,7 @@ export type GetStorageConfigurationError =
  * Gets the storage configuration for the specified ARN.
  */
 export const getStorageConfiguration: API.OperationMethod<
-  GetStorageConfigurationRequest,
+  GetStorageConfigurationRequest & RegionInput,
   GetStorageConfigurationResponse,
   GetStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1604,6 +1656,8 @@ export const getStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetStorageConfiguration",
 }));
 
 export type ImportPublicKeyError =
@@ -1617,7 +1671,7 @@ export type ImportPublicKeyError =
  * Import a public key to be used for signing stage participant tokens.
  */
 export const importPublicKey: API.OperationMethod<
-  ImportPublicKeyRequest,
+  ImportPublicKeyRequest & RegionInput,
   ImportPublicKeyResponse,
   ImportPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -1634,6 +1688,8 @@ export const importPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPublicKey",
+  telemetry: TELEMETRY,
+  span: "ImportPublicKey",
 }));
 
 export type ListCompositionsError =
@@ -1647,7 +1703,7 @@ export type ListCompositionsError =
  * Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
  */
 export const listCompositions: API.PaginatedOperationMethod<
-  ListCompositionsRequest,
+  ListCompositionsRequest & RegionInput,
   ListCompositionsResponse,
   ListCompositionsError,
   Credentials | HttpClient.HttpClient,
@@ -1670,6 +1726,8 @@ export const listCompositions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompositions",
 })) as any;
 
 export type ListEncoderConfigurationsError =
@@ -1683,7 +1741,7 @@ export type ListEncoderConfigurationsError =
  * Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
  */
 export const listEncoderConfigurations: API.PaginatedOperationMethod<
-  ListEncoderConfigurationsRequest,
+  ListEncoderConfigurationsRequest & RegionInput,
   ListEncoderConfigurationsResponse,
   ListEncoderConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1706,6 +1764,8 @@ export const listEncoderConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEncoderConfigurations",
 })) as any;
 
 export type ListIngestConfigurationsError =
@@ -1716,7 +1776,7 @@ export type ListIngestConfigurationsError =
  * Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
  */
 export const listIngestConfigurations: API.PaginatedOperationMethod<
-  ListIngestConfigurationsRequest,
+  ListIngestConfigurationsRequest & RegionInput,
   ListIngestConfigurationsResponse,
   ListIngestConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1734,6 +1794,8 @@ export const listIngestConfigurations: API.PaginatedOperationMethod<
     items: "ingestConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestConfigurations",
 })) as any;
 
 export type ListParticipantEventsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1741,7 +1803,7 @@ export type ListParticipantEventsError = AccessDeniedException | ValidationExcep
  * Lists events for a specified participant that occurred during a specified stage session.
  */
 export const listParticipantEvents: API.PaginatedOperationMethod<
-  ListParticipantEventsRequest,
+  ListParticipantEventsRequest & RegionInput,
   ListParticipantEventsResponse,
   ListParticipantEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1758,6 +1820,8 @@ export const listParticipantEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParticipantEvents",
 })) as any;
 
 export type ListParticipantReplicasError =
@@ -1768,7 +1832,7 @@ export type ListParticipantReplicasError =
  * Lists all the replicas for a participant from a source stage.
  */
 export const listParticipantReplicas: API.PaginatedOperationMethod<
-  ListParticipantReplicasRequest,
+  ListParticipantReplicasRequest & RegionInput,
   ListParticipantReplicasResponse,
   ListParticipantReplicasError,
   Credentials | HttpClient.HttpClient,
@@ -1786,6 +1850,8 @@ export const listParticipantReplicas: API.PaginatedOperationMethod<
     items: "replicas",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParticipantReplicas",
 })) as any;
 
 export type ListParticipantsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1793,7 +1859,7 @@ export type ListParticipantsError = AccessDeniedException | ValidationException 
  * Lists all participants in a specified stage session.
  */
 export const listParticipants: API.PaginatedOperationMethod<
-  ListParticipantsRequest,
+  ListParticipantsRequest & RegionInput,
   ListParticipantsResponse,
   ListParticipantsError,
   Credentials | HttpClient.HttpClient,
@@ -1810,6 +1876,8 @@ export const listParticipants: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParticipants",
 })) as any;
 
 export type ListPublicKeysError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1817,7 +1885,7 @@ export type ListPublicKeysError = AccessDeniedException | ValidationException | 
  * Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
  */
 export const listPublicKeys: API.PaginatedOperationMethod<
-  ListPublicKeysRequest,
+  ListPublicKeysRequest & RegionInput,
   ListPublicKeysResponse,
   ListPublicKeysError,
   Credentials | HttpClient.HttpClient,
@@ -1835,6 +1903,8 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     items: "publicKeys",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublicKeys",
 })) as any;
 
 export type ListStagesError =
@@ -1847,7 +1917,7 @@ export type ListStagesError =
  * Gets summary information about all stages in your account, in the AWS region where the API request is processed.
  */
 export const listStages: API.PaginatedOperationMethod<
-  ListStagesRequest,
+  ListStagesRequest & RegionInput,
   ListStagesResponse,
   ListStagesError,
   Credentials | HttpClient.HttpClient,
@@ -1864,6 +1934,8 @@ export const listStages: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStages",
 })) as any;
 
 export type ListStageSessionsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1871,7 +1943,7 @@ export type ListStageSessionsError = AccessDeniedException | ValidationException
  * Gets all sessions for a specified stage.
  */
 export const listStageSessions: API.PaginatedOperationMethod<
-  ListStageSessionsRequest,
+  ListStageSessionsRequest & RegionInput,
   ListStageSessionsResponse,
   ListStageSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1888,6 +1960,8 @@ export const listStageSessions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStageSessions",
 })) as any;
 
 export type ListStorageConfigurationsError =
@@ -1901,7 +1975,7 @@ export type ListStorageConfigurationsError =
  * Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
  */
 export const listStorageConfigurations: API.PaginatedOperationMethod<
-  ListStorageConfigurationsRequest,
+  ListStorageConfigurationsRequest & RegionInput,
   ListStorageConfigurationsResponse,
   ListStorageConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1924,6 +1998,8 @@ export const listStorageConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStorageConfigurations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1936,7 +2012,7 @@ export type ListTagsForResourceError =
  * Gets information about AWS tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1952,6 +2028,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartCompositionError =
@@ -1979,7 +2057,7 @@ export type StartCompositionError =
  * - When broadcasting is disconnected and all attempts to reconnect are exhausted.
  */
 export const startComposition: API.OperationMethod<
-  StartCompositionRequest,
+  StartCompositionRequest & RegionInput,
   StartCompositionResponse,
   StartCompositionError,
   Credentials | HttpClient.HttpClient
@@ -1998,6 +2076,8 @@ export const startComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartComposition",
+  telemetry: TELEMETRY,
+  span: "StartComposition",
 }));
 
 export type StartParticipantReplicationError =
@@ -2013,7 +2093,7 @@ export type StartParticipantReplicationError =
  * Starts replicating a publishing participant from a source stage to a destination stage.
  */
 export const startParticipantReplication: API.OperationMethod<
-  StartParticipantReplicationRequest,
+  StartParticipantReplicationRequest & RegionInput,
   StartParticipantReplicationResponse,
   StartParticipantReplicationError,
   Credentials | HttpClient.HttpClient
@@ -2032,6 +2112,8 @@ export const startParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartParticipantReplication",
+  telemetry: TELEMETRY,
+  span: "StartParticipantReplication",
 }));
 
 export type StopCompositionError =
@@ -2046,7 +2128,7 @@ export type StopCompositionError =
  * Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
  */
 export const stopComposition: API.OperationMethod<
-  StopCompositionRequest,
+  StopCompositionRequest & RegionInput,
   StopCompositionResponse,
   StopCompositionError,
   Credentials | HttpClient.HttpClient
@@ -2064,6 +2146,8 @@ export const stopComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopComposition",
+  telemetry: TELEMETRY,
+  span: "StopComposition",
 }));
 
 export type StopParticipantReplicationError =
@@ -2076,7 +2160,7 @@ export type StopParticipantReplicationError =
  * Stops a replicated participant session.
  */
 export const stopParticipantReplication: API.OperationMethod<
-  StopParticipantReplicationRequest,
+  StopParticipantReplicationRequest & RegionInput,
   StopParticipantReplicationResponse,
   StopParticipantReplicationError,
   Credentials | HttpClient.HttpClient
@@ -2092,6 +2176,8 @@ export const stopParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopParticipantReplication",
+  telemetry: TELEMETRY,
+  span: "StopParticipantReplication",
 }));
 
 export type TagResourceError =
@@ -2104,7 +2190,7 @@ export type TagResourceError =
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2120,6 +2206,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2132,7 +2220,7 @@ export type UntagResourceError =
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2148,6 +2236,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIngestConfigurationError =
@@ -2161,7 +2251,7 @@ export type UpdateIngestConfigurationError =
  * Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
  */
 export const updateIngestConfiguration: API.OperationMethod<
-  UpdateIngestConfigurationRequest,
+  UpdateIngestConfigurationRequest & RegionInput,
   UpdateIngestConfigurationResponse,
   UpdateIngestConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2178,6 +2268,8 @@ export const updateIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateIngestConfiguration",
 }));
 
 export type UpdateStageError =
@@ -2193,7 +2285,7 @@ export type UpdateStageError =
  * Updates a stage's configuration.
  */
 export const updateStage: API.OperationMethod<
-  UpdateStageRequest,
+  UpdateStageRequest & RegionInput,
   UpdateStageResponse,
   UpdateStageError,
   Credentials | HttpClient.HttpClient
@@ -2212,6 +2304,8 @@ export const updateStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
+  telemetry: TELEMETRY,
+  span: "UpdateStage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

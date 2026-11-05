@@ -64,6 +64,13 @@
           "message": {
             "matches": "The function execution role does not have permissions to call|Cannot access stream|Please ensure the role can perform the GetRecords"
           }
+        },
+        {
+          "name": "QueueVisibilityTimeoutTooShort",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "is less than Function timeout"
+          }
         }
       ]
     },
@@ -246,6 +253,13 @@
           "from": "InvalidParameterValueException",
           "message": {
             "matches": "The function execution role does not have permissions to call|Cannot access stream|Please ensure the role can perform the GetRecords"
+          }
+        },
+        {
+          "name": "QueueVisibilityTimeoutTooShort",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "is less than Function timeout"
           }
         }
       ]

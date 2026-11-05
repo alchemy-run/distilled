@@ -25,6 +25,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   shareLink: "share_link",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Stream",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1617,6 +1631,8 @@ export const copyAudioTrack: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyAudioTrack",
 }));
 
 export type CreateCaptionLanguageError = CloudflareOpError;
@@ -1632,6 +1648,8 @@ export const createCaptionLanguage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaptionLanguage",
 }));
 
 export type CreateClipError = CloudflareOpError;
@@ -1647,6 +1665,8 @@ export const createClip: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClip",
 }));
 
 export type CreateCopyError = CloudflareOpError;
@@ -1662,6 +1682,8 @@ export const createCopy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCopy",
 }));
 
 export type CreateDirectUploadError = CloudflareOpError;
@@ -1677,6 +1699,8 @@ export const createDirectUpload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDirectUpload",
 }));
 
 export type CreateDownloadError = CloudflareOpError;
@@ -1692,6 +1716,8 @@ export const createDownload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDownload",
 }));
 
 export type CreateKeyError = CloudflareOpError;
@@ -1707,6 +1733,8 @@ export const createKey: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type CreateLiveInputError = CloudflareOpError;
@@ -1722,6 +1750,8 @@ export const createLiveInput: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLiveInput",
 }));
 
 export type CreateLiveInputOutputError = LiveInputNotFound | Forbidden | CloudflareOpError;
@@ -1737,6 +1767,8 @@ export const createLiveInputOutput: API.OperationMethod<
   errors: [LiveInputNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLiveInputOutput",
 }));
 
 export type CreateStreamError = CloudflareOpError;
@@ -1752,6 +1784,8 @@ export const createStream: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStream",
 }));
 
 export type CreateTokenError = CloudflareOpError;
@@ -1767,6 +1801,8 @@ export const createToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type CreateWatermarkError = WatermarkImageInvalid | Forbidden | CloudflareOpError;
@@ -1782,6 +1818,8 @@ export const createWatermark: API.OperationMethod<
   errors: [WatermarkImageInvalid, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWatermark",
 }));
 
 export type DeleteAudioTrackError = CloudflareOpError;
@@ -1797,6 +1835,8 @@ export const deleteAudioTrack: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAudioTrack",
 }));
 
 export type DeleteCaptionLanguageError = CloudflareOpError;
@@ -1812,6 +1852,8 @@ export const deleteCaptionLanguage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaptionLanguage",
 }));
 
 export type DeleteDownloadError = CloudflareOpError;
@@ -1827,6 +1869,8 @@ export const deleteDownload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDownload",
 }));
 
 export type DeleteKeyError = SigningKeyNotFound | Forbidden | CloudflareOpError;
@@ -1842,6 +1886,8 @@ export const deleteKey: API.OperationMethod<
   errors: [SigningKeyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteLiveInputError = LiveInputNotFound | Forbidden | CloudflareOpError;
@@ -1857,6 +1903,8 @@ export const deleteLiveInput: API.OperationMethod<
   errors: [LiveInputNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiveInput",
 }));
 
 export type DeleteLiveInputOutputError = OutputNotFound | Forbidden | CloudflareOpError;
@@ -1872,6 +1920,8 @@ export const deleteLiveInputOutput: API.OperationMethod<
   errors: [OutputNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiveInputOutput",
 }));
 
 export type DeleteStreamError = CloudflareOpError;
@@ -1887,6 +1937,8 @@ export const deleteStream: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStream",
 }));
 
 export type DeleteWatermarkError = WatermarkNotFound | Forbidden | CloudflareOpError;
@@ -1902,6 +1954,8 @@ export const deleteWatermark: API.OperationMethod<
   errors: [WatermarkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWatermark",
 }));
 
 export type DeleteWebhookError = WebhookNotFound | Forbidden | CloudflareOpError;
@@ -1917,6 +1971,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [WebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type EditStreamError = CloudflareOpError;
@@ -1932,6 +1988,8 @@ export const editStream: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditStream",
 }));
 
 export type GetAudioTrackError = CloudflareOpError;
@@ -1947,6 +2005,8 @@ export const getAudioTrack: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAudioTrack",
 }));
 
 export type GetCaptionError = CloudflareOpError;
@@ -1964,6 +2024,8 @@ export const getCaption: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetCaption",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1982,6 +2044,8 @@ export const getCaptionLanguage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaptionLanguage",
 }));
 
 export type GetCaptionLanguageVttError = CloudflareOpError;
@@ -1997,6 +2061,8 @@ export const getCaptionLanguageVtt: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaptionLanguageVtt",
 }));
 
 export type GetDownloadError = CloudflareOpError;
@@ -2012,6 +2078,8 @@ export const getDownload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDownload",
 }));
 
 export type GetEmbedError = CloudflareOpError;
@@ -2027,6 +2095,8 @@ export const getEmbed: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbed",
 }));
 
 export type GetKeyError = Forbidden | CloudflareOpError;
@@ -2044,6 +2114,8 @@ export const getKey: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetKey",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2062,6 +2134,8 @@ export const getLiveInput: API.OperationMethod<
   errors: [LiveInputNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLiveInput",
 }));
 
 export type GetStreamError = CloudflareOpError;
@@ -2077,6 +2151,8 @@ export const getStream: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStream",
 }));
 
 export type GetWatermarkError = WatermarkNotFound | Forbidden | CloudflareOpError;
@@ -2092,6 +2168,8 @@ export const getWatermark: API.OperationMethod<
   errors: [WatermarkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatermark",
 }));
 
 export type GetWebhookError = WebhookNotFound | Forbidden | CloudflareOpError;
@@ -2107,6 +2185,8 @@ export const getWebhook: API.OperationMethod<
   errors: [WebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListLiveInputOutputsError = LiveInputNotFound | Forbidden | CloudflareOpError;
@@ -2124,6 +2204,8 @@ export const listLiveInputOutputs: API.PaginatedOperationMethod<
     errors: [LiveInputNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLiveInputOutputs",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2142,6 +2224,8 @@ export const listLiveInputs: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLiveInputs",
 }));
 
 export type ListStreamsError = CloudflareOpError;
@@ -2159,6 +2243,8 @@ export const listStreams: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListStreams",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2179,6 +2265,8 @@ export const listWatermarks: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWatermarks",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2197,6 +2285,8 @@ export const patchAudioTrack: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAudioTrack",
 }));
 
 export type PutWebhookError = CloudflareOpError;
@@ -2212,6 +2302,8 @@ export const putWebhook: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutWebhook",
 }));
 
 export type StorageUsageVideoError = CloudflareOpError;
@@ -2227,6 +2319,8 @@ export const storageUsageVideo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageUsageVideo",
 }));
 
 export type UpdateCaptionLanguageError = CloudflareOpError;
@@ -2242,6 +2336,8 @@ export const updateCaptionLanguage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaptionLanguage",
 }));
 
 export type UpdateLiveInputError = CloudflareOpError;
@@ -2257,6 +2353,8 @@ export const updateLiveInput: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLiveInput",
 }));
 
 export type UpdateLiveInputOutputError = OutputNotFound | Forbidden | CloudflareOpError;
@@ -2272,6 +2370,8 @@ export const updateLiveInputOutput: API.OperationMethod<
   errors: [OutputNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLiveInputOutput",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

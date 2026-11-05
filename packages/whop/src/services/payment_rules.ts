@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "PaymentRules",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -341,6 +354,8 @@ export const activatePaymentRule: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivatePaymentRule",
 }));
 
 export type CreatePaymentRuleError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -356,6 +371,8 @@ export const createPaymentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRule",
 }));
 
 export type DeactivatePaymentRuleError = Conflict | WhopOpError;
@@ -371,6 +388,8 @@ export const deactivatePaymentRule: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivatePaymentRule",
 }));
 
 export type DeletePaymentRuleError = WhopOpError;
@@ -386,6 +405,8 @@ export const deletePaymentRule: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePaymentRule",
 }));
 
 export type GetPaymentRuleError = NotFound | WhopOpError;
@@ -401,6 +422,8 @@ export const getPaymentRule: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentRule",
 }));
 
 export type ListPaymentRuleFieldsError = WhopOpError;
@@ -416,6 +439,8 @@ export const listPaymentRuleFields: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentRuleFields",
 }));
 
 export type ListPaymentRulesError = BadRequest | WhopOpError;
@@ -433,6 +458,8 @@ export const listPaymentRules: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPaymentRules",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -458,6 +485,8 @@ export const replacePaymentRule: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePaymentRule",
 }));
 
 export type UpdatePaymentRuleError = WhopOpError;
@@ -473,6 +502,8 @@ export const updatePaymentRule: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

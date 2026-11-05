@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.KubernetesRuntime" },
+  prefix: "Kubernetesruntime",
+  service: "Kubernetesruntime",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Details of the BgpPeer. */
 export interface BgpPeerPropertiesInput {
   /** My ASN */
@@ -639,6 +659,13 @@ export const BgpPeersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BgpPeersCreateOrUpdate",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+    },
+  },
 }));
 
 export type DeleteBgpPeerError = AzureOpError;
@@ -654,6 +681,13 @@ export const DeleteBgpPeer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBgpPeer",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+    },
+  },
 }));
 
 export type DeleteLoadBalancerError = AzureOpError;
@@ -669,6 +703,14 @@ export const DeleteLoadBalancer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteLoadBalancer",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+    },
+  },
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -684,6 +726,13 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteService",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+    },
+  },
 }));
 
 export type DeleteStorageClassError = AzureOpError;
@@ -699,6 +748,14 @@ export const DeleteStorageClass: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteStorageClass",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+    },
+  },
 }));
 
 export type GetBgpPeerError = AzureOpError;
@@ -714,6 +771,13 @@ export const GetBgpPeer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBgpPeer",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+    },
+  },
 }));
 
 export type GetLoadBalancerError = AzureOpError;
@@ -729,6 +793,14 @@ export const GetLoadBalancer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetLoadBalancer",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+    },
+  },
 }));
 
 export type GetServiceError = AzureOpError;
@@ -744,6 +816,13 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetService",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+    },
+  },
 }));
 
 export type GetStorageClassError = AzureOpError;
@@ -759,6 +838,14 @@ export const GetStorageClass: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetStorageClass",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+    },
+  },
 }));
 
 export type ListBgpPeersError = AzureOpError;
@@ -774,6 +861,11 @@ export const ListBgpPeers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListBgpPeers",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers" },
+  },
 }));
 
 export type ListLoadBalancersError = AzureOpError;
@@ -789,6 +881,13 @@ export const ListLoadBalancers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListLoadBalancers",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers",
+    },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -804,6 +903,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListServicesError = AzureOpError;
@@ -819,6 +920,11 @@ export const ListServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListServices",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services" },
+  },
 }));
 
 export type ListStorageClassError = AzureOpError;
@@ -834,6 +940,13 @@ export const ListStorageClass: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListStorageClass",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses",
+    },
+  },
 }));
 
 export type LoadBalancersCreateOrUpdateError = AzureOpError;
@@ -849,6 +962,14 @@ export const LoadBalancersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LoadBalancersCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+    },
+  },
 }));
 
 export type ServicesCreateOrUpdateError = AzureOpError;
@@ -864,6 +985,13 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ServicesCreateOrUpdate",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+    },
+  },
 }));
 
 export type StorageClassCreateOrUpdateError = AzureOpError;
@@ -879,6 +1007,14 @@ export const StorageClassCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "StorageClassCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+    },
+  },
 }));
 
 export type UpdateStorageClassError = AzureOpError;
@@ -894,6 +1030,14 @@ export const UpdateStorageClass: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStorageClass",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

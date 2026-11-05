@@ -47,6 +47,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   workflowId: "workflow_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Workflows",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class InstanceAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InstanceAlreadyExists>()("InstanceAlreadyExists", {
@@ -145,7 +159,7 @@ export interface InstancesBulkRequestBodyItem {
   instanceRetention?: InstancesBulkRequestBodyItemInstanceRetention;
   locationHint?: InstancesBulkRequestBodyItemLocationHint | (string & {});
   /** JSON-encoded event payload passed into the new instance. */
-  params?: string;
+  params?: unknown;
 }
 export type InstancesBulkRequestBodyList = Array<InstancesBulkRequestBodyItem>;
 export interface BulkInstanceRequest {
@@ -206,7 +220,7 @@ export interface CreateInstanceRequest {
   instanceRetention?: InstancesCreateRequestInstanceRetention;
   locationHint?: InstancesCreateRequestLocationHint | (string & {});
   /** JSON-encoded event payload passed into the new instance. */
-  params?: string;
+  params?: unknown;
 }
 export type InstancesCreateResponseStatus =
   | "queued"
@@ -419,6 +433,7 @@ export interface GetWorkflowRequest {
   workflowName: string;
 }
 export type GetResponseInstancesMap = { [key: string]: number | undefined };
+export type WorkflowJurisdiction = "eu" | "fedramp" | "us";
 export interface GetResponseSchedulesItem {
   cron: string;
   nextInstance: string;
@@ -434,6 +449,8 @@ export interface GetWorkflowResponse {
   name: string;
   scriptName: string;
   triggeredOn: string;
+  /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
+  jurisdiction?: WorkflowJurisdiction | null;
   schedules?: GetResponseSchedulesList | null;
   /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
   scriptDeleted?: boolean | null;
@@ -840,6 +857,8 @@ export interface ListResultItem {
   name: string;
   scriptName: string;
   triggeredOn: string;
+  /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
+  jurisdiction?: WorkflowJurisdiction | null;
   schedules?: ListResultItemSchedulesList | null;
   /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
   scriptDeleted?: boolean | null;
@@ -912,6 +931,8 @@ export interface PutWorkflowRequest {
   concurrency?: UpdateRequestConcurrency;
   /** Default retention applied to instances of this version when they do not set their own retention. */
   defaultRetention?: UpdateRequestDefaultRetention;
+  /** Jurisdiction where instances of this workflow run and store data. Can only be set when the workflow is created and cannot be changed afterwards; omit it to keep the existing jurisdiction. */
+  jurisdiction?: WorkflowJurisdiction | (string & {});
   limits?: UpdateRequestLimits;
   schedules?: UpdateRequestSchedulesList;
 }
@@ -927,6 +948,8 @@ export interface PutWorkflowResponse {
   terminatorRunning: number;
   triggeredOn: string;
   versionId: string;
+  /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
+  jurisdiction?: WorkflowJurisdiction | null;
 }
 export type InstancesStepRequestType = "step" | "waitForEvent";
 export interface StepInstanceRequest {
@@ -988,6 +1011,8 @@ export const bulkInstance: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkInstance",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -998,6 +1023,7 @@ export type CreateInstanceError =
   | InstanceAlreadyExists
   | InvalidRoute
   | InvalidBody
+  | WorkflowInternalError
   | CloudflareOpError;
 /** Creates a new instance of a workflow, starting its execution. */
 export const createInstance: API.OperationMethod<
@@ -1013,11 +1039,14 @@ export const createInstance: API.OperationMethod<
     InstanceAlreadyExists,
     InvalidRoute,
     InvalidBody,
+    WorkflowInternalError,
     CloudflareRateLimited,
     CloudflareError,
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type CreateInstanceEventError =
@@ -1045,6 +1074,8 @@ export const createInstanceEvent: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstanceEvent",
 }));
 
 export type DeleteWorkflowError = WorkflowNotFound | InvalidRoute | CloudflareOpError;
@@ -1060,12 +1091,15 @@ export const deleteWorkflow: API.OperationMethod<
   errors: [WorkflowNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type GetInstanceError =
   | WorkflowNotFound
   | InvalidRoute
   | InstanceNotFound
+  | WorkflowInternalError
   | CloudflareOpError;
 /** Retrieves logs and execution status for a specific workflow instance. */
 export const getInstance: API.OperationMethod<
@@ -1080,11 +1114,14 @@ export const getInstance: API.OperationMethod<
     WorkflowNotFound,
     InvalidRoute,
     InstanceNotFound,
+    WorkflowInternalError,
     CloudflareRateLimited,
     CloudflareError,
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetVersionError = WorkflowNotFound | InvalidRoute | VersionNotFound | CloudflareOpError;
@@ -1100,6 +1137,8 @@ export const getVersion: API.OperationMethod<
   errors: [WorkflowNotFound, InvalidRoute, VersionNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetWorkflowError = WorkflowNotFound | InvalidRoute | CloudflareOpError;
@@ -1115,6 +1154,8 @@ export const getWorkflow: API.OperationMethod<
   errors: [WorkflowNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GraphVersionError = CloudflareOpError;
@@ -1130,6 +1171,8 @@ export const graphVersion: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GraphVersion",
 }));
 
 export type ListInstancesError =
@@ -1159,6 +1202,8 @@ export const listInstances: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInstances",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1185,6 +1230,8 @@ export const listVersions: API.PaginatedOperationMethod<
     errors: [WorkflowNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListVersions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1211,6 +1258,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWorkflows",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1227,6 +1276,7 @@ export type PatchInstanceStatusError =
   | InvalidRoute
   | InstanceNotFound
   | InstanceCannotTerminate
+  | WorkflowInternalError
   | CloudflareOpError;
 /** Changes the execution status of a workflow instance (e.g., pause, resume, terminate). */
 export const patchInstanceStatus: API.OperationMethod<
@@ -1242,11 +1292,14 @@ export const patchInstanceStatus: API.OperationMethod<
     InvalidRoute,
     InstanceNotFound,
     InstanceCannotTerminate,
+    WorkflowInternalError,
     CloudflareRateLimited,
     CloudflareError,
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInstanceStatus",
 }));
 
 export type PutWorkflowError = WorkflowInternalError | InvalidRoute | CloudflareOpError;
@@ -1262,6 +1315,8 @@ export const putWorkflow: API.OperationMethod<
   errors: [WorkflowInternalError, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutWorkflow",
 }));
 
 export type StepInstanceError = CloudflareOpError;
@@ -1277,6 +1332,8 @@ export const stepInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StepInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1507,6 +1564,7 @@ function __c6(j: number): any {
           name: S.String,
           scriptName: S.String.pipe(T.Body("script_name")),
           triggeredOn: S.String.pipe(T.Body("triggered_on")),
+          jurisdiction: S.optional(S.NullOr(S.String)),
           schedules: S.optional(S.NullOr(__S(114, __c7, 2))),
           scriptDeleted: S.optional(S.NullOr(S.Boolean).pipe(T.Body("script_deleted"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -1756,6 +1814,7 @@ function __c11(j: number): any {
           name: S.String,
           scriptName: S.String.pipe(T.Body("script_name")),
           triggeredOn: S.String.pipe(T.Body("triggered_on")),
+          jurisdiction: S.optional(S.NullOr(S.String)),
           schedules: S.optional(S.NullOr(__S(114, __c7, 2))),
           scriptDeleted: S.optional(S.NullOr(S.Boolean).pipe(T.Body("script_deleted"))),
         }),
@@ -1851,6 +1910,7 @@ function __c13(j: number): any {
           scriptName: S.String.pipe(T.Body("script_name")),
           concurrency: S.optional(__S(208, __c13, 0)),
           defaultRetention: S.optional(__S(211, __c13, 3).pipe(T.Body("default_retention"))),
+          jurisdiction: S.optional(S.String),
           limits: S.optional(__S(212, __c13, 4)),
           schedules: S.optional(__S(214, __c13, 6)),
         })
@@ -1876,6 +1936,7 @@ function __c13(j: number): any {
           terminatorRunning: S.Number.pipe(T.Body("terminator_running")),
           triggeredOn: S.String.pipe(T.Body("triggered_on")),
           versionId: S.String.pipe(T.Body("version_id")),
+          jurisdiction: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutWorkflowResponse" });
   }
@@ -1931,7 +1992,7 @@ function __c15(j: number): any {
           instanceId: S.optional(S.String.pipe(T.Body("instance_id"))),
           instanceRetention: S.optional(__S(242, __c15, 2).pipe(T.Body("instance_retention"))),
           locationHint: S.optional(S.String.pipe(T.Body("location_hint"))),
-          params: S.optional(S.String),
+          params: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "InstancesBulkRequestBodyItem" });
     case 4:
@@ -1994,7 +2055,7 @@ function __c16(j: number): any {
           instanceId: S.optional(S.String.pipe(T.Body("instance_id"))),
           instanceRetention: S.optional(__S(258, __c16, 2).pipe(T.Body("instance_retention"))),
           locationHint: S.optional(S.String.pipe(T.Body("location_hint"))),
-          params: S.optional(S.String),
+          params: S.optional(S.Unknown),
         })
           .pipe(
             T.Http({

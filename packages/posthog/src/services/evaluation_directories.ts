@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "EvaluationDirectories",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateEvaluationDirectoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -91,6 +104,8 @@ export const createEvaluationDirectory: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationDirectory",
 }));
 
 export type EvaluationDirectoriesDestroyError = PosthogOpError;
@@ -105,6 +120,8 @@ export const evaluationDirectoriesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EvaluationDirectoriesDestroy",
 }));
 
 export type GetEvaluationDirectoryError = PosthogOpError;
@@ -119,6 +136,8 @@ export const getEvaluationDirectory: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvaluationDirectory",
 }));
 
 export type ListEvaluationDirectoriesError = PosthogOpError;
@@ -133,6 +152,8 @@ export const listEvaluationDirectories: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvaluationDirectories",
 }));
 
 export type UpdateEvaluationDirectoriesPartialError = PosthogOpError;
@@ -147,6 +168,8 @@ export const updateEvaluationDirectoriesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvaluationDirectoriesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

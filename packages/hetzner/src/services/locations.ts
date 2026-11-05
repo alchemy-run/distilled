@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Locations",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface GetLocationRequest {
   /** ID of the Location. */
   id: number;
@@ -95,6 +108,8 @@ export const getLocation: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocation",
 }));
 
 export type ListLocationsError = HetznerOpError;
@@ -112,6 +127,8 @@ export const listLocations: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLocations",
     pagination: {
       mode: "page",
       inputToken: "page",

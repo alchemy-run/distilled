@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ProviderHub" },
+  prefix: "Providerhub",
+  service: "Providerhub",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface ApplicationProviderAuthorization {
   /** The role definition ID for the application. */
   roleDefinitionId?: string;
@@ -3320,6 +3341,8 @@ export const AuthorizedApplicationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizedApplicationsCreateOrUpdate",
 }));
 
 export type CheckinManifestError = AzureOpError;
@@ -3335,6 +3358,8 @@ export const CheckinManifest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckinManifest",
 }));
 
 export type CreateProviderMonitorSettingsError = AzureOpError;
@@ -3350,6 +3375,8 @@ export const CreateProviderMonitorSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProviderMonitorSettings",
 }));
 
 export type CustomRolloutsCreateOrUpdateError = AzureOpError;
@@ -3365,6 +3392,8 @@ export const CustomRolloutsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomRolloutsCreateOrUpdate",
 }));
 
 export type DefaultRolloutsCreateOrUpdateError = AzureOpError;
@@ -3380,6 +3409,8 @@ export const DefaultRolloutsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DefaultRolloutsCreateOrUpdate",
 }));
 
 export type DeleteAuthorizedApplicationError = AzureOpError;
@@ -3395,6 +3426,8 @@ export const DeleteAuthorizedApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizedApplication",
 }));
 
 export type DeleteCustomRolloutError = AzureOpError;
@@ -3410,6 +3443,8 @@ export const DeleteCustomRollout: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRollout",
 }));
 
 export type DeleteDefaultRolloutError = AzureOpError;
@@ -3425,6 +3460,8 @@ export const DeleteDefaultRollout: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDefaultRollout",
 }));
 
 export type DeleteNotificationRegistrationError = AzureOpError;
@@ -3440,6 +3477,8 @@ export const DeleteNotificationRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationRegistration",
 }));
 
 export type DeleteOperationError = AzureOpError;
@@ -3455,6 +3494,8 @@ export const DeleteOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOperation",
 }));
 
 export type DeleteProviderMonitorSettingsError = AzureOpError;
@@ -3470,6 +3511,8 @@ export const DeleteProviderMonitorSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProviderMonitorSettings",
 }));
 
 export type DeleteProviderRegistrationError = AzureOpError;
@@ -3485,6 +3528,8 @@ export const DeleteProviderRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProviderRegistration",
 }));
 
 export type DeleteResourceActionResourcesError = AzureOpError;
@@ -3500,6 +3545,8 @@ export const DeleteResourceActionResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceActionResources",
 }));
 
 export type DeleteResourceTypeRegistrationError = AzureOpError;
@@ -3515,6 +3562,8 @@ export const DeleteResourceTypeRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceTypeRegistration",
 }));
 
 export type DeleteSkusError = AzureOpError;
@@ -3530,6 +3579,8 @@ export const DeleteSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSkus",
 }));
 
 export type DeleteSkusNestedResourceTypeFirstError = AzureOpError;
@@ -3545,6 +3596,8 @@ export const DeleteSkusNestedResourceTypeFirst: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSkusNestedResourceTypeFirst",
 }));
 
 export type DeleteSkusNestedResourceTypeSecondError = AzureOpError;
@@ -3560,6 +3613,8 @@ export const DeleteSkusNestedResourceTypeSecond: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSkusNestedResourceTypeSecond",
 }));
 
 export type DeleteSkusNestedResourceTypeThirdError = AzureOpError;
@@ -3575,6 +3630,8 @@ export const DeleteSkusNestedResourceTypeThird: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSkusNestedResourceTypeThird",
 }));
 
 export type GenerateManifestError = AzureOpError;
@@ -3590,6 +3647,8 @@ export const GenerateManifest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateManifest",
 }));
 
 export type GenerateProviderRegistrationOperationsError = AzureOpError;
@@ -3605,6 +3664,8 @@ export const GenerateProviderRegistrationOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateProviderRegistrationOperations",
 }));
 
 export type GetAuthorizedApplicationError = AzureOpError;
@@ -3620,6 +3681,8 @@ export const GetAuthorizedApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizedApplication",
 }));
 
 export type GetCustomRolloutError = AzureOpError;
@@ -3635,6 +3698,8 @@ export const GetCustomRollout: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRollout",
 }));
 
 export type GetDefaultRolloutError = AzureOpError;
@@ -3650,6 +3715,8 @@ export const GetDefaultRollout: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultRollout",
 }));
 
 export type GetManifestError = AzureOpError;
@@ -3665,6 +3732,8 @@ export const GetManifest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManifest",
 }));
 
 export type GetNotificationRegistrationError = AzureOpError;
@@ -3680,6 +3749,8 @@ export const GetNotificationRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationRegistration",
 }));
 
 export type GetProviderMonitorSettingsError = AzureOpError;
@@ -3695,6 +3766,8 @@ export const GetProviderMonitorSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderMonitorSettings",
 }));
 
 export type GetProviderRegistrationError = AzureOpError;
@@ -3710,6 +3783,8 @@ export const GetProviderRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderRegistration",
 }));
 
 export type GetResourceTypeRegistrationError = AzureOpError;
@@ -3725,6 +3800,8 @@ export const GetResourceTypeRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceTypeRegistration",
 }));
 
 export type GetSkusError = AzureOpError;
@@ -3740,6 +3817,8 @@ export const GetSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkus",
 }));
 
 export type GetSkusNestedResourceTypeFirstError = AzureOpError;
@@ -3755,6 +3834,8 @@ export const GetSkusNestedResourceTypeFirst: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkusNestedResourceTypeFirst",
 }));
 
 export type GetSkusNestedResourceTypeSecondError = AzureOpError;
@@ -3770,6 +3851,8 @@ export const GetSkusNestedResourceTypeSecond: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkusNestedResourceTypeSecond",
 }));
 
 export type GetSkusNestedResourceTypeThirdError = AzureOpError;
@@ -3785,6 +3868,8 @@ export const GetSkusNestedResourceTypeThird: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkusNestedResourceTypeThird",
 }));
 
 export type ListAuthorizedApplicationsError = AzureOpError;
@@ -3804,6 +3889,8 @@ export const ListAuthorizedApplications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizedApplications",
 }));
 
 export type ListCustomRolloutByProviderRegistrationError = AzureOpError;
@@ -3819,6 +3906,8 @@ export const ListCustomRolloutByProviderRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomRolloutByProviderRegistration",
 }));
 
 export type ListDefaultRolloutByProviderRegistrationError = AzureOpError;
@@ -3834,6 +3923,8 @@ export const ListDefaultRolloutByProviderRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDefaultRolloutByProviderRegistration",
 }));
 
 export type ListNotificationRegistrationByProviderRegistrationError = AzureOpError;
@@ -3857,6 +3948,8 @@ export const ListNotificationRegistrationByProviderRegistration: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationRegistrationByProviderRegistration",
 }));
 
 export type ListOperationByProviderRegistrationError = AzureOpError;
@@ -3872,6 +3965,8 @@ export const ListOperationByProviderRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperationByProviderRegistration",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3887,6 +3982,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProviderMonitorSettingsByResourceGroupError = AzureOpError;
@@ -3906,6 +4003,8 @@ export const ListProviderMonitorSettingsByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderMonitorSettingsByResourceGroup",
 }));
 
 export type ListProviderMonitorSettingsBySubscriptionError = AzureOpError;
@@ -3925,6 +4024,8 @@ export const ListProviderMonitorSettingsBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderMonitorSettingsBySubscription",
 }));
 
 export type ListProviderRegistrationsError = AzureOpError;
@@ -3940,6 +4041,8 @@ export const ListProviderRegistrations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderRegistrations",
 }));
 
 export type ListResourceTypeRegistrationByProviderRegistrationError = AzureOpError;
@@ -3963,6 +4066,8 @@ export const ListResourceTypeRegistrationByProviderRegistration: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceTypeRegistrationByProviderRegistration",
 }));
 
 export type ListSkusByResourceTypeRegistrationsError = AzureOpError;
@@ -3978,6 +4083,8 @@ export const ListSkusByResourceTypeRegistrations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusByResourceTypeRegistrations",
 }));
 
 export type ListSkusByResourceTypeRegistrationsNestedResourceTypeFirstError = AzureOpError;
@@ -3997,6 +4104,8 @@ export const ListSkusByResourceTypeRegistrationsNestedResourceTypeFirst: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusByResourceTypeRegistrationsNestedResourceTypeFirst",
 }));
 
 export type ListSkusByResourceTypeRegistrationsNestedResourceTypeSecondError = AzureOpError;
@@ -4016,6 +4125,8 @@ export const ListSkusByResourceTypeRegistrationsNestedResourceTypeSecond: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusByResourceTypeRegistrationsNestedResourceTypeSecond",
 }));
 
 export type ListSkusByResourceTypeRegistrationsNestedResourceTypeThirdError = AzureOpError;
@@ -4035,6 +4146,8 @@ export const ListSkusByResourceTypeRegistrationsNestedResourceTypeThird: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusByResourceTypeRegistrationsNestedResourceTypeThird",
 }));
 
 export type ManifestsCreateOrUpdateError = AzureOpError;
@@ -4050,6 +4163,8 @@ export const ManifestsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManifestsCreateOrUpdate",
 }));
 
 export type NotificationRegistrationsCreateOrUpdateError = AzureOpError;
@@ -4065,6 +4180,8 @@ export const NotificationRegistrationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotificationRegistrationsCreateOrUpdate",
 }));
 
 export type OperationsCreateOrUpdateError = AzureOpError;
@@ -4080,6 +4197,8 @@ export const OperationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OperationsCreateOrUpdate",
 }));
 
 export type ProviderRegistrationsCreateOrUpdateError = AzureOpError;
@@ -4095,6 +4214,8 @@ export const ProviderRegistrationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProviderRegistrationsCreateOrUpdate",
 }));
 
 export type ResourceTypeRegistrationsCreateOrUpdateError = AzureOpError;
@@ -4110,6 +4231,8 @@ export const ResourceTypeRegistrationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceTypeRegistrationsCreateOrUpdate",
 }));
 
 export type SkusCreateOrUpdateError = AzureOpError;
@@ -4125,6 +4248,8 @@ export const SkusCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SkusCreateOrUpdate",
 }));
 
 export type SkusCreateOrUpdateNestedResourceTypeFirstError = AzureOpError;
@@ -4144,6 +4269,8 @@ export const SkusCreateOrUpdateNestedResourceTypeFirst: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SkusCreateOrUpdateNestedResourceTypeFirst",
 }));
 
 export type SkusCreateOrUpdateNestedResourceTypeSecondError = AzureOpError;
@@ -4163,6 +4290,8 @@ export const SkusCreateOrUpdateNestedResourceTypeSecond: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SkusCreateOrUpdateNestedResourceTypeSecond",
 }));
 
 export type SkusCreateOrUpdateNestedResourceTypeThirdError = AzureOpError;
@@ -4182,6 +4311,8 @@ export const SkusCreateOrUpdateNestedResourceTypeThird: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SkusCreateOrUpdateNestedResourceTypeThird",
 }));
 
 export type StopCustomRolloutError = AzureOpError;
@@ -4197,6 +4328,8 @@ export const StopCustomRollout: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopCustomRollout",
 }));
 
 export type StopDefaultRolloutError = AzureOpError;
@@ -4212,6 +4345,8 @@ export const StopDefaultRollout: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopDefaultRollout",
 }));
 
 export type UpdateProviderMonitorSettingsError = AzureOpError;
@@ -4227,6 +4362,8 @@ export const UpdateProviderMonitorSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProviderMonitorSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

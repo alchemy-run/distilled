@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -92,6 +94,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ingest.timestream.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TimestreamWrite",
+  service: "TimestreamWrite",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -562,7 +579,7 @@ export type CreateBatchLoadTaskError =
  * sample.
  */
 export const createBatchLoadTask: API.OperationMethod<
-  CreateBatchLoadTaskRequest,
+  CreateBatchLoadTaskRequest & RegionInput,
   CreateBatchLoadTaskResponse,
   CreateBatchLoadTaskError,
   Credentials | HttpClient.HttpClient
@@ -582,6 +599,8 @@ export const createBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchLoadTask",
+  telemetry: TELEMETRY,
+  span: "CreateBatchLoadTask",
 }));
 
 export type CreateDatabaseError =
@@ -600,7 +619,7 @@ export type CreateDatabaseError =
  * details, see code sample.
  */
 export const createDatabase: API.OperationMethod<
-  CreateDatabaseRequest,
+  CreateDatabaseRequest & RegionInput,
   CreateDatabaseResponse,
   CreateDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -620,6 +639,8 @@ export const createDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateTableError =
@@ -641,7 +662,7 @@ export type CreateTableError =
  * sample for details.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -661,6 +682,8 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type DeleteDatabaseError =
@@ -686,7 +709,7 @@ export type DeleteDatabaseError =
  * for details.
  */
 export const deleteDatabase: API.OperationMethod<
-  DeleteDatabaseRequest,
+  DeleteDatabaseRequest & RegionInput,
   DeleteDatabaseResponse,
   DeleteDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -704,6 +727,8 @@ export const deleteDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteTableError =
@@ -726,7 +751,7 @@ export type DeleteTableError =
  * sample for details.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -744,6 +769,8 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type DescribeBatchLoadTaskError =
@@ -760,7 +787,7 @@ export type DescribeBatchLoadTaskError =
  * sample for details.
  */
 export const describeBatchLoadTask: API.OperationMethod<
-  DescribeBatchLoadTaskRequest,
+  DescribeBatchLoadTaskRequest & RegionInput,
   DescribeBatchLoadTaskResponse,
   DescribeBatchLoadTaskError,
   Credentials | HttpClient.HttpClient
@@ -777,6 +804,8 @@ export const describeBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchLoadTask",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchLoadTask",
 }));
 
 export type DescribeDatabaseError =
@@ -794,7 +823,7 @@ export type DescribeDatabaseError =
  * for details.
  */
 export const describeDatabase: API.OperationMethod<
-  DescribeDatabaseRequest,
+  DescribeDatabaseRequest & RegionInput,
   DescribeDatabaseResponse,
   DescribeDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -812,6 +841,8 @@ export const describeDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatabase",
+  telemetry: TELEMETRY,
+  span: "DescribeDatabase",
 }));
 
 export type DescribeEndpointsError =
@@ -840,7 +871,7 @@ export type DescribeEndpointsError =
  * Endpoint Discovery Pattern.
  */
 export const describeEndpoints: API.OperationMethod<
-  DescribeEndpointsRequest,
+  DescribeEndpointsRequest & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -856,6 +887,8 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoints",
 }));
 
 export type DescribeTableError =
@@ -873,7 +906,7 @@ export type DescribeTableError =
  * sample for details.
  */
 export const describeTable: API.OperationMethod<
-  DescribeTableRequest,
+  DescribeTableRequest & RegionInput,
   DescribeTableResponse,
   DescribeTableError,
   Credentials | HttpClient.HttpClient
@@ -891,6 +924,8 @@ export const describeTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTable",
+  telemetry: TELEMETRY,
+  span: "DescribeTable",
 }));
 
 export type ListBatchLoadTasksError =
@@ -906,7 +941,7 @@ export type ListBatchLoadTasksError =
  * sample for details.
  */
 export const listBatchLoadTasks: API.PaginatedOperationMethod<
-  ListBatchLoadTasksRequest,
+  ListBatchLoadTasksRequest & RegionInput,
   ListBatchLoadTasksResponse,
   ListBatchLoadTasksError,
   Credentials | HttpClient.HttpClient,
@@ -929,6 +964,8 @@ export const listBatchLoadTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchLoadTasks",
 })) as any;
 
 export type ListDatabasesError =
@@ -944,7 +981,7 @@ export type ListDatabasesError =
  * details.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesRequest,
+  ListDatabasesRequest & RegionInput,
   ListDatabasesResponse,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -967,6 +1004,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 })) as any;
 
 export type ListTablesError =
@@ -983,7 +1022,7 @@ export type ListTablesError =
  * for details.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -1007,6 +1046,8 @@ export const listTables: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1019,7 +1060,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a Timestream resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1035,6 +1076,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResumeBatchLoadTaskError =
@@ -1049,7 +1092,7 @@ export type ResumeBatchLoadTaskError =
  *
  */
 export const resumeBatchLoadTask: API.OperationMethod<
-  ResumeBatchLoadTaskRequest,
+  ResumeBatchLoadTaskRequest & RegionInput,
   ResumeBatchLoadTaskResponse,
   ResumeBatchLoadTaskError,
   Credentials | HttpClient.HttpClient
@@ -1067,6 +1110,8 @@ export const resumeBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeBatchLoadTask",
+  telemetry: TELEMETRY,
+  span: "ResumeBatchLoadTask",
 }));
 
 export type TagResourceError =
@@ -1082,7 +1127,7 @@ export type TagResourceError =
  * cost allocation tracking.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1099,6 +1144,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1112,7 +1159,7 @@ export type UntagResourceError =
  * Removes the association of tags from a Timestream resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1129,6 +1176,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatabaseError =
@@ -1149,7 +1198,7 @@ export type UpdateDatabaseError =
  * for details.
  */
 export const updateDatabase: API.OperationMethod<
-  UpdateDatabaseRequest,
+  UpdateDatabaseRequest & RegionInput,
   UpdateDatabaseResponse,
   UpdateDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1168,6 +1217,8 @@ export const updateDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatabase",
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type UpdateTableError =
@@ -1188,7 +1239,7 @@ export type UpdateTableError =
  * sample for details.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableRequest,
+  UpdateTableRequest & RegionInput,
   UpdateTableResponse,
   UpdateTableError,
   Credentials | HttpClient.HttpClient
@@ -1206,6 +1257,8 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  telemetry: TELEMETRY,
+  span: "UpdateTable",
 }));
 
 export type WriteRecordsError =
@@ -1263,7 +1316,7 @@ export type WriteRecordsError =
  * `RejectedRecordsException`.
  */
 export const writeRecords: API.OperationMethod<
-  WriteRecordsRequest,
+  WriteRecordsRequest & RegionInput,
   WriteRecordsResponse,
   WriteRecordsError,
   Credentials | HttpClient.HttpClient
@@ -1282,6 +1335,8 @@ export const writeRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WriteRecords",
+  telemetry: TELEMETRY,
+  span: "WriteRecords",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

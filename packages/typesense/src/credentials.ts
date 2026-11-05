@@ -26,7 +26,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "TypesenseCredentials",
   ) {}
 
@@ -48,7 +48,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       apiKey: Redacted.make(apiKey),
       apiBaseUrl,
     })),
-    Effect.orDie,
   ),
 );
 

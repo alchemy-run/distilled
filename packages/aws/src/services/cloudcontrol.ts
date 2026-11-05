@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudcontrolapi.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudControl",
+  service: "CloudControl",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
@@ -432,7 +449,7 @@ export type CancelResourceRequestError =
  * `IN_PROGRESS` can be canceled.
  */
 export const cancelResourceRequest: API.OperationMethod<
-  CancelResourceRequestInput,
+  CancelResourceRequestInput & RegionInput,
   CancelResourceRequestOutput,
   CancelResourceRequestError,
   Credentials | HttpClient.HttpClient
@@ -443,6 +460,8 @@ export const cancelResourceRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelResourceRequest",
+  telemetry: TELEMETRY,
+  span: "CancelResourceRequest",
 }));
 
 export type CreateResourceError =
@@ -475,7 +494,7 @@ export type CreateResourceError =
  * `ProgressEvent` type returned by `CreateResource`.
  */
 export const createResource: API.OperationMethod<
-  CreateResourceInput,
+  CreateResourceInput & RegionInput,
   CreateResourceOutput,
   CreateResourceError,
   Credentials | HttpClient.HttpClient
@@ -506,6 +525,8 @@ export const createResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
+  telemetry: TELEMETRY,
+  span: "CreateResource",
 }));
 
 export type DeleteResourceError =
@@ -538,7 +559,7 @@ export type DeleteResourceError =
  * `ProgressEvent` returned by `DeleteResource`.
  */
 export const deleteResource: API.OperationMethod<
-  DeleteResourceInput,
+  DeleteResourceInput & RegionInput,
   DeleteResourceOutput,
   DeleteResourceError,
   Credentials | HttpClient.HttpClient
@@ -569,6 +590,8 @@ export const deleteResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
+  telemetry: TELEMETRY,
+  span: "DeleteResource",
 }));
 
 export type GetResourceError =
@@ -598,7 +621,7 @@ export type GetResourceError =
  * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
 export const getResource: API.OperationMethod<
-  GetResourceInput,
+  GetResourceInput & RegionInput,
   GetResourceOutput,
   GetResourceError,
   Credentials | HttpClient.HttpClient
@@ -627,6 +650,8 @@ export const getResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResource",
+  telemetry: TELEMETRY,
+  span: "GetResource",
 }));
 
 export type GetResourceRequestStatusError = RequestTokenNotFoundException | CommonErrors;
@@ -636,7 +661,7 @@ export type GetResourceRequestStatusError = RequestTokenNotFoundException | Comm
  * *Amazon Web Services Cloud Control API User Guide*.
  */
 export const getResourceRequestStatus: API.OperationMethod<
-  GetResourceRequestStatusInput,
+  GetResourceRequestStatusInput & RegionInput,
   GetResourceRequestStatusOutput,
   GetResourceRequestStatusError,
   Credentials | HttpClient.HttpClient
@@ -647,6 +672,8 @@ export const getResourceRequestStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceRequestStatus",
+  telemetry: TELEMETRY,
+  span: "GetResourceRequestStatus",
 }));
 
 export type ListResourceRequestsError = CommonErrors;
@@ -658,7 +685,7 @@ export type ListResourceRequestsError = CommonErrors;
  * Resource operation requests expire after 7 days.
  */
 export const listResourceRequests: API.PaginatedOperationMethod<
-  ListResourceRequestsInput,
+  ListResourceRequestsInput & RegionInput,
   ListResourceRequestsOutput,
   ListResourceRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -676,6 +703,8 @@ export const listResourceRequests: API.PaginatedOperationMethod<
     items: "ResourceRequestStatusSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceRequests",
 })) as any;
 
 export type ListResourcesError =
@@ -704,7 +733,7 @@ export type ListResourcesError =
  * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesInput,
+  ListResourcesInput & RegionInput,
   ListResourcesOutput,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -740,6 +769,8 @@ export const listResources: API.PaginatedOperationMethod<
     items: "ResourceDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 })) as any;
 
 export type UpdateResourceError =
@@ -782,7 +813,7 @@ export type UpdateResourceError =
  * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceInput,
+  UpdateResourceInput & RegionInput,
   UpdateResourceOutput,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
@@ -813,6 +844,8 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

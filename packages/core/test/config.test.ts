@@ -1,9 +1,11 @@
 import * as ConfigProvider from "effect/ConfigProvider";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import * as Config from "../src/config.ts";
+import { ConfigError } from "../src/errors.ts";
 
 const withEnv = (env: Record<string, string>) =>
   Effect.provideService(ConfigProvider.ConfigProvider, ConfigProvider.fromEnv({ env }));
@@ -28,10 +30,39 @@ describe("core/config", () => {
       Effect.result(Config.String("NOPE_NOT_SET").pipe(withEnv({}))),
     );
     expect(exit._tag).toBe("Failure");
+    if (exit._tag === "Failure") {
+      expect(exit.failure).toBeInstanceOf(ConfigError);
+      expect(exit.failure._tag === "ConfigError" && exit.failure.key).toBe("NOPE_NOT_SET");
+    }
+  });
+
+  test("a provider that cannot read its source fails with its SourceError", async () => {
+    const broken = ConfigProvider.make(() =>
+      Effect.fail(new ConfigProvider.SourceError({ message: "vault unreachable" })),
+    );
+    const program = Config.String("TOKEN").pipe(Config.withDefault("fallback"));
+    const result = await Effect.runPromise(
+      Effect.result(program.pipe(Effect.provideService(ConfigProvider.ConfigProvider, broken))),
+    );
+    expect(result._tag).toBe("Failure");
+    if (result._tag === "Failure") expect(result.failure._tag).toBe("SourceError");
   });
 
   test("falls back to process.env without a provider", async () => {
     process.env.DISTILLED_CONFIG_TEST = "yes";
     expect(await Effect.runPromise(Config.String("DISTILLED_CONFIG_TEST"))).toBe("yes");
+  });
+
+  test("option, withDefault and orElse handle only a missing value", async () => {
+    class Boom extends Data.TaggedError("Boom")<{}> {}
+    const boom = Effect.fail(new Boom());
+    const failures = await Promise.all(
+      [
+        Config.option(boom),
+        boom.pipe(Config.withDefault("default")),
+        boom.pipe(Config.orElse(() => Effect.succeed("fallback"))),
+      ].map((effect) => Effect.runPromise(Effect.flip(effect as Effect.Effect<unknown, Boom>))),
+    );
+    for (const failure of failures) expect(failure).toBeInstanceOf(Boom);
   });
 });

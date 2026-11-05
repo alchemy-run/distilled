@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -70,6 +72,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://athena.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Athena",
+  service: "Athena",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DataCatalogNotFound
   extends /*@__PURE__*/ S.TaggedError<DataCatalogNotFound>()(
@@ -1321,7 +1338,7 @@ export type BatchGetNamedQueryError =
  * query execution IDs.
  */
 export const batchGetNamedQuery: API.OperationMethod<
-  BatchGetNamedQueryInput,
+  BatchGetNamedQueryInput & RegionInput,
   BatchGetNamedQueryOutput,
   BatchGetNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1332,6 +1349,8 @@ export const batchGetNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetNamedQuery",
+  telemetry: TELEMETRY,
+  span: "BatchGetNamedQuery",
 }));
 
 export type BatchGetPreparedStatementError =
@@ -1346,7 +1365,7 @@ export type BatchGetPreparedStatementError =
  * `UnprocessedPreparedStatementNames`.
  */
 export const batchGetPreparedStatement: API.OperationMethod<
-  BatchGetPreparedStatementInput,
+  BatchGetPreparedStatementInput & RegionInput,
   BatchGetPreparedStatementOutput,
   BatchGetPreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1357,6 +1376,8 @@ export const batchGetPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPreparedStatement",
+  telemetry: TELEMETRY,
+  span: "BatchGetPreparedStatement",
 }));
 
 export type BatchGetQueryExecutionError =
@@ -1372,7 +1393,7 @@ export type BatchGetQueryExecutionError =
  * about named queries.
  */
 export const batchGetQueryExecution: API.OperationMethod<
-  BatchGetQueryExecutionInput,
+  BatchGetQueryExecutionInput & RegionInput,
   BatchGetQueryExecutionOutput,
   BatchGetQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1383,6 +1404,8 @@ export const batchGetQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetQueryExecution",
+  telemetry: TELEMETRY,
+  span: "BatchGetQueryExecution",
 }));
 
 export type CancelCapacityReservationError =
@@ -1396,7 +1419,7 @@ export type CancelCapacityReservationError =
  * refer to its tags and view it for historical reference.
  */
 export const cancelCapacityReservation: API.OperationMethod<
-  CancelCapacityReservationInput,
+  CancelCapacityReservationInput & RegionInput,
   CancelCapacityReservationOutput,
   CancelCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1407,6 +1430,8 @@ export const cancelCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "CancelCapacityReservation",
 }));
 
 export type CreateCapacityReservationError =
@@ -1418,7 +1443,7 @@ export type CreateCapacityReservationError =
  * processing units.
  */
 export const createCapacityReservation: API.OperationMethod<
-  CreateCapacityReservationInput,
+  CreateCapacityReservationInput & RegionInput,
   CreateCapacityReservationOutput,
   CreateCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1429,6 +1454,8 @@ export const createCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "CreateCapacityReservation",
 }));
 
 export type CreateDataCatalogError =
@@ -1455,7 +1482,7 @@ export type CreateDataCatalogError =
  * characters.
  */
 export const createDataCatalog: API.OperationMethod<
-  CreateDataCatalogInput,
+  CreateDataCatalogInput & RegionInput,
   CreateDataCatalogOutput,
   CreateDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1466,6 +1493,8 @@ export const createDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataCatalog",
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalog",
 }));
 
 export type CreateNamedQueryError =
@@ -1477,7 +1506,7 @@ export type CreateNamedQueryError =
  * workgroup.
  */
 export const createNamedQuery: API.OperationMethod<
-  CreateNamedQueryInput,
+  CreateNamedQueryInput & RegionInput,
   CreateNamedQueryOutput,
   CreateNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1488,6 +1517,8 @@ export const createNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamedQuery",
+  telemetry: TELEMETRY,
+  span: "CreateNamedQuery",
 }));
 
 export type CreateNotebookError =
@@ -1501,7 +1532,7 @@ export type CreateNotebookError =
  * exists.
  */
 export const createNotebook: API.OperationMethod<
-  CreateNotebookInput,
+  CreateNotebookInput & RegionInput,
   CreateNotebookOutput,
   CreateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1512,6 +1543,8 @@ export const createNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebook",
+  telemetry: TELEMETRY,
+  span: "CreateNotebook",
 }));
 
 export type CreatePreparedStatementError =
@@ -1522,7 +1555,7 @@ export type CreatePreparedStatementError =
  * Creates a prepared statement for use with SQL queries in Athena.
  */
 export const createPreparedStatement: API.OperationMethod<
-  CreatePreparedStatementInput,
+  CreatePreparedStatementInput & RegionInput,
   CreatePreparedStatementOutput,
   CreatePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1533,6 +1566,8 @@ export const createPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePreparedStatement",
+  telemetry: TELEMETRY,
+  span: "CreatePreparedStatement",
 }));
 
 export type CreatePresignedNotebookUrlError =
@@ -1548,7 +1583,7 @@ export type CreatePresignedNotebookUrlError =
  * programmatic access.
  */
 export const createPresignedNotebookUrl: API.OperationMethod<
-  CreatePresignedNotebookUrlRequest,
+  CreatePresignedNotebookUrlRequest & RegionInput,
   CreatePresignedNotebookUrlResponse,
   CreatePresignedNotebookUrlError,
   Credentials | HttpClient.HttpClient
@@ -1559,6 +1594,8 @@ export const createPresignedNotebookUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedNotebookUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePresignedNotebookUrl",
 }));
 
 export type CreateWorkGroupError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -1567,7 +1604,7 @@ export type CreateWorkGroupError = InternalServerException | InvalidRequestExcep
  * enabled workgroup or an Athena SQL workgroup.
  */
 export const createWorkGroup: API.OperationMethod<
-  CreateWorkGroupInput,
+  CreateWorkGroupInput & RegionInput,
   CreateWorkGroupOutput,
   CreateWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -1578,6 +1615,8 @@ export const createWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkGroup",
+  telemetry: TELEMETRY,
+  span: "CreateWorkGroup",
 }));
 
 export type DeleteCapacityReservationError =
@@ -1592,7 +1631,7 @@ export type DeleteCapacityReservationError =
  * output of `ListCapacityReservations`.
  */
 export const deleteCapacityReservation: API.OperationMethod<
-  DeleteCapacityReservationInput,
+  DeleteCapacityReservationInput & RegionInput,
   DeleteCapacityReservationOutput,
   DeleteCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1603,6 +1642,8 @@ export const deleteCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityReservation",
 }));
 
 export type DeleteDataCatalogError =
@@ -1614,7 +1655,7 @@ export type DeleteDataCatalogError =
  * Deletes a data catalog.
  */
 export const deleteDataCatalog: API.OperationMethod<
-  DeleteDataCatalogInput,
+  DeleteDataCatalogInput & RegionInput,
   DeleteDataCatalogOutput,
   DeleteDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1625,6 +1666,8 @@ export const deleteDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataCatalog",
+  telemetry: TELEMETRY,
+  span: "DeleteDataCatalog",
 }));
 
 export type DeleteNamedQueryError =
@@ -1637,7 +1680,7 @@ export type DeleteNamedQueryError =
  * saved.
  */
 export const deleteNamedQuery: API.OperationMethod<
-  DeleteNamedQueryInput,
+  DeleteNamedQueryInput & RegionInput,
   DeleteNamedQueryOutput,
   DeleteNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1648,6 +1691,8 @@ export const deleteNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamedQuery",
+  telemetry: TELEMETRY,
+  span: "DeleteNamedQuery",
 }));
 
 export type DeleteNotebookError =
@@ -1659,7 +1704,7 @@ export type DeleteNotebookError =
  * Deletes the specified notebook.
  */
 export const deleteNotebook: API.OperationMethod<
-  DeleteNotebookInput,
+  DeleteNotebookInput & RegionInput,
   DeleteNotebookOutput,
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1670,6 +1715,8 @@ export const deleteNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebook",
+  telemetry: TELEMETRY,
+  span: "DeleteNotebook",
 }));
 
 export type DeletePreparedStatementError =
@@ -1683,7 +1730,7 @@ export type DeletePreparedStatementError =
  * workgroup.
  */
 export const deletePreparedStatement: API.OperationMethod<
-  DeletePreparedStatementInput,
+  DeletePreparedStatementInput & RegionInput,
   DeletePreparedStatementOutput,
   DeletePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1699,6 +1746,8 @@ export const deletePreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePreparedStatement",
+  telemetry: TELEMETRY,
+  span: "DeletePreparedStatement",
 }));
 
 export type DeleteWorkGroupError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -1707,7 +1756,7 @@ export type DeleteWorkGroupError = InternalServerException | InvalidRequestExcep
  * deleted.
  */
 export const deleteWorkGroup: API.OperationMethod<
-  DeleteWorkGroupInput,
+  DeleteWorkGroupInput & RegionInput,
   DeleteWorkGroupOutput,
   DeleteWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -1718,6 +1767,8 @@ export const deleteWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkGroup",
 }));
 
 export type ExportNotebookError =
@@ -1729,7 +1780,7 @@ export type ExportNotebookError =
  * Exports the specified notebook and its metadata.
  */
 export const exportNotebook: API.OperationMethod<
-  ExportNotebookInput,
+  ExportNotebookInput & RegionInput,
   ExportNotebookOutput,
   ExportNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1740,6 +1791,8 @@ export const exportNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportNotebook",
+  telemetry: TELEMETRY,
+  span: "ExportNotebook",
 }));
 
 export type GetCalculationExecutionError =
@@ -1751,7 +1804,7 @@ export type GetCalculationExecutionError =
  * Describes a previously submitted calculation execution.
  */
 export const getCalculationExecution: API.OperationMethod<
-  GetCalculationExecutionRequest,
+  GetCalculationExecutionRequest & RegionInput,
   GetCalculationExecutionResponse,
   GetCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1762,6 +1815,8 @@ export const getCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecution",
+  telemetry: TELEMETRY,
+  span: "GetCalculationExecution",
 }));
 
 export type GetCalculationExecutionCodeError =
@@ -1773,7 +1828,7 @@ export type GetCalculationExecutionCodeError =
  * Retrieves the unencrypted code that was executed for the calculation.
  */
 export const getCalculationExecutionCode: API.OperationMethod<
-  GetCalculationExecutionCodeRequest,
+  GetCalculationExecutionCodeRequest & RegionInput,
   GetCalculationExecutionCodeResponse,
   GetCalculationExecutionCodeError,
   Credentials | HttpClient.HttpClient
@@ -1784,6 +1839,8 @@ export const getCalculationExecutionCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionCode",
+  telemetry: TELEMETRY,
+  span: "GetCalculationExecutionCode",
 }));
 
 export type GetCalculationExecutionStatusError =
@@ -1795,7 +1852,7 @@ export type GetCalculationExecutionStatusError =
  * Gets the status of a current calculation.
  */
 export const getCalculationExecutionStatus: API.OperationMethod<
-  GetCalculationExecutionStatusRequest,
+  GetCalculationExecutionStatusRequest & RegionInput,
   GetCalculationExecutionStatusResponse,
   GetCalculationExecutionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1806,6 +1863,8 @@ export const getCalculationExecutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionStatus",
+  telemetry: TELEMETRY,
+  span: "GetCalculationExecutionStatus",
 }));
 
 export type GetCapacityAssignmentConfigurationError =
@@ -1817,7 +1876,7 @@ export type GetCapacityAssignmentConfigurationError =
  * exists.
  */
 export const getCapacityAssignmentConfiguration: API.OperationMethod<
-  GetCapacityAssignmentConfigurationInput,
+  GetCapacityAssignmentConfigurationInput & RegionInput,
   GetCapacityAssignmentConfigurationOutput,
   GetCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1828,6 +1887,8 @@ export const getCapacityAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityAssignmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetCapacityAssignmentConfiguration",
 }));
 
 export type GetCapacityReservationError =
@@ -1838,7 +1899,7 @@ export type GetCapacityReservationError =
  * Returns information about the capacity reservation with the specified name.
  */
 export const getCapacityReservation: API.OperationMethod<
-  GetCapacityReservationInput,
+  GetCapacityReservationInput & RegionInput,
   GetCapacityReservationOutput,
   GetCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1849,6 +1910,8 @@ export const getCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "GetCapacityReservation",
 }));
 
 export type GetDatabaseError =
@@ -1860,7 +1923,7 @@ export type GetDatabaseError =
  * Returns a database object for the specified database and data catalog.
  */
 export const getDatabase: API.OperationMethod<
-  GetDatabaseInput,
+  GetDatabaseInput & RegionInput,
   GetDatabaseOutput,
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1871,6 +1934,8 @@ export const getDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatabase",
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDataCatalogError =
@@ -1882,7 +1947,7 @@ export type GetDataCatalogError =
  * Returns the specified data catalog.
  */
 export const getDataCatalog: API.OperationMethod<
-  GetDataCatalogInput,
+  GetDataCatalogInput & RegionInput,
   GetDataCatalogOutput,
   GetDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1893,6 +1958,8 @@ export const getDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCatalog",
+  telemetry: TELEMETRY,
+  span: "GetDataCatalog",
 }));
 
 export type GetNamedQueryError =
@@ -1905,7 +1972,7 @@ export type GetNamedQueryError =
  * workgroup in which the query was saved.
  */
 export const getNamedQuery: API.OperationMethod<
-  GetNamedQueryInput,
+  GetNamedQueryInput & RegionInput,
   GetNamedQueryOutput,
   GetNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1916,6 +1983,8 @@ export const getNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamedQuery",
+  telemetry: TELEMETRY,
+  span: "GetNamedQuery",
 }));
 
 export type GetNotebookMetadataError =
@@ -1927,7 +1996,7 @@ export type GetNotebookMetadataError =
  * Retrieves notebook metadata for the specified notebook ID.
  */
 export const getNotebookMetadata: API.OperationMethod<
-  GetNotebookMetadataInput,
+  GetNotebookMetadataInput & RegionInput,
   GetNotebookMetadataOutput,
   GetNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1938,6 +2007,8 @@ export const getNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookMetadata",
+  telemetry: TELEMETRY,
+  span: "GetNotebookMetadata",
 }));
 
 export type GetPreparedStatementError =
@@ -1951,7 +2022,7 @@ export type GetPreparedStatementError =
  * workgroup.
  */
 export const getPreparedStatement: API.OperationMethod<
-  GetPreparedStatementInput,
+  GetPreparedStatementInput & RegionInput,
   GetPreparedStatementOutput,
   GetPreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1967,6 +2038,8 @@ export const getPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreparedStatement",
+  telemetry: TELEMETRY,
+  span: "GetPreparedStatement",
 }));
 
 export type GetQueryExecutionError =
@@ -1979,7 +2052,7 @@ export type GetQueryExecutionError =
  * query execution is saved with a unique ID.
  */
 export const getQueryExecution: API.OperationMethod<
-  GetQueryExecutionInput,
+  GetQueryExecutionInput & RegionInput,
   GetQueryExecutionOutput,
   GetQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1990,6 +2063,8 @@ export const getQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryExecution",
+  telemetry: TELEMETRY,
+  span: "GetQueryExecution",
 }));
 
 export type GetQueryResultsError =
@@ -2016,7 +2091,7 @@ export type GetQueryResultsError =
  * are denied.
  */
 export const getQueryResults: API.PaginatedOperationMethod<
-  GetQueryResultsInput,
+  GetQueryResultsInput & RegionInput,
   GetQueryResultsOutput,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient,
@@ -2033,6 +2108,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResults",
 })) as any;
 
 export type GetQueryRuntimeStatisticsError =
@@ -2049,7 +2126,7 @@ export type GetQueryRuntimeStatisticsError =
  * statistics are also not included when a query has row-level filters defined in Lake Formation.
  */
 export const getQueryRuntimeStatistics: API.OperationMethod<
-  GetQueryRuntimeStatisticsInput,
+  GetQueryRuntimeStatisticsInput & RegionInput,
   GetQueryRuntimeStatisticsOutput,
   GetQueryRuntimeStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2060,6 +2137,8 @@ export const getQueryRuntimeStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryRuntimeStatistics",
+  telemetry: TELEMETRY,
+  span: "GetQueryRuntimeStatistics",
 }));
 
 export type GetResourceDashboardError =
@@ -2071,7 +2150,7 @@ export type GetResourceDashboardError =
  * Gets the Live UI/Persistence UI for a session.
  */
 export const getResourceDashboard: API.OperationMethod<
-  GetResourceDashboardRequest,
+  GetResourceDashboardRequest & RegionInput,
   GetResourceDashboardResponse,
   GetResourceDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2082,6 +2161,8 @@ export const getResourceDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDashboard",
+  telemetry: TELEMETRY,
+  span: "GetResourceDashboard",
 }));
 
 export type GetSessionError =
@@ -2094,7 +2175,7 @@ export type GetSessionError =
  * and configuration.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -2105,6 +2186,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionEndpointError =
@@ -2116,7 +2199,7 @@ export type GetSessionEndpointError =
  * Gets a connection endpoint and authentication token for a given session Id.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointRequest,
+  GetSessionEndpointRequest & RegionInput,
   GetSessionEndpointResponse,
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2127,6 +2210,8 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetSessionEndpoint",
 }));
 
 export type GetSessionStatusError =
@@ -2138,7 +2223,7 @@ export type GetSessionStatusError =
  * Gets the current status of a session.
  */
 export const getSessionStatus: API.OperationMethod<
-  GetSessionStatusRequest,
+  GetSessionStatusRequest & RegionInput,
   GetSessionStatusResponse,
   GetSessionStatusError,
   Credentials | HttpClient.HttpClient
@@ -2149,6 +2234,8 @@ export const getSessionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionStatus",
+  telemetry: TELEMETRY,
+  span: "GetSessionStatus",
 }));
 
 export type GetTableMetadataError =
@@ -2160,7 +2247,7 @@ export type GetTableMetadataError =
  * Returns table metadata for the specified catalog, database, and table.
  */
 export const getTableMetadata: API.OperationMethod<
-  GetTableMetadataInput,
+  GetTableMetadataInput & RegionInput,
   GetTableMetadataOutput,
   GetTableMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2171,6 +2258,8 @@ export const getTableMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMetadata",
+  telemetry: TELEMETRY,
+  span: "GetTableMetadata",
 }));
 
 export type GetWorkGroupError =
@@ -2182,7 +2271,7 @@ export type GetWorkGroupError =
  * Returns information about the workgroup with the specified name.
  */
 export const getWorkGroup: API.OperationMethod<
-  GetWorkGroupInput,
+  GetWorkGroupInput & RegionInput,
   GetWorkGroupOutput,
   GetWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -2193,6 +2282,8 @@ export const getWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkGroup",
+  telemetry: TELEMETRY,
+  span: "GetWorkGroup",
 }));
 
 export type ImportNotebookError =
@@ -2209,7 +2300,7 @@ export type ImportNotebookError =
  * exists in the workgroup, throws an error.
  */
 export const importNotebook: API.OperationMethod<
-  ImportNotebookInput,
+  ImportNotebookInput & RegionInput,
   ImportNotebookOutput,
   ImportNotebookError,
   Credentials | HttpClient.HttpClient
@@ -2220,6 +2311,8 @@ export const importNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportNotebook",
+  telemetry: TELEMETRY,
+  span: "ImportNotebook",
 }));
 
 export type ListApplicationDPUSizesError =
@@ -2232,7 +2325,7 @@ export type ListApplicationDPUSizesError =
  * `Athena notebook version 1`).
  */
 export const listApplicationDPUSizes: API.PaginatedOperationMethod<
-  ListApplicationDPUSizesInput,
+  ListApplicationDPUSizesInput & RegionInput,
   ListApplicationDPUSizesOutput,
   ListApplicationDPUSizesError,
   Credentials | HttpClient.HttpClient,
@@ -2249,6 +2342,8 @@ export const listApplicationDPUSizes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationDPUSizes",
 })) as any;
 
 export type ListCalculationExecutionsError =
@@ -2261,7 +2356,7 @@ export type ListCalculationExecutionsError =
  * Newer calculations are listed first; older calculations are listed later.
  */
 export const listCalculationExecutions: API.PaginatedOperationMethod<
-  ListCalculationExecutionsRequest,
+  ListCalculationExecutionsRequest & RegionInput,
   ListCalculationExecutionsResponse,
   ListCalculationExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2278,6 +2373,8 @@ export const listCalculationExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCalculationExecutions",
 })) as any;
 
 export type ListCapacityReservationsError =
@@ -2288,7 +2385,7 @@ export type ListCapacityReservationsError =
  * Lists the capacity reservations for the current account.
  */
 export const listCapacityReservations: API.PaginatedOperationMethod<
-  ListCapacityReservationsInput,
+  ListCapacityReservationsInput & RegionInput,
   ListCapacityReservationsOutput,
   ListCapacityReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -2305,6 +2402,8 @@ export const listCapacityReservations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCapacityReservations",
 })) as any;
 
 export type ListDatabasesError =
@@ -2316,7 +2415,7 @@ export type ListDatabasesError =
  * Lists the databases in the specified data catalog.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesInput,
+  ListDatabasesInput & RegionInput,
   ListDatabasesOutput,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -2334,6 +2433,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "DatabaseList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 })) as any;
 
 export type ListDataCatalogsError =
@@ -2347,7 +2448,7 @@ export type ListDataCatalogsError =
  * the **Data sources** page under the **Data source name** column.
  */
 export const listDataCatalogs: API.PaginatedOperationMethod<
-  ListDataCatalogsInput,
+  ListDataCatalogsInput & RegionInput,
   ListDataCatalogsOutput,
   ListDataCatalogsError,
   Credentials | HttpClient.HttpClient,
@@ -2365,6 +2466,8 @@ export const listDataCatalogs: API.PaginatedOperationMethod<
     items: "DataCatalogsSummary",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataCatalogs",
 })) as any;
 
 export type ListEngineVersionsError =
@@ -2376,7 +2479,7 @@ export type ListEngineVersionsError =
  * Auto option.
  */
 export const listEngineVersions: API.PaginatedOperationMethod<
-  ListEngineVersionsInput,
+  ListEngineVersionsInput & RegionInput,
   ListEngineVersionsOutput,
   ListEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2393,6 +2496,8 @@ export const listEngineVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngineVersions",
 })) as any;
 
 export type ListExecutorsError =
@@ -2406,7 +2511,7 @@ export type ListExecutorsError =
  * state.
  */
 export const listExecutors: API.PaginatedOperationMethod<
-  ListExecutorsRequest,
+  ListExecutorsRequest & RegionInput,
   ListExecutorsResponse,
   ListExecutorsError,
   Credentials | HttpClient.HttpClient,
@@ -2423,6 +2528,8 @@ export const listExecutors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutors",
 })) as any;
 
 export type ListNamedQueriesError =
@@ -2435,7 +2542,7 @@ export type ListNamedQueriesError =
  * not specified, lists the saved queries for the primary workgroup.
  */
 export const listNamedQueries: API.PaginatedOperationMethod<
-  ListNamedQueriesInput,
+  ListNamedQueriesInput & RegionInput,
   ListNamedQueriesOutput,
   ListNamedQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -2452,6 +2559,8 @@ export const listNamedQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNamedQueries",
 })) as any;
 
 export type ListNotebookMetadataError =
@@ -2463,7 +2572,7 @@ export type ListNotebookMetadataError =
  * Displays the notebook files for the specified workgroup in paginated format.
  */
 export const listNotebookMetadata: API.OperationMethod<
-  ListNotebookMetadataInput,
+  ListNotebookMetadataInput & RegionInput,
   ListNotebookMetadataOutput,
   ListNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2474,6 +2583,8 @@ export const listNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookMetadata",
+  telemetry: TELEMETRY,
+  span: "ListNotebookMetadata",
 }));
 
 export type ListNotebookSessionsError =
@@ -2488,7 +2599,7 @@ export type ListNotebookSessionsError =
  * later.
  */
 export const listNotebookSessions: API.OperationMethod<
-  ListNotebookSessionsRequest,
+  ListNotebookSessionsRequest & RegionInput,
   ListNotebookSessionsResponse,
   ListNotebookSessionsError,
   Credentials | HttpClient.HttpClient
@@ -2499,6 +2610,8 @@ export const listNotebookSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookSessions",
+  telemetry: TELEMETRY,
+  span: "ListNotebookSessions",
 }));
 
 export type ListPreparedStatementsError =
@@ -2509,7 +2622,7 @@ export type ListPreparedStatementsError =
  * Lists the prepared statements in the specified workgroup.
  */
 export const listPreparedStatements: API.PaginatedOperationMethod<
-  ListPreparedStatementsInput,
+  ListPreparedStatementsInput & RegionInput,
   ListPreparedStatementsOutput,
   ListPreparedStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -2526,6 +2639,8 @@ export const listPreparedStatements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPreparedStatements",
 })) as any;
 
 export type ListQueryExecutionsError =
@@ -2539,7 +2654,7 @@ export type ListQueryExecutionsError =
  * to have access to the workgroup in which the queries ran.
  */
 export const listQueryExecutions: API.PaginatedOperationMethod<
-  ListQueryExecutionsInput,
+  ListQueryExecutionsInput & RegionInput,
   ListQueryExecutionsOutput,
   ListQueryExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2556,6 +2671,8 @@ export const listQueryExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueryExecutions",
 })) as any;
 
 export type ListSessionsError =
@@ -2570,7 +2687,7 @@ export type ListSessionsError =
  * later.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -2587,6 +2704,8 @@ export const listSessions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListTableMetadataError =
@@ -2598,7 +2717,7 @@ export type ListTableMetadataError =
  * Lists the metadata for the tables in the specified data catalog database.
  */
 export const listTableMetadata: API.PaginatedOperationMethod<
-  ListTableMetadataInput,
+  ListTableMetadataInput & RegionInput,
   ListTableMetadataOutput,
   ListTableMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -2616,6 +2735,8 @@ export const listTableMetadata: API.PaginatedOperationMethod<
     items: "TableMetadataList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableMetadata",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2627,7 +2748,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with an Athena resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2645,6 +2766,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListWorkGroupsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2652,7 +2775,7 @@ export type ListWorkGroupsError = InternalServerException | InvalidRequestExcept
  * Lists available workgroups for the account.
  */
 export const listWorkGroups: API.PaginatedOperationMethod<
-  ListWorkGroupsInput,
+  ListWorkGroupsInput & RegionInput,
   ListWorkGroupsOutput,
   ListWorkGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2669,6 +2792,8 @@ export const listWorkGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkGroups",
 })) as any;
 
 export type PutCapacityAssignmentConfigurationError =
@@ -2681,7 +2806,7 @@ export type PutCapacityAssignmentConfigurationError =
  * replaces the existing capacity assignment configuration.
  */
 export const putCapacityAssignmentConfiguration: API.OperationMethod<
-  PutCapacityAssignmentConfigurationInput,
+  PutCapacityAssignmentConfigurationInput & RegionInput,
   PutCapacityAssignmentConfigurationOutput,
   PutCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2692,6 +2817,8 @@ export const putCapacityAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCapacityAssignmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutCapacityAssignmentConfiguration",
 }));
 
 export type StartCalculationExecutionError =
@@ -2709,7 +2836,7 @@ export type StartCalculationExecutionError =
  * instead.
  */
 export const startCalculationExecution: API.OperationMethod<
-  StartCalculationExecutionRequest,
+  StartCalculationExecutionRequest & RegionInput,
   StartCalculationExecutionResponse,
   StartCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2720,6 +2847,8 @@ export const startCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCalculationExecution",
+  telemetry: TELEMETRY,
+  span: "StartCalculationExecution",
 }));
 
 export type StartQueryExecutionError =
@@ -2736,7 +2865,7 @@ export type StartQueryExecutionError =
  * Guide.
  */
 export const startQueryExecution: API.OperationMethod<
-  StartQueryExecutionInput,
+  StartQueryExecutionInput & RegionInput,
   StartQueryExecutionOutput,
   StartQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2747,6 +2876,8 @@ export const startQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryExecution",
+  telemetry: TELEMETRY,
+  span: "StartQueryExecution",
 }));
 
 export type StartSessionError =
@@ -2761,7 +2892,7 @@ export type StartSessionError =
  * when it reaches an `IDLE` state.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Credentials | HttpClient.HttpClient
@@ -2778,6 +2909,8 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  telemetry: TELEMETRY,
+  span: "StartSession",
 }));
 
 export type StopCalculationExecutionError =
@@ -2797,7 +2930,7 @@ export type StopCalculationExecutionError =
  * session in which the calculation is running.
  */
 export const stopCalculationExecution: API.OperationMethod<
-  StopCalculationExecutionRequest,
+  StopCalculationExecutionRequest & RegionInput,
   StopCalculationExecutionResponse,
   StopCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2808,6 +2941,8 @@ export const stopCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCalculationExecution",
+  telemetry: TELEMETRY,
+  span: "StopCalculationExecution",
 }));
 
 export type StopQueryExecutionError =
@@ -2819,7 +2954,7 @@ export type StopQueryExecutionError =
  * query ran.
  */
 export const stopQueryExecution: API.OperationMethod<
-  StopQueryExecutionInput,
+  StopQueryExecutionInput & RegionInput,
   StopQueryExecutionOutput,
   StopQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2830,6 +2965,8 @@ export const stopQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryExecution",
+  telemetry: TELEMETRY,
+  span: "StopQueryExecution",
 }));
 
 export type TagResourceError =
@@ -2851,7 +2988,7 @@ export type TagResourceError =
  * than one tag, separate them by commas.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2862,6 +2999,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateSessionError =
@@ -2877,7 +3016,7 @@ export type TerminateSessionError =
  * display as `FAILED` instead of `STOPPED`.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionRequest,
+  TerminateSessionRequest & RegionInput,
   TerminateSessionResponse,
   TerminateSessionError,
   Credentials | HttpClient.HttpClient
@@ -2888,6 +3027,8 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  telemetry: TELEMETRY,
+  span: "TerminateSession",
 }));
 
 export type UntagResourceError =
@@ -2899,7 +3040,7 @@ export type UntagResourceError =
  * Removes one or more tags from an Athena resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2910,6 +3051,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCapacityReservationError =
@@ -2921,7 +3064,7 @@ export type UpdateCapacityReservationError =
  * with the specified name.
  */
 export const updateCapacityReservation: API.OperationMethod<
-  UpdateCapacityReservationInput,
+  UpdateCapacityReservationInput & RegionInput,
   UpdateCapacityReservationOutput,
   UpdateCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -2932,6 +3075,8 @@ export const updateCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "UpdateCapacityReservation",
 }));
 
 export type UpdateDataCatalogError =
@@ -2943,7 +3088,7 @@ export type UpdateDataCatalogError =
  * Updates the data catalog that has the specified name.
  */
 export const updateDataCatalog: API.OperationMethod<
-  UpdateDataCatalogInput,
+  UpdateDataCatalogInput & RegionInput,
   UpdateDataCatalogOutput,
   UpdateDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -2954,6 +3099,8 @@ export const updateDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataCatalog",
+  telemetry: TELEMETRY,
+  span: "UpdateDataCatalog",
 }));
 
 export type UpdateNamedQueryError =
@@ -2966,7 +3113,7 @@ export type UpdateNamedQueryError =
  * updated.
  */
 export const updateNamedQuery: API.OperationMethod<
-  UpdateNamedQueryInput,
+  UpdateNamedQueryInput & RegionInput,
   UpdateNamedQueryOutput,
   UpdateNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -2977,6 +3124,8 @@ export const updateNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNamedQuery",
+  telemetry: TELEMETRY,
+  span: "UpdateNamedQuery",
 }));
 
 export type UpdateNotebookError =
@@ -2988,7 +3137,7 @@ export type UpdateNotebookError =
  * Updates the contents of a Spark notebook.
  */
 export const updateNotebook: API.OperationMethod<
-  UpdateNotebookInput,
+  UpdateNotebookInput & RegionInput,
   UpdateNotebookOutput,
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -2999,6 +3148,8 @@ export const updateNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebook",
+  telemetry: TELEMETRY,
+  span: "UpdateNotebook",
 }));
 
 export type UpdateNotebookMetadataError =
@@ -3010,7 +3161,7 @@ export type UpdateNotebookMetadataError =
  * Updates the metadata for a notebook.
  */
 export const updateNotebookMetadata: API.OperationMethod<
-  UpdateNotebookMetadataInput,
+  UpdateNotebookMetadataInput & RegionInput,
   UpdateNotebookMetadataOutput,
   UpdateNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3021,6 +3172,8 @@ export const updateNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateNotebookMetadata",
 }));
 
 export type UpdatePreparedStatementError =
@@ -3032,7 +3185,7 @@ export type UpdatePreparedStatementError =
  * Updates a prepared statement.
  */
 export const updatePreparedStatement: API.OperationMethod<
-  UpdatePreparedStatementInput,
+  UpdatePreparedStatementInput & RegionInput,
   UpdatePreparedStatementOutput,
   UpdatePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -3043,6 +3196,8 @@ export const updatePreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreparedStatement",
+  telemetry: TELEMETRY,
+  span: "UpdatePreparedStatement",
 }));
 
 export type UpdateWorkGroupError =
@@ -3055,7 +3210,7 @@ export type UpdateWorkGroupError =
  * Only `ConfigurationUpdates` can be specified.
  */
 export const updateWorkGroup: API.OperationMethod<
-  UpdateWorkGroupInput,
+  UpdateWorkGroupInput & RegionInput,
   UpdateWorkGroupOutput,
   UpdateWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -3066,6 +3221,8 @@ export const updateWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

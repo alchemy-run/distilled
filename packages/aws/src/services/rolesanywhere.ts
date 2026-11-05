@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rolesanywhere.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RolesAnywhere",
+  service: "RolesAnywhere",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -376,7 +392,7 @@ export type CreateProfileError = AccessDeniedException | ValidationException | C
  * **Required permissions: ** `rolesanywhere:CreateProfile`.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   ProfileDetailResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -387,6 +403,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateTrustAnchorError = AccessDeniedException | ValidationException | CommonErrors;
@@ -396,7 +414,7 @@ export type CreateTrustAnchorError = AccessDeniedException | ValidationException
  * **Required permissions: ** `rolesanywhere:CreateTrustAnchor`.
  */
 export const createTrustAnchor: API.OperationMethod<
-  CreateTrustAnchorRequest,
+  CreateTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   CreateTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -407,6 +425,8 @@ export const createTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "CreateTrustAnchor",
 }));
 
 export type DeleteAttributeMappingError =
@@ -418,7 +438,7 @@ export type DeleteAttributeMappingError =
  * Delete an entry from the attribute mapping rules enforced by a given profile.
  */
 export const deleteAttributeMapping: API.OperationMethod<
-  DeleteAttributeMappingRequest,
+  DeleteAttributeMappingRequest & RegionInput,
   DeleteAttributeMappingResponse,
   DeleteAttributeMappingError,
   Credentials | HttpClient.HttpClient
@@ -429,6 +449,8 @@ export const deleteAttributeMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteAttributeMapping",
 }));
 
 export type DeleteCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -438,7 +460,7 @@ export type DeleteCrlError = AccessDeniedException | ResourceNotFoundException |
  * **Required permissions: ** `rolesanywhere:DeleteCrl`.
  */
 export const deleteCrl: API.OperationMethod<
-  ScalarCrlRequest,
+  ScalarCrlRequest & RegionInput,
   CrlDetailResponse,
   DeleteCrlError,
   Credentials | HttpClient.HttpClient
@@ -449,6 +471,8 @@ export const deleteCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrl",
+  telemetry: TELEMETRY,
+  span: "DeleteCrl",
 }));
 
 export type DeleteProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -458,7 +482,7 @@ export type DeleteProfileError = AccessDeniedException | ResourceNotFoundExcepti
  * **Required permissions: ** `rolesanywhere:DeleteProfile`.
  */
 export const deleteProfile: API.OperationMethod<
-  ScalarProfileRequest,
+  ScalarProfileRequest & RegionInput,
   ProfileDetailResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -469,6 +493,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteTrustAnchorError =
@@ -481,7 +507,7 @@ export type DeleteTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:DeleteTrustAnchor`.
  */
 export const deleteTrustAnchor: API.OperationMethod<
-  ScalarTrustAnchorRequest,
+  ScalarTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   DeleteTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -492,6 +518,8 @@ export const deleteTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustAnchor",
 }));
 
 export interface DisableCrlRequest extends ScalarCrlRequest {}
@@ -505,7 +533,7 @@ export type DisableCrlError = AccessDeniedException | ResourceNotFoundException 
  * **Required permissions: ** `rolesanywhere:DisableCrl`.
  */
 export const disableCrl: API.OperationMethod<
-  DisableCrlRequest,
+  DisableCrlRequest & RegionInput,
   CrlDetailResponse,
   DisableCrlError,
   Credentials | HttpClient.HttpClient
@@ -516,6 +544,8 @@ export const disableCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCrl",
+  telemetry: TELEMETRY,
+  span: "DisableCrl",
 }));
 
 export interface DisableProfileRequest extends ScalarProfileRequest {}
@@ -529,7 +559,7 @@ export type DisableProfileError = AccessDeniedException | ResourceNotFoundExcept
  * **Required permissions: ** `rolesanywhere:DisableProfile`.
  */
 export const disableProfile: API.OperationMethod<
-  DisableProfileRequest,
+  DisableProfileRequest & RegionInput,
   ProfileDetailResponse,
   DisableProfileError,
   Credentials | HttpClient.HttpClient
@@ -540,6 +570,8 @@ export const disableProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableProfile",
+  telemetry: TELEMETRY,
+  span: "DisableProfile",
 }));
 
 export interface DisableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
@@ -558,7 +590,7 @@ export type DisableTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:DisableTrustAnchor`.
  */
 export const disableTrustAnchor: API.OperationMethod<
-  DisableTrustAnchorRequest,
+  DisableTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   DisableTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -569,6 +601,8 @@ export const disableTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "DisableTrustAnchor",
 }));
 
 export interface EnableCrlRequest extends ScalarCrlRequest {}
@@ -582,7 +616,7 @@ export type EnableCrlError = AccessDeniedException | ResourceNotFoundException |
  * **Required permissions: ** `rolesanywhere:EnableCrl`.
  */
 export const enableCrl: API.OperationMethod<
-  EnableCrlRequest,
+  EnableCrlRequest & RegionInput,
   CrlDetailResponse,
   EnableCrlError,
   Credentials | HttpClient.HttpClient
@@ -593,6 +627,8 @@ export const enableCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCrl",
+  telemetry: TELEMETRY,
+  span: "EnableCrl",
 }));
 
 export interface EnableProfileRequest extends ScalarProfileRequest {}
@@ -606,7 +642,7 @@ export type EnableProfileError = AccessDeniedException | ResourceNotFoundExcepti
  * **Required permissions: ** `rolesanywhere:EnableProfile`.
  */
 export const enableProfile: API.OperationMethod<
-  EnableProfileRequest,
+  EnableProfileRequest & RegionInput,
   ProfileDetailResponse,
   EnableProfileError,
   Credentials | HttpClient.HttpClient
@@ -617,6 +653,8 @@ export const enableProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableProfile",
+  telemetry: TELEMETRY,
+  span: "EnableProfile",
 }));
 
 export interface EnableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
@@ -635,7 +673,7 @@ export type EnableTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:EnableTrustAnchor`.
  */
 export const enableTrustAnchor: API.OperationMethod<
-  EnableTrustAnchorRequest,
+  EnableTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   EnableTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -646,6 +684,8 @@ export const enableTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "EnableTrustAnchor",
 }));
 
 export interface GetCrlRequest extends ScalarCrlRequest {}
@@ -659,7 +699,7 @@ export type GetCrlError = ResourceNotFoundException | CommonErrors;
  * **Required permissions: ** `rolesanywhere:GetCrl`.
  */
 export const getCrl: API.OperationMethod<
-  GetCrlRequest,
+  GetCrlRequest & RegionInput,
   CrlDetailResponse,
   GetCrlError,
   Credentials | HttpClient.HttpClient
@@ -670,6 +710,8 @@ export const getCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrl",
+  telemetry: TELEMETRY,
+  span: "GetCrl",
 }));
 
 export interface GetProfileRequest extends ScalarProfileRequest {}
@@ -683,7 +725,7 @@ export type GetProfileError = AccessDeniedException | ResourceNotFoundException 
  * **Required permissions: ** `rolesanywhere:GetProfile`.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   ProfileDetailResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -694,6 +736,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetSubjectError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -703,7 +747,7 @@ export type GetSubjectError = AccessDeniedException | ResourceNotFoundException 
  * **Required permissions: ** `rolesanywhere:GetSubject`.
  */
 export const getSubject: API.OperationMethod<
-  ScalarSubjectRequest,
+  ScalarSubjectRequest & RegionInput,
   SubjectDetailResponse,
   GetSubjectError,
   Credentials | HttpClient.HttpClient
@@ -714,6 +758,8 @@ export const getSubject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubject",
+  telemetry: TELEMETRY,
+  span: "GetSubject",
 }));
 
 export interface GetTrustAnchorRequest extends ScalarTrustAnchorRequest {}
@@ -731,7 +777,7 @@ export type GetTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:GetTrustAnchor`.
  */
 export const getTrustAnchor: API.OperationMethod<
-  GetTrustAnchorRequest,
+  GetTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   GetTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -742,6 +788,8 @@ export const getTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "GetTrustAnchor",
 }));
 
 export type ImportCrlError = AccessDeniedException | ValidationException | CommonErrors;
@@ -751,7 +799,7 @@ export type ImportCrlError = AccessDeniedException | ValidationException | Commo
  * **Required permissions: ** `rolesanywhere:ImportCrl`.
  */
 export const importCrl: API.OperationMethod<
-  ImportCrlRequest,
+  ImportCrlRequest & RegionInput,
   CrlDetailResponse,
   ImportCrlError,
   Credentials | HttpClient.HttpClient
@@ -762,6 +810,8 @@ export const importCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCrl",
+  telemetry: TELEMETRY,
+  span: "ImportCrl",
 }));
 
 export type ListCrlsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -771,7 +821,7 @@ export type ListCrlsError = AccessDeniedException | ValidationException | Common
  * **Required permissions: ** `rolesanywhere:ListCrls`.
  */
 export const listCrls: API.PaginatedOperationMethod<
-  ListRequest,
+  ListRequest & RegionInput,
   ListCrlsResponse,
   ListCrlsError,
   Credentials | HttpClient.HttpClient,
@@ -784,6 +834,8 @@ export const listCrls: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCrls",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "crls" } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrls",
 })) as any;
 
 export interface ListProfilesRequest extends ListRequest {}
@@ -797,7 +849,7 @@ export type ListProfilesError = AccessDeniedException | ValidationException | Co
  * **Required permissions: ** `rolesanywhere:ListProfiles`.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesRequest,
+  ListProfilesRequest & RegionInput,
   ListProfilesResponse,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -810,6 +862,8 @@ export const listProfiles: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProfiles",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "profiles" } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export interface ListSubjectsRequest extends ListRequest {}
@@ -823,7 +877,7 @@ export type ListSubjectsError = AccessDeniedException | ValidationException | Co
  * **Required permissions: ** `rolesanywhere:ListSubjects`.
  */
 export const listSubjects: API.PaginatedOperationMethod<
-  ListSubjectsRequest,
+  ListSubjectsRequest & RegionInput,
   ListSubjectsResponse,
   ListSubjectsError,
   Credentials | HttpClient.HttpClient,
@@ -836,6 +890,8 @@ export const listSubjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSubjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "subjects" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubjects",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -849,7 +905,7 @@ export type ListTagsForResourceError =
  * **Required permissions: ** `rolesanywhere:ListTagsForResource`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -860,6 +916,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export interface ListTrustAnchorsRequest extends ListRequest {}
@@ -873,7 +931,7 @@ export type ListTrustAnchorsError = AccessDeniedException | ValidationException 
  * **Required permissions: ** `rolesanywhere:ListTrustAnchors`.
  */
 export const listTrustAnchors: API.PaginatedOperationMethod<
-  ListTrustAnchorsRequest,
+  ListTrustAnchorsRequest & RegionInput,
   ListTrustAnchorsResponse,
   ListTrustAnchorsError,
   Credentials | HttpClient.HttpClient,
@@ -886,6 +944,8 @@ export const listTrustAnchors: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTrustAnchors",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "trustAnchors" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustAnchors",
 })) as any;
 
 export type PutAttributeMappingError =
@@ -897,7 +957,7 @@ export type PutAttributeMappingError =
  * Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
  */
 export const putAttributeMapping: API.OperationMethod<
-  PutAttributeMappingRequest,
+  PutAttributeMappingRequest & RegionInput,
   PutAttributeMappingResponse,
   PutAttributeMappingError,
   Credentials | HttpClient.HttpClient
@@ -908,6 +968,8 @@ export const putAttributeMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributeMapping",
+  telemetry: TELEMETRY,
+  span: "PutAttributeMapping",
 }));
 
 export type PutNotificationSettingsError =
@@ -923,7 +985,7 @@ export type PutNotificationSettingsError =
  * **Required permissions: ** `rolesanywhere:PutNotificationSettings`.
  */
 export const putNotificationSettings: API.OperationMethod<
-  PutNotificationSettingsRequest,
+  PutNotificationSettingsRequest & RegionInput,
   PutNotificationSettingsResponse,
   PutNotificationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -934,6 +996,8 @@ export const putNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationSettings",
+  telemetry: TELEMETRY,
+  span: "PutNotificationSettings",
 }));
 
 export type ResetNotificationSettingsError =
@@ -947,7 +1011,7 @@ export type ResetNotificationSettingsError =
  * **Required permissions: ** `rolesanywhere:ResetNotificationSettings`.
  */
 export const resetNotificationSettings: API.OperationMethod<
-  ResetNotificationSettingsRequest,
+  ResetNotificationSettingsRequest & RegionInput,
   ResetNotificationSettingsResponse,
   ResetNotificationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -958,6 +1022,8 @@ export const resetNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetNotificationSettings",
+  telemetry: TELEMETRY,
+  span: "ResetNotificationSettings",
 }));
 
 export type TagResourceError =
@@ -972,7 +1038,7 @@ export type TagResourceError =
  * **Required permissions: ** `rolesanywhere:TagResource`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -988,6 +1054,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1001,7 +1069,7 @@ export type UntagResourceError =
  * **Required permissions: ** `rolesanywhere:UntagResource`.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1012,6 +1080,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCrlError =
@@ -1025,7 +1095,7 @@ export type UpdateCrlError =
  * **Required permissions: ** `rolesanywhere:UpdateCrl`.
  */
 export const updateCrl: API.OperationMethod<
-  UpdateCrlRequest,
+  UpdateCrlRequest & RegionInput,
   CrlDetailResponse,
   UpdateCrlError,
   Credentials | HttpClient.HttpClient
@@ -1036,6 +1106,8 @@ export const updateCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrl",
+  telemetry: TELEMETRY,
+  span: "UpdateCrl",
 }));
 
 export type UpdateProfileError =
@@ -1049,7 +1121,7 @@ export type UpdateProfileError =
  * **Required permissions: ** `rolesanywhere:UpdateProfile`.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileRequest,
+  UpdateProfileRequest & RegionInput,
   ProfileDetailResponse,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -1060,6 +1132,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateTrustAnchorError =
@@ -1073,7 +1147,7 @@ export type UpdateTrustAnchorError =
  * **Required permissions: ** `rolesanywhere:UpdateTrustAnchor`.
  */
 export const updateTrustAnchor: API.OperationMethod<
-  UpdateTrustAnchorRequest,
+  UpdateTrustAnchorRequest & RegionInput,
   TrustAnchorDetailResponse,
   UpdateTrustAnchorError,
   Credentials | HttpClient.HttpClient
@@ -1084,6 +1158,8 @@ export const updateTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "UpdateTrustAnchor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

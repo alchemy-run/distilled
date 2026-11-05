@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "AdConversionValueRules",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -291,6 +304,8 @@ export const createAdConversionValueRule: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdConversionValueRule",
 }));
 
 export type DeleteAdConversionValueRuleError = WhopOpError;
@@ -306,6 +321,8 @@ export const deleteAdConversionValueRule: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdConversionValueRule",
 }));
 
 export type GetAdConversionValueRuleError = WhopOpError;
@@ -321,6 +338,8 @@ export const getAdConversionValueRule: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdConversionValueRule",
 }));
 
 export type ListAdConversionValueRulesError = WhopOpError;
@@ -338,6 +357,8 @@ export const listAdConversionValueRules: API.PaginatedOperationMethod<
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdConversionValueRules",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -363,6 +384,8 @@ export const pauseAdConversionValueRule: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseAdConversionValueRule",
 }));
 
 export type UnpauseAdConversionValueRuleError = Conflict | WhopOpError;
@@ -378,6 +401,8 @@ export const unpauseAdConversionValueRule: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpauseAdConversionValueRule",
 }));
 
 export type UpdateAdConversionValueRuleError = WhopOpError;
@@ -393,6 +418,8 @@ export const updateAdConversionValueRule: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdConversionValueRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

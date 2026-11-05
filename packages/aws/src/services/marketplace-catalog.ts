@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -82,6 +84,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://catalog.marketplace.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceCatalog",
+  service: "MarketplaceCatalog",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1279,7 +1295,7 @@ export type BatchDescribeEntitiesError =
  * Returns metadata and content for multiple entities. This is the Batch version of the `DescribeEntity` API and uses the same IAM permission action as `DescribeEntity` API.
  */
 export const batchDescribeEntities: API.OperationMethod<
-  BatchDescribeEntitiesRequest,
+  BatchDescribeEntitiesRequest & RegionInput,
   BatchDescribeEntitiesResponse,
   BatchDescribeEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -1295,6 +1311,8 @@ export const batchDescribeEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeEntities",
+  telemetry: TELEMETRY,
+  span: "BatchDescribeEntities",
 }));
 
 export type CancelChangeSetError =
@@ -1312,7 +1330,7 @@ export type CancelChangeSetError =
  * calls.
  */
 export const cancelChangeSet: API.OperationMethod<
-  CancelChangeSetRequest,
+  CancelChangeSetRequest & RegionInput,
   CancelChangeSetResponse,
   CancelChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1330,6 +1348,8 @@ export const cancelChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelChangeSet",
+  telemetry: TELEMETRY,
+  span: "CancelChangeSet",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1344,7 +1364,7 @@ export type DeleteResourcePolicyError =
  * ARN.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1361,6 +1381,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DescribeAssessmentError =
@@ -1379,7 +1401,7 @@ export type DescribeAssessmentError =
  * `ListAssessments` action.
  */
 export const describeAssessment: API.PaginatedOperationMethod<
-  DescribeAssessmentRequest,
+  DescribeAssessmentRequest & RegionInput,
   DescribeAssessmentResponse,
   DescribeAssessmentError,
   Credentials | HttpClient.HttpClient,
@@ -1403,6 +1425,8 @@ export const describeAssessment: API.PaginatedOperationMethod<
     items: "ControlAssessments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAssessment",
 })) as any;
 
 export type DescribeChangeSetError =
@@ -1416,7 +1440,7 @@ export type DescribeChangeSetError =
  * Provides information about a given change set.
  */
 export const describeChangeSet: API.OperationMethod<
-  DescribeChangeSetRequest,
+  DescribeChangeSetRequest & RegionInput,
   DescribeChangeSetResponse,
   DescribeChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1433,6 +1457,8 @@ export const describeChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChangeSet",
+  telemetry: TELEMETRY,
+  span: "DescribeChangeSet",
 }));
 
 export type DescribeEntityError =
@@ -1447,7 +1473,7 @@ export type DescribeEntityError =
  * Returns the metadata and content of the entity.
  */
 export const describeEntity: API.OperationMethod<
-  DescribeEntityRequest,
+  DescribeEntityRequest & RegionInput,
   DescribeEntityResponse,
   DescribeEntityError,
   Credentials | HttpClient.HttpClient
@@ -1465,6 +1491,8 @@ export const describeEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntity",
+  telemetry: TELEMETRY,
+  span: "DescribeEntity",
 }));
 
 export type GetResourcePolicyError =
@@ -1479,7 +1507,7 @@ export type GetResourcePolicyError =
  * ARN.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1496,6 +1524,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListAssessmentsError =
@@ -1518,7 +1548,7 @@ export type ListAssessmentsError =
  * Results are sorted by assessment creation time in descending order.
  */
 export const listAssessments: API.PaginatedOperationMethod<
-  ListAssessmentsRequest,
+  ListAssessmentsRequest & RegionInput,
   ListAssessmentsResponse,
   ListAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1541,6 +1571,8 @@ export const listAssessments: API.PaginatedOperationMethod<
     items: "AssessmentSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessments",
 })) as any;
 
 export type ListChangeSetsError =
@@ -1559,7 +1591,7 @@ export type ListChangeSetsError =
  * calls.
  */
 export const listChangeSets: API.PaginatedOperationMethod<
-  ListChangeSetsRequest,
+  ListChangeSetsRequest & RegionInput,
   ListChangeSetsResponse,
   ListChangeSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1582,6 +1614,8 @@ export const listChangeSets: API.PaginatedOperationMethod<
     items: "ChangeSetSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChangeSets",
 })) as any;
 
 export type ListEntitiesError =
@@ -1595,7 +1629,7 @@ export type ListEntitiesError =
  * Provides the list of entities of a given type.
  */
 export const listEntities: API.PaginatedOperationMethod<
-  ListEntitiesRequest,
+  ListEntitiesRequest & RegionInput,
   ListEntitiesResponse,
   ListEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1619,6 +1653,8 @@ export const listEntities: API.PaginatedOperationMethod<
     items: "EntitySummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntities",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1632,7 +1668,7 @@ export type ListTagsForResourceError =
  * Lists all tags that have been added to a resource (either an entity or change set).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1649,6 +1685,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -1663,7 +1701,7 @@ export type PutResourcePolicyError =
  * `AmiProduct` and `ContainerProduct`.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1680,6 +1718,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartChangeSetError =
@@ -1712,7 +1752,7 @@ export type StartChangeSetError =
  * and Java shapes on GitHub.
  */
 export const startChangeSet: API.OperationMethod<
-  StartChangeSetRequest,
+  StartChangeSetRequest & RegionInput,
   StartChangeSetResponse,
   StartChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -1731,6 +1771,8 @@ export const startChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChangeSet",
+  telemetry: TELEMETRY,
+  span: "StartChangeSet",
 }));
 
 export type TagResourceError =
@@ -1744,7 +1786,7 @@ export type TagResourceError =
  * Tags a resource (either an entity or change set).
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1761,6 +1803,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1774,7 +1818,7 @@ export type UntagResourceError =
  * Removes a tag or list of tags from a resource (either an entity or change set).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1791,6 +1835,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

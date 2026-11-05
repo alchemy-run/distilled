@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm-incidents.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSMIncidents",
+  service: "SSMIncidents",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -672,7 +688,7 @@ export type BatchGetIncidentFindingsError =
  * potential cause of the incident.
  */
 export const batchGetIncidentFindings: API.OperationMethod<
-  BatchGetIncidentFindingsInput,
+  BatchGetIncidentFindingsInput & RegionInput,
   BatchGetIncidentFindingsOutput,
   BatchGetIncidentFindingsError,
   Credentials | HttpClient.HttpClient
@@ -689,6 +705,8 @@ export const batchGetIncidentFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetIncidentFindings",
+  telemetry: TELEMETRY,
+  span: "BatchGetIncidentFindings",
 }));
 
 export type CreateReplicationSetError =
@@ -705,7 +723,7 @@ export type CreateReplicationSetError =
  * provided KMS key.
  */
 export const createReplicationSet: API.OperationMethod<
-  CreateReplicationSetInput,
+  CreateReplicationSetInput & RegionInput,
   CreateReplicationSetOutput,
   CreateReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -724,6 +742,8 @@ export const createReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationSet",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationSet",
 }));
 
 export type CreateResponsePlanError =
@@ -740,7 +760,7 @@ export type CreateResponsePlanError =
  * of an incident.
  */
 export const createResponsePlan: API.OperationMethod<
-  CreateResponsePlanInput,
+  CreateResponsePlanInput & RegionInput,
   CreateResponsePlanOutput,
   CreateResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -758,6 +778,8 @@ export const createResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponsePlan",
+  telemetry: TELEMETRY,
+  span: "CreateResponsePlan",
 }));
 
 export type CreateTimelineEventError =
@@ -775,7 +797,7 @@ export type CreateTimelineEventError =
  * automatically.
  */
 export const createTimelineEvent: API.OperationMethod<
-  CreateTimelineEventInput,
+  CreateTimelineEventInput & RegionInput,
   CreateTimelineEventOutput,
   CreateTimelineEventError,
   Credentials | HttpClient.HttpClient
@@ -793,6 +815,8 @@ export const createTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "CreateTimelineEvent",
 }));
 
 export type DeleteIncidentRecordError =
@@ -805,7 +829,7 @@ export type DeleteIncidentRecordError =
  * Delete an incident record from Incident Manager.
  */
 export const deleteIncidentRecord: API.OperationMethod<
-  DeleteIncidentRecordInput,
+  DeleteIncidentRecordInput & RegionInput,
   DeleteIncidentRecordOutput,
   DeleteIncidentRecordError,
   Credentials | HttpClient.HttpClient
@@ -821,6 +845,8 @@ export const deleteIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIncidentRecord",
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentRecord",
 }));
 
 export type DeleteReplicationSetError =
@@ -835,7 +861,7 @@ export type DeleteReplicationSetError =
  * Incident Manager data.
  */
 export const deleteReplicationSet: API.OperationMethod<
-  DeleteReplicationSetInput,
+  DeleteReplicationSetInput & RegionInput,
   DeleteReplicationSetOutput,
   DeleteReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -852,6 +878,8 @@ export const deleteReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationSet",
 }));
 
 export type DeleteResourcePolicyError =
@@ -866,7 +894,7 @@ export type DeleteResourcePolicyError =
  * resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -883,6 +911,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteResponsePlanError =
@@ -896,7 +926,7 @@ export type DeleteResponsePlanError =
  * plan.
  */
 export const deleteResponsePlan: API.OperationMethod<
-  DeleteResponsePlanInput,
+  DeleteResponsePlanInput & RegionInput,
   DeleteResponsePlanOutput,
   DeleteResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -912,6 +942,8 @@ export const deleteResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponsePlan",
+  telemetry: TELEMETRY,
+  span: "DeleteResponsePlan",
 }));
 
 export type DeleteTimelineEventError =
@@ -924,7 +956,7 @@ export type DeleteTimelineEventError =
  * Deletes a timeline event from an incident.
  */
 export const deleteTimelineEvent: API.OperationMethod<
-  DeleteTimelineEventInput,
+  DeleteTimelineEventInput & RegionInput,
   DeleteTimelineEventOutput,
   DeleteTimelineEventError,
   Credentials | HttpClient.HttpClient
@@ -940,6 +972,8 @@ export const deleteTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "DeleteTimelineEvent",
 }));
 
 export type GetIncidentRecordError =
@@ -953,7 +987,7 @@ export type GetIncidentRecordError =
  * Returns the details for the specified incident record.
  */
 export const getIncidentRecord: API.OperationMethod<
-  GetIncidentRecordInput,
+  GetIncidentRecordInput & RegionInput,
   GetIncidentRecordOutput,
   GetIncidentRecordError,
   Credentials | HttpClient.HttpClient
@@ -970,6 +1004,8 @@ export const getIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIncidentRecord",
+  telemetry: TELEMETRY,
+  span: "GetIncidentRecord",
 }));
 
 export type GetReplicationSetError =
@@ -983,7 +1019,7 @@ export type GetReplicationSetError =
  * Retrieve your Incident Manager replication set.
  */
 export const getReplicationSet: API.OperationMethod<
-  GetReplicationSetInput,
+  GetReplicationSetInput & RegionInput,
   GetReplicationSetOutput,
   GetReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -1000,6 +1036,8 @@ export const getReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationSet",
+  telemetry: TELEMETRY,
+  span: "GetReplicationSet",
 }));
 
 export type GetResourcePoliciesError =
@@ -1013,7 +1051,7 @@ export type GetResourcePoliciesError =
  * Retrieves the resource policies attached to the specified response plan.
  */
 export const getResourcePolicies: API.PaginatedOperationMethod<
-  GetResourcePoliciesInput,
+  GetResourcePoliciesInput & RegionInput,
   GetResourcePoliciesOutput,
   GetResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1037,6 +1075,8 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     items: "resourcePolicies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicies",
 })) as any;
 
 export type GetResponsePlanError =
@@ -1050,7 +1090,7 @@ export type GetResponsePlanError =
  * Retrieves the details of the specified response plan.
  */
 export const getResponsePlan: API.OperationMethod<
-  GetResponsePlanInput,
+  GetResponsePlanInput & RegionInput,
   GetResponsePlanOutput,
   GetResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -1067,6 +1107,8 @@ export const getResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponsePlan",
+  telemetry: TELEMETRY,
+  span: "GetResponsePlan",
 }));
 
 export type GetTimelineEventError =
@@ -1080,7 +1122,7 @@ export type GetTimelineEventError =
  * Retrieves a timeline event based on its ID and incident record.
  */
 export const getTimelineEvent: API.OperationMethod<
-  GetTimelineEventInput,
+  GetTimelineEventInput & RegionInput,
   GetTimelineEventOutput,
   GetTimelineEventError,
   Credentials | HttpClient.HttpClient
@@ -1097,6 +1139,8 @@ export const getTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "GetTimelineEvent",
 }));
 
 export type ListIncidentFindingsError =
@@ -1113,7 +1157,7 @@ export type ListIncidentFindingsError =
  * deployment that can be investigated as a potential cause of the incident.
  */
 export const listIncidentFindings: API.PaginatedOperationMethod<
-  ListIncidentFindingsInput,
+  ListIncidentFindingsInput & RegionInput,
   ListIncidentFindingsOutput,
   ListIncidentFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -1137,6 +1181,8 @@ export const listIncidentFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIncidentFindings",
 })) as any;
 
 export type ListIncidentRecordsError =
@@ -1150,7 +1196,7 @@ export type ListIncidentRecordsError =
  * Resource Name (ARN) of the incident record you want to update.
  */
 export const listIncidentRecords: API.PaginatedOperationMethod<
-  ListIncidentRecordsInput,
+  ListIncidentRecordsInput & RegionInput,
   ListIncidentRecordsOutput,
   ListIncidentRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -1173,6 +1219,8 @@ export const listIncidentRecords: API.PaginatedOperationMethod<
     items: "incidentRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIncidentRecords",
 })) as any;
 
 export type ListRelatedItemsError =
@@ -1185,7 +1233,7 @@ export type ListRelatedItemsError =
  * List all related items for an incident record.
  */
 export const listRelatedItems: API.PaginatedOperationMethod<
-  ListRelatedItemsInput,
+  ListRelatedItemsInput & RegionInput,
   ListRelatedItemsOutput,
   ListRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1208,6 +1256,8 @@ export const listRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRelatedItems",
 })) as any;
 
 export type ListReplicationSetsError =
@@ -1220,7 +1270,7 @@ export type ListReplicationSetsError =
  * Lists details about the replication set configured in your account.
  */
 export const listReplicationSets: API.PaginatedOperationMethod<
-  ListReplicationSetsInput,
+  ListReplicationSetsInput & RegionInput,
   ListReplicationSetsOutput,
   ListReplicationSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1243,6 +1293,8 @@ export const listReplicationSets: API.PaginatedOperationMethod<
     items: "replicationSetArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReplicationSets",
 })) as any;
 
 export type ListResponsePlansError =
@@ -1255,7 +1307,7 @@ export type ListResponsePlansError =
  * Lists all response plans in your account.
  */
 export const listResponsePlans: API.PaginatedOperationMethod<
-  ListResponsePlansInput,
+  ListResponsePlansInput & RegionInput,
   ListResponsePlansOutput,
   ListResponsePlansError,
   Credentials | HttpClient.HttpClient,
@@ -1278,6 +1330,8 @@ export const listResponsePlans: API.PaginatedOperationMethod<
     items: "responsePlanSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResponsePlans",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1291,7 +1345,7 @@ export type ListTagsForResourceError =
  * Lists the tags that are attached to the specified response plan or incident.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1308,6 +1362,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTimelineEventsError =
@@ -1320,7 +1376,7 @@ export type ListTimelineEventsError =
  * Lists timeline events for the specified incident record.
  */
 export const listTimelineEvents: API.PaginatedOperationMethod<
-  ListTimelineEventsInput,
+  ListTimelineEventsInput & RegionInput,
   ListTimelineEventsOutput,
   ListTimelineEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1343,6 +1399,8 @@ export const listTimelineEvents: API.PaginatedOperationMethod<
     items: "eventSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTimelineEvents",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -1358,7 +1416,7 @@ export type PutResourcePolicyError =
  * information about cross-account sharing, see Cross-Region and cross-account incident management.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1375,6 +1433,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartIncidentError =
@@ -1390,7 +1450,7 @@ export type StartIncidentError =
  * manually.
  */
 export const startIncident: API.OperationMethod<
-  StartIncidentInput,
+  StartIncidentInput & RegionInput,
   StartIncidentOutput,
   StartIncidentError,
   Credentials | HttpClient.HttpClient
@@ -1408,6 +1468,8 @@ export const startIncident: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIncident",
+  telemetry: TELEMETRY,
+  span: "StartIncident",
 }));
 
 export type TagResourceError =
@@ -1423,7 +1485,7 @@ export type TagResourceError =
  * Adds a tag to a response plan.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1442,6 +1504,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1456,7 +1520,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1474,6 +1538,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeletionProtectionError =
@@ -1488,7 +1554,7 @@ export type UpdateDeletionProtectionError =
  * replication set.
  */
 export const updateDeletionProtection: API.OperationMethod<
-  UpdateDeletionProtectionInput,
+  UpdateDeletionProtectionInput & RegionInput,
   UpdateDeletionProtectionOutput,
   UpdateDeletionProtectionError,
   Credentials | HttpClient.HttpClient
@@ -1505,6 +1571,8 @@ export const updateDeletionProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeletionProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateDeletionProtection",
 }));
 
 export type UpdateIncidentRecordError =
@@ -1521,7 +1589,7 @@ export type UpdateIncidentRecordError =
  * channels, see Interacting through chat.
  */
 export const updateIncidentRecord: API.OperationMethod<
-  UpdateIncidentRecordInput,
+  UpdateIncidentRecordInput & RegionInput,
   UpdateIncidentRecordOutput,
   UpdateIncidentRecordError,
   Credentials | HttpClient.HttpClient
@@ -1539,6 +1607,8 @@ export const updateIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIncidentRecord",
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentRecord",
 }));
 
 export type UpdateRelatedItemsError =
@@ -1553,7 +1623,7 @@ export type UpdateRelatedItemsError =
  * Add or remove related items from the related items tab of an incident record.
  */
 export const updateRelatedItems: API.OperationMethod<
-  UpdateRelatedItemsInput,
+  UpdateRelatedItemsInput & RegionInput,
   UpdateRelatedItemsOutput,
   UpdateRelatedItemsError,
   Credentials | HttpClient.HttpClient
@@ -1571,6 +1641,8 @@ export const updateRelatedItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelatedItems",
+  telemetry: TELEMETRY,
+  span: "UpdateRelatedItems",
 }));
 
 export type UpdateReplicationSetError =
@@ -1585,7 +1657,7 @@ export type UpdateReplicationSetError =
  * Add or delete Regions from your replication set.
  */
 export const updateReplicationSet: API.OperationMethod<
-  UpdateReplicationSetInput,
+  UpdateReplicationSetInput & RegionInput,
   UpdateReplicationSetOutput,
   UpdateReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -1603,6 +1675,8 @@ export const updateReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationSet",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationSet",
 }));
 
 export type UpdateResponsePlanError =
@@ -1617,7 +1691,7 @@ export type UpdateResponsePlanError =
  * Updates the specified response plan.
  */
 export const updateResponsePlan: API.OperationMethod<
-  UpdateResponsePlanInput,
+  UpdateResponsePlanInput & RegionInput,
   UpdateResponsePlanOutput,
   UpdateResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -1635,6 +1709,8 @@ export const updateResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponsePlan",
+  telemetry: TELEMETRY,
+  span: "UpdateResponsePlan",
 }));
 
 export type UpdateTimelineEventError =
@@ -1649,7 +1725,7 @@ export type UpdateTimelineEventError =
  * Updates a timeline event. You can update events of type `Custom Event`.
  */
 export const updateTimelineEvent: API.OperationMethod<
-  UpdateTimelineEventInput,
+  UpdateTimelineEventInput & RegionInput,
   UpdateTimelineEventOutput,
   UpdateTimelineEventError,
   Credentials | HttpClient.HttpClient
@@ -1667,6 +1743,8 @@ export const updateTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "UpdateTimelineEvent",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

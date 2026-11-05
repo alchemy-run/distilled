@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -67,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceDiscovery",
+  service: "MarketplaceDiscovery",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
@@ -1219,7 +1235,7 @@ export type GetListingError = ResourceNotFoundException | CommonErrors;
  * Provides details about a listing, such as descriptions, badges, categories, pricing model summaries, reviews, and associated products and offers.
  */
 export const getListing: API.OperationMethod<
-  GetListingInput,
+  GetListingInput & RegionInput,
   GetListingOutput,
   GetListingError,
   Credentials | HttpClient.HttpClient
@@ -1230,6 +1246,8 @@ export const getListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
+  telemetry: TELEMETRY,
+  span: "GetListing",
 }));
 
 export type GetOfferError = ResourceNotFoundException | CommonErrors;
@@ -1237,7 +1255,7 @@ export type GetOfferError = ResourceNotFoundException | CommonErrors;
  * Provides details about an offer, such as the pricing model, seller of record, availability dates, badges, and associated products.
  */
 export const getOffer: API.OperationMethod<
-  GetOfferInput,
+  GetOfferInput & RegionInput,
   GetOfferOutput,
   GetOfferError,
   Credentials | HttpClient.HttpClient
@@ -1248,6 +1266,8 @@ export const getOffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOffer",
+  telemetry: TELEMETRY,
+  span: "GetOffer",
 }));
 
 export type GetOfferSetError = ResourceNotFoundException | CommonErrors;
@@ -1255,7 +1275,7 @@ export type GetOfferSetError = ResourceNotFoundException | CommonErrors;
  * Provides details about an offer set, which is a bundle of offers across multiple products. Includes the seller, availability dates, buyer notes, and associated product-offer pairs.
  */
 export const getOfferSet: API.OperationMethod<
-  GetOfferSetInput,
+  GetOfferSetInput & RegionInput,
   GetOfferSetOutput,
   GetOfferSetError,
   Credentials | HttpClient.HttpClient
@@ -1266,6 +1286,8 @@ export const getOfferSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOfferSet",
+  telemetry: TELEMETRY,
+  span: "GetOfferSet",
 }));
 
 export type GetOfferTermsError = ResourceNotFoundException | CommonErrors;
@@ -1273,7 +1295,7 @@ export type GetOfferTermsError = ResourceNotFoundException | CommonErrors;
  * Returns the terms attached to an offer, such as pricing terms (usage-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms.
  */
 export const getOfferTerms: API.PaginatedOperationMethod<
-  GetOfferTermsInput,
+  GetOfferTermsInput & RegionInput,
   GetOfferTermsOutput,
   GetOfferTermsError,
   Credentials | HttpClient.HttpClient,
@@ -1291,6 +1313,8 @@ export const getOfferTerms: API.PaginatedOperationMethod<
     items: "offerTerms",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOfferTerms",
 })) as any;
 
 export type GetProductError = ResourceNotFoundException | CommonErrors;
@@ -1298,7 +1322,7 @@ export type GetProductError = ResourceNotFoundException | CommonErrors;
  * Provides details about a product, such as descriptions, highlights, categories, fulfillment option summaries, promotional media, and seller engagement options.
  */
 export const getProduct: API.OperationMethod<
-  GetProductInput,
+  GetProductInput & RegionInput,
   GetProductOutput,
   GetProductError,
   Credentials | HttpClient.HttpClient
@@ -1309,6 +1333,8 @@ export const getProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProduct",
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type ListFulfillmentOptionsError = ResourceNotFoundException | CommonErrors;
@@ -1316,7 +1342,7 @@ export type ListFulfillmentOptionsError = ResourceNotFoundException | CommonErro
  * Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes.
  */
 export const listFulfillmentOptions: API.PaginatedOperationMethod<
-  ListFulfillmentOptionsInput,
+  ListFulfillmentOptionsInput & RegionInput,
   ListFulfillmentOptionsOutput,
   ListFulfillmentOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1334,6 +1360,8 @@ export const listFulfillmentOptions: API.PaginatedOperationMethod<
     items: "fulfillmentOptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFulfillmentOptions",
 })) as any;
 
 export type ListPurchaseOptionsError = CommonErrors;
@@ -1343,7 +1371,7 @@ export type ListPurchaseOptionsError = CommonErrors;
  * You must include at least one of the following filters in the request: a `PRODUCT_ID` filter to specify the product for which to retrieve purchase options, or a `VISIBILITY_SCOPE` filter to retrieve purchase options by visibility.
  */
 export const listPurchaseOptions: API.PaginatedOperationMethod<
-  ListPurchaseOptionsInput,
+  ListPurchaseOptionsInput & RegionInput,
   ListPurchaseOptionsOutput,
   ListPurchaseOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1360,6 +1388,8 @@ export const listPurchaseOptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "purchaseOptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPurchaseOptions",
 })) as any;
 
 export type SearchFacetsError = CommonErrors;
@@ -1367,7 +1397,7 @@ export type SearchFacetsError = CommonErrors;
  * Returns available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings.
  */
 export const searchFacets: API.PaginatedOperationMethod<
-  SearchFacetsInput,
+  SearchFacetsInput & RegionInput,
   SearchFacetsOutput,
   SearchFacetsError,
   Credentials | HttpClient.HttpClient,
@@ -1384,6 +1414,8 @@ export const searchFacets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "listingFacets",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFacets",
 })) as any;
 
 export type SearchListingsError = CommonErrors;
@@ -1391,7 +1423,7 @@ export type SearchListingsError = CommonErrors;
  * Returns a list of product listings based on search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating.
  */
 export const searchListings: API.PaginatedOperationMethod<
-  SearchListingsInput,
+  SearchListingsInput & RegionInput,
   SearchListingsOutput,
   SearchListingsError,
   Credentials | HttpClient.HttpClient,
@@ -1409,6 +1441,8 @@ export const searchListings: API.PaginatedOperationMethod<
     items: "listingSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchListings",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

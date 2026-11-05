@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "databasecenter" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Databasecenter",
+  service: "databasecenter",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1650,6 +1669,8 @@ export const aggregateFleetV1beta: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateFleetV1beta",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1671,6 +1692,8 @@ export const aggregateIssueStatsV1beta: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateIssueStatsV1beta",
 }));
 
 export type AggregateQueryStatsFoldersError =
@@ -1691,6 +1714,8 @@ export const aggregateQueryStatsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateQueryStatsFolders",
 }));
 
 export type AggregateQueryStatsOrganizationsError =
@@ -1711,6 +1736,8 @@ export const aggregateQueryStatsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateQueryStatsOrganizations",
 }));
 
 export type AggregateQueryStatsProjectsError =
@@ -1731,6 +1758,8 @@ export const aggregateQueryStatsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateQueryStatsProjects",
 }));
 
 export type QueryDatabaseResourceGroupsV1betaError =
@@ -1751,6 +1780,8 @@ export const queryDatabaseResourceGroupsV1beta: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryDatabaseResourceGroupsV1beta",
 }));
 
 export type QueryIssuesV1betaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1766,6 +1797,8 @@ export const queryIssuesV1beta: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryIssuesV1beta",
 }));
 
 export type QueryProductsV1betaError = NotFound | Forbidden | GcpOpError;
@@ -1782,6 +1815,8 @@ export const queryProductsV1beta: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductsV1beta",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

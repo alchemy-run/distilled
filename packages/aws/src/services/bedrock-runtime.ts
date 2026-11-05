@@ -1,6 +1,9 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxName from "@distilled.cloud/core/telemetry-name-template";
+import * as TxStream from "@distilled.cloud/core/telemetry-stream";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +11,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +82,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-runtime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockRuntime",
+  service: "BedrockRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1930,7 +1948,7 @@ export type ApplyGuardrailError =
  * For troubleshooting some of the common errors you might encounter when using the `ApplyGuardrail` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const applyGuardrail: API.OperationMethod<
-  ApplyGuardrailRequest,
+  ApplyGuardrailRequest & RegionInput,
   ApplyGuardrailResponse,
   ApplyGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -1949,6 +1967,8 @@ export const applyGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyGuardrail",
+  telemetry: TELEMETRY,
+  span: "ApplyGuardrail",
 }));
 
 export type ConverseError =
@@ -1982,7 +2002,7 @@ export type ConverseError =
  * For troubleshooting some of the common errors you might encounter when using the `Converse` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const converse: API.OperationMethod<
-  ConverseRequest,
+  ConverseRequest & RegionInput,
   ConverseResponse,
   ConverseError,
   Credentials | HttpClient.HttpClient
@@ -2003,6 +2023,39 @@ export const converse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Converse",
+  telemetry: TELEMETRY,
+  span: {
+    op: "Converse",
+    attributes: { "gen_ai.provider.name": "aws.bedrock", "gen_ai.operation.name": "chat" },
+    input: {
+      modelId: [{ name: "gen_ai.request.model" }],
+      inferenceConfig: [
+        { name: "gen_ai.request.max_tokens", field: "maxTokens" },
+        { name: "gen_ai.request.temperature", field: "temperature" },
+        { name: "gen_ai.request.top_p", field: "topP" },
+        { name: "gen_ai.request.stop_sequences", field: "stopSequences" },
+      ],
+      guardrailConfig: [{ name: "aws.bedrock.guardrail.id", field: "guardrailIdentifier" }],
+    },
+    output: {
+      stopReason: [{ name: "gen_ai.response.finish_reasons", transform: "list" }],
+      usage: [
+        { name: "gen_ai.usage.input_tokens", field: "inputTokens" },
+        { name: "gen_ai.usage.output_tokens", field: "outputTokens" },
+        {
+          name: "gen_ai.usage.cache_read.input_tokens",
+          field: "cacheReadInputTokens",
+          transform: "nonZero",
+        },
+        {
+          name: "gen_ai.usage.cache_write.input_tokens",
+          field: "cacheWriteInputTokens",
+          transform: "nonZero",
+        },
+      ],
+    },
+    rename: TxName.nameTemplate("chat {gen_ai.request.model}"),
+  },
 }));
 
 export type ConverseStreamError =
@@ -2040,7 +2093,7 @@ export type ConverseStreamError =
  * For troubleshooting some of the common errors you might encounter when using the `ConverseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const converseStream: API.OperationMethod<
-  ConverseStreamRequest,
+  ConverseStreamRequest & RegionInput,
   ConverseStreamResponse,
   ConverseStreamError,
   Credentials | HttpClient.HttpClient
@@ -2061,6 +2114,49 @@ export const converseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConverseStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConverseStream",
+    attributes: {
+      "gen_ai.provider.name": "aws.bedrock",
+      "gen_ai.operation.name": "chat",
+      "gen_ai.request.stream": true,
+    },
+    input: {
+      modelId: [{ name: "gen_ai.request.model" }],
+      inferenceConfig: [
+        { name: "gen_ai.request.max_tokens", field: "maxTokens" },
+        { name: "gen_ai.request.temperature", field: "temperature" },
+        { name: "gen_ai.request.top_p", field: "topP" },
+        { name: "gen_ai.request.stop_sequences", field: "stopSequences" },
+      ],
+      guardrailConfig: [{ name: "aws.bedrock.guardrail.id", field: "guardrailIdentifier" }],
+    },
+    rename: TxName.nameTemplate("chat {gen_ai.request.model}"),
+    hold: TxStream.holdForStream({
+      member: "stream",
+      firstChunk: "gen_ai.response.time_to_first_chunk",
+      events: {
+        metadata: [
+          { name: "gen_ai.usage.input_tokens", field: "usage.inputTokens" },
+          { name: "gen_ai.usage.output_tokens", field: "usage.outputTokens" },
+          {
+            name: "gen_ai.usage.cache_read.input_tokens",
+            field: "usage.cacheReadInputTokens",
+            transform: "nonZero",
+          },
+          {
+            name: "gen_ai.usage.cache_write.input_tokens",
+            field: "usage.cacheWriteInputTokens",
+            transform: "nonZero",
+          },
+        ],
+        messageStop: [
+          { name: "gen_ai.response.finish_reasons", field: "stopReason", transform: "list" },
+        ],
+      },
+    }),
+  },
 }));
 
 export type CountTokensError =
@@ -2093,7 +2189,7 @@ export type CountTokensError =
  * - Converse - Sends conversation-based inference requests to foundation models
  */
 export const countTokens: API.OperationMethod<
-  CountTokensRequest,
+  CountTokensRequest & RegionInput,
   CountTokensResponse,
   CountTokensError,
   Credentials | HttpClient.HttpClient
@@ -2111,6 +2207,8 @@ export const countTokens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountTokens",
+  telemetry: TELEMETRY,
+  span: "CountTokens",
 }));
 
 export type GetAsyncInvokeError =
@@ -2123,7 +2221,7 @@ export type GetAsyncInvokeError =
  * Retrieve information about an asynchronous invocation.
  */
 export const getAsyncInvoke: API.OperationMethod<
-  GetAsyncInvokeRequest,
+  GetAsyncInvokeRequest & RegionInput,
   GetAsyncInvokeResponse,
   GetAsyncInvokeError,
   Credentials | HttpClient.HttpClient
@@ -2139,6 +2237,8 @@ export const getAsyncInvoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsyncInvoke",
+  telemetry: TELEMETRY,
+  span: "GetAsyncInvoke",
 }));
 
 export type InvokeGuardrailChecksError =
@@ -2152,7 +2252,7 @@ export type InvokeGuardrailChecksError =
  * Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores.
  */
 export const invokeGuardrailChecks: API.OperationMethod<
-  InvokeGuardrailChecksRequest,
+  InvokeGuardrailChecksRequest & RegionInput,
   InvokeGuardrailChecksResponse,
   InvokeGuardrailChecksError,
   Credentials | HttpClient.HttpClient
@@ -2169,6 +2269,8 @@ export const invokeGuardrailChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeGuardrailChecks",
+  telemetry: TELEMETRY,
+  span: "InvokeGuardrailChecks",
 }));
 
 export type InvokeModelError =
@@ -2195,7 +2297,7 @@ export type InvokeModelError =
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModel` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const invokeModel: API.OperationMethod<
-  InvokeModelRequest,
+  InvokeModelRequest & RegionInput,
   InvokeModelResponse,
   InvokeModelError,
   Credentials | HttpClient.HttpClient
@@ -2217,6 +2319,8 @@ export const invokeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModel",
+  telemetry: TELEMETRY,
+  span: "InvokeModel",
 }));
 
 export type InvokeModelWithBidirectionalStreamError =
@@ -2238,7 +2342,7 @@ export type InvokeModelWithBidirectionalStreamError =
  * It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
  */
 export const invokeModelWithBidirectionalStream: API.OperationMethod<
-  InvokeModelWithBidirectionalStreamRequest,
+  InvokeModelWithBidirectionalStreamRequest & RegionInput,
   InvokeModelWithBidirectionalStreamResponse,
   InvokeModelWithBidirectionalStreamError,
   Credentials | HttpClient.HttpClient
@@ -2261,6 +2365,8 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithBidirectionalStream",
+  telemetry: TELEMETRY,
+  span: "InvokeModelWithBidirectionalStream",
 }));
 
 export type InvokeModelWithResponseStreamError =
@@ -2292,7 +2398,7 @@ export type InvokeModelWithResponseStreamError =
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModelWithResponseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const invokeModelWithResponseStream: API.OperationMethod<
-  InvokeModelWithResponseStreamRequest,
+  InvokeModelWithResponseStreamRequest & RegionInput,
   InvokeModelWithResponseStreamResponse,
   InvokeModelWithResponseStreamError,
   Credentials | HttpClient.HttpClient
@@ -2315,6 +2421,8 @@ export const invokeModelWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithResponseStream",
+  telemetry: TELEMETRY,
+  span: "InvokeModelWithResponseStream",
 }));
 
 export type ListAsyncInvokesError =
@@ -2327,7 +2435,7 @@ export type ListAsyncInvokesError =
  * Lists asynchronous invocations.
  */
 export const listAsyncInvokes: API.PaginatedOperationMethod<
-  ListAsyncInvokesRequest,
+  ListAsyncInvokesRequest & RegionInput,
   ListAsyncInvokesResponse,
   ListAsyncInvokesError,
   Credentials | HttpClient.HttpClient,
@@ -2350,6 +2458,8 @@ export const listAsyncInvokes: API.PaginatedOperationMethod<
     items: "asyncInvokeSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAsyncInvokes",
 })) as any;
 
 export type StartAsyncInvokeError =
@@ -2370,7 +2480,7 @@ export type StartAsyncInvokeError =
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
  */
 export const startAsyncInvoke: API.OperationMethod<
-  StartAsyncInvokeRequest,
+  StartAsyncInvokeRequest & RegionInput,
   StartAsyncInvokeResponse,
   StartAsyncInvokeError,
   Credentials | HttpClient.HttpClient
@@ -2390,6 +2500,8 @@ export const startAsyncInvoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAsyncInvoke",
+  telemetry: TELEMETRY,
+  span: "StartAsyncInvoke",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

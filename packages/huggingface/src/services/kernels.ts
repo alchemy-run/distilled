@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Kernels",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export interface ApproveKernelAccessRequest {
   namespace: string;
   sendEmail?: boolean;
@@ -553,6 +566,8 @@ export const approveKernelAccess: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveKernelAccess",
 }));
 
 export type DuplicateXetFilesError = HuggingFaceOpError;
@@ -568,6 +583,8 @@ export const duplicateXetFiles: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateXetFiles",
 }));
 
 export type GetKernelError = HuggingFaceOpError;
@@ -583,6 +600,8 @@ export const getKernel: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKernel",
 }));
 
 export type GetKernelRevisionError = HuggingFaceOpError;
@@ -598,6 +617,8 @@ export const getKernelRevision: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKernelRevision",
 }));
 
 export type GetSecurityStatusError = HuggingFaceOpError;
@@ -613,6 +634,8 @@ export const getSecurityStatus: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityStatus",
 }));
 
 export type ListKernelsError = HuggingFaceOpError;
@@ -628,6 +651,8 @@ export const listKernels: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKernels",
 }));
 
 export type ListLikersError = HuggingFaceOpError;
@@ -643,6 +668,8 @@ export const listLikers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLikers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Network" },
+  prefix: "Trafficmanager",
+  service: "Trafficmanager",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckProfileTrafficManagerNameAvailabilityV2Request {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -650,6 +671,8 @@ export const CheckProfileTrafficManagerNameAvailabilityV2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckProfileTrafficManagerNameAvailabilityV2",
 }));
 
 export type CheckProfileTrafficManagerRelativeDnsNameAvailabilityError = AzureOpError;
@@ -669,6 +692,8 @@ export const CheckProfileTrafficManagerRelativeDnsNameAvailability: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckProfileTrafficManagerRelativeDnsNameAvailability",
 }));
 
 export type DeleteEndpointError = AzureOpError;
@@ -684,6 +709,8 @@ export const DeleteEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteProfileError = AzureOpError;
@@ -699,6 +726,8 @@ export const DeleteProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteTrafficManagerUserMetricsKeyError = AzureOpError;
@@ -714,6 +743,8 @@ export const DeleteTrafficManagerUserMetricsKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficManagerUserMetricsKey",
 }));
 
 export type EndpointsCreateOrUpdateError = AzureOpError;
@@ -729,6 +760,8 @@ export const EndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndpointsCreateOrUpdate",
 }));
 
 export type GetEndpointError = AzureOpError;
@@ -744,6 +777,8 @@ export const GetEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpoint",
 }));
 
 export type GetGeographicHierarchyDefaultError = AzureOpError;
@@ -759,6 +794,8 @@ export const GetGeographicHierarchyDefault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeographicHierarchyDefault",
 }));
 
 export type GetHeatMapError = AzureOpError;
@@ -774,6 +811,8 @@ export const GetHeatMap: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHeatMap",
 }));
 
 export type GetProfileError = AzureOpError;
@@ -789,6 +828,8 @@ export const GetProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetTrafficManagerUserMetricsKeyError = AzureOpError;
@@ -804,6 +845,8 @@ export const GetTrafficManagerUserMetricsKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrafficManagerUserMetricsKey",
 }));
 
 export type ListProfileByResourceGroupError = AzureOpError;
@@ -819,6 +862,8 @@ export const ListProfileByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProfileByResourceGroup",
 }));
 
 export type ListProfileBySubscriptionError = AzureOpError;
@@ -834,6 +879,8 @@ export const ListProfileBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProfileBySubscription",
 }));
 
 export type ProfilesCreateOrUpdateError = AzureOpError;
@@ -849,6 +896,8 @@ export const ProfilesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProfilesCreateOrUpdate",
 }));
 
 export type TrafficManagerUserMetricsKeysCreateOrUpdateError = AzureOpError;
@@ -864,6 +913,8 @@ export const TrafficManagerUserMetricsKeysCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrafficManagerUserMetricsKeysCreateOrUpdate",
 }));
 
 export type UpdateEndpointError = AzureOpError;
@@ -879,6 +930,8 @@ export const UpdateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateProfileError = AzureOpError;
@@ -894,6 +947,8 @@ export const UpdateProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

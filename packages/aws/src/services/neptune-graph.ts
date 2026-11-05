@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -99,6 +101,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 });
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NeptuneGraph",
+  service: "NeptuneGraph",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -902,7 +918,7 @@ export type CancelExportTaskError =
  * Cancel the specified export task.
  */
 export const cancelExportTask: API.OperationMethod<
-  CancelExportTaskInput,
+  CancelExportTaskInput & RegionInput,
   CancelExportTaskOutput,
   CancelExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -919,6 +935,8 @@ export const cancelExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
+  telemetry: TELEMETRY,
+  span: "CancelExportTask",
 }));
 
 export type CancelImportTaskError =
@@ -932,7 +950,7 @@ export type CancelImportTaskError =
  * Deletes the specified import task.
  */
 export const cancelImportTask: API.OperationMethod<
-  CancelImportTaskInput,
+  CancelImportTaskInput & RegionInput,
   CancelImportTaskOutput,
   CancelImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -949,6 +967,8 @@ export const cancelImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImportTask",
+  telemetry: TELEMETRY,
+  span: "CancelImportTask",
 }));
 
 export type CancelQueryError =
@@ -962,7 +982,7 @@ export type CancelQueryError =
  * Cancels a specified query.
  */
 export const cancelQuery: API.OperationMethod<
-  CancelQueryInput,
+  CancelQueryInput & RegionInput,
   CancelQueryResponse,
   CancelQueryError,
   Credentials | HttpClient.HttpClient
@@ -980,6 +1000,8 @@ export const cancelQuery: API.OperationMethod<
   retry: Retry,
   operationName: "CancelQuery",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "CancelQuery",
 }));
 
 export type CreateGraphError =
@@ -993,7 +1015,7 @@ export type CreateGraphError =
  * Creates a new Neptune Analytics graph.
  */
 export const createGraph: API.OperationMethod<
-  CreateGraphInput,
+  CreateGraphInput & RegionInput,
   CreateGraphOutput,
   CreateGraphError,
   Credentials | HttpClient.HttpClient
@@ -1010,6 +1032,8 @@ export const createGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraph",
+  telemetry: TELEMETRY,
+  span: "CreateGraph",
 }));
 
 export type CreateGraphSnapshotError =
@@ -1024,7 +1048,7 @@ export type CreateGraphSnapshotError =
  * Creates a snapshot of the specific graph.
  */
 export const createGraphSnapshot: API.OperationMethod<
-  CreateGraphSnapshotInput,
+  CreateGraphSnapshotInput & RegionInput,
   CreateGraphSnapshotOutput,
   CreateGraphSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1042,6 +1066,8 @@ export const createGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateGraphSnapshot",
 }));
 
 export type CreateGraphUsingImportTaskError =
@@ -1057,7 +1083,7 @@ export type CreateGraphUsingImportTaskError =
  * The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format.
  */
 export const createGraphUsingImportTask: API.OperationMethod<
-  CreateGraphUsingImportTaskInput,
+  CreateGraphUsingImportTaskInput & RegionInput,
   CreateGraphUsingImportTaskOutput,
   CreateGraphUsingImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1074,6 +1100,8 @@ export const createGraphUsingImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphUsingImportTask",
+  telemetry: TELEMETRY,
+  span: "CreateGraphUsingImportTask",
 }));
 
 export type CreatePrivateGraphEndpointError =
@@ -1090,7 +1118,7 @@ export type CreatePrivateGraphEndpointError =
  * VPC endpoint charges apply.
  */
 export const createPrivateGraphEndpoint: API.OperationMethod<
-  CreatePrivateGraphEndpointInput,
+  CreatePrivateGraphEndpointInput & RegionInput,
   CreatePrivateGraphEndpointOutput,
   CreatePrivateGraphEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1108,6 +1136,8 @@ export const createPrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateGraphEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateGraphEndpoint",
 }));
 
 export type DeleteGraphError =
@@ -1121,7 +1151,7 @@ export type DeleteGraphError =
  * Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled.
  */
 export const deleteGraph: API.OperationMethod<
-  DeleteGraphInput,
+  DeleteGraphInput & RegionInput,
   DeleteGraphOutput,
   DeleteGraphError,
   Credentials | HttpClient.HttpClient
@@ -1138,6 +1168,8 @@ export const deleteGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraph",
+  telemetry: TELEMETRY,
+  span: "DeleteGraph",
 }));
 
 export type DeleteGraphSnapshotError =
@@ -1151,7 +1183,7 @@ export type DeleteGraphSnapshotError =
  * Deletes the specified graph snapshot.
  */
 export const deleteGraphSnapshot: API.OperationMethod<
-  DeleteGraphSnapshotInput,
+  DeleteGraphSnapshotInput & RegionInput,
   DeleteGraphSnapshotOutput,
   DeleteGraphSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1168,6 +1200,8 @@ export const deleteGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraphSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteGraphSnapshot",
 }));
 
 export type DeletePrivateGraphEndpointError =
@@ -1181,7 +1215,7 @@ export type DeletePrivateGraphEndpointError =
  * Deletes a private graph endpoint.
  */
 export const deletePrivateGraphEndpoint: API.OperationMethod<
-  DeletePrivateGraphEndpointInput,
+  DeletePrivateGraphEndpointInput & RegionInput,
   DeletePrivateGraphEndpointOutput,
   DeletePrivateGraphEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1198,6 +1232,8 @@ export const deletePrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivateGraphEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeletePrivateGraphEndpoint",
 }));
 
 export type ExecuteQueryError =
@@ -1220,7 +1256,7 @@ export type ExecuteQueryError =
  * - neptune-graph:DeleteDataViaQuery
  */
 export const executeQuery: API.OperationMethod<
-  ExecuteQueryInput,
+  ExecuteQueryInput & RegionInput,
   ExecuteQueryOutput,
   ExecuteQueryError,
   Credentials | HttpClient.HttpClient
@@ -1239,6 +1275,8 @@ export const executeQuery: API.OperationMethod<
   retry: Retry,
   operationName: "ExecuteQuery",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "ExecuteQuery",
 }));
 
 export type GetExportTaskError =
@@ -1251,7 +1289,7 @@ export type GetExportTaskError =
  * Retrieves a specified export task.
  */
 export const getExportTask: API.OperationMethod<
-  GetExportTaskInput,
+  GetExportTaskInput & RegionInput,
   GetExportTaskOutput,
   GetExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1267,6 +1305,8 @@ export const getExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportTask",
+  telemetry: TELEMETRY,
+  span: "GetExportTask",
 }));
 
 export type GetGraphError =
@@ -1279,7 +1319,7 @@ export type GetGraphError =
  * Gets information about a specified graph.
  */
 export const getGraph: API.OperationMethod<
-  GetGraphInput,
+  GetGraphInput & RegionInput,
   GetGraphOutput,
   GetGraphError,
   Credentials | HttpClient.HttpClient
@@ -1295,6 +1335,8 @@ export const getGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraph",
+  telemetry: TELEMETRY,
+  span: "GetGraph",
 }));
 
 export type GetGraphSnapshotError =
@@ -1307,7 +1349,7 @@ export type GetGraphSnapshotError =
  * Retrieves a specified graph snapshot.
  */
 export const getGraphSnapshot: API.OperationMethod<
-  GetGraphSnapshotInput,
+  GetGraphSnapshotInput & RegionInput,
   GetGraphSnapshotOutput,
   GetGraphSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1323,6 +1365,8 @@ export const getGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetGraphSnapshot",
 }));
 
 export type GetGraphSummaryError =
@@ -1336,7 +1380,7 @@ export type GetGraphSummaryError =
  * Gets a graph summary for a property graph.
  */
 export const getGraphSummary: API.OperationMethod<
-  GetGraphSummaryInput,
+  GetGraphSummaryInput & RegionInput,
   GetGraphSummaryOutput,
   GetGraphSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1354,6 +1398,8 @@ export const getGraphSummary: API.OperationMethod<
   retry: Retry,
   operationName: "GetGraphSummary",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "GetGraphSummary",
 }));
 
 export type GetImportTaskError =
@@ -1366,7 +1412,7 @@ export type GetImportTaskError =
  * Retrieves a specified import task.
  */
 export const getImportTask: API.OperationMethod<
-  GetImportTaskInput,
+  GetImportTaskInput & RegionInput,
   GetImportTaskOutput,
   GetImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1382,6 +1428,8 @@ export const getImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportTask",
+  telemetry: TELEMETRY,
+  span: "GetImportTask",
 }));
 
 export type GetPrivateGraphEndpointError =
@@ -1394,7 +1442,7 @@ export type GetPrivateGraphEndpointError =
  * Retrieves information about a specified private endpoint.
  */
 export const getPrivateGraphEndpoint: API.OperationMethod<
-  GetPrivateGraphEndpointInput,
+  GetPrivateGraphEndpointInput & RegionInput,
   GetPrivateGraphEndpointOutput,
   GetPrivateGraphEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1410,6 +1458,8 @@ export const getPrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivateGraphEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetPrivateGraphEndpoint",
 }));
 
 export type GetQueryError =
@@ -1425,7 +1475,7 @@ export type GetQueryError =
  * When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the `neptune-graph:GetQueryStatus` IAM action attached.
  */
 export const getQuery: API.OperationMethod<
-  GetQueryInput,
+  GetQueryInput & RegionInput,
   GetQueryOutput,
   GetQueryError,
   Credentials | HttpClient.HttpClient
@@ -1443,6 +1493,8 @@ export const getQuery: API.OperationMethod<
   retry: Retry,
   operationName: "GetQuery",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "GetQuery",
 }));
 
 export type ListExportTasksError =
@@ -1455,7 +1507,7 @@ export type ListExportTasksError =
  * Retrieves a list of export tasks.
  */
 export const listExportTasks: API.PaginatedOperationMethod<
-  ListExportTasksInput,
+  ListExportTasksInput & RegionInput,
   ListExportTasksOutput,
   ListExportTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1478,6 +1530,8 @@ export const listExportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExportTasks",
 })) as any;
 
 export type ListGraphsError =
@@ -1489,7 +1543,7 @@ export type ListGraphsError =
  * Lists available Neptune Analytics graphs.
  */
 export const listGraphs: API.PaginatedOperationMethod<
-  ListGraphsInput,
+  ListGraphsInput & RegionInput,
   ListGraphsOutput,
   ListGraphsError,
   Credentials | HttpClient.HttpClient,
@@ -1507,6 +1561,8 @@ export const listGraphs: API.PaginatedOperationMethod<
     items: "graphs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphs",
 })) as any;
 
 export type ListGraphSnapshotsError =
@@ -1519,7 +1575,7 @@ export type ListGraphSnapshotsError =
  * Lists available snapshots of a specified Neptune Analytics graph.
  */
 export const listGraphSnapshots: API.PaginatedOperationMethod<
-  ListGraphSnapshotsInput,
+  ListGraphSnapshotsInput & RegionInput,
   ListGraphSnapshotsOutput,
   ListGraphSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -1542,6 +1598,8 @@ export const listGraphSnapshots: API.PaginatedOperationMethod<
     items: "graphSnapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphSnapshots",
 })) as any;
 
 export type ListImportTasksError =
@@ -1554,7 +1612,7 @@ export type ListImportTasksError =
  * Lists import tasks.
  */
 export const listImportTasks: API.PaginatedOperationMethod<
-  ListImportTasksInput,
+  ListImportTasksInput & RegionInput,
   ListImportTasksOutput,
   ListImportTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1577,6 +1635,8 @@ export const listImportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportTasks",
 })) as any;
 
 export type ListPrivateGraphEndpointsError =
@@ -1589,7 +1649,7 @@ export type ListPrivateGraphEndpointsError =
  * Lists private endpoints for a specified Neptune Analytics graph.
  */
 export const listPrivateGraphEndpoints: API.PaginatedOperationMethod<
-  ListPrivateGraphEndpointsInput,
+  ListPrivateGraphEndpointsInput & RegionInput,
   ListPrivateGraphEndpointsOutput,
   ListPrivateGraphEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1612,6 +1672,8 @@ export const listPrivateGraphEndpoints: API.PaginatedOperationMethod<
     items: "privateGraphEndpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrivateGraphEndpoints",
 })) as any;
 
 export type ListQueriesError =
@@ -1624,7 +1686,7 @@ export type ListQueriesError =
  * Lists active openCypher queries.
  */
 export const listQueries: API.OperationMethod<
-  ListQueriesInput,
+  ListQueriesInput & RegionInput,
   ListQueriesOutput,
   ListQueriesError,
   Credentials | HttpClient.HttpClient
@@ -1641,6 +1703,8 @@ export const listQueries: API.OperationMethod<
   retry: Retry,
   operationName: "ListQueries",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "ListQueries",
 }));
 
 export type ListTagsForResourceError =
@@ -1653,7 +1717,7 @@ export type ListTagsForResourceError =
  * Lists tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1669,6 +1733,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResetGraphError =
@@ -1682,7 +1748,7 @@ export type ResetGraphError =
  * Empties the data from a specified Neptune Analytics graph.
  */
 export const resetGraph: API.OperationMethod<
-  ResetGraphInput,
+  ResetGraphInput & RegionInput,
   ResetGraphOutput,
   ResetGraphError,
   Credentials | HttpClient.HttpClient
@@ -1699,6 +1765,8 @@ export const resetGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetGraph",
+  telemetry: TELEMETRY,
+  span: "ResetGraph",
 }));
 
 export type RestoreGraphFromSnapshotError =
@@ -1713,7 +1781,7 @@ export type RestoreGraphFromSnapshotError =
  * Restores a graph from a snapshot.
  */
 export const restoreGraphFromSnapshot: API.OperationMethod<
-  RestoreGraphFromSnapshotInput,
+  RestoreGraphFromSnapshotInput & RegionInput,
   RestoreGraphFromSnapshotOutput,
   RestoreGraphFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1731,6 +1799,8 @@ export const restoreGraphFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreGraphFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreGraphFromSnapshot",
 }));
 
 export type StartExportTaskError =
@@ -1744,7 +1814,7 @@ export type StartExportTaskError =
  * Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be `AVAILABLE`.
  */
 export const startExportTask: API.OperationMethod<
-  StartExportTaskInput,
+  StartExportTaskInput & RegionInput,
   StartExportTaskOutput,
   StartExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1761,6 +1831,8 @@ export const startExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
+  telemetry: TELEMETRY,
+  span: "StartExportTask",
 }));
 
 export type StartGraphError =
@@ -1774,7 +1846,7 @@ export type StartGraphError =
  * Starts the specific graph.
  */
 export const startGraph: API.OperationMethod<
-  StartGraphInput,
+  StartGraphInput & RegionInput,
   StartGraphOutput,
   StartGraphError,
   Credentials | HttpClient.HttpClient
@@ -1791,6 +1863,8 @@ export const startGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGraph",
+  telemetry: TELEMETRY,
+  span: "StartGraph",
 }));
 
 export type StartImportTaskError =
@@ -1804,7 +1878,7 @@ export type StartImportTaskError =
  * Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
  */
 export const startImportTask: API.OperationMethod<
-  StartImportTaskInput,
+  StartImportTaskInput & RegionInput,
   StartImportTaskOutput,
   StartImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -1821,6 +1895,8 @@ export const startImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportTask",
+  telemetry: TELEMETRY,
+  span: "StartImportTask",
 }));
 
 export type StopGraphError =
@@ -1834,7 +1910,7 @@ export type StopGraphError =
  * Stops the specific graph.
  */
 export const stopGraph: API.OperationMethod<
-  StopGraphInput,
+  StopGraphInput & RegionInput,
   StopGraphOutput,
   StopGraphError,
   Credentials | HttpClient.HttpClient
@@ -1851,6 +1927,8 @@ export const stopGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGraph",
+  telemetry: TELEMETRY,
+  span: "StopGraph",
 }));
 
 export type TagResourceError =
@@ -1863,7 +1941,7 @@ export type TagResourceError =
  * Adds tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1879,6 +1957,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1891,7 +1971,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1907,6 +1987,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGraphError =
@@ -1920,7 +2002,7 @@ export type UpdateGraphError =
  * Updates the configuration of a specified Neptune Analytics graph
  */
 export const updateGraph: API.OperationMethod<
-  UpdateGraphInput,
+  UpdateGraphInput & RegionInput,
   UpdateGraphOutput,
   UpdateGraphError,
   Credentials | HttpClient.HttpClient
@@ -1937,6 +2019,8 @@ export const updateGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGraph",
+  telemetry: TELEMETRY,
+  span: "UpdateGraph",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,7 +11,7 @@ name: Benchmarks
 #
 # Main's numbers come from the Actions cache: every push to main runs the same
 # script with `--wide` (every SDK), appends it to a rolling history (the line
-# charts), and saves both under `bench-ci-main-<sha>-<run id>`. A PR restores
+# charts), and saves both under `bench-ci-main-v2-<sha>-<run id>`. A PR restores
 # the entry for its base commit, or the newest main entry when that is missing.
 # Run the workflow by hand on main with `backfill: N` to seed the history with
 # main's last N commits.
@@ -65,11 +65,13 @@ jobs:
             .bench-ci/main.json
             .bench-ci/history.json
           # Keys end in a run id, so the key never matches exactly: the base
-          # commit's newest entry wins, then main's newest entry.
-          key: bench-ci-main-${{ github.event.pull_request.base.sha || github.sha }}-none
+          # commit's newest entry wins, then main's newest entry. Bump v2 (here
+          # and in the save step) when a metric's measurement changes, so old
+          # runs are dropped. v2: added latency's call and roundtrip interleaved.
+          key: bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-none
           restore-keys: |
-            bench-ci-main-${{ github.event.pull_request.base.sha || github.sha }}-
-            bench-ci-main-
+            bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-
+            bench-ci-main-v2-
 
       - name: Backfill main's history
         if: github.event_name == 'workflow_dispatch' && inputs.backfill > 0
@@ -97,7 +99,9 @@ jobs:
           SCOPE: ${{ github.event_name == 'pull_request' && '--changed-since HEAD^1' || '--wide' }}
         run: |
           mkdir -p .bench-ci
-          node benches/sdks/ci.ts run --out .bench-ci/head.json $SCOPE
+          # Whole-SDK heap is copied from main's run for SDKs this PR leaves unchanged.
+          reuse=""; [ -f .bench-ci/main.json ] && reuse="--reuse .bench-ci/main.json"
+          node benches/sdks/ci.ts run --out .bench-ci/head.json $SCOPE $reuse
 
       # No main run in the cache (the first PR after this job lands, or an
       # evicted entry): benchmark the base commit here, with this PR's runner
@@ -113,7 +117,8 @@ jobs:
           ./.github/bench-copy.sh "$base"
           (cd "$base" && pnpm install --frozen-lockfile --prefer-offline > /dev/null)
           extra=$(node -p 'require("./.bench-ci/head.json").scope.changed.join(",")')
-          (cd "$base" && node benches/sdks/ci.ts run --out "$GITHUB_WORKSPACE/.bench-ci/main.json" ${extra:+--extra "$extra"})
+          (cd "$base" && node benches/sdks/ci.ts run --out "$GITHUB_WORKSPACE/.bench-ci/main.json" ${extra:+--extra "$extra"} \
+            --reuse "$GITHUB_WORKSPACE/.bench-ci/head.json")
 
       - name: Add this run to main's history
         if: github.event_name != 'pull_request'
@@ -128,7 +133,7 @@ jobs:
           path: |
             .bench-ci/main.json
             .bench-ci/history.json
-          key: bench-ci-main-${{ github.sha }}-${{ github.run_id }}
+          key: bench-ci-main-v2-${{ github.sha }}-${{ github.run_id }}
 
       - name: Write report
         env:

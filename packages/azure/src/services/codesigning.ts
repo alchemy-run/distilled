@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.CodeSigning" },
+  prefix: "Codesigning",
+  service: "Codesigning",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckCodeSigningAccountNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -492,6 +513,8 @@ export const CheckCodeSigningAccountNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCodeSigningAccountNameAvailability",
 }));
 
 export type CreateCertificateProfileError = AzureOpError;
@@ -507,6 +530,8 @@ export const CreateCertificateProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificateProfile",
 }));
 
 export type CreateCodeSigningAccountError = AzureOpError;
@@ -522,6 +547,8 @@ export const CreateCodeSigningAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCodeSigningAccount",
 }));
 
 export type DeleteCertificateProfileError = AzureOpError;
@@ -537,6 +564,8 @@ export const DeleteCertificateProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificateProfile",
 }));
 
 export type DeleteCodeSigningAccountError = AzureOpError;
@@ -552,6 +581,8 @@ export const DeleteCodeSigningAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCodeSigningAccount",
 }));
 
 export type GetCertificateProfileError = AzureOpError;
@@ -567,6 +598,8 @@ export const GetCertificateProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateProfile",
 }));
 
 export type GetCodeSigningAccountError = AzureOpError;
@@ -582,6 +615,8 @@ export const GetCodeSigningAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeSigningAccount",
 }));
 
 export type ListCertificateProfileByCodeSigningAccountError = AzureOpError;
@@ -597,6 +632,8 @@ export const ListCertificateProfileByCodeSigningAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateProfileByCodeSigningAccount",
 }));
 
 export type ListCodeSigningAccountByResourceGroupError = AzureOpError;
@@ -612,6 +649,8 @@ export const ListCodeSigningAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCodeSigningAccountByResourceGroup",
 }));
 
 export type ListCodeSigningAccountBySubscriptionError = AzureOpError;
@@ -627,6 +666,8 @@ export const ListCodeSigningAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCodeSigningAccountBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -642,6 +683,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type RevokeCertificateProfileCertificateError = AzureOpError;
@@ -657,6 +700,8 @@ export const RevokeCertificateProfileCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCertificateProfileCertificate",
 }));
 
 export type UpdateCodeSigningAccountError = AzureOpError;
@@ -672,6 +717,8 @@ export const UpdateCodeSigningAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCodeSigningAccount",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -81,6 +83,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.ecr-public.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ECRPUBLIC",
+  service: "ECRPUBLIC",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class EmptyUploadException
   extends /*@__PURE__*/ S.TaggedError<EmptyUploadException>()("EmptyUploadException", {
@@ -571,7 +588,7 @@ export type BatchCheckLayerAvailabilityError =
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const batchCheckLayerAvailability: API.OperationMethod<
-  BatchCheckLayerAvailabilityRequest,
+  BatchCheckLayerAvailabilityRequest & RegionInput,
   BatchCheckLayerAvailabilityResponse,
   BatchCheckLayerAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -588,6 +605,8 @@ export const batchCheckLayerAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCheckLayerAvailability",
+  telemetry: TELEMETRY,
+  span: "BatchCheckLayerAvailability",
 }));
 
 export type BatchDeleteImageError =
@@ -608,7 +627,7 @@ export type BatchDeleteImageError =
  * image in your request.
  */
 export const batchDeleteImage: API.OperationMethod<
-  BatchDeleteImageRequest,
+  BatchDeleteImageRequest & RegionInput,
   BatchDeleteImageResponse,
   BatchDeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -624,6 +643,8 @@ export const batchDeleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImage",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteImage",
 }));
 
 export type CompleteLayerUploadError =
@@ -649,7 +670,7 @@ export type CompleteLayerUploadError =
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const completeLayerUpload: API.OperationMethod<
-  CompleteLayerUploadRequest,
+  CompleteLayerUploadRequest & RegionInput,
   CompleteLayerUploadResponse,
   CompleteLayerUploadError,
   Credentials | HttpClient.HttpClient
@@ -671,6 +692,8 @@ export const completeLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLayerUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteLayerUpload",
 }));
 
 export type CreateRepositoryError =
@@ -687,7 +710,7 @@ export type CreateRepositoryError =
  * repositories in the *Amazon Elastic Container Registry User Guide*.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
+  CreateRepositoryRequest & RegionInput,
   CreateRepositoryResponse,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -706,6 +729,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type DeleteRepositoryError =
@@ -721,7 +746,7 @@ export type DeleteRepositoryError =
  * This option deletes all images on your behalf before deleting the repository.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryRequest,
+  DeleteRepositoryRequest & RegionInput,
   DeleteRepositoryResponse,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -738,6 +763,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteRepositoryPolicyError =
@@ -751,7 +778,7 @@ export type DeleteRepositoryPolicyError =
  * Deletes the repository policy that's associated with the specified repository.
  */
 export const deleteRepositoryPolicy: API.OperationMethod<
-  DeleteRepositoryPolicyRequest,
+  DeleteRepositoryPolicyRequest & RegionInput,
   DeleteRepositoryPolicyResponse,
   DeleteRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -768,6 +795,8 @@ export const deleteRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryPolicy",
 }));
 
 export type DescribeImagesError =
@@ -787,7 +816,7 @@ export type DescribeImagesError =
  * size than the image sizes that are returned by DescribeImages.
  */
 export const describeImages: API.PaginatedOperationMethod<
-  DescribeImagesRequest,
+  DescribeImagesRequest & RegionInput,
   DescribeImagesResponse,
   DescribeImagesError,
   Credentials | HttpClient.HttpClient,
@@ -811,6 +840,8 @@ export const describeImages: API.PaginatedOperationMethod<
     items: "imageDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImages",
 })) as any;
 
 export type DescribeImageTagsError =
@@ -823,7 +854,7 @@ export type DescribeImageTagsError =
  * Returns the image tag details for a repository in a public registry.
  */
 export const describeImageTags: API.PaginatedOperationMethod<
-  DescribeImageTagsRequest,
+  DescribeImageTagsRequest & RegionInput,
   DescribeImageTagsResponse,
   DescribeImageTagsError,
   Credentials | HttpClient.HttpClient,
@@ -846,6 +877,8 @@ export const describeImageTags: API.PaginatedOperationMethod<
     items: "imageTagDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImageTags",
 })) as any;
 
 export type DescribeRegistriesError =
@@ -857,7 +890,7 @@ export type DescribeRegistriesError =
  * Returns details for a public registry.
  */
 export const describeRegistries: API.PaginatedOperationMethod<
-  DescribeRegistriesRequest,
+  DescribeRegistriesRequest & RegionInput,
   DescribeRegistriesResponse,
   DescribeRegistriesError,
   Credentials | HttpClient.HttpClient,
@@ -875,6 +908,8 @@ export const describeRegistries: API.PaginatedOperationMethod<
     items: "registries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistries",
 })) as any;
 
 export type DescribeRepositoriesError =
@@ -887,7 +922,7 @@ export type DescribeRepositoriesError =
  * Describes repositories that are in a public registry.
  */
 export const describeRepositories: API.PaginatedOperationMethod<
-  DescribeRepositoriesRequest,
+  DescribeRepositoriesRequest & RegionInput,
   DescribeRepositoriesResponse,
   DescribeRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -910,6 +945,8 @@ export const describeRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRepositories",
 })) as any;
 
 export type GetAuthorizationTokenError =
@@ -925,7 +962,7 @@ export type GetAuthorizationTokenError =
  * `sts:GetServiceBearerToken` permissions.
  */
 export const getAuthorizationToken: API.OperationMethod<
-  GetAuthorizationTokenRequest,
+  GetAuthorizationTokenRequest & RegionInput,
   GetAuthorizationTokenResponse,
   GetAuthorizationTokenError,
   Credentials | HttpClient.HttpClient
@@ -936,6 +973,8 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationToken",
 }));
 
 export type GetRegistryCatalogDataError =
@@ -946,7 +985,7 @@ export type GetRegistryCatalogDataError =
  * Retrieves catalog metadata for a public registry.
  */
 export const getRegistryCatalogData: API.OperationMethod<
-  GetRegistryCatalogDataRequest,
+  GetRegistryCatalogDataRequest & RegionInput,
   GetRegistryCatalogDataResponse,
   GetRegistryCatalogDataError,
   Credentials | HttpClient.HttpClient
@@ -957,6 +996,8 @@ export const getRegistryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryCatalogData",
+  telemetry: TELEMETRY,
+  span: "GetRegistryCatalogData",
 }));
 
 export type GetRepositoryCatalogDataError =
@@ -971,7 +1012,7 @@ export type GetRepositoryCatalogDataError =
  * displayed publicly in the Amazon ECR Public Gallery.
  */
 export const getRepositoryCatalogData: API.OperationMethod<
-  GetRepositoryCatalogDataRequest,
+  GetRepositoryCatalogDataRequest & RegionInput,
   GetRepositoryCatalogDataResponse,
   GetRepositoryCatalogDataError,
   Credentials | HttpClient.HttpClient
@@ -988,6 +1029,8 @@ export const getRepositoryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryCatalogData",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryCatalogData",
 }));
 
 export type GetRepositoryPolicyError =
@@ -1001,7 +1044,7 @@ export type GetRepositoryPolicyError =
  * Retrieves the repository policy for the specified repository.
  */
 export const getRepositoryPolicy: API.OperationMethod<
-  GetRepositoryPolicyRequest,
+  GetRepositoryPolicyRequest & RegionInput,
   GetRepositoryPolicyResponse,
   GetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1018,6 +1061,8 @@ export const getRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryPolicy",
 }));
 
 export type InitiateLayerUploadError =
@@ -1037,7 +1082,7 @@ export type InitiateLayerUploadError =
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const initiateLayerUpload: API.OperationMethod<
-  InitiateLayerUploadRequest,
+  InitiateLayerUploadRequest & RegionInput,
   InitiateLayerUploadResponse,
   InitiateLayerUploadError,
   Credentials | HttpClient.HttpClient
@@ -1054,6 +1099,8 @@ export const initiateLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateLayerUpload",
+  telemetry: TELEMETRY,
+  span: "InitiateLayerUpload",
 }));
 
 export type ListTagsForResourceError =
@@ -1066,7 +1113,7 @@ export type ListTagsForResourceError =
  * List the tags for an Amazon ECR Public resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1082,6 +1129,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutImageError =
@@ -1107,7 +1156,7 @@ export type PutImageError =
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const putImage: API.OperationMethod<
-  PutImageRequest,
+  PutImageRequest & RegionInput,
   PutImageResponse,
   PutImageError,
   Credentials | HttpClient.HttpClient
@@ -1130,6 +1179,8 @@ export const putImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImage",
+  telemetry: TELEMETRY,
+  span: "PutImage",
 }));
 
 export type PutRegistryCatalogDataError =
@@ -1141,7 +1192,7 @@ export type PutRegistryCatalogDataError =
  * Create or update the catalog data for a public registry.
  */
 export const putRegistryCatalogData: API.OperationMethod<
-  PutRegistryCatalogDataRequest,
+  PutRegistryCatalogDataRequest & RegionInput,
   PutRegistryCatalogDataResponse,
   PutRegistryCatalogDataError,
   Credentials | HttpClient.HttpClient
@@ -1152,6 +1203,8 @@ export const putRegistryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistryCatalogData",
+  telemetry: TELEMETRY,
+  span: "PutRegistryCatalogData",
 }));
 
 export type PutRepositoryCatalogDataError =
@@ -1164,7 +1217,7 @@ export type PutRepositoryCatalogDataError =
  * Creates or updates the catalog data for a repository in a public registry.
  */
 export const putRepositoryCatalogData: API.OperationMethod<
-  PutRepositoryCatalogDataRequest,
+  PutRepositoryCatalogDataRequest & RegionInput,
   PutRepositoryCatalogDataResponse,
   PutRepositoryCatalogDataError,
   Credentials | HttpClient.HttpClient
@@ -1180,6 +1233,8 @@ export const putRepositoryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryCatalogData",
+  telemetry: TELEMETRY,
+  span: "PutRepositoryCatalogData",
 }));
 
 export type SetRepositoryPolicyError =
@@ -1194,7 +1249,7 @@ export type SetRepositoryPolicyError =
  * Policies in the *Amazon Elastic Container Registry User Guide*.
  */
 export const setRepositoryPolicy: API.OperationMethod<
-  SetRepositoryPolicyRequest,
+  SetRepositoryPolicyRequest & RegionInput,
   SetRepositoryPolicyResponse,
   SetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1210,6 +1265,8 @@ export const setRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "SetRepositoryPolicy",
 }));
 
 export type TagResourceError =
@@ -1227,7 +1284,7 @@ export type TagResourceError =
  * deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1245,6 +1302,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1259,7 +1318,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1277,6 +1336,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UploadLayerPartError =
@@ -1299,7 +1360,7 @@ export type UploadLayerPartError =
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const uploadLayerPart: API.OperationMethod<
-  UploadLayerPartRequest,
+  UploadLayerPartRequest & RegionInput,
   UploadLayerPartResponse,
   UploadLayerPartError,
   Credentials | HttpClient.HttpClient
@@ -1319,6 +1380,8 @@ export const uploadLayerPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadLayerPart",
+  telemetry: TELEMETRY,
+  span: "UploadLayerPart",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

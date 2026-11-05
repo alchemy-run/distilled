@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticbeanstalk.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticBeanstalk",
+  service: "ElasticBeanstalk",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CodeBuildNotInServiceRegionException
   extends /*@__PURE__*/ S.TaggedError<CodeBuildNotInServiceRegionException>()(
@@ -1281,7 +1298,7 @@ export type AbortEnvironmentUpdateError = InsufficientPrivilegesException | Comm
  * Cancels in-progress environment configuration update or application version deployment.
  */
 export const abortEnvironmentUpdate: API.OperationMethod<
-  AbortEnvironmentUpdateMessage,
+  AbortEnvironmentUpdateMessage & RegionInput,
   AbortEnvironmentUpdateResponse,
   AbortEnvironmentUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1292,6 +1309,8 @@ export const abortEnvironmentUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortEnvironmentUpdate",
+  telemetry: TELEMETRY,
+  span: "AbortEnvironmentUpdate",
 }));
 
 export type ApplyEnvironmentManagedActionError =
@@ -1303,7 +1322,7 @@ export type ApplyEnvironmentManagedActionError =
  * action ID of a managed action with DescribeEnvironmentManagedActions.
  */
 export const applyEnvironmentManagedAction: API.OperationMethod<
-  ApplyEnvironmentManagedActionRequest,
+  ApplyEnvironmentManagedActionRequest & RegionInput,
   ApplyEnvironmentManagedActionResult,
   ApplyEnvironmentManagedActionError,
   Credentials | HttpClient.HttpClient
@@ -1314,6 +1333,8 @@ export const applyEnvironmentManagedAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyEnvironmentManagedAction",
+  telemetry: TELEMETRY,
+  span: "ApplyEnvironmentManagedAction",
 }));
 
 export type AssociateEnvironmentOperationsRoleError =
@@ -1326,7 +1347,7 @@ export type AssociateEnvironmentOperationsRoleError =
  * downstream services during subsequent calls acting on this environment.
  */
 export const associateEnvironmentOperationsRole: API.OperationMethod<
-  AssociateEnvironmentOperationsRoleMessage,
+  AssociateEnvironmentOperationsRoleMessage & RegionInput,
   AssociateEnvironmentOperationsRoleResponse,
   AssociateEnvironmentOperationsRoleError,
   Credentials | HttpClient.HttpClient
@@ -1337,6 +1358,8 @@ export const associateEnvironmentOperationsRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnvironmentOperationsRole",
+  telemetry: TELEMETRY,
+  span: "AssociateEnvironmentOperationsRole",
 }));
 
 export type CheckDNSAvailabilityError = CommonErrors;
@@ -1344,7 +1367,7 @@ export type CheckDNSAvailabilityError = CommonErrors;
  * Checks if the specified CNAME is available.
  */
 export const checkDNSAvailability: API.OperationMethod<
-  CheckDNSAvailabilityMessage,
+  CheckDNSAvailabilityMessage & RegionInput,
   CheckDNSAvailabilityResultMessage,
   CheckDNSAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -1355,6 +1378,8 @@ export const checkDNSAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDNSAvailability",
+  telemetry: TELEMETRY,
+  span: "CheckDNSAvailability",
 }));
 
 export type ComposeEnvironmentsError =
@@ -1367,7 +1392,7 @@ export type ComposeEnvironmentsError =
  * in the source bundles in an environment manifest named `env.yaml`. See Compose Environments for details.
  */
 export const composeEnvironments: API.OperationMethod<
-  ComposeEnvironmentsMessage,
+  ComposeEnvironmentsMessage & RegionInput,
   EnvironmentDescriptionsMessage,
   ComposeEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -1378,6 +1403,8 @@ export const composeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ComposeEnvironments",
+  telemetry: TELEMETRY,
+  span: "ComposeEnvironments",
 }));
 
 export type CreateApplicationError = TooManyApplicationsException | CommonErrors;
@@ -1386,7 +1413,7 @@ export type CreateApplicationError = TooManyApplicationsException | CommonErrors
  * no application versions.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationMessage,
+  CreateApplicationMessage & RegionInput,
   ApplicationDescriptionMessage,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1397,6 +1424,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationVersionError =
@@ -1422,7 +1451,7 @@ export type CreateApplicationVersionError =
  * location, you receive an exception when you attempt to launch an environment from the application version.
  */
 export const createApplicationVersion: API.OperationMethod<
-  CreateApplicationVersionMessage,
+  CreateApplicationVersionMessage & RegionInput,
   ApplicationVersionDescriptionMessage,
   CreateApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1468,8 @@ export const createApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationVersion",
 }));
 
 export type CreateConfigurationTemplateError =
@@ -1464,7 +1495,7 @@ export type CreateConfigurationTemplateError =
  * - ListAvailableSolutionStacks
  */
 export const createConfigurationTemplate: API.OperationMethod<
-  CreateConfigurationTemplateMessage,
+  CreateConfigurationTemplateMessage & RegionInput,
   ConfigurationSettingsDescription,
   CreateConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1479,6 +1510,8 @@ export const createConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationTemplate",
 }));
 
 export type CreateEnvironmentError =
@@ -1489,7 +1522,7 @@ export type CreateEnvironmentError =
  * Launches an Elastic Beanstalk environment for the specified application using the specified configuration.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentMessage,
+  CreateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1500,6 +1533,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreatePlatformVersionError =
@@ -1511,7 +1546,7 @@ export type CreatePlatformVersionError =
  * Create a new version of your custom platform.
  */
 export const createPlatformVersion: API.OperationMethod<
-  CreatePlatformVersionRequest,
+  CreatePlatformVersionRequest & RegionInput,
   CreatePlatformVersionResult,
   CreatePlatformVersionError,
   Credentials | HttpClient.HttpClient
@@ -1526,6 +1561,8 @@ export const createPlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "CreatePlatformVersion",
 }));
 
 export type CreateStorageLocationError =
@@ -1539,7 +1576,7 @@ export type CreateStorageLocationError =
  * `CreateStorageLocation` still returns the bucket name but does not create a new bucket.
  */
 export const createStorageLocation: API.OperationMethod<
-  CreateStorageLocationRequest,
+  CreateStorageLocationRequest & RegionInput,
   CreateStorageLocationResultMessage,
   CreateStorageLocationError,
   Credentials | HttpClient.HttpClient
@@ -1554,6 +1591,8 @@ export const createStorageLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageLocation",
+  telemetry: TELEMETRY,
+  span: "CreateStorageLocation",
 }));
 
 export type DeleteApplicationError = OperationInProgressException | CommonErrors;
@@ -1564,7 +1603,7 @@ export type DeleteApplicationError = OperationInProgressException | CommonErrors
  * You cannot delete an application that has a running environment.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationMessage,
+  DeleteApplicationMessage & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1575,6 +1614,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationVersionError =
@@ -1589,7 +1630,7 @@ export type DeleteApplicationVersionError =
  * You cannot delete an application version that is associated with a running environment.
  */
 export const deleteApplicationVersion: API.OperationMethod<
-  DeleteApplicationVersionMessage,
+  DeleteApplicationVersionMessage & RegionInput,
   DeleteApplicationVersionResponse,
   DeleteApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1605,6 +1646,8 @@ export const deleteApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationVersion",
 }));
 
 export type DeleteConfigurationTemplateError = OperationInProgressException | CommonErrors;
@@ -1616,7 +1659,7 @@ export type DeleteConfigurationTemplateError = OperationInProgressException | Co
  * without affecting the running environment.
  */
 export const deleteConfigurationTemplate: API.OperationMethod<
-  DeleteConfigurationTemplateMessage,
+  DeleteConfigurationTemplateMessage & RegionInput,
   DeleteConfigurationTemplateResponse,
   DeleteConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1627,6 +1670,8 @@ export const deleteConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationTemplate",
 }));
 
 export type DeleteEnvironmentConfigurationError = CommonErrors;
@@ -1640,7 +1685,7 @@ export type DeleteEnvironmentConfigurationError = CommonErrors;
  * is deleted with this action.
  */
 export const deleteEnvironmentConfiguration: API.OperationMethod<
-  DeleteEnvironmentConfigurationMessage,
+  DeleteEnvironmentConfigurationMessage & RegionInput,
   DeleteEnvironmentConfigurationResponse,
   DeleteEnvironmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1651,6 +1696,8 @@ export const deleteEnvironmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentConfiguration",
 }));
 
 export type DeletePlatformVersionError =
@@ -1663,7 +1710,7 @@ export type DeletePlatformVersionError =
  * Deletes the specified version of a custom platform.
  */
 export const deletePlatformVersion: API.OperationMethod<
-  DeletePlatformVersionRequest,
+  DeletePlatformVersionRequest & RegionInput,
   DeletePlatformVersionResult,
   DeletePlatformVersionError,
   Credentials | HttpClient.HttpClient
@@ -1679,6 +1726,8 @@ export const deletePlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "DeletePlatformVersion",
 }));
 
 export type DescribeAccountAttributesError = InsufficientPrivilegesException | CommonErrors;
@@ -1697,7 +1746,7 @@ export type DescribeAccountAttributesError = InsufficientPrivilegesException | C
  * same topic.
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesRequest,
+  DescribeAccountAttributesRequest & RegionInput,
   DescribeAccountAttributesResult,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1708,6 +1757,8 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAttributes",
 }));
 
 export type DescribeApplicationsError = CommonErrors;
@@ -1728,7 +1779,7 @@ export type DescribeApplicationsError = CommonErrors;
  * instructions to attach a policy to a user or group, see the section Controlling access with managed policies in the same topic.
  */
 export const describeApplications: API.OperationMethod<
-  DescribeApplicationsMessage,
+  DescribeApplicationsMessage & RegionInput,
   ApplicationDescriptionsMessage,
   DescribeApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -1739,6 +1790,8 @@ export const describeApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplications",
+  telemetry: TELEMETRY,
+  span: "DescribeApplications",
 }));
 
 export type DescribeApplicationVersionsError = CommonErrors;
@@ -1755,7 +1808,7 @@ export type DescribeApplicationVersionsError = CommonErrors;
  * same topic.
  */
 export const describeApplicationVersions: API.OperationMethod<
-  DescribeApplicationVersionsMessage,
+  DescribeApplicationVersionsMessage & RegionInput,
   ApplicationVersionDescriptionsMessage,
   DescribeApplicationVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1766,6 +1819,8 @@ export const describeApplicationVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersions",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationVersions",
 }));
 
 export type DescribeConfigurationOptionsError = TooManyBucketsException | CommonErrors;
@@ -1788,7 +1843,7 @@ export type DescribeConfigurationOptionsError = TooManyBucketsException | Common
  * same topic.
  */
 export const describeConfigurationOptions: API.OperationMethod<
-  DescribeConfigurationOptionsMessage,
+  DescribeConfigurationOptionsMessage & RegionInput,
   ConfigurationOptionsDescription,
   DescribeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1799,6 +1854,8 @@ export const describeConfigurationOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationOptions",
 }));
 
 export type DescribeConfigurationSettingsError = TooManyBucketsException | CommonErrors;
@@ -1829,7 +1886,7 @@ export type DescribeConfigurationSettingsError = TooManyBucketsException | Commo
  * - DeleteEnvironmentConfiguration
  */
 export const describeConfigurationSettings: API.OperationMethod<
-  DescribeConfigurationSettingsMessage,
+  DescribeConfigurationSettingsMessage & RegionInput,
   ConfigurationSettingsDescriptions,
   DescribeConfigurationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1840,6 +1897,8 @@ export const describeConfigurationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationSettings",
 }));
 
 export type DescribeEnvironmentHealthError =
@@ -1861,7 +1920,7 @@ export type DescribeEnvironmentHealthError =
  * same topic.
  */
 export const describeEnvironmentHealth: API.OperationMethod<
-  DescribeEnvironmentHealthRequest,
+  DescribeEnvironmentHealthRequest & RegionInput,
   DescribeEnvironmentHealthResult,
   DescribeEnvironmentHealthError,
   Credentials | HttpClient.HttpClient
@@ -1872,6 +1931,8 @@ export const describeEnvironmentHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentHealth",
 }));
 
 export type DescribeEnvironmentManagedActionHistoryError =
@@ -1881,7 +1942,7 @@ export type DescribeEnvironmentManagedActionHistoryError =
  * Lists an environment's completed and failed managed actions.
  */
 export const describeEnvironmentManagedActionHistory: API.PaginatedOperationMethod<
-  DescribeEnvironmentManagedActionHistoryRequest,
+  DescribeEnvironmentManagedActionHistoryRequest & RegionInput,
   DescribeEnvironmentManagedActionHistoryResult,
   DescribeEnvironmentManagedActionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1899,6 +1960,8 @@ export const describeEnvironmentManagedActionHistory: API.PaginatedOperationMeth
     items: "ManagedActionHistoryItems",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentManagedActionHistory",
 })) as any;
 
 export type DescribeEnvironmentManagedActionsError =
@@ -1918,7 +1981,7 @@ export type DescribeEnvironmentManagedActionsError =
  * same topic.
  */
 export const describeEnvironmentManagedActions: API.OperationMethod<
-  DescribeEnvironmentManagedActionsRequest,
+  DescribeEnvironmentManagedActionsRequest & RegionInput,
   DescribeEnvironmentManagedActionsResult,
   DescribeEnvironmentManagedActionsError,
   Credentials | HttpClient.HttpClient
@@ -1929,6 +1992,8 @@ export const describeEnvironmentManagedActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentManagedActions",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentManagedActions",
 }));
 
 export type DescribeEnvironmentResourcesError = InsufficientPrivilegesException | CommonErrors;
@@ -1936,7 +2001,7 @@ export type DescribeEnvironmentResourcesError = InsufficientPrivilegesException 
  * Returns Amazon Web Services resources for this environment.
  */
 export const describeEnvironmentResources: API.OperationMethod<
-  DescribeEnvironmentResourcesMessage,
+  DescribeEnvironmentResourcesMessage & RegionInput,
   EnvironmentResourceDescriptionsMessage,
   DescribeEnvironmentResourcesError,
   Credentials | HttpClient.HttpClient
@@ -1947,6 +2012,8 @@ export const describeEnvironmentResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentResources",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentResources",
 }));
 
 export type DescribeEnvironmentsError = CommonErrors;
@@ -1964,7 +2031,7 @@ export type DescribeEnvironmentsError = CommonErrors;
  * same topic.
  */
 export const describeEnvironments: API.OperationMethod<
-  DescribeEnvironmentsMessage,
+  DescribeEnvironmentsMessage & RegionInput,
   EnvironmentDescriptionsMessage,
   DescribeEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -1975,6 +2042,8 @@ export const describeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironments",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironments",
 }));
 
 export type DescribeEventsError = CommonErrors;
@@ -1993,7 +2062,7 @@ export type DescribeEventsError = CommonErrors;
  * same topic.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventDescriptionsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2011,6 +2080,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeInstancesHealthError =
@@ -2031,7 +2102,7 @@ export type DescribeInstancesHealthError =
  * same topic.
  */
 export const describeInstancesHealth: API.OperationMethod<
-  DescribeInstancesHealthRequest,
+  DescribeInstancesHealthRequest & RegionInput,
   DescribeInstancesHealthResult,
   DescribeInstancesHealthError,
   Credentials | HttpClient.HttpClient
@@ -2042,6 +2113,8 @@ export const describeInstancesHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstancesHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeInstancesHealth",
 }));
 
 export type DescribePlatformVersionError =
@@ -2064,7 +2137,7 @@ export type DescribePlatformVersionError =
  * same topic.
  */
 export const describePlatformVersion: API.OperationMethod<
-  DescribePlatformVersionRequest,
+  DescribePlatformVersionRequest & RegionInput,
   DescribePlatformVersionResult,
   DescribePlatformVersionError,
   Credentials | HttpClient.HttpClient
@@ -2075,6 +2148,8 @@ export const describePlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "DescribePlatformVersion",
 }));
 
 export type DisassociateEnvironmentOperationsRoleError =
@@ -2087,7 +2162,7 @@ export type DisassociateEnvironmentOperationsRoleError =
  * services during subsequent calls acting on this environment.
  */
 export const disassociateEnvironmentOperationsRole: API.OperationMethod<
-  DisassociateEnvironmentOperationsRoleMessage,
+  DisassociateEnvironmentOperationsRoleMessage & RegionInput,
   DisassociateEnvironmentOperationsRoleResponse,
   DisassociateEnvironmentOperationsRoleError,
   Credentials | HttpClient.HttpClient
@@ -2098,6 +2173,8 @@ export const disassociateEnvironmentOperationsRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnvironmentOperationsRole",
+  telemetry: TELEMETRY,
+  span: "DisassociateEnvironmentOperationsRole",
 }));
 
 export type ListAvailableSolutionStacksError = CommonErrors;
@@ -2114,7 +2191,7 @@ export type ListAvailableSolutionStacksError = CommonErrors;
  * same topic.
  */
 export const listAvailableSolutionStacks: API.OperationMethod<
-  ListAvailableSolutionStacksRequest,
+  ListAvailableSolutionStacksRequest & RegionInput,
   ListAvailableSolutionStacksResultMessage,
   ListAvailableSolutionStacksError,
   Credentials | HttpClient.HttpClient
@@ -2125,6 +2202,8 @@ export const listAvailableSolutionStacks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableSolutionStacks",
+  telemetry: TELEMETRY,
+  span: "ListAvailableSolutionStacks",
 }));
 
 export type ListPlatformBranchesError = CommonErrors;
@@ -2143,7 +2222,7 @@ export type ListPlatformBranchesError = CommonErrors;
  * same topic.
  */
 export const listPlatformBranches: API.PaginatedOperationMethod<
-  ListPlatformBranchesRequest,
+  ListPlatformBranchesRequest & RegionInput,
   ListPlatformBranchesResult,
   ListPlatformBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -2160,6 +2239,8 @@ export const listPlatformBranches: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformBranches",
 })) as any;
 
 export type ListPlatformVersionsError =
@@ -2183,7 +2264,7 @@ export type ListPlatformVersionsError =
  * For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary.
  */
 export const listPlatformVersions: API.PaginatedOperationMethod<
-  ListPlatformVersionsRequest,
+  ListPlatformVersionsRequest & RegionInput,
   ListPlatformVersionsResult,
   ListPlatformVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2201,6 +2282,8 @@ export const listPlatformVersions: API.PaginatedOperationMethod<
     items: "PlatformSummaryList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2223,7 +2306,7 @@ export type ListTagsForResourceError =
  * same topic.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   ResourceTagsDescriptionMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2238,6 +2321,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RebuildEnvironmentError = InsufficientPrivilegesException | CommonErrors;
@@ -2246,7 +2331,7 @@ export type RebuildEnvironmentError = InsufficientPrivilegesException | CommonEr
  * restart.
  */
 export const rebuildEnvironment: API.OperationMethod<
-  RebuildEnvironmentMessage,
+  RebuildEnvironmentMessage & RegionInput,
   RebuildEnvironmentResponse,
   RebuildEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2257,6 +2342,8 @@ export const rebuildEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebuildEnvironment",
+  telemetry: TELEMETRY,
+  span: "RebuildEnvironment",
 }));
 
 export type RequestEnvironmentInfoError = CommonErrors;
@@ -2279,7 +2366,7 @@ export type RequestEnvironmentInfoError = CommonErrors;
  * - RetrieveEnvironmentInfo
  */
 export const requestEnvironmentInfo: API.OperationMethod<
-  RequestEnvironmentInfoMessage,
+  RequestEnvironmentInfoMessage & RegionInput,
   RequestEnvironmentInfoResponse,
   RequestEnvironmentInfoError,
   Credentials | HttpClient.HttpClient
@@ -2290,6 +2377,8 @@ export const requestEnvironmentInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestEnvironmentInfo",
+  telemetry: TELEMETRY,
+  span: "RequestEnvironmentInfo",
 }));
 
 export type RestartAppServerError = CommonErrors;
@@ -2297,7 +2386,7 @@ export type RestartAppServerError = CommonErrors;
  * Causes the environment to restart the application container server running on each Amazon EC2 instance.
  */
 export const restartAppServer: API.OperationMethod<
-  RestartAppServerMessage,
+  RestartAppServerMessage & RegionInput,
   RestartAppServerResponse,
   RestartAppServerError,
   Credentials | HttpClient.HttpClient
@@ -2308,6 +2397,8 @@ export const restartAppServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartAppServer",
+  telemetry: TELEMETRY,
+  span: "RestartAppServer",
 }));
 
 export type RetrieveEnvironmentInfoError = CommonErrors;
@@ -2319,7 +2410,7 @@ export type RetrieveEnvironmentInfoError = CommonErrors;
  * - RequestEnvironmentInfo
  */
 export const retrieveEnvironmentInfo: API.OperationMethod<
-  RetrieveEnvironmentInfoMessage,
+  RetrieveEnvironmentInfoMessage & RegionInput,
   RetrieveEnvironmentInfoResultMessage,
   RetrieveEnvironmentInfoError,
   Credentials | HttpClient.HttpClient
@@ -2330,6 +2421,8 @@ export const retrieveEnvironmentInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveEnvironmentInfo",
+  telemetry: TELEMETRY,
+  span: "RetrieveEnvironmentInfo",
 }));
 
 export type SwapEnvironmentCNAMEsError = CommonErrors;
@@ -2337,7 +2430,7 @@ export type SwapEnvironmentCNAMEsError = CommonErrors;
  * Swaps the CNAMEs of two environments.
  */
 export const swapEnvironmentCNAMEs: API.OperationMethod<
-  SwapEnvironmentCNAMEsMessage,
+  SwapEnvironmentCNAMEsMessage & RegionInput,
   SwapEnvironmentCNAMEsResponse,
   SwapEnvironmentCNAMEsError,
   Credentials | HttpClient.HttpClient
@@ -2348,6 +2441,8 @@ export const swapEnvironmentCNAMEs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwapEnvironmentCNAMEs",
+  telemetry: TELEMETRY,
+  span: "SwapEnvironmentCNAMEs",
 }));
 
 export type TerminateEnvironmentError = InsufficientPrivilegesException | CommonErrors;
@@ -2355,7 +2450,7 @@ export type TerminateEnvironmentError = InsufficientPrivilegesException | Common
  * Terminates the specified environment.
  */
 export const terminateEnvironment: API.OperationMethod<
-  TerminateEnvironmentMessage,
+  TerminateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   TerminateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2366,6 +2461,8 @@ export const terminateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateEnvironment",
+  telemetry: TELEMETRY,
+  span: "TerminateEnvironment",
 }));
 
 export type UpdateApplicationError = CommonErrors;
@@ -2376,7 +2473,7 @@ export type UpdateApplicationError = CommonErrors;
  * unchanged. To clear these properties, specify an empty string.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationMessage,
+  UpdateApplicationMessage & RegionInput,
   ApplicationDescriptionMessage,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2387,6 +2484,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationResourceLifecycleError =
@@ -2396,7 +2495,7 @@ export type UpdateApplicationResourceLifecycleError =
  * Modifies lifecycle settings for an application.
  */
 export const updateApplicationResourceLifecycle: API.OperationMethod<
-  UpdateApplicationResourceLifecycleMessage,
+  UpdateApplicationResourceLifecycleMessage & RegionInput,
   ApplicationResourceLifecycleDescriptionMessage,
   UpdateApplicationResourceLifecycleError,
   Credentials | HttpClient.HttpClient
@@ -2407,6 +2506,8 @@ export const updateApplicationResourceLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationResourceLifecycle",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationResourceLifecycle",
 }));
 
 export type UpdateApplicationVersionError = CommonErrors;
@@ -2417,7 +2518,7 @@ export type UpdateApplicationVersionError = CommonErrors;
  * string.
  */
 export const updateApplicationVersion: API.OperationMethod<
-  UpdateApplicationVersionMessage,
+  UpdateApplicationVersionMessage & RegionInput,
   ApplicationVersionDescriptionMessage,
   UpdateApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -2428,6 +2529,8 @@ export const updateApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationVersion",
 }));
 
 export type UpdateConfigurationTemplateError =
@@ -2446,7 +2549,7 @@ export type UpdateConfigurationTemplateError =
  * - DescribeConfigurationOptions
  */
 export const updateConfigurationTemplate: API.OperationMethod<
-  UpdateConfigurationTemplateMessage,
+  UpdateConfigurationTemplateMessage & RegionInput,
   ConfigurationSettingsDescription,
   UpdateConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2457,6 +2560,8 @@ export const updateConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationTemplate",
 }));
 
 export type UpdateEnvironmentError =
@@ -2472,7 +2577,7 @@ export type UpdateEnvironmentError =
  * When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigurationSettings for this environment returns two setting descriptions with different `DeploymentStatus` values.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentMessage,
+  UpdateEnvironmentMessage & RegionInput,
   EnvironmentDescription,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2483,6 +2588,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateTagsForResourceError =
@@ -2513,7 +2620,7 @@ export type UpdateTagsForResourceError =
  * For details about creating a custom user policy, see Creating a Custom User Policy.
  */
 export const updateTagsForResource: API.OperationMethod<
-  UpdateTagsForResourceMessage,
+  UpdateTagsForResourceMessage & RegionInput,
   UpdateTagsForResourceResponse,
   UpdateTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2530,6 +2637,8 @@ export const updateTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagsForResource",
+  telemetry: TELEMETRY,
+  span: "UpdateTagsForResource",
 }));
 
 export type ValidateConfigurationSettingsError =
@@ -2544,7 +2653,7 @@ export type ValidateConfigurationSettingsError =
  * with the selection of option values.
  */
 export const validateConfigurationSettings: API.OperationMethod<
-  ValidateConfigurationSettingsMessage,
+  ValidateConfigurationSettingsMessage & RegionInput,
   ConfigurationSettingsValidationMessages,
   ValidateConfigurationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2555,6 +2664,8 @@ export const validateConfigurationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfigurationSettings",
+  telemetry: TELEMETRY,
+  span: "ValidateConfigurationSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

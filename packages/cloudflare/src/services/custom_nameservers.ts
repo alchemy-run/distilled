@@ -25,6 +25,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneTag: "zone_tag",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "CustomNameservers",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CustomNameserverAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CustomNameserverAlreadyExists>()("CustomNameserverAlreadyExists", {
@@ -159,6 +173,8 @@ export const createCustomNameserver: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomNameserver",
 }));
 
 export type DeleteCustomNameserverError =
@@ -186,6 +202,8 @@ export const deleteCustomNameserver: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DeleteCustomNameserver",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -206,6 +224,8 @@ export const getCustomNameserver: API.PaginatedOperationMethod<
     errors: [CustomNameserversNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetCustomNameserver",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

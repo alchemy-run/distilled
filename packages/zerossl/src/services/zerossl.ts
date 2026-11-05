@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ZeroSslOpError, ZeroSslOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "zerossl-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "ZeroSSL",
+  service: "ZeroSsl",
+  labels: "zerossl",
+  propagate: "w3c",
+} as const;
+
 /** An internal error occurred checking your CAA records. If the problem persists please contact our support team ([support@zerossl.com](mailto:support@zerossl.com)) (`caa_record_check_failed`, code 2841). */
 export class CaaRecordCheckFailed
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1141,6 +1154,8 @@ export const cancelCertificate: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCertificate",
 }));
 
 export type CreateCertificateError =
@@ -1234,6 +1249,8 @@ export const createCertificate: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificate",
 }));
 
 export type DownloadCertificateInlineError =
@@ -1283,6 +1300,8 @@ export const downloadCertificateInline: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadCertificateInline",
 }));
 
 export type GenerateEabCredentialsError =
@@ -1314,6 +1333,8 @@ export const generateEabCredentials: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateEabCredentials",
 }));
 
 export type GetCertificateError =
@@ -1359,6 +1380,8 @@ export const getCertificate: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type GetVerificationStatusError =
@@ -1406,6 +1429,8 @@ export const getVerificationStatus: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVerificationStatus",
 }));
 
 export type ListCertificatesError =
@@ -1451,6 +1476,8 @@ export const listCertificates: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificates",
 }));
 
 export type ResendVerificationError =
@@ -1498,6 +1525,8 @@ export const resendVerification: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendVerification",
 }));
 
 export type RevokeCertificateError =
@@ -1553,6 +1582,8 @@ export const revokeCertificate: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCertificate",
 }));
 
 export type ValidateCsrError =
@@ -1598,6 +1629,8 @@ export const validateCsr: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateCsr",
 }));
 
 export type VerifyDomainsError =
@@ -1677,6 +1710,8 @@ export const verifyDomains: API.OperationMethod<
   ],
   protocol: ZeroSslProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDomains",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

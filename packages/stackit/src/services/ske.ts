@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Ske",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -455,6 +468,8 @@ export const completeCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteCredentialsRotation",
 }));
 
 export type CreateKubeconfigError = BadRequest | NotFound | StackitOpError;
@@ -470,6 +485,8 @@ export const createKubeconfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKubeconfig",
 }));
 
 export type CreateOrUpdateClusterError = BadRequest | NotFound | StackitOpError;
@@ -485,6 +502,8 @@ export const createOrUpdateCluster: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateCluster",
 }));
 
 export type DeleteClusterError = BadRequest | NotFound | StackitOpError;
@@ -500,6 +519,8 @@ export const deleteCluster: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type GetClusterError = BadRequest | NotFound | StackitOpError;
@@ -515,6 +536,8 @@ export const getCluster: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetIDPKubeconfigError = BadRequest | NotFound | StackitOpError;
@@ -530,6 +553,8 @@ export const getIDPKubeconfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIDPKubeconfig",
 }));
 
 export type GetLoginKubeconfigError = BadRequest | NotFound | StackitOpError;
@@ -545,6 +570,8 @@ export const getLoginKubeconfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoginKubeconfig",
 }));
 
 export type ListClustersError = BadRequest | NotFound | StackitOpError;
@@ -560,6 +587,8 @@ export const listClusters: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 }));
 
 export type ListProviderOptionsError = BadRequest | StackitOpError;
@@ -575,6 +604,8 @@ export const listProviderOptions: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderOptions",
 }));
 
 export type StartCredentialsRotationError = BadRequest | NotFound | StackitOpError;
@@ -590,6 +621,8 @@ export const startCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartCredentialsRotation",
 }));
 
 export type TriggerHibernateError = BadRequest | NotFound | StackitOpError;
@@ -605,6 +638,8 @@ export const triggerHibernate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerHibernate",
 }));
 
 export type TriggerMaintenanceError = BadRequest | NotFound | StackitOpError;
@@ -620,6 +655,8 @@ export const triggerMaintenance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerMaintenance",
 }));
 
 export type TriggerReconcileError = BadRequest | NotFound | StackitOpError;
@@ -635,6 +672,8 @@ export const triggerReconcile: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerReconcile",
 }));
 
 export type TriggerWakeupError = BadRequest | NotFound | StackitOpError;
@@ -650,6 +689,8 @@ export const triggerWakeup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerWakeup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

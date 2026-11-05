@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DBforPostgreSQL" },
+  prefix: "Postgresql",
+  service: "Postgresql",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Type of Microsoft Entra principal to which the server administrator is associated. */
 export type PrincipalType = "Unknown" | "User" | "Group" | "ServicePrincipal";
 /** Properties of a server administrator associated to a Microsoft Entra principal. */
@@ -2974,6 +2995,8 @@ export const AdministratorsMicrosoftEntraCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdministratorsMicrosoftEntraCreateOrUpdate",
 }));
 
 export type CancelMigrationError = AzureOpError;
@@ -2989,6 +3012,8 @@ export const CancelMigration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMigration",
 }));
 
 export type CheckBackupsLongTermRetentionPrerequisitesError = AzureOpError;
@@ -3004,6 +3029,8 @@ export const CheckBackupsLongTermRetentionPrerequisites: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBackupsLongTermRetentionPrerequisites",
 }));
 
 export type CheckMigrationNameAvailabilityError = AzureOpError;
@@ -3019,6 +3046,8 @@ export const CheckMigrationNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMigrationNameAvailability",
 }));
 
 export type CheckNameAvailabilityGloballyError = AzureOpError;
@@ -3034,6 +3063,8 @@ export const CheckNameAvailabilityGlobally: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNameAvailabilityGlobally",
 }));
 
 export type CheckNameAvailabilityWithLocationError = AzureOpError;
@@ -3049,6 +3080,8 @@ export const CheckNameAvailabilityWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNameAvailabilityWithLocation",
 }));
 
 export type CreateBackupsAutomaticAndOnDemandError = AzureOpError;
@@ -3064,6 +3097,8 @@ export const CreateBackupsAutomaticAndOnDemand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackupsAutomaticAndOnDemand",
 }));
 
 export type CreateDatabaseError = AzureOpError;
@@ -3079,6 +3114,8 @@ export const CreateDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateMigrationError = AzureOpError;
@@ -3094,6 +3131,8 @@ export const CreateMigration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMigration",
 }));
 
 export type CreateVirtualEndpointError = AzureOpError;
@@ -3109,6 +3148,8 @@ export const CreateVirtualEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVirtualEndpoint",
 }));
 
 export type DeleteAdministratorsMicrosoftEntraError = AzureOpError;
@@ -3124,6 +3165,8 @@ export const DeleteAdministratorsMicrosoftEntra: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdministratorsMicrosoftEntra",
 }));
 
 export type DeleteBackupsAutomaticAndOnDemandError = AzureOpError;
@@ -3139,6 +3182,8 @@ export const DeleteBackupsAutomaticAndOnDemand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupsAutomaticAndOnDemand",
 }));
 
 export type DeleteDatabaseError = AzureOpError;
@@ -3154,6 +3199,8 @@ export const DeleteDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteFirewallRuleError = AzureOpError;
@@ -3169,6 +3216,8 @@ export const DeleteFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -3184,6 +3233,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteServerError = AzureOpError;
@@ -3199,6 +3250,8 @@ export const DeleteServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServer",
 }));
 
 export type DeleteVirtualEndpointError = AzureOpError;
@@ -3214,6 +3267,8 @@ export const DeleteVirtualEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualEndpoint",
 }));
 
 export type FirewallRulesCreateOrUpdateError = AzureOpError;
@@ -3229,6 +3284,8 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FirewallRulesCreateOrUpdate",
 }));
 
 export type GetAdministratorsMicrosoftEntraError = AzureOpError;
@@ -3244,6 +3301,8 @@ export const GetAdministratorsMicrosoftEntra: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdministratorsMicrosoftEntra",
 }));
 
 export type GetAdvancedThreatProtectionSettingsError = AzureOpError;
@@ -3259,6 +3318,8 @@ export const GetAdvancedThreatProtectionSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedThreatProtectionSettings",
 }));
 
 export type GetBackupsAutomaticAndOnDemandError = AzureOpError;
@@ -3274,6 +3335,8 @@ export const GetBackupsAutomaticAndOnDemand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupsAutomaticAndOnDemand",
 }));
 
 export type GetBackupsLongTermRetentionError = AzureOpError;
@@ -3289,6 +3352,8 @@ export const GetBackupsLongTermRetention: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupsLongTermRetention",
 }));
 
 export type GetConfigurationError = AzureOpError;
@@ -3304,6 +3369,8 @@ export const GetConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetDatabaseError = AzureOpError;
@@ -3319,6 +3386,8 @@ export const GetDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetFirewallRuleError = AzureOpError;
@@ -3334,6 +3403,8 @@ export const GetFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewallRule",
 }));
 
 export type GetMigrationError = AzureOpError;
@@ -3349,6 +3420,8 @@ export const GetMigration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMigration",
 }));
 
 export type GetPrivateDnsZoneSuffixError = AzureOpError;
@@ -3364,6 +3437,8 @@ export const GetPrivateDnsZoneSuffix: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateDnsZoneSuffix",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -3379,6 +3454,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -3394,6 +3471,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetServerError = AzureOpError;
@@ -3409,6 +3488,8 @@ export const GetServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServer",
 }));
 
 export type GetTuningOptionError = AzureOpError;
@@ -3424,6 +3505,8 @@ export const GetTuningOption: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTuningOption",
 }));
 
 export type GetVirtualEndpointError = AzureOpError;
@@ -3439,6 +3522,8 @@ export const GetVirtualEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualEndpoint",
 }));
 
 export type ListAdministratorsMicrosoftEntraByServerError = AzureOpError;
@@ -3454,6 +3539,8 @@ export const ListAdministratorsMicrosoftEntraByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdministratorsMicrosoftEntraByServer",
 }));
 
 export type ListAdvancedThreatProtectionSettingsByServerError = AzureOpError;
@@ -3473,6 +3560,8 @@ export const ListAdvancedThreatProtectionSettingsByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvancedThreatProtectionSettingsByServer",
 }));
 
 export type ListBackupsAutomaticAndOnDemandByServerError = AzureOpError;
@@ -3488,6 +3577,8 @@ export const ListBackupsAutomaticAndOnDemandByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupsAutomaticAndOnDemandByServer",
 }));
 
 export type ListBackupsLongTermRetentionByServerError = AzureOpError;
@@ -3503,6 +3594,8 @@ export const ListBackupsLongTermRetentionByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupsLongTermRetentionByServer",
 }));
 
 export type ListCapabilitiesByLocationError = AzureOpError;
@@ -3518,6 +3611,8 @@ export const ListCapabilitiesByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapabilitiesByLocation",
 }));
 
 export type ListCapabilitiesByServerError = AzureOpError;
@@ -3533,6 +3628,8 @@ export const ListCapabilitiesByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapabilitiesByServer",
 }));
 
 export type ListCapturedLogByServerError = AzureOpError;
@@ -3548,6 +3645,8 @@ export const ListCapturedLogByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapturedLogByServer",
 }));
 
 export type ListConfigurationByServerError = AzureOpError;
@@ -3563,6 +3662,8 @@ export const ListConfigurationByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationByServer",
 }));
 
 export type ListDatabaseByServerError = AzureOpError;
@@ -3578,6 +3679,8 @@ export const ListDatabaseByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseByServer",
 }));
 
 export type ListFirewallRuleByServerError = AzureOpError;
@@ -3593,6 +3696,8 @@ export const ListFirewallRuleByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleByServer",
 }));
 
 export type ListMigrationByTargetServerError = AzureOpError;
@@ -3608,6 +3713,8 @@ export const ListMigrationByTargetServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMigrationByTargetServer",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3623,6 +3730,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByServerError = AzureOpError;
@@ -3638,6 +3747,8 @@ export const ListPrivateEndpointConnectionByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByServer",
 }));
 
 export type ListPrivateLinkResourceByServerError = AzureOpError;
@@ -3653,6 +3764,8 @@ export const ListPrivateLinkResourceByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByServer",
 }));
 
 export type ListQuotaUsagesError = AzureOpError;
@@ -3668,6 +3781,8 @@ export const ListQuotaUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQuotaUsages",
 }));
 
 export type ListReplicasByServerError = AzureOpError;
@@ -3683,6 +3798,8 @@ export const ListReplicasByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReplicasByServer",
 }));
 
 export type ListServerByResourceGroupError = AzureOpError;
@@ -3698,6 +3815,8 @@ export const ListServerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerByResourceGroup",
 }));
 
 export type ListServerBySubscriptionError = AzureOpError;
@@ -3713,6 +3832,8 @@ export const ListServerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerBySubscription",
 }));
 
 export type ListTuningOptionByServerError = AzureOpError;
@@ -3728,6 +3849,8 @@ export const ListTuningOptionByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTuningOptionByServer",
 }));
 
 export type ListTuningOptionRecommendationsError = AzureOpError;
@@ -3743,6 +3866,8 @@ export const ListTuningOptionRecommendations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTuningOptionRecommendations",
 }));
 
 export type ListVirtualEndpointByServerError = AzureOpError;
@@ -3758,6 +3883,8 @@ export const ListVirtualEndpointByServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualEndpointByServer",
 }));
 
 export type ListVirtualNetworkSubnetUsageError = AzureOpError;
@@ -3773,6 +3900,8 @@ export const ListVirtualNetworkSubnetUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkSubnetUsage",
 }));
 
 export type PutConfigurationError = AzureOpError;
@@ -3788,6 +3917,8 @@ export const PutConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfiguration",
 }));
 
 export type RestartServerError = AzureOpError;
@@ -3803,6 +3934,8 @@ export const RestartServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartServer",
 }));
 
 export type ServersCreateOrUpdateError = AzureOpError;
@@ -3818,6 +3951,8 @@ export const ServersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServersCreateOrUpdate",
 }));
 
 export type ServerThreatProtectionSettingsCreateOrUpdateError = AzureOpError;
@@ -3837,6 +3972,8 @@ export const ServerThreatProtectionSettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerThreatProtectionSettingsCreateOrUpdate",
 }));
 
 export type StartBackupsLongTermRetentionError = AzureOpError;
@@ -3852,6 +3989,8 @@ export const StartBackupsLongTermRetention: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartBackupsLongTermRetention",
 }));
 
 export type StartServerError = AzureOpError;
@@ -3867,6 +4006,8 @@ export const StartServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartServer",
 }));
 
 export type StopServerError = AzureOpError;
@@ -3882,6 +4023,8 @@ export const StopServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopServer",
 }));
 
 export type UpdateConfigurationError = AzureOpError;
@@ -3897,6 +4040,8 @@ export const UpdateConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateMigrationError = AzureOpError;
@@ -3912,6 +4057,8 @@ export const UpdateMigration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMigration",
 }));
 
 export type UpdatePrivateEndpointConnectionError = AzureOpError;
@@ -3927,6 +4074,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnection",
 }));
 
 export type UpdateServerError = AzureOpError;
@@ -3942,6 +4091,8 @@ export const UpdateServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServer",
 }));
 
 export type UpdateVirtualEndpointError = AzureOpError;
@@ -3957,6 +4108,8 @@ export const UpdateVirtualEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

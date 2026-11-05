@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://securitylake.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecurityLake",
+  service: "SecurityLake",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -557,7 +573,7 @@ export type CreateAwsLogSourceError =
  * source.
  */
 export const createAwsLogSource: API.OperationMethod<
-  CreateAwsLogSourceRequest,
+  CreateAwsLogSourceRequest & RegionInput,
   CreateAwsLogSourceResponse,
   CreateAwsLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -576,6 +592,8 @@ export const createAwsLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAwsLogSource",
+  telemetry: TELEMETRY,
+  span: "CreateAwsLogSource",
 }));
 
 export type CreateCustomLogSourceError =
@@ -597,7 +615,7 @@ export type CreateCustomLogSourceError =
  * associated Glue table and an Glue crawler.
  */
 export const createCustomLogSource: API.OperationMethod<
-  CreateCustomLogSourceRequest,
+  CreateCustomLogSourceRequest & RegionInput,
   CreateCustomLogSourceResponse,
   CreateCustomLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -616,6 +634,8 @@ export const createCustomLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomLogSource",
+  telemetry: TELEMETRY,
+  span: "CreateCustomLogSource",
 }));
 
 export type CreateDataLakeError =
@@ -645,7 +665,7 @@ export type CreateDataLakeError =
  * Guide.
  */
 export const createDataLake: API.OperationMethod<
-  CreateDataLakeRequest,
+  CreateDataLakeRequest & RegionInput,
   CreateDataLakeResponse,
   CreateDataLakeError,
   Credentials | HttpClient.HttpClient
@@ -664,6 +684,8 @@ export const createDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLake",
+  telemetry: TELEMETRY,
+  span: "CreateDataLake",
 }));
 
 export type CreateDataLakeExceptionSubscriptionError =
@@ -680,7 +702,7 @@ export type CreateDataLakeExceptionSubscriptionError =
  * you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically.
  */
 export const createDataLakeExceptionSubscription: API.OperationMethod<
-  CreateDataLakeExceptionSubscriptionRequest,
+  CreateDataLakeExceptionSubscriptionRequest & RegionInput,
   CreateDataLakeExceptionSubscriptionResponse,
   CreateDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -699,6 +721,8 @@ export const createDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateDataLakeExceptionSubscription",
 }));
 
 export type CreateDataLakeOrganizationConfigurationError =
@@ -717,7 +741,7 @@ export type CreateDataLakeOrganizationConfigurationError =
  * This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using DeleteDataLakeOrganizationConfiguration.
  */
 export const createDataLakeOrganizationConfiguration: API.OperationMethod<
-  CreateDataLakeOrganizationConfigurationRequest,
+  CreateDataLakeOrganizationConfigurationRequest & RegionInput,
   CreateDataLakeOrganizationConfigurationResponse,
   CreateDataLakeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -735,6 +759,8 @@ export const createDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateDataLakeOrganizationConfiguration",
 }));
 
 export type CreateSubscriberError =
@@ -751,7 +777,7 @@ export type CreateSubscriberError =
  * create a subscriber with access to data in the current Amazon Web Services Region.
  */
 export const createSubscriber: API.OperationMethod<
-  CreateSubscriberRequest,
+  CreateSubscriberRequest & RegionInput,
   CreateSubscriberResponse,
   CreateSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -770,6 +796,8 @@ export const createSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriber",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriber",
 }));
 
 export type CreateSubscriberNotificationError =
@@ -787,7 +815,7 @@ export type CreateSubscriberNotificationError =
  * subscriber.
  */
 export const createSubscriberNotification: API.OperationMethod<
-  CreateSubscriberNotificationRequest,
+  CreateSubscriberNotificationRequest & RegionInput,
   CreateSubscriberNotificationResponse,
   CreateSubscriberNotificationError,
   Credentials | HttpClient.HttpClient
@@ -806,6 +834,8 @@ export const createSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriberNotification",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriberNotification",
 }));
 
 export type DeleteAwsLogSourceError =
@@ -828,7 +858,7 @@ export type DeleteAwsLogSourceError =
  * are part of a trusted organization or standalone accounts.
  */
 export const deleteAwsLogSource: API.OperationMethod<
-  DeleteAwsLogSourceRequest,
+  DeleteAwsLogSourceRequest & RegionInput,
   DeleteAwsLogSourceResponse,
   DeleteAwsLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -847,6 +877,8 @@ export const deleteAwsLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAwsLogSource",
+  telemetry: TELEMETRY,
+  span: "DeleteAwsLogSource",
 }));
 
 export type DeleteCustomLogSourceError =
@@ -863,7 +895,7 @@ export type DeleteCustomLogSourceError =
  * source to Security Lake.
  */
 export const deleteCustomLogSource: API.OperationMethod<
-  DeleteCustomLogSourceRequest,
+  DeleteCustomLogSourceRequest & RegionInput,
   DeleteCustomLogSourceResponse,
   DeleteCustomLogSourceError,
   Credentials | HttpClient.HttpClient
@@ -882,6 +914,8 @@ export const deleteCustomLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomLogSource",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomLogSource",
 }));
 
 export type DeleteDataLakeError =
@@ -905,7 +939,7 @@ export type DeleteDataLakeError =
  * Guide.
  */
 export const deleteDataLake: API.OperationMethod<
-  DeleteDataLakeRequest,
+  DeleteDataLakeRequest & RegionInput,
   DeleteDataLakeResponse,
   DeleteDataLakeError,
   Credentials | HttpClient.HttpClient
@@ -924,6 +958,8 @@ export const deleteDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLake",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLake",
 }));
 
 export type DeleteDataLakeExceptionSubscriptionError =
@@ -940,7 +976,7 @@ export type DeleteDataLakeExceptionSubscriptionError =
  * you specify.
  */
 export const deleteDataLakeExceptionSubscription: API.OperationMethod<
-  DeleteDataLakeExceptionSubscriptionRequest,
+  DeleteDataLakeExceptionSubscriptionRequest & RegionInput,
   DeleteDataLakeExceptionSubscriptionResponse,
   DeleteDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -959,6 +995,8 @@ export const deleteDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLakeExceptionSubscription",
 }));
 
 export type DeleteDataLakeOrganizationConfigurationError =
@@ -975,7 +1013,7 @@ export type DeleteDataLakeOrganizationConfigurationError =
  * accounts won't automatically contribute data to the data lake.
  */
 export const deleteDataLakeOrganizationConfiguration: API.OperationMethod<
-  DeleteDataLakeOrganizationConfigurationRequest,
+  DeleteDataLakeOrganizationConfigurationRequest & RegionInput,
   DeleteDataLakeOrganizationConfigurationResponse,
   DeleteDataLakeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -993,6 +1031,8 @@ export const deleteDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLakeOrganizationConfiguration",
 }));
 
 export type DeleteSubscriberError =
@@ -1011,7 +1051,7 @@ export type DeleteSubscriberError =
  * operation deletes the subscriber and removes access to data in the current Amazon Web Services Region.
  */
 export const deleteSubscriber: API.OperationMethod<
-  DeleteSubscriberRequest,
+  DeleteSubscriberRequest & RegionInput,
   DeleteSubscriberResponse,
   DeleteSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -1030,6 +1070,8 @@ export const deleteSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriber",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriber",
 }));
 
 export type DeleteSubscriberNotificationError =
@@ -1046,7 +1088,7 @@ export type DeleteSubscriberNotificationError =
  * you specify.
  */
 export const deleteSubscriberNotification: API.OperationMethod<
-  DeleteSubscriberNotificationRequest,
+  DeleteSubscriberNotificationRequest & RegionInput,
   DeleteSubscriberNotificationResponse,
   DeleteSubscriberNotificationError,
   Credentials | HttpClient.HttpClient
@@ -1065,6 +1107,8 @@ export const deleteSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriberNotification",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriberNotification",
 }));
 
 export type DeregisterDataLakeDelegatedAdministratorError =
@@ -1081,7 +1125,7 @@ export type DeregisterDataLakeDelegatedAdministratorError =
  * account cannot be the delegated administrator account.
  */
 export const deregisterDataLakeDelegatedAdministrator: API.OperationMethod<
-  DeregisterDataLakeDelegatedAdministratorRequest,
+  DeregisterDataLakeDelegatedAdministratorRequest & RegionInput,
   DeregisterDataLakeDelegatedAdministratorResponse,
   DeregisterDataLakeDelegatedAdministratorError,
   Credentials | HttpClient.HttpClient
@@ -1099,6 +1143,8 @@ export const deregisterDataLakeDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDataLakeDelegatedAdministrator",
+  telemetry: TELEMETRY,
+  span: "DeregisterDataLakeDelegatedAdministrator",
 }));
 
 export type GetDataLakeExceptionSubscriptionError =
@@ -1114,7 +1160,7 @@ export type GetDataLakeExceptionSubscriptionError =
  * Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
  */
 export const getDataLakeExceptionSubscription: API.OperationMethod<
-  GetDataLakeExceptionSubscriptionRequest,
+  GetDataLakeExceptionSubscriptionRequest & RegionInput,
   GetDataLakeExceptionSubscriptionResponse,
   GetDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1133,6 +1179,8 @@ export const getDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeExceptionSubscription",
 }));
 
 export type GetDataLakeOrganizationConfigurationError =
@@ -1149,7 +1197,7 @@ export type GetDataLakeOrganizationConfigurationError =
  * input parameters.
  */
 export const getDataLakeOrganizationConfiguration: API.OperationMethod<
-  GetDataLakeOrganizationConfigurationRequest,
+  GetDataLakeOrganizationConfigurationRequest & RegionInput,
   GetDataLakeOrganizationConfigurationResponse,
   GetDataLakeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1167,6 +1215,8 @@ export const getDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeOrganizationConfiguration",
 }));
 
 export type GetDataLakeSourcesError =
@@ -1183,7 +1233,7 @@ export type GetDataLakeSourcesError =
  * for those accounts and which sources Security Lake is collecting data from.
  */
 export const getDataLakeSources: API.PaginatedOperationMethod<
-  GetDataLakeSourcesRequest,
+  GetDataLakeSourcesRequest & RegionInput,
   GetDataLakeSourcesResponse,
   GetDataLakeSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1209,6 +1259,8 @@ export const getDataLakeSources: API.PaginatedOperationMethod<
     items: "dataLakeSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDataLakeSources",
 })) as any;
 
 export type GetSubscriberError =
@@ -1225,7 +1277,7 @@ export type GetSubscriberError =
  * information about a specific subscriber.
  */
 export const getSubscriber: API.OperationMethod<
-  GetSubscriberRequest,
+  GetSubscriberRequest & RegionInput,
   GetSubscriberResponse,
   GetSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -1244,6 +1296,8 @@ export const getSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriber",
+  telemetry: TELEMETRY,
+  span: "GetSubscriber",
 }));
 
 export type ListDataLakeExceptionsError =
@@ -1260,7 +1314,7 @@ export type ListDataLakeExceptionsError =
  * fix them.
  */
 export const listDataLakeExceptions: API.PaginatedOperationMethod<
-  ListDataLakeExceptionsRequest,
+  ListDataLakeExceptionsRequest & RegionInput,
   ListDataLakeExceptionsResponse,
   ListDataLakeExceptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1286,6 +1340,8 @@ export const listDataLakeExceptions: API.PaginatedOperationMethod<
     items: "exceptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataLakeExceptions",
 })) as any;
 
 export type ListDataLakesError =
@@ -1302,7 +1358,7 @@ export type ListDataLakesError =
  * Security Lake is enabled for a Region.
  */
 export const listDataLakes: API.OperationMethod<
-  ListDataLakesRequest,
+  ListDataLakesRequest & RegionInput,
   ListDataLakesResponse,
   ListDataLakesError,
   Credentials | HttpClient.HttpClient
@@ -1321,6 +1377,8 @@ export const listDataLakes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataLakes",
+  telemetry: TELEMETRY,
+  span: "ListDataLakes",
 }));
 
 export type ListLogSourcesError =
@@ -1336,7 +1394,7 @@ export type ListLogSourcesError =
  * Retrieves the log sources.
  */
 export const listLogSources: API.PaginatedOperationMethod<
-  ListLogSourcesRequest,
+  ListLogSourcesRequest & RegionInput,
   ListLogSourcesResponse,
   ListLogSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1362,6 +1420,8 @@ export const listLogSources: API.PaginatedOperationMethod<
     items: "sources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLogSources",
 })) as any;
 
 export type ListSubscribersError =
@@ -1378,7 +1438,7 @@ export type ListSubscribersError =
  * of subscriptions associated with a specific organization or Amazon Web Services account.
  */
 export const listSubscribers: API.PaginatedOperationMethod<
-  ListSubscribersRequest,
+  ListSubscribersRequest & RegionInput,
   ListSubscribersResponse,
   ListSubscribersError,
   Credentials | HttpClient.HttpClient,
@@ -1404,6 +1464,8 @@ export const listSubscribers: API.PaginatedOperationMethod<
     items: "subscribers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscribers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1420,7 +1482,7 @@ export type ListTagsForResourceError =
  * your Amazon Web Services account in a particular Amazon Web Services Region.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1501,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterDataLakeDelegatedAdministratorError =
@@ -1455,7 +1519,7 @@ export type RegisterDataLakeDelegatedAdministratorError =
  * account cannot be the delegated administrator account.
  */
 export const registerDataLakeDelegatedAdministrator: API.OperationMethod<
-  RegisterDataLakeDelegatedAdministratorRequest,
+  RegisterDataLakeDelegatedAdministratorRequest & RegionInput,
   RegisterDataLakeDelegatedAdministratorResponse,
   RegisterDataLakeDelegatedAdministratorError,
   Credentials | HttpClient.HttpClient
@@ -1473,6 +1537,8 @@ export const registerDataLakeDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDataLakeDelegatedAdministrator",
+  telemetry: TELEMETRY,
+  span: "RegisterDataLakeDelegatedAdministrator",
 }));
 
 export type TagResourceError =
@@ -1495,7 +1561,7 @@ export type TagResourceError =
  * *Amazon Security Lake User Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1514,6 +1580,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1530,7 +1598,7 @@ export type UntagResourceError =
  * Amazon Web Services account in a particular Amazon Web Services Region.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1549,6 +1617,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDataLakeError =
@@ -1576,7 +1646,7 @@ export type UpdateDataLakeError =
  * For more details about lifecycle management and how to update retention settings for one or more Regions after enabling Security Lake, see the Amazon Security Lake User Guide.
  */
 export const updateDataLake: API.OperationMethod<
-  UpdateDataLakeRequest,
+  UpdateDataLakeRequest & RegionInput,
   UpdateDataLakeResponse,
   UpdateDataLakeError,
   Credentials | HttpClient.HttpClient
@@ -1595,6 +1665,8 @@ export const updateDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLake",
+  telemetry: TELEMETRY,
+  span: "UpdateDataLake",
 }));
 
 export type UpdateDataLakeExceptionSubscriptionError =
@@ -1611,7 +1683,7 @@ export type UpdateDataLakeExceptionSubscriptionError =
  * you specify.
  */
 export const updateDataLakeExceptionSubscription: API.OperationMethod<
-  UpdateDataLakeExceptionSubscriptionRequest,
+  UpdateDataLakeExceptionSubscriptionRequest & RegionInput,
   UpdateDataLakeExceptionSubscriptionResponse,
   UpdateDataLakeExceptionSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1630,6 +1702,8 @@ export const updateDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateDataLakeExceptionSubscription",
 }));
 
 export type UpdateSubscriberError =
@@ -1646,7 +1720,7 @@ export type UpdateSubscriberError =
  * a subscriber by changing the sources that the subscriber consumes data from.
  */
 export const updateSubscriber: API.OperationMethod<
-  UpdateSubscriberRequest,
+  UpdateSubscriberRequest & RegionInput,
   UpdateSubscriberResponse,
   UpdateSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -1665,6 +1739,8 @@ export const updateSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriber",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriber",
 }));
 
 export type UpdateSubscriberNotificationError =
@@ -1681,7 +1757,7 @@ export type UpdateSubscriberNotificationError =
  * switches the notification subscription endpoint for a subscriber.
  */
 export const updateSubscriberNotification: API.OperationMethod<
-  UpdateSubscriberNotificationRequest,
+  UpdateSubscriberNotificationRequest & RegionInput,
   UpdateSubscriberNotificationResponse,
   UpdateSubscriberNotificationError,
   Credentials | HttpClient.HttpClient
@@ -1700,6 +1776,8 @@ export const updateSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriberNotification",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriberNotification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

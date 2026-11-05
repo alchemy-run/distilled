@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "gmailpostmastertools" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Gmailpostmastertools",
+  service: "gmailpostmastertools",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -503,6 +522,8 @@ export const batchQueryDomainStats: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchQueryDomainStats",
 }));
 
 export type CreateDomainsError =
@@ -524,6 +545,8 @@ export const createDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomains",
 }));
 
 export type CreateDomainsUsersError =
@@ -545,6 +568,8 @@ export const createDomainsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainsUsers",
 }));
 
 export type DeleteDomainsError =
@@ -566,6 +591,8 @@ export const deleteDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomains",
 }));
 
 export type DeleteDomainsUsersError =
@@ -587,6 +614,8 @@ export const deleteDomainsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainsUsers",
 }));
 
 export type GetComplianceStatusDomainsError =
@@ -606,6 +635,8 @@ export const getComplianceStatusDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComplianceStatusDomains",
 }));
 
 export type GetDomainsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -621,6 +652,8 @@ export const getDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomains",
 }));
 
 export type GetDomainsUsersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -636,6 +669,8 @@ export const getDomainsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainsUsers",
 }));
 
 export type GetVerificationTokenDomainsError =
@@ -655,6 +690,8 @@ export const getVerificationTokenDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVerificationTokenDomains",
 }));
 
 export type ListDomainsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -671,6 +708,8 @@ export const listDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -688,6 +727,8 @@ export const listDomainsUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainsUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -710,6 +751,8 @@ export const patchDomainsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDomainsUsers",
 }));
 
 export type QueryDomainsDomainStatsError =
@@ -731,6 +774,8 @@ export const queryDomainsDomainStats: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryDomainsDomainStats",
 }));
 
 export type VerifyDomainsError =
@@ -752,6 +797,8 @@ export const verifyDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDomains",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

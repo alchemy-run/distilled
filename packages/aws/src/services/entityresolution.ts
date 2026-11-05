@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://entityresolution.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EntityResolution",
+  service: "EntityResolution",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -929,7 +945,7 @@ export type AddPolicyStatementError =
  * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
  */
 export const addPolicyStatement: API.OperationMethod<
-  AddPolicyStatementInput,
+  AddPolicyStatementInput & RegionInput,
   AddPolicyStatementOutput,
   AddPolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -947,6 +963,8 @@ export const addPolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPolicyStatement",
+  telemetry: TELEMETRY,
+  span: "AddPolicyStatement",
 }));
 
 export type BatchDeleteUniqueIdError =
@@ -958,7 +976,7 @@ export type BatchDeleteUniqueIdError =
  * Deletes multiple unique IDs in a matching workflow.
  */
 export const batchDeleteUniqueId: API.OperationMethod<
-  BatchDeleteUniqueIdInput,
+  BatchDeleteUniqueIdInput & RegionInput,
   BatchDeleteUniqueIdOutput,
   BatchDeleteUniqueIdError,
   Credentials | HttpClient.HttpClient
@@ -969,6 +987,8 @@ export const batchDeleteUniqueId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteUniqueId",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteUniqueId",
 }));
 
 export type CreateIdMappingWorkflowError =
@@ -985,7 +1005,7 @@ export type CreateIdMappingWorkflowError =
  * Incremental processing is not supported for ID mapping workflows.
  */
 export const createIdMappingWorkflow: API.OperationMethod<
-  CreateIdMappingWorkflowInput,
+  CreateIdMappingWorkflowInput & RegionInput,
   CreateIdMappingWorkflowOutput,
   CreateIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1003,6 +1023,8 @@ export const createIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateIdMappingWorkflow",
 }));
 
 export type CreateIdNamespaceError =
@@ -1017,7 +1039,7 @@ export type CreateIdNamespaceError =
  * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
  */
 export const createIdNamespace: API.OperationMethod<
-  CreateIdNamespaceInput,
+  CreateIdNamespaceInput & RegionInput,
   CreateIdNamespaceOutput,
   CreateIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1035,6 +1057,8 @@ export const createIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateIdNamespace",
 }));
 
 export type CreateMatchingWorkflowError =
@@ -1051,7 +1075,7 @@ export type CreateMatchingWorkflowError =
  * For workflows where `resolutionType` is `PROVIDER`, incremental processing is not supported.
  */
 export const createMatchingWorkflow: API.OperationMethod<
-  CreateMatchingWorkflowInput,
+  CreateMatchingWorkflowInput & RegionInput,
   CreateMatchingWorkflowOutput,
   CreateMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1069,6 +1093,8 @@ export const createMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateMatchingWorkflow",
 }));
 
 export type CreateSchemaMappingError =
@@ -1083,7 +1109,7 @@ export type CreateSchemaMappingError =
  * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
  */
 export const createSchemaMapping: API.OperationMethod<
-  CreateSchemaMappingInput,
+  CreateSchemaMappingInput & RegionInput,
   CreateSchemaMappingOutput,
   CreateSchemaMappingError,
   Credentials | HttpClient.HttpClient
@@ -1101,6 +1127,8 @@ export const createSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "CreateSchemaMapping",
 }));
 
 export type DeleteIdMappingWorkflowError =
@@ -1115,7 +1143,7 @@ export type DeleteIdMappingWorkflowError =
  * Deletes the `IdMappingWorkflow` with a given name. This operation returns a `ResourceNotFoundException` if a workflow with the given name does not exist.
  */
 export const deleteIdMappingWorkflow: API.OperationMethod<
-  DeleteIdMappingWorkflowInput,
+  DeleteIdMappingWorkflowInput & RegionInput,
   DeleteIdMappingWorkflowOutput,
   DeleteIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1133,6 +1161,8 @@ export const deleteIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteIdMappingWorkflow",
 }));
 
 export type DeleteIdNamespaceError =
@@ -1147,7 +1177,7 @@ export type DeleteIdNamespaceError =
  * Deletes the `IdNamespace` with a given name. This operation returns a `ResourceNotFoundException` if an ID namespace with the given name does not exist.
  */
 export const deleteIdNamespace: API.OperationMethod<
-  DeleteIdNamespaceInput,
+  DeleteIdNamespaceInput & RegionInput,
   DeleteIdNamespaceOutput,
   DeleteIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1165,6 +1195,8 @@ export const deleteIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteIdNamespace",
 }));
 
 export type DeleteMatchingWorkflowError =
@@ -1179,7 +1211,7 @@ export type DeleteMatchingWorkflowError =
  * Deletes the `MatchingWorkflow` with a given name. This operation returns a `ResourceNotFoundException` if a workflow with the given name does not exist.
  */
 export const deleteMatchingWorkflow: API.OperationMethod<
-  DeleteMatchingWorkflowInput,
+  DeleteMatchingWorkflowInput & RegionInput,
   DeleteMatchingWorkflowOutput,
   DeleteMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1197,6 +1229,8 @@ export const deleteMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteMatchingWorkflow",
 }));
 
 export type DeletePolicyStatementError =
@@ -1211,7 +1245,7 @@ export type DeletePolicyStatementError =
  * Deletes the policy statement.
  */
 export const deletePolicyStatement: API.OperationMethod<
-  DeletePolicyStatementInput,
+  DeletePolicyStatementInput & RegionInput,
   DeletePolicyStatementOutput,
   DeletePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -1229,6 +1263,8 @@ export const deletePolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStatement",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyStatement",
 }));
 
 export type DeleteSchemaMappingError =
@@ -1243,7 +1279,7 @@ export type DeleteSchemaMappingError =
  * Deletes the `SchemaMapping` with a given name. This operation returns a `ResourceNotFoundException` if a schema with the given name does not exist. This operation will fail if there is a `MatchingWorkflow` object that references the `SchemaMapping` in the workflow's `InputSourceConfig`.
  */
 export const deleteSchemaMapping: API.OperationMethod<
-  DeleteSchemaMappingInput,
+  DeleteSchemaMappingInput & RegionInput,
   DeleteSchemaMappingOutput,
   DeleteSchemaMappingError,
   Credentials | HttpClient.HttpClient
@@ -1261,6 +1297,8 @@ export const deleteSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteSchemaMapping",
 }));
 
 export type GenerateMatchIdError =
@@ -1276,7 +1314,7 @@ export type GenerateMatchIdError =
  * The processing type (`processingType`) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
  */
 export const generateMatchId: API.OperationMethod<
-  GenerateMatchIdInput,
+  GenerateMatchIdInput & RegionInput,
   GenerateMatchIdOutput,
   GenerateMatchIdError,
   Credentials | HttpClient.HttpClient
@@ -1293,6 +1331,8 @@ export const generateMatchId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMatchId",
+  telemetry: TELEMETRY,
+  span: "GenerateMatchId",
 }));
 
 export type GetIdMappingJobError =
@@ -1306,7 +1346,7 @@ export type GetIdMappingJobError =
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
 export const getIdMappingJob: API.OperationMethod<
-  GetIdMappingJobInput,
+  GetIdMappingJobInput & RegionInput,
   GetIdMappingJobOutput,
   GetIdMappingJobError,
   Credentials | HttpClient.HttpClient
@@ -1323,6 +1363,8 @@ export const getIdMappingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingJob",
+  telemetry: TELEMETRY,
+  span: "GetIdMappingJob",
 }));
 
 export type GetIdMappingWorkflowError =
@@ -1336,7 +1378,7 @@ export type GetIdMappingWorkflowError =
  * Returns the `IdMappingWorkflow` with a given name, if it exists.
  */
 export const getIdMappingWorkflow: API.OperationMethod<
-  GetIdMappingWorkflowInput,
+  GetIdMappingWorkflowInput & RegionInput,
   GetIdMappingWorkflowOutput,
   GetIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1353,6 +1395,8 @@ export const getIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetIdMappingWorkflow",
 }));
 
 export type GetIdNamespaceError =
@@ -1366,7 +1410,7 @@ export type GetIdNamespaceError =
  * Returns the `IdNamespace` with a given name, if it exists.
  */
 export const getIdNamespace: API.OperationMethod<
-  GetIdNamespaceInput,
+  GetIdNamespaceInput & RegionInput,
   GetIdNamespaceOutput,
   GetIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1383,6 +1427,8 @@ export const getIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdNamespace",
+  telemetry: TELEMETRY,
+  span: "GetIdNamespace",
 }));
 
 export type GetMatchIdError =
@@ -1398,7 +1444,7 @@ export type GetMatchIdError =
  * You can call this API as a dry run of an incremental load on the rule-based matching workflow.
  */
 export const getMatchId: API.OperationMethod<
-  GetMatchIdInput,
+  GetMatchIdInput & RegionInput,
   GetMatchIdOutput,
   GetMatchIdError,
   Credentials | HttpClient.HttpClient
@@ -1415,6 +1461,8 @@ export const getMatchId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchId",
+  telemetry: TELEMETRY,
+  span: "GetMatchId",
 }));
 
 export type GetMatchingJobError =
@@ -1428,7 +1476,7 @@ export type GetMatchingJobError =
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
 export const getMatchingJob: API.OperationMethod<
-  GetMatchingJobInput,
+  GetMatchingJobInput & RegionInput,
   GetMatchingJobOutput,
   GetMatchingJobError,
   Credentials | HttpClient.HttpClient
@@ -1445,6 +1493,8 @@ export const getMatchingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchingJob",
+  telemetry: TELEMETRY,
+  span: "GetMatchingJob",
 }));
 
 export type GetMatchingWorkflowError =
@@ -1458,7 +1508,7 @@ export type GetMatchingWorkflowError =
  * Returns the `MatchingWorkflow` with a given name, if it exists.
  */
 export const getMatchingWorkflow: API.OperationMethod<
-  GetMatchingWorkflowInput,
+  GetMatchingWorkflowInput & RegionInput,
   GetMatchingWorkflowOutput,
   GetMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1475,6 +1525,8 @@ export const getMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetMatchingWorkflow",
 }));
 
 export type GetPolicyError =
@@ -1488,7 +1540,7 @@ export type GetPolicyError =
  * Returns the resource-based policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyInput,
+  GetPolicyInput & RegionInput,
   GetPolicyOutput,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1505,6 +1557,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetProviderServiceError =
@@ -1518,7 +1572,7 @@ export type GetProviderServiceError =
  * Returns the `ProviderService` of a given name.
  */
 export const getProviderService: API.OperationMethod<
-  GetProviderServiceInput,
+  GetProviderServiceInput & RegionInput,
   GetProviderServiceOutput,
   GetProviderServiceError,
   Credentials | HttpClient.HttpClient
@@ -1535,6 +1589,8 @@ export const getProviderService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProviderService",
+  telemetry: TELEMETRY,
+  span: "GetProviderService",
 }));
 
 export type GetSchemaMappingError =
@@ -1548,7 +1604,7 @@ export type GetSchemaMappingError =
  * Returns the SchemaMapping of a given name.
  */
 export const getSchemaMapping: API.OperationMethod<
-  GetSchemaMappingInput,
+  GetSchemaMappingInput & RegionInput,
   GetSchemaMappingOutput,
   GetSchemaMappingError,
   Credentials | HttpClient.HttpClient
@@ -1565,6 +1621,8 @@ export const getSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "GetSchemaMapping",
 }));
 
 export type ListIdMappingJobsError =
@@ -1578,7 +1636,7 @@ export type ListIdMappingJobsError =
  * Lists all ID mapping jobs for a given workflow.
  */
 export const listIdMappingJobs: API.PaginatedOperationMethod<
-  ListIdMappingJobsInput,
+  ListIdMappingJobsInput & RegionInput,
   ListIdMappingJobsOutput,
   ListIdMappingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1602,6 +1660,8 @@ export const listIdMappingJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdMappingJobs",
 })) as any;
 
 export type ListIdMappingWorkflowsError =
@@ -1614,7 +1674,7 @@ export type ListIdMappingWorkflowsError =
  * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
  */
 export const listIdMappingWorkflows: API.PaginatedOperationMethod<
-  ListIdMappingWorkflowsInput,
+  ListIdMappingWorkflowsInput & RegionInput,
   ListIdMappingWorkflowsOutput,
   ListIdMappingWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1637,6 +1697,8 @@ export const listIdMappingWorkflows: API.PaginatedOperationMethod<
     items: "workflowSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdMappingWorkflows",
 })) as any;
 
 export type ListIdNamespacesError =
@@ -1649,7 +1711,7 @@ export type ListIdNamespacesError =
  * Returns a list of all ID namespaces.
  */
 export const listIdNamespaces: API.PaginatedOperationMethod<
-  ListIdNamespacesInput,
+  ListIdNamespacesInput & RegionInput,
   ListIdNamespacesOutput,
   ListIdNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1672,6 +1734,8 @@ export const listIdNamespaces: API.PaginatedOperationMethod<
     items: "idNamespaceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdNamespaces",
 })) as any;
 
 export type ListMatchingJobsError =
@@ -1685,7 +1749,7 @@ export type ListMatchingJobsError =
  * Lists all jobs for a given workflow.
  */
 export const listMatchingJobs: API.PaginatedOperationMethod<
-  ListMatchingJobsInput,
+  ListMatchingJobsInput & RegionInput,
   ListMatchingJobsOutput,
   ListMatchingJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1709,6 +1773,8 @@ export const listMatchingJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMatchingJobs",
 })) as any;
 
 export type ListMatchingWorkflowsError =
@@ -1721,7 +1787,7 @@ export type ListMatchingWorkflowsError =
  * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
  */
 export const listMatchingWorkflows: API.PaginatedOperationMethod<
-  ListMatchingWorkflowsInput,
+  ListMatchingWorkflowsInput & RegionInput,
   ListMatchingWorkflowsOutput,
   ListMatchingWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1744,6 +1810,8 @@ export const listMatchingWorkflows: API.PaginatedOperationMethod<
     items: "workflowSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMatchingWorkflows",
 })) as any;
 
 export type ListProviderServicesError =
@@ -1756,7 +1824,7 @@ export type ListProviderServicesError =
  * Returns a list of all the `ProviderServices` that are available in this Amazon Web Services Region.
  */
 export const listProviderServices: API.PaginatedOperationMethod<
-  ListProviderServicesInput,
+  ListProviderServicesInput & RegionInput,
   ListProviderServicesOutput,
   ListProviderServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1779,6 +1847,8 @@ export const listProviderServices: API.PaginatedOperationMethod<
     items: "providerServiceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProviderServices",
 })) as any;
 
 export type ListSchemaMappingsError =
@@ -1791,7 +1861,7 @@ export type ListSchemaMappingsError =
  * Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services account.
  */
 export const listSchemaMappings: API.PaginatedOperationMethod<
-  ListSchemaMappingsInput,
+  ListSchemaMappingsInput & RegionInput,
   ListSchemaMappingsOutput,
   ListSchemaMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -1814,6 +1884,8 @@ export const listSchemaMappings: API.PaginatedOperationMethod<
     items: "schemaList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemaMappings",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1825,7 +1897,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1836,6 +1908,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutPolicyError =
@@ -1850,7 +1924,7 @@ export type PutPolicyError =
  * Updates the resource-based policy.
  */
 export const putPolicy: API.OperationMethod<
-  PutPolicyInput,
+  PutPolicyInput & RegionInput,
   PutPolicyOutput,
   PutPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1868,6 +1942,8 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPolicy",
 }));
 
 export type StartIdMappingJobError =
@@ -1883,7 +1959,7 @@ export type StartIdMappingJobError =
  * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
  */
 export const startIdMappingJob: API.OperationMethod<
-  StartIdMappingJobInput,
+  StartIdMappingJobInput & RegionInput,
   StartIdMappingJobOutput,
   StartIdMappingJobError,
   Credentials | HttpClient.HttpClient
@@ -1902,6 +1978,8 @@ export const startIdMappingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIdMappingJob",
+  telemetry: TELEMETRY,
+  span: "StartIdMappingJob",
 }));
 
 export type StartMatchingJobError =
@@ -1917,7 +1995,7 @@ export type StartMatchingJobError =
  * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
  */
 export const startMatchingJob: API.OperationMethod<
-  StartMatchingJobInput,
+  StartMatchingJobInput & RegionInput,
   StartMatchingJobOutput,
   StartMatchingJobError,
   Credentials | HttpClient.HttpClient
@@ -1936,6 +2014,8 @@ export const startMatchingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchingJob",
+  telemetry: TELEMETRY,
+  span: "StartMatchingJob",
 }));
 
 export type TagResourceError =
@@ -1947,7 +2027,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1958,6 +2038,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -1965,7 +2047,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1976,6 +2058,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdMappingWorkflowError =
@@ -1991,7 +2075,7 @@ export type UpdateIdMappingWorkflowError =
  * Incremental processing is not supported for ID mapping workflows.
  */
 export const updateIdMappingWorkflow: API.OperationMethod<
-  UpdateIdMappingWorkflowInput,
+  UpdateIdMappingWorkflowInput & RegionInput,
   UpdateIdMappingWorkflowOutput,
   UpdateIdMappingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2008,6 +2092,8 @@ export const updateIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "UpdateIdMappingWorkflow",
 }));
 
 export type UpdateIdNamespaceError =
@@ -2021,7 +2107,7 @@ export type UpdateIdNamespaceError =
  * Updates an existing ID namespace.
  */
 export const updateIdNamespace: API.OperationMethod<
-  UpdateIdNamespaceInput,
+  UpdateIdNamespaceInput & RegionInput,
   UpdateIdNamespaceOutput,
   UpdateIdNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2038,6 +2124,8 @@ export const updateIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdateIdNamespace",
 }));
 
 export type UpdateMatchingWorkflowError =
@@ -2053,7 +2141,7 @@ export type UpdateMatchingWorkflowError =
  * For workflows where `resolutionType` is `PROVIDER`, incremental processing is not supported.
  */
 export const updateMatchingWorkflow: API.OperationMethod<
-  UpdateMatchingWorkflowInput,
+  UpdateMatchingWorkflowInput & RegionInput,
   UpdateMatchingWorkflowOutput,
   UpdateMatchingWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2070,6 +2158,8 @@ export const updateMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "UpdateMatchingWorkflow",
 }));
 
 export type UpdateSchemaMappingError =
@@ -2086,7 +2176,7 @@ export type UpdateSchemaMappingError =
  * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
  */
 export const updateSchemaMapping: API.OperationMethod<
-  UpdateSchemaMappingInput,
+  UpdateSchemaMappingInput & RegionInput,
   UpdateSchemaMappingOutput,
   UpdateSchemaMappingError,
   Credentials | HttpClient.HttpClient
@@ -2104,6 +2194,8 @@ export const updateSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "UpdateSchemaMapping",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

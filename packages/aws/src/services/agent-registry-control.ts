@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -39,6 +41,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p) => {
     "Unable to resolve an Agent Registry Control endpoint: Region was not set and no explicit Endpoint override was provided.",
   );
 }, '{"url":"https://agent-registry-control.{R}.api.aws","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AgentRegistryControl",
+  service: "AgentRegistryControl",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -747,7 +763,7 @@ export type CreateRegistryError =
  * Creates a new registry, a catalog that organizes registry records and defines their discovery authorization and record approval behavior. Creation is asynchronous: the registry begins in the CREATING status and becomes usable once it reaches READY.
  */
 export const createRegistry: API.OperationMethod<
-  CreateRegistryRequest,
+  CreateRegistryRequest & RegionInput,
   CreateRegistryResponse,
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -765,6 +781,8 @@ export const createRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
+  telemetry: TELEMETRY,
+  span: "CreateRegistry",
 }));
 
 export type CreateRegistryRecordError =
@@ -780,7 +798,7 @@ export type CreateRegistryRecordError =
  * Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed.
  */
 export const createRegistryRecord: API.OperationMethod<
-  CreateRegistryRecordRequest,
+  CreateRegistryRecordRequest & RegionInput,
   CreateRegistryRecordResponse,
   CreateRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -799,6 +817,8 @@ export const createRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistryRecord",
+  telemetry: TELEMETRY,
+  span: "CreateRegistryRecord",
 }));
 
 export type DeleteRegistryError =
@@ -813,7 +833,7 @@ export type DeleteRegistryError =
  * Deletes a registry. Deletion is asynchronous: the registry transitions to the DELETING status and is removed along with its registry records.
  */
 export const deleteRegistry: API.OperationMethod<
-  DeleteRegistryRequest,
+  DeleteRegistryRequest & RegionInput,
   DeleteRegistryResponse,
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
@@ -831,6 +851,8 @@ export const deleteRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
+  telemetry: TELEMETRY,
+  span: "DeleteRegistry",
 }));
 
 export type DeleteRegistryRecordError =
@@ -845,7 +867,7 @@ export type DeleteRegistryRecordError =
  * Deletes a registry record
  */
 export const deleteRegistryRecord: API.OperationMethod<
-  DeleteRegistryRecordRequest,
+  DeleteRegistryRecordRequest & RegionInput,
   DeleteRegistryRecordResponse,
   DeleteRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -863,6 +885,8 @@ export const deleteRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistryRecord",
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryRecord",
 }));
 
 export type GetRegistryError =
@@ -876,7 +900,7 @@ export type GetRegistryError =
  * Gets a registry by identifier (ARN or ID)
  */
 export const getRegistry: API.OperationMethod<
-  GetRegistryRequest,
+  GetRegistryRequest & RegionInput,
   GetRegistryResponse,
   GetRegistryError,
   Credentials | HttpClient.HttpClient
@@ -893,6 +917,8 @@ export const getRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistry",
+  telemetry: TELEMETRY,
+  span: "GetRegistry",
 }));
 
 export type GetRegistryRecordError =
@@ -907,7 +933,7 @@ export type GetRegistryRecordError =
  * Retrieves the details of a registry record
  */
 export const getRegistryRecord: API.OperationMethod<
-  GetRegistryRecordRequest,
+  GetRegistryRecordRequest & RegionInput,
   GetRegistryRecordResponse,
   GetRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -925,6 +951,8 @@ export const getRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryRecord",
+  telemetry: TELEMETRY,
+  span: "GetRegistryRecord",
 }));
 
 export type ListRegistriesError =
@@ -937,7 +965,7 @@ export type ListRegistriesError =
  * Lists the registries in the caller's account and Region, with optional filtering by status and discovery authorizer type
  */
 export const listRegistries: API.PaginatedOperationMethod<
-  ListRegistriesRequest,
+  ListRegistriesRequest & RegionInput,
   ListRegistriesResponse,
   ListRegistriesError,
   Credentials | HttpClient.HttpClient,
@@ -960,6 +988,8 @@ export const listRegistries: API.PaginatedOperationMethod<
     items: "registries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegistries",
 })) as any;
 
 export type ListRegistryRecordsError =
@@ -974,7 +1004,7 @@ export type ListRegistryRecordsError =
  * Lists the registry records within a registry, with optional filtering by name, status, and record type
  */
 export const listRegistryRecords: API.PaginatedOperationMethod<
-  ListRegistryRecordsRequest,
+  ListRegistryRecordsRequest & RegionInput,
   ListRegistryRecordsResponse,
   ListRegistryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -999,6 +1029,8 @@ export const listRegistryRecords: API.PaginatedOperationMethod<
     items: "registryRecords",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegistryRecords",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1012,7 +1044,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1029,6 +1061,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SubmitRegistryRecordForApprovalError =
@@ -1043,7 +1077,7 @@ export type SubmitRegistryRecordForApprovalError =
  * Submits a DRAFT registry record for approval, moving it into the registry's approval workflow. Depending on the registry's approval configuration, the record is either auto-approved or set to PENDING_APPROVAL for a curator to approve or reject.
  */
 export const submitRegistryRecordForApproval: API.OperationMethod<
-  SubmitRegistryRecordForApprovalRequest,
+  SubmitRegistryRecordForApprovalRequest & RegionInput,
   SubmitRegistryRecordForApprovalResponse,
   SubmitRegistryRecordForApprovalError,
   Credentials | HttpClient.HttpClient
@@ -1061,6 +1095,8 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitRegistryRecordForApproval",
+  telemetry: TELEMETRY,
+  span: "SubmitRegistryRecordForApproval",
 }));
 
 export type TagResourceError =
@@ -1075,7 +1111,7 @@ export type TagResourceError =
  * Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1093,6 +1129,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1106,7 +1144,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified Amazon Web Services Agent Registry resource. The operation removes only the tags whose keys you supply; other tags on the resource remain unchanged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1123,6 +1161,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateRegistryError =
@@ -1138,7 +1178,7 @@ export type UpdateRegistryError =
  * Updates an existing registry. This operation uses PATCH semantics: specify only the fields you want to change, and omit the rest to leave them unchanged. Updates are applied asynchronously and the registry transitions to the UPDATING status while they are processed.
  */
 export const updateRegistry: API.OperationMethod<
-  UpdateRegistryRequest,
+  UpdateRegistryRequest & RegionInput,
   UpdateRegistryResponse,
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -1157,6 +1197,8 @@ export const updateRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
+  telemetry: TELEMETRY,
+  span: "UpdateRegistry",
 }));
 
 export type UpdateRegistryRecordError =
@@ -1171,7 +1213,7 @@ export type UpdateRegistryRecordError =
  * Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged.
  */
 export const updateRegistryRecord: API.OperationMethod<
-  UpdateRegistryRecordRequest,
+  UpdateRegistryRecordRequest & RegionInput,
   UpdateRegistryRecordResponse,
   UpdateRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -1189,6 +1231,8 @@ export const updateRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecord",
+  telemetry: TELEMETRY,
+  span: "UpdateRegistryRecord",
 }));
 
 export type UpdateRegistryRecordStatusError =
@@ -1203,7 +1247,7 @@ export type UpdateRegistryRecordStatusError =
  * Updates the status of a registry record as part of the registry's curation workflow, for example to approve or reject a record that is pending approval, or to deprecate an approved record so that it is no longer discoverable
  */
 export const updateRegistryRecordStatus: API.OperationMethod<
-  UpdateRegistryRecordStatusRequest,
+  UpdateRegistryRecordStatusRequest & RegionInput,
   UpdateRegistryRecordStatusResponse,
   UpdateRegistryRecordStatusError,
   Credentials | HttpClient.HttpClient
@@ -1221,6 +1265,8 @@ export const updateRegistryRecordStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecordStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateRegistryRecordStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

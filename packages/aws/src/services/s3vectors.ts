@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -64,6 +66,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "S3Vectors",
+  service: "S3Vectors",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -407,7 +423,7 @@ export type CreateIndexError =
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateIndex` permission to create a vector index with tags.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexInput,
+  CreateIndexInput & RegionInput,
   CreateIndexOutput,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -423,6 +439,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateVectorBucketError =
@@ -440,7 +458,7 @@ export type CreateVectorBucketError =
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateVectorBucket` permission to create a vector bucket with tags.
  */
 export const createVectorBucket: API.OperationMethod<
-  CreateVectorBucketInput,
+  CreateVectorBucketInput & RegionInput,
   CreateVectorBucketOutput,
   CreateVectorBucketError,
   Credentials | HttpClient.HttpClient
@@ -451,6 +469,8 @@ export const createVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVectorBucket",
+  telemetry: TELEMETRY,
+  span: "CreateVectorBucket",
 }));
 
 export type DeleteIndexError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -462,7 +482,7 @@ export type DeleteIndexError = NotFoundException | ServiceUnavailableException |
  * You must have the `s3vectors:DeleteIndex` permission to use this operation.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexInput,
+  DeleteIndexInput & RegionInput,
   DeleteIndexOutput,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -473,6 +493,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteVectorBucketError =
@@ -488,7 +510,7 @@ export type DeleteVectorBucketError =
  * You must have the `s3vectors:DeleteVectorBucket` permission to use this operation.
  */
 export const deleteVectorBucket: API.OperationMethod<
-  DeleteVectorBucketInput,
+  DeleteVectorBucketInput & RegionInput,
   DeleteVectorBucketOutput,
   DeleteVectorBucketError,
   Credentials | HttpClient.HttpClient
@@ -499,6 +521,8 @@ export const deleteVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucket",
+  telemetry: TELEMETRY,
+  span: "DeleteVectorBucket",
 }));
 
 export type DeleteVectorBucketPolicyError =
@@ -513,7 +537,7 @@ export type DeleteVectorBucketPolicyError =
  * You must have the `s3vectors:DeleteVectorBucketPolicy` permission to use this operation.
  */
 export const deleteVectorBucketPolicy: API.OperationMethod<
-  DeleteVectorBucketPolicyInput,
+  DeleteVectorBucketPolicyInput & RegionInput,
   DeleteVectorBucketPolicyOutput,
   DeleteVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -524,6 +548,8 @@ export const deleteVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteVectorBucketPolicy",
 }));
 
 export type DeleteVectorsError =
@@ -543,7 +569,7 @@ export type DeleteVectorsError =
  * You must have the `s3vectors:DeleteVectors` permission to use this operation.
  */
 export const deleteVectors: API.OperationMethod<
-  DeleteVectorsInput,
+  DeleteVectorsInput & RegionInput,
   DeleteVectorsOutput,
   DeleteVectorsError,
   Credentials | HttpClient.HttpClient
@@ -562,6 +588,8 @@ export const deleteVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectors",
+  telemetry: TELEMETRY,
+  span: "DeleteVectors",
 }));
 
 export type GetIndexError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -573,7 +601,7 @@ export type GetIndexError = NotFoundException | ServiceUnavailableException | Co
  * You must have the `s3vectors:GetIndex` permission to use this operation.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexInput,
+  GetIndexInput & RegionInput,
   GetIndexOutput,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -584,6 +612,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetVectorBucketError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -595,7 +625,7 @@ export type GetVectorBucketError = NotFoundException | ServiceUnavailableExcepti
  * You must have the `s3vectors:GetVectorBucket` permission to use this operation.
  */
 export const getVectorBucket: API.OperationMethod<
-  GetVectorBucketInput,
+  GetVectorBucketInput & RegionInput,
   GetVectorBucketOutput,
   GetVectorBucketError,
   Credentials | HttpClient.HttpClient
@@ -606,6 +636,8 @@ export const getVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucket",
+  telemetry: TELEMETRY,
+  span: "GetVectorBucket",
 }));
 
 export type GetVectorBucketPolicyError =
@@ -620,7 +652,7 @@ export type GetVectorBucketPolicyError =
  * You must have the `s3vectors:GetVectorBucketPolicy` permission to use this operation.
  */
 export const getVectorBucketPolicy: API.OperationMethod<
-  GetVectorBucketPolicyInput,
+  GetVectorBucketPolicyInput & RegionInput,
   GetVectorBucketPolicyOutput,
   GetVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -631,6 +663,8 @@ export const getVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "GetVectorBucketPolicy",
 }));
 
 export type GetVectorsError =
@@ -649,7 +683,7 @@ export type GetVectorsError =
  * You must have the `s3vectors:GetVectors` permission to use this operation.
  */
 export const getVectors: API.OperationMethod<
-  GetVectorsInput,
+  GetVectorsInput & RegionInput,
   GetVectorsOutput,
   GetVectorsError,
   Credentials | HttpClient.HttpClient
@@ -667,6 +701,8 @@ export const getVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectors",
+  telemetry: TELEMETRY,
+  span: "GetVectors",
 }));
 
 export type ListIndexesError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -678,7 +714,7 @@ export type ListIndexesError = NotFoundException | ServiceUnavailableException |
  * You must have the `s3vectors:ListIndexes` permission to use this operation.
  */
 export const listIndexes: API.PaginatedOperationMethod<
-  ListIndexesInput,
+  ListIndexesInput & RegionInput,
   ListIndexesOutput,
   ListIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -696,6 +732,8 @@ export const listIndexes: API.PaginatedOperationMethod<
     items: "indexes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndexes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -712,7 +750,7 @@ export type ListTagsForResourceError =
  * For vector buckets and vector indexes, you must have the `s3vectors:ListTagsForResource` permission to use this operation.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -723,6 +761,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVectorBucketsError = ServiceUnavailableException | CommonErrors;
@@ -734,7 +774,7 @@ export type ListVectorBucketsError = ServiceUnavailableException | CommonErrors;
  * You must have the `s3vectors:ListVectorBuckets` permission to use this operation.
  */
 export const listVectorBuckets: API.PaginatedOperationMethod<
-  ListVectorBucketsInput,
+  ListVectorBucketsInput & RegionInput,
   ListVectorBucketsOutput,
   ListVectorBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -752,6 +792,8 @@ export const listVectorBuckets: API.PaginatedOperationMethod<
     items: "vectorBuckets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVectorBuckets",
 })) as any;
 
 export type ListVectorsError =
@@ -773,7 +815,7 @@ export type ListVectorsError =
  * - If you set `returnData` or `returnMetadata` to true, you must have both `s3vectors:ListVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden` error if you request vector data or metadata without the `s3vectors:GetVectors` permission.
  */
 export const listVectors: API.PaginatedOperationMethod<
-  ListVectorsInput,
+  ListVectorsInput & RegionInput,
   ListVectorsOutput,
   ListVectorsError,
   Credentials | HttpClient.HttpClient,
@@ -791,6 +833,8 @@ export const listVectors: API.PaginatedOperationMethod<
     items: "vectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVectors",
 })) as any;
 
 export type PutVectorBucketDefaultIndexModeError =
@@ -805,7 +849,7 @@ export type PutVectorBucketDefaultIndexModeError =
  * You must have the `s3vectors:PutVectorBucketDefaultIndexMode` permission to use this operation.
  */
 export const putVectorBucketDefaultIndexMode: API.OperationMethod<
-  PutVectorBucketDefaultIndexModeInput,
+  PutVectorBucketDefaultIndexModeInput & RegionInput,
   PutVectorBucketDefaultIndexModeOutput,
   PutVectorBucketDefaultIndexModeError,
   Credentials | HttpClient.HttpClient
@@ -816,6 +860,8 @@ export const putVectorBucketDefaultIndexMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketDefaultIndexMode",
+  telemetry: TELEMETRY,
+  span: "PutVectorBucketDefaultIndexMode",
 }));
 
 export type PutVectorBucketPolicyError =
@@ -830,7 +876,7 @@ export type PutVectorBucketPolicyError =
  * You must have the `s3vectors:PutVectorBucketPolicy` permission to use this operation.
  */
 export const putVectorBucketPolicy: API.OperationMethod<
-  PutVectorBucketPolicyInput,
+  PutVectorBucketPolicyInput & RegionInput,
   PutVectorBucketPolicyOutput,
   PutVectorBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -841,6 +887,8 @@ export const putVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "PutVectorBucketPolicy",
 }));
 
 export type PutVectorsError =
@@ -865,7 +913,7 @@ export type PutVectorsError =
  * You must have the `s3vectors:PutVectors` permission to use this operation.
  */
 export const putVectors: API.OperationMethod<
-  PutVectorsInput,
+  PutVectorsInput & RegionInput,
   PutVectorsOutput,
   PutVectorsError,
   Credentials | HttpClient.HttpClient
@@ -885,6 +933,8 @@ export const putVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectors",
+  telemetry: TELEMETRY,
+  span: "PutVectors",
 }));
 
 export type QueryVectorsError =
@@ -909,7 +959,7 @@ export type QueryVectorsError =
  * - If you specify a metadata filter or set `returnMetadata` to true, you must have both `s3vectors:QueryVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden error` if you request metadata filtering or metadata without the `s3vectors:GetVectors` permission.
  */
 export const queryVectors: API.PaginatedOperationMethod<
-  QueryVectorsInput,
+  QueryVectorsInput & RegionInput,
   QueryVectorsOutput,
   QueryVectorsError,
   Credentials | HttpClient.HttpClient,
@@ -929,6 +979,8 @@ export const queryVectors: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "QueryVectors",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "vectors" } as const,
+  telemetry: TELEMETRY,
+  span: "QueryVectors",
 })) as any;
 
 export type TagResourceError =
@@ -946,7 +998,7 @@ export type TagResourceError =
  * For vector buckets and vector indexes, you must have the `s3vectors:TagResource` permission to use this operation.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -957,6 +1009,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -974,7 +1028,7 @@ export type UntagResourceError =
  * For vector buckets and vector indexes, you must have the `s3vectors:UntagResource` permission to use this operation.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -985,6 +1039,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIndexModeError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -996,7 +1052,7 @@ export type UpdateIndexModeError = NotFoundException | ServiceUnavailableExcepti
  * You must have the `s3vectors:UpdateIndexMode` permission to use this operation.
  */
 export const updateIndexMode: API.OperationMethod<
-  UpdateIndexModeInput,
+  UpdateIndexModeInput & RegionInput,
   UpdateIndexModeOutput,
   UpdateIndexModeError,
   Credentials | HttpClient.HttpClient
@@ -1007,6 +1063,8 @@ export const updateIndexMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexMode",
+  telemetry: TELEMETRY,
+  span: "UpdateIndexMode",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

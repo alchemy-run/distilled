@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://resiliencehub.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "resiliencehub",
+  service: "resiliencehub",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1441,7 +1457,7 @@ export type AcceptResourceGroupingRecommendationsError =
  * Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
  */
 export const acceptResourceGroupingRecommendations: API.OperationMethod<
-  AcceptResourceGroupingRecommendationsRequest,
+  AcceptResourceGroupingRecommendationsRequest & RegionInput,
   AcceptResourceGroupingRecommendationsResponse,
   AcceptResourceGroupingRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -1458,6 +1474,8 @@ export const acceptResourceGroupingRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptResourceGroupingRecommendations",
+  telemetry: TELEMETRY,
+  span: "AcceptResourceGroupingRecommendations",
 }));
 
 export type AddDraftAppVersionResourceMappingsError =
@@ -1478,7 +1496,7 @@ export type AddDraftAppVersionResourceMappingsError =
  * 2: How is your application managed? in the Resilience Hub User Guide.
  */
 export const addDraftAppVersionResourceMappings: API.OperationMethod<
-  AddDraftAppVersionResourceMappingsRequest,
+  AddDraftAppVersionResourceMappingsRequest & RegionInput,
   AddDraftAppVersionResourceMappingsResponse,
   AddDraftAppVersionResourceMappingsError,
   Credentials | HttpClient.HttpClient
@@ -1497,6 +1515,8 @@ export const addDraftAppVersionResourceMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDraftAppVersionResourceMappings",
+  telemetry: TELEMETRY,
+  span: "AddDraftAppVersionResourceMappings",
 }));
 
 export type BatchUpdateRecommendationStatusError =
@@ -1510,7 +1530,7 @@ export type BatchUpdateRecommendationStatusError =
  * Enables you to include or exclude one or more operational recommendations.
  */
 export const batchUpdateRecommendationStatus: API.OperationMethod<
-  BatchUpdateRecommendationStatusRequest,
+  BatchUpdateRecommendationStatusRequest & RegionInput,
   BatchUpdateRecommendationStatusResponse,
   BatchUpdateRecommendationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1527,6 +1547,8 @@ export const batchUpdateRecommendationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRecommendationStatus",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateRecommendationStatus",
 }));
 
 export type CreateAppError =
@@ -1553,7 +1575,7 @@ export type CreateAppError =
  * (RPO).
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResponse,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -1572,6 +1594,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateAppVersionAppComponentError =
@@ -1591,7 +1615,7 @@ export type CreateAppVersionAppComponentError =
  * application using the `PublishAppVersion` API.
  */
 export const createAppVersionAppComponent: API.OperationMethod<
-  CreateAppVersionAppComponentRequest,
+  CreateAppVersionAppComponentRequest & RegionInput,
   CreateAppVersionAppComponentResponse,
   CreateAppVersionAppComponentError,
   Credentials | HttpClient.HttpClient
@@ -1610,6 +1634,8 @@ export const createAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "CreateAppVersionAppComponent",
 }));
 
 export type CreateAppVersionResourceError =
@@ -1636,7 +1662,7 @@ export type CreateAppVersionResourceError =
  * call `ResolveAppVersionResources` API.
  */
 export const createAppVersionResource: API.OperationMethod<
-  CreateAppVersionResourceRequest,
+  CreateAppVersionResourceRequest & RegionInput,
   CreateAppVersionResourceResponse,
   CreateAppVersionResourceError,
   Credentials | HttpClient.HttpClient
@@ -1655,6 +1681,8 @@ export const createAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "CreateAppVersionResource",
 }));
 
 export type CreateRecommendationTemplateError =
@@ -1670,7 +1698,7 @@ export type CreateRecommendationTemplateError =
  * Creates a new recommendation template for the Resilience Hub application.
  */
 export const createRecommendationTemplate: API.OperationMethod<
-  CreateRecommendationTemplateRequest,
+  CreateRecommendationTemplateRequest & RegionInput,
   CreateRecommendationTemplateResponse,
   CreateRecommendationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1689,6 +1717,8 @@ export const createRecommendationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommendationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateRecommendationTemplate",
 }));
 
 export type CreateResiliencyPolicyError =
@@ -1711,7 +1741,7 @@ export type CreateResiliencyPolicyError =
  * breached.
  */
 export const createResiliencyPolicy: API.OperationMethod<
-  CreateResiliencyPolicyRequest,
+  CreateResiliencyPolicyRequest & RegionInput,
   CreateResiliencyPolicyResponse,
   CreateResiliencyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1729,6 +1759,8 @@ export const createResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateResiliencyPolicy",
 }));
 
 export type DeleteAppError =
@@ -1743,7 +1775,7 @@ export type DeleteAppError =
  * undone.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -1760,6 +1792,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteAppAssessmentError =
@@ -1775,7 +1809,7 @@ export type DeleteAppAssessmentError =
  * that can't be undone.
  */
 export const deleteAppAssessment: API.OperationMethod<
-  DeleteAppAssessmentRequest,
+  DeleteAppAssessmentRequest & RegionInput,
   DeleteAppAssessmentResponse,
   DeleteAppAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1793,6 +1827,8 @@ export const deleteAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppAssessment",
+  telemetry: TELEMETRY,
+  span: "DeleteAppAssessment",
 }));
 
 export type DeleteAppInputSourceError =
@@ -1808,7 +1844,7 @@ export type DeleteAppInputSourceError =
  * application.
  */
 export const deleteAppInputSource: API.OperationMethod<
-  DeleteAppInputSourceRequest,
+  DeleteAppInputSourceRequest & RegionInput,
   DeleteAppInputSourceResponse,
   DeleteAppInputSourceError,
   Credentials | HttpClient.HttpClient
@@ -1826,6 +1862,8 @@ export const deleteAppInputSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInputSource",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInputSource",
 }));
 
 export type DeleteAppVersionAppComponentError =
@@ -1847,7 +1885,7 @@ export type DeleteAppVersionAppComponentError =
  * with it.
  */
 export const deleteAppVersionAppComponent: API.OperationMethod<
-  DeleteAppVersionAppComponentRequest,
+  DeleteAppVersionAppComponentRequest & RegionInput,
   DeleteAppVersionAppComponentResponse,
   DeleteAppVersionAppComponentError,
   Credentials | HttpClient.HttpClient
@@ -1865,6 +1903,8 @@ export const deleteAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteAppVersionAppComponent",
 }));
 
 export type DeleteAppVersionResourceError =
@@ -1888,7 +1928,7 @@ export type DeleteAppVersionResourceError =
  * application using the `PublishAppVersion` API.
  */
 export const deleteAppVersionResource: API.OperationMethod<
-  DeleteAppVersionResourceRequest,
+  DeleteAppVersionResourceRequest & RegionInput,
   DeleteAppVersionResourceResponse,
   DeleteAppVersionResourceError,
   Credentials | HttpClient.HttpClient
@@ -1906,6 +1946,8 @@ export const deleteAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "DeleteAppVersionResource",
 }));
 
 export type DeleteRecommendationTemplateError =
@@ -1920,7 +1962,7 @@ export type DeleteRecommendationTemplateError =
  * undone.
  */
 export const deleteRecommendationTemplate: API.OperationMethod<
-  DeleteRecommendationTemplateRequest,
+  DeleteRecommendationTemplateRequest & RegionInput,
   DeleteRecommendationTemplateResponse,
   DeleteRecommendationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1937,6 +1979,8 @@ export const deleteRecommendationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommendationTemplate",
 }));
 
 export type DeleteResiliencyPolicyError =
@@ -1951,7 +1995,7 @@ export type DeleteResiliencyPolicyError =
  * Deletes a resiliency policy. This is a destructive action that can't be undone.
  */
 export const deleteResiliencyPolicy: API.OperationMethod<
-  DeleteResiliencyPolicyRequest,
+  DeleteResiliencyPolicyRequest & RegionInput,
   DeleteResiliencyPolicyResponse,
   DeleteResiliencyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1969,6 +2013,8 @@ export const deleteResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResiliencyPolicy",
 }));
 
 export type DescribeAppError =
@@ -1982,7 +2028,7 @@ export type DescribeAppError =
  * Describes an Resilience Hub application.
  */
 export const describeApp: API.OperationMethod<
-  DescribeAppRequest,
+  DescribeAppRequest & RegionInput,
   DescribeAppResponse,
   DescribeAppError,
   Credentials | HttpClient.HttpClient
@@ -1999,6 +2045,8 @@ export const describeApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApp",
+  telemetry: TELEMETRY,
+  span: "DescribeApp",
 }));
 
 export type DescribeAppAssessmentError =
@@ -2012,7 +2060,7 @@ export type DescribeAppAssessmentError =
  * Describes an assessment for an Resilience Hub application.
  */
 export const describeAppAssessment: API.OperationMethod<
-  DescribeAppAssessmentRequest,
+  DescribeAppAssessmentRequest & RegionInput,
   DescribeAppAssessmentResponse,
   DescribeAppAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2029,6 +2077,8 @@ export const describeAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppAssessment",
+  telemetry: TELEMETRY,
+  span: "DescribeAppAssessment",
 }));
 
 export type DescribeAppVersionError =
@@ -2042,7 +2092,7 @@ export type DescribeAppVersionError =
  * Describes the Resilience Hub application version.
  */
 export const describeAppVersion: API.OperationMethod<
-  DescribeAppVersionRequest,
+  DescribeAppVersionRequest & RegionInput,
   DescribeAppVersionResponse,
   DescribeAppVersionError,
   Credentials | HttpClient.HttpClient
@@ -2059,6 +2109,8 @@ export const describeAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersion",
 }));
 
 export type DescribeAppVersionAppComponentError =
@@ -2073,7 +2125,7 @@ export type DescribeAppVersionAppComponentError =
  * Describes an Application Component in the Resilience Hub application.
  */
 export const describeAppVersionAppComponent: API.OperationMethod<
-  DescribeAppVersionAppComponentRequest,
+  DescribeAppVersionAppComponentRequest & RegionInput,
   DescribeAppVersionAppComponentResponse,
   DescribeAppVersionAppComponentError,
   Credentials | HttpClient.HttpClient
@@ -2091,6 +2143,8 @@ export const describeAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionAppComponent",
 }));
 
 export type DescribeAppVersionResourceError =
@@ -2114,7 +2168,7 @@ export type DescribeAppVersionResourceError =
  * also provide `awsAccountId`, and `awsRegion`)
  */
 export const describeAppVersionResource: API.OperationMethod<
-  DescribeAppVersionResourceRequest,
+  DescribeAppVersionResourceRequest & RegionInput,
   DescribeAppVersionResourceResponse,
   DescribeAppVersionResourceError,
   Credentials | HttpClient.HttpClient
@@ -2132,6 +2186,8 @@ export const describeAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionResource",
 }));
 
 export type DescribeAppVersionResourcesResolutionStatusError =
@@ -2147,7 +2203,7 @@ export type DescribeAppVersionResourcesResolutionStatusError =
  * returned.
  */
 export const describeAppVersionResourcesResolutionStatus: API.OperationMethod<
-  DescribeAppVersionResourcesResolutionStatusRequest,
+  DescribeAppVersionResourcesResolutionStatusRequest & RegionInput,
   DescribeAppVersionResourcesResolutionStatusResponse,
   DescribeAppVersionResourcesResolutionStatusError,
   Credentials | HttpClient.HttpClient
@@ -2168,6 +2224,8 @@ export const describeAppVersionResourcesResolutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionResourcesResolutionStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionResourcesResolutionStatus",
 }));
 
 export type DescribeAppVersionTemplateError =
@@ -2181,7 +2239,7 @@ export type DescribeAppVersionTemplateError =
  * Describes details about an Resilience Hub application.
  */
 export const describeAppVersionTemplate: API.OperationMethod<
-  DescribeAppVersionTemplateRequest,
+  DescribeAppVersionTemplateRequest & RegionInput,
   DescribeAppVersionTemplateResponse,
   DescribeAppVersionTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2198,6 +2256,8 @@ export const describeAppVersionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionTemplate",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionTemplate",
 }));
 
 export type DescribeDraftAppVersionResourcesImportStatusError =
@@ -2217,7 +2277,7 @@ export type DescribeDraftAppVersionResourcesImportStatusError =
  * status.
  */
 export const describeDraftAppVersionResourcesImportStatus: API.OperationMethod<
-  DescribeDraftAppVersionResourcesImportStatusRequest,
+  DescribeDraftAppVersionResourcesImportStatusRequest & RegionInput,
   DescribeDraftAppVersionResourcesImportStatusResponse,
   DescribeDraftAppVersionResourcesImportStatusError,
   Credentials | HttpClient.HttpClient
@@ -2238,6 +2298,8 @@ export const describeDraftAppVersionResourcesImportStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDraftAppVersionResourcesImportStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeDraftAppVersionResourcesImportStatus",
 }));
 
 export type DescribeMetricsExportError =
@@ -2251,7 +2313,7 @@ export type DescribeMetricsExportError =
  * Describes the metrics of the application configuration being exported.
  */
 export const describeMetricsExport: API.OperationMethod<
-  DescribeMetricsExportRequest,
+  DescribeMetricsExportRequest & RegionInput,
   DescribeMetricsExportResponse,
   DescribeMetricsExportError,
   Credentials | HttpClient.HttpClient
@@ -2268,6 +2330,8 @@ export const describeMetricsExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricsExport",
+  telemetry: TELEMETRY,
+  span: "DescribeMetricsExport",
 }));
 
 export type DescribeResiliencyPolicyError =
@@ -2283,7 +2347,7 @@ export type DescribeResiliencyPolicyError =
  * Name (ARN) for the policy, tags, tier, and more.
  */
 export const describeResiliencyPolicy: API.OperationMethod<
-  DescribeResiliencyPolicyRequest,
+  DescribeResiliencyPolicyRequest & RegionInput,
   DescribeResiliencyPolicyResponse,
   DescribeResiliencyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2300,6 +2364,8 @@ export const describeResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResiliencyPolicy",
 }));
 
 export type DescribeResourceGroupingRecommendationTaskError =
@@ -2313,7 +2379,7 @@ export type DescribeResourceGroupingRecommendationTaskError =
  * Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
  */
 export const describeResourceGroupingRecommendationTask: API.OperationMethod<
-  DescribeResourceGroupingRecommendationTaskRequest,
+  DescribeResourceGroupingRecommendationTaskRequest & RegionInput,
   DescribeResourceGroupingRecommendationTaskResponse,
   DescribeResourceGroupingRecommendationTaskError,
   Credentials | HttpClient.HttpClient
@@ -2330,6 +2396,8 @@ export const describeResourceGroupingRecommendationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceGroupingRecommendationTask",
+  telemetry: TELEMETRY,
+  span: "DescribeResourceGroupingRecommendationTask",
 }));
 
 export type ImportResourcesToDraftAppVersionError =
@@ -2347,7 +2415,7 @@ export type ImportResourcesToDraftAppVersionError =
  * Discover the structure and describe your Resilience Hub application.
  */
 export const importResourcesToDraftAppVersion: API.OperationMethod<
-  ImportResourcesToDraftAppVersionRequest,
+  ImportResourcesToDraftAppVersionRequest & RegionInput,
   ImportResourcesToDraftAppVersionResponse,
   ImportResourcesToDraftAppVersionError,
   Credentials | HttpClient.HttpClient
@@ -2366,6 +2434,8 @@ export const importResourcesToDraftAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportResourcesToDraftAppVersion",
+  telemetry: TELEMETRY,
+  span: "ImportResourcesToDraftAppVersion",
 }));
 
 export type ListAlarmRecommendationsError =
@@ -2379,7 +2449,7 @@ export type ListAlarmRecommendationsError =
  * Lists the alarm recommendations for an Resilience Hub application.
  */
 export const listAlarmRecommendations: API.PaginatedOperationMethod<
-  ListAlarmRecommendationsRequest,
+  ListAlarmRecommendationsRequest & RegionInput,
   ListAlarmRecommendationsResponse,
   ListAlarmRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -2402,6 +2472,8 @@ export const listAlarmRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAlarmRecommendations",
 })) as any;
 
 export type ListAppAssessmentComplianceDriftsError =
@@ -2415,7 +2487,7 @@ export type ListAppAssessmentComplianceDriftsError =
  * assessment.
  */
 export const listAppAssessmentComplianceDrifts: API.PaginatedOperationMethod<
-  ListAppAssessmentComplianceDriftsRequest,
+  ListAppAssessmentComplianceDriftsRequest & RegionInput,
   ListAppAssessmentComplianceDriftsResponse,
   ListAppAssessmentComplianceDriftsError,
   Credentials | HttpClient.HttpClient,
@@ -2437,6 +2509,8 @@ export const listAppAssessmentComplianceDrifts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppAssessmentComplianceDrifts",
 })) as any;
 
 export type ListAppAssessmentResourceDriftsError =
@@ -2450,7 +2524,7 @@ export type ListAppAssessmentResourceDriftsError =
  * assessment.
  */
 export const listAppAssessmentResourceDrifts: API.PaginatedOperationMethod<
-  ListAppAssessmentResourceDriftsRequest,
+  ListAppAssessmentResourceDriftsRequest & RegionInput,
   ListAppAssessmentResourceDriftsResponse,
   ListAppAssessmentResourceDriftsError,
   Credentials | HttpClient.HttpClient,
@@ -2473,6 +2547,8 @@ export const listAppAssessmentResourceDrifts: API.PaginatedOperationMethod<
     items: "resourceDrifts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppAssessmentResourceDrifts",
 })) as any;
 
 export type ListAppAssessmentsError =
@@ -2487,7 +2563,7 @@ export type ListAppAssessmentsError =
  * parameters to refine the results for the response object.
  */
 export const listAppAssessments: API.PaginatedOperationMethod<
-  ListAppAssessmentsRequest,
+  ListAppAssessmentsRequest & RegionInput,
   ListAppAssessmentsResponse,
   ListAppAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2510,6 +2586,8 @@ export const listAppAssessments: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppAssessments",
 })) as any;
 
 export type ListAppComponentCompliancesError =
@@ -2523,7 +2601,7 @@ export type ListAppComponentCompliancesError =
  * Lists the compliances for an Resilience Hub Application Component.
  */
 export const listAppComponentCompliances: API.PaginatedOperationMethod<
-  ListAppComponentCompliancesRequest,
+  ListAppComponentCompliancesRequest & RegionInput,
   ListAppComponentCompliancesResponse,
   ListAppComponentCompliancesError,
   Credentials | HttpClient.HttpClient,
@@ -2546,6 +2624,8 @@ export const listAppComponentCompliances: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppComponentCompliances",
 })) as any;
 
 export type ListAppComponentRecommendationsError =
@@ -2559,7 +2639,7 @@ export type ListAppComponentRecommendationsError =
  * Lists the recommendations for an Resilience Hub Application Component.
  */
 export const listAppComponentRecommendations: API.PaginatedOperationMethod<
-  ListAppComponentRecommendationsRequest,
+  ListAppComponentRecommendationsRequest & RegionInput,
   ListAppComponentRecommendationsResponse,
   ListAppComponentRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -2582,6 +2662,8 @@ export const listAppComponentRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppComponentRecommendations",
 })) as any;
 
 export type ListAppInputSourcesError =
@@ -2597,7 +2679,7 @@ export type ListAppInputSourcesError =
  * the structure and describe your Resilience Hub application.
  */
 export const listAppInputSources: API.PaginatedOperationMethod<
-  ListAppInputSourcesRequest,
+  ListAppInputSourcesRequest & RegionInput,
   ListAppInputSourcesResponse,
   ListAppInputSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2620,6 +2702,8 @@ export const listAppInputSources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInputSources",
 })) as any;
 
 export type ListAppsError =
@@ -2639,7 +2723,7 @@ export type ListAppsError =
  * one filter is supported for this operation.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResponse,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -2661,6 +2745,8 @@ export const listApps: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 })) as any;
 
 export type ListAppVersionAppComponentsError =
@@ -2675,7 +2761,7 @@ export type ListAppVersionAppComponentsError =
  * Lists all the Application Components in the Resilience Hub application.
  */
 export const listAppVersionAppComponents: API.PaginatedOperationMethod<
-  ListAppVersionAppComponentsRequest,
+  ListAppVersionAppComponentsRequest & RegionInput,
   ListAppVersionAppComponentsResponse,
   ListAppVersionAppComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -2699,6 +2785,8 @@ export const listAppVersionAppComponents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersionAppComponents",
 })) as any;
 
 export type ListAppVersionResourceMappingsError =
@@ -2714,7 +2802,7 @@ export type ListAppVersionResourceMappingsError =
  * app.
  */
 export const listAppVersionResourceMappings: API.PaginatedOperationMethod<
-  ListAppVersionResourceMappingsRequest,
+  ListAppVersionResourceMappingsRequest & RegionInput,
   ListAppVersionResourceMappingsResponse,
   ListAppVersionResourceMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -2737,6 +2825,8 @@ export const listAppVersionResourceMappings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersionResourceMappings",
 })) as any;
 
 export type ListAppVersionResourcesError =
@@ -2751,7 +2841,7 @@ export type ListAppVersionResourcesError =
  * Lists all the resources in an Resilience Hub application.
  */
 export const listAppVersionResources: API.PaginatedOperationMethod<
-  ListAppVersionResourcesRequest,
+  ListAppVersionResourcesRequest & RegionInput,
   ListAppVersionResourcesResponse,
   ListAppVersionResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2775,6 +2865,8 @@ export const listAppVersionResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersionResources",
 })) as any;
 
 export type ListAppVersionsError =
@@ -2787,7 +2879,7 @@ export type ListAppVersionsError =
  * Lists the different versions for the Resilience Hub applications.
  */
 export const listAppVersions: API.PaginatedOperationMethod<
-  ListAppVersionsRequest,
+  ListAppVersionsRequest & RegionInput,
   ListAppVersionsResponse,
   ListAppVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2809,6 +2901,8 @@ export const listAppVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersions",
 })) as any;
 
 export type ListMetricsError =
@@ -2821,7 +2915,7 @@ export type ListMetricsError =
  * Lists the metrics that can be exported.
  */
 export const listMetrics: API.PaginatedOperationMethod<
-  ListMetricsRequest,
+  ListMetricsRequest & RegionInput,
   ListMetricsResponse,
   ListMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -2844,6 +2938,8 @@ export const listMetrics: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetrics",
 })) as any;
 
 export type ListRecommendationTemplatesError =
@@ -2856,7 +2952,7 @@ export type ListRecommendationTemplatesError =
  * Lists the recommendation templates for the Resilience Hub applications.
  */
 export const listRecommendationTemplates: API.PaginatedOperationMethod<
-  ListRecommendationTemplatesRequest,
+  ListRecommendationTemplatesRequest & RegionInput,
   ListRecommendationTemplatesResponse,
   ListRecommendationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2878,6 +2974,8 @@ export const listRecommendationTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendationTemplates",
 })) as any;
 
 export type ListResiliencyPoliciesError =
@@ -2891,7 +2989,7 @@ export type ListResiliencyPoliciesError =
  * Lists the resiliency policies for the Resilience Hub applications.
  */
 export const listResiliencyPolicies: API.PaginatedOperationMethod<
-  ListResiliencyPoliciesRequest,
+  ListResiliencyPoliciesRequest & RegionInput,
   ListResiliencyPoliciesResponse,
   ListResiliencyPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2914,6 +3012,8 @@ export const listResiliencyPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResiliencyPolicies",
 })) as any;
 
 export type ListResourceGroupingRecommendationsError =
@@ -2927,7 +3027,7 @@ export type ListResourceGroupingRecommendationsError =
  * Lists the resource grouping recommendations suggested by Resilience Hub for your application.
  */
 export const listResourceGroupingRecommendations: API.PaginatedOperationMethod<
-  ListResourceGroupingRecommendationsRequest,
+  ListResourceGroupingRecommendationsRequest & RegionInput,
   ListResourceGroupingRecommendationsResponse,
   ListResourceGroupingRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -2951,6 +3051,8 @@ export const listResourceGroupingRecommendations: API.PaginatedOperationMethod<
     items: "groupingRecommendations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceGroupingRecommendations",
 })) as any;
 
 export type ListSopRecommendationsError =
@@ -2965,7 +3067,7 @@ export type ListSopRecommendationsError =
  * Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
  */
 export const listSopRecommendations: API.PaginatedOperationMethod<
-  ListSopRecommendationsRequest,
+  ListSopRecommendationsRequest & RegionInput,
   ListSopRecommendationsResponse,
   ListSopRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -2989,6 +3091,8 @@ export const listSopRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSopRecommendations",
 })) as any;
 
 export type ListSuggestedResiliencyPoliciesError =
@@ -3003,7 +3107,7 @@ export type ListSuggestedResiliencyPoliciesError =
  * applications.
  */
 export const listSuggestedResiliencyPolicies: API.PaginatedOperationMethod<
-  ListSuggestedResiliencyPoliciesRequest,
+  ListSuggestedResiliencyPoliciesRequest & RegionInput,
   ListSuggestedResiliencyPoliciesResponse,
   ListSuggestedResiliencyPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3026,6 +3130,8 @@ export const listSuggestedResiliencyPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuggestedResiliencyPolicies",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3039,7 +3145,7 @@ export type ListTagsForResourceError =
  * Lists the tags for your resources in your Resilience Hub applications.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3056,6 +3162,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTestRecommendationsError =
@@ -3070,7 +3178,7 @@ export type ListTestRecommendationsError =
  * Lists the test recommendations for the Resilience Hub application.
  */
 export const listTestRecommendations: API.PaginatedOperationMethod<
-  ListTestRecommendationsRequest,
+  ListTestRecommendationsRequest & RegionInput,
   ListTestRecommendationsResponse,
   ListTestRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -3094,6 +3202,8 @@ export const listTestRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestRecommendations",
 })) as any;
 
 export type ListUnsupportedAppVersionResourcesError =
@@ -3110,7 +3220,7 @@ export type ListUnsupportedAppVersionResourcesError =
  * but is not supported by Resilience Hub.
  */
 export const listUnsupportedAppVersionResources: API.PaginatedOperationMethod<
-  ListUnsupportedAppVersionResourcesRequest,
+  ListUnsupportedAppVersionResourcesRequest & RegionInput,
   ListUnsupportedAppVersionResourcesResponse,
   ListUnsupportedAppVersionResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3134,6 +3244,8 @@ export const listUnsupportedAppVersionResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUnsupportedAppVersionResources",
 })) as any;
 
 export type PublishAppVersionError =
@@ -3148,7 +3260,7 @@ export type PublishAppVersionError =
  * Publishes a new version of a specific Resilience Hub application.
  */
 export const publishAppVersion: API.OperationMethod<
-  PublishAppVersionRequest,
+  PublishAppVersionRequest & RegionInput,
   PublishAppVersionResponse,
   PublishAppVersionError,
   Credentials | HttpClient.HttpClient
@@ -3166,6 +3278,8 @@ export const publishAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishAppVersion",
+  telemetry: TELEMETRY,
+  span: "PublishAppVersion",
 }));
 
 export type PutDraftAppVersionTemplateError =
@@ -3181,7 +3295,7 @@ export type PutDraftAppVersionTemplateError =
  * version.
  */
 export const putDraftAppVersionTemplate: API.OperationMethod<
-  PutDraftAppVersionTemplateRequest,
+  PutDraftAppVersionTemplateRequest & RegionInput,
   PutDraftAppVersionTemplateResponse,
   PutDraftAppVersionTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3199,6 +3313,8 @@ export const putDraftAppVersionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDraftAppVersionTemplate",
+  telemetry: TELEMETRY,
+  span: "PutDraftAppVersionTemplate",
 }));
 
 export type RejectResourceGroupingRecommendationsError =
@@ -3212,7 +3328,7 @@ export type RejectResourceGroupingRecommendationsError =
  * Rejects resource grouping recommendations.
  */
 export const rejectResourceGroupingRecommendations: API.OperationMethod<
-  RejectResourceGroupingRecommendationsRequest,
+  RejectResourceGroupingRecommendationsRequest & RegionInput,
   RejectResourceGroupingRecommendationsResponse,
   RejectResourceGroupingRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -3229,6 +3345,8 @@ export const rejectResourceGroupingRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectResourceGroupingRecommendations",
+  telemetry: TELEMETRY,
+  span: "RejectResourceGroupingRecommendations",
 }));
 
 export type RemoveDraftAppVersionResourceMappingsError =
@@ -3243,7 +3361,7 @@ export type RemoveDraftAppVersionResourceMappingsError =
  * Removes resource mappings from a draft application version.
  */
 export const removeDraftAppVersionResourceMappings: API.OperationMethod<
-  RemoveDraftAppVersionResourceMappingsRequest,
+  RemoveDraftAppVersionResourceMappingsRequest & RegionInput,
   RemoveDraftAppVersionResourceMappingsResponse,
   RemoveDraftAppVersionResourceMappingsError,
   Credentials | HttpClient.HttpClient
@@ -3261,6 +3379,8 @@ export const removeDraftAppVersionResourceMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveDraftAppVersionResourceMappings",
+  telemetry: TELEMETRY,
+  span: "RemoveDraftAppVersionResourceMappings",
 }));
 
 export type ResolveAppVersionResourcesError =
@@ -3275,7 +3395,7 @@ export type ResolveAppVersionResourcesError =
  * Resolves the resources for an application version.
  */
 export const resolveAppVersionResources: API.OperationMethod<
-  ResolveAppVersionResourcesRequest,
+  ResolveAppVersionResourcesRequest & RegionInput,
   ResolveAppVersionResourcesResponse,
   ResolveAppVersionResourcesError,
   Credentials | HttpClient.HttpClient
@@ -3293,6 +3413,8 @@ export const resolveAppVersionResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveAppVersionResources",
+  telemetry: TELEMETRY,
+  span: "ResolveAppVersionResources",
 }));
 
 export type StartAppAssessmentError =
@@ -3308,7 +3430,7 @@ export type StartAppAssessmentError =
  * Creates a new application assessment for an application.
  */
 export const startAppAssessment: API.OperationMethod<
-  StartAppAssessmentRequest,
+  StartAppAssessmentRequest & RegionInput,
   StartAppAssessmentResponse,
   StartAppAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -3327,6 +3449,8 @@ export const startAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAppAssessment",
+  telemetry: TELEMETRY,
+  span: "StartAppAssessment",
 }));
 
 export type StartMetricsExportError =
@@ -3341,7 +3465,7 @@ export type StartMetricsExportError =
  * Initiates the export task of metrics.
  */
 export const startMetricsExport: API.OperationMethod<
-  StartMetricsExportRequest,
+  StartMetricsExportRequest & RegionInput,
   StartMetricsExportResponse,
   StartMetricsExportError,
   Credentials | HttpClient.HttpClient
@@ -3359,6 +3483,8 @@ export const startMetricsExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetricsExport",
+  telemetry: TELEMETRY,
+  span: "StartMetricsExport",
 }));
 
 export type StartResourceGroupingRecommendationTaskError =
@@ -3373,7 +3499,7 @@ export type StartResourceGroupingRecommendationTaskError =
  * Starts grouping recommendation task.
  */
 export const startResourceGroupingRecommendationTask: API.OperationMethod<
-  StartResourceGroupingRecommendationTaskRequest,
+  StartResourceGroupingRecommendationTaskRequest & RegionInput,
   StartResourceGroupingRecommendationTaskResponse,
   StartResourceGroupingRecommendationTaskError,
   Credentials | HttpClient.HttpClient
@@ -3391,6 +3517,8 @@ export const startResourceGroupingRecommendationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceGroupingRecommendationTask",
+  telemetry: TELEMETRY,
+  span: "StartResourceGroupingRecommendationTask",
 }));
 
 export type TagResourceError =
@@ -3404,7 +3532,7 @@ export type TagResourceError =
  * Applies one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3421,6 +3549,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3434,7 +3564,7 @@ export type UntagResourceError =
  * Removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3451,6 +3581,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppError =
@@ -3465,7 +3597,7 @@ export type UpdateAppError =
  * Updates an application.
  */
 export const updateApp: API.OperationMethod<
-  UpdateAppRequest,
+  UpdateAppRequest & RegionInput,
   UpdateAppResponse,
   UpdateAppError,
   Credentials | HttpClient.HttpClient
@@ -3483,6 +3615,8 @@ export const updateApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApp",
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateAppVersionError =
@@ -3501,7 +3635,7 @@ export type UpdateAppVersionError =
  * application using the `PublishAppVersion` API.
  */
 export const updateAppVersion: API.OperationMethod<
-  UpdateAppVersionRequest,
+  UpdateAppVersionRequest & RegionInput,
   UpdateAppVersionResponse,
   UpdateAppVersionError,
   Credentials | HttpClient.HttpClient
@@ -3519,6 +3653,8 @@ export const updateAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateAppVersion",
 }));
 
 export type UpdateAppVersionAppComponentError =
@@ -3537,7 +3673,7 @@ export type UpdateAppVersionAppComponentError =
  * application using the `PublishAppVersion` API.
  */
 export const updateAppVersionAppComponent: API.OperationMethod<
-  UpdateAppVersionAppComponentRequest,
+  UpdateAppVersionAppComponentRequest & RegionInput,
   UpdateAppVersionAppComponentResponse,
   UpdateAppVersionAppComponentError,
   Credentials | HttpClient.HttpClient
@@ -3555,6 +3691,8 @@ export const updateAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateAppVersionAppComponent",
 }));
 
 export type UpdateAppVersionResourceError =
@@ -3579,7 +3717,7 @@ export type UpdateAppVersionResourceError =
  * call `ResolveAppVersionResources` API.
  */
 export const updateAppVersionResource: API.OperationMethod<
-  UpdateAppVersionResourceRequest,
+  UpdateAppVersionResourceRequest & RegionInput,
   UpdateAppVersionResourceResponse,
   UpdateAppVersionResourceError,
   Credentials | HttpClient.HttpClient
@@ -3598,6 +3736,8 @@ export const updateAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "UpdateAppVersionResource",
 }));
 
 export type UpdateResiliencyPolicyError =
@@ -3620,7 +3760,7 @@ export type UpdateResiliencyPolicyError =
  * breached.
  */
 export const updateResiliencyPolicy: API.OperationMethod<
-  UpdateResiliencyPolicyRequest,
+  UpdateResiliencyPolicyRequest & RegionInput,
   UpdateResiliencyPolicyResponse,
   UpdateResiliencyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3638,6 +3778,8 @@ export const updateResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateResiliencyPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

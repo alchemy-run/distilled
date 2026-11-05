@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "WorkspaceService",
+  propagate: "w3c",
+} as const;
+
 export interface GetWorkspaceDashboardUrlRequest {
   environmentName?: string;
 }
@@ -122,6 +134,8 @@ export const getWorkspaceDashboardUrl: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceDashboardUrl",
 }));
 
 export type ListWorkspaceMembersError = ModalOpError;
@@ -136,6 +150,8 @@ export const listWorkspaceMembers: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceMembers",
 }));
 
 export type LookupWorkspaceNameError = ModalOpError;
@@ -150,6 +166,8 @@ export const lookupWorkspaceName: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupWorkspaceName",
 }));
 
 export type WorkspaceBillingRatesError = ModalOpError;
@@ -165,6 +183,8 @@ export const workspaceBillingRates: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceBillingRates",
 }));
 
 export type WorkspaceBillingSummaryError = ModalOpError;
@@ -179,6 +199,8 @@ export const workspaceBillingSummary: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceBillingSummary",
 }));
 
 export type WorkspaceSetDefaultEnvironmentError = ModalOpError;
@@ -193,6 +215,8 @@ export const workspaceSetDefaultEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceSetDefaultEnvironment",
 }));
 
 export type WorkspaceSetDefaultEnvironmentSettingsError = ModalOpError;
@@ -207,6 +231,8 @@ export const workspaceSetDefaultEnvironmentSettings: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceSetDefaultEnvironmentSettings",
 }));
 
 export type WorkspaceSetImageBuilderVersionError = ModalOpError;
@@ -221,6 +247,8 @@ export const workspaceSetImageBuilderVersion: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceSetImageBuilderVersion",
 }));
 
 export type WorkspaceSettingsError = ModalOpError;
@@ -235,6 +263,8 @@ export const workspaceSettings: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

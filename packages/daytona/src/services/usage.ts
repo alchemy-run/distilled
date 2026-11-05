@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Usage",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface GetOrganizationUsageAggregatedRequest {
   /** Organization ID */
   organizationId: string;
@@ -104,6 +117,8 @@ export const getOrganizationUsageAggregated: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationUsageAggregated",
 }));
 
 export type ListOrganizationSandboxUsageError = DaytonaOpError;
@@ -119,6 +134,8 @@ export const listOrganizationSandboxUsage: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSandboxUsage",
 }));
 
 export type ListOrganizationUsageChartError = DaytonaOpError;
@@ -134,6 +151,8 @@ export const listOrganizationUsageChart: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationUsageChart",
 }));
 
 export type ListOrganizationUsageSandboxError = DaytonaOpError;
@@ -149,6 +168,8 @@ export const listOrganizationUsageSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationUsageSandbox",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

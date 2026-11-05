@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoPackage",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -332,6 +345,8 @@ export const deletePackage: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackage",
 }));
 
 export type GetPackageError = NotFound | ForgejoOpError;
@@ -347,6 +362,8 @@ export const getPackage: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackage",
 }));
 
 export type LinkPackageError = NotFound | ForgejoOpError;
@@ -362,6 +379,8 @@ export const linkPackage: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkPackage",
 }));
 
 export type ListPackageFilesError = NotFound | ForgejoOpError;
@@ -377,6 +396,8 @@ export const listPackageFiles: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackageFiles",
 }));
 
 export type ListPackagesError = NotFound | ForgejoOpError;
@@ -392,6 +413,8 @@ export const listPackages: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackages",
 }));
 
 export type UnlinkPackageError = NotFound | ForgejoOpError;
@@ -407,6 +430,8 @@ export const unlinkPackage: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkPackage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

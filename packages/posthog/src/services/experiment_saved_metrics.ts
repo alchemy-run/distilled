@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ExperimentSavedMetrics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -177,6 +190,8 @@ export const createExperimentSavedMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentSavedMetrics",
 }));
 
 export type ExperimentSavedMetricsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -191,6 +206,8 @@ export const experimentSavedMetricsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentSavedMetricsDestroy",
 }));
 
 export type GetExperimentSavedMetricsError = Forbidden | NotFound | PosthogOpError;
@@ -205,6 +222,8 @@ export const getExperimentSavedMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentSavedMetrics",
 }));
 
 export type ListExperimentSavedMetricsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -219,6 +238,8 @@ export const listExperimentSavedMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentSavedMetrics",
 }));
 
 export type UpdateExperimentSavedMetricsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -233,6 +254,8 @@ export const updateExperimentSavedMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentSavedMetrics",
 }));
 
 export type UpdateExperimentSavedMetricsPartialError =
@@ -251,6 +274,8 @@ export const updateExperimentSavedMetricsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentSavedMetricsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

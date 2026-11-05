@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudsearch.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudSearch",
+  service: "CloudSearch",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BaseException
   extends /*@__PURE__*/ S.TaggedError<BaseException>()("BaseException", {
@@ -657,7 +674,7 @@ export type BuildSuggestersError =
  * Indexes the search suggestions. For more information, see Configuring Suggesters in the *Amazon CloudSearch Developer Guide*.
  */
 export const buildSuggesters: API.OperationMethod<
-  BuildSuggestersRequest,
+  BuildSuggestersRequest & RegionInput,
   BuildSuggestersResponse,
   BuildSuggestersError,
   Credentials | HttpClient.HttpClient
@@ -668,6 +685,8 @@ export const buildSuggesters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BuildSuggesters",
+  telemetry: TELEMETRY,
+  span: "BuildSuggesters",
 }));
 
 export type CreateDomainError =
@@ -682,7 +701,7 @@ export type CreateDomainError =
  * see Creating a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -699,6 +718,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type DefineAnalysisSchemeError =
@@ -713,7 +734,7 @@ export type DefineAnalysisSchemeError =
  * Configures an analysis scheme that can be applied to a `text` or `text-array` field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineAnalysisScheme: API.OperationMethod<
-  DefineAnalysisSchemeRequest,
+  DefineAnalysisSchemeRequest & RegionInput,
   DefineAnalysisSchemeResponse,
   DefineAnalysisSchemeError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +752,8 @@ export const defineAnalysisScheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineAnalysisScheme",
+  telemetry: TELEMETRY,
+  span: "DefineAnalysisScheme",
 }));
 
 export type DefineExpressionError =
@@ -745,7 +768,7 @@ export type DefineExpressionError =
  * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineExpression: API.OperationMethod<
-  DefineExpressionRequest,
+  DefineExpressionRequest & RegionInput,
   DefineExpressionResponse,
   DefineExpressionError,
   Credentials | HttpClient.HttpClient
@@ -763,6 +786,8 @@ export const defineExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineExpression",
+  telemetry: TELEMETRY,
+  span: "DefineExpression",
 }));
 
 export type DefineIndexFieldError =
@@ -777,7 +802,7 @@ export type DefineIndexFieldError =
  * Configures an `IndexField` for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the `IndexFieldType`. If the field exists, the new configuration replaces the old one. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineIndexField: API.OperationMethod<
-  DefineIndexFieldRequest,
+  DefineIndexFieldRequest & RegionInput,
   DefineIndexFieldResponse,
   DefineIndexFieldError,
   Credentials | HttpClient.HttpClient
@@ -795,6 +820,8 @@ export const defineIndexField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineIndexField",
+  telemetry: TELEMETRY,
+  span: "DefineIndexField",
 }));
 
 export type DefineSuggesterError =
@@ -809,7 +836,7 @@ export type DefineSuggesterError =
  * Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const defineSuggester: API.OperationMethod<
-  DefineSuggesterRequest,
+  DefineSuggesterRequest & RegionInput,
   DefineSuggesterResponse,
   DefineSuggesterError,
   Credentials | HttpClient.HttpClient
@@ -827,6 +854,8 @@ export const defineSuggester: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineSuggester",
+  telemetry: TELEMETRY,
+  span: "DefineSuggester",
 }));
 
 export type DeleteAnalysisSchemeError =
@@ -840,7 +869,7 @@ export type DeleteAnalysisSchemeError =
  * Deletes an analysis scheme. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteAnalysisScheme: API.OperationMethod<
-  DeleteAnalysisSchemeRequest,
+  DeleteAnalysisSchemeRequest & RegionInput,
   DeleteAnalysisSchemeResponse,
   DeleteAnalysisSchemeError,
   Credentials | HttpClient.HttpClient
@@ -857,6 +886,8 @@ export const deleteAnalysisScheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysisScheme",
+  telemetry: TELEMETRY,
+  span: "DeleteAnalysisScheme",
 }));
 
 export type DeleteDomainError = BaseException | InternalException | CommonErrors;
@@ -865,7 +896,7 @@ export type DeleteDomainError = BaseException | InternalException | CommonErrors
  * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -876,6 +907,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteExpressionError =
@@ -889,7 +922,7 @@ export type DeleteExpressionError =
  * Removes an `Expression` from the search domain. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteExpression: API.OperationMethod<
-  DeleteExpressionRequest,
+  DeleteExpressionRequest & RegionInput,
   DeleteExpressionResponse,
   DeleteExpressionError,
   Credentials | HttpClient.HttpClient
@@ -906,6 +939,8 @@ export const deleteExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExpression",
+  telemetry: TELEMETRY,
+  span: "DeleteExpression",
 }));
 
 export type DeleteIndexFieldError =
@@ -919,7 +954,7 @@ export type DeleteIndexFieldError =
  * Removes an `IndexField` from the search domain. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteIndexField: API.OperationMethod<
-  DeleteIndexFieldRequest,
+  DeleteIndexFieldRequest & RegionInput,
   DeleteIndexFieldResponse,
   DeleteIndexFieldError,
   Credentials | HttpClient.HttpClient
@@ -936,6 +971,8 @@ export const deleteIndexField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndexField",
+  telemetry: TELEMETRY,
+  span: "DeleteIndexField",
 }));
 
 export type DeleteSuggesterError =
@@ -949,7 +986,7 @@ export type DeleteSuggesterError =
  * Deletes a suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const deleteSuggester: API.OperationMethod<
-  DeleteSuggesterRequest,
+  DeleteSuggesterRequest & RegionInput,
   DeleteSuggesterResponse,
   DeleteSuggesterError,
   Credentials | HttpClient.HttpClient
@@ -966,6 +1003,8 @@ export const deleteSuggester: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSuggester",
+  telemetry: TELEMETRY,
+  span: "DeleteSuggester",
 }));
 
 export type DescribeAnalysisSchemesError =
@@ -977,7 +1016,7 @@ export type DescribeAnalysisSchemesError =
  * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeAnalysisSchemes: API.OperationMethod<
-  DescribeAnalysisSchemesRequest,
+  DescribeAnalysisSchemesRequest & RegionInput,
   DescribeAnalysisSchemesResponse,
   DescribeAnalysisSchemesError,
   Credentials | HttpClient.HttpClient
@@ -988,6 +1027,8 @@ export const describeAnalysisSchemes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysisSchemes",
+  telemetry: TELEMETRY,
+  span: "DescribeAnalysisSchemes",
 }));
 
 export type DescribeAvailabilityOptionsError =
@@ -1002,7 +1043,7 @@ export type DescribeAvailabilityOptionsError =
  * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeAvailabilityOptions: API.OperationMethod<
-  DescribeAvailabilityOptionsRequest,
+  DescribeAvailabilityOptionsRequest & RegionInput,
   DescribeAvailabilityOptionsResponse,
   DescribeAvailabilityOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1020,6 +1061,8 @@ export const describeAvailabilityOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAvailabilityOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeAvailabilityOptions",
 }));
 
 export type DescribeDomainEndpointOptionsError =
@@ -1033,7 +1076,7 @@ export type DescribeDomainEndpointOptionsError =
  * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeDomainEndpointOptions: API.OperationMethod<
-  DescribeDomainEndpointOptionsRequest,
+  DescribeDomainEndpointOptionsRequest & RegionInput,
   DescribeDomainEndpointOptionsResponse,
   DescribeDomainEndpointOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1050,6 +1093,8 @@ export const describeDomainEndpointOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainEndpointOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainEndpointOptions",
 }));
 
 export type DescribeDomainsError = BaseException | InternalException | CommonErrors;
@@ -1059,7 +1104,7 @@ export type DescribeDomainsError = BaseException | InternalException | CommonErr
  * see Getting Information about a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeDomains: API.OperationMethod<
-  DescribeDomainsRequest,
+  DescribeDomainsRequest & RegionInput,
   DescribeDomainsResponse,
   DescribeDomainsError,
   Credentials | HttpClient.HttpClient
@@ -1070,6 +1115,8 @@ export const describeDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomains",
+  telemetry: TELEMETRY,
+  span: "DescribeDomains",
 }));
 
 export type DescribeExpressionsError =
@@ -1081,7 +1128,7 @@ export type DescribeExpressionsError =
  * Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeExpressions: API.OperationMethod<
-  DescribeExpressionsRequest,
+  DescribeExpressionsRequest & RegionInput,
   DescribeExpressionsResponse,
   DescribeExpressionsError,
   Credentials | HttpClient.HttpClient
@@ -1092,6 +1139,8 @@ export const describeExpressions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExpressions",
+  telemetry: TELEMETRY,
+  span: "DescribeExpressions",
 }));
 
 export type DescribeIndexFieldsError =
@@ -1105,7 +1154,7 @@ export type DescribeIndexFieldsError =
  * see Getting Domain Information in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeIndexFields: API.OperationMethod<
-  DescribeIndexFieldsRequest,
+  DescribeIndexFieldsRequest & RegionInput,
   DescribeIndexFieldsResponse,
   DescribeIndexFieldsError,
   Credentials | HttpClient.HttpClient
@@ -1116,6 +1165,8 @@ export const describeIndexFields: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndexFields",
+  telemetry: TELEMETRY,
+  span: "DescribeIndexFields",
 }));
 
 export type DescribeScalingParametersError =
@@ -1127,7 +1178,7 @@ export type DescribeScalingParametersError =
  * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeScalingParameters: API.OperationMethod<
-  DescribeScalingParametersRequest,
+  DescribeScalingParametersRequest & RegionInput,
   DescribeScalingParametersResponse,
   DescribeScalingParametersError,
   Credentials | HttpClient.HttpClient
@@ -1138,6 +1189,8 @@ export const describeScalingParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeScalingParameters",
 }));
 
 export type DescribeServiceAccessPoliciesError =
@@ -1150,7 +1203,7 @@ export type DescribeServiceAccessPoliciesError =
  * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeServiceAccessPolicies: API.OperationMethod<
-  DescribeServiceAccessPoliciesRequest,
+  DescribeServiceAccessPoliciesRequest & RegionInput,
   DescribeServiceAccessPoliciesResponse,
   DescribeServiceAccessPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -1161,6 +1214,8 @@ export const describeServiceAccessPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceAccessPolicies",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceAccessPolicies",
 }));
 
 export type DescribeSuggestersError =
@@ -1172,7 +1227,7 @@ export type DescribeSuggestersError =
  * Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
 export const describeSuggesters: API.OperationMethod<
-  DescribeSuggestersRequest,
+  DescribeSuggestersRequest & RegionInput,
   DescribeSuggestersResponse,
   DescribeSuggestersError,
   Credentials | HttpClient.HttpClient
@@ -1183,6 +1238,8 @@ export const describeSuggesters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSuggesters",
+  telemetry: TELEMETRY,
+  span: "DescribeSuggesters",
 }));
 
 export type IndexDocumentsError =
@@ -1195,7 +1252,7 @@ export type IndexDocumentsError =
  * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
  */
 export const indexDocuments: API.OperationMethod<
-  IndexDocumentsRequest,
+  IndexDocumentsRequest & RegionInput,
   IndexDocumentsResponse,
   IndexDocumentsError,
   Credentials | HttpClient.HttpClient
@@ -1206,6 +1263,8 @@ export const indexDocuments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IndexDocuments",
+  telemetry: TELEMETRY,
+  span: "IndexDocuments",
 }));
 
 export type ListDomainNamesError = BaseException | CommonErrors;
@@ -1213,7 +1272,7 @@ export type ListDomainNamesError = BaseException | CommonErrors;
  * Lists all search domains owned by an account.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -1224,6 +1283,8 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 }));
 
 export type UpdateAvailabilityOptionsError =
@@ -1239,7 +1300,7 @@ export type UpdateAvailabilityOptionsError =
  * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const updateAvailabilityOptions: API.OperationMethod<
-  UpdateAvailabilityOptionsRequest,
+  UpdateAvailabilityOptionsRequest & RegionInput,
   UpdateAvailabilityOptionsResponse,
   UpdateAvailabilityOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1258,6 +1319,8 @@ export const updateAvailabilityOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAvailabilityOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateAvailabilityOptions",
 }));
 
 export type UpdateDomainEndpointOptionsError =
@@ -1273,7 +1336,7 @@ export type UpdateDomainEndpointOptionsError =
  * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const updateDomainEndpointOptions: API.OperationMethod<
-  UpdateDomainEndpointOptionsRequest,
+  UpdateDomainEndpointOptionsRequest & RegionInput,
   UpdateDomainEndpointOptionsResponse,
   UpdateDomainEndpointOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1292,6 +1355,8 @@ export const updateDomainEndpointOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainEndpointOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainEndpointOptions",
 }));
 
 export type UpdateScalingParametersError =
@@ -1306,7 +1371,7 @@ export type UpdateScalingParametersError =
  * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const updateScalingParameters: API.OperationMethod<
-  UpdateScalingParametersRequest,
+  UpdateScalingParametersRequest & RegionInput,
   UpdateScalingParametersResponse,
   UpdateScalingParametersError,
   Credentials | HttpClient.HttpClient
@@ -1324,6 +1389,8 @@ export const updateScalingParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScalingParameters",
+  telemetry: TELEMETRY,
+  span: "UpdateScalingParameters",
 }));
 
 export type UpdateServiceAccessPoliciesError =
@@ -1340,7 +1407,7 @@ export type UpdateServiceAccessPoliciesError =
  * Configuring Access for an Amazon CloudSearch Domain.
  */
 export const updateServiceAccessPolicies: API.OperationMethod<
-  UpdateServiceAccessPoliciesRequest,
+  UpdateServiceAccessPoliciesRequest & RegionInput,
   UpdateServiceAccessPoliciesResponse,
   UpdateServiceAccessPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -1358,6 +1425,8 @@ export const updateServiceAccessPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAccessPolicies",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAccessPolicies",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

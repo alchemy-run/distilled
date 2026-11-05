@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Emaildomain",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All reasons you can provide for a service termination */
 export type ServiceTerminationReasonEnum =
   | "FEATURES_DONT_SUIT_ME"
@@ -1462,6 +1476,8 @@ export const confirmEmailDomainTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmEmailDomainTermination",
 }));
 
 export type CreateEmailDomainAccountError = OvhOpError;
@@ -1477,6 +1493,8 @@ export const createEmailDomainAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAccount",
 }));
 
 export type CreateEmailDomainAccountChangePasswordError = OvhOpError;
@@ -1492,6 +1510,8 @@ export const createEmailDomainAccountChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAccountChangePassword",
 }));
 
 export type CreateEmailDomainAccountDelegationError = OvhOpError;
@@ -1507,6 +1527,8 @@ export const createEmailDomainAccountDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAccountDelegation",
 }));
 
 export type CreateEmailDomainAccountFilterError = OvhOpError;
@@ -1522,6 +1544,8 @@ export const createEmailDomainAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAccountFilter",
 }));
 
 export type CreateEmailDomainAccountFilterChangeActivityError = OvhOpError;
@@ -1537,6 +1561,8 @@ export const createEmailDomainAccountFilterChangeActivity: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAccountFilterChangeActivity",
 }));
 
 export type CreateEmailDomainAccountFilterChangePriorityError = OvhOpError;
@@ -1552,6 +1578,8 @@ export const createEmailDomainAccountFilterChangePriority: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAccountFilterChangePriority",
 }));
 
 export type CreateEmailDomainAccountFilterRuleError = OvhOpError;
@@ -1567,6 +1595,8 @@ export const createEmailDomainAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAccountFilterRule",
 }));
 
 export type CreateEmailDomainAclError = OvhOpError;
@@ -1582,6 +1612,8 @@ export const createEmailDomainAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainAcl",
 }));
 
 export type CreateEmailDomainChangeContactError = OvhOpError;
@@ -1597,6 +1629,8 @@ export const createEmailDomainChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainChangeContact",
 }));
 
 export type CreateEmailDomainChangeDnsMXFilterError = OvhOpError;
@@ -1612,6 +1646,8 @@ export const createEmailDomainChangeDnsMXFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainChangeDnsMXFilter",
 }));
 
 export type CreateEmailDomainDelegatedAccountChangePasswordError = OvhOpError;
@@ -1631,6 +1667,8 @@ export const createEmailDomainDelegatedAccountChangePassword: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainDelegatedAccountChangePassword",
 }));
 
 export type CreateEmailDomainDelegatedAccountFilterError = OvhOpError;
@@ -1646,6 +1684,8 @@ export const createEmailDomainDelegatedAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainDelegatedAccountFilter",
 }));
 
 export type CreateEmailDomainDelegatedAccountFilterChangeActivityError = OvhOpError;
@@ -1665,6 +1705,8 @@ export const createEmailDomainDelegatedAccountFilterChangeActivity: API.Operatio
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainDelegatedAccountFilterChangeActivity",
 }));
 
 export type CreateEmailDomainDelegatedAccountFilterChangePriorityError = OvhOpError;
@@ -1684,6 +1726,8 @@ export const createEmailDomainDelegatedAccountFilterChangePriority: API.Operatio
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainDelegatedAccountFilterChangePriority",
 }));
 
 export type CreateEmailDomainDelegatedAccountFilterRuleError = OvhOpError;
@@ -1699,6 +1743,8 @@ export const createEmailDomainDelegatedAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainDelegatedAccountFilterRule",
 }));
 
 export type CreateEmailDomainDelegatedAccountResponderError = OvhOpError;
@@ -1714,6 +1760,8 @@ export const createEmailDomainDelegatedAccountResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainDelegatedAccountResponder",
 }));
 
 export type CreateEmailDomainDelegatedAccountUsageError = OvhOpError;
@@ -1729,6 +1777,8 @@ export const createEmailDomainDelegatedAccountUsage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainDelegatedAccountUsage",
 }));
 
 export type CreateEmailDomainMailingListError = OvhOpError;
@@ -1744,6 +1794,8 @@ export const createEmailDomainMailingList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainMailingList",
 }));
 
 export type CreateEmailDomainMailingListChangeOptionError = OvhOpError;
@@ -1759,6 +1811,8 @@ export const createEmailDomainMailingListChangeOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainMailingListChangeOption",
 }));
 
 export type CreateEmailDomainMailingListModeratorError = OvhOpError;
@@ -1774,6 +1828,8 @@ export const createEmailDomainMailingListModerator: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainMailingListModerator",
 }));
 
 export type CreateEmailDomainMailingListSubscriberError = OvhOpError;
@@ -1789,6 +1845,8 @@ export const createEmailDomainMailingListSubscriber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainMailingListSubscriber",
 }));
 
 export type CreateEmailDomainRedirectionError = OvhOpError;
@@ -1804,6 +1862,8 @@ export const createEmailDomainRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainRedirection",
 }));
 
 export type CreateEmailDomainRedirectionChangeRedirectionError = OvhOpError;
@@ -1823,6 +1883,8 @@ export const createEmailDomainRedirectionChangeRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainRedirectionChangeRedirection",
 }));
 
 export type CreateEmailDomainResponderError = OvhOpError;
@@ -1838,6 +1900,8 @@ export const createEmailDomainResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomainResponder",
 }));
 
 export type DeleteEmailDomainAccountError = OvhOpError;
@@ -1853,6 +1917,8 @@ export const deleteEmailDomainAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainAccount",
 }));
 
 export type DeleteEmailDomainAccountDelegationError = OvhOpError;
@@ -1868,6 +1934,8 @@ export const deleteEmailDomainAccountDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainAccountDelegation",
 }));
 
 export type DeleteEmailDomainAccountFilterError = OvhOpError;
@@ -1883,6 +1951,8 @@ export const deleteEmailDomainAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainAccountFilter",
 }));
 
 export type DeleteEmailDomainAccountFilterRuleError = OvhOpError;
@@ -1898,6 +1968,8 @@ export const deleteEmailDomainAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainAccountFilterRule",
 }));
 
 export type DeleteEmailDomainAclError = OvhOpError;
@@ -1913,6 +1985,8 @@ export const deleteEmailDomainAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainAcl",
 }));
 
 export type DeleteEmailDomainDelegatedAccountFilterError = OvhOpError;
@@ -1928,6 +2002,8 @@ export const deleteEmailDomainDelegatedAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainDelegatedAccountFilter",
 }));
 
 export type DeleteEmailDomainDelegatedAccountFilterRuleError = OvhOpError;
@@ -1947,6 +2023,8 @@ export const deleteEmailDomainDelegatedAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainDelegatedAccountFilterRule",
 }));
 
 export type DeleteEmailDomainDelegatedAccountResponderError = OvhOpError;
@@ -1962,6 +2040,8 @@ export const deleteEmailDomainDelegatedAccountResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainDelegatedAccountResponder",
 }));
 
 export type DeleteEmailDomainMailingListError = OvhOpError;
@@ -1977,6 +2057,8 @@ export const deleteEmailDomainMailingList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainMailingList",
 }));
 
 export type DeleteEmailDomainMailingListModeratorError = OvhOpError;
@@ -1992,6 +2074,8 @@ export const deleteEmailDomainMailingListModerator: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainMailingListModerator",
 }));
 
 export type DeleteEmailDomainMailingListSubscriberError = OvhOpError;
@@ -2007,6 +2091,8 @@ export const deleteEmailDomainMailingListSubscriber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainMailingListSubscriber",
 }));
 
 export type DeleteEmailDomainRedirectionError = OvhOpError;
@@ -2022,6 +2108,8 @@ export const deleteEmailDomainRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainRedirection",
 }));
 
 export type DeleteEmailDomainResponderError = OvhOpError;
@@ -2037,6 +2125,8 @@ export const deleteEmailDomainResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomainResponder",
 }));
 
 export type GetEmailDomainError = OvhOpError;
@@ -2052,6 +2142,8 @@ export const getEmailDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomain",
 }));
 
 export type GetEmailDomainAccountError = OvhOpError;
@@ -2067,6 +2159,8 @@ export const getEmailDomainAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAccount",
 }));
 
 export type GetEmailDomainAccountDelegationError = OvhOpError;
@@ -2082,6 +2176,8 @@ export const getEmailDomainAccountDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAccountDelegation",
 }));
 
 export type GetEmailDomainAccountFilterError = OvhOpError;
@@ -2097,6 +2193,8 @@ export const getEmailDomainAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAccountFilter",
 }));
 
 export type GetEmailDomainAccountFilterRuleError = OvhOpError;
@@ -2112,6 +2210,8 @@ export const getEmailDomainAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAccountFilterRule",
 }));
 
 export type GetEmailDomainAccountMigrateError = OvhOpError;
@@ -2127,6 +2227,8 @@ export const getEmailDomainAccountMigrate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAccountMigrate",
 }));
 
 export type GetEmailDomainAccountMigrateDestinationEmailAddressError = OvhOpError;
@@ -2146,6 +2248,8 @@ export const getEmailDomainAccountMigrateDestinationEmailAddress: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAccountMigrateDestinationEmailAddress",
 }));
 
 export type GetEmailDomainAccountUsageError = OvhOpError;
@@ -2161,6 +2265,8 @@ export const getEmailDomainAccountUsage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAccountUsage",
 }));
 
 export type GetEmailDomainAclError = OvhOpError;
@@ -2176,6 +2282,8 @@ export const getEmailDomainAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainAcl",
 }));
 
 export type GetEmailDomainDelegatedAccountError = OvhOpError;
@@ -2191,6 +2299,8 @@ export const getEmailDomainDelegatedAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainDelegatedAccount",
 }));
 
 export type GetEmailDomainDelegatedAccountFilterError = OvhOpError;
@@ -2206,6 +2316,8 @@ export const getEmailDomainDelegatedAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainDelegatedAccountFilter",
 }));
 
 export type GetEmailDomainDelegatedAccountFilterRuleError = OvhOpError;
@@ -2221,6 +2333,8 @@ export const getEmailDomainDelegatedAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainDelegatedAccountFilterRule",
 }));
 
 export type GetEmailDomainDelegatedAccountResponderError = OvhOpError;
@@ -2236,6 +2350,8 @@ export const getEmailDomainDelegatedAccountResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainDelegatedAccountResponder",
 }));
 
 export type GetEmailDomainDnsMXFilterError = OvhOpError;
@@ -2251,6 +2367,8 @@ export const getEmailDomainDnsMXFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainDnsMXFilter",
 }));
 
 export type GetEmailDomainMailingListError = OvhOpError;
@@ -2266,6 +2384,8 @@ export const getEmailDomainMailingList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainMailingList",
 }));
 
 export type GetEmailDomainMailingListLimitsError = OvhOpError;
@@ -2281,6 +2401,8 @@ export const getEmailDomainMailingListLimits: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainMailingListLimits",
 }));
 
 export type GetEmailDomainMailingListModeratorError = OvhOpError;
@@ -2296,6 +2418,8 @@ export const getEmailDomainMailingListModerator: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainMailingListModerator",
 }));
 
 export type GetEmailDomainMailingListSubscriberError = OvhOpError;
@@ -2311,6 +2435,8 @@ export const getEmailDomainMailingListSubscriber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainMailingListSubscriber",
 }));
 
 export type GetEmailDomainQuotaError = OvhOpError;
@@ -2326,6 +2452,8 @@ export const getEmailDomainQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainQuota",
 }));
 
 export type GetEmailDomainRedirectionError = OvhOpError;
@@ -2341,6 +2469,8 @@ export const getEmailDomainRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainRedirection",
 }));
 
 export type GetEmailDomainResponderError = OvhOpError;
@@ -2356,6 +2486,8 @@ export const getEmailDomainResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainResponder",
 }));
 
 export type GetEmailDomainServiceInfosError = OvhOpError;
@@ -2371,6 +2503,8 @@ export const getEmailDomainServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainServiceInfos",
 }));
 
 export type GetEmailDomainSummaryError = OvhOpError;
@@ -2386,6 +2520,8 @@ export const getEmailDomainSummary: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainSummary",
 }));
 
 export type GetEmailDomainTaskAccountError = OvhOpError;
@@ -2401,6 +2537,8 @@ export const getEmailDomainTaskAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainTaskAccount",
 }));
 
 export type GetEmailDomainTaskAllError = OvhOpError;
@@ -2416,6 +2554,8 @@ export const getEmailDomainTaskAll: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainTaskAll",
 }));
 
 export type GetEmailDomainTaskFilterError = OvhOpError;
@@ -2431,6 +2571,8 @@ export const getEmailDomainTaskFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainTaskFilter",
 }));
 
 export type GetEmailDomainTaskMailinglistError = OvhOpError;
@@ -2446,6 +2588,8 @@ export const getEmailDomainTaskMailinglist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainTaskMailinglist",
 }));
 
 export type GetEmailDomainTaskRedirectionError = OvhOpError;
@@ -2461,6 +2605,8 @@ export const getEmailDomainTaskRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainTaskRedirection",
 }));
 
 export type GetEmailDomainTaskResponderError = OvhOpError;
@@ -2476,6 +2622,8 @@ export const getEmailDomainTaskResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomainTaskResponder",
 }));
 
 export type ListEmailDomainError = OvhOpError;
@@ -2491,6 +2639,8 @@ export const listEmailDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomain",
 }));
 
 export type ListEmailDomainAccountError = OvhOpError;
@@ -2506,6 +2656,8 @@ export const listEmailDomainAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAccount",
 }));
 
 export type ListEmailDomainAccountDelegationError = OvhOpError;
@@ -2521,6 +2673,8 @@ export const listEmailDomainAccountDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAccountDelegation",
 }));
 
 export type ListEmailDomainAccountFilterError = OvhOpError;
@@ -2536,6 +2690,8 @@ export const listEmailDomainAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAccountFilter",
 }));
 
 export type ListEmailDomainAccountFilterRuleError = OvhOpError;
@@ -2551,6 +2707,8 @@ export const listEmailDomainAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAccountFilterRule",
 }));
 
 export type ListEmailDomainAccountMigrateError = OvhOpError;
@@ -2566,6 +2724,8 @@ export const listEmailDomainAccountMigrate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAccountMigrate",
 }));
 
 export type ListEmailDomainAccountMigrateDestinationEmailAddressError = OvhOpError;
@@ -2589,6 +2749,8 @@ export const listEmailDomainAccountMigrateDestinationEmailAddress: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAccountMigrateDestinationEmailAddress",
 }));
 
 export type ListEmailDomainAccountMigrateDestinationEmailAddressCheckMigrateError = OvhOpError;
@@ -2608,6 +2770,8 @@ export const listEmailDomainAccountMigrateDestinationEmailAddressCheckMigrate: A
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAccountMigrateDestinationEmailAddressCheckMigrate",
 }));
 
 export type ListEmailDomainAclError = OvhOpError;
@@ -2623,6 +2787,8 @@ export const listEmailDomainAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainAcl",
 }));
 
 export type ListEmailDomainDelegatedAccountError = OvhOpError;
@@ -2638,6 +2804,8 @@ export const listEmailDomainDelegatedAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainDelegatedAccount",
 }));
 
 export type ListEmailDomainDelegatedAccountFilterError = OvhOpError;
@@ -2653,6 +2821,8 @@ export const listEmailDomainDelegatedAccountFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainDelegatedAccountFilter",
 }));
 
 export type ListEmailDomainDelegatedAccountFilterRuleError = OvhOpError;
@@ -2668,6 +2838,8 @@ export const listEmailDomainDelegatedAccountFilterRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainDelegatedAccountFilterRule",
 }));
 
 export type ListEmailDomainDkimError = OvhOpError;
@@ -2683,6 +2855,8 @@ export const listEmailDomainDkim: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainDkim",
 }));
 
 export type ListEmailDomainDnsMXRecordsError = OvhOpError;
@@ -2698,6 +2872,8 @@ export const listEmailDomainDnsMXRecords: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainDnsMXRecords",
 }));
 
 export type ListEmailDomainMailingListError = OvhOpError;
@@ -2713,6 +2889,8 @@ export const listEmailDomainMailingList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainMailingList",
 }));
 
 export type ListEmailDomainMailingListModeratorError = OvhOpError;
@@ -2728,6 +2906,8 @@ export const listEmailDomainMailingListModerator: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainMailingListModerator",
 }));
 
 export type ListEmailDomainMailingListSubscriberError = OvhOpError;
@@ -2743,6 +2923,8 @@ export const listEmailDomainMailingListSubscriber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainMailingListSubscriber",
 }));
 
 export type ListEmailDomainRecommendedDNSRecordsError = OvhOpError;
@@ -2758,6 +2940,8 @@ export const listEmailDomainRecommendedDNSRecords: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainRecommendedDNSRecords",
 }));
 
 export type ListEmailDomainRedirectionError = OvhOpError;
@@ -2773,6 +2957,8 @@ export const listEmailDomainRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainRedirection",
 }));
 
 export type ListEmailDomainResponderError = OvhOpError;
@@ -2788,6 +2974,8 @@ export const listEmailDomainResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainResponder",
 }));
 
 export type ListEmailDomainTaskAccountError = OvhOpError;
@@ -2803,6 +2991,8 @@ export const listEmailDomainTaskAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainTaskAccount",
 }));
 
 export type ListEmailDomainTaskAllError = OvhOpError;
@@ -2818,6 +3008,8 @@ export const listEmailDomainTaskAll: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainTaskAll",
 }));
 
 export type ListEmailDomainTaskFilterError = OvhOpError;
@@ -2833,6 +3025,8 @@ export const listEmailDomainTaskFilter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainTaskFilter",
 }));
 
 export type ListEmailDomainTaskMailinglistError = OvhOpError;
@@ -2848,6 +3042,8 @@ export const listEmailDomainTaskMailinglist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainTaskMailinglist",
 }));
 
 export type ListEmailDomainTaskRedirectionError = OvhOpError;
@@ -2863,6 +3059,8 @@ export const listEmailDomainTaskRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainTaskRedirection",
 }));
 
 export type ListEmailDomainTaskResponderError = OvhOpError;
@@ -2878,6 +3076,8 @@ export const listEmailDomainTaskResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomainTaskResponder",
 }));
 
 export type MigrateEmailDomainAccountMigrateDestinationEmailAddressError = OvhOpError;
@@ -2897,6 +3097,8 @@ export const migrateEmailDomainAccountMigrateDestinationEmailAddress: API.Operat
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateEmailDomainAccountMigrateDestinationEmailAddress",
 }));
 
 export type MigrateEmailDomainDelegationV3toV6Error = OvhOpError;
@@ -2912,6 +3114,8 @@ export const migrateEmailDomainDelegationV3toV6: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateEmailDomainDelegationV3toV6",
 }));
 
 export type PutEmailDomainAccountError = OvhOpError;
@@ -2927,6 +3131,8 @@ export const putEmailDomainAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainAccount",
 }));
 
 export type PutEmailDomainDelegatedAccountError = OvhOpError;
@@ -2942,6 +3148,8 @@ export const putEmailDomainDelegatedAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainDelegatedAccount",
 }));
 
 export type PutEmailDomainDelegatedAccountResponderError = OvhOpError;
@@ -2957,6 +3165,8 @@ export const putEmailDomainDelegatedAccountResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainDelegatedAccountResponder",
 }));
 
 export type PutEmailDomainDkimDisableError = OvhOpError;
@@ -2972,6 +3182,8 @@ export const putEmailDomainDkimDisable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainDkimDisable",
 }));
 
 export type PutEmailDomainDkimEnableError = OvhOpError;
@@ -2987,6 +3199,8 @@ export const putEmailDomainDkimEnable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainDkimEnable",
 }));
 
 export type PutEmailDomainMailingListError = OvhOpError;
@@ -3002,6 +3216,8 @@ export const putEmailDomainMailingList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainMailingList",
 }));
 
 export type PutEmailDomainResponderError = OvhOpError;
@@ -3017,6 +3233,8 @@ export const putEmailDomainResponder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainResponder",
 }));
 
 export type PutEmailDomainServiceInfosError = OvhOpError;
@@ -3032,6 +3250,8 @@ export const putEmailDomainServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailDomainServiceInfos",
 }));
 
 export type SendEmailDomainMailingListListByEmailError = OvhOpError;
@@ -3047,6 +3267,8 @@ export const sendEmailDomainMailingListListByEmail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEmailDomainMailingListListByEmail",
 }));
 
 export type TerminateEmailDomainError = OvhOpError;
@@ -3062,6 +3284,8 @@ export const terminateEmailDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateEmailDomain",
 }));
 
 export type UpdateEmailDomainAccountUsageError = OvhOpError;
@@ -3077,6 +3301,8 @@ export const updateEmailDomainAccountUsage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailDomainAccountUsage",
 }));
 
 export type UpdateEmailDomainDelegatedAccountUsageError = OvhOpError;
@@ -3092,6 +3318,8 @@ export const updateEmailDomainDelegatedAccountUsage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailDomainDelegatedAccountUsage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

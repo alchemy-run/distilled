@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Autoscaling",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1264,6 +1277,8 @@ export const createAutoscalingV1NamespacedHorizontalPodAutoscaler: API.Operation
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoscalingV1NamespacedHorizontalPodAutoscaler",
 }));
 
 export type CreateAutoscalingV2NamespacedHorizontalPodAutoscalerError =
@@ -1286,6 +1301,8 @@ export const createAutoscalingV2NamespacedHorizontalPodAutoscaler: API.Operation
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoscalingV2NamespacedHorizontalPodAutoscaler",
 }));
 
 export type DeleteAutoscalingV1CollectionNamespacedHorizontalPodAutoscalerError = KubernetesOpError;
@@ -1305,6 +1322,8 @@ export const deleteAutoscalingV1CollectionNamespacedHorizontalPodAutoscaler: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoscalingV1CollectionNamespacedHorizontalPodAutoscaler",
 }));
 
 export type DeleteAutoscalingV1NamespacedHorizontalPodAutoscalerError =
@@ -1327,6 +1346,8 @@ export const deleteAutoscalingV1NamespacedHorizontalPodAutoscaler: API.Operation
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoscalingV1NamespacedHorizontalPodAutoscaler",
 }));
 
 export type DeleteAutoscalingV2CollectionNamespacedHorizontalPodAutoscalerError = KubernetesOpError;
@@ -1346,6 +1367,8 @@ export const deleteAutoscalingV2CollectionNamespacedHorizontalPodAutoscaler: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoscalingV2CollectionNamespacedHorizontalPodAutoscaler",
 }));
 
 export type DeleteAutoscalingV2NamespacedHorizontalPodAutoscalerError =
@@ -1368,6 +1391,8 @@ export const deleteAutoscalingV2NamespacedHorizontalPodAutoscaler: API.Operation
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoscalingV2NamespacedHorizontalPodAutoscaler",
 }));
 
 export type GetAutoscalingAPIGroupError = KubernetesOpError;
@@ -1383,6 +1408,8 @@ export const getAutoscalingAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoscalingAPIGroup",
 }));
 
 export type GetAutoscalingV1APIResourcesError = KubernetesOpError;
@@ -1398,6 +1425,8 @@ export const getAutoscalingV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoscalingV1APIResources",
 }));
 
 export type GetAutoscalingV2APIResourcesError = KubernetesOpError;
@@ -1413,6 +1442,8 @@ export const getAutoscalingV2APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoscalingV2APIResources",
 }));
 
 export type ListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesError = KubernetesOpError;
@@ -1432,6 +1463,8 @@ export const listAutoscalingV1HorizontalPodAutoscalerForAllNamespaces: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoscalingV1HorizontalPodAutoscalerForAllNamespaces",
 }));
 
 export type ListAutoscalingV1NamespacedHorizontalPodAutoscalerError = KubernetesOpError;
@@ -1451,6 +1484,8 @@ export const listAutoscalingV1NamespacedHorizontalPodAutoscaler: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoscalingV1NamespacedHorizontalPodAutoscaler",
 }));
 
 export type ListAutoscalingV2HorizontalPodAutoscalerForAllNamespacesError = KubernetesOpError;
@@ -1470,6 +1505,8 @@ export const listAutoscalingV2HorizontalPodAutoscalerForAllNamespaces: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoscalingV2HorizontalPodAutoscalerForAllNamespaces",
 }));
 
 export type ListAutoscalingV2NamespacedHorizontalPodAutoscalerError = KubernetesOpError;
@@ -1489,6 +1526,8 @@ export const listAutoscalingV2NamespacedHorizontalPodAutoscaler: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoscalingV2NamespacedHorizontalPodAutoscaler",
 }));
 
 export type PatchAutoscalingV1NamespacedHorizontalPodAutoscalerError =
@@ -1512,6 +1551,8 @@ export const patchAutoscalingV1NamespacedHorizontalPodAutoscaler: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAutoscalingV1NamespacedHorizontalPodAutoscaler",
 }));
 
 export type PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusError =
@@ -1535,6 +1576,8 @@ export const patchAutoscalingV1NamespacedHorizontalPodAutoscalerStatus: API.Oper
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatus",
 }));
 
 export type PatchAutoscalingV2NamespacedHorizontalPodAutoscalerError =
@@ -1558,6 +1601,8 @@ export const patchAutoscalingV2NamespacedHorizontalPodAutoscaler: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAutoscalingV2NamespacedHorizontalPodAutoscaler",
 }));
 
 export type PatchAutoscalingV2NamespacedHorizontalPodAutoscalerStatusError =
@@ -1581,6 +1626,8 @@ export const patchAutoscalingV2NamespacedHorizontalPodAutoscalerStatus: API.Oper
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAutoscalingV2NamespacedHorizontalPodAutoscalerStatus",
 }));
 
 export type ReadAutoscalingV1NamespacedHorizontalPodAutoscalerError = NotFound | KubernetesOpError;
@@ -1600,6 +1647,8 @@ export const readAutoscalingV1NamespacedHorizontalPodAutoscaler: API.OperationMe
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAutoscalingV1NamespacedHorizontalPodAutoscaler",
 }));
 
 export type ReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusError =
@@ -1621,6 +1670,8 @@ export const readAutoscalingV1NamespacedHorizontalPodAutoscalerStatus: API.Opera
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatus",
 }));
 
 export type ReadAutoscalingV2NamespacedHorizontalPodAutoscalerError = NotFound | KubernetesOpError;
@@ -1640,6 +1691,8 @@ export const readAutoscalingV2NamespacedHorizontalPodAutoscaler: API.OperationMe
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAutoscalingV2NamespacedHorizontalPodAutoscaler",
 }));
 
 export type ReadAutoscalingV2NamespacedHorizontalPodAutoscalerStatusError =
@@ -1661,6 +1714,8 @@ export const readAutoscalingV2NamespacedHorizontalPodAutoscalerStatus: API.Opera
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAutoscalingV2NamespacedHorizontalPodAutoscalerStatus",
 }));
 
 export type ReplaceAutoscalingV1NamespacedHorizontalPodAutoscalerError =
@@ -1684,6 +1739,8 @@ export const replaceAutoscalingV1NamespacedHorizontalPodAutoscaler: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAutoscalingV1NamespacedHorizontalPodAutoscaler",
 }));
 
 export type ReplaceAutoscalingV1NamespacedHorizontalPodAutoscalerStatusError =
@@ -1707,6 +1764,8 @@ export const replaceAutoscalingV1NamespacedHorizontalPodAutoscalerStatus: API.Op
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAutoscalingV1NamespacedHorizontalPodAutoscalerStatus",
 }));
 
 export type ReplaceAutoscalingV2NamespacedHorizontalPodAutoscalerError =
@@ -1730,6 +1789,8 @@ export const replaceAutoscalingV2NamespacedHorizontalPodAutoscaler: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAutoscalingV2NamespacedHorizontalPodAutoscaler",
 }));
 
 export type ReplaceAutoscalingV2NamespacedHorizontalPodAutoscalerStatusError =
@@ -1753,6 +1814,8 @@ export const replaceAutoscalingV2NamespacedHorizontalPodAutoscalerStatus: API.Op
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAutoscalingV2NamespacedHorizontalPodAutoscalerStatus",
 }));
 
 export type WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesError = KubernetesOpError;
@@ -1772,6 +1835,8 @@ export const watchAutoscalingV1HorizontalPodAutoscalerListForAllNamespaces: API.
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespaces",
 }));
 
 export type WatchAutoscalingV1NamespacedHorizontalPodAutoscalerError = KubernetesOpError;
@@ -1791,6 +1856,8 @@ export const watchAutoscalingV1NamespacedHorizontalPodAutoscaler: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAutoscalingV1NamespacedHorizontalPodAutoscaler",
 }));
 
 export type WatchAutoscalingV1NamespacedHorizontalPodAutoscalerListError = KubernetesOpError;
@@ -1810,6 +1877,8 @@ export const watchAutoscalingV1NamespacedHorizontalPodAutoscalerList: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAutoscalingV1NamespacedHorizontalPodAutoscalerList",
 }));
 
 export type WatchAutoscalingV2HorizontalPodAutoscalerListForAllNamespacesError = KubernetesOpError;
@@ -1829,6 +1898,8 @@ export const watchAutoscalingV2HorizontalPodAutoscalerListForAllNamespaces: API.
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAutoscalingV2HorizontalPodAutoscalerListForAllNamespaces",
 }));
 
 export type WatchAutoscalingV2NamespacedHorizontalPodAutoscalerError = KubernetesOpError;
@@ -1848,6 +1919,8 @@ export const watchAutoscalingV2NamespacedHorizontalPodAutoscaler: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAutoscalingV2NamespacedHorizontalPodAutoscaler",
 }));
 
 export type WatchAutoscalingV2NamespacedHorizontalPodAutoscalerListError = KubernetesOpError;
@@ -1867,6 +1940,8 @@ export const watchAutoscalingV2NamespacedHorizontalPodAutoscalerList: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAutoscalingV2NamespacedHorizontalPodAutoscalerList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

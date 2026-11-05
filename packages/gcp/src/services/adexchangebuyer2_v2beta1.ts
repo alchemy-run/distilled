@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "adexchangebuyer" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Adexchangebuyer2",
+  service: "adexchangebuyer2",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2244,6 +2263,8 @@ export const acceptAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptAccountsProposals",
 }));
 
 export type AddAccountsCreativesDealAssociationsError =
@@ -2265,6 +2286,8 @@ export const addAccountsCreativesDealAssociations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAccountsCreativesDealAssociations",
 }));
 
 export type AddNoteAccountsProposalsError =
@@ -2286,6 +2309,8 @@ export const addNoteAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNoteAccountsProposals",
 }));
 
 export type CancelNegotiationAccountsProposalsError =
@@ -2307,6 +2332,8 @@ export const cancelNegotiationAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelNegotiationAccountsProposals",
 }));
 
 export type CompleteSetupAccountsProposalsError =
@@ -2328,6 +2355,8 @@ export const completeSetupAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteSetupAccountsProposals",
 }));
 
 export type CreateAccountsClientsError =
@@ -2349,6 +2378,8 @@ export const createAccountsClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsClients",
 }));
 
 export type CreateAccountsClientsInvitationsError =
@@ -2370,6 +2401,8 @@ export const createAccountsClientsInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsClientsInvitations",
 }));
 
 export type CreateAccountsCreativesError =
@@ -2391,6 +2424,8 @@ export const createAccountsCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsCreatives",
 }));
 
 export type CreateAccountsProposalsError =
@@ -2412,6 +2447,8 @@ export const createAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsProposals",
 }));
 
 export type CreateBiddersAccountsFilterSetsError =
@@ -2433,6 +2470,8 @@ export const createBiddersAccountsFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBiddersAccountsFilterSets",
 }));
 
 export type CreateBiddersFilterSetsError =
@@ -2454,6 +2493,8 @@ export const createBiddersFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBiddersFilterSets",
 }));
 
 export type CreateBuyersFilterSetsError =
@@ -2475,6 +2516,8 @@ export const createBuyersFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuyersFilterSets",
 }));
 
 export type DeleteBiddersAccountsFilterSetsError =
@@ -2496,6 +2539,8 @@ export const deleteBiddersAccountsFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBiddersAccountsFilterSets",
 }));
 
 export type DeleteBiddersFilterSetsError =
@@ -2517,6 +2562,8 @@ export const deleteBiddersFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBiddersFilterSets",
 }));
 
 export type DeleteBuyersFilterSetsError =
@@ -2538,6 +2585,8 @@ export const deleteBuyersFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBuyersFilterSets",
 }));
 
 export type GetAccountsClientsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2553,6 +2602,8 @@ export const getAccountsClients: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsClients",
 }));
 
 export type GetAccountsClientsInvitationsError =
@@ -2572,6 +2623,8 @@ export const getAccountsClientsInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsClientsInvitations",
 }));
 
 export type GetAccountsClientsUsersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2587,6 +2640,8 @@ export const getAccountsClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsClientsUsers",
 }));
 
 export type GetAccountsCreativesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2602,6 +2657,8 @@ export const getAccountsCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsCreatives",
 }));
 
 export type GetAccountsProductsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2617,6 +2674,8 @@ export const getAccountsProducts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsProducts",
 }));
 
 export type GetAccountsProposalsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2632,6 +2691,8 @@ export const getAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsProposals",
 }));
 
 export type GetAccountsPublisherProfilesError =
@@ -2651,6 +2712,8 @@ export const getAccountsPublisherProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsPublisherProfiles",
 }));
 
 export type GetBiddersAccountsFilterSetsError =
@@ -2670,6 +2733,8 @@ export const getBiddersAccountsFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBiddersAccountsFilterSets",
 }));
 
 export type GetBiddersFilterSetsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2685,6 +2750,8 @@ export const getBiddersFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBiddersFilterSets",
 }));
 
 export type GetBuyersFilterSetsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2700,6 +2767,8 @@ export const getBuyersFilterSets: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersFilterSets",
 }));
 
 export type ListAccountsClientsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -2716,6 +2785,8 @@ export const listAccountsClients: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsClients",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2737,6 +2808,8 @@ export const listAccountsClientsInvitations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsClientsInvitations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2754,6 +2827,8 @@ export const listAccountsClientsUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsClientsUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2771,6 +2846,8 @@ export const listAccountsCreatives: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsCreatives",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2792,6 +2869,8 @@ export const listAccountsCreativesDealAssociations: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsCreativesDealAssociations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2813,6 +2892,8 @@ export const listAccountsFinalizedProposals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsFinalizedProposals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2830,6 +2911,8 @@ export const listAccountsProducts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsProducts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2847,6 +2930,8 @@ export const listAccountsProposals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsProposals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2868,6 +2953,8 @@ export const listAccountsPublisherProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsPublisherProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2889,6 +2976,8 @@ export const listBiddersAccountsFilterSets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2910,6 +2999,8 @@ export const listBiddersAccountsFilterSetsBidMetrics: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsBidMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2935,6 +3026,8 @@ export const listBiddersAccountsFilterSetsBidResponseErrors: API.PaginatedOperat
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsBidResponseErrors",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2960,6 +3053,8 @@ export const listBiddersAccountsFilterSetsBidResponsesWithoutBids: API.Paginated
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsBidResponsesWithoutBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2985,6 +3080,8 @@ export const listBiddersAccountsFilterSetsFilteredBidRequests: API.PaginatedOper
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsFilteredBidRequests",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3006,6 +3103,8 @@ export const listBiddersAccountsFilterSetsFilteredBids: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsFilteredBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3031,6 +3130,8 @@ export const listBiddersAccountsFilterSetsFilteredBidsCreatives: API.PaginatedOp
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsFilteredBidsCreatives",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3056,6 +3157,8 @@ export const listBiddersAccountsFilterSetsFilteredBidsDetails: API.PaginatedOper
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsFilteredBidsDetails",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3081,6 +3184,8 @@ export const listBiddersAccountsFilterSetsImpressionMetrics: API.PaginatedOperat
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsImpressionMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3102,6 +3207,8 @@ export const listBiddersAccountsFilterSetsLosingBids: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsLosingBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3127,6 +3234,8 @@ export const listBiddersAccountsFilterSetsNonBillableWinningBids: API.PaginatedO
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAccountsFilterSetsNonBillableWinningBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3144,6 +3253,8 @@ export const listBiddersFilterSets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3165,6 +3276,8 @@ export const listBiddersFilterSetsBidMetrics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsBidMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3186,6 +3299,8 @@ export const listBiddersFilterSetsBidResponseErrors: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsBidResponseErrors",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3211,6 +3326,8 @@ export const listBiddersFilterSetsBidResponsesWithoutBids: API.PaginatedOperatio
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsBidResponsesWithoutBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3232,6 +3349,8 @@ export const listBiddersFilterSetsFilteredBidRequests: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsFilteredBidRequests",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3253,6 +3372,8 @@ export const listBiddersFilterSetsFilteredBids: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsFilteredBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3274,6 +3395,8 @@ export const listBiddersFilterSetsFilteredBidsCreatives: API.PaginatedOperationM
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsFilteredBidsCreatives",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3295,6 +3418,8 @@ export const listBiddersFilterSetsFilteredBidsDetails: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsFilteredBidsDetails",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3316,6 +3441,8 @@ export const listBiddersFilterSetsImpressionMetrics: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsImpressionMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3337,6 +3464,8 @@ export const listBiddersFilterSetsLosingBids: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsLosingBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3358,6 +3487,8 @@ export const listBiddersFilterSetsNonBillableWinningBids: API.PaginatedOperation
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFilterSetsNonBillableWinningBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3375,6 +3506,8 @@ export const listBuyersFilterSets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3396,6 +3529,8 @@ export const listBuyersFilterSetsBidMetrics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsBidMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3417,6 +3552,8 @@ export const listBuyersFilterSetsBidResponseErrors: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsBidResponseErrors",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3438,6 +3575,8 @@ export const listBuyersFilterSetsBidResponsesWithoutBids: API.PaginatedOperation
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsBidResponsesWithoutBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3459,6 +3598,8 @@ export const listBuyersFilterSetsFilteredBidRequests: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsFilteredBidRequests",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3480,6 +3621,8 @@ export const listBuyersFilterSetsFilteredBids: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsFilteredBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3501,6 +3644,8 @@ export const listBuyersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsFilteredBidsCreatives",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3522,6 +3667,8 @@ export const listBuyersFilterSetsFilteredBidsDetails: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsFilteredBidsDetails",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3543,6 +3690,8 @@ export const listBuyersFilterSetsImpressionMetrics: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsImpressionMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3564,6 +3713,8 @@ export const listBuyersFilterSetsLosingBids: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsLosingBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3585,6 +3736,8 @@ export const listBuyersFilterSetsNonBillableWinningBids: API.PaginatedOperationM
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFilterSetsNonBillableWinningBids",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3607,6 +3760,8 @@ export const pauseAccountsFinalizedProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseAccountsFinalizedProposals",
 }));
 
 export type PauseAccountsProposalsError =
@@ -3628,6 +3783,8 @@ export const pauseAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseAccountsProposals",
 }));
 
 export type RemoveAccountsCreativesDealAssociationsError =
@@ -3649,6 +3806,8 @@ export const removeAccountsCreativesDealAssociations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAccountsCreativesDealAssociations",
 }));
 
 export type ResumeAccountsFinalizedProposalsError =
@@ -3670,6 +3829,8 @@ export const resumeAccountsFinalizedProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeAccountsFinalizedProposals",
 }));
 
 export type ResumeAccountsProposalsError =
@@ -3691,6 +3852,8 @@ export const resumeAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeAccountsProposals",
 }));
 
 export type StopWatchingAccountsCreativesError =
@@ -3712,6 +3875,8 @@ export const stopWatchingAccountsCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopWatchingAccountsCreatives",
 }));
 
 export type UpdateAccountsClientsError =
@@ -3733,6 +3898,8 @@ export const updateAccountsClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsClients",
 }));
 
 export type UpdateAccountsClientsUsersError =
@@ -3754,6 +3921,8 @@ export const updateAccountsClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsClientsUsers",
 }));
 
 export type UpdateAccountsCreativesError =
@@ -3775,6 +3944,8 @@ export const updateAccountsCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsCreatives",
 }));
 
 export type UpdateAccountsProposalsError =
@@ -3796,6 +3967,8 @@ export const updateAccountsProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsProposals",
 }));
 
 export type WatchAccountsCreativesError =
@@ -3817,6 +3990,8 @@ export const watchAccountsCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAccountsCreatives",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

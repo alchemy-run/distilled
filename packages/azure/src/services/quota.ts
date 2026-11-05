@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Quota" },
+  prefix: "Quota",
+  service: "Quota",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteGroupQuotasRequest {
   /** The management group ID. */
   managementGroupId: string;
@@ -1193,6 +1213,8 @@ export const DeleteGroupQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupQuotas",
 }));
 
 export type DeleteGroupQuotaSubscriptionError = AzureOpError;
@@ -1208,6 +1230,8 @@ export const DeleteGroupQuotaSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupQuotaSubscription",
 }));
 
 export type GetGroupQuotaLimitsRequestError = AzureOpError;
@@ -1223,6 +1247,8 @@ export const GetGroupQuotaLimitsRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupQuotaLimitsRequest",
 }));
 
 export type GetGroupQuotaLocationSettingsError = AzureOpError;
@@ -1238,6 +1264,8 @@ export const GetGroupQuotaLocationSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupQuotaLocationSettings",
 }));
 
 export type GetGroupQuotasError = AzureOpError;
@@ -1253,6 +1281,8 @@ export const GetGroupQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupQuotas",
 }));
 
 export type GetGroupQuotaSubscriptionError = AzureOpError;
@@ -1268,6 +1298,8 @@ export const GetGroupQuotaSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupQuotaSubscription",
 }));
 
 export type GetGroupQuotaSubscriptionAllocationRequestError = AzureOpError;
@@ -1283,6 +1315,8 @@ export const GetGroupQuotaSubscriptionAllocationRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupQuotaSubscriptionAllocationRequest",
 }));
 
 export type GetGroupQuotaSubscriptionRequestError = AzureOpError;
@@ -1298,6 +1332,8 @@ export const GetGroupQuotaSubscriptionRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupQuotaSubscriptionRequest",
 }));
 
 export type GetQuotaError = AzureOpError;
@@ -1313,6 +1349,11 @@ export const GetQuota: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetQuota",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}" },
+  },
 }));
 
 export type GetQuotaRequestStatusError = AzureOpError;
@@ -1328,6 +1369,11 @@ export const GetQuotaRequestStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetQuotaRequestStatus",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotaRequests/{id}" },
+  },
 }));
 
 export type GetUsageError = AzureOpError;
@@ -1343,6 +1389,11 @@ export const GetUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetUsage",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/usages/{resourceName}" },
+  },
 }));
 
 export type GroupQuotaLocationSettingsCreateOrUpdateError = AzureOpError;
@@ -1358,6 +1409,8 @@ export const GroupQuotaLocationSettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupQuotaLocationSettingsCreateOrUpdate",
 }));
 
 export type GroupQuotasCreateOrUpdateError = AzureOpError;
@@ -1373,6 +1426,8 @@ export const GroupQuotasCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupQuotasCreateOrUpdate",
 }));
 
 export type GroupQuotaSubscriptionsCreateOrUpdateError = AzureOpError;
@@ -1388,6 +1443,8 @@ export const GroupQuotaSubscriptionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupQuotaSubscriptionsCreateOrUpdate",
 }));
 
 export type ListGroupQuotaLimitsError = AzureOpError;
@@ -1403,6 +1460,8 @@ export const ListGroupQuotaLimits: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotaLimits",
 }));
 
 export type ListGroupQuotaLimitsRequest2Error = AzureOpError;
@@ -1418,6 +1477,8 @@ export const ListGroupQuotaLimitsRequest2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotaLimitsRequest2",
 }));
 
 export type ListGroupQuotasError = AzureOpError;
@@ -1433,6 +1494,8 @@ export const ListGroupQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotas",
 }));
 
 export type ListGroupQuotaSubscriptionAllocationError = AzureOpError;
@@ -1448,6 +1511,8 @@ export const ListGroupQuotaSubscriptionAllocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotaSubscriptionAllocation",
 }));
 
 export type ListGroupQuotaSubscriptionAllocationRequestError = AzureOpError;
@@ -1463,6 +1528,8 @@ export const ListGroupQuotaSubscriptionAllocationRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotaSubscriptionAllocationRequest",
 }));
 
 export type ListGroupQuotaSubscriptionRequestsError = AzureOpError;
@@ -1478,6 +1545,8 @@ export const ListGroupQuotaSubscriptionRequests: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotaSubscriptionRequests",
 }));
 
 export type ListGroupQuotaSubscriptionsError = AzureOpError;
@@ -1493,6 +1562,8 @@ export const ListGroupQuotaSubscriptions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotaSubscriptions",
 }));
 
 export type ListGroupQuotaUsagesError = AzureOpError;
@@ -1508,6 +1579,8 @@ export const ListGroupQuotaUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupQuotaUsages",
 }));
 
 export type ListQuotaError = AzureOpError;
@@ -1523,6 +1596,11 @@ export const ListQuota: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListQuota",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotas" },
+  },
 }));
 
 export type ListQuotaOperationError = AzureOpError;
@@ -1538,6 +1616,8 @@ export const ListQuotaOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQuotaOperation",
 }));
 
 export type ListQuotaRequestStatusError = AzureOpError;
@@ -1553,6 +1633,11 @@ export const ListQuotaRequestStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListQuotaRequestStatus",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotaRequests" },
+  },
 }));
 
 export type ListUsagesError = AzureOpError;
@@ -1568,6 +1653,11 @@ export const ListUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListUsages",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/usages" },
+  },
 }));
 
 export type QuotaCreateOrUpdateError = AzureOpError;
@@ -1583,6 +1673,11 @@ export const QuotaCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "QuotaCreateOrUpdate",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}" },
+  },
 }));
 
 export type UpdateGroupQuotaLimitsRequestError = AzureOpError;
@@ -1598,6 +1693,8 @@ export const UpdateGroupQuotaLimitsRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupQuotaLimitsRequest",
 }));
 
 export type UpdateGroupQuotaLocationSettingsError = AzureOpError;
@@ -1613,6 +1710,8 @@ export const UpdateGroupQuotaLocationSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupQuotaLocationSettings",
 }));
 
 export type UpdateGroupQuotasError = AzureOpError;
@@ -1628,6 +1727,8 @@ export const UpdateGroupQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupQuotas",
 }));
 
 export type UpdateGroupQuotaSubscriptionError = AzureOpError;
@@ -1643,6 +1744,8 @@ export const UpdateGroupQuotaSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupQuotaSubscription",
 }));
 
 export type UpdateGroupQuotaSubscriptionAllocationRequestError = AzureOpError;
@@ -1666,6 +1769,8 @@ export const UpdateGroupQuotaSubscriptionAllocationRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupQuotaSubscriptionAllocationRequest",
 }));
 
 export type UpdateQuotaError = AzureOpError;
@@ -1681,6 +1786,11 @@ export const UpdateQuota: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateQuota",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

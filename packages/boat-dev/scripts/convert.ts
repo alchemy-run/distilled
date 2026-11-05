@@ -7,7 +7,7 @@
  * Output: .generated-specs/boat.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Boat's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Boat's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  *
  * Boat's operationIds are already camelCase but several are a bare verb
@@ -16,7 +16,7 @@
  * here via `operationNames` (lookup by `"METHOD path"`).
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),

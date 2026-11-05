@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://redshift-data.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RedshiftData",
+  service: "RedshiftData",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActiveSessionsExceededException
   extends /*@__PURE__*/ S.TaggedError<ActiveSessionsExceededException>()(
@@ -517,7 +534,7 @@ export type BatchExecuteStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const batchExecuteStatement: API.OperationMethod<
-  BatchExecuteStatementInput,
+  BatchExecuteStatementInput & RegionInput,
   BatchExecuteStatementOutput,
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -535,6 +552,8 @@ export const batchExecuteStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
+  telemetry: TELEMETRY,
+  span: "BatchExecuteStatement",
 }));
 
 export type CancelStatementError =
@@ -550,7 +569,7 @@ export type CancelStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const cancelStatement: API.OperationMethod<
-  CancelStatementRequest,
+  CancelStatementRequest & RegionInput,
   CancelStatementResponse,
   CancelStatementError,
   Credentials | HttpClient.HttpClient
@@ -567,6 +586,8 @@ export const cancelStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelStatement",
+  telemetry: TELEMETRY,
+  span: "CancelStatement",
 }));
 
 export type DescribeStatementError =
@@ -581,7 +602,7 @@ export type DescribeStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const describeStatement: API.OperationMethod<
-  DescribeStatementRequest,
+  DescribeStatementRequest & RegionInput,
   DescribeStatementResponse,
   DescribeStatementError,
   Credentials | HttpClient.HttpClient
@@ -597,6 +618,8 @@ export const describeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStatement",
+  telemetry: TELEMETRY,
+  span: "DescribeStatement",
 }));
 
 export type DescribeTableError =
@@ -622,7 +645,7 @@ export type DescribeTableError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const describeTable: API.PaginatedOperationMethod<
-  DescribeTableRequest,
+  DescribeTableRequest & RegionInput,
   DescribeTableResponse,
   DescribeTableError,
   Credentials | HttpClient.HttpClient,
@@ -646,6 +669,8 @@ export const describeTable: API.PaginatedOperationMethod<
     items: "ColumnList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTable",
 })) as any;
 
 export type ExecuteStatementError =
@@ -672,7 +697,7 @@ export type ExecuteStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const executeStatement: API.OperationMethod<
-  ExecuteStatementInput,
+  ExecuteStatementInput & RegionInput,
   ExecuteStatementOutput,
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -690,6 +715,8 @@ export const executeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
+  telemetry: TELEMETRY,
+  span: "ExecuteStatement",
 }));
 
 export type GetStatementResultError =
@@ -704,7 +731,7 @@ export type GetStatementResultError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const getStatementResult: API.PaginatedOperationMethod<
-  GetStatementResultRequest,
+  GetStatementResultRequest & RegionInput,
   GetStatementResultResponse,
   GetStatementResultError,
   Credentials | HttpClient.HttpClient,
@@ -722,6 +749,8 @@ export const getStatementResult: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetStatementResult",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
+  telemetry: TELEMETRY,
+  span: "GetStatementResult",
 })) as any;
 
 export type GetStatementResultV2Error =
@@ -736,7 +765,7 @@ export type GetStatementResultV2Error =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const getStatementResultV2: API.PaginatedOperationMethod<
-  GetStatementResultV2Request,
+  GetStatementResultV2Request & RegionInput,
   GetStatementResultV2Response,
   GetStatementResultV2Error,
   Credentials | HttpClient.HttpClient,
@@ -754,6 +783,8 @@ export const getStatementResultV2: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetStatementResultV2",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
+  telemetry: TELEMETRY,
+  span: "GetStatementResultV2",
 })) as any;
 
 export type ListDatabasesError =
@@ -779,7 +810,7 @@ export type ListDatabasesError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesRequest,
+  ListDatabasesRequest & RegionInput,
   ListDatabasesResponse,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -803,6 +834,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "Databases",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 })) as any;
 
 export type ListSchemasError =
@@ -828,7 +861,7 @@ export type ListSchemasError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasRequest,
+  ListSchemasRequest & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -852,6 +885,8 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemas",
 })) as any;
 
 export type ListSessionsError =
@@ -865,7 +900,7 @@ export type ListSessionsError =
  * Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the `ClusterIdentifier` or `WorkgroupName` parameter to ensure that the IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see Trusted identity propagation overview.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -883,6 +918,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListStatementsError =
@@ -898,7 +935,7 @@ export type ListStatementsError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listStatements: API.PaginatedOperationMethod<
-  ListStatementsRequest,
+  ListStatementsRequest & RegionInput,
   ListStatementsResponse,
   ListStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -916,6 +953,8 @@ export const listStatements: API.PaginatedOperationMethod<
     items: "Statements",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStatements",
 })) as any;
 
 export type ListTablesError =
@@ -941,7 +980,7 @@ export type ListTablesError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -965,6 +1004,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "Tables",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

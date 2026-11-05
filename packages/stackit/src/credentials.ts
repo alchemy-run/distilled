@@ -39,7 +39,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "StackitCredentials",
   ) {}
 
@@ -67,7 +67,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       region,
       apiBaseUrl: apiBaseUrl._tag === "Some" ? apiBaseUrl.value : undefined,
     })),
-    Effect.orDie,
   ),
 );
 

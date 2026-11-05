@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -67,6 +69,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KeyspacesStreams",
+  service: "KeyspacesStreams",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -992,7 +1009,7 @@ export type GetRecordsError =
  * Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about modifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred.
  */
 export const getRecords: API.OperationMethod<
-  GetRecordsInput,
+  GetRecordsInput & RegionInput,
   GetRecordsOutput,
   GetRecordsError,
   Credentials | HttpClient.HttpClient
@@ -1009,6 +1026,8 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  telemetry: TELEMETRY,
+  span: "GetRecords",
 }));
 
 export type GetShardIteratorError =
@@ -1022,7 +1041,7 @@ export type GetShardIteratorError =
  * Returns a shard iterator that serves as a bookmark for reading data from a specific position in an Amazon Keyspaces data stream's shard. The shard iterator specifies the shard position from which to start reading data records sequentially. You can specify whether to begin reading at the latest record, the oldest record, or at a particular sequence number within the shard.
  */
 export const getShardIterator: API.OperationMethod<
-  GetShardIteratorInput,
+  GetShardIteratorInput & RegionInput,
   GetShardIteratorOutput,
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
@@ -1039,6 +1058,8 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  telemetry: TELEMETRY,
+  span: "GetShardIterator",
 }));
 
 export type GetStreamError =
@@ -1052,7 +1073,7 @@ export type GetStreamError =
  * Returns detailed information about a specific data capture stream for an Amazon Keyspaces table. The information includes the stream's Amazon Resource Name (ARN), creation time, current status, retention period, shard composition, and associated table details. This operation helps you monitor and manage the configuration of your Amazon Keyspaces data streams.
  */
 export const getStream: API.PaginatedOperationMethod<
-  GetStreamInput,
+  GetStreamInput & RegionInput,
   GetStreamOutput,
   GetStreamError,
   Credentials | HttpClient.HttpClient,
@@ -1076,6 +1097,8 @@ export const getStream: API.PaginatedOperationMethod<
     items: "shards",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetStream",
 })) as any;
 
 export type ListStreamsError =
@@ -1089,7 +1112,7 @@ export type ListStreamsError =
  * Returns a list of all data capture streams associated with your Amazon Keyspaces account or for a specific keyspace or table. The response includes information such as stream ARNs, table associations, creation timestamps, and current status. This operation helps you discover and manage all active data streams in your Amazon Keyspaces environment.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -1113,6 +1136,8 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "streams",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

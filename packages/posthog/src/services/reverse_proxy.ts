@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ReverseProxy",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -185,6 +198,8 @@ export const createProxyRecord: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProxyRecord",
 }));
 
 export type CreateProxyRecordsDiagnoseError = PosthogOpError;
@@ -200,6 +215,8 @@ export const createProxyRecordsDiagnose: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProxyRecordsDiagnose",
 }));
 
 export type GetProxyRecordError = Forbidden | NotFound | PosthogOpError;
@@ -215,6 +232,8 @@ export const getProxyRecord: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProxyRecord",
 }));
 
 export type ListProxyRecordsError = Forbidden | NotFound | PosthogOpError;
@@ -230,6 +249,8 @@ export const listProxyRecords: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProxyRecords",
 }));
 
 export type ProxyRecordsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -245,6 +266,8 @@ export const proxyRecordsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyRecordsDestroy",
 }));
 
 export type ProxyRecordsRetryCreateError = Forbidden | NotFound | PosthogOpError;
@@ -260,6 +283,8 @@ export const proxyRecordsRetryCreate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyRecordsRetryCreate",
 }));
 
 export type UpdateProxyRecordsPartialError = PosthogOpError;
@@ -275,6 +300,8 @@ export const updateProxyRecordsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProxyRecordsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

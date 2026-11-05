@@ -28,6 +28,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   updatedAt: "updated_at",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Logs",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CmbConfigNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CmbConfigNotFound>()("CmbConfigNotFound", {
@@ -454,6 +468,8 @@ export const createControlCmbConfig: API.OperationMethod<
   errors: [LogsControlNotAuthorized, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateControlCmbConfig",
 }));
 
 export type CreateControlRetentionError = LogsControlNotAuthorized | Forbidden | CloudflareOpError;
@@ -469,6 +485,8 @@ export const createControlRetention: API.OperationMethod<
   errors: [LogsControlNotAuthorized, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateControlRetention",
 }));
 
 export type CreateLogExplorerDatasetForAccountError = CloudflareOpError;
@@ -484,6 +502,8 @@ export const createLogExplorerDatasetForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogExplorerDatasetForAccount",
 }));
 
 export type CreateLogExplorerDatasetForZoneError = CloudflareOpError;
@@ -499,6 +519,8 @@ export const createLogExplorerDatasetForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogExplorerDatasetForZone",
 }));
 
 export type DeleteControlCmbConfigError =
@@ -524,6 +546,8 @@ export const deleteControlCmbConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteControlCmbConfig",
 }));
 
 export type GetControlCmbConfigError =
@@ -549,6 +573,8 @@ export const getControlCmbConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetControlCmbConfig",
 }));
 
 export type GetControlRetentionError = LogsControlNotAuthorized | Forbidden | CloudflareOpError;
@@ -564,6 +590,8 @@ export const getControlRetention: API.OperationMethod<
   errors: [LogsControlNotAuthorized, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetControlRetention",
 }));
 
 export type GetLogExplorerDatasetForAccountError = CloudflareOpError;
@@ -579,6 +607,8 @@ export const getLogExplorerDatasetForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogExplorerDatasetForAccount",
 }));
 
 export type GetLogExplorerDatasetForZoneError = CloudflareOpError;
@@ -594,6 +624,8 @@ export const getLogExplorerDatasetForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogExplorerDatasetForZone",
 }));
 
 export type GetRayidError = CloudflareOpError;
@@ -609,6 +641,8 @@ export const getRayid: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRayid",
 }));
 
 export type GetReceivedError = CloudflareOpError;
@@ -624,6 +658,8 @@ export const getReceived: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReceived",
 }));
 
 export type GetReceivedFieldError = CloudflareOpError;
@@ -639,6 +675,8 @@ export const getReceivedField: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReceivedField",
 }));
 
 export type ListLogExplorerDatasetAvailablesForAccountError = CloudflareOpError;
@@ -656,6 +694,8 @@ export const listLogExplorerDatasetAvailablesForAccount: API.PaginatedOperationM
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogExplorerDatasetAvailablesForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -676,6 +716,8 @@ export const listLogExplorerDatasetAvailablesForZone: API.PaginatedOperationMeth
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogExplorerDatasetAvailablesForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -696,6 +738,8 @@ export const listLogExplorerDatasetsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogExplorerDatasetsForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -716,6 +760,8 @@ export const listLogExplorerDatasetsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogExplorerDatasetsForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -734,6 +780,8 @@ export const logExplorerDatasetsDeleteForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogExplorerDatasetsDeleteForAccount",
 }));
 
 export type LogExplorerDatasetsDeleteForZoneError = CloudflareOpError;
@@ -749,6 +797,8 @@ export const logExplorerDatasetsDeleteForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogExplorerDatasetsDeleteForZone",
 }));
 
 export type SqlLogExplorerQueryForAccountError = CloudflareOpError;
@@ -766,6 +816,8 @@ export const sqlLogExplorerQueryForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SqlLogExplorerQueryForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -786,6 +838,8 @@ export const sqlLogExplorerQueryForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SqlLogExplorerQueryForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -804,6 +858,8 @@ export const updateLogExplorerDatasetForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogExplorerDatasetForAccount",
 }));
 
 export type UpdateLogExplorerDatasetForZoneError = CloudflareOpError;
@@ -819,6 +875,8 @@ export const updateLogExplorerDatasetForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogExplorerDatasetForZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

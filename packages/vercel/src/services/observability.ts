@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Observability",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -168,6 +182,8 @@ export const createObservabilityQuery: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateObservabilityQuery",
 }));
 
 export type GetObservabilityConfigurationProjectsError =
@@ -187,6 +203,8 @@ export const getObservabilityConfigurationProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityConfigurationProjects",
 }));
 
 export type GetObservabilitySchemaError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -201,6 +219,8 @@ export const getObservabilitySchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilitySchema",
 }));
 
 export type GetObservabilitySchemaByMetricIdError =
@@ -219,6 +239,8 @@ export const getObservabilitySchemaByMetricId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilitySchemaByMetricId",
 }));
 
 export type UpdateObservabilityConfigurationProjectError =
@@ -238,6 +260,8 @@ export const updateObservabilityConfigurationProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObservabilityConfigurationProject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

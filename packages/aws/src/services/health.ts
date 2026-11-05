@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -120,6 +122,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://health.{R}.{D}","properties":{},"headers":{}}',
   ["aws-global", "aws-cn-global", "eusc-de-east-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Health",
+  service: "Health",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -540,7 +557,7 @@ export type DescribeAffectedAccountsForOrganizationError = InvalidPaginationToke
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeAffectedAccountsForOrganization: API.PaginatedOperationMethod<
-  DescribeAffectedAccountsForOrganizationRequest,
+  DescribeAffectedAccountsForOrganizationRequest & RegionInput,
   DescribeAffectedAccountsForOrganizationResponse,
   DescribeAffectedAccountsForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -558,6 +575,8 @@ export const describeAffectedAccountsForOrganization: API.PaginatedOperationMeth
     items: "affectedAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAffectedAccountsForOrganization",
 })) as any;
 
 export type DescribeAffectedEntitiesError =
@@ -579,7 +598,7 @@ export type DescribeAffectedEntitiesError =
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeAffectedEntities: API.PaginatedOperationMethod<
-  DescribeAffectedEntitiesRequest,
+  DescribeAffectedEntitiesRequest & RegionInput,
   DescribeAffectedEntitiesResponse,
   DescribeAffectedEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -597,6 +616,8 @@ export const describeAffectedEntities: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAffectedEntities",
 })) as any;
 
 export type DescribeAffectedEntitiesForOrganizationError =
@@ -621,7 +642,7 @@ export type DescribeAffectedEntitiesForOrganizationError =
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeAffectedEntitiesForOrganization: API.PaginatedOperationMethod<
-  DescribeAffectedEntitiesForOrganizationRequest,
+  DescribeAffectedEntitiesForOrganizationRequest & RegionInput,
   DescribeAffectedEntitiesForOrganizationResponse,
   DescribeAffectedEntitiesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -639,6 +660,8 @@ export const describeAffectedEntitiesForOrganization: API.PaginatedOperationMeth
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAffectedEntitiesForOrganization",
 })) as any;
 
 export type DescribeEntityAggregatesError = CommonErrors;
@@ -646,7 +669,7 @@ export type DescribeEntityAggregatesError = CommonErrors;
  * Returns the number of entities that are affected by each of the specified events.
  */
 export const describeEntityAggregates: API.OperationMethod<
-  DescribeEntityAggregatesRequest,
+  DescribeEntityAggregatesRequest & RegionInput,
   DescribeEntityAggregatesResponse,
   DescribeEntityAggregatesError,
   Credentials | HttpClient.HttpClient
@@ -657,6 +680,8 @@ export const describeEntityAggregates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregates",
+  telemetry: TELEMETRY,
+  span: "DescribeEntityAggregates",
 }));
 
 export type DescribeEntityAggregatesForOrganizationError = CommonErrors;
@@ -664,7 +689,7 @@ export type DescribeEntityAggregatesForOrganizationError = CommonErrors;
  * Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
  */
 export const describeEntityAggregatesForOrganization: API.OperationMethod<
-  DescribeEntityAggregatesForOrganizationRequest,
+  DescribeEntityAggregatesForOrganizationRequest & RegionInput,
   DescribeEntityAggregatesForOrganizationResponse,
   DescribeEntityAggregatesForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -675,6 +700,8 @@ export const describeEntityAggregatesForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregatesForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeEntityAggregatesForOrganization",
 }));
 
 export type DescribeEventAggregatesError = InvalidPaginationToken | CommonErrors;
@@ -686,7 +713,7 @@ export type DescribeEventAggregatesError = InvalidPaginationToken | CommonErrors
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEventAggregates: API.PaginatedOperationMethod<
-  DescribeEventAggregatesRequest,
+  DescribeEventAggregatesRequest & RegionInput,
   DescribeEventAggregatesResponse,
   DescribeEventAggregatesError,
   Credentials | HttpClient.HttpClient,
@@ -704,6 +731,8 @@ export const describeEventAggregates: API.PaginatedOperationMethod<
     items: "eventAggregates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventAggregates",
 })) as any;
 
 export type DescribeEventDetailsError = UnsupportedLocale | CommonErrors;
@@ -720,7 +749,7 @@ export type DescribeEventDetailsError = UnsupportedLocale | CommonErrors;
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeEventDetails: API.OperationMethod<
-  DescribeEventDetailsRequest,
+  DescribeEventDetailsRequest & RegionInput,
   DescribeEventDetailsResponse,
   DescribeEventDetailsError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +760,8 @@ export const describeEventDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetails",
+  telemetry: TELEMETRY,
+  span: "DescribeEventDetails",
 }));
 
 export type DescribeEventDetailsForOrganizationError = UnsupportedLocale | CommonErrors;
@@ -765,7 +796,7 @@ export type DescribeEventDetailsForOrganizationError = UnsupportedLocale | Commo
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
 export const describeEventDetailsForOrganization: API.OperationMethod<
-  DescribeEventDetailsForOrganizationRequest,
+  DescribeEventDetailsForOrganizationRequest & RegionInput,
   DescribeEventDetailsForOrganizationResponse,
   DescribeEventDetailsForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -776,6 +807,8 @@ export const describeEventDetailsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetailsForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeEventDetailsForOrganization",
 }));
 
 export type DescribeEventsError = InvalidPaginationToken | UnsupportedLocale | CommonErrors;
@@ -800,7 +833,7 @@ export type DescribeEventsError = InvalidPaginationToken | UnsupportedLocale | C
  * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsRequest,
+  DescribeEventsRequest & RegionInput,
   DescribeEventsResponse,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -818,6 +851,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeEventsForOrganizationError =
@@ -850,7 +885,7 @@ export type DescribeEventsForOrganizationError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEventsForOrganization: API.PaginatedOperationMethod<
-  DescribeEventsForOrganizationRequest,
+  DescribeEventsForOrganizationRequest & RegionInput,
   DescribeEventsForOrganizationResponse,
   DescribeEventsForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -868,6 +903,8 @@ export const describeEventsForOrganization: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventsForOrganization",
 })) as any;
 
 export type DescribeEventTypesError = InvalidPaginationToken | UnsupportedLocale | CommonErrors;
@@ -881,7 +918,7 @@ export type DescribeEventTypesError = InvalidPaginationToken | UnsupportedLocale
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
 export const describeEventTypes: API.PaginatedOperationMethod<
-  DescribeEventTypesRequest,
+  DescribeEventTypesRequest & RegionInput,
   DescribeEventTypesResponse,
   DescribeEventTypesError,
   Credentials | HttpClient.HttpClient,
@@ -899,6 +936,8 @@ export const describeEventTypes: API.PaginatedOperationMethod<
     items: "eventTypes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventTypes",
 })) as any;
 
 export type DescribeHealthServiceStatusForOrganizationError = CommonErrors;
@@ -908,7 +947,7 @@ export type DescribeHealthServiceStatusForOrganizationError = CommonErrors;
  * management account.
  */
 export const describeHealthServiceStatusForOrganization: API.OperationMethod<
-  DescribeHealthServiceStatusForOrganizationRequest,
+  DescribeHealthServiceStatusForOrganizationRequest & RegionInput,
   DescribeHealthServiceStatusForOrganizationResponse,
   DescribeHealthServiceStatusForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -919,6 +958,8 @@ export const describeHealthServiceStatusForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHealthServiceStatusForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeHealthServiceStatusForOrganization",
 }));
 
 export type DescribeServiceLifecycleError = InvalidPaginationToken | CommonErrors;
@@ -926,7 +967,7 @@ export type DescribeServiceLifecycleError = InvalidPaginationToken | CommonError
  * Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events.
  */
 export const describeServiceLifecycle: API.PaginatedOperationMethod<
-  DescribeServiceLifecycleRequest,
+  DescribeServiceLifecycleRequest & RegionInput,
   DescribeServiceLifecycleResponse,
   DescribeServiceLifecycleError,
   Credentials | HttpClient.HttpClient,
@@ -944,6 +985,8 @@ export const describeServiceLifecycle: API.PaginatedOperationMethod<
     items: "serviceLifecycles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServiceLifecycle",
 })) as any;
 
 export type DisableHealthServiceAccessForOrganizationError =
@@ -966,7 +1009,7 @@ export type DisableHealthServiceAccessForOrganizationError =
  * Amazon Web Services account.
  */
 export const disableHealthServiceAccessForOrganization: API.OperationMethod<
-  DisableHealthServiceAccessForOrganizationRequest,
+  DisableHealthServiceAccessForOrganizationRequest & RegionInput,
   DisableHealthServiceAccessForOrganizationResponse,
   DisableHealthServiceAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -977,6 +1020,8 @@ export const disableHealthServiceAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHealthServiceAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "DisableHealthServiceAccessForOrganization",
 }));
 
 export type EnableHealthServiceAccessForOrganizationError =
@@ -1005,7 +1050,7 @@ export type EnableHealthServiceAccessForOrganizationError =
  * Health events in the *Health User Guide*.
  */
 export const enableHealthServiceAccessForOrganization: API.OperationMethod<
-  EnableHealthServiceAccessForOrganizationRequest,
+  EnableHealthServiceAccessForOrganizationRequest & RegionInput,
   EnableHealthServiceAccessForOrganizationResponse,
   EnableHealthServiceAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1016,6 +1061,8 @@ export const enableHealthServiceAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHealthServiceAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "EnableHealthServiceAccessForOrganization",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

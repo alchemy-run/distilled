@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { AdyenOpError, AdyenOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "adyen-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Adyen",
+  service: "Adyen",
+  labels: "adyen",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -5584,6 +5597,8 @@ export const createApplePaySession: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplePaySession",
 }));
 
 export type CreateCancelError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5599,6 +5614,8 @@ export const createCancel: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCancel",
 }));
 
 export type CreateCardDetailError = AdyenOpError;
@@ -5614,6 +5631,8 @@ export const createCardDetail: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardDetail",
 }));
 
 export type CreateDonationError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5629,6 +5648,8 @@ export const createDonation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDonation",
 }));
 
 export type CreateDonationCampaignError =
@@ -5648,6 +5669,8 @@ export const createDonationCampaign: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDonationCampaign",
 }));
 
 export type CreateForwardError = AdyenOpError;
@@ -5663,6 +5686,8 @@ export const createForward: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForward",
 }));
 
 export type CreateOrderError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5678,6 +5703,8 @@ export const createOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrder",
 }));
 
 export type CreateOrdersCancelError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5693,6 +5720,8 @@ export const createOrdersCancel: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrdersCancel",
 }));
 
 export type CreatePaymentError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5708,6 +5737,8 @@ export const createPayment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayment",
 }));
 
 export type CreatePaymentAmountUpdateError =
@@ -5727,6 +5758,8 @@ export const createPaymentAmountUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentAmountUpdate",
 }));
 
 export type CreatePaymentCancelError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5742,6 +5775,8 @@ export const createPaymentCancel: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentCancel",
 }));
 
 export type CreatePaymentCaptureError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5757,6 +5792,8 @@ export const createPaymentCapture: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentCapture",
 }));
 
 export type CreatePaymentLinkError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5772,6 +5809,8 @@ export const createPaymentLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentLink",
 }));
 
 export type CreatePaymentMethodError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5787,6 +5826,8 @@ export const createPaymentMethod: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethod",
 }));
 
 export type CreatePaymentMethodsBalanceError =
@@ -5806,6 +5847,8 @@ export const createPaymentMethodsBalance: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethodsBalance",
 }));
 
 export type CreatePaymentRefundError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5821,6 +5864,8 @@ export const createPaymentRefund: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRefund",
 }));
 
 export type CreatePaymentReversalError =
@@ -5840,6 +5885,8 @@ export const createPaymentReversal: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentReversal",
 }));
 
 export type CreatePaymentsDetailError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5855,6 +5902,8 @@ export const createPaymentsDetail: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentsDetail",
 }));
 
 export type CreatePaypalUpdateOrderError =
@@ -5874,6 +5923,8 @@ export const createPaypalUpdateOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaypalUpdateOrder",
 }));
 
 export type CreateSessionError = AdyenOpError;
@@ -5889,6 +5940,8 @@ export const createSession: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateStoredPaymentMethodError = AdyenOpError;
@@ -5904,6 +5957,8 @@ export const createStoredPaymentMethod: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStoredPaymentMethod",
 }));
 
 export type CreateValidateShopperIdError =
@@ -5923,6 +5978,8 @@ export const createValidateShopperId: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateValidateShopperId",
 }));
 
 export type DeleteStoredPaymentMethodError = AdyenOpError;
@@ -5938,6 +5995,8 @@ export const deleteStoredPaymentMethod: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStoredPaymentMethod",
 }));
 
 export type GetPaymentLinkError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5953,6 +6012,8 @@ export const getPaymentLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentLink",
 }));
 
 export type GetSessionError = AdyenOpError;
@@ -5968,6 +6029,8 @@ export const getSession: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetStoredPaymentMethodsError = AdyenOpError;
@@ -5983,6 +6046,8 @@ export const getStoredPaymentMethods: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStoredPaymentMethods",
 }));
 
 export type UpdatePaymentLinkError = BadRequest | Forbidden | UnprocessableEntity | AdyenOpError;
@@ -5998,6 +6063,8 @@ export const updatePaymentLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentLink",
 }));
 
 export type UpdateSessionError = AdyenOpError;
@@ -6013,6 +6080,8 @@ export const updateSession: API.OperationMethod<
   errors: [UnknownAdyenError],
   protocol: AdyenProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

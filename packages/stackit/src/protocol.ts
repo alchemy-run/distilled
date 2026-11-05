@@ -1,9 +1,9 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -12,11 +12,10 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  unwrapRedactedDeep,
-  wrapSensitive,
   type RestErrorEnvelope,
+  unwrapRedactedDeep,
+  validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
@@ -57,7 +56,8 @@ export type StackitOpError =
   | UnknownStackitError
   | StackitParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated STACKIT operation. */
 export type StackitOpContext = Credentials | HttpClient.HttpClient;
@@ -125,7 +125,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       Effect.gen(function* () {
         const resolve = yield* Credentials;
         const creds = yield* resolve;
-        return buildRequest({
+        return yield* buildRequest({
           input: unwrapRedactedDeep(input),
           inputAst,
           baseUrl: baseUrlFor(creds, inputAst),
@@ -144,10 +144,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       readonly errors: ReadonlyArray<unknown>;
     }) =>
       Effect.gen(function* () {
-        const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-        if (debugHttp()) {
-          console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-        }
+        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
         let json: unknown;
         let nonJson = false;
         if (text.trim().length > 0) {
@@ -215,14 +212,15 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
           );
         }
 
-        // Strict mode checks the mapped body against the output schema.
+        // Strict mode checks the mapped body against the output schema, and
+        // parse errors withhold a body that can hold a secret (core
+        // `validateSuccess`).
         const body: unknown = nonJson ? text : (json ?? {});
-        const mapped = yield* validateResponse(
+        return yield* validateSuccess(
           outputAst,
-          mapKeys(outputAst, body, "decode"),
-          (cause) => new StackitParseError({ body: nonJson ? text : json, cause }),
+          { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+          (info) => new StackitParseError(info),
         ).pipe(Effect.catch(fail));
-        return wrapSensitive(outputAst, mapped);
       }),
   }),
 );

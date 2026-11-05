@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "sqladmin" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Sqladmin",
+  service: "sqladmin",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3771,6 +3790,8 @@ export const acquireSsrsLeaseInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcquireSsrsLeaseInstances",
 }));
 
 export type AddEntraIdCertificateInstancesError =
@@ -3791,6 +3812,8 @@ export const addEntraIdCertificateInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEntraIdCertificateInstances",
 }));
 
 export type AddServerCaInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3806,6 +3829,8 @@ export const addServerCaInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddServerCaInstances",
 }));
 
 export type AddServerCertificateInstancesError =
@@ -3826,6 +3851,8 @@ export const addServerCertificateInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddServerCertificateInstances",
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3841,6 +3868,8 @@ export const cancelOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOperations",
 }));
 
 export type CloneInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3856,6 +3885,8 @@ export const cloneInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneInstances",
 }));
 
 export type ConnectResolveError = NotFound | Forbidden | GcpOpError;
@@ -3871,6 +3902,8 @@ export const connectResolve: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectResolve",
 }));
 
 export type CreateBackupBackupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3886,6 +3919,8 @@ export const createBackupBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackupBackups",
 }));
 
 export type CreateBlueGreenDeploymentsError =
@@ -3906,6 +3941,8 @@ export const createBlueGreenDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBlueGreenDeployments",
 }));
 
 export type CreateEphemeralSslCertsError =
@@ -3927,6 +3964,8 @@ export const createEphemeralSslCerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEphemeralSslCerts",
 }));
 
 export type DeleteBackupBackupsError =
@@ -3948,6 +3987,8 @@ export const deleteBackupBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlBackupAccessDenied, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupBackups",
 }));
 
 export type DeleteBackupRunsError =
@@ -3969,6 +4010,8 @@ export const deleteBackupRuns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupRuns",
 }));
 
 export type DeleteBlueGreenDeploymentsError =
@@ -3989,6 +4032,8 @@ export const deleteBlueGreenDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlueGreenDeployments",
 }));
 
 export type DeleteDatabasesError =
@@ -4010,6 +4055,8 @@ export const deleteDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabases",
 }));
 
 export type DeleteInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4025,6 +4072,8 @@ export const deleteInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstances",
 }));
 
 export type DeleteSslCertsError =
@@ -4046,6 +4095,8 @@ export const deleteSslCerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSslCerts",
 }));
 
 export type DeleteUsersError =
@@ -4067,6 +4118,8 @@ export const deleteUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsers",
 }));
 
 export type DemoteInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4082,6 +4135,8 @@ export const demoteInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DemoteInstances",
 }));
 
 export type DemoteMasterInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4097,6 +4152,8 @@ export const demoteMasterInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DemoteMasterInstances",
 }));
 
 export type ExecuteSqlInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4112,6 +4169,8 @@ export const executeSqlInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteSqlInstances",
 }));
 
 export type ExportInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4127,6 +4186,8 @@ export const exportInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportInstances",
 }));
 
 export type FailoverInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4142,6 +4203,8 @@ export const failoverInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FailoverInstances",
 }));
 
 export type GenerateEphemeralCertConnectError =
@@ -4162,6 +4225,8 @@ export const generateEphemeralCertConnect: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateEphemeralCertConnect",
 }));
 
 export type GetBackupBackupsError = NotFound | Forbidden | SqlBackupAccessDenied | GcpOpError;
@@ -4177,6 +4242,8 @@ export const getBackupBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, SqlBackupAccessDenied, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupBackups",
 }));
 
 export type GetBackupRunsError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4192,6 +4259,8 @@ export const getBackupRuns: API.OperationMethod<
   errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupRuns",
 }));
 
 export type GetBlueGreenDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -4207,6 +4276,8 @@ export const getBlueGreenDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlueGreenDeployments",
 }));
 
 export type GetConnectError = NotFound | Forbidden | GcpOpError;
@@ -4222,6 +4293,8 @@ export const getConnect: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnect",
 }));
 
 export type GetDatabasesError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4237,6 +4310,8 @@ export const getDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabases",
 }));
 
 export type GetDiskShrinkConfigProjectsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4252,6 +4327,8 @@ export const getDiskShrinkConfigProjectsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiskShrinkConfigProjectsInstances",
 }));
 
 export type GetInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4267,6 +4344,8 @@ export const getInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstances",
 }));
 
 export type GetLatestRecoveryTimeProjectsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4282,6 +4361,8 @@ export const getLatestRecoveryTimeProjectsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLatestRecoveryTimeProjectsInstances",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4297,6 +4378,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetSslCertsError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4312,6 +4395,8 @@ export const getSslCerts: API.OperationMethod<
   errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSslCerts",
 }));
 
 export type GetUsersError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4323,6 +4408,8 @@ export const getUsers: API.OperationMethod<GetUsersRequest, User, GetUsersError,
     errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUsers",
   }));
 
 export type ImportInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4338,6 +4425,8 @@ export const importInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportInstances",
 }));
 
 export type InsertBackupRunsError =
@@ -4359,6 +4448,8 @@ export const insertBackupRuns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertBackupRuns",
 }));
 
 export type InsertDatabasesError =
@@ -4380,6 +4471,8 @@ export const insertDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDatabases",
 }));
 
 export type InsertInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4395,6 +4488,8 @@ export const insertInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertInstances",
 }));
 
 export type InsertSslCertsError =
@@ -4416,6 +4511,8 @@ export const insertSslCerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSslCerts",
 }));
 
 export type InsertUsersError =
@@ -4437,6 +4534,8 @@ export const insertUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUsers",
 }));
 
 export type ListBackupRunsError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4453,6 +4552,8 @@ export const listBackupRuns: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupRuns",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4470,6 +4571,8 @@ export const listBackupsBackups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupsBackups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4487,6 +4590,8 @@ export const listBlueGreenDeployments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlueGreenDeployments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4503,6 +4608,8 @@ export const listDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 }));
 
 export type ListEntraIdCertificatesInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4518,6 +4625,8 @@ export const listEntraIdCertificatesInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEntraIdCertificatesInstances",
 }));
 
 export type ListFlagsError = NotFound | Forbidden | GcpOpError;
@@ -4533,6 +4642,8 @@ export const listFlags: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlags",
 }));
 
 export type ListInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4549,6 +4660,8 @@ export const listInstances: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4566,6 +4679,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4582,6 +4697,8 @@ export const listServerCasInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerCasInstances",
 }));
 
 export type ListServerCertificatesInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4597,6 +4714,8 @@ export const listServerCertificatesInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerCertificatesInstances",
 }));
 
 export type ListSslCertsError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4612,6 +4731,8 @@ export const listSslCerts: API.OperationMethod<
   errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslCerts",
 }));
 
 export type ListTiersError = NotFound | Forbidden | GcpOpError;
@@ -4627,6 +4748,8 @@ export const listTiers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTiers",
 }));
 
 export type ListUsersError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4642,6 +4765,8 @@ export const listUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListWorkloadCapturesError = NotFound | Forbidden | GcpOpError;
@@ -4657,6 +4782,8 @@ export const listWorkloadCaptures: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadCaptures",
 }));
 
 export type PatchDatabasesError =
@@ -4678,6 +4805,8 @@ export const patchDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDatabases",
 }));
 
 export type PatchInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4693,6 +4822,8 @@ export const patchInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInstances",
 }));
 
 export type PerformDiskShrinkProjectsInstancesError =
@@ -4713,6 +4844,8 @@ export const performDiskShrinkProjectsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PerformDiskShrinkProjectsInstances",
 }));
 
 export type PointInTimeRestoreInstancesError =
@@ -4733,6 +4866,8 @@ export const pointInTimeRestoreInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PointInTimeRestoreInstances",
 }));
 
 export type PreCheckMajorVersionUpgradeInstancesError =
@@ -4753,6 +4888,8 @@ export const preCheckMajorVersionUpgradeInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreCheckMajorVersionUpgradeInstances",
 }));
 
 export type PromoteReplicaInstancesError =
@@ -4773,6 +4910,8 @@ export const promoteReplicaInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteReplicaInstances",
 }));
 
 export type ReencryptInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4788,6 +4927,8 @@ export const reencryptInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReencryptInstances",
 }));
 
 export type ReleaseSsrsLeaseInstancesError =
@@ -4808,6 +4949,8 @@ export const releaseSsrsLeaseInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReleaseSsrsLeaseInstances",
 }));
 
 export type RescheduleMaintenanceProjectsInstancesError =
@@ -4828,6 +4971,8 @@ export const rescheduleMaintenanceProjectsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RescheduleMaintenanceProjectsInstances",
 }));
 
 export type ResetReplicaSizeProjectsInstancesError =
@@ -4848,6 +4993,8 @@ export const resetReplicaSizeProjectsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetReplicaSizeProjectsInstances",
 }));
 
 export type ResetSslConfigInstancesError =
@@ -4868,6 +5015,8 @@ export const resetSslConfigInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetSslConfigInstances",
 }));
 
 export type RestartInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4883,6 +5032,8 @@ export const restartInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartInstances",
 }));
 
 export type RestoreBackupInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4898,6 +5049,8 @@ export const restoreBackupInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreBackupInstances",
 }));
 
 export type RotateEntraIdCertificateInstancesError =
@@ -4918,6 +5071,8 @@ export const rotateEntraIdCertificateInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateEntraIdCertificateInstances",
 }));
 
 export type RotateServerCaInstancesError =
@@ -4938,6 +5093,8 @@ export const rotateServerCaInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateServerCaInstances",
 }));
 
 export type RotateServerCertificateInstancesError =
@@ -4958,6 +5115,8 @@ export const rotateServerCertificateInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateServerCertificateInstances",
 }));
 
 export type StartExternalSyncProjectsInstancesError =
@@ -4978,6 +5137,8 @@ export const startExternalSyncProjectsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartExternalSyncProjectsInstances",
 }));
 
 export type StartReplayWorkloadCapturesError =
@@ -4998,6 +5159,8 @@ export const startReplayWorkloadCaptures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartReplayWorkloadCaptures",
 }));
 
 export type StartReplicaInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5013,6 +5176,8 @@ export const startReplicaInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartReplicaInstances",
 }));
 
 export type StartWorkloadCapturesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5028,6 +5193,8 @@ export const startWorkloadCaptures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartWorkloadCaptures",
 }));
 
 export type StopReplayWorkloadCapturesError =
@@ -5048,6 +5215,8 @@ export const stopReplayWorkloadCaptures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopReplayWorkloadCaptures",
 }));
 
 export type StopReplicaInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5063,6 +5232,8 @@ export const stopReplicaInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopReplicaInstances",
 }));
 
 export type StopWorkloadCapturesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5078,6 +5249,8 @@ export const stopWorkloadCaptures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopWorkloadCaptures",
 }));
 
 export type SwitchoverBlueGreenDeploymentsError =
@@ -5098,6 +5271,8 @@ export const switchoverBlueGreenDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwitchoverBlueGreenDeployments",
 }));
 
 export type SwitchoverInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5113,6 +5288,8 @@ export const switchoverInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwitchoverInstances",
 }));
 
 export type TruncateLogInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5128,6 +5305,8 @@ export const truncateLogInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TruncateLogInstances",
 }));
 
 export type UpdateBackupBackupsError =
@@ -5149,6 +5328,8 @@ export const updateBackupBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlBackupAccessDenied, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackupBackups",
 }));
 
 export type UpdateDatabasesError =
@@ -5170,6 +5351,8 @@ export const updateDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabases",
 }));
 
 export type UpdateInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5185,6 +5368,8 @@ export const updateInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstances",
 }));
 
 export type UpdateUsersError =
@@ -5206,6 +5391,8 @@ export const updateUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, SqlInstanceNotAuthorized, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsers",
 }));
 
 export type VerifyExternalSyncSettingsProjectsInstancesError =
@@ -5230,6 +5417,8 @@ export const verifyExternalSyncSettingsProjectsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyExternalSyncSettingsProjectsInstances",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

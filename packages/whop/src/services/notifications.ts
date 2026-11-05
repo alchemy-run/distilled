@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Notifications",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -255,6 +268,8 @@ export const getNotification: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotification",
 }));
 
 export type ListNotificationBadgesError = Forbidden | WhopOpError;
@@ -270,6 +285,8 @@ export const listNotificationBadges: API.OperationMethod<
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationBadges",
 }));
 
 export type ListNotificationsError = BadRequest | Forbidden | WhopOpError;
@@ -287,6 +304,8 @@ export const listNotifications: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNotifications",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -314,6 +333,8 @@ export const listNotificationTopics: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNotificationTopics",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -339,6 +360,8 @@ export const readMarkNotification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadMarkNotification",
 }));
 
 export type SendNotificationError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -354,6 +377,8 @@ export const sendNotification: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendNotification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

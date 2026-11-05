@@ -66,6 +66,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   wpPlugin: "wp_plugin",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Zones",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CustomNameserverSetNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CustomNameserverSetNotFound>()("CustomNameserverSetNotFound", {
@@ -154,6 +168,15 @@ export class ZoneHoldsRequireEnterprise
       message: S.String,
     }),
     [{ code: 1005, message: { includes: "Zone holds are only available on Enterprise zones" } }],
+  ) {}
+
+export class ZoneQuotaExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ZoneQuotaExceeded>()("ZoneQuotaExceeded", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "zone quota" } }],
   ) {}
 
 export interface EnvironmentsCreateRequestEnvironmentsItemPosition {
@@ -6209,6 +6232,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateHoldError =
@@ -6234,6 +6259,8 @@ export const createHold: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHold",
 }));
 
 export type CreateSubscriptionError = CloudflareOpError;
@@ -6249,6 +6276,8 @@ export const createSubscription: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateZoneError =
@@ -6257,6 +6286,7 @@ export type CreateZoneError =
   | InvalidDomain
   | DomainNotRegistered
   | SubdomainNotAllowed
+  | ZoneQuotaExceeded
   | CloudflareOpError;
 /** Creates a new zone (domain) in your Cloudflare account. The zone is created in a pending state and must be activated by updating your domain's nameservers to point to Cloudflare, or by completing the verification process for partial (CNAME) setups. */
 export const createZone: API.OperationMethod<
@@ -6273,11 +6303,14 @@ export const createZone: API.OperationMethod<
     InvalidDomain,
     DomainNotRegistered,
     SubdomainNotAllowed,
+    ZoneQuotaExceeded,
     CloudflareRateLimited,
     CloudflareError,
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZone",
 }));
 
 export type DeleteEnvironmentError = CloudflareOpError;
@@ -6293,6 +6326,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteHoldError = InvalidZoneIdentifier | Forbidden | CloudflareOpError;
@@ -6308,6 +6343,8 @@ export const deleteHold: API.OperationMethod<
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHold",
 }));
 
 export type DeleteObservabilityTracingRuleError = CloudflareOpError;
@@ -6323,6 +6360,8 @@ export const deleteObservabilityTracingRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObservabilityTracingRule",
 }));
 
 export type DeleteObservabilityTracingSettingsError = CloudflareOpError;
@@ -6338,6 +6377,8 @@ export const deleteObservabilityTracingSettings: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObservabilityTracingSettings",
 }));
 
 export type DeleteZoneError = InvalidZoneIdentifier | CloudflareOpError;
@@ -6353,6 +6394,8 @@ export const deleteZone: API.OperationMethod<
   errors: [InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZone",
 }));
 
 export type EditNelError = CloudflareOpError;
@@ -6368,6 +6411,8 @@ export const editNel: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditNel",
 }));
 
 export type EditTransformationsAllowedOriginError = CloudflareOpError;
@@ -6383,6 +6428,8 @@ export const editTransformationsAllowedOrigin: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditTransformationsAllowedOrigin",
 }));
 
 export type EditTransformationsC2paError = CloudflareOpError;
@@ -6398,6 +6445,8 @@ export const editTransformationsC2pa: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditTransformationsC2pa",
 }));
 
 export type GetCtAlertingError = CloudflareOpError;
@@ -6413,6 +6462,8 @@ export const getCtAlerting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCtAlerting",
 }));
 
 export type GetCustomNameserverError = InvalidZoneIdentifier | Forbidden | CloudflareOpError;
@@ -6428,6 +6479,8 @@ export const getCustomNameserver: API.OperationMethod<
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomNameserver",
 }));
 
 export type GetHoldError = InvalidZoneIdentifier | Forbidden | CloudflareOpError;
@@ -6443,6 +6496,8 @@ export const getHold: API.OperationMethod<
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHold",
 }));
 
 export type GetNelError = CloudflareOpError;
@@ -6458,6 +6513,8 @@ export const getNel: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNel",
 }));
 
 export type GetObservabilityTracingRuleError = CloudflareOpError;
@@ -6473,6 +6530,8 @@ export const getObservabilityTracingRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityTracingRule",
 }));
 
 export type GetObservabilityTracingSettingsError = CloudflareOpError;
@@ -6488,6 +6547,8 @@ export const getObservabilityTracingSettings: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityTracingSettings",
 }));
 
 export type GetPlanError = CloudflareOpError;
@@ -6503,6 +6564,8 @@ export const getPlan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlan",
 }));
 
 export type GetRatePlanError = CloudflareOpError;
@@ -6520,6 +6583,8 @@ export const getRatePlan: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRatePlan",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -6538,6 +6603,8 @@ export const getSetting: API.OperationMethod<
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetting",
 }));
 
 export type GetSubscriptionError = CloudflareOpError;
@@ -6553,6 +6620,8 @@ export const getSubscription: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetTransformationsAllowedOriginError = CloudflareOpError;
@@ -6568,6 +6637,8 @@ export const getTransformationsAllowedOrigin: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformationsAllowedOrigin",
 }));
 
 export type GetTransformationsC2paError = CloudflareOpError;
@@ -6583,6 +6654,8 @@ export const getTransformationsC2pa: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformationsC2pa",
 }));
 
 export type GetZoneError = InvalidZoneIdentifier | CloudflareOpError;
@@ -6598,6 +6671,8 @@ export const getZone: API.OperationMethod<
   errors: [InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZone",
 }));
 
 export type ListEntitlementsError = CloudflareOpError;
@@ -6613,6 +6688,8 @@ export const listEntitlements: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEntitlements",
 }));
 
 export type ListEnvironmentsError = CloudflareOpError;
@@ -6628,6 +6705,8 @@ export const listEnvironments: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListPlansError = CloudflareOpError;
@@ -6645,6 +6724,8 @@ export const listPlans: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPlans",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -6663,6 +6744,8 @@ export const listSettings: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSettings",
 }));
 
 export type ListZonesError = CloudflareOpError;
@@ -6680,6 +6763,8 @@ export const listZones: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListZones",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -6704,6 +6789,8 @@ export const patchCtAlerting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCtAlerting",
 }));
 
 export type PatchEnvironmentError = CloudflareOpError;
@@ -6719,6 +6806,8 @@ export const patchEnvironment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEnvironment",
 }));
 
 export type PatchHoldError =
@@ -6746,6 +6835,8 @@ export const patchHold: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchHold",
 }));
 
 export type PatchSettingError = InvalidZoneIdentifier | Forbidden | CloudflareOpError;
@@ -6761,6 +6852,8 @@ export const patchSetting: API.OperationMethod<
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSetting",
 }));
 
 export type PatchZoneError = InvalidZoneIdentifier | CloudflareOpError;
@@ -6776,6 +6869,8 @@ export const patchZone: API.OperationMethod<
   errors: [InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchZone",
 }));
 
 export type PutCustomNameserverError =
@@ -6803,6 +6898,8 @@ export const putCustomNameserver: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutCustomNameserver",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -6821,6 +6918,8 @@ export const rollbackEnvironment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackEnvironment",
 }));
 
 export type SettingsBulkEditError = CloudflareOpError;
@@ -6836,6 +6935,8 @@ export const settingsBulkEdit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettingsBulkEdit",
 }));
 
 export type TriggerActivationCheckError = CloudflareOpError;
@@ -6851,6 +6952,8 @@ export const triggerActivationCheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerActivationCheck",
 }));
 
 export type UpdateEnvironmentError = CloudflareOpError;
@@ -6866,6 +6969,8 @@ export const updateEnvironment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateObservabilityTracingRuleError = CloudflareOpError;
@@ -6881,6 +6986,8 @@ export const updateObservabilityTracingRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObservabilityTracingRule",
 }));
 
 export type UpdateObservabilityTracingSettingsError = CloudflareOpError;
@@ -6896,6 +7003,8 @@ export const updateObservabilityTracingSettings: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObservabilityTracingSettings",
 }));
 
 export type UpdateSubscriptionError = CloudflareOpError;
@@ -6911,6 +7020,8 @@ export const updateSubscription: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

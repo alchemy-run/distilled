@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "UrlNormalization",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -33,15 +47,15 @@ export interface GetUrlNormalizationRequest {
   /** The unique ID of the zone. */
   zoneId: string;
 }
-export type GetResponseScope = "incoming" | "both" | "none";
-export type GetResponseType = "cloudflare" | "rfc3986";
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface GetUrlNormalizationResponse {
+export type GetResultScope = "incoming" | "both" | "none";
+export type GetResultType = "cloudflare" | "rfc3986";
+export interface GetResult {
   /** The scope of the URL normalization. */
-  scope: GetResponseScope;
+  scope: GetResultScope;
   /** The type of URL normalization performed by Cloudflare. */
-  type: GetResponseType;
+  type: GetResultType;
 }
+export type GetUrlNormalizationResponse = GetResult;
 export type UpdateRequestScope = "incoming" | "both" | "none";
 export type UpdateRequestType = "cloudflare" | "rfc3986";
 export interface PutUrlNormalizationRequest {
@@ -52,15 +66,15 @@ export interface PutUrlNormalizationRequest {
   /** The type of URL normalization performed by Cloudflare. */
   type: UpdateRequestType | (string & {});
 }
-export type UpdateResponseScope = "incoming" | "both" | "none";
-export type UpdateResponseType = "cloudflare" | "rfc3986";
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface PutUrlNormalizationResponse {
+export type UpdateResultScope = "incoming" | "both" | "none";
+export type UpdateResultType = "cloudflare" | "rfc3986";
+export interface UpdateResult {
   /** The scope of the URL normalization. */
-  scope: UpdateResponseScope;
+  scope: UpdateResultScope;
   /** The type of URL normalization performed by Cloudflare. */
-  type: UpdateResponseType;
+  type: UpdateResultType;
 }
+export type PutUrlNormalizationResponse = UpdateResult;
 export type DeleteUrlNormalizationError = Forbidden | CloudflareOpError;
 /** Deletes the URL Normalization settings. */
 export const deleteUrlNormalization: API.OperationMethod<
@@ -74,6 +88,8 @@ export const deleteUrlNormalization: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUrlNormalization",
 }));
 
 export type GetUrlNormalizationError = Forbidden | CloudflareOpError;
@@ -85,10 +101,12 @@ export const getUrlNormalization: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c1, 0) as any as S.Schema<GetUrlNormalizationRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<GetUrlNormalizationResponse>,
+  output: __S(5, __c2, 1) as any as S.Schema<GetUrlNormalizationResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUrlNormalization",
 }));
 
 export type PutUrlNormalizationError = Forbidden | CloudflareOpError;
@@ -100,10 +118,12 @@ export const putUrlNormalization: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<PutUrlNormalizationRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<PutUrlNormalizationResponse>,
+  output: __S(5, __c2, 1) as any as S.Schema<PutUrlNormalizationResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUrlNormalization",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -139,7 +159,11 @@ function __c2(j: number): any {
           scope: S.String,
           type: S.String,
         }),
-      ).annotate({ identifier: "GetUrlNormalizationResponse" });
+      ).annotate({ identifier: "GetResult" });
+    case 1:
+      return S.suspend(() => __S(4, __c2, 0).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "GetUrlNormalizationResponse",
+      });
   }
 }
 function __c3(j: number): any {

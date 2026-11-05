@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * CustomerioProtocol -- hand-written.
@@ -38,7 +38,8 @@ export type CustomerioOpError =
   | UnknownCustomerioError
   | ConfigError
   | HttpClientError.HttpClientError
-  | CustomerioParseError;
+  | CustomerioParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Customer.io operation. */
 export type CustomerioOpContext = Credentials | HttpClient.HttpClient;

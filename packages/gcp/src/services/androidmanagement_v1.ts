@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "androidmanagement" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Androidmanagement",
+  service: "androidmanagement",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3100,6 +3119,8 @@ export const cancelEnterprisesDevicesOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelEnterprisesDevicesOperations",
 }));
 
 export type CreateEnterprisesError =
@@ -3121,6 +3142,8 @@ export const createEnterprises: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnterprises",
 }));
 
 export type CreateEnterprisesEnrollmentTokensError =
@@ -3142,6 +3165,8 @@ export const createEnterprisesEnrollmentTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnterprisesEnrollmentTokens",
 }));
 
 export type CreateEnterprisesMigrationTokensError =
@@ -3163,6 +3188,8 @@ export const createEnterprisesMigrationTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnterprisesMigrationTokens",
 }));
 
 export type CreateEnterprisesWebAppsError =
@@ -3184,6 +3211,8 @@ export const createEnterprisesWebApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnterprisesWebApps",
 }));
 
 export type CreateEnterprisesWebTokensError =
@@ -3205,6 +3234,8 @@ export const createEnterprisesWebTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnterprisesWebTokens",
 }));
 
 export type CreateSignupUrlsError =
@@ -3226,6 +3257,8 @@ export const createSignupUrls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignupUrls",
 }));
 
 export type DeleteEnterprisesError =
@@ -3247,6 +3280,8 @@ export const deleteEnterprises: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterprises",
 }));
 
 export type DeleteEnterprisesDevicesError =
@@ -3268,6 +3303,8 @@ export const deleteEnterprisesDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterprisesDevices",
 }));
 
 export type DeleteEnterprisesEnrollmentTokensError =
@@ -3289,6 +3326,8 @@ export const deleteEnterprisesEnrollmentTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterprisesEnrollmentTokens",
 }));
 
 export type DeleteEnterprisesPoliciesError =
@@ -3310,6 +3349,8 @@ export const deleteEnterprisesPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterprisesPolicies",
 }));
 
 export type DeleteEnterprisesWebAppsError =
@@ -3331,6 +3372,8 @@ export const deleteEnterprisesWebApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterprisesWebApps",
 }));
 
 export type GenerateEnterpriseUpgradeUrlEnterprisesError =
@@ -3352,6 +3395,8 @@ export const generateEnterpriseUpgradeUrlEnterprises: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateEnterpriseUpgradeUrlEnterprises",
 }));
 
 export type GetEnterprisesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3367,6 +3412,8 @@ export const getEnterprises: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprises",
 }));
 
 export type GetEnterprisesApplicationsError =
@@ -3386,6 +3433,8 @@ export const getEnterprisesApplications: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprisesApplications",
 }));
 
 export type GetEnterprisesDevicesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3401,6 +3450,8 @@ export const getEnterprisesDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprisesDevices",
 }));
 
 export type GetEnterprisesDevicesOperationsError =
@@ -3420,6 +3471,8 @@ export const getEnterprisesDevicesOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprisesDevicesOperations",
 }));
 
 export type GetEnterprisesEnrollmentTokensError =
@@ -3439,6 +3492,8 @@ export const getEnterprisesEnrollmentTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprisesEnrollmentTokens",
 }));
 
 export type GetEnterprisesMigrationTokensError =
@@ -3458,6 +3513,8 @@ export const getEnterprisesMigrationTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprisesMigrationTokens",
 }));
 
 export type GetEnterprisesPoliciesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3473,6 +3530,8 @@ export const getEnterprisesPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprisesPolicies",
 }));
 
 export type GetEnterprisesWebAppsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3488,6 +3547,8 @@ export const getEnterprisesWebApps: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterprisesWebApps",
 }));
 
 export type GetProvisioningInfoError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3503,6 +3564,8 @@ export const getProvisioningInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProvisioningInfo",
 }));
 
 export type IssueCommandEnterprisesDevicesError =
@@ -3524,6 +3587,8 @@ export const issueCommandEnterprisesDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueCommandEnterprisesDevices",
 }));
 
 export type ListEnterprisesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3540,6 +3605,8 @@ export const listEnterprises: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterprises",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3557,6 +3624,8 @@ export const listEnterprisesDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterprisesDevices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3578,6 +3647,8 @@ export const listEnterprisesDevicesOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterprisesDevicesOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3599,6 +3670,8 @@ export const listEnterprisesEnrollmentTokens: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterprisesEnrollmentTokens",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3620,6 +3693,8 @@ export const listEnterprisesMigrationTokens: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterprisesMigrationTokens",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3637,6 +3712,8 @@ export const listEnterprisesPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterprisesPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3654,6 +3731,8 @@ export const listEnterprisesWebApps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterprisesWebApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3676,6 +3755,8 @@ export const modifyPolicyApplicationsEnterprisesPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyPolicyApplicationsEnterprisesPolicies",
 }));
 
 export type PatchEnterprisesError =
@@ -3697,6 +3778,8 @@ export const patchEnterprises: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEnterprises",
 }));
 
 export type PatchEnterprisesDevicesError =
@@ -3718,6 +3801,8 @@ export const patchEnterprisesDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEnterprisesDevices",
 }));
 
 export type PatchEnterprisesPoliciesError =
@@ -3739,6 +3824,8 @@ export const patchEnterprisesPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEnterprisesPolicies",
 }));
 
 export type PatchEnterprisesWebAppsError =
@@ -3760,6 +3847,8 @@ export const patchEnterprisesWebApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEnterprisesWebApps",
 }));
 
 export type RemovePolicyApplicationsEnterprisesPoliciesError =
@@ -3781,6 +3870,8 @@ export const removePolicyApplicationsEnterprisesPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePolicyApplicationsEnterprisesPolicies",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { XataOpError, XataOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "xata-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Xata",
+  service: "Xata",
+  labels: "xata",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1793,6 +1806,8 @@ export const branchLogs2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BranchLogs2",
 }));
 
 export type BranchMetrics2Error = BadRequest | NotFound | XataOpError;
@@ -1808,6 +1823,8 @@ export const branchMetrics2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BranchMetrics2",
 }));
 
 export type ClaimOrganizationSSODomainError = BadRequest | Forbidden | Conflict | XataOpError;
@@ -1823,6 +1840,8 @@ export const claimOrganizationSSODomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimOrganizationSSODomain",
 }));
 
 export type CreateBillingCheckoutSessionError = BadRequest | Forbidden | XataOpError;
@@ -1838,6 +1857,8 @@ export const createBillingCheckoutSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingCheckoutSession",
 }));
 
 export type CreateBillingPaymentMethodSessionError = BadRequest | Forbidden | XataOpError;
@@ -1853,6 +1874,8 @@ export const createBillingPaymentMethodSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingPaymentMethodSession",
 }));
 
 export type CreateBranchError = BadRequest | NotFound | XataOpError;
@@ -1868,6 +1891,8 @@ export const createBranch: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateGithubAppInstallationError = BadRequest | Conflict | XataOpError;
@@ -1883,6 +1908,8 @@ export const createGithubAppInstallation: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGithubAppInstallation",
 }));
 
 export type CreateGithubRepositoryError = BadRequest | Conflict | XataOpError;
@@ -1898,6 +1925,8 @@ export const createGithubRepository: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGithubRepository",
 }));
 
 export type CreateOrganizationError = BadRequest | NotFound | XataOpError;
@@ -1913,6 +1942,8 @@ export const createOrganization: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrganizationAPIKeyError = BadRequest | XataOpError;
@@ -1928,6 +1959,8 @@ export const createOrganizationAPIKey: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationAPIKey",
 }));
 
 export type CreateOrganizationInvitationError =
@@ -1948,6 +1981,8 @@ export const createOrganizationInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationInvitation",
 }));
 
 export type CreateOrganizationSSOProviderError = BadRequest | Forbidden | Conflict | XataOpError;
@@ -1963,6 +1998,8 @@ export const createOrganizationSSOProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationSSOProvider",
 }));
 
 export type CreateProjectError = BadRequest | XataOpError;
@@ -1978,6 +2015,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateUserAPIKeyError = BadRequest | XataOpError;
@@ -1993,6 +2032,8 @@ export const createUserAPIKey: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserAPIKey",
 }));
 
 export type DeleteBranchError = BadRequest | NotFound | XataOpError;
@@ -2008,6 +2049,8 @@ export const deleteBranch: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteGithubRepositoryError = BadRequest | NotFound | XataOpError;
@@ -2023,6 +2066,8 @@ export const deleteGithubRepository: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGithubRepository",
 }));
 
 export type DeleteInstallationError = Forbidden | Conflict | XataOpError;
@@ -2038,6 +2083,8 @@ export const deleteInstallation: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstallation",
 }));
 
 export type DeleteOrganizationError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2053,6 +2100,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrganizationAPIKeysError = BadRequest | NotFound | XataOpError;
@@ -2068,6 +2117,8 @@ export const deleteOrganizationAPIKeys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationAPIKeys",
 }));
 
 export type DeleteOrganizationInvitationError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2083,6 +2134,8 @@ export const deleteOrganizationInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationInvitation",
 }));
 
 export type DeleteOrganizationSSODomainError = Forbidden | Conflict | XataOpError;
@@ -2098,6 +2151,8 @@ export const deleteOrganizationSSODomain: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationSSODomain",
 }));
 
 export type DeleteOrganizationSSOProviderError = Forbidden | XataOpError;
@@ -2113,6 +2168,8 @@ export const deleteOrganizationSSOProvider: API.OperationMethod<
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationSSOProvider",
 }));
 
 export type DeleteProjectError = BadRequest | NotFound | XataOpError;
@@ -2128,6 +2185,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteResourceError = Forbidden | NotFound | XataOpError;
@@ -2143,6 +2202,8 @@ export const deleteResource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResource",
 }));
 
 export type DeleteUserAPIKeysError = BadRequest | NotFound | XataOpError;
@@ -2158,6 +2219,8 @@ export const deleteUserAPIKeys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserAPIKeys",
 }));
 
 export type DescribeBranchError = BadRequest | NotFound | XataOpError;
@@ -2173,6 +2236,8 @@ export const describeBranch: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeBranch",
 }));
 
 export type GetBackupError = BadRequest | NotFound | XataOpError;
@@ -2188,6 +2253,8 @@ export const getBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackup",
 }));
 
 export type GetBillingCustomerError = Forbidden | NotFound | XataOpError;
@@ -2203,6 +2270,8 @@ export const getBillingCustomer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCustomer",
 }));
 
 export type GetBillingInvoicesError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2218,6 +2287,8 @@ export const getBillingInvoices: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingInvoices",
 }));
 
 export type GetBillingUpcomingInvoiceError = Forbidden | NotFound | XataOpError;
@@ -2233,6 +2304,8 @@ export const getBillingUpcomingInvoice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUpcomingInvoice",
 }));
 
 export type GetBranchCredentialsError = BadRequest | NotFound | XataOpError;
@@ -2248,6 +2321,8 @@ export const getBranchCredentials: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchCredentials",
 }));
 
 export type GetBranchPostgresConfigError = BadRequest | NotFound | XataOpError;
@@ -2263,6 +2338,8 @@ export const getBranchPostgresConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchPostgresConfig",
 }));
 
 export type GetGithubRepositoryError = BadRequest | XataOpError;
@@ -2278,6 +2355,8 @@ export const getGithubRepository: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubRepository",
 }));
 
 export type GetOrganizationError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2293,6 +2372,8 @@ export const getOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationInvitationError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2308,6 +2389,8 @@ export const getOrganizationInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationInvitation",
 }));
 
 export type GetOrganizationLimitsError = Forbidden | XataOpError;
@@ -2323,6 +2406,8 @@ export const getOrganizationLimits: API.OperationMethod<
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationLimits",
 }));
 
 export type GetOrganizationMembershipLimitsError = Forbidden | XataOpError;
@@ -2338,6 +2423,8 @@ export const getOrganizationMembershipLimits: API.OperationMethod<
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMembershipLimits",
 }));
 
 export type GetOrganizationsListError = BadRequest | NotFound | XataOpError;
@@ -2353,6 +2440,8 @@ export const getOrganizationsList: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsList",
 }));
 
 export type GetOrganizationSSOError = Forbidden | XataOpError;
@@ -2368,6 +2457,8 @@ export const getOrganizationSSO: API.OperationMethod<
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSSO",
 }));
 
 export type GetProjectError = BadRequest | NotFound | XataOpError;
@@ -2383,6 +2474,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectLimitsError = XataOpError;
@@ -2398,6 +2491,8 @@ export const getProjectLimits: API.OperationMethod<
   errors: [UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectLimits",
 }));
 
 export type GetResourceError = Forbidden | NotFound | XataOpError;
@@ -2413,6 +2508,8 @@ export const getResource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResource",
 }));
 
 export type GithubWebhookError = BadRequest | XataOpError;
@@ -2428,6 +2525,8 @@ export const githubWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GithubWebhook",
 }));
 
 export type ListBackupsError = BadRequest | NotFound | XataOpError;
@@ -2443,6 +2542,8 @@ export const listBackups: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackups",
 }));
 
 export type ListBillingPlansForProductError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2458,6 +2559,8 @@ export const listBillingPlansForProduct: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPlansForProduct",
 }));
 
 export type ListBranchesError = BadRequest | NotFound | XataOpError;
@@ -2473,6 +2576,8 @@ export const listBranches: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
 }));
 
 export type ListExtensionsError = BadRequest | XataOpError;
@@ -2488,6 +2593,8 @@ export const listExtensions: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 }));
 
 export type ListGithubAppInstallationsError = BadRequest | XataOpError;
@@ -2503,6 +2610,8 @@ export const listGithubAppInstallations: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGithubAppInstallations",
 }));
 
 export type ListImagesError = BadRequest | XataOpError;
@@ -2518,6 +2627,8 @@ export const listImages: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 }));
 
 export type ListInstanceTypesError = BadRequest | XataOpError;
@@ -2533,6 +2644,8 @@ export const listInstanceTypes: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstanceTypes",
 }));
 
 export type ListOrganizationAPIKeysError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2548,6 +2661,8 @@ export const listOrganizationAPIKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAPIKeys",
 }));
 
 export type ListOrganizationInvitationsError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2563,6 +2678,8 @@ export const listOrganizationInvitations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInvitations",
 }));
 
 export type ListOrganizationMembersError = XataOpError;
@@ -2578,6 +2695,8 @@ export const listOrganizationMembers: API.OperationMethod<
   errors: [UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMembers",
 }));
 
 export type ListOrganizationRolesError = Forbidden | NotFound | XataOpError;
@@ -2593,6 +2712,8 @@ export const listOrganizationRoles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRoles",
 }));
 
 export type ListProjectsError = BadRequest | XataOpError;
@@ -2608,6 +2729,8 @@ export const listProjects: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListRegionsError = BadRequest | XataOpError;
@@ -2623,6 +2746,8 @@ export const listRegions: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegions",
 }));
 
 export type ListUserAPIKeysError = BadRequest | XataOpError;
@@ -2638,6 +2763,8 @@ export const listUserAPIKeys: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserAPIKeys",
 }));
 
 export type OrbWebhookError = BadRequest | XataOpError;
@@ -2653,6 +2780,8 @@ export const orbWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrbWebhook",
 }));
 
 export type ProvisionResourceError = BadRequest | Forbidden | NotFound | Conflict | XataOpError;
@@ -2668,6 +2797,8 @@ export const provisionResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionResource",
 }));
 
 export type QueryError = BadRequest | Forbidden | NotFound | Conflict | XataOpError;
@@ -2679,6 +2810,8 @@ export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError,
     errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
     protocol: XataProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Query",
   }));
 
 export type RegisterMarketplaceError = BadRequest | Conflict | XataOpError;
@@ -2694,6 +2827,8 @@ export const registerMarketplace: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterMarketplace",
 }));
 
 export type RemoveOrganizationMemberError = BadRequest | Conflict | XataOpError;
@@ -2709,6 +2844,8 @@ export const removeOrganizationMember: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrganizationMember",
 }));
 
 export type RequestOrganizationDeletionError = BadRequest | Forbidden | Conflict | XataOpError;
@@ -2724,6 +2861,8 @@ export const requestOrganizationDeletion: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestOrganizationDeletion",
 }));
 
 export type ResendOrganizationInvitationError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2739,6 +2878,8 @@ export const resendOrganizationInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendOrganizationInvitation",
 }));
 
 export type RestoreFromBackupError = BadRequest | NotFound | XataOpError;
@@ -2754,6 +2895,8 @@ export const restoreFromBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreFromBackup",
 }));
 
 export type RotateBranchCredentialsError = BadRequest | NotFound | XataOpError;
@@ -2769,6 +2912,8 @@ export const rotateBranchCredentials: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateBranchCredentials",
 }));
 
 export type SendMcpRequestError = BadRequest | XataOpError;
@@ -2784,6 +2929,8 @@ export const sendMcpRequest: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendMcpRequest",
 }));
 
 export type SetOrganizationMemberRoleError =
@@ -2804,6 +2951,8 @@ export const setOrganizationMemberRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationMemberRole",
 }));
 
 export type SetOrganizationSSOProviderEnforcementError =
@@ -2823,6 +2972,8 @@ export const setOrganizationSSOProviderEnforcement: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationSSOProviderEnforcement",
 }));
 
 export type StripeWebhookError = BadRequest | XataOpError;
@@ -2838,6 +2989,8 @@ export const stripeWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StripeWebhook",
 }));
 
 export type UpdateBillingCustomerError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2853,6 +3006,8 @@ export const updateBillingCustomer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingCustomer",
 }));
 
 export type UpdateBranchError = BadRequest | NotFound | XataOpError;
@@ -2868,6 +3023,8 @@ export const updateBranch: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateGithubAppInstallationError = BadRequest | NotFound | Conflict | XataOpError;
@@ -2883,6 +3040,8 @@ export const updateGithubAppInstallation: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGithubAppInstallation",
 }));
 
 export type UpdateGithubRepositoryError = BadRequest | NotFound | XataOpError;
@@ -2898,6 +3057,8 @@ export const updateGithubRepository: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGithubRepository",
 }));
 
 export type UpdateOrganizationError = BadRequest | Forbidden | NotFound | XataOpError;
@@ -2913,6 +3074,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateOrganizationSSOProviderError =
@@ -2933,6 +3096,8 @@ export const updateOrganizationSSOProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationSSOProvider",
 }));
 
 export type UpdateProjectError = BadRequest | NotFound | XataOpError;
@@ -2948,6 +3113,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpsertInstallationError = BadRequest | Forbidden | Conflict | XataOpError;
@@ -2963,6 +3130,8 @@ export const upsertInstallation: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertInstallation",
 }));
 
 export type VerifyOrganizationSSODomainError = Forbidden | NotFound | Conflict | XataOpError;
@@ -2978,6 +3147,8 @@ export const verifyOrganizationSSODomain: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyOrganizationSSODomain",
 }));
 
 export type WebsocketError = BadRequest | XataOpError;
@@ -2993,6 +3164,8 @@ export const websocket: API.OperationMethod<
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Websocket",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

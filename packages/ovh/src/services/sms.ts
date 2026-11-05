@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Sms",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface CancelSmsBatchRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
@@ -2179,6 +2193,8 @@ export const cancelSmsBatch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelSmsBatch",
 }));
 
 export type CreateSmsBatchError = OvhOpError;
@@ -2194,6 +2210,8 @@ export const createSmsBatch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsBatch",
 }));
 
 export type CreateSmsEstimateError = OvhOpError;
@@ -2209,6 +2227,8 @@ export const createSmsEstimate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsEstimate",
 }));
 
 export type CreateSmsHlrError = OvhOpError;
@@ -2224,6 +2244,8 @@ export const createSmsHlr: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsHlr",
 }));
 
 export type CreateSmsJobError = OvhOpError;
@@ -2239,6 +2261,8 @@ export const createSmsJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsJob",
 }));
 
 export type CreateSmsPhonebookError = OvhOpError;
@@ -2254,6 +2278,8 @@ export const createSmsPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsPhonebook",
 }));
 
 export type CreateSmsPhonebookPhonebookContactError = OvhOpError;
@@ -2269,6 +2295,8 @@ export const createSmsPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsPhonebookPhonebookContact",
 }));
 
 export type CreateSmsReceiverError = OvhOpError;
@@ -2284,6 +2312,8 @@ export const createSmsReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsReceiver",
 }));
 
 export type CreateSmsReceiverCleanError = OvhOpError;
@@ -2299,6 +2329,8 @@ export const createSmsReceiverClean: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsReceiverClean",
 }));
 
 export type CreateSmsSenderError = OvhOpError;
@@ -2314,6 +2346,8 @@ export const createSmsSender: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsSender",
 }));
 
 export type CreateSmsSenderDocumentError = OvhOpError;
@@ -2329,6 +2363,8 @@ export const createSmsSenderDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsSenderDocument",
 }));
 
 export type CreateSmsSmppPasswordError = OvhOpError;
@@ -2344,6 +2380,8 @@ export const createSmsSmppPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsSmppPassword",
 }));
 
 export type CreateSmsTemplatesControlError = OvhOpError;
@@ -2359,6 +2397,8 @@ export const createSmsTemplatesControl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsTemplatesControl",
 }));
 
 export type CreateSmsTemplatesControlRelaunchValidationError = OvhOpError;
@@ -2374,6 +2414,8 @@ export const createSmsTemplatesControlRelaunchValidation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsTemplatesControlRelaunchValidation",
 }));
 
 export type CreateSmsUserError = OvhOpError;
@@ -2389,6 +2431,8 @@ export const createSmsUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsUser",
 }));
 
 export type CreateSmsUserJobError = OvhOpError;
@@ -2404,6 +2448,8 @@ export const createSmsUserJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsUserJob",
 }));
 
 export type CreateSmsUserReceiverError = OvhOpError;
@@ -2419,6 +2465,8 @@ export const createSmsUserReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsUserReceiver",
 }));
 
 export type CreateSmsUserReceiverCleanError = OvhOpError;
@@ -2434,6 +2482,8 @@ export const createSmsUserReceiverClean: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsUserReceiverClean",
 }));
 
 export type CreateSmsVirtualNumberChatAccessError = OvhOpError;
@@ -2449,6 +2499,8 @@ export const createSmsVirtualNumberChatAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsVirtualNumberChatAccess",
 }));
 
 export type CreateSmsVirtualNumberJobError = OvhOpError;
@@ -2464,6 +2516,8 @@ export const createSmsVirtualNumberJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsVirtualNumberJob",
 }));
 
 export type DeleteSmsBatchError = OvhOpError;
@@ -2479,6 +2533,8 @@ export const deleteSmsBatch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsBatch",
 }));
 
 export type DeleteSmsBlacklistError = OvhOpError;
@@ -2494,6 +2550,8 @@ export const deleteSmsBlacklist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsBlacklist",
 }));
 
 export type DeleteSmsIncomingError = OvhOpError;
@@ -2509,6 +2567,8 @@ export const deleteSmsIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsIncoming",
 }));
 
 export type DeleteSmsJobError = OvhOpError;
@@ -2524,6 +2584,8 @@ export const deleteSmsJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsJob",
 }));
 
 export type DeleteSmsOutgoingError = OvhOpError;
@@ -2539,6 +2601,8 @@ export const deleteSmsOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsOutgoing",
 }));
 
 export type DeleteSmsPhonebookError = OvhOpError;
@@ -2554,6 +2618,8 @@ export const deleteSmsPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsPhonebook",
 }));
 
 export type DeleteSmsPhonebookPhonebookContactError = OvhOpError;
@@ -2569,6 +2635,8 @@ export const deleteSmsPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsPhonebookPhonebookContact",
 }));
 
 export type DeleteSmsReceiverError = OvhOpError;
@@ -2584,6 +2652,8 @@ export const deleteSmsReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsReceiver",
 }));
 
 export type DeleteSmsSenderError = OvhOpError;
@@ -2599,6 +2669,8 @@ export const deleteSmsSender: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsSender",
 }));
 
 export type DeleteSmsTemplatesControlError = OvhOpError;
@@ -2614,6 +2686,8 @@ export const deleteSmsTemplatesControl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsTemplatesControl",
 }));
 
 export type DeleteSmsUserError = OvhOpError;
@@ -2629,6 +2703,8 @@ export const deleteSmsUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsUser",
 }));
 
 export type DeleteSmsUserIncomingError = OvhOpError;
@@ -2644,6 +2720,8 @@ export const deleteSmsUserIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsUserIncoming",
 }));
 
 export type DeleteSmsUserJobError = OvhOpError;
@@ -2659,6 +2737,8 @@ export const deleteSmsUserJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsUserJob",
 }));
 
 export type DeleteSmsUserOutgoingError = OvhOpError;
@@ -2674,6 +2754,8 @@ export const deleteSmsUserOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsUserOutgoing",
 }));
 
 export type DeleteSmsUserReceiverError = OvhOpError;
@@ -2689,6 +2771,8 @@ export const deleteSmsUserReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsUserReceiver",
 }));
 
 export type DeleteSmsVirtualNumberChatAccessError = OvhOpError;
@@ -2704,6 +2788,8 @@ export const deleteSmsVirtualNumberChatAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsVirtualNumberChatAccess",
 }));
 
 export type DeleteSmsVirtualNumberIncomingError = OvhOpError;
@@ -2719,6 +2805,8 @@ export const deleteSmsVirtualNumberIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsVirtualNumberIncoming",
 }));
 
 export type DeleteSmsVirtualNumberJobError = OvhOpError;
@@ -2734,6 +2822,8 @@ export const deleteSmsVirtualNumberJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsVirtualNumberJob",
 }));
 
 export type DeleteSmsVirtualNumberOutgoingError = OvhOpError;
@@ -2749,6 +2839,8 @@ export const deleteSmsVirtualNumberOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsVirtualNumberOutgoing",
 }));
 
 export type GetSmsError = OvhOpError;
@@ -2764,6 +2856,8 @@ export const getSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSms",
 }));
 
 export type GetSmsBatchError = OvhOpError;
@@ -2779,6 +2873,8 @@ export const getSmsBatch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsBatch",
 }));
 
 export type GetSmsBatchStatisticsError = OvhOpError;
@@ -2794,6 +2890,8 @@ export const getSmsBatchStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsBatchStatistics",
 }));
 
 export type GetSmsBlacklistError = OvhOpError;
@@ -2809,6 +2907,8 @@ export const getSmsBlacklist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsBlacklist",
 }));
 
 export type GetSmsDocumentError = OvhOpError;
@@ -2824,6 +2924,8 @@ export const getSmsDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsDocument",
 }));
 
 export type GetSmsHlrError = OvhOpError;
@@ -2839,6 +2941,8 @@ export const getSmsHlr: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsHlr",
 }));
 
 export type GetSmsHlrOperatorError = OvhOpError;
@@ -2854,6 +2958,8 @@ export const getSmsHlrOperator: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsHlrOperator",
 }));
 
 export type GetSmsIncomingError = OvhOpError;
@@ -2869,6 +2975,8 @@ export const getSmsIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsIncoming",
 }));
 
 export type GetSmsJobError = OvhOpError;
@@ -2884,6 +2992,8 @@ export const getSmsJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsJob",
 }));
 
 export type GetSmsOutgoingError = OvhOpError;
@@ -2899,6 +3009,8 @@ export const getSmsOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsOutgoing",
 }));
 
 export type GetSmsOutgoingHlrError = OvhOpError;
@@ -2914,6 +3026,8 @@ export const getSmsOutgoingHlr: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsOutgoingHlr",
 }));
 
 export type GetSmsPhonebookError = OvhOpError;
@@ -2929,6 +3043,8 @@ export const getSmsPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsPhonebook",
 }));
 
 export type GetSmsPhonebookExportError = OvhOpError;
@@ -2944,6 +3060,8 @@ export const getSmsPhonebookExport: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsPhonebookExport",
 }));
 
 export type GetSmsPhonebookPhonebookContactError = OvhOpError;
@@ -2959,6 +3077,8 @@ export const getSmsPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsPhonebookPhonebookContact",
 }));
 
 export type GetSmsPttsError = OvhOpError;
@@ -2974,6 +3094,8 @@ export const getSmsPtts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsPtts",
 }));
 
 export type GetSmsRateDestinationsError = OvhOpError;
@@ -2989,6 +3111,8 @@ export const getSmsRateDestinations: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsRateDestinations",
 }));
 
 export type GetSmsReceiverError = OvhOpError;
@@ -3004,6 +3128,8 @@ export const getSmsReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsReceiver",
 }));
 
 export type GetSmsReceiverCsvError = OvhOpError;
@@ -3019,6 +3145,8 @@ export const getSmsReceiverCsv: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsReceiverCsv",
 }));
 
 export type GetSmsSenderError = OvhOpError;
@@ -3034,6 +3162,8 @@ export const getSmsSender: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsSender",
 }));
 
 export type GetSmsSenderDocumentError = OvhOpError;
@@ -3049,6 +3179,8 @@ export const getSmsSenderDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsSenderDocument",
 }));
 
 export type GetSmsServiceInfosError = OvhOpError;
@@ -3064,6 +3196,8 @@ export const getSmsServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsServiceInfos",
 }));
 
 export type GetSmsSmppSettingsError = OvhOpError;
@@ -3079,6 +3213,8 @@ export const getSmsSmppSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsSmppSettings",
 }));
 
 export type GetSmsTaskError = OvhOpError;
@@ -3094,6 +3230,8 @@ export const getSmsTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsTask",
 }));
 
 export type GetSmsTemplatesControlError = OvhOpError;
@@ -3109,6 +3247,8 @@ export const getSmsTemplatesControl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsTemplatesControl",
 }));
 
 export type GetSmsUserError = OvhOpError;
@@ -3124,6 +3264,8 @@ export const getSmsUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUser",
 }));
 
 export type GetSmsUserDocumentError = OvhOpError;
@@ -3139,6 +3281,8 @@ export const getSmsUserDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUserDocument",
 }));
 
 export type GetSmsUserIncomingError = OvhOpError;
@@ -3154,6 +3298,8 @@ export const getSmsUserIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUserIncoming",
 }));
 
 export type GetSmsUserJobError = OvhOpError;
@@ -3169,6 +3315,8 @@ export const getSmsUserJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUserJob",
 }));
 
 export type GetSmsUserOutgoingError = OvhOpError;
@@ -3184,6 +3332,8 @@ export const getSmsUserOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUserOutgoing",
 }));
 
 export type GetSmsUserOutgoingHlrError = OvhOpError;
@@ -3199,6 +3349,8 @@ export const getSmsUserOutgoingHlr: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUserOutgoingHlr",
 }));
 
 export type GetSmsUserReceiverError = OvhOpError;
@@ -3214,6 +3366,8 @@ export const getSmsUserReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUserReceiver",
 }));
 
 export type GetSmsUserReceiverCsvError = OvhOpError;
@@ -3229,6 +3383,8 @@ export const getSmsUserReceiverCsv: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsUserReceiverCsv",
 }));
 
 export type GetSmsVirtualNumberError = OvhOpError;
@@ -3244,6 +3400,8 @@ export const getSmsVirtualNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumber",
 }));
 
 export type GetSmsVirtualNumberByNumberError = OvhOpError;
@@ -3259,6 +3417,8 @@ export const getSmsVirtualNumberByNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumberByNumber",
 }));
 
 export type GetSmsVirtualNumberChatAccessError = OvhOpError;
@@ -3274,6 +3434,8 @@ export const getSmsVirtualNumberChatAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumberChatAccess",
 }));
 
 export type GetSmsVirtualNumberIncomingError = OvhOpError;
@@ -3289,6 +3451,8 @@ export const getSmsVirtualNumberIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumberIncoming",
 }));
 
 export type GetSmsVirtualNumberJobError = OvhOpError;
@@ -3304,6 +3468,8 @@ export const getSmsVirtualNumberJob: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumberJob",
 }));
 
 export type GetSmsVirtualNumberOutgoingError = OvhOpError;
@@ -3319,6 +3485,8 @@ export const getSmsVirtualNumberOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumberOutgoing",
 }));
 
 export type GetSmsVirtualNumberOutgoingHlrError = OvhOpError;
@@ -3334,6 +3502,8 @@ export const getSmsVirtualNumberOutgoingHlr: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumberOutgoingHlr",
 }));
 
 export type GetSmsVirtualNumberServiceInfosError = OvhOpError;
@@ -3349,6 +3519,8 @@ export const getSmsVirtualNumberServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsVirtualNumberServiceInfos",
 }));
 
 export type ImportSmsPhonebookError = OvhOpError;
@@ -3364,6 +3536,8 @@ export const importSmsPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSmsPhonebook",
 }));
 
 export type ListSmsError = OvhOpError;
@@ -3379,6 +3553,8 @@ export const listSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSms",
 }));
 
 export type ListSmsBatchesError = OvhOpError;
@@ -3394,6 +3570,8 @@ export const listSmsBatches: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsBatches",
 }));
 
 export type ListSmsBlacklistsError = OvhOpError;
@@ -3409,6 +3587,8 @@ export const listSmsBlacklists: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsBlacklists",
 }));
 
 export type ListSmsExceptionsError = OvhOpError;
@@ -3424,6 +3604,8 @@ export const listSmsExceptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsExceptions",
 }));
 
 export type ListSmsHlrError = OvhOpError;
@@ -3439,6 +3621,8 @@ export const listSmsHlr: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsHlr",
 }));
 
 export type ListSmsIncomingError = OvhOpError;
@@ -3454,6 +3638,8 @@ export const listSmsIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsIncoming",
 }));
 
 export type ListSmsJobsError = OvhOpError;
@@ -3469,6 +3655,8 @@ export const listSmsJobs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsJobs",
 }));
 
 export type ListSmsOutgoingError = OvhOpError;
@@ -3484,6 +3672,8 @@ export const listSmsOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsOutgoing",
 }));
 
 export type ListSmsPhonebookPhonebookContactError = OvhOpError;
@@ -3499,6 +3689,8 @@ export const listSmsPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsPhonebookPhonebookContact",
 }));
 
 export type ListSmsPhonebooksError = OvhOpError;
@@ -3514,6 +3706,8 @@ export const listSmsPhonebooks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsPhonebooks",
 }));
 
 export type ListSmsRatePacksError = OvhOpError;
@@ -3529,6 +3723,8 @@ export const listSmsRatePacks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsRatePacks",
 }));
 
 export type ListSmsReceiversError = OvhOpError;
@@ -3544,6 +3740,8 @@ export const listSmsReceivers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsReceivers",
 }));
 
 export type ListSmsSeeOffersError = OvhOpError;
@@ -3559,6 +3757,8 @@ export const listSmsSeeOffers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsSeeOffers",
 }));
 
 export type ListSmsSenderDocumentsError = OvhOpError;
@@ -3574,6 +3774,8 @@ export const listSmsSenderDocuments: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsSenderDocuments",
 }));
 
 export type ListSmsSendersError = OvhOpError;
@@ -3589,6 +3791,8 @@ export const listSmsSenders: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsSenders",
 }));
 
 export type ListSmsSendersAvailableForValidationError = OvhOpError;
@@ -3604,6 +3808,8 @@ export const listSmsSendersAvailableForValidation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsSendersAvailableForValidation",
 }));
 
 export type ListSmsSmppAllowedIPsError = OvhOpError;
@@ -3619,6 +3825,8 @@ export const listSmsSmppAllowedIPs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsSmppAllowedIPs",
 }));
 
 export type ListSmsTaskError = OvhOpError;
@@ -3634,6 +3842,8 @@ export const listSmsTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsTask",
 }));
 
 export type ListSmsTemplatesControlError = OvhOpError;
@@ -3649,6 +3859,8 @@ export const listSmsTemplatesControl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsTemplatesControl",
 }));
 
 export type ListSmsUserIncomingError = OvhOpError;
@@ -3664,6 +3876,8 @@ export const listSmsUserIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsUserIncoming",
 }));
 
 export type ListSmsUserJobsError = OvhOpError;
@@ -3679,6 +3893,8 @@ export const listSmsUserJobs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsUserJobs",
 }));
 
 export type ListSmsUserOutgoingError = OvhOpError;
@@ -3694,6 +3910,8 @@ export const listSmsUserOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsUserOutgoing",
 }));
 
 export type ListSmsUserReceiversError = OvhOpError;
@@ -3709,6 +3927,8 @@ export const listSmsUserReceivers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsUserReceivers",
 }));
 
 export type ListSmsUsersError = OvhOpError;
@@ -3724,6 +3944,8 @@ export const listSmsUsers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsUsers",
 }));
 
 export type ListSmsVirtualNumberIncomingError = OvhOpError;
@@ -3739,6 +3961,8 @@ export const listSmsVirtualNumberIncoming: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsVirtualNumberIncoming",
 }));
 
 export type ListSmsVirtualNumberJobsError = OvhOpError;
@@ -3754,6 +3978,8 @@ export const listSmsVirtualNumberJobs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsVirtualNumberJobs",
 }));
 
 export type ListSmsVirtualNumberOutgoingError = OvhOpError;
@@ -3769,6 +3995,8 @@ export const listSmsVirtualNumberOutgoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsVirtualNumberOutgoing",
 }));
 
 export type ListSmsVirtualNumbersError = OvhOpError;
@@ -3784,6 +4012,8 @@ export const listSmsVirtualNumbers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsVirtualNumbers",
 }));
 
 export type ListSmsVirtualNumbers2Error = OvhOpError;
@@ -3799,6 +4029,8 @@ export const listSmsVirtualNumbers2: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsVirtualNumbers2",
 }));
 
 export type PutSmsError = OvhOpError;
@@ -3810,6 +4042,8 @@ export const putSms: API.OperationMethod<PutSmsRequest, PutSmsResponse, PutSmsEr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutSms",
   }));
 
 export type PutSmsBatchError = OvhOpError;
@@ -3825,6 +4059,8 @@ export const putSmsBatch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsBatch",
 }));
 
 export type PutSmsPhonebookError = OvhOpError;
@@ -3840,6 +4076,8 @@ export const putSmsPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsPhonebook",
 }));
 
 export type PutSmsPhonebookPhonebookContactError = OvhOpError;
@@ -3855,6 +4093,8 @@ export const putSmsPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsPhonebookPhonebookContact",
 }));
 
 export type PutSmsReceiverError = OvhOpError;
@@ -3870,6 +4110,8 @@ export const putSmsReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsReceiver",
 }));
 
 export type PutSmsSenderError = OvhOpError;
@@ -3885,6 +4127,8 @@ export const putSmsSender: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsSender",
 }));
 
 export type PutSmsSenderDocumentError = OvhOpError;
@@ -3900,6 +4144,8 @@ export const putSmsSenderDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsSenderDocument",
 }));
 
 export type PutSmsServiceInfosError = OvhOpError;
@@ -3915,6 +4161,8 @@ export const putSmsServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsServiceInfos",
 }));
 
 export type PutSmsSmppAllowedIPsError = OvhOpError;
@@ -3930,6 +4178,8 @@ export const putSmsSmppAllowedIPs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsSmppAllowedIPs",
 }));
 
 export type PutSmsTemplatesControlError = OvhOpError;
@@ -3945,6 +4195,8 @@ export const putSmsTemplatesControl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsTemplatesControl",
 }));
 
 export type PutSmsUserError = OvhOpError;
@@ -3960,6 +4212,8 @@ export const putSmsUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsUser",
 }));
 
 export type PutSmsUserReceiverError = OvhOpError;
@@ -3975,6 +4229,8 @@ export const putSmsUserReceiver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsUserReceiver",
 }));
 
 export type PutSmsVirtualNumberServiceInfosError = OvhOpError;
@@ -3990,6 +4246,8 @@ export const putSmsVirtualNumberServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsVirtualNumberServiceInfos",
 }));
 
 export type TransferSmsCreditsError = OvhOpError;
@@ -4005,6 +4263,8 @@ export const transferSmsCredits: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferSmsCredits",
 }));
 
 export type ValidateSmsSenderError = OvhOpError;
@@ -4020,6 +4280,8 @@ export const validateSmsSender: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateSmsSender",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

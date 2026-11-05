@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -92,6 +94,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://monitoring.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudWatch",
+  service: "CloudWatch",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1552,7 +1569,7 @@ export type AssociateDatasetKmsKeyError =
  * Guide.
  */
 export const associateDatasetKmsKey: API.OperationMethod<
-  AssociateDatasetKmsKeyInput,
+  AssociateDatasetKmsKeyInput & RegionInput,
   AssociateDatasetKmsKeyOutput,
   AssociateDatasetKmsKeyError,
   Credentials | HttpClient.HttpClient
@@ -1569,6 +1586,8 @@ export const associateDatasetKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDatasetKmsKey",
+  telemetry: TELEMETRY,
+  span: "AssociateDatasetKmsKey",
 }));
 
 export type CreateResourceMetricsConfigurationError =
@@ -1595,7 +1614,7 @@ export type CreateResourceMetricsConfigurationError =
  * *Amazon CloudWatch User Guide*.
  */
 export const createResourceMetricsConfiguration: API.OperationMethod<
-  CreateResourceMetricsConfigurationInput,
+  CreateResourceMetricsConfigurationInput & RegionInput,
   CreateResourceMetricsConfigurationOutput,
   CreateResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1606,6 +1625,8 @@ export const createResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateResourceMetricsConfiguration",
 }));
 
 export type DeleteAlarmMuteRuleError = CommonErrors;
@@ -1625,7 +1646,7 @@ export type DeleteAlarmMuteRuleError = CommonErrors;
  * permission on the alarm mute rule resource.
  */
 export const deleteAlarmMuteRule: API.OperationMethod<
-  DeleteAlarmMuteRuleInput,
+  DeleteAlarmMuteRuleInput & RegionInput,
   DeleteAlarmMuteRuleResponse,
   DeleteAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
@@ -1636,6 +1657,8 @@ export const deleteAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarmMuteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteAlarmMuteRule",
 }));
 
 export type DeleteAlarmsError = ResourceConflict | ResourceNotFound | CommonErrors;
@@ -1664,7 +1687,7 @@ export type DeleteAlarmsError = ResourceConflict | ResourceNotFound | CommonErro
  * detects a cycle in the evaluation path.
  */
 export const deleteAlarms: API.OperationMethod<
-  DeleteAlarmsInput,
+  DeleteAlarmsInput & RegionInput,
   DeleteAlarmsResponse,
   DeleteAlarmsError,
   Credentials | HttpClient.HttpClient
@@ -1675,6 +1698,8 @@ export const deleteAlarms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarms",
+  telemetry: TELEMETRY,
+  span: "DeleteAlarms",
 }));
 
 export type DeleteAnomalyDetectorError =
@@ -1690,7 +1715,7 @@ export type DeleteAnomalyDetectorError =
  * Guide.
  */
 export const deleteAnomalyDetector: API.OperationMethod<
-  DeleteAnomalyDetectorInput,
+  DeleteAnomalyDetectorInput & RegionInput,
   DeleteAnomalyDetectorOutput,
   DeleteAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1707,6 +1732,8 @@ export const deleteAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "DeleteAnomalyDetector",
 }));
 
 export type DeleteDashboardsError =
@@ -1720,7 +1747,7 @@ export type DeleteDashboardsError =
  * dashboards as possible.
  */
 export const deleteDashboards: API.OperationMethod<
-  DeleteDashboardsInput,
+  DeleteDashboardsInput & RegionInput,
   DeleteDashboardsOutput,
   DeleteDashboardsError,
   Credentials | HttpClient.HttpClient
@@ -1731,6 +1758,8 @@ export const deleteDashboards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboards",
+  telemetry: TELEMETRY,
+  span: "DeleteDashboards",
 }));
 
 export type DeleteInsightRulesError =
@@ -1744,7 +1773,7 @@ export type DeleteInsightRulesError =
  * data from the first time the rule was created might not be available.
  */
 export const deleteInsightRules: API.OperationMethod<
-  DeleteInsightRulesInput,
+  DeleteInsightRulesInput & RegionInput,
   DeleteInsightRulesOutput,
   DeleteInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -1755,6 +1784,8 @@ export const deleteInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsightRules",
+  telemetry: TELEMETRY,
+  span: "DeleteInsightRules",
 }));
 
 export type DeleteMetricStreamError =
@@ -1766,7 +1797,7 @@ export type DeleteMetricStreamError =
  * Permanently deletes the metric stream that you specify.
  */
 export const deleteMetricStream: API.OperationMethod<
-  DeleteMetricStreamInput,
+  DeleteMetricStreamInput & RegionInput,
   DeleteMetricStreamOutput,
   DeleteMetricStreamError,
   Credentials | HttpClient.HttpClient
@@ -1777,6 +1808,8 @@ export const deleteMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricStream",
+  telemetry: TELEMETRY,
+  span: "DeleteMetricStream",
 }));
 
 export type DeleteResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
@@ -1796,7 +1829,7 @@ export type DeleteResourceMetricsConfigurationError = ResourceNotFoundException 
  * *Amazon CloudWatch User Guide*.
  */
 export const deleteResourceMetricsConfiguration: API.OperationMethod<
-  DeleteResourceMetricsConfigurationInput,
+  DeleteResourceMetricsConfigurationInput & RegionInput,
   DeleteResourceMetricsConfigurationOutput,
   DeleteResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1807,6 +1840,8 @@ export const deleteResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceMetricsConfiguration",
 }));
 
 export type DescribeAlarmContributorsError =
@@ -1820,7 +1855,7 @@ export type DescribeAlarmContributorsError =
  * series that contribute to the alarm's state.
  */
 export const describeAlarmContributors: API.OperationMethod<
-  DescribeAlarmContributorsInput,
+  DescribeAlarmContributorsInput & RegionInput,
   DescribeAlarmContributorsOutput,
   DescribeAlarmContributorsError,
   Credentials | HttpClient.HttpClient
@@ -1831,6 +1866,8 @@ export const describeAlarmContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlarmContributors",
+  telemetry: TELEMETRY,
+  span: "DescribeAlarmContributors",
 }));
 
 export type DescribeAlarmHistoryError = InvalidNextToken | CommonErrors;
@@ -1847,7 +1884,7 @@ export type DescribeAlarmHistoryError = InvalidNextToken | CommonErrors;
  * `cloudwatch:DescribeAlarmHistory` permission has a narrower scope.
  */
 export const describeAlarmHistory: API.PaginatedOperationMethod<
-  DescribeAlarmHistoryInput,
+  DescribeAlarmHistoryInput & RegionInput,
   DescribeAlarmHistoryOutput,
   DescribeAlarmHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1865,6 +1902,8 @@ export const describeAlarmHistory: API.PaginatedOperationMethod<
     items: "AlarmHistoryItems",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAlarmHistory",
 })) as any;
 
 export type DescribeAlarmsError = InvalidNextToken | CommonErrors;
@@ -1878,7 +1917,7 @@ export type DescribeAlarmsError = InvalidNextToken | CommonErrors;
  * `cloudwatch:DescribeAlarms` permission has a narrower scope.
  */
 export const describeAlarms: API.PaginatedOperationMethod<
-  DescribeAlarmsInput,
+  DescribeAlarmsInput & RegionInput,
   DescribeAlarmsOutput,
   DescribeAlarmsError,
   Credentials | HttpClient.HttpClient,
@@ -1895,6 +1934,8 @@ export const describeAlarms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAlarms",
 })) as any;
 
 export type DescribeAlarmsForMetricError = CommonErrors;
@@ -1907,7 +1948,7 @@ export type DescribeAlarmsForMetricError = CommonErrors;
  * metric, or composite alarms that use the specified metric.
  */
 export const describeAlarmsForMetric: API.OperationMethod<
-  DescribeAlarmsForMetricInput,
+  DescribeAlarmsForMetricInput & RegionInput,
   DescribeAlarmsForMetricOutput,
   DescribeAlarmsForMetricError,
   Credentials | HttpClient.HttpClient
@@ -1918,6 +1959,8 @@ export const describeAlarmsForMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlarmsForMetric",
+  telemetry: TELEMETRY,
+  span: "DescribeAlarmsForMetric",
 }));
 
 export type DescribeAnomalyDetectorsError =
@@ -1935,7 +1978,7 @@ export type DescribeAnomalyDetectorsError =
  * return all metric math anomaly detectors in your account.
  */
 export const describeAnomalyDetectors: API.PaginatedOperationMethod<
-  DescribeAnomalyDetectorsInput,
+  DescribeAnomalyDetectorsInput & RegionInput,
   DescribeAnomalyDetectorsOutput,
   DescribeAnomalyDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1958,6 +2001,8 @@ export const describeAnomalyDetectors: API.PaginatedOperationMethod<
     items: "AnomalyDetectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAnomalyDetectors",
 })) as any;
 
 export type DescribeInsightRulesError = InvalidNextToken | UnsupportedOperation | CommonErrors;
@@ -1968,7 +2013,7 @@ export type DescribeInsightRulesError = InvalidNextToken | UnsupportedOperation 
  * Insights to Analyze High-Cardinality Data.
  */
 export const describeInsightRules: API.PaginatedOperationMethod<
-  DescribeInsightRulesInput,
+  DescribeInsightRulesInput & RegionInput,
   DescribeInsightRulesOutput,
   DescribeInsightRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1985,6 +2030,8 @@ export const describeInsightRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInsightRules",
 })) as any;
 
 export type DisableAlarmActionsError = CommonErrors;
@@ -1993,7 +2040,7 @@ export type DisableAlarmActionsError = CommonErrors;
  * disabled, the alarm actions do not execute when the alarm state changes.
  */
 export const disableAlarmActions: API.OperationMethod<
-  DisableAlarmActionsInput,
+  DisableAlarmActionsInput & RegionInput,
   DisableAlarmActionsResponse,
   DisableAlarmActionsError,
   Credentials | HttpClient.HttpClient
@@ -2004,6 +2051,8 @@ export const disableAlarmActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAlarmActions",
+  telemetry: TELEMETRY,
+  span: "DisableAlarmActions",
 }));
 
 export type DisableInsightRulesError =
@@ -2015,7 +2064,7 @@ export type DisableInsightRulesError =
  * not analyze log groups and do not incur costs.
  */
 export const disableInsightRules: API.OperationMethod<
-  DisableInsightRulesInput,
+  DisableInsightRulesInput & RegionInput,
   DisableInsightRulesOutput,
   DisableInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -2026,6 +2075,8 @@ export const disableInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableInsightRules",
+  telemetry: TELEMETRY,
+  span: "DisableInsightRules",
 }));
 
 export type DisassociateDatasetKmsKeyError =
@@ -2069,7 +2120,7 @@ export type DisassociateDatasetKmsKeyError =
  * Guide.
  */
 export const disassociateDatasetKmsKey: API.OperationMethod<
-  DisassociateDatasetKmsKeyInput,
+  DisassociateDatasetKmsKeyInput & RegionInput,
   DisassociateDatasetKmsKeyOutput,
   DisassociateDatasetKmsKeyError,
   Credentials | HttpClient.HttpClient
@@ -2080,6 +2131,8 @@ export const disassociateDatasetKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDatasetKmsKey",
+  telemetry: TELEMETRY,
+  span: "DisassociateDatasetKmsKey",
 }));
 
 export type EnableAlarmActionsError = CommonErrors;
@@ -2087,7 +2140,7 @@ export type EnableAlarmActionsError = CommonErrors;
  * Enables the actions for the specified alarms.
  */
 export const enableAlarmActions: API.OperationMethod<
-  EnableAlarmActionsInput,
+  EnableAlarmActionsInput & RegionInput,
   EnableAlarmActionsResponse,
   EnableAlarmActionsError,
   Credentials | HttpClient.HttpClient
@@ -2098,6 +2151,8 @@ export const enableAlarmActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAlarmActions",
+  telemetry: TELEMETRY,
+  span: "EnableAlarmActions",
 }));
 
 export type EnableInsightRulesError =
@@ -2110,7 +2165,7 @@ export type EnableInsightRulesError =
  * immediately begin analyzing log data.
  */
 export const enableInsightRules: API.OperationMethod<
-  EnableInsightRulesInput,
+  EnableInsightRulesInput & RegionInput,
   EnableInsightRulesOutput,
   EnableInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -2125,6 +2180,8 @@ export const enableInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableInsightRules",
+  telemetry: TELEMETRY,
+  span: "EnableInsightRules",
 }));
 
 export type GetAlarmMuteRuleError = ResourceNotFoundException | CommonErrors;
@@ -2152,7 +2209,7 @@ export type GetAlarmMuteRuleError = ResourceNotFoundException | CommonErrors;
  * resource.
  */
 export const getAlarmMuteRule: API.OperationMethod<
-  GetAlarmMuteRuleInput,
+  GetAlarmMuteRuleInput & RegionInput,
   GetAlarmMuteRuleOutput,
   GetAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2163,6 +2220,8 @@ export const getAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlarmMuteRule",
+  telemetry: TELEMETRY,
+  span: "GetAlarmMuteRule",
 }));
 
 export type GetDashboardError =
@@ -2186,7 +2245,7 @@ export type GetDashboardError =
  * completes.
  */
 export const getDashboard: API.OperationMethod<
-  GetDashboardInput,
+  GetDashboardInput & RegionInput,
   GetDashboardOutput,
   GetDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2197,6 +2256,8 @@ export const getDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetDatasetError = ResourceNotFoundException | CommonErrors;
@@ -2216,7 +2277,7 @@ export type GetDatasetError = ResourceNotFoundException | CommonErrors;
  * To associate a customer managed KMS key with a dataset, use AssociateDatasetKmsKey. To remove the association, use DisassociateDatasetKmsKey.
  */
 export const getDataset: API.OperationMethod<
-  GetDatasetInput,
+  GetDatasetInput & RegionInput,
   GetDatasetOutput,
   GetDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2227,6 +2288,8 @@ export const getDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetInsightRuleReportError =
@@ -2269,7 +2332,7 @@ export type GetInsightRuleReportError =
  * time period represented by that data point.
  */
 export const getInsightRuleReport: API.OperationMethod<
-  GetInsightRuleReportInput,
+  GetInsightRuleReportInput & RegionInput,
   GetInsightRuleReportOutput,
   GetInsightRuleReportError,
   Credentials | HttpClient.HttpClient
@@ -2284,6 +2347,8 @@ export const getInsightRuleReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightRuleReport",
+  telemetry: TELEMETRY,
+  span: "GetInsightRuleReport",
 }));
 
 export type GetMetricDataError = InvalidNextToken | CommonErrors;
@@ -2356,7 +2421,7 @@ export type GetMetricDataError = InvalidNextToken | CommonErrors;
  * time series.
  */
 export const getMetricData: API.PaginatedOperationMethod<
-  GetMetricDataInput,
+  GetMetricDataInput & RegionInput,
   GetMetricDataOutput,
   GetMetricDataError,
   Credentials | HttpClient.HttpClient,
@@ -2373,6 +2438,8 @@ export const getMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxDatapoints",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMetricData",
 })) as any;
 
 export type GetMetricStatisticsError =
@@ -2439,7 +2506,7 @@ export type GetMetricStatisticsError =
  * Guide.
  */
 export const getMetricStatistics: API.OperationMethod<
-  GetMetricStatisticsInput,
+  GetMetricStatisticsInput & RegionInput,
   GetMetricStatisticsOutput,
   GetMetricStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2455,6 +2522,8 @@ export const getMetricStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricStatistics",
+  telemetry: TELEMETRY,
+  span: "GetMetricStatistics",
 }));
 
 export type GetMetricStreamError =
@@ -2468,7 +2537,7 @@ export type GetMetricStreamError =
  * Returns information about the metric stream that you specify.
  */
 export const getMetricStream: API.OperationMethod<
-  GetMetricStreamInput,
+  GetMetricStreamInput & RegionInput,
   GetMetricStreamOutput,
   GetMetricStreamError,
   Credentials | HttpClient.HttpClient
@@ -2485,6 +2554,8 @@ export const getMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricStream",
+  telemetry: TELEMETRY,
+  span: "GetMetricStream",
 }));
 
 export type GetMetricWidgetImageError = CommonErrors;
@@ -2506,7 +2577,7 @@ export type GetMetricWidgetImageError = CommonErrors;
  * - Up to 100 KB uncompressed payload.
  */
 export const getMetricWidgetImage: API.OperationMethod<
-  GetMetricWidgetImageInput,
+  GetMetricWidgetImageInput & RegionInput,
   GetMetricWidgetImageOutput,
   GetMetricWidgetImageError,
   Credentials | HttpClient.HttpClient
@@ -2517,6 +2588,8 @@ export const getMetricWidgetImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricWidgetImage",
+  telemetry: TELEMETRY,
+  span: "GetMetricWidgetImage",
 }));
 
 export type GetOTelEnrichmentError = CommonErrors;
@@ -2526,7 +2599,7 @@ export type GetOTelEnrichmentError = CommonErrors;
  * and queryable using PromQL. For the list of supported resources, see Supported Amazon Web Services infrastructure metrics.
  */
 export const getOTelEnrichment: API.OperationMethod<
-  GetOTelEnrichmentInput,
+  GetOTelEnrichmentInput & RegionInput,
   GetOTelEnrichmentOutput,
   GetOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -2537,6 +2610,8 @@ export const getOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "GetOTelEnrichment",
 }));
 
 export type GetResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
@@ -2554,7 +2629,7 @@ export type GetResourceMetricsConfigurationError = ResourceNotFoundException | C
  * *Amazon CloudWatch User Guide*.
  */
 export const getResourceMetricsConfiguration: API.OperationMethod<
-  GetResourceMetricsConfigurationInput,
+  GetResourceMetricsConfigurationInput & RegionInput,
   GetResourceMetricsConfigurationOutput,
   GetResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2565,6 +2640,8 @@ export const getResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetResourceMetricsConfiguration",
 }));
 
 export type ListAlarmMuteRulesError = InvalidNextToken | ResourceNotFoundException | CommonErrors;
@@ -2584,7 +2661,7 @@ export type ListAlarmMuteRulesError = InvalidNextToken | ResourceNotFoundExcepti
  * permission.
  */
 export const listAlarmMuteRules: API.PaginatedOperationMethod<
-  ListAlarmMuteRulesInput,
+  ListAlarmMuteRulesInput & RegionInput,
   ListAlarmMuteRulesOutput,
   ListAlarmMuteRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2602,6 +2679,8 @@ export const listAlarmMuteRules: API.PaginatedOperationMethod<
     items: "AlarmMuteRuleSummaries",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAlarmMuteRules",
 })) as any;
 
 export type ListDashboardsError =
@@ -2627,7 +2706,7 @@ export type ListDashboardsError =
  * completes.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsInput,
+  ListDashboardsInput & RegionInput,
   ListDashboardsOutput,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -2644,6 +2723,8 @@ export const listDashboards: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "DashboardEntries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 })) as any;
 
 export type ListManagedInsightRulesError =
@@ -2656,7 +2737,7 @@ export type ListManagedInsightRulesError =
  * account.
  */
 export const listManagedInsightRules: API.PaginatedOperationMethod<
-  ListManagedInsightRulesInput,
+  ListManagedInsightRulesInput & RegionInput,
   ListManagedInsightRulesOutput,
   ListManagedInsightRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2673,6 +2754,8 @@ export const listManagedInsightRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedInsightRules",
 })) as any;
 
 export type ListMetricsError = InternalServiceFault | InvalidParameterValueException | CommonErrors;
@@ -2693,7 +2776,7 @@ export type ListMetricsError = InternalServiceFault | InvalidParameterValueExcep
  * haven't reported data in the past two weeks. To retrieve those metrics, use GetMetricData or GetMetricStatistics.
  */
 export const listMetrics: API.PaginatedOperationMethod<
-  ListMetricsInput,
+  ListMetricsInput & RegionInput,
   ListMetricsOutput,
   ListMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -2706,6 +2789,8 @@ export const listMetrics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListMetrics",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetrics",
 })) as any;
 
 export type ListMetricStreamsError =
@@ -2718,7 +2803,7 @@ export type ListMetricStreamsError =
  * Returns a list of metric streams in this account.
  */
 export const listMetricStreams: API.PaginatedOperationMethod<
-  ListMetricStreamsInput,
+  ListMetricStreamsInput & RegionInput,
   ListMetricStreamsOutput,
   ListMetricStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -2740,6 +2825,8 @@ export const listMetricStreams: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetricStreams",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2752,7 +2839,7 @@ export type ListTagsForResourceError =
  * dashboards, metric streams and Contributor Insights rules support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2763,6 +2850,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAlarmMuteRuleError = LimitExceededFault | CommonErrors;
@@ -2802,7 +2891,7 @@ export type PutAlarmMuteRuleError = LimitExceededFault | CommonErrors;
  * alarms that have a specific tag key-value pair, such as `Team=TeamA`.
  */
 export const putAlarmMuteRule: API.OperationMethod<
-  PutAlarmMuteRuleInput,
+  PutAlarmMuteRuleInput & RegionInput,
   PutAlarmMuteRuleResponse,
   PutAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2813,6 +2902,8 @@ export const putAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlarmMuteRule",
+  telemetry: TELEMETRY,
+  span: "PutAlarmMuteRule",
 }));
 
 export type PutAnomalyDetectorError =
@@ -2834,7 +2925,7 @@ export type PutAnomalyDetectorError =
  * For more information, see CloudWatch Anomaly Detection.
  */
 export const putAnomalyDetector: API.OperationMethod<
-  PutAnomalyDetectorInput,
+  PutAnomalyDetectorInput & RegionInput,
   PutAnomalyDetectorOutput,
   PutAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -2851,6 +2942,8 @@ export const putAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "PutAnomalyDetector",
 }));
 
 export type PutCompositeAlarmError = LimitExceededFault | CommonErrors;
@@ -2913,7 +3006,7 @@ export type PutCompositeAlarmError = LimitExceededFault | CommonErrors;
  * Systems Manager OpsItem actions.
  */
 export const putCompositeAlarm: API.OperationMethod<
-  PutCompositeAlarmInput,
+  PutCompositeAlarmInput & RegionInput,
   PutCompositeAlarmResponse,
   PutCompositeAlarmError,
   Credentials | HttpClient.HttpClient
@@ -2924,6 +3017,8 @@ export const putCompositeAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCompositeAlarm",
+  telemetry: TELEMETRY,
+  span: "PutCompositeAlarm",
 }));
 
 export type PutDashboardError =
@@ -2953,7 +3048,7 @@ export type PutDashboardError =
  * CloudFormation template used to create the dashboard.
  */
 export const putDashboard: API.OperationMethod<
-  PutDashboardInput,
+  PutDashboardInput & RegionInput,
   PutDashboardOutput,
   PutDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2964,6 +3059,8 @@ export const putDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDashboard",
+  telemetry: TELEMETRY,
+  span: "PutDashboard",
 }));
 
 export type PutInsightRuleError =
@@ -2981,7 +3078,7 @@ export type PutInsightRuleError =
  * data from the first time the rule was created might not be available.
  */
 export const putInsightRule: API.OperationMethod<
-  PutInsightRuleInput,
+  PutInsightRuleInput & RegionInput,
   PutInsightRuleOutput,
   PutInsightRuleError,
   Credentials | HttpClient.HttpClient
@@ -2996,6 +3093,8 @@ export const putInsightRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInsightRule",
+  telemetry: TELEMETRY,
+  span: "PutInsightRule",
 }));
 
 export type PutLogAlarmError = LimitExceededFault | ResourceConflict | CommonErrors;
@@ -3013,7 +3112,7 @@ export type PutLogAlarmError = LimitExceededFault | ResourceConflict | CommonErr
  * To create or update a log alarm, you must have the `cloudwatch:PutLogAlarm` permission. The IAM role specified in `ScheduledQueryRoleARN` must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set `ActionLogLineCount`, the role specified in `ActionLogLineRoleArn` must grant permission to retrieve log events for inclusion in alarm notifications.
  */
 export const putLogAlarm: API.OperationMethod<
-  PutLogAlarmInput,
+  PutLogAlarmInput & RegionInput,
   PutLogAlarmResponse,
   PutLogAlarmError,
   Credentials | HttpClient.HttpClient
@@ -3024,6 +3123,8 @@ export const putLogAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLogAlarm",
+  telemetry: TELEMETRY,
+  span: "PutLogAlarm",
 }));
 
 export type PutManagedInsightRulesError =
@@ -3041,7 +3142,7 @@ export type PutManagedInsightRulesError =
  * `ListManagedInsightRules` to describe all available rules.
  */
 export const putManagedInsightRules: API.OperationMethod<
-  PutManagedInsightRulesInput,
+  PutManagedInsightRulesInput & RegionInput,
   PutManagedInsightRulesOutput,
   PutManagedInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -3052,6 +3153,8 @@ export const putManagedInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedInsightRules",
+  telemetry: TELEMETRY,
+  span: "PutManagedInsightRules",
 }));
 
 export type PutMetricAlarmError = LimitExceededFault | CommonErrors;
@@ -3107,7 +3210,7 @@ export type PutMetricAlarmError = LimitExceededFault | CommonErrors;
  * does not, you must create it following the directions in **Set up a monitoring account** in Cross-account cross-Region CloudWatch console.
  */
 export const putMetricAlarm: API.OperationMethod<
-  PutMetricAlarmInput,
+  PutMetricAlarmInput & RegionInput,
   PutMetricAlarmResponse,
   PutMetricAlarmError,
   Credentials | HttpClient.HttpClient
@@ -3118,6 +3221,8 @@ export const putMetricAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricAlarm",
+  telemetry: TELEMETRY,
+  span: "PutMetricAlarm",
 }));
 
 export type PutMetricDataError =
@@ -3182,7 +3287,7 @@ export type PutMetricDataError =
  * is equal to `Min` multiplied by `SampleCount`.
  */
 export const putMetricData: API.OperationMethod<
-  PutMetricDataInput,
+  PutMetricDataInput & RegionInput,
   PutMetricDataResponse,
   PutMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -3198,6 +3303,8 @@ export const putMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricData",
+  telemetry: TELEMETRY,
+  span: "PutMetricData",
 }));
 
 export type PutMetricStreamError =
@@ -3245,7 +3352,7 @@ export type PutMetricStreamError =
  * accounts in the stream. For more information, see CloudWatch cross-account observability.
  */
 export const putMetricStream: API.OperationMethod<
-  PutMetricStreamInput,
+  PutMetricStreamInput & RegionInput,
   PutMetricStreamOutput,
   PutMetricStreamError,
   Credentials | HttpClient.HttpClient
@@ -3262,6 +3369,8 @@ export const putMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricStream",
+  telemetry: TELEMETRY,
+  span: "PutMetricStream",
 }));
 
 export type SetAlarmStateError = InvalidFormatFault | ResourceNotFound | CommonErrors;
@@ -3287,7 +3396,7 @@ export type SetAlarmStateError = InvalidFormatFault | ResourceNotFound | CommonE
  * enable the policy to take the correct action.
  */
 export const setAlarmState: API.OperationMethod<
-  SetAlarmStateInput,
+  SetAlarmStateInput & RegionInput,
   SetAlarmStateResponse,
   SetAlarmStateError,
   Credentials | HttpClient.HttpClient
@@ -3298,6 +3407,8 @@ export const setAlarmState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetAlarmState",
+  telemetry: TELEMETRY,
+  span: "SetAlarmState",
 }));
 
 export type StartMetricStreamsError =
@@ -3309,7 +3420,7 @@ export type StartMetricStreamsError =
  * Starts the streaming of metrics for one or more of your metric streams.
  */
 export const startMetricStreams: API.OperationMethod<
-  StartMetricStreamsInput,
+  StartMetricStreamsInput & RegionInput,
   StartMetricStreamsOutput,
   StartMetricStreamsError,
   Credentials | HttpClient.HttpClient
@@ -3320,6 +3431,8 @@ export const startMetricStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetricStreams",
+  telemetry: TELEMETRY,
+  span: "StartMetricStreams",
 }));
 
 export type StartOTelEnrichmentError = ValidationException | CommonErrors;
@@ -3340,7 +3453,7 @@ export type StartOTelEnrichmentError = ValidationException | CommonErrors;
  * are applied. To change them, use UpdateOTelEnrichment.
  */
 export const startOTelEnrichment: API.OperationMethod<
-  StartOTelEnrichmentInput,
+  StartOTelEnrichmentInput & RegionInput,
   StartOTelEnrichmentOutput,
   StartOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -3351,6 +3464,8 @@ export const startOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "StartOTelEnrichment",
 }));
 
 export type StopMetricStreamsError =
@@ -3362,7 +3477,7 @@ export type StopMetricStreamsError =
  * Stops the streaming of metrics for one or more of your metric streams.
  */
 export const stopMetricStreams: API.OperationMethod<
-  StopMetricStreamsInput,
+  StopMetricStreamsInput & RegionInput,
   StopMetricStreamsOutput,
   StopMetricStreamsError,
   Credentials | HttpClient.HttpClient
@@ -3373,6 +3488,8 @@ export const stopMetricStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMetricStreams",
+  telemetry: TELEMETRY,
+  span: "StopMetricStreams",
 }));
 
 export type StopOTelEnrichmentError = CommonErrors;
@@ -3382,7 +3499,7 @@ export type StopOTelEnrichmentError = CommonErrors;
  * cannot be queried using PromQL.
  */
 export const stopOTelEnrichment: API.OperationMethod<
-  StopOTelEnrichmentInput,
+  StopOTelEnrichmentInput & RegionInput,
   StopOTelEnrichmentOutput,
   StopOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -3393,6 +3510,8 @@ export const stopOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "StopOTelEnrichment",
 }));
 
 export type TagResourceError =
@@ -3423,7 +3542,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3440,6 +3559,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3454,7 +3575,7 @@ export type UntagResourceError =
  * metric streams and Contributor Insights rules support tagging.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3471,6 +3592,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateOTelEnrichmentError =
@@ -3490,7 +3613,7 @@ export type UpdateOTelEnrichmentError =
  * clears both.
  */
 export const updateOTelEnrichment: API.OperationMethod<
-  UpdateOTelEnrichmentInput,
+  UpdateOTelEnrichmentInput & RegionInput,
   UpdateOTelEnrichmentOutput,
   UpdateOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -3501,6 +3624,8 @@ export const updateOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "UpdateOTelEnrichment",
 }));
 
 export type UpdateResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
@@ -3523,7 +3648,7 @@ export type UpdateResourceMetricsConfigurationError = ResourceNotFoundException 
  * *Amazon CloudWatch User Guide*.
  */
 export const updateResourceMetricsConfiguration: API.OperationMethod<
-  UpdateResourceMetricsConfigurationInput,
+  UpdateResourceMetricsConfigurationInput & RegionInput,
   UpdateResourceMetricsConfigurationOutput,
   UpdateResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3534,6 +3659,8 @@ export const updateResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceMetricsConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

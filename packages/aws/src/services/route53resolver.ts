@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -81,6 +83,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://route53resolver.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53Resolver",
+  service: "Route53Resolver",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -1307,7 +1324,7 @@ export type AssociateFirewallRuleGroupError =
  * If the rule group contains any rule configured with the `PartnerThreatProtection` rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
  */
 export const associateFirewallRuleGroup: API.OperationMethod<
-  AssociateFirewallRuleGroupRequest,
+  AssociateFirewallRuleGroupRequest & RegionInput,
   AssociateFirewallRuleGroupResponse,
   AssociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1326,6 +1343,8 @@ export const associateFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateFirewallRuleGroup",
 }));
 
 export type AssociateResolverEndpointIpAddressError =
@@ -1345,7 +1364,7 @@ export type AssociateResolverEndpointIpAddressError =
  * DisassociateResolverEndpointIpAddress.
  */
 export const associateResolverEndpointIpAddress: API.OperationMethod<
-  AssociateResolverEndpointIpAddressRequest,
+  AssociateResolverEndpointIpAddressRequest & RegionInput,
   AssociateResolverEndpointIpAddressResponse,
   AssociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
@@ -1364,6 +1383,8 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverEndpointIpAddress",
+  telemetry: TELEMETRY,
+  span: "AssociateResolverEndpointIpAddress",
 }));
 
 export type AssociateResolverQueryLogConfigError =
@@ -1387,7 +1408,7 @@ export type AssociateResolverQueryLogConfigError =
  * DisassociateResolverQueryLogConfig.
  */
 export const associateResolverQueryLogConfig: API.OperationMethod<
-  AssociateResolverQueryLogConfigRequest,
+  AssociateResolverQueryLogConfigRequest & RegionInput,
   AssociateResolverQueryLogConfigResponse,
   AssociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -1407,6 +1428,8 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "AssociateResolverQueryLogConfig",
 }));
 
 export type AssociateResolverRuleError =
@@ -1426,7 +1449,7 @@ export type AssociateResolverRuleError =
  * CreateResolverRule.
  */
 export const associateResolverRule: API.OperationMethod<
-  AssociateResolverRuleRequest,
+  AssociateResolverRuleRequest & RegionInput,
   AssociateResolverRuleResponse,
   AssociateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -1446,6 +1469,8 @@ export const associateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverRule",
+  telemetry: TELEMETRY,
+  span: "AssociateResolverRule",
 }));
 
 export type BatchCreateFirewallRuleError =
@@ -1459,7 +1484,7 @@ export type BatchCreateFirewallRuleError =
  * Creates multiple DNS Firewall rules in the specified rule group.
  */
 export const batchCreateFirewallRule: API.OperationMethod<
-  BatchCreateFirewallRuleRequest,
+  BatchCreateFirewallRuleRequest & RegionInput,
   BatchCreateFirewallRuleResponse,
   BatchCreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1476,6 +1501,8 @@ export const batchCreateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchCreateFirewallRule",
 }));
 
 export type BatchDeleteFirewallRuleError =
@@ -1489,7 +1516,7 @@ export type BatchDeleteFirewallRuleError =
  * Deletes multiple DNS Firewall rules from the specified rule group.
  */
 export const batchDeleteFirewallRule: API.OperationMethod<
-  BatchDeleteFirewallRuleRequest,
+  BatchDeleteFirewallRuleRequest & RegionInput,
   BatchDeleteFirewallRuleResponse,
   BatchDeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1506,6 +1533,8 @@ export const batchDeleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteFirewallRule",
 }));
 
 export type BatchUpdateFirewallRuleError =
@@ -1519,7 +1548,7 @@ export type BatchUpdateFirewallRuleError =
  * Updates multiple DNS Firewall rules in the specified rule group.
  */
 export const batchUpdateFirewallRule: API.OperationMethod<
-  BatchUpdateFirewallRuleRequest,
+  BatchUpdateFirewallRuleRequest & RegionInput,
   BatchUpdateFirewallRuleResponse,
   BatchUpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1536,6 +1565,8 @@ export const batchUpdateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateFirewallRule",
 }));
 
 export type CreateFirewallDomainListError =
@@ -1549,7 +1580,7 @@ export type CreateFirewallDomainListError =
  * Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
  */
 export const createFirewallDomainList: API.OperationMethod<
-  CreateFirewallDomainListRequest,
+  CreateFirewallDomainListRequest & RegionInput,
   CreateFirewallDomainListResponse,
   CreateFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1566,6 +1597,8 @@ export const createFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallDomainList",
 }));
 
 export type CreateFirewallRuleError =
@@ -1588,7 +1621,7 @@ export type CreateFirewallRuleError =
  * For rules that require asynchronous provisioning (today, the `PartnerThreatProtection` rule type), the rule's `Status` begins at `CREATING` and transitions to `COMPLETE` once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, `Status` becomes `CREATION_FAILED` and `StatusMessage` contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
  */
 export const createFirewallRule: API.OperationMethod<
-  CreateFirewallRuleRequest,
+  CreateFirewallRuleRequest & RegionInput,
   CreateFirewallRuleResponse,
   CreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1606,6 +1639,8 @@ export const createFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallRule",
 }));
 
 export type CreateFirewallRuleGroupError =
@@ -1620,7 +1655,7 @@ export type CreateFirewallRuleGroupError =
  * by calling CreateFirewallRule.
  */
 export const createFirewallRuleGroup: API.OperationMethod<
-  CreateFirewallRuleGroupRequest,
+  CreateFirewallRuleGroupRequest & RegionInput,
   CreateFirewallRuleGroupResponse,
   CreateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1637,6 +1672,8 @@ export const createFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallRuleGroup",
 }));
 
 export type CreateOutpostResolverError =
@@ -1654,7 +1691,7 @@ export type CreateOutpostResolverError =
  * is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it.
  */
 export const createOutpostResolver: API.OperationMethod<
-  CreateOutpostResolverRequest,
+  CreateOutpostResolverRequest & RegionInput,
   CreateOutpostResolverResponse,
   CreateOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -1672,6 +1709,8 @@ export const createOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "CreateOutpostResolver",
 }));
 
 export type CreateResolverEndpointError =
@@ -1694,7 +1733,7 @@ export type CreateResolverEndpointError =
  * to your network.
  */
 export const createResolverEndpoint: API.OperationMethod<
-  CreateResolverEndpointRequest,
+  CreateResolverEndpointRequest & RegionInput,
   CreateResolverEndpointResponse,
   CreateResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1714,6 +1753,8 @@ export const createResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateResolverEndpoint",
 }));
 
 export type CreateResolverQueryLogConfigError =
@@ -1738,7 +1779,7 @@ export type CreateResolverQueryLogConfigError =
  * VPCs that are associated with the configuration.
  */
 export const createResolverQueryLogConfig: API.OperationMethod<
-  CreateResolverQueryLogConfigRequest,
+  CreateResolverQueryLogConfigRequest & RegionInput,
   CreateResolverQueryLogConfigResponse,
   CreateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -1758,6 +1799,8 @@ export const createResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "CreateResolverQueryLogConfig",
 }));
 
 export type CreateResolverRuleError =
@@ -1776,7 +1819,7 @@ export type CreateResolverRuleError =
  * one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
  */
 export const createResolverRule: API.OperationMethod<
-  CreateResolverRuleRequest,
+  CreateResolverRuleRequest & RegionInput,
   CreateResolverRuleResponse,
   CreateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -1797,6 +1840,8 @@ export const createResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverRule",
+  telemetry: TELEMETRY,
+  span: "CreateResolverRule",
 }));
 
 export type DeleteFirewallDomainListError =
@@ -1810,7 +1855,7 @@ export type DeleteFirewallDomainListError =
  * Deletes the specified domain list.
  */
 export const deleteFirewallDomainList: API.OperationMethod<
-  DeleteFirewallDomainListRequest,
+  DeleteFirewallDomainListRequest & RegionInput,
   DeleteFirewallDomainListResponse,
   DeleteFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1827,6 +1872,8 @@ export const deleteFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallDomainList",
 }));
 
 export type DeleteFirewallRuleError =
@@ -1842,7 +1889,7 @@ export type DeleteFirewallRuleError =
  * `DeleteFirewallRule` is the only operation that succeeds against a rule whose `Status` is `CREATION_FAILED`.
  */
 export const deleteFirewallRule: API.OperationMethod<
-  DeleteFirewallRuleRequest,
+  DeleteFirewallRuleRequest & RegionInput,
   DeleteFirewallRuleResponse,
   DeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1859,6 +1906,8 @@ export const deleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRule",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeleteFirewallRuleGroupError =
@@ -1873,7 +1922,7 @@ export type DeleteFirewallRuleGroupError =
  * Deletes the specified firewall rule group.
  */
 export const deleteFirewallRuleGroup: API.OperationMethod<
-  DeleteFirewallRuleGroupRequest,
+  DeleteFirewallRuleGroupRequest & RegionInput,
   DeleteFirewallRuleGroupResponse,
   DeleteFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1891,6 +1940,8 @@ export const deleteFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRuleGroup",
 }));
 
 export type DeleteOutpostResolverError =
@@ -1909,7 +1960,7 @@ export type DeleteOutpostResolverError =
  * second-generation Outposts, contact Amazon Web Services Support.
  */
 export const deleteOutpostResolver: API.OperationMethod<
-  DeleteOutpostResolverRequest,
+  DeleteOutpostResolverRequest & RegionInput,
   DeleteOutpostResolverResponse,
   DeleteOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -1927,6 +1978,8 @@ export const deleteOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "DeleteOutpostResolver",
 }));
 
 export type DeleteResolverEndpointError =
@@ -1946,7 +1999,7 @@ export type DeleteResolverEndpointError =
  * - **Outbound**: DNS queries from a VPC are no longer routed to your network.
  */
 export const deleteResolverEndpoint: API.OperationMethod<
-  DeleteResolverEndpointRequest,
+  DeleteResolverEndpointRequest & RegionInput,
   DeleteResolverEndpointResponse,
   DeleteResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1963,6 +2016,8 @@ export const deleteResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteResolverEndpoint",
 }));
 
 export type DeleteResolverQueryLogConfigError =
@@ -1987,7 +2042,7 @@ export type DeleteResolverQueryLogConfigError =
  * disassociated from the configuration.
  */
 export const deleteResolverQueryLogConfig: API.OperationMethod<
-  DeleteResolverQueryLogConfigRequest,
+  DeleteResolverQueryLogConfigRequest & RegionInput,
   DeleteResolverQueryLogConfigResponse,
   DeleteResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2005,6 +2060,8 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteResolverQueryLogConfig",
 }));
 
 export type DeleteResolverRuleError =
@@ -2021,7 +2078,7 @@ export type DeleteResolverRuleError =
  * DisassociateResolverRule.
  */
 export const deleteResolverRule: API.OperationMethod<
-  DeleteResolverRuleRequest,
+  DeleteResolverRuleRequest & RegionInput,
   DeleteResolverRuleResponse,
   DeleteResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2039,6 +2096,8 @@ export const deleteResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverRule",
+  telemetry: TELEMETRY,
+  span: "DeleteResolverRule",
 }));
 
 export type DisassociateFirewallRuleGroupError =
@@ -2053,7 +2112,7 @@ export type DisassociateFirewallRuleGroupError =
  * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
  */
 export const disassociateFirewallRuleGroup: API.OperationMethod<
-  DisassociateFirewallRuleGroupRequest,
+  DisassociateFirewallRuleGroupRequest & RegionInput,
   DisassociateFirewallRuleGroupResponse,
   DisassociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2071,6 +2130,8 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateFirewallRuleGroup",
 }));
 
 export type DisassociateResolverEndpointIpAddressError =
@@ -2089,7 +2150,7 @@ export type DisassociateResolverEndpointIpAddressError =
  * AssociateResolverEndpointIpAddress.
  */
 export const disassociateResolverEndpointIpAddress: API.OperationMethod<
-  DisassociateResolverEndpointIpAddressRequest,
+  DisassociateResolverEndpointIpAddressRequest & RegionInput,
   DisassociateResolverEndpointIpAddressResponse,
   DisassociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
@@ -2107,6 +2168,8 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverEndpointIpAddress",
+  telemetry: TELEMETRY,
+  span: "DisassociateResolverEndpointIpAddress",
 }));
 
 export type DisassociateResolverQueryLogConfigError =
@@ -2130,7 +2193,7 @@ export type DisassociateResolverQueryLogConfigError =
  * - You can stop sharing the configuration.
  */
 export const disassociateResolverQueryLogConfig: API.OperationMethod<
-  DisassociateResolverQueryLogConfigRequest,
+  DisassociateResolverQueryLogConfigRequest & RegionInput,
   DisassociateResolverQueryLogConfigResponse,
   DisassociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2148,6 +2211,8 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "DisassociateResolverQueryLogConfig",
 }));
 
 export type DisassociateResolverRuleError =
@@ -2164,7 +2229,7 @@ export type DisassociateResolverRuleError =
  * domain name that you specified in the Resolver rule.
  */
 export const disassociateResolverRule: API.OperationMethod<
-  DisassociateResolverRuleRequest,
+  DisassociateResolverRuleRequest & RegionInput,
   DisassociateResolverRuleResponse,
   DisassociateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2181,6 +2246,8 @@ export const disassociateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverRule",
+  telemetry: TELEMETRY,
+  span: "DisassociateResolverRule",
 }));
 
 export type GetFirewallConfigError =
@@ -2195,7 +2262,7 @@ export type GetFirewallConfigError =
  * single VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
 export const getFirewallConfig: API.OperationMethod<
-  GetFirewallConfigRequest,
+  GetFirewallConfigRequest & RegionInput,
   GetFirewallConfigResponse,
   GetFirewallConfigError,
   Credentials | HttpClient.HttpClient
@@ -2212,6 +2279,8 @@ export const getFirewallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallConfig",
+  telemetry: TELEMETRY,
+  span: "GetFirewallConfig",
 }));
 
 export type GetFirewallDomainListError =
@@ -2224,7 +2293,7 @@ export type GetFirewallDomainListError =
  * Retrieves the specified firewall domain list.
  */
 export const getFirewallDomainList: API.OperationMethod<
-  GetFirewallDomainListRequest,
+  GetFirewallDomainListRequest & RegionInput,
   GetFirewallDomainListResponse,
   GetFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -2240,6 +2309,8 @@ export const getFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "GetFirewallDomainList",
 }));
 
 export type GetFirewallRuleGroupError =
@@ -2252,7 +2323,7 @@ export type GetFirewallRuleGroupError =
  * Retrieves the specified firewall rule group.
  */
 export const getFirewallRuleGroup: API.OperationMethod<
-  GetFirewallRuleGroupRequest,
+  GetFirewallRuleGroupRequest & RegionInput,
   GetFirewallRuleGroupResponse,
   GetFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2268,6 +2339,8 @@ export const getFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "GetFirewallRuleGroup",
 }));
 
 export type GetFirewallRuleGroupAssociationError =
@@ -2280,7 +2353,7 @@ export type GetFirewallRuleGroupAssociationError =
  * Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
  */
 export const getFirewallRuleGroupAssociation: API.OperationMethod<
-  GetFirewallRuleGroupAssociationRequest,
+  GetFirewallRuleGroupAssociationRequest & RegionInput,
   GetFirewallRuleGroupAssociationResponse,
   GetFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2296,6 +2369,8 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupAssociation",
+  telemetry: TELEMETRY,
+  span: "GetFirewallRuleGroupAssociation",
 }));
 
 export type GetFirewallRuleGroupPolicyError =
@@ -2310,7 +2385,7 @@ export type GetFirewallRuleGroupPolicyError =
  * specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
  */
 export const getFirewallRuleGroupPolicy: API.OperationMethod<
-  GetFirewallRuleGroupPolicyRequest,
+  GetFirewallRuleGroupPolicyRequest & RegionInput,
   GetFirewallRuleGroupPolicyResponse,
   GetFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2327,6 +2402,8 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "GetFirewallRuleGroupPolicy",
 }));
 
 export type GetOutpostResolverError =
@@ -2341,7 +2418,7 @@ export type GetOutpostResolverError =
  * type, name, and the current status of the Resolver.
  */
 export const getOutpostResolver: API.OperationMethod<
-  GetOutpostResolverRequest,
+  GetOutpostResolverRequest & RegionInput,
   GetOutpostResolverResponse,
   GetOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -2358,6 +2435,8 @@ export const getOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "GetOutpostResolver",
 }));
 
 export type GetResolverConfigError =
@@ -2373,7 +2452,7 @@ export type GetResolverConfigError =
  * Amazon Virtual Private Cloud.
  */
 export const getResolverConfig: API.OperationMethod<
-  GetResolverConfigRequest,
+  GetResolverConfigRequest & RegionInput,
   GetResolverConfigResponse,
   GetResolverConfigError,
   Credentials | HttpClient.HttpClient
@@ -2391,6 +2470,8 @@ export const getResolverConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverConfig",
+  telemetry: TELEMETRY,
+  span: "GetResolverConfig",
 }));
 
 export type GetResolverDnssecConfigError =
@@ -2405,7 +2486,7 @@ export type GetResolverDnssecConfigError =
  * Gets DNSSEC validation information for a specified resource.
  */
 export const getResolverDnssecConfig: API.OperationMethod<
-  GetResolverDnssecConfigRequest,
+  GetResolverDnssecConfigRequest & RegionInput,
   GetResolverDnssecConfigResponse,
   GetResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
@@ -2423,6 +2504,8 @@ export const getResolverDnssecConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverDnssecConfig",
+  telemetry: TELEMETRY,
+  span: "GetResolverDnssecConfig",
 }));
 
 export type GetResolverEndpointError =
@@ -2436,7 +2519,7 @@ export type GetResolverEndpointError =
  * current status of the endpoint.
  */
 export const getResolverEndpoint: API.OperationMethod<
-  GetResolverEndpointRequest,
+  GetResolverEndpointRequest & RegionInput,
   GetResolverEndpointResponse,
   GetResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2452,6 +2535,8 @@ export const getResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetResolverEndpoint",
 }));
 
 export type GetResolverQueryLogConfigError =
@@ -2467,7 +2552,7 @@ export type GetResolverQueryLogConfigError =
  * is logging queries for and the location that logs are sent to.
  */
 export const getResolverQueryLogConfig: API.OperationMethod<
-  GetResolverQueryLogConfigRequest,
+  GetResolverQueryLogConfigRequest & RegionInput,
   GetResolverQueryLogConfigResponse,
   GetResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -2485,6 +2570,8 @@ export const getResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "GetResolverQueryLogConfig",
 }));
 
 export type GetResolverQueryLogConfigAssociationError =
@@ -2500,7 +2587,7 @@ export type GetResolverQueryLogConfigAssociationError =
  * with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
  */
 export const getResolverQueryLogConfigAssociation: API.OperationMethod<
-  GetResolverQueryLogConfigAssociationRequest,
+  GetResolverQueryLogConfigAssociationRequest & RegionInput,
   GetResolverQueryLogConfigAssociationResponse,
   GetResolverQueryLogConfigAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2518,6 +2605,8 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigAssociation",
+  telemetry: TELEMETRY,
+  span: "GetResolverQueryLogConfigAssociation",
 }));
 
 export type GetResolverQueryLogConfigPolicyError =
@@ -2532,7 +2621,7 @@ export type GetResolverQueryLogConfigPolicyError =
  * operations and resources that you want to allow another Amazon Web Services account to be able to use.
  */
 export const getResolverQueryLogConfigPolicy: API.OperationMethod<
-  GetResolverQueryLogConfigPolicyRequest,
+  GetResolverQueryLogConfigPolicyRequest & RegionInput,
   GetResolverQueryLogConfigPolicyResponse,
   GetResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2549,6 +2638,8 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigPolicy",
+  telemetry: TELEMETRY,
+  span: "GetResolverQueryLogConfigPolicy",
 }));
 
 export type GetResolverRuleError =
@@ -2562,7 +2653,7 @@ export type GetResolverRuleError =
  * outbound Resolver endpoint that the rule is associated with.
  */
 export const getResolverRule: API.OperationMethod<
-  GetResolverRuleRequest,
+  GetResolverRuleRequest & RegionInput,
   GetResolverRuleResponse,
   GetResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -2578,6 +2669,8 @@ export const getResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRule",
+  telemetry: TELEMETRY,
+  span: "GetResolverRule",
 }));
 
 export type GetResolverRuleAssociationError =
@@ -2591,7 +2684,7 @@ export type GetResolverRuleAssociationError =
  * AssociateResolverRule.
  */
 export const getResolverRuleAssociation: API.OperationMethod<
-  GetResolverRuleAssociationRequest,
+  GetResolverRuleAssociationRequest & RegionInput,
   GetResolverRuleAssociationResponse,
   GetResolverRuleAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2607,6 +2700,8 @@ export const getResolverRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRuleAssociation",
+  telemetry: TELEMETRY,
+  span: "GetResolverRuleAssociation",
 }));
 
 export type GetResolverRulePolicyError =
@@ -2620,7 +2715,7 @@ export type GetResolverRulePolicyError =
  * with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
  */
 export const getResolverRulePolicy: API.OperationMethod<
-  GetResolverRulePolicyRequest,
+  GetResolverRulePolicyRequest & RegionInput,
   GetResolverRulePolicyResponse,
   GetResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2636,6 +2731,8 @@ export const getResolverRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRulePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResolverRulePolicy",
 }));
 
 export type ImportFirewallDomainsError =
@@ -2662,7 +2759,7 @@ export type ImportFirewallDomainsError =
  * - It must be from 1-255 characters in length.
  */
 export const importFirewallDomains: API.OperationMethod<
-  ImportFirewallDomainsRequest,
+  ImportFirewallDomainsRequest & RegionInput,
   ImportFirewallDomainsResponse,
   ImportFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2681,6 +2778,8 @@ export const importFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportFirewallDomains",
+  telemetry: TELEMETRY,
+  span: "ImportFirewallDomains",
 }));
 
 export type ListFirewallConfigsError =
@@ -2695,7 +2794,7 @@ export type ListFirewallConfigsError =
  * A single call might return only a partial list of the configurations. For information, see `MaxResults`.
  */
 export const listFirewallConfigs: API.PaginatedOperationMethod<
-  ListFirewallConfigsRequest,
+  ListFirewallConfigsRequest & RegionInput,
   ListFirewallConfigsResponse,
   ListFirewallConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -2718,6 +2817,8 @@ export const listFirewallConfigs: API.PaginatedOperationMethod<
     items: "FirewallConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallConfigs",
 })) as any;
 
 export type ListFirewallDomainListsError =
@@ -2732,7 +2833,7 @@ export type ListFirewallDomainListsError =
  * A single call to this list operation might return only a partial list of the domain lists. For information, see `MaxResults`.
  */
 export const listFirewallDomainLists: API.PaginatedOperationMethod<
-  ListFirewallDomainListsRequest,
+  ListFirewallDomainListsRequest & RegionInput,
   ListFirewallDomainListsResponse,
   ListFirewallDomainListsError,
   Credentials | HttpClient.HttpClient,
@@ -2755,6 +2856,8 @@ export const listFirewallDomainLists: API.PaginatedOperationMethod<
     items: "FirewallDomainLists",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallDomainLists",
 })) as any;
 
 export type ListFirewallDomainsError =
@@ -2770,7 +2873,7 @@ export type ListFirewallDomainsError =
  * A single call might return only a partial list of the domains. For information, see `MaxResults`.
  */
 export const listFirewallDomains: API.PaginatedOperationMethod<
-  ListFirewallDomainsRequest,
+  ListFirewallDomainsRequest & RegionInput,
   ListFirewallDomainsResponse,
   ListFirewallDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2794,6 +2897,8 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallDomains",
 })) as any;
 
 export type ListFirewallRuleGroupAssociationsError =
@@ -2808,7 +2913,7 @@ export type ListFirewallRuleGroupAssociationsError =
  * A single call might return only a partial list of the associations. For information, see `MaxResults`.
  */
 export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
-  ListFirewallRuleGroupAssociationsRequest,
+  ListFirewallRuleGroupAssociationsRequest & RegionInput,
   ListFirewallRuleGroupAssociationsResponse,
   ListFirewallRuleGroupAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2831,6 +2936,8 @@ export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
     items: "FirewallRuleGroupAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleGroupAssociations",
 })) as any;
 
 export type ListFirewallRuleGroupsError =
@@ -2845,7 +2952,7 @@ export type ListFirewallRuleGroupsError =
  * A single call might return only a partial list of the rule groups. For information, see `MaxResults`.
  */
 export const listFirewallRuleGroups: API.PaginatedOperationMethod<
-  ListFirewallRuleGroupsRequest,
+  ListFirewallRuleGroupsRequest & RegionInput,
   ListFirewallRuleGroupsResponse,
   ListFirewallRuleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2868,6 +2975,8 @@ export const listFirewallRuleGroups: API.PaginatedOperationMethod<
     items: "FirewallRuleGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleGroups",
 })) as any;
 
 export type ListFirewallRulesError =
@@ -2885,7 +2994,7 @@ export type ListFirewallRulesError =
  * For rules that require asynchronous provisioning, the response includes `Status` (see FirewallRuleStatus) and, on failure, `StatusMessage` with the reason.
  */
 export const listFirewallRules: API.PaginatedOperationMethod<
-  ListFirewallRulesRequest,
+  ListFirewallRulesRequest & RegionInput,
   ListFirewallRulesResponse,
   ListFirewallRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2909,6 +3018,8 @@ export const listFirewallRules: API.PaginatedOperationMethod<
     items: "FirewallRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRules",
 })) as any;
 
 export type ListFirewallRuleTypesError =
@@ -2923,7 +3034,7 @@ export type ListFirewallRuleTypesError =
  * The supported `RuleType` filter values are `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, and `PartnerThreatProtection`. When a returned definition's variant requires an external subscription (currently only `PartnerThreatProtection`), the response also includes a SubscriptionInfo identifying the Amazon Web Services Marketplace product that backs it; absence of `SubscriptionInfo` means the variant is fully managed by Amazon Web Services and requires no separate subscription.
  */
 export const listFirewallRuleTypes: API.PaginatedOperationMethod<
-  ListFirewallRuleTypesRequest,
+  ListFirewallRuleTypesRequest & RegionInput,
   ListFirewallRuleTypesResponse,
   ListFirewallRuleTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2946,6 +3057,8 @@ export const listFirewallRuleTypes: API.PaginatedOperationMethod<
     items: "FirewallRuleTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleTypes",
 })) as any;
 
 export type ListOutpostResolversError =
@@ -2959,7 +3072,7 @@ export type ListOutpostResolversError =
  * Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
  */
 export const listOutpostResolvers: API.PaginatedOperationMethod<
-  ListOutpostResolversRequest,
+  ListOutpostResolversRequest & RegionInput,
   ListOutpostResolversResponse,
   ListOutpostResolversError,
   Credentials | HttpClient.HttpClient,
@@ -2983,6 +3096,8 @@ export const listOutpostResolvers: API.PaginatedOperationMethod<
     items: "OutpostResolvers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOutpostResolvers",
 })) as any;
 
 export type ListResolverConfigsError =
@@ -2999,7 +3114,7 @@ export type ListResolverConfigsError =
  * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
  */
 export const listResolverConfigs: API.PaginatedOperationMethod<
-  ListResolverConfigsRequest,
+  ListResolverConfigsRequest & RegionInput,
   ListResolverConfigsResponse,
   ListResolverConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3025,6 +3140,8 @@ export const listResolverConfigs: API.PaginatedOperationMethod<
     items: "ResolverConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverConfigs",
 })) as any;
 
 export type ListResolverDnssecConfigsError =
@@ -3039,7 +3156,7 @@ export type ListResolverDnssecConfigsError =
  * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
  */
 export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
-  ListResolverDnssecConfigsRequest,
+  ListResolverDnssecConfigsRequest & RegionInput,
   ListResolverDnssecConfigsResponse,
   ListResolverDnssecConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3064,6 +3181,8 @@ export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
     items: "ResolverDnssecConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverDnssecConfigs",
 })) as any;
 
 export type ListResolverEndpointIpAddressesError =
@@ -3077,7 +3196,7 @@ export type ListResolverEndpointIpAddressesError =
  * Gets the IP addresses for a specified Resolver endpoint.
  */
 export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
-  ListResolverEndpointIpAddressesRequest,
+  ListResolverEndpointIpAddressesRequest & RegionInput,
   ListResolverEndpointIpAddressesResponse,
   ListResolverEndpointIpAddressesError,
   Credentials | HttpClient.HttpClient,
@@ -3101,6 +3220,8 @@ export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
     items: "IpAddresses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverEndpointIpAddresses",
 })) as any;
 
 export type ListResolverEndpointsError =
@@ -3114,7 +3235,7 @@ export type ListResolverEndpointsError =
  * Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
  */
 export const listResolverEndpoints: API.PaginatedOperationMethod<
-  ListResolverEndpointsRequest,
+  ListResolverEndpointsRequest & RegionInput,
   ListResolverEndpointsResponse,
   ListResolverEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -3138,6 +3259,8 @@ export const listResolverEndpoints: API.PaginatedOperationMethod<
     items: "ResolverEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverEndpoints",
 })) as any;
 
 export type ListResolverQueryLogConfigAssociationsError =
@@ -3152,7 +3275,7 @@ export type ListResolverQueryLogConfigAssociationsError =
  * Lists information about associations between Amazon VPCs and query logging configurations.
  */
 export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMethod<
-  ListResolverQueryLogConfigAssociationsRequest,
+  ListResolverQueryLogConfigAssociationsRequest & RegionInput,
   ListResolverQueryLogConfigAssociationsResponse,
   ListResolverQueryLogConfigAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3177,6 +3300,8 @@ export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMetho
     items: "ResolverQueryLogConfigAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverQueryLogConfigAssociations",
 })) as any;
 
 export type ListResolverQueryLogConfigsError =
@@ -3192,7 +3317,7 @@ export type ListResolverQueryLogConfigsError =
  * DNS query logs and specifies the VPCs that you want to log queries for.
  */
 export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
-  ListResolverQueryLogConfigsRequest,
+  ListResolverQueryLogConfigsRequest & RegionInput,
   ListResolverQueryLogConfigsResponse,
   ListResolverQueryLogConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -3217,6 +3342,8 @@ export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
     items: "ResolverQueryLogConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverQueryLogConfigs",
 })) as any;
 
 export type ListResolverRuleAssociationsError =
@@ -3230,7 +3357,7 @@ export type ListResolverRuleAssociationsError =
  * Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
  */
 export const listResolverRuleAssociations: API.PaginatedOperationMethod<
-  ListResolverRuleAssociationsRequest,
+  ListResolverRuleAssociationsRequest & RegionInput,
   ListResolverRuleAssociationsResponse,
   ListResolverRuleAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3254,6 +3381,8 @@ export const listResolverRuleAssociations: API.PaginatedOperationMethod<
     items: "ResolverRuleAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverRuleAssociations",
 })) as any;
 
 export type ListResolverRulesError =
@@ -3267,7 +3396,7 @@ export type ListResolverRulesError =
  * Lists the Resolver rules that were created using the current Amazon Web Services account.
  */
 export const listResolverRules: API.PaginatedOperationMethod<
-  ListResolverRulesRequest,
+  ListResolverRulesRequest & RegionInput,
   ListResolverRulesResponse,
   ListResolverRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3291,6 +3420,8 @@ export const listResolverRules: API.PaginatedOperationMethod<
     items: "ResolverRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverRules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3305,7 +3436,7 @@ export type ListTagsForResourceError =
  * Lists the tags that you associated with the specified resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3330,6 +3461,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PutFirewallRuleGroupPolicyError =
@@ -3345,7 +3478,7 @@ export type PutFirewallRuleGroupPolicyError =
  * (RAM).
  */
 export const putFirewallRuleGroupPolicy: API.OperationMethod<
-  PutFirewallRuleGroupPolicyRequest,
+  PutFirewallRuleGroupPolicyRequest & RegionInput,
   PutFirewallRuleGroupPolicyResponse,
   PutFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3362,6 +3495,8 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFirewallRuleGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "PutFirewallRuleGroupPolicy",
 }));
 
 export type PutResolverQueryLogConfigPolicyError =
@@ -3377,7 +3512,7 @@ export type PutResolverQueryLogConfigPolicyError =
  * and the operations that you want the account to be able to perform on the configuration.
  */
 export const putResolverQueryLogConfigPolicy: API.OperationMethod<
-  PutResolverQueryLogConfigPolicyRequest,
+  PutResolverQueryLogConfigPolicyRequest & RegionInput,
   PutResolverQueryLogConfigPolicyResponse,
   PutResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3395,6 +3530,8 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverQueryLogConfigPolicy",
+  telemetry: TELEMETRY,
+  span: "PutResolverQueryLogConfigPolicy",
 }));
 
 export type PutResolverRulePolicyError =
@@ -3409,7 +3546,7 @@ export type PutResolverRulePolicyError =
  * and the operations that you want the account to be able to perform on the rule.
  */
 export const putResolverRulePolicy: API.OperationMethod<
-  PutResolverRulePolicyRequest,
+  PutResolverRulePolicyRequest & RegionInput,
   PutResolverRulePolicyResponse,
   PutResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3426,6 +3563,8 @@ export const putResolverRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverRulePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResolverRulePolicy",
 }));
 
 export type TagResourceError =
@@ -3441,7 +3580,7 @@ export type TagResourceError =
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3460,6 +3599,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3473,7 +3614,7 @@ export type UntagResourceError =
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3490,6 +3631,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFirewallConfigError =
@@ -3504,7 +3647,7 @@ export type UpdateFirewallConfigError =
  * VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
 export const updateFirewallConfig: API.OperationMethod<
-  UpdateFirewallConfigRequest,
+  UpdateFirewallConfigRequest & RegionInput,
   UpdateFirewallConfigResponse,
   UpdateFirewallConfigError,
   Credentials | HttpClient.HttpClient
@@ -3521,6 +3664,8 @@ export const updateFirewallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallConfig",
 }));
 
 export type UpdateFirewallDomainsError =
@@ -3536,7 +3681,7 @@ export type UpdateFirewallDomainsError =
  * Updates the firewall domain list from an array of domain specifications.
  */
 export const updateFirewallDomains: API.OperationMethod<
-  UpdateFirewallDomainsRequest,
+  UpdateFirewallDomainsRequest & RegionInput,
   UpdateFirewallDomainsResponse,
   UpdateFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -3555,6 +3700,8 @@ export const updateFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDomains",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallDomains",
 }));
 
 export type UpdateFirewallRuleError =
@@ -3569,7 +3716,7 @@ export type UpdateFirewallRuleError =
  * Updates the specified firewall rule. The rule's `FirewallRuleType`, `FirewallDomainListId`, and top-level `DnsThreatProtection` match source cannot be changed after creation. Rules whose `Status` is `CREATING` or `CREATION_FAILED` cannot be updated; remove a failed rule with DeleteFirewallRule.
  */
 export const updateFirewallRule: API.OperationMethod<
-  UpdateFirewallRuleRequest,
+  UpdateFirewallRuleRequest & RegionInput,
   UpdateFirewallRuleResponse,
   UpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -3587,6 +3734,8 @@ export const updateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallRule",
 }));
 
 export type UpdateFirewallRuleGroupAssociationError =
@@ -3601,7 +3750,7 @@ export type UpdateFirewallRuleGroupAssociationError =
  * Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
  */
 export const updateFirewallRuleGroupAssociation: API.OperationMethod<
-  UpdateFirewallRuleGroupAssociationRequest,
+  UpdateFirewallRuleGroupAssociationRequest & RegionInput,
   UpdateFirewallRuleGroupAssociationResponse,
   UpdateFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3619,6 +3768,8 @@ export const updateFirewallRuleGroupAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRuleGroupAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallRuleGroupAssociation",
 }));
 
 export type UpdateOutpostResolverError =
@@ -3637,7 +3788,7 @@ export type UpdateOutpostResolverError =
  * is managed automatically by Amazon Web Services and can't be updated directly.
  */
 export const updateOutpostResolver: API.OperationMethod<
-  UpdateOutpostResolverRequest,
+  UpdateOutpostResolverRequest & RegionInput,
   UpdateOutpostResolverResponse,
   UpdateOutpostResolverError,
   Credentials | HttpClient.HttpClient
@@ -3656,6 +3807,8 @@ export const updateOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "UpdateOutpostResolver",
 }));
 
 export type UpdateResolverConfigError =
@@ -3674,7 +3827,7 @@ export type UpdateResolverConfigError =
  * Amazon Virtual Private Cloud.
  */
 export const updateResolverConfig: API.OperationMethod<
-  UpdateResolverConfigRequest,
+  UpdateResolverConfigRequest & RegionInput,
   UpdateResolverConfigResponse,
   UpdateResolverConfigError,
   Credentials | HttpClient.HttpClient
@@ -3695,6 +3848,8 @@ export const updateResolverConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverConfig",
 }));
 
 export type UpdateResolverDnssecConfigError =
@@ -3709,7 +3864,7 @@ export type UpdateResolverDnssecConfigError =
  * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
  */
 export const updateResolverDnssecConfig: API.OperationMethod<
-  UpdateResolverDnssecConfigRequest,
+  UpdateResolverDnssecConfigRequest & RegionInput,
   UpdateResolverDnssecConfigResponse,
   UpdateResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
@@ -3727,6 +3882,8 @@ export const updateResolverDnssecConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverDnssecConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverDnssecConfig",
 }));
 
 export type UpdateResolverEndpointError =
@@ -3742,7 +3899,7 @@ export type UpdateResolverEndpointError =
  * You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
  */
 export const updateResolverEndpoint: API.OperationMethod<
-  UpdateResolverEndpointRequest,
+  UpdateResolverEndpointRequest & RegionInput,
   UpdateResolverEndpointResponse,
   UpdateResolverEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3760,6 +3917,8 @@ export const updateResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverEndpoint",
 }));
 
 export type UpdateResolverRuleError =
@@ -3777,7 +3936,7 @@ export type UpdateResolverRuleError =
  * If you don't specify a parameter, it retains its current value.
  */
 export const updateResolverRule: API.OperationMethod<
-  UpdateResolverRuleRequest,
+  UpdateResolverRuleRequest & RegionInput,
   UpdateResolverRuleResponse,
   UpdateResolverRuleError,
   Credentials | HttpClient.HttpClient
@@ -3797,6 +3956,8 @@ export const updateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverRule",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

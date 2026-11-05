@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HybridCompute" },
+  prefix: "Hybridcompute",
+  service: "Hybridcompute",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -3449,6 +3470,8 @@ export const DeleteGateway: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeleteLicenseError = AzureOpError;
@@ -3464,6 +3487,8 @@ export const DeleteLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLicense",
 }));
 
 export type DeleteLicenseProfileError = AzureOpError;
@@ -3479,6 +3504,8 @@ export const DeleteLicenseProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseProfile",
 }));
 
 export type DeleteMachineError = AzureOpError;
@@ -3494,6 +3521,8 @@ export const DeleteMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachine",
 }));
 
 export type DeleteMachineExtensionError = AzureOpError;
@@ -3509,6 +3538,8 @@ export const DeleteMachineExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachineExtension",
 }));
 
 export type DeleteMachineRunCommandError = AzureOpError;
@@ -3524,6 +3555,8 @@ export const DeleteMachineRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachineRunCommand",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -3539,6 +3572,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeletePrivateLinkScopeError = AzureOpError;
@@ -3554,6 +3589,8 @@ export const DeletePrivateLinkScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkScope",
 }));
 
 export type GatewaysCreateOrUpdateError = AzureOpError;
@@ -3569,6 +3606,8 @@ export const GatewaysCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GatewaysCreateOrUpdate",
 }));
 
 export type GetExtensionMetadataError = AzureOpError;
@@ -3584,6 +3623,8 @@ export const GetExtensionMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtensionMetadata",
 }));
 
 export type GetExtensionMetadataV2Error = AzureOpError;
@@ -3599,6 +3640,8 @@ export const GetExtensionMetadataV2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtensionMetadataV2",
 }));
 
 export type GetGatewayError = AzureOpError;
@@ -3614,6 +3657,8 @@ export const GetGateway: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGateway",
 }));
 
 export type GetLicenseError = AzureOpError;
@@ -3629,6 +3674,8 @@ export const GetLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicense",
 }));
 
 export type GetLicenseProfileError = AzureOpError;
@@ -3644,6 +3691,8 @@ export const GetLicenseProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicenseProfile",
 }));
 
 export type GetMachineError = AzureOpError;
@@ -3659,6 +3708,8 @@ export const GetMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachine",
 }));
 
 export type GetMachineExtensionError = AzureOpError;
@@ -3674,6 +3725,8 @@ export const GetMachineExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineExtension",
 }));
 
 export type GetMachineRunCommandError = AzureOpError;
@@ -3689,6 +3742,8 @@ export const GetMachineRunCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineRunCommand",
 }));
 
 export type GetNetworkProfileError = AzureOpError;
@@ -3704,6 +3759,8 @@ export const GetNetworkProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkProfile",
 }));
 
 export type GetNetworkSecurityPerimeterConfigurationByPrivateLinkScopeError = AzureOpError;
@@ -3727,6 +3784,8 @@ export const GetNetworkSecurityPerimeterConfigurationByPrivateLinkScope: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkSecurityPerimeterConfigurationByPrivateLinkScope",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -3742,6 +3801,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -3757,6 +3818,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetPrivateLinkScopeError = AzureOpError;
@@ -3772,6 +3835,8 @@ export const GetPrivateLinkScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkScope",
 }));
 
 export type GetPrivateLinkScopeValidationDetailsError = AzureOpError;
@@ -3787,6 +3852,8 @@ export const GetPrivateLinkScopeValidationDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkScopeValidationDetails",
 }));
 
 export type GetPrivateLinkScopeValidationDetailsForMachineError = AzureOpError;
@@ -3806,6 +3873,8 @@ export const GetPrivateLinkScopeValidationDetailsForMachine: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkScopeValidationDetailsForMachine",
 }));
 
 export type GetSettingsError = AzureOpError;
@@ -3821,6 +3890,8 @@ export const GetSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type InstallMachinePatchesError = AzureOpError;
@@ -3836,6 +3907,8 @@ export const InstallMachinePatches: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallMachinePatches",
 }));
 
 export type LicenseProfilesCreateOrUpdateError = AzureOpError;
@@ -3851,6 +3924,8 @@ export const LicenseProfilesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseProfilesCreateOrUpdate",
 }));
 
 export type LicensesCreateOrUpdateError = AzureOpError;
@@ -3866,6 +3941,8 @@ export const LicensesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicensesCreateOrUpdate",
 }));
 
 export type ListExtensionMetadataError = AzureOpError;
@@ -3881,6 +3958,8 @@ export const ListExtensionMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensionMetadata",
 }));
 
 export type ListExtensionMetadataV2Error = AzureOpError;
@@ -3896,6 +3975,8 @@ export const ListExtensionMetadataV2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensionMetadataV2",
 }));
 
 export type ListExtensionPublisherError = AzureOpError;
@@ -3911,6 +3992,8 @@ export const ListExtensionPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensionPublisher",
 }));
 
 export type ListExtensionTypeError = AzureOpError;
@@ -3926,6 +4009,8 @@ export const ListExtensionType: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensionType",
 }));
 
 export type ListGatewayByResourceGroupError = AzureOpError;
@@ -3941,6 +4026,8 @@ export const ListGatewayByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGatewayByResourceGroup",
 }));
 
 export type ListGatewayBySubscriptionError = AzureOpError;
@@ -3956,6 +4043,8 @@ export const ListGatewayBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGatewayBySubscription",
 }));
 
 export type ListLicenseByResourceGroupError = AzureOpError;
@@ -3971,6 +4060,8 @@ export const ListLicenseByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLicenseByResourceGroup",
 }));
 
 export type ListLicenseBySubscriptionError = AzureOpError;
@@ -3986,6 +4077,8 @@ export const ListLicenseBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLicenseBySubscription",
 }));
 
 export type ListLicenseProfilesError = AzureOpError;
@@ -4001,6 +4094,8 @@ export const ListLicenseProfiles: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLicenseProfiles",
 }));
 
 export type ListMachineByResourceGroupError = AzureOpError;
@@ -4016,6 +4111,8 @@ export const ListMachineByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineByResourceGroup",
 }));
 
 export type ListMachineBySubscriptionError = AzureOpError;
@@ -4031,6 +4128,8 @@ export const ListMachineBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineBySubscription",
 }));
 
 export type ListMachineExtensionsError = AzureOpError;
@@ -4046,6 +4145,8 @@ export const ListMachineExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineExtensions",
 }));
 
 export type ListMachineRunCommandsError = AzureOpError;
@@ -4061,6 +4162,8 @@ export const ListMachineRunCommands: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineRunCommands",
 }));
 
 export type ListNetworkSecurityPerimeterConfigurationByPrivateLinkScopeError = AzureOpError;
@@ -4080,6 +4183,8 @@ export const ListNetworkSecurityPerimeterConfigurationByPrivateLinkScope: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkSecurityPerimeterConfigurationByPrivateLinkScope",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -4095,6 +4200,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByPrivateLinkScopeError = AzureOpError;
@@ -4114,6 +4221,8 @@ export const ListPrivateEndpointConnectionByPrivateLinkScope: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByPrivateLinkScope",
 }));
 
 export type ListPrivateLinkResourceByPrivateLinkScopeError = AzureOpError;
@@ -4129,6 +4238,8 @@ export const ListPrivateLinkResourceByPrivateLinkScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByPrivateLinkScope",
 }));
 
 export type ListPrivateLinkScopeByResourceGroupError = AzureOpError;
@@ -4144,6 +4255,8 @@ export const ListPrivateLinkScopeByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkScopeByResourceGroup",
 }));
 
 export type ListPrivateLinkScopesError = AzureOpError;
@@ -4159,6 +4272,8 @@ export const ListPrivateLinkScopes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkScopes",
 }));
 
 export type MachineExtensionsCreateOrUpdateError = AzureOpError;
@@ -4174,6 +4289,8 @@ export const MachineExtensionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MachineExtensionsCreateOrUpdate",
 }));
 
 export type MachineRunCommandsCreateOrUpdateError = AzureOpError;
@@ -4189,6 +4306,8 @@ export const MachineRunCommandsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MachineRunCommandsCreateOrUpdate",
 }));
 
 export type MachinesAssessPatchesError = AzureOpError;
@@ -4204,6 +4323,8 @@ export const MachinesAssessPatches: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MachinesAssessPatches",
 }));
 
 export type MachinesCreateOrUpdateError = AzureOpError;
@@ -4219,6 +4340,8 @@ export const MachinesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MachinesCreateOrUpdate",
 }));
 
 export type NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeError = AzureOpError;
@@ -4242,6 +4365,8 @@ export const NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScope:
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScope",
 }));
 
 export type PatchSettings2Error = AzureOpError;
@@ -4257,6 +4382,8 @@ export const PatchSettings2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettings2",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -4272,6 +4399,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type PrivateLinkScopesCreateOrUpdateError = AzureOpError;
@@ -4287,6 +4416,8 @@ export const PrivateLinkScopesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkScopesCreateOrUpdate",
 }));
 
 export type SetupExtensionsError = AzureOpError;
@@ -4302,6 +4433,8 @@ export const SetupExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetupExtensions",
 }));
 
 export type UpdateGatewayError = AzureOpError;
@@ -4317,6 +4450,8 @@ export const UpdateGateway: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGateway",
 }));
 
 export type UpdateLicenseError = AzureOpError;
@@ -4332,6 +4467,8 @@ export const UpdateLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLicense",
 }));
 
 export type UpdateLicenseProfileError = AzureOpError;
@@ -4347,6 +4484,8 @@ export const UpdateLicenseProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseProfile",
 }));
 
 export type UpdateMachineError = AzureOpError;
@@ -4362,6 +4501,8 @@ export const UpdateMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMachine",
 }));
 
 export type UpdateMachineExtensionError = AzureOpError;
@@ -4377,6 +4518,8 @@ export const UpdateMachineExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMachineExtension",
 }));
 
 export type UpdatePrivateLinkScopeTagsError = AzureOpError;
@@ -4392,6 +4535,8 @@ export const UpdatePrivateLinkScopeTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkScopeTags",
 }));
 
 export type UpdateSettingsError = AzureOpError;
@@ -4407,6 +4552,8 @@ export const UpdateSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSettings",
 }));
 
 export type UpgradeExtensionsError = AzureOpError;
@@ -4422,6 +4569,8 @@ export const UpgradeExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpgradeExtensions",
 }));
 
 export type ValidateLicenseLicenseError = AzureOpError;
@@ -4437,6 +4586,8 @@ export const ValidateLicenseLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateLicenseLicense",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

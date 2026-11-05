@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "FlowcontrolApiserver",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1015,6 +1028,8 @@ export const createFlowcontrolApiserverV1FlowSchema: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlowcontrolApiserverV1FlowSchema",
 }));
 
 export type CreateFlowcontrolApiserverV1PriorityLevelConfigurationError =
@@ -1037,6 +1052,8 @@ export const createFlowcontrolApiserverV1PriorityLevelConfiguration: API.Operati
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlowcontrolApiserverV1PriorityLevelConfiguration",
 }));
 
 export type DeleteFlowcontrolApiserverV1CollectionFlowSchemaError = KubernetesOpError;
@@ -1056,6 +1073,8 @@ export const deleteFlowcontrolApiserverV1CollectionFlowSchema: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlowcontrolApiserverV1CollectionFlowSchema",
 }));
 
 export type DeleteFlowcontrolApiserverV1CollectionPriorityLevelConfigurationError =
@@ -1076,6 +1095,8 @@ export const deleteFlowcontrolApiserverV1CollectionPriorityLevelConfiguration: A
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlowcontrolApiserverV1CollectionPriorityLevelConfiguration",
 }));
 
 export type DeleteFlowcontrolApiserverV1FlowSchemaError = NotFound | Conflict | KubernetesOpError;
@@ -1091,6 +1112,8 @@ export const deleteFlowcontrolApiserverV1FlowSchema: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlowcontrolApiserverV1FlowSchema",
 }));
 
 export type DeleteFlowcontrolApiserverV1PriorityLevelConfigurationError =
@@ -1113,6 +1136,8 @@ export const deleteFlowcontrolApiserverV1PriorityLevelConfiguration: API.Operati
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlowcontrolApiserverV1PriorityLevelConfiguration",
 }));
 
 export type GetFlowcontrolApiserverAPIGroupError = KubernetesOpError;
@@ -1128,6 +1153,8 @@ export const getFlowcontrolApiserverAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowcontrolApiserverAPIGroup",
 }));
 
 export type GetFlowcontrolApiserverV1APIResourcesError = KubernetesOpError;
@@ -1143,6 +1170,8 @@ export const getFlowcontrolApiserverV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowcontrolApiserverV1APIResources",
 }));
 
 export type ListFlowcontrolApiserverV1FlowSchemaError = KubernetesOpError;
@@ -1158,6 +1187,8 @@ export const listFlowcontrolApiserverV1FlowSchema: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlowcontrolApiserverV1FlowSchema",
 }));
 
 export type ListFlowcontrolApiserverV1PriorityLevelConfigurationError = KubernetesOpError;
@@ -1177,6 +1208,8 @@ export const listFlowcontrolApiserverV1PriorityLevelConfiguration: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlowcontrolApiserverV1PriorityLevelConfiguration",
 }));
 
 export type PatchFlowcontrolApiserverV1FlowSchemaError =
@@ -1196,6 +1229,8 @@ export const patchFlowcontrolApiserverV1FlowSchema: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlowcontrolApiserverV1FlowSchema",
 }));
 
 export type PatchFlowcontrolApiserverV1FlowSchemaStatusError =
@@ -1215,6 +1250,8 @@ export const patchFlowcontrolApiserverV1FlowSchemaStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlowcontrolApiserverV1FlowSchemaStatus",
 }));
 
 export type PatchFlowcontrolApiserverV1PriorityLevelConfigurationError =
@@ -1238,6 +1275,8 @@ export const patchFlowcontrolApiserverV1PriorityLevelConfiguration: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlowcontrolApiserverV1PriorityLevelConfiguration",
 }));
 
 export type PatchFlowcontrolApiserverV1PriorityLevelConfigurationStatusError =
@@ -1261,6 +1300,8 @@ export const patchFlowcontrolApiserverV1PriorityLevelConfigurationStatus: API.Op
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlowcontrolApiserverV1PriorityLevelConfigurationStatus",
 }));
 
 export type ReadFlowcontrolApiserverV1FlowSchemaError = NotFound | KubernetesOpError;
@@ -1276,6 +1317,8 @@ export const readFlowcontrolApiserverV1FlowSchema: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFlowcontrolApiserverV1FlowSchema",
 }));
 
 export type ReadFlowcontrolApiserverV1FlowSchemaStatusError = NotFound | KubernetesOpError;
@@ -1291,6 +1334,8 @@ export const readFlowcontrolApiserverV1FlowSchemaStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFlowcontrolApiserverV1FlowSchemaStatus",
 }));
 
 export type ReadFlowcontrolApiserverV1PriorityLevelConfigurationError =
@@ -1312,6 +1357,8 @@ export const readFlowcontrolApiserverV1PriorityLevelConfiguration: API.Operation
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFlowcontrolApiserverV1PriorityLevelConfiguration",
 }));
 
 export type ReadFlowcontrolApiserverV1PriorityLevelConfigurationStatusError =
@@ -1333,6 +1380,8 @@ export const readFlowcontrolApiserverV1PriorityLevelConfigurationStatus: API.Ope
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFlowcontrolApiserverV1PriorityLevelConfigurationStatus",
 }));
 
 export type ReplaceFlowcontrolApiserverV1FlowSchemaError =
@@ -1352,6 +1401,8 @@ export const replaceFlowcontrolApiserverV1FlowSchema: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceFlowcontrolApiserverV1FlowSchema",
 }));
 
 export type ReplaceFlowcontrolApiserverV1FlowSchemaStatusError =
@@ -1375,6 +1426,8 @@ export const replaceFlowcontrolApiserverV1FlowSchemaStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceFlowcontrolApiserverV1FlowSchemaStatus",
 }));
 
 export type ReplaceFlowcontrolApiserverV1PriorityLevelConfigurationError =
@@ -1398,6 +1451,8 @@ export const replaceFlowcontrolApiserverV1PriorityLevelConfiguration: API.Operat
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceFlowcontrolApiserverV1PriorityLevelConfiguration",
 }));
 
 export type ReplaceFlowcontrolApiserverV1PriorityLevelConfigurationStatusError =
@@ -1421,6 +1476,8 @@ export const replaceFlowcontrolApiserverV1PriorityLevelConfigurationStatus: API.
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceFlowcontrolApiserverV1PriorityLevelConfigurationStatus",
 }));
 
 export type WatchFlowcontrolApiserverV1FlowSchemaError = KubernetesOpError;
@@ -1436,6 +1493,8 @@ export const watchFlowcontrolApiserverV1FlowSchema: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchFlowcontrolApiserverV1FlowSchema",
 }));
 
 export type WatchFlowcontrolApiserverV1FlowSchemaListError = KubernetesOpError;
@@ -1451,6 +1510,8 @@ export const watchFlowcontrolApiserverV1FlowSchemaList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchFlowcontrolApiserverV1FlowSchemaList",
 }));
 
 export type WatchFlowcontrolApiserverV1PriorityLevelConfigurationError = KubernetesOpError;
@@ -1470,6 +1531,8 @@ export const watchFlowcontrolApiserverV1PriorityLevelConfiguration: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchFlowcontrolApiserverV1PriorityLevelConfiguration",
 }));
 
 export type WatchFlowcontrolApiserverV1PriorityLevelConfigurationListError = KubernetesOpError;
@@ -1489,6 +1552,8 @@ export const watchFlowcontrolApiserverV1PriorityLevelConfigurationList: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchFlowcontrolApiserverV1PriorityLevelConfigurationList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

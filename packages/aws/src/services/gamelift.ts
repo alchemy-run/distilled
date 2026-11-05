@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://gamelift.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GameLift",
+  service: "GameLift",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
@@ -3346,7 +3363,7 @@ export type AcceptMatchError =
  * FlexMatch events (reference)
  */
 export const acceptMatch: API.OperationMethod<
-  AcceptMatchInput,
+  AcceptMatchInput & RegionInput,
   AcceptMatchOutput,
   AcceptMatchError,
   Credentials | HttpClient.HttpClient
@@ -3362,6 +3379,8 @@ export const acceptMatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptMatch",
+  telemetry: TELEMETRY,
+  span: "AcceptMatch",
 }));
 
 export type ClaimGameServerError =
@@ -3413,7 +3432,7 @@ export type ClaimGameServerError =
  * Guide
  */
 export const claimGameServer: API.OperationMethod<
-  ClaimGameServerInput,
+  ClaimGameServerInput & RegionInput,
   ClaimGameServerOutput,
   ClaimGameServerError,
   Credentials | HttpClient.HttpClient
@@ -3431,6 +3450,8 @@ export const claimGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimGameServer",
+  telemetry: TELEMETRY,
+  span: "ClaimGameServer",
 }));
 
 export type CreateAliasError =
@@ -3466,7 +3487,7 @@ export type CreateAliasError =
  * All APIs by task
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasInput,
+  CreateAliasInput & RegionInput,
   CreateAliasOutput,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -3484,6 +3505,8 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  telemetry: TELEMETRY,
+  span: "CreateAlias",
 }));
 
 export type CreateBuildError =
@@ -3534,7 +3557,7 @@ export type CreateBuildError =
  * All APIs by task
  */
 export const createBuild: API.OperationMethod<
-  CreateBuildInput,
+  CreateBuildInput & RegionInput,
   CreateBuildOutput,
   CreateBuildError,
   Credentials | HttpClient.HttpClient
@@ -3551,6 +3574,8 @@ export const createBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBuild",
+  telemetry: TELEMETRY,
+  span: "CreateBuild",
 }));
 
 export type CreateContainerFleetError =
@@ -3640,7 +3665,7 @@ export type CreateContainerFleetError =
  * Security best practices for Amazon GameLift Servers.
  */
 export const createContainerFleet: API.OperationMethod<
-  CreateContainerFleetInput,
+  CreateContainerFleetInput & RegionInput,
   CreateContainerFleetOutput,
   CreateContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -3659,6 +3684,8 @@ export const createContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerFleet",
+  telemetry: TELEMETRY,
+  span: "CreateContainerFleet",
 }));
 
 export type CreateContainerGroupDefinitionError =
@@ -3766,7 +3793,7 @@ export type CreateContainerGroupDefinitionError =
  * calling UpdateContainerGroupDefinition, and optionally save the update as a new version.
  */
 export const createContainerGroupDefinition: API.OperationMethod<
-  CreateContainerGroupDefinitionInput,
+  CreateContainerGroupDefinitionInput & RegionInput,
   CreateContainerGroupDefinitionOutput,
   CreateContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3785,6 +3812,8 @@ export const createContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateContainerGroupDefinition",
 }));
 
 export type CreateFleetError =
@@ -3875,7 +3904,7 @@ export type CreateFleetError =
  * Multi-location fleets
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetInput,
+  CreateFleetInput & RegionInput,
   CreateFleetOutput,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -3896,6 +3925,8 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateFleetLocationsError =
@@ -3938,7 +3969,7 @@ export type CreateFleetLocationsError =
  * Amazon GameLift Servers service locations for managed hosting.
  */
 export const createFleetLocations: API.OperationMethod<
-  CreateFleetLocationsInput,
+  CreateFleetLocationsInput & RegionInput,
   CreateFleetLocationsOutput,
   CreateFleetLocationsError,
   Credentials | HttpClient.HttpClient
@@ -3959,6 +3990,8 @@ export const createFleetLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleetLocations",
+  telemetry: TELEMETRY,
+  span: "CreateFleetLocations",
 }));
 
 export type CreateGameServerGroupError =
@@ -4009,7 +4042,7 @@ export type CreateGameServerGroupError =
  * Guide
  */
 export const createGameServerGroup: API.OperationMethod<
-  CreateGameServerGroupInput,
+  CreateGameServerGroupInput & RegionInput,
   CreateGameServerGroupOutput,
   CreateGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -4026,6 +4059,8 @@ export const createGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGameServerGroup",
 }));
 
 export type CreateGameSessionError =
@@ -4085,7 +4120,7 @@ export type CreateGameSessionError =
  * All APIs by task
  */
 export const createGameSession: API.OperationMethod<
-  CreateGameSessionInput,
+  CreateGameSessionInput & RegionInput,
   CreateGameSessionOutput,
   CreateGameSessionError,
   Credentials | HttpClient.HttpClient
@@ -4108,6 +4143,8 @@ export const createGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameSession",
+  telemetry: TELEMETRY,
+  span: "CreateGameSession",
 }));
 
 export type CreateGameSessionQueueError =
@@ -4196,7 +4233,7 @@ export type CreateGameSessionQueueError =
  * All APIs by task
  */
 export const createGameSessionQueue: API.OperationMethod<
-  CreateGameSessionQueueInput,
+  CreateGameSessionQueueInput & RegionInput,
   CreateGameSessionQueueOutput,
   CreateGameSessionQueueError,
   Credentials | HttpClient.HttpClient
@@ -4214,6 +4251,8 @@ export const createGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameSessionQueue",
+  telemetry: TELEMETRY,
+  span: "CreateGameSessionQueue",
 }));
 
 export type CreateLocationError =
@@ -4231,7 +4270,7 @@ export type CreateLocationError =
  * Creates a custom location for use in an Anywhere fleet.
  */
 export const createLocation: API.OperationMethod<
-  CreateLocationInput,
+  CreateLocationInput & RegionInput,
   CreateLocationOutput,
   CreateLocationError,
   Credentials | HttpClient.HttpClient
@@ -4250,6 +4289,8 @@ export const createLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocation",
+  telemetry: TELEMETRY,
+  span: "CreateLocation",
 }));
 
 export type CreateMatchmakingConfigurationError =
@@ -4290,7 +4331,7 @@ export type CreateMatchmakingConfigurationError =
  * notification
  */
 export const createMatchmakingConfiguration: API.OperationMethod<
-  CreateMatchmakingConfigurationInput,
+  CreateMatchmakingConfigurationInput & RegionInput,
   CreateMatchmakingConfigurationOutput,
   CreateMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4308,6 +4349,8 @@ export const createMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchmakingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateMatchmakingConfiguration",
 }));
 
 export type CreateMatchmakingRuleSetError =
@@ -4343,7 +4386,7 @@ export type CreateMatchmakingRuleSetError =
  * FlexMatch
  */
 export const createMatchmakingRuleSet: API.OperationMethod<
-  CreateMatchmakingRuleSetInput,
+  CreateMatchmakingRuleSetInput & RegionInput,
   CreateMatchmakingRuleSetOutput,
   CreateMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -4360,6 +4403,8 @@ export const createMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchmakingRuleSet",
+  telemetry: TELEMETRY,
+  span: "CreateMatchmakingRuleSet",
 }));
 
 export type CreatePlayerSessionError =
@@ -4395,7 +4440,7 @@ export type CreatePlayerSessionError =
  * All APIs by task
  */
 export const createPlayerSession: API.OperationMethod<
-  CreatePlayerSessionInput,
+  CreatePlayerSessionInput & RegionInput,
   CreatePlayerSessionOutput,
   CreatePlayerSessionError,
   Credentials | HttpClient.HttpClient
@@ -4414,6 +4459,8 @@ export const createPlayerSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlayerSession",
+  telemetry: TELEMETRY,
+  span: "CreatePlayerSession",
 }));
 
 export type CreatePlayerSessionsError =
@@ -4449,7 +4496,7 @@ export type CreatePlayerSessionsError =
  * All APIs by task
  */
 export const createPlayerSessions: API.OperationMethod<
-  CreatePlayerSessionsInput,
+  CreatePlayerSessionsInput & RegionInput,
   CreatePlayerSessionsOutput,
   CreatePlayerSessionsError,
   Credentials | HttpClient.HttpClient
@@ -4468,6 +4515,8 @@ export const createPlayerSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlayerSessions",
+  telemetry: TELEMETRY,
+  span: "CreatePlayerSessions",
 }));
 
 export type CreateScriptError =
@@ -4514,7 +4563,7 @@ export type CreateScriptError =
  * All APIs by task
  */
 export const createScript: API.OperationMethod<
-  CreateScriptInput,
+  CreateScriptInput & RegionInput,
   CreateScriptOutput,
   CreateScriptError,
   Credentials | HttpClient.HttpClient
@@ -4531,6 +4580,8 @@ export const createScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScript",
+  telemetry: TELEMETRY,
+  span: "CreateScript",
 }));
 
 export type CreateVpcPeeringAuthorizationError =
@@ -4588,7 +4639,7 @@ export type CreateVpcPeeringAuthorizationError =
  * All APIs by task
  */
 export const createVpcPeeringAuthorization: API.OperationMethod<
-  CreateVpcPeeringAuthorizationInput,
+  CreateVpcPeeringAuthorizationInput & RegionInput,
   CreateVpcPeeringAuthorizationOutput,
   CreateVpcPeeringAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -4604,6 +4655,8 @@ export const createVpcPeeringAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcPeeringAuthorization",
+  telemetry: TELEMETRY,
+  span: "CreateVpcPeeringAuthorization",
 }));
 
 export type CreateVpcPeeringConnectionError =
@@ -4656,7 +4709,7 @@ export type CreateVpcPeeringConnectionError =
  * All APIs by task
  */
 export const createVpcPeeringConnection: API.OperationMethod<
-  CreateVpcPeeringConnectionInput,
+  CreateVpcPeeringConnectionInput & RegionInput,
   CreateVpcPeeringConnectionOutput,
   CreateVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4672,6 +4725,8 @@ export const createVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "CreateVpcPeeringConnection",
 }));
 
 export type DeleteAliasError =
@@ -4693,7 +4748,7 @@ export type DeleteAliasError =
  * All APIs by task
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasInput,
+  DeleteAliasInput & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -4710,6 +4765,8 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type DeleteBuildError =
@@ -4736,7 +4793,7 @@ export type DeleteBuildError =
  * All APIs by task
  */
 export const deleteBuild: API.OperationMethod<
-  DeleteBuildInput,
+  DeleteBuildInput & RegionInput,
   DeleteBuildResponse,
   DeleteBuildError,
   Credentials | HttpClient.HttpClient
@@ -4753,6 +4810,8 @@ export const deleteBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBuild",
+  telemetry: TELEMETRY,
+  span: "DeleteBuild",
 }));
 
 export type DeleteContainerFleetError =
@@ -4779,7 +4838,7 @@ export type DeleteContainerFleetError =
  * Fleets
  */
 export const deleteContainerFleet: API.OperationMethod<
-  DeleteContainerFleetInput,
+  DeleteContainerFleetInput & RegionInput,
   DeleteContainerFleetOutput,
   DeleteContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -4797,6 +4856,8 @@ export const deleteContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerFleet",
 }));
 
 export type DeleteContainerGroupDefinitionError =
@@ -4841,7 +4902,7 @@ export type DeleteContainerGroupDefinitionError =
  * - Manage a container group definition
  */
 export const deleteContainerGroupDefinition: API.OperationMethod<
-  DeleteContainerGroupDefinitionInput,
+  DeleteContainerGroupDefinitionInput & RegionInput,
   DeleteContainerGroupDefinitionOutput,
   DeleteContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4859,6 +4920,8 @@ export const deleteContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerGroupDefinition",
 }));
 
 export type DeleteFleetError =
@@ -4890,7 +4953,7 @@ export type DeleteFleetError =
  * Fleets
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetInput,
+  DeleteFleetInput & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -4908,6 +4971,8 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteFleetLocationsError =
@@ -4936,7 +5001,7 @@ export type DeleteFleetLocationsError =
  * fleets
  */
 export const deleteFleetLocations: API.OperationMethod<
-  DeleteFleetLocationsInput,
+  DeleteFleetLocationsInput & RegionInput,
   DeleteFleetLocationsOutput,
   DeleteFleetLocationsError,
   Credentials | HttpClient.HttpClient
@@ -4953,6 +5018,8 @@ export const deleteFleetLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetLocations",
+  telemetry: TELEMETRY,
+  span: "DeleteFleetLocations",
 }));
 
 export type DeleteGameServerGroupError =
@@ -4994,7 +5061,7 @@ export type DeleteGameServerGroupError =
  * Guide
  */
 export const deleteGameServerGroup: API.OperationMethod<
-  DeleteGameServerGroupInput,
+  DeleteGameServerGroupInput & RegionInput,
   DeleteGameServerGroupOutput,
   DeleteGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -5010,6 +5077,8 @@ export const deleteGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGameServerGroup",
 }));
 
 export type DeleteGameSessionQueueError =
@@ -5026,7 +5095,7 @@ export type DeleteGameSessionQueueError =
  * delete a queue, specify the queue name.
  */
 export const deleteGameSessionQueue: API.OperationMethod<
-  DeleteGameSessionQueueInput,
+  DeleteGameSessionQueueInput & RegionInput,
   DeleteGameSessionQueueOutput,
   DeleteGameSessionQueueError,
   Credentials | HttpClient.HttpClient
@@ -5043,6 +5112,8 @@ export const deleteGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGameSessionQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteGameSessionQueue",
 }));
 
 export type DeleteLocationError =
@@ -5061,7 +5132,7 @@ export type DeleteLocationError =
  * location and deregister the location if it is in use. For more information, see DeregisterCompute.
  */
 export const deleteLocation: API.OperationMethod<
-  DeleteLocationInput,
+  DeleteLocationInput & RegionInput,
   DeleteLocationOutput,
   DeleteLocationError,
   Credentials | HttpClient.HttpClient
@@ -5078,6 +5149,8 @@ export const deleteLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocation",
+  telemetry: TELEMETRY,
+  span: "DeleteLocation",
 }));
 
 export type DeleteMatchmakingConfigurationError =
@@ -5095,7 +5168,7 @@ export type DeleteMatchmakingConfigurationError =
  * any active matchmaking tickets.
  */
 export const deleteMatchmakingConfiguration: API.OperationMethod<
-  DeleteMatchmakingConfigurationInput,
+  DeleteMatchmakingConfigurationInput & RegionInput,
   DeleteMatchmakingConfigurationOutput,
   DeleteMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5112,6 +5185,8 @@ export const deleteMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchmakingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteMatchmakingConfiguration",
 }));
 
 export type DeleteMatchmakingRuleSetError =
@@ -5134,7 +5209,7 @@ export type DeleteMatchmakingRuleSetError =
  * set
  */
 export const deleteMatchmakingRuleSet: API.OperationMethod<
-  DeleteMatchmakingRuleSetInput,
+  DeleteMatchmakingRuleSetInput & RegionInput,
   DeleteMatchmakingRuleSetOutput,
   DeleteMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -5151,6 +5226,8 @@ export const deleteMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchmakingRuleSet",
+  telemetry: TELEMETRY,
+  span: "DeleteMatchmakingRuleSet",
 }));
 
 export type DeleteScalingPolicyError =
@@ -5171,7 +5248,7 @@ export type DeleteScalingPolicyError =
  * fleet.
  */
 export const deleteScalingPolicy: API.OperationMethod<
-  DeleteScalingPolicyInput,
+  DeleteScalingPolicyInput & RegionInput,
   DeleteScalingPolicyResponse,
   DeleteScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5188,6 +5265,8 @@ export const deleteScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteScalingPolicy",
 }));
 
 export type DeleteScriptError =
@@ -5218,7 +5297,7 @@ export type DeleteScriptError =
  * All APIs by task
  */
 export const deleteScript: API.OperationMethod<
-  DeleteScriptInput,
+  DeleteScriptInput & RegionInput,
   DeleteScriptResponse,
   DeleteScriptError,
   Credentials | HttpClient.HttpClient
@@ -5235,6 +5314,8 @@ export const deleteScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScript",
+  telemetry: TELEMETRY,
+  span: "DeleteScript",
 }));
 
 export type DeleteVpcPeeringAuthorizationError =
@@ -5254,7 +5335,7 @@ export type DeleteVpcPeeringAuthorizationError =
  * All APIs by task
  */
 export const deleteVpcPeeringAuthorization: API.OperationMethod<
-  DeleteVpcPeeringAuthorizationInput,
+  DeleteVpcPeeringAuthorizationInput & RegionInput,
   DeleteVpcPeeringAuthorizationOutput,
   DeleteVpcPeeringAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -5270,6 +5351,8 @@ export const deleteVpcPeeringAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcPeeringAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcPeeringAuthorization",
 }));
 
 export type DeleteVpcPeeringConnectionError =
@@ -5293,7 +5376,7 @@ export type DeleteVpcPeeringConnectionError =
  * All APIs by task
  */
 export const deleteVpcPeeringConnection: API.OperationMethod<
-  DeleteVpcPeeringConnectionInput,
+  DeleteVpcPeeringConnectionInput & RegionInput,
   DeleteVpcPeeringConnectionOutput,
   DeleteVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -5309,6 +5392,8 @@ export const deleteVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcPeeringConnection",
 }));
 
 export type DeregisterComputeError =
@@ -5330,7 +5415,7 @@ export type DeregisterComputeError =
  * deregistered and specify the compute name and the fleet ID.
  */
 export const deregisterCompute: API.OperationMethod<
-  DeregisterComputeInput,
+  DeregisterComputeInput & RegionInput,
   DeregisterComputeOutput,
   DeregisterComputeError,
   Credentials | HttpClient.HttpClient
@@ -5347,6 +5432,8 @@ export const deregisterCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCompute",
+  telemetry: TELEMETRY,
+  span: "DeregisterCompute",
 }));
 
 export type DeregisterGameServerError =
@@ -5372,7 +5459,7 @@ export type DeregisterGameServerError =
  * Guide
  */
 export const deregisterGameServer: API.OperationMethod<
-  DeregisterGameServerInput,
+  DeregisterGameServerInput & RegionInput,
   DeregisterGameServerResponse,
   DeregisterGameServerError,
   Credentials | HttpClient.HttpClient
@@ -5388,6 +5475,8 @@ export const deregisterGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterGameServer",
+  telemetry: TELEMETRY,
+  span: "DeregisterGameServer",
 }));
 
 export type DescribeAliasError =
@@ -5410,7 +5499,7 @@ export type DescribeAliasError =
  * All APIs by task
  */
 export const describeAlias: API.OperationMethod<
-  DescribeAliasInput,
+  DescribeAliasInput & RegionInput,
   DescribeAliasOutput,
   DescribeAliasError,
   Credentials | HttpClient.HttpClient
@@ -5426,6 +5515,8 @@ export const describeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeAlias",
 }));
 
 export type DescribeBuildError =
@@ -5448,7 +5539,7 @@ export type DescribeBuildError =
  * All APIs by task
  */
 export const describeBuild: API.OperationMethod<
-  DescribeBuildInput,
+  DescribeBuildInput & RegionInput,
   DescribeBuildOutput,
   DescribeBuildError,
   Credentials | HttpClient.HttpClient
@@ -5464,6 +5555,8 @@ export const describeBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBuild",
+  telemetry: TELEMETRY,
+  span: "DescribeBuild",
 }));
 
 export type DescribeComputeError =
@@ -5507,7 +5600,7 @@ export type DescribeComputeError =
  * compute.
  */
 export const describeCompute: API.OperationMethod<
-  DescribeComputeInput,
+  DescribeComputeInput & RegionInput,
   DescribeComputeOutput,
   DescribeComputeError,
   Credentials | HttpClient.HttpClient
@@ -5524,6 +5617,8 @@ export const describeCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCompute",
+  telemetry: TELEMETRY,
+  span: "DescribeCompute",
 }));
 
 export type DescribeContainerFleetError =
@@ -5554,7 +5649,7 @@ export type DescribeContainerFleetError =
  * maximum allowed number.
  */
 export const describeContainerFleet: API.OperationMethod<
-  DescribeContainerFleetInput,
+  DescribeContainerFleetInput & RegionInput,
   DescribeContainerFleetOutput,
   DescribeContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -5571,6 +5666,8 @@ export const describeContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerFleet",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerFleet",
 }));
 
 export type DescribeContainerGroupDefinitionError =
@@ -5604,7 +5701,7 @@ export type DescribeContainerGroupDefinitionError =
  * - Manage a container group definition
  */
 export const describeContainerGroupDefinition: API.OperationMethod<
-  DescribeContainerGroupDefinitionInput,
+  DescribeContainerGroupDefinitionInput & RegionInput,
   DescribeContainerGroupDefinitionOutput,
   DescribeContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -5621,6 +5718,8 @@ export const describeContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerGroupDefinition",
 }));
 
 export type DescribeContainerGroupPortMappingsError =
@@ -5669,7 +5768,7 @@ export type DescribeContainerGroupPortMappingsError =
  * container group definition
  */
 export const describeContainerGroupPortMappings: API.OperationMethod<
-  DescribeContainerGroupPortMappingsInput,
+  DescribeContainerGroupPortMappingsInput & RegionInput,
   DescribeContainerGroupPortMappingsOutput,
   DescribeContainerGroupPortMappingsError,
   Credentials | HttpClient.HttpClient
@@ -5687,6 +5786,8 @@ export const describeContainerGroupPortMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerGroupPortMappings",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerGroupPortMappings",
 }));
 
 export type DescribeEC2InstanceLimitsError =
@@ -5750,7 +5851,7 @@ export type DescribeEC2InstanceLimitsError =
  * Setting up Amazon GameLift Servers fleets
  */
 export const describeEC2InstanceLimits: API.OperationMethod<
-  DescribeEC2InstanceLimitsInput,
+  DescribeEC2InstanceLimitsInput & RegionInput,
   DescribeEC2InstanceLimitsOutput,
   DescribeEC2InstanceLimitsError,
   Credentials | HttpClient.HttpClient
@@ -5766,6 +5867,8 @@ export const describeEC2InstanceLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEC2InstanceLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeEC2InstanceLimits",
 }));
 
 export type DescribeFleetAttributesError =
@@ -5802,7 +5905,7 @@ export type DescribeFleetAttributesError =
  * fleets
  */
 export const describeFleetAttributes: API.PaginatedOperationMethod<
-  DescribeFleetAttributesInput,
+  DescribeFleetAttributesInput & RegionInput,
   DescribeFleetAttributesOutput,
   DescribeFleetAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -5825,6 +5928,8 @@ export const describeFleetAttributes: API.PaginatedOperationMethod<
     items: "FleetAttributes",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetAttributes",
 })) as any;
 
 export type DescribeFleetCapacityError =
@@ -5871,7 +5976,7 @@ export type DescribeFleetCapacityError =
  * GameLift metrics for fleets
  */
 export const describeFleetCapacity: API.PaginatedOperationMethod<
-  DescribeFleetCapacityInput,
+  DescribeFleetCapacityInput & RegionInput,
   DescribeFleetCapacityOutput,
   DescribeFleetCapacityError,
   Credentials | HttpClient.HttpClient,
@@ -5895,6 +6000,8 @@ export const describeFleetCapacity: API.PaginatedOperationMethod<
     items: "FleetCapacity",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetCapacity",
 })) as any;
 
 export type DescribeFleetDeploymentError =
@@ -5922,7 +6029,7 @@ export type DescribeFleetDeploymentError =
  * If successful, a `FleetDeployment` object is returned.
  */
 export const describeFleetDeployment: API.OperationMethod<
-  DescribeFleetDeploymentInput,
+  DescribeFleetDeploymentInput & RegionInput,
   DescribeFleetDeploymentOutput,
   DescribeFleetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -5939,6 +6046,8 @@ export const describeFleetDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetDeployment",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetDeployment",
 }));
 
 export type DescribeFleetEventsError =
@@ -5967,7 +6076,7 @@ export type DescribeFleetEventsError =
  * fleets
  */
 export const describeFleetEvents: API.PaginatedOperationMethod<
-  DescribeFleetEventsInput,
+  DescribeFleetEventsInput & RegionInput,
   DescribeFleetEventsOutput,
   DescribeFleetEventsError,
   Credentials | HttpClient.HttpClient,
@@ -5991,6 +6100,8 @@ export const describeFleetEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetEvents",
 })) as any;
 
 export type DescribeFleetLocationAttributesError =
@@ -6028,7 +6139,7 @@ export type DescribeFleetLocationAttributesError =
  * Amazon GameLift Servers service locations for managed hosting
  */
 export const describeFleetLocationAttributes: API.PaginatedOperationMethod<
-  DescribeFleetLocationAttributesInput,
+  DescribeFleetLocationAttributesInput & RegionInput,
   DescribeFleetLocationAttributesOutput,
   DescribeFleetLocationAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -6047,6 +6158,8 @@ export const describeFleetLocationAttributes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeFleetLocationAttributes",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetLocationAttributes",
 })) as any;
 
 export type DescribeFleetLocationCapacityError =
@@ -6083,7 +6196,7 @@ export type DescribeFleetLocationCapacityError =
  * GameLift metrics for fleets
  */
 export const describeFleetLocationCapacity: API.OperationMethod<
-  DescribeFleetLocationCapacityInput,
+  DescribeFleetLocationCapacityInput & RegionInput,
   DescribeFleetLocationCapacityOutput,
   DescribeFleetLocationCapacityError,
   Credentials | HttpClient.HttpClient
@@ -6100,6 +6213,8 @@ export const describeFleetLocationCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetLocationCapacity",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetLocationCapacity",
 }));
 
 export type DescribeFleetLocationUtilizationError =
@@ -6133,7 +6248,7 @@ export type DescribeFleetLocationUtilizationError =
  * GameLift metrics for fleets
  */
 export const describeFleetLocationUtilization: API.OperationMethod<
-  DescribeFleetLocationUtilizationInput,
+  DescribeFleetLocationUtilizationInput & RegionInput,
   DescribeFleetLocationUtilizationOutput,
   DescribeFleetLocationUtilizationError,
   Credentials | HttpClient.HttpClient
@@ -6150,6 +6265,8 @@ export const describeFleetLocationUtilization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetLocationUtilization",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetLocationUtilization",
 }));
 
 export type DescribeFleetPortSettingsError =
@@ -6186,7 +6303,7 @@ export type DescribeFleetPortSettingsError =
  * fleets
  */
 export const describeFleetPortSettings: API.OperationMethod<
-  DescribeFleetPortSettingsInput,
+  DescribeFleetPortSettingsInput & RegionInput,
   DescribeFleetPortSettingsOutput,
   DescribeFleetPortSettingsError,
   Credentials | HttpClient.HttpClient
@@ -6203,6 +6320,8 @@ export const describeFleetPortSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetPortSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetPortSettings",
 }));
 
 export type DescribeFleetUtilizationError =
@@ -6246,7 +6365,7 @@ export type DescribeFleetUtilizationError =
  * GameLift Metrics for Fleets
  */
 export const describeFleetUtilization: API.PaginatedOperationMethod<
-  DescribeFleetUtilizationInput,
+  DescribeFleetUtilizationInput & RegionInput,
   DescribeFleetUtilizationOutput,
   DescribeFleetUtilizationError,
   Credentials | HttpClient.HttpClient,
@@ -6269,6 +6388,8 @@ export const describeFleetUtilization: API.PaginatedOperationMethod<
     items: "FleetUtilization",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetUtilization",
 })) as any;
 
 export type DescribeGameServerError =
@@ -6293,7 +6414,7 @@ export type DescribeGameServerError =
  * Guide
  */
 export const describeGameServer: API.OperationMethod<
-  DescribeGameServerInput,
+  DescribeGameServerInput & RegionInput,
   DescribeGameServerOutput,
   DescribeGameServerError,
   Credentials | HttpClient.HttpClient
@@ -6309,6 +6430,8 @@ export const describeGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameServer",
+  telemetry: TELEMETRY,
+  span: "DescribeGameServer",
 }));
 
 export type DescribeGameServerGroupError =
@@ -6335,7 +6458,7 @@ export type DescribeGameServerGroupError =
  * Guide
  */
 export const describeGameServerGroup: API.OperationMethod<
-  DescribeGameServerGroupInput,
+  DescribeGameServerGroupInput & RegionInput,
   DescribeGameServerGroupOutput,
   DescribeGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -6351,6 +6474,8 @@ export const describeGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeGameServerGroup",
 }));
 
 export type DescribeGameServerInstancesError =
@@ -6384,7 +6509,7 @@ export type DescribeGameServerInstancesError =
  * Guide
  */
 export const describeGameServerInstances: API.PaginatedOperationMethod<
-  DescribeGameServerInstancesInput,
+  DescribeGameServerInstancesInput & RegionInput,
   DescribeGameServerInstancesOutput,
   DescribeGameServerInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -6407,6 +6532,8 @@ export const describeGameServerInstances: API.PaginatedOperationMethod<
     items: "GameServerInstances",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameServerInstances",
 })) as any;
 
 export type DescribeGameSessionDetailsError =
@@ -6452,7 +6579,7 @@ export type DescribeGameSessionDetailsError =
  * All APIs by task
  */
 export const describeGameSessionDetails: API.PaginatedOperationMethod<
-  DescribeGameSessionDetailsInput,
+  DescribeGameSessionDetailsInput & RegionInput,
   DescribeGameSessionDetailsOutput,
   DescribeGameSessionDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -6477,6 +6604,8 @@ export const describeGameSessionDetails: API.PaginatedOperationMethod<
     items: "GameSessionDetails",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessionDetails",
 })) as any;
 
 export type DescribeGameSessionPlacementError =
@@ -6502,7 +6631,7 @@ export type DescribeGameSessionPlacementError =
  * Event-based game session placement guidance in the Amazon GameLift Toolkit.
  */
 export const describeGameSessionPlacement: API.OperationMethod<
-  DescribeGameSessionPlacementInput,
+  DescribeGameSessionPlacementInput & RegionInput,
   DescribeGameSessionPlacementOutput,
   DescribeGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
@@ -6518,6 +6647,8 @@ export const describeGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameSessionPlacement",
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessionPlacement",
 }));
 
 export type DescribeGameSessionQueuesError =
@@ -6539,7 +6670,7 @@ export type DescribeGameSessionQueuesError =
  * View Your Queues
  */
 export const describeGameSessionQueues: API.PaginatedOperationMethod<
-  DescribeGameSessionQueuesInput,
+  DescribeGameSessionQueuesInput & RegionInput,
   DescribeGameSessionQueuesOutput,
   DescribeGameSessionQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -6562,6 +6693,8 @@ export const describeGameSessionQueues: API.PaginatedOperationMethod<
     items: "GameSessionQueues",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessionQueues",
 })) as any;
 
 export type DescribeGameSessionsError =
@@ -6614,7 +6747,7 @@ export type DescribeGameSessionsError =
  * All APIs by task
  */
 export const describeGameSessions: API.PaginatedOperationMethod<
-  DescribeGameSessionsInput,
+  DescribeGameSessionsInput & RegionInput,
   DescribeGameSessionsOutput,
   DescribeGameSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -6639,6 +6772,8 @@ export const describeGameSessions: API.PaginatedOperationMethod<
     items: "GameSessions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessions",
 })) as any;
 
 export type DescribeInstancesError =
@@ -6687,7 +6822,7 @@ export type DescribeInstancesError =
  * All APIs by task
  */
 export const describeInstances: API.PaginatedOperationMethod<
-  DescribeInstancesInput,
+  DescribeInstancesInput & RegionInput,
   DescribeInstancesOutput,
   DescribeInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -6711,6 +6846,8 @@ export const describeInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstances",
 })) as any;
 
 export type DescribeMatchmakingError =
@@ -6742,7 +6879,7 @@ export type DescribeMatchmakingError =
  * notification
  */
 export const describeMatchmaking: API.OperationMethod<
-  DescribeMatchmakingInput,
+  DescribeMatchmakingInput & RegionInput,
   DescribeMatchmakingOutput,
   DescribeMatchmakingError,
   Credentials | HttpClient.HttpClient
@@ -6753,6 +6890,8 @@ export const describeMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMatchmaking",
+  telemetry: TELEMETRY,
+  span: "DescribeMatchmaking",
 }));
 
 export type DescribeMatchmakingConfigurationsError =
@@ -6778,7 +6917,7 @@ export type DescribeMatchmakingConfigurationsError =
  * Setting up FlexMatch matchmakers
  */
 export const describeMatchmakingConfigurations: API.PaginatedOperationMethod<
-  DescribeMatchmakingConfigurationsInput,
+  DescribeMatchmakingConfigurationsInput & RegionInput,
   DescribeMatchmakingConfigurationsOutput,
   DescribeMatchmakingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -6796,6 +6935,8 @@ export const describeMatchmakingConfigurations: API.PaginatedOperationMethod<
     items: "Configurations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMatchmakingConfigurations",
 })) as any;
 
 export type DescribeMatchmakingRuleSetsError =
@@ -6818,7 +6959,7 @@ export type DescribeMatchmakingRuleSetsError =
  * set
  */
 export const describeMatchmakingRuleSets: API.PaginatedOperationMethod<
-  DescribeMatchmakingRuleSetsInput,
+  DescribeMatchmakingRuleSetsInput & RegionInput,
   DescribeMatchmakingRuleSetsOutput,
   DescribeMatchmakingRuleSetsError,
   Credentials | HttpClient.HttpClient,
@@ -6841,6 +6982,8 @@ export const describeMatchmakingRuleSets: API.PaginatedOperationMethod<
     items: "RuleSets",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMatchmakingRuleSets",
 })) as any;
 
 export type DescribePlayerSessionsError =
@@ -6878,7 +7021,7 @@ export type DescribePlayerSessionsError =
  * All APIs by task
  */
 export const describePlayerSessions: API.PaginatedOperationMethod<
-  DescribePlayerSessionsInput,
+  DescribePlayerSessionsInput & RegionInput,
   DescribePlayerSessionsOutput,
   DescribePlayerSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -6901,6 +7044,8 @@ export const describePlayerSessions: API.PaginatedOperationMethod<
     items: "PlayerSessions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePlayerSessions",
 })) as any;
 
 export type DescribeRuntimeConfigurationError =
@@ -6933,7 +7078,7 @@ export type DescribeRuntimeConfigurationError =
  * processes on a fleet
  */
 export const describeRuntimeConfiguration: API.OperationMethod<
-  DescribeRuntimeConfigurationInput,
+  DescribeRuntimeConfigurationInput & RegionInput,
   DescribeRuntimeConfigurationOutput,
   DescribeRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6949,6 +7094,8 @@ export const describeRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeRuntimeConfiguration",
 }));
 
 export type DescribeScalingPoliciesError =
@@ -6972,7 +7119,7 @@ export type DescribeScalingPoliciesError =
  * the status of the scaling policies, which remains ACTIVE.
  */
 export const describeScalingPolicies: API.PaginatedOperationMethod<
-  DescribeScalingPoliciesInput,
+  DescribeScalingPoliciesInput & RegionInput,
   DescribeScalingPoliciesOutput,
   DescribeScalingPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6996,6 +7143,8 @@ export const describeScalingPolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScalingPolicies",
 })) as any;
 
 export type DescribeScriptError =
@@ -7021,7 +7170,7 @@ export type DescribeScriptError =
  * All APIs by task
  */
 export const describeScript: API.OperationMethod<
-  DescribeScriptInput,
+  DescribeScriptInput & RegionInput,
   DescribeScriptOutput,
   DescribeScriptError,
   Credentials | HttpClient.HttpClient
@@ -7037,6 +7186,8 @@ export const describeScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScript",
+  telemetry: TELEMETRY,
+  span: "DescribeScript",
 }));
 
 export type DescribeVpcPeeringAuthorizationsError =
@@ -7056,7 +7207,7 @@ export type DescribeVpcPeeringAuthorizationsError =
  * All APIs by task
  */
 export const describeVpcPeeringAuthorizations: API.OperationMethod<
-  DescribeVpcPeeringAuthorizationsInput,
+  DescribeVpcPeeringAuthorizationsInput & RegionInput,
   DescribeVpcPeeringAuthorizationsOutput,
   DescribeVpcPeeringAuthorizationsError,
   Credentials | HttpClient.HttpClient
@@ -7067,6 +7218,8 @@ export const describeVpcPeeringAuthorizations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcPeeringAuthorizations",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcPeeringAuthorizations",
 }));
 
 export type DescribeVpcPeeringConnectionsError =
@@ -7092,7 +7245,7 @@ export type DescribeVpcPeeringConnectionsError =
  * All APIs by task
  */
 export const describeVpcPeeringConnections: API.OperationMethod<
-  DescribeVpcPeeringConnectionsInput,
+  DescribeVpcPeeringConnectionsInput & RegionInput,
   DescribeVpcPeeringConnectionsOutput,
   DescribeVpcPeeringConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -7108,6 +7261,8 @@ export const describeVpcPeeringConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcPeeringConnections",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcPeeringConnections",
 }));
 
 export type GetComputeAccessError =
@@ -7146,7 +7301,7 @@ export type GetComputeAccessError =
  * Guide.
  */
 export const getComputeAccess: API.OperationMethod<
-  GetComputeAccessInput,
+  GetComputeAccessInput & RegionInput,
   GetComputeAccessOutput,
   GetComputeAccessError,
   Credentials | HttpClient.HttpClient
@@ -7163,6 +7318,8 @@ export const getComputeAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeAccess",
+  telemetry: TELEMETRY,
+  span: "GetComputeAccess",
 }));
 
 export type GetComputeAuthTokenError =
@@ -7205,7 +7362,7 @@ export type GetComputeAuthTokenError =
  * reference guides (for version 5.x)
  */
 export const getComputeAuthToken: API.OperationMethod<
-  GetComputeAuthTokenInput,
+  GetComputeAuthTokenInput & RegionInput,
   GetComputeAuthTokenOutput,
   GetComputeAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -7222,6 +7379,8 @@ export const getComputeAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeAuthToken",
+  telemetry: TELEMETRY,
+  span: "GetComputeAuthToken",
 }));
 
 export type GetGameSessionLogUrlError =
@@ -7244,7 +7403,7 @@ export type GetGameSessionLogUrlError =
  * All APIs by task
  */
 export const getGameSessionLogUrl: API.OperationMethod<
-  GetGameSessionLogUrlInput,
+  GetGameSessionLogUrlInput & RegionInput,
   GetGameSessionLogUrlOutput,
   GetGameSessionLogUrlError,
   Credentials | HttpClient.HttpClient
@@ -7260,6 +7419,8 @@ export const getGameSessionLogUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGameSessionLogUrl",
+  telemetry: TELEMETRY,
+  span: "GetGameSessionLogUrl",
 }));
 
 export type GetInstanceAccessError =
@@ -7303,7 +7464,7 @@ export type GetInstanceAccessError =
  * All APIs by task
  */
 export const getInstanceAccess: API.OperationMethod<
-  GetInstanceAccessInput,
+  GetInstanceAccessInput & RegionInput,
   GetInstanceAccessOutput,
   GetInstanceAccessError,
   Credentials | HttpClient.HttpClient
@@ -7319,6 +7480,8 @@ export const getInstanceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceAccess",
+  telemetry: TELEMETRY,
+  span: "GetInstanceAccess",
 }));
 
 export type GetPlayerConnectionDetailsError =
@@ -7346,7 +7509,7 @@ export type GetPlayerConnectionDetailsError =
  * When player gateway is disabled or in locations where player gateway is not supported, this operation returns game server connection information without player gateway tokens, so that your game clients directly connect to the game server endpoint.
  */
 export const getPlayerConnectionDetails: API.OperationMethod<
-  GetPlayerConnectionDetailsInput,
+  GetPlayerConnectionDetailsInput & RegionInput,
   GetPlayerConnectionDetailsOutput,
   GetPlayerConnectionDetailsError,
   Credentials | HttpClient.HttpClient
@@ -7365,6 +7528,8 @@ export const getPlayerConnectionDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlayerConnectionDetails",
+  telemetry: TELEMETRY,
+  span: "GetPlayerConnectionDetails",
 }));
 
 export type ListAliasesError =
@@ -7386,7 +7551,7 @@ export type ListAliasesError =
  * All APIs by task
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesInput,
+  ListAliasesInput & RegionInput,
   ListAliasesOutput,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -7404,6 +7569,8 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAliases",
 })) as any;
 
 export type ListBuildsError =
@@ -7428,7 +7595,7 @@ export type ListBuildsError =
  * All APIs by task
  */
 export const listBuilds: API.PaginatedOperationMethod<
-  ListBuildsInput,
+  ListBuildsInput & RegionInput,
   ListBuildsOutput,
   ListBuildsError,
   Credentials | HttpClient.HttpClient,
@@ -7446,6 +7613,8 @@ export const listBuilds: API.PaginatedOperationMethod<
     items: "Builds",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuilds",
 })) as any;
 
 export type ListComputeError =
@@ -7483,7 +7652,7 @@ export type ListComputeError =
  * `GameLiftAgentEndpoint`.
  */
 export const listCompute: API.PaginatedOperationMethod<
-  ListComputeInput,
+  ListComputeInput & RegionInput,
   ListComputeOutput,
   ListComputeError,
   Credentials | HttpClient.HttpClient,
@@ -7506,6 +7675,8 @@ export const listCompute: API.PaginatedOperationMethod<
     items: "ComputeList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompute",
 })) as any;
 
 export type ListContainerFleetsError =
@@ -7541,7 +7712,7 @@ export type ListContainerFleetsError =
  * Fleet IDs are returned in no particular order.
  */
 export const listContainerFleets: API.PaginatedOperationMethod<
-  ListContainerFleetsInput,
+  ListContainerFleetsInput & RegionInput,
   ListContainerFleetsOutput,
   ListContainerFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -7564,6 +7735,8 @@ export const listContainerFleets: API.PaginatedOperationMethod<
     items: "ContainerFleets",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerFleets",
 })) as any;
 
 export type ListContainerGroupDefinitionsError =
@@ -7596,7 +7769,7 @@ export type ListContainerGroupDefinitionsError =
  * This operation returns the list of container group definitions in no particular order.
  */
 export const listContainerGroupDefinitions: API.PaginatedOperationMethod<
-  ListContainerGroupDefinitionsInput,
+  ListContainerGroupDefinitionsInput & RegionInput,
   ListContainerGroupDefinitionsOutput,
   ListContainerGroupDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -7619,6 +7792,8 @@ export const listContainerGroupDefinitions: API.PaginatedOperationMethod<
     items: "ContainerGroupDefinitions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerGroupDefinitions",
 })) as any;
 
 export type ListContainerGroupDefinitionVersionsError =
@@ -7653,7 +7828,7 @@ export type ListContainerGroupDefinitionVersionsError =
  * - Manage a container group definition
  */
 export const listContainerGroupDefinitionVersions: API.PaginatedOperationMethod<
-  ListContainerGroupDefinitionVersionsInput,
+  ListContainerGroupDefinitionVersionsInput & RegionInput,
   ListContainerGroupDefinitionVersionsOutput,
   ListContainerGroupDefinitionVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -7677,6 +7852,8 @@ export const listContainerGroupDefinitionVersions: API.PaginatedOperationMethod<
     items: "ContainerGroupDefinitions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerGroupDefinitionVersions",
 })) as any;
 
 export type ListFleetDeploymentsError =
@@ -7707,7 +7884,7 @@ export type ListFleetDeploymentsError =
  * Deployments are returned starting with the latest.
  */
 export const listFleetDeployments: API.PaginatedOperationMethod<
-  ListFleetDeploymentsInput,
+  ListFleetDeploymentsInput & RegionInput,
   ListFleetDeploymentsOutput,
   ListFleetDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -7731,6 +7908,8 @@ export const listFleetDeployments: API.PaginatedOperationMethod<
     items: "FleetDeployments",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleetDeployments",
 })) as any;
 
 export type ListFleetsError =
@@ -7767,7 +7946,7 @@ export type ListFleetsError =
  * Fleet IDs are returned in no particular order.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsInput,
+  ListFleetsInput & RegionInput,
   ListFleetsOutput,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -7790,6 +7969,8 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "FleetIds",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListGameServerGroupsError =
@@ -7803,7 +7984,7 @@ export type ListGameServerGroupsError =
  * Lists a game server groups.
  */
 export const listGameServerGroups: API.PaginatedOperationMethod<
-  ListGameServerGroupsInput,
+  ListGameServerGroupsInput & RegionInput,
   ListGameServerGroupsOutput,
   ListGameServerGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -7821,6 +8002,8 @@ export const listGameServerGroups: API.PaginatedOperationMethod<
     items: "GameServerGroups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGameServerGroups",
 })) as any;
 
 export type ListGameServersError =
@@ -7842,7 +8025,7 @@ export type ListGameServersError =
  * Guide
  */
 export const listGameServers: API.PaginatedOperationMethod<
-  ListGameServersInput,
+  ListGameServersInput & RegionInput,
   ListGameServersOutput,
   ListGameServersError,
   Credentials | HttpClient.HttpClient,
@@ -7860,6 +8043,8 @@ export const listGameServers: API.PaginatedOperationMethod<
     items: "GameServers",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGameServers",
 })) as any;
 
 export type ListLocationsError =
@@ -7880,7 +8065,7 @@ export type ListLocationsError =
  * Service locations
  */
 export const listLocations: API.PaginatedOperationMethod<
-  ListLocationsInput,
+  ListLocationsInput & RegionInput,
   ListLocationsOutput,
   ListLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -7898,6 +8083,8 @@ export const listLocations: API.PaginatedOperationMethod<
     items: "Locations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLocations",
 })) as any;
 
 export type ListScriptsError =
@@ -7920,7 +8107,7 @@ export type ListScriptsError =
  * All APIs by task
  */
 export const listScripts: API.PaginatedOperationMethod<
-  ListScriptsInput,
+  ListScriptsInput & RegionInput,
   ListScriptsOutput,
   ListScriptsError,
   Credentials | HttpClient.HttpClient,
@@ -7938,6 +8125,8 @@ export const listScripts: API.PaginatedOperationMethod<
     items: "Scripts",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScripts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -7968,7 +8157,7 @@ export type ListTagsForResourceError =
  * All APIs by task
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -7985,6 +8174,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutScalingPolicyError =
@@ -8067,7 +8258,7 @@ export type PutScalingPolicyError =
  * fleet actions are restarted.
  */
 export const putScalingPolicy: API.OperationMethod<
-  PutScalingPolicyInput,
+  PutScalingPolicyInput & RegionInput,
   PutScalingPolicyOutput,
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8084,6 +8275,8 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutScalingPolicy",
 }));
 
 export type RegisterComputeError =
@@ -8128,7 +8321,7 @@ export type RegisterComputeError =
  * reference guides (for version 5.x)
  */
 export const registerCompute: API.OperationMethod<
-  RegisterComputeInput,
+  RegisterComputeInput & RegionInput,
   RegisterComputeOutput,
   RegisterComputeError,
   Credentials | HttpClient.HttpClient
@@ -8147,6 +8340,8 @@ export const registerCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCompute",
+  telemetry: TELEMETRY,
+  span: "RegisterCompute",
 }));
 
 export type RegisterGameServerError =
@@ -8181,7 +8376,7 @@ export type RegisterGameServerError =
  * Guide
  */
 export const registerGameServer: API.OperationMethod<
-  RegisterGameServerInput,
+  RegisterGameServerInput & RegionInput,
   RegisterGameServerOutput,
   RegisterGameServerError,
   Credentials | HttpClient.HttpClient
@@ -8198,6 +8393,8 @@ export const registerGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterGameServer",
+  telemetry: TELEMETRY,
+  span: "RegisterGameServer",
 }));
 
 export type RequestUploadCredentialsError =
@@ -8224,7 +8421,7 @@ export type RequestUploadCredentialsError =
  * All APIs by task
  */
 export const requestUploadCredentials: API.OperationMethod<
-  RequestUploadCredentialsInput,
+  RequestUploadCredentialsInput & RegionInput,
   RequestUploadCredentialsOutput,
   RequestUploadCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -8240,6 +8437,8 @@ export const requestUploadCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestUploadCredentials",
+  telemetry: TELEMETRY,
+  span: "RequestUploadCredentials",
 }));
 
 export type ResolveAliasError =
@@ -8264,7 +8463,7 @@ export type ResolveAliasError =
  * All APIs by task
  */
 export const resolveAlias: API.OperationMethod<
-  ResolveAliasInput,
+  ResolveAliasInput & RegionInput,
   ResolveAliasOutput,
   ResolveAliasError,
   Credentials | HttpClient.HttpClient
@@ -8281,6 +8480,8 @@ export const resolveAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveAlias",
+  telemetry: TELEMETRY,
+  span: "ResolveAlias",
 }));
 
 export type ResumeGameServerGroupError =
@@ -8310,7 +8511,7 @@ export type ResumeGameServerGroupError =
  * Guide
  */
 export const resumeGameServerGroup: API.OperationMethod<
-  ResumeGameServerGroupInput,
+  ResumeGameServerGroupInput & RegionInput,
   ResumeGameServerGroupOutput,
   ResumeGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -8326,6 +8527,8 @@ export const resumeGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "ResumeGameServerGroup",
 }));
 
 export type SearchGameSessionsError =
@@ -8410,7 +8613,7 @@ export type SearchGameSessionsError =
  * All APIs by task
  */
 export const searchGameSessions: API.PaginatedOperationMethod<
-  SearchGameSessionsInput,
+  SearchGameSessionsInput & RegionInput,
   SearchGameSessionsOutput,
   SearchGameSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -8435,6 +8638,8 @@ export const searchGameSessions: API.PaginatedOperationMethod<
     items: "GameSessions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchGameSessions",
 })) as any;
 
 export type StartFleetActionsError =
@@ -8469,7 +8674,7 @@ export type StartFleetActionsError =
  * fleets
  */
 export const startFleetActions: API.OperationMethod<
-  StartFleetActionsInput,
+  StartFleetActionsInput & RegionInput,
   StartFleetActionsOutput,
   StartFleetActionsError,
   Credentials | HttpClient.HttpClient
@@ -8486,6 +8691,8 @@ export const startFleetActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFleetActions",
+  telemetry: TELEMETRY,
+  span: "StartFleetActions",
 }));
 
 export type StartGameSessionPlacementError =
@@ -8576,7 +8783,7 @@ export type StartGameSessionPlacementError =
  * different queue.
  */
 export const startGameSessionPlacement: API.OperationMethod<
-  StartGameSessionPlacementInput,
+  StartGameSessionPlacementInput & RegionInput,
   StartGameSessionPlacementOutput,
   StartGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
@@ -8593,6 +8800,8 @@ export const startGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGameSessionPlacement",
+  telemetry: TELEMETRY,
+  span: "StartGameSessionPlacement",
 }));
 
 export type StartMatchBackfillError =
@@ -8642,7 +8851,7 @@ export type StartMatchBackfillError =
  * How Amazon GameLift Servers FlexMatch works
  */
 export const startMatchBackfill: API.OperationMethod<
-  StartMatchBackfillInput,
+  StartMatchBackfillInput & RegionInput,
   StartMatchBackfillOutput,
   StartMatchBackfillError,
   Credentials | HttpClient.HttpClient
@@ -8658,6 +8867,8 @@ export const startMatchBackfill: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchBackfill",
+  telemetry: TELEMETRY,
+  span: "StartMatchBackfill",
 }));
 
 export type StartMatchmakingError =
@@ -8697,7 +8908,7 @@ export type StartMatchmakingError =
  * How Amazon GameLift Servers FlexMatch works
  */
 export const startMatchmaking: API.OperationMethod<
-  StartMatchmakingInput,
+  StartMatchmakingInput & RegionInput,
   StartMatchmakingOutput,
   StartMatchmakingError,
   Credentials | HttpClient.HttpClient
@@ -8713,6 +8924,8 @@ export const startMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchmaking",
+  telemetry: TELEMETRY,
+  span: "StartMatchmaking",
 }));
 
 export type StopFleetActionsError =
@@ -8752,7 +8965,7 @@ export type StopFleetActionsError =
  * Fleets
  */
 export const stopFleetActions: API.OperationMethod<
-  StopFleetActionsInput,
+  StopFleetActionsInput & RegionInput,
   StopFleetActionsOutput,
   StopFleetActionsError,
   Credentials | HttpClient.HttpClient
@@ -8769,6 +8982,8 @@ export const stopFleetActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFleetActions",
+  telemetry: TELEMETRY,
+  span: "StopFleetActions",
 }));
 
 export type StopGameSessionPlacementError =
@@ -8793,7 +9008,7 @@ export type StopGameSessionPlacementError =
  * game session by calling TerminateGameSession.
  */
 export const stopGameSessionPlacement: API.OperationMethod<
-  StopGameSessionPlacementInput,
+  StopGameSessionPlacementInput & RegionInput,
   StopGameSessionPlacementOutput,
   StopGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
@@ -8809,6 +9024,8 @@ export const stopGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGameSessionPlacement",
+  telemetry: TELEMETRY,
+  span: "StopGameSessionPlacement",
 }));
 
 export type StopMatchmakingError =
@@ -8838,7 +9055,7 @@ export type StopMatchmakingError =
  * Add FlexMatch to a game client
  */
 export const stopMatchmaking: API.OperationMethod<
-  StopMatchmakingInput,
+  StopMatchmakingInput & RegionInput,
   StopMatchmakingOutput,
   StopMatchmakingError,
   Credentials | HttpClient.HttpClient
@@ -8854,6 +9071,8 @@ export const stopMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMatchmaking",
+  telemetry: TELEMETRY,
+  span: "StopMatchmaking",
 }));
 
 export type SuspendGameServerGroupError =
@@ -8889,7 +9108,7 @@ export type SuspendGameServerGroupError =
  * Guide
  */
 export const suspendGameServerGroup: API.OperationMethod<
-  SuspendGameServerGroupInput,
+  SuspendGameServerGroupInput & RegionInput,
   SuspendGameServerGroupOutput,
   SuspendGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -8905,6 +9124,8 @@ export const suspendGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "SuspendGameServerGroup",
 }));
 
 export type TagResourceError =
@@ -8938,7 +9159,7 @@ export type TagResourceError =
  * All APIs by task
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8955,6 +9176,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateGameSessionError =
@@ -9013,7 +9236,7 @@ export type TerminateGameSessionError =
  * (Go)
  */
 export const terminateGameSession: API.OperationMethod<
-  TerminateGameSessionInput,
+  TerminateGameSessionInput & RegionInput,
   TerminateGameSessionOutput,
   TerminateGameSessionError,
   Credentials | HttpClient.HttpClient
@@ -9031,6 +9254,8 @@ export const terminateGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateGameSession",
+  telemetry: TELEMETRY,
+  span: "TerminateGameSession",
 }));
 
 export type UntagResourceError =
@@ -9063,7 +9288,7 @@ export type UntagResourceError =
  * All APIs by task
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -9080,6 +9305,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAliasError =
@@ -9102,7 +9329,7 @@ export type UpdateAliasError =
  * All APIs by task
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasInput,
+  UpdateAliasInput & RegionInput,
   UpdateAliasOutput,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
@@ -9118,6 +9345,8 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateAlias",
 }));
 
 export type UpdateBuildError =
@@ -9141,7 +9370,7 @@ export type UpdateBuildError =
  * All APIs by task
  */
 export const updateBuild: API.OperationMethod<
-  UpdateBuildInput,
+  UpdateBuildInput & RegionInput,
   UpdateBuildOutput,
   UpdateBuildError,
   Credentials | HttpClient.HttpClient
@@ -9157,6 +9386,8 @@ export const updateBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBuild",
+  telemetry: TELEMETRY,
+  span: "UpdateBuild",
 }));
 
 export type UpdateContainerFleetError =
@@ -9221,7 +9452,7 @@ export type UpdateContainerFleetError =
  * deployment is cancelled.
  */
 export const updateContainerFleet: API.OperationMethod<
-  UpdateContainerFleetInput,
+  UpdateContainerFleetInput & RegionInput,
   UpdateContainerFleetOutput,
   UpdateContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -9240,6 +9471,8 @@ export const updateContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerFleet",
 }));
 
 export type UpdateContainerGroupDefinitionError =
@@ -9291,7 +9524,7 @@ export type UpdateContainerGroupDefinitionError =
  * deployments using ListFleetDeployments.
  */
 export const updateContainerGroupDefinition: API.OperationMethod<
-  UpdateContainerGroupDefinitionInput,
+  UpdateContainerGroupDefinitionInput & RegionInput,
   UpdateContainerGroupDefinitionOutput,
   UpdateContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -9309,6 +9542,8 @@ export const updateContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerGroupDefinition",
 }));
 
 export type UpdateFleetAttributesError =
@@ -9342,7 +9577,7 @@ export type UpdateFleetAttributesError =
  * fleets
  */
 export const updateFleetAttributes: API.OperationMethod<
-  UpdateFleetAttributesInput,
+  UpdateFleetAttributesInput & RegionInput,
   UpdateFleetAttributesOutput,
   UpdateFleetAttributesError,
   Credentials | HttpClient.HttpClient
@@ -9361,6 +9596,8 @@ export const updateFleetAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateFleetAttributes",
 }));
 
 export type UpdateFleetCapacityError =
@@ -9427,7 +9664,7 @@ export type UpdateFleetCapacityError =
  * capacity
  */
 export const updateFleetCapacity: API.OperationMethod<
-  UpdateFleetCapacityInput,
+  UpdateFleetCapacityInput & RegionInput,
   UpdateFleetCapacityOutput,
   UpdateFleetCapacityError,
   Credentials | HttpClient.HttpClient
@@ -9447,6 +9684,8 @@ export const updateFleetCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetCapacity",
+  telemetry: TELEMETRY,
+  span: "UpdateFleetCapacity",
 }));
 
 export type UpdateFleetPortSettingsError =
@@ -9481,7 +9720,7 @@ export type UpdateFleetPortSettingsError =
  * fleets
  */
 export const updateFleetPortSettings: API.OperationMethod<
-  UpdateFleetPortSettingsInput,
+  UpdateFleetPortSettingsInput & RegionInput,
   UpdateFleetPortSettingsOutput,
   UpdateFleetPortSettingsError,
   Credentials | HttpClient.HttpClient
@@ -9500,6 +9739,8 @@ export const updateFleetPortSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetPortSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateFleetPortSettings",
 }));
 
 export type UpdateGameServerError =
@@ -9542,7 +9783,7 @@ export type UpdateGameServerError =
  * Guide
  */
 export const updateGameServer: API.OperationMethod<
-  UpdateGameServerInput,
+  UpdateGameServerInput & RegionInput,
   UpdateGameServerOutput,
   UpdateGameServerError,
   Credentials | HttpClient.HttpClient
@@ -9558,6 +9799,8 @@ export const updateGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameServer",
+  telemetry: TELEMETRY,
+  span: "UpdateGameServer",
 }));
 
 export type UpdateGameServerGroupError =
@@ -9591,7 +9834,7 @@ export type UpdateGameServerGroupError =
  * Guide
  */
 export const updateGameServerGroup: API.OperationMethod<
-  UpdateGameServerGroupInput,
+  UpdateGameServerGroupInput & RegionInput,
   UpdateGameServerGroupOutput,
   UpdateGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -9607,6 +9850,8 @@ export const updateGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGameServerGroup",
 }));
 
 export type UpdateGameSessionError =
@@ -9631,7 +9876,7 @@ export type UpdateGameSessionError =
  * All APIs by task
  */
 export const updateGameSession: API.OperationMethod<
-  UpdateGameSessionInput,
+  UpdateGameSessionInput & RegionInput,
   UpdateGameSessionOutput,
   UpdateGameSessionError,
   Credentials | HttpClient.HttpClient
@@ -9650,6 +9895,8 @@ export const updateGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameSession",
+  telemetry: TELEMETRY,
+  span: "UpdateGameSession",
 }));
 
 export type UpdateGameSessionQueueError =
@@ -9671,7 +9918,7 @@ export type UpdateGameSessionQueueError =
  * Using Multi-Region Queues
  */
 export const updateGameSessionQueue: API.OperationMethod<
-  UpdateGameSessionQueueInput,
+  UpdateGameSessionQueueInput & RegionInput,
   UpdateGameSessionQueueOutput,
   UpdateGameSessionQueueError,
   Credentials | HttpClient.HttpClient
@@ -9687,6 +9934,8 @@ export const updateGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameSessionQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateGameSessionQueue",
 }));
 
 export type UpdateMatchmakingConfigurationError =
@@ -9708,7 +9957,7 @@ export type UpdateMatchmakingConfigurationError =
  * matchmaker
  */
 export const updateMatchmakingConfiguration: API.OperationMethod<
-  UpdateMatchmakingConfigurationInput,
+  UpdateMatchmakingConfigurationInput & RegionInput,
   UpdateMatchmakingConfigurationOutput,
   UpdateMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9724,6 +9973,8 @@ export const updateMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMatchmakingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMatchmakingConfiguration",
 }));
 
 export type UpdateRuntimeConfigurationError =
@@ -9759,7 +10010,7 @@ export type UpdateRuntimeConfigurationError =
  * fleets
  */
 export const updateRuntimeConfiguration: API.OperationMethod<
-  UpdateRuntimeConfigurationInput,
+  UpdateRuntimeConfigurationInput & RegionInput,
   UpdateRuntimeConfigurationOutput,
   UpdateRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9777,6 +10028,8 @@ export const updateRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateRuntimeConfiguration",
 }));
 
 export type UpdateScriptError =
@@ -9811,7 +10064,7 @@ export type UpdateScriptError =
  * All APIs by task
  */
 export const updateScript: API.OperationMethod<
-  UpdateScriptInput,
+  UpdateScriptInput & RegionInput,
   UpdateScriptOutput,
   UpdateScriptError,
   Credentials | HttpClient.HttpClient
@@ -9827,6 +10080,8 @@ export const updateScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScript",
+  telemetry: TELEMETRY,
+  span: "UpdateScript",
 }));
 
 export type ValidateMatchmakingRuleSetError =
@@ -9847,7 +10102,7 @@ export type ValidateMatchmakingRuleSetError =
  * set
  */
 export const validateMatchmakingRuleSet: API.OperationMethod<
-  ValidateMatchmakingRuleSetInput,
+  ValidateMatchmakingRuleSetInput & RegionInput,
   ValidateMatchmakingRuleSetOutput,
   ValidateMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -9858,6 +10113,8 @@ export const validateMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateMatchmakingRuleSet",
+  telemetry: TELEMETRY,
+  span: "ValidateMatchmakingRuleSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

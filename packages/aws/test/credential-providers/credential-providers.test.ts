@@ -1133,6 +1133,37 @@ login_session = ${loginSession}
     expect(creds.accessKeyId).toBe("ASIA-cached");
   });
 
+  const malformedRefreshes = [
+    ["no accessToken", { tokenType: "Bearer", expiresIn: 3600, refreshToken: "r" }],
+    [
+      "an expiresIn out of the Date range",
+      {
+        accessToken: { accessKeyId: "A", secretAccessKey: "S", sessionToken: "T" },
+        tokenType: "Bearer",
+        expiresIn: 1e300,
+        refreshToken: "r",
+      },
+    ],
+  ] as const;
+
+  for (const [name, body] of malformedRefreshes) {
+    test(`a refresh response with ${name} keeps a still-valid token`, async () => {
+      writeToken(new Date(Date.now() + 60 * 1000));
+      const { layer } = recordingHttp(() => Response.json(body));
+      const creds = await run(loginCredentialsSource().pipe(Effect.provide(layer)));
+      expect(creds.accessKeyId).toBe("ASIA-cached");
+    });
+
+    test(`a refresh response with ${name} fails an expired token typed`, async () => {
+      writeToken(new Date(Date.now() - 60 * 1000));
+      const { layer } = recordingHttp(() => Response.json(body));
+      const error = await runFail(loginCredentialsSource().pipe(Effect.provide(layer)));
+      expect(error).toBeInstanceOf(CredentialSourceError);
+      expect(error.message).toContain("malformed token response");
+      expect(error.tryNextLink).toBe(false);
+    });
+  }
+
   test("an expired session is a final failure", async () => {
     writeToken(new Date(Date.now() - 60 * 1000));
     const { layer } = recordingHttp(

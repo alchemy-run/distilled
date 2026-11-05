@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ResourceManager",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -363,6 +376,8 @@ export const createFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
 }));
 
 export type CreateProjectError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -378,6 +393,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type DeleteFolderError = NotFound | Conflict | StackitOpError;
@@ -393,6 +410,8 @@ export const deleteFolder: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFolder",
 }));
 
 export type DeleteFolderLabelsError = Conflict | StackitOpError;
@@ -408,6 +427,8 @@ export const deleteFolderLabels: API.OperationMethod<
   errors: [Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFolderLabels",
 }));
 
 export type DeleteOrganizationLabelsError = Conflict | StackitOpError;
@@ -423,6 +444,8 @@ export const deleteOrganizationLabels: API.OperationMethod<
   errors: [Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationLabels",
 }));
 
 export type DeleteProjectError = Conflict | StackitOpError;
@@ -438,6 +461,8 @@ export const deleteProject: API.OperationMethod<
   errors: [Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectLabelsError = Conflict | StackitOpError;
@@ -453,6 +478,8 @@ export const deleteProjectLabels: API.OperationMethod<
   errors: [Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectLabels",
 }));
 
 export type GetFolderDetailsError = Forbidden | NotFound | StackitOpError;
@@ -468,6 +495,8 @@ export const getFolderDetails: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolderDetails",
 }));
 
 export type GetOrganizationError = NotFound | StackitOpError;
@@ -483,6 +512,8 @@ export const getOrganization: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetProjectError = Forbidden | NotFound | StackitOpError;
@@ -498,6 +529,8 @@ export const getProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type ListFoldersError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -513,6 +546,8 @@ export const listFolders: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolders",
 }));
 
 export type ListOrganizationsError = BadRequest | Forbidden | StackitOpError;
@@ -528,6 +563,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type ListProjectsError = BadRequest | Forbidden | StackitOpError;
@@ -543,6 +580,8 @@ export const listProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type PartialUpdateFolderError = Forbidden | NotFound | Conflict | StackitOpError;
@@ -558,6 +597,8 @@ export const partialUpdateFolder: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateFolder",
 }));
 
 export type PartialUpdateOrganizationError = NotFound | Conflict | StackitOpError;
@@ -573,6 +614,8 @@ export const partialUpdateOrganization: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateOrganization",
 }));
 
 export type PartialUpdateProjectError = Forbidden | NotFound | Conflict | StackitOpError;
@@ -588,6 +631,8 @@ export const partialUpdateProject: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateProject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

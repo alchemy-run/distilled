@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -11,6 +12,24 @@ import * as T from "../traits.ts";
 const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Orgs",
+  labels: "github",
+  propagate: "w3c",
+} as const;
 
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -3077,6 +3096,8 @@ export const assignTeamToOrgRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignTeamToOrgRole",
 }));
 
 export type AssignUserToOrgRoleError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3092,6 +3113,8 @@ export const assignUserToOrgRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignUserToOrgRole",
 }));
 
 export type BlockUserError = UnprocessableEntity | GithubOpError;
@@ -3107,6 +3130,8 @@ export const blockUser: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlockUser",
 }));
 
 export type BulkReviewPatGrantRequestsInError =
@@ -3126,6 +3151,8 @@ export const bulkReviewPatGrantRequestsIn: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkReviewPatGrantRequestsIn",
 }));
 
 export type CancelInvitationError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3141,6 +3168,8 @@ export const cancelInvitation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelInvitation",
 }));
 
 export type CheckBlockedUserError = NotFound | GithubOpError;
@@ -3156,6 +3185,8 @@ export const checkBlockedUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBlockedUser",
 }));
 
 export type CheckMembershipForUserError = NotFound | GithubOpError;
@@ -3171,6 +3202,8 @@ export const checkMembershipForUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMembershipForUser",
 }));
 
 export type CheckPublicMembershipForUserError = NotFound | GithubOpError;
@@ -3186,6 +3219,8 @@ export const checkPublicMembershipForUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPublicMembershipForUser",
 }));
 
 export type ConvertMemberToOutsideCollaboratorError = Forbidden | NotFound | GithubOpError;
@@ -3201,6 +3236,8 @@ export const convertMemberToOutsideCollaborator: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertMemberToOutsideCollaborator",
 }));
 
 export type CreateArtifactDeploymentRecordError = Forbidden | NotFound | GithubOpError;
@@ -3216,6 +3253,8 @@ export const createArtifactDeploymentRecord: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArtifactDeploymentRecord",
 }));
 
 export type CreateArtifactStorageRecordError = Forbidden | NotFound | GithubOpError;
@@ -3231,6 +3270,8 @@ export const createArtifactStorageRecord: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArtifactStorageRecord",
 }));
 
 export type CreateClusterDeploymentRecordsJobError =
@@ -3251,6 +3292,8 @@ export const createClusterDeploymentRecordsJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClusterDeploymentRecordsJob",
 }));
 
 export type CreateInvitationError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3266,6 +3309,8 @@ export const createInvitation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvitation",
 }));
 
 export type CreateIssueFieldError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3281,6 +3326,8 @@ export const createIssueField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueField",
 }));
 
 export type CreateIssueTypeError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3296,6 +3343,8 @@ export const createIssueType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueType",
 }));
 
 export type CreateWebhookError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3311,6 +3360,8 @@ export const createWebhook: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionError =
@@ -3333,6 +3384,8 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinition: API.O
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposCreateOrUpdateOrganizationDefinition",
 }));
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsError =
@@ -3359,6 +3412,8 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinitions: API.
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposCreateOrUpdateOrganizationDefinitions",
 }));
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationValuesError =
@@ -3386,6 +3441,8 @@ export const customPropertiesForReposCreateOrUpdateOrganizationValues: API.Opera
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposCreateOrUpdateOrganizationValues",
 }));
 
 export type CustomPropertiesForReposDeleteOrganizationDefinitionError =
@@ -3412,6 +3469,8 @@ export const customPropertiesForReposDeleteOrganizationDefinition: API.Operation
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposDeleteOrganizationDefinition",
 }));
 
 export type CustomPropertiesForReposGetOrganizationDefinitionError =
@@ -3434,6 +3493,8 @@ export const customPropertiesForReposGetOrganizationDefinition: API.OperationMet
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposGetOrganizationDefinition",
 }));
 
 export type CustomPropertiesForReposGetOrganizationDefinitionsError =
@@ -3460,6 +3521,8 @@ export const customPropertiesForReposGetOrganizationDefinitions: API.OperationMe
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposGetOrganizationDefinitions",
 }));
 
 export type CustomPropertiesForReposGetOrganizationValuesError =
@@ -3467,26 +3530,33 @@ export type CustomPropertiesForReposGetOrganizationValuesError =
   | NotFound
   | GithubOpError;
 /** List custom property values for organization repositories Lists organization repositories with all of their custom property values. Organization members can read these properties. */
-export const customPropertiesForReposGetOrganizationValues: API.OperationMethod<
+export const customPropertiesForReposGetOrganizationValues: API.PaginatedOperationMethod<
   CustomPropertiesForReposGetOrganizationValuesRequest,
   CustomPropertiesForReposGetOrganizationValuesResponse,
   CustomPropertiesForReposGetOrganizationValuesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    768,
-    __c48,
-    0,
-  ) as any as S.Schema<CustomPropertiesForReposGetOrganizationValuesRequest>,
-  output: __S(
-    771,
-    __c48,
-    3,
-  ) as any as S.Schema<CustomPropertiesForReposGetOrganizationValuesResponse>,
-  errors: [Forbidden, NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrgRepoCustomPropertyValues
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(
+      768,
+      __c48,
+      0,
+    ) as any as S.Schema<CustomPropertiesForReposGetOrganizationValuesRequest>,
+    output: __S(
+      771,
+      __c48,
+      3,
+    ) as any as S.Schema<CustomPropertiesForReposGetOrganizationValuesResponse>,
+    errors: [Forbidden, NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomPropertiesForReposGetOrganizationValues",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type DeleteError = Forbidden | NotFound | GithubOpError;
 /** Delete an organization Deletes an organization and all its repositories. The organization login will be unavailable for 90 days after deletion. Please review the Terms of Service regarding account deletion before using this endpoint: https://docs.github.com/site-policy/github-terms/github-terms-of-service */
@@ -3501,6 +3571,8 @@ export const Delete: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Delete",
 }));
 
 export type DeleteAttestationsBulkError = NotFound | GithubOpError;
@@ -3516,6 +3588,8 @@ export const deleteAttestationsBulk: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsBulk",
 }));
 
 export type DeleteAttestationsByIdError = Forbidden | NotFound | GithubOpError;
@@ -3531,6 +3605,8 @@ export const deleteAttestationsById: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsById",
 }));
 
 export type DeleteAttestationsBySubjectDigestError = NotFound | GithubOpError;
@@ -3546,6 +3622,8 @@ export const deleteAttestationsBySubjectDigest: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsBySubjectDigest",
 }));
 
 export type DeleteIssueFieldError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3561,6 +3639,8 @@ export const deleteIssueField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueField",
 }));
 
 export type DeleteIssueTypeError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3576,6 +3656,8 @@ export const deleteIssueType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueType",
 }));
 
 export type DeleteWebhookError = NotFound | GithubOpError;
@@ -3591,6 +3673,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DisableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
@@ -3614,6 +3698,8 @@ export const disableSelectedRepositoryImmutableReleasesOrganization: API.Operati
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSelectedRepositoryImmutableReleasesOrganization",
 }));
 
 export type EnableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
@@ -3637,6 +3723,8 @@ export const enableSelectedRepositoryImmutableReleasesOrganization: API.Operatio
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSelectedRepositoryImmutableReleasesOrganization",
 }));
 
 export type ExternalPropertiesForReposCreateOrUpdateOrganizationValuesError =
@@ -3664,6 +3752,8 @@ export const externalPropertiesForReposCreateOrUpdateOrganizationValues: API.Ope
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposCreateOrUpdateOrganizationValues",
 }));
 
 export type ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyError =
@@ -3691,6 +3781,8 @@ export const externalPropertiesForReposCreateOrUpdateValuesForOrganizationProper
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationProperty",
 }));
 
 export type ExternalPropertiesForReposDeleteOrganizationValuesError =
@@ -3718,6 +3810,8 @@ export const externalPropertiesForReposDeleteOrganizationValues: API.OperationMe
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposDeleteOrganizationValues",
 }));
 
 export type ExternalPropertiesForReposGetOrganizationAppInstallationsError =
@@ -3745,6 +3839,8 @@ export const externalPropertiesForReposGetOrganizationAppInstallations: API.Oper
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposGetOrganizationAppInstallations",
 }));
 
 export type ExternalPropertiesForReposGetOrganizationDefinitionsError =
@@ -3772,6 +3868,8 @@ export const externalPropertiesForReposGetOrganizationDefinitions: API.Operation
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposGetOrganizationDefinitions",
 }));
 
 export type ExternalPropertiesForReposRegisterOrganizationAppInstallationError =
@@ -3795,6 +3893,8 @@ export const externalPropertiesForReposRegisterOrganizationAppInstallation: API.
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposRegisterOrganizationAppInstallation",
 }));
 
 export type GetError = NotFound | GithubOpError;
@@ -3806,37 +3906,53 @@ export const get: API.OperationMethod<GetRequest, OrganizationFull, GetError, Gi
     errors: [NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetApiInsightRouteStatsByActorError = GithubOpError;
 /** Get route stats by actor Get API request count statistics for an actor broken down by route within a specified time frame. Under normal conditions, you can expect API data to appear within 4-6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const getApiInsightRouteStatsByActor: API.OperationMethod<
+export const getApiInsightRouteStatsByActor: API.PaginatedOperationMethod<
   GetApiInsightRouteStatsByActorRequest,
   GetApiInsightRouteStatsByActorResponse,
   GetApiInsightRouteStatsByActorError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<GetApiInsightRouteStatsByActorRequest>,
-  output: __S(1075, __c67, 3) as any as S.Schema<GetApiInsightRouteStatsByActorResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  ApiInsightsRouteStatsItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1072, __c67, 0) as any as S.Schema<GetApiInsightRouteStatsByActorRequest>,
+    output: __S(1075, __c67, 3) as any as S.Schema<GetApiInsightRouteStatsByActorResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetApiInsightRouteStatsByActor",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type GetApiInsightSubjectStatsError = GithubOpError;
 /** Get subject stats Get API request statistics for all subjects within an organization within a specified time frame. Subjects can be users or GitHub Apps. Under normal conditions, you can expect API data to appear within 4-6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const getApiInsightSubjectStats: API.OperationMethod<
+export const getApiInsightSubjectStats: API.PaginatedOperationMethod<
   GetApiInsightSubjectStatsRequest,
   GetApiInsightSubjectStatsResponse,
   GetApiInsightSubjectStatsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<GetApiInsightSubjectStatsRequest>,
-  output: __S(1091, __c68, 3) as any as S.Schema<GetApiInsightSubjectStatsResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  ApiInsightsSubjectStatsItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1088, __c68, 0) as any as S.Schema<GetApiInsightSubjectStatsRequest>,
+    output: __S(1091, __c68, 3) as any as S.Schema<GetApiInsightSubjectStatsResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetApiInsightSubjectStats",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type GetApiInsightSummaryStatsError = GithubOpError;
 /** Get summary stats Get overall statistics of API requests made within an organization by all users and apps within a specified time frame. Under normal conditions, you can expect API data to appear within 4-6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
@@ -3851,6 +3967,8 @@ export const getApiInsightSummaryStats: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightSummaryStats",
 }));
 
 export type GetApiInsightSummaryStatsByActorError = GithubOpError;
@@ -3866,6 +3984,8 @@ export const getApiInsightSummaryStatsByActor: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightSummaryStatsByActor",
 }));
 
 export type GetApiInsightSummaryStatsByUserError = GithubOpError;
@@ -3881,6 +4001,8 @@ export const getApiInsightSummaryStatsByUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightSummaryStatsByUser",
 }));
 
 export type GetApiInsightTimeStatsError = GithubOpError;
@@ -3896,6 +4018,8 @@ export const getApiInsightTimeStats: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightTimeStats",
 }));
 
 export type GetApiInsightTimeStatsByActorError = GithubOpError;
@@ -3911,6 +4035,8 @@ export const getApiInsightTimeStatsByActor: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightTimeStatsByActor",
 }));
 
 export type GetApiInsightTimeStatsByUserError = GithubOpError;
@@ -3926,22 +4052,31 @@ export const getApiInsightTimeStatsByUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightTimeStatsByUser",
 }));
 
 export type GetApiInsightUserStatsError = GithubOpError;
 /** Get user stats Get API usage statistics within an organization for a user broken down by the type of access. Under normal conditions, you can expect API data to appear within 4-6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const getApiInsightUserStats: API.OperationMethod<
+export const getApiInsightUserStats: API.PaginatedOperationMethod<
   GetApiInsightUserStatsRequest,
   GetApiInsightUserStatsResponse,
   GetApiInsightUserStatsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<GetApiInsightUserStatsRequest>,
-  output: __S(1267, __c79, 3) as any as S.Schema<GetApiInsightUserStatsResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  ApiInsightsUserStatsItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1264, __c79, 0) as any as S.Schema<GetApiInsightUserStatsRequest>,
+    output: __S(1267, __c79, 3) as any as S.Schema<GetApiInsightUserStatsResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetApiInsightUserStats",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type GetClusterDeploymentRecordsJobError = NotFound | GithubOpError;
 /** Get cluster deployment records job status Get the status and results of a previously created cluster deployment records job. */
@@ -3956,6 +4091,8 @@ export const getClusterDeploymentRecordsJob: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClusterDeploymentRecordsJob",
 }));
 
 export type GetImmutableReleasesSettingsError = GithubOpError;
@@ -3971,22 +4108,40 @@ export const getImmutableReleasesSettings: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImmutableReleasesSettings",
 }));
 
 export type GetImmutableReleasesSettingsRepositoriesError = GithubOpError;
 /** List selected repositories for immutable releases enforcement List all of the repositories that have been selected for immutable releases enforcement in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const getImmutableReleasesSettingsRepositories: API.OperationMethod<
+export const getImmutableReleasesSettingsRepositories: API.PaginatedOperationMethod<
   GetImmutableReleasesSettingsRepositoriesRequest,
   GetImmutableReleasesSettingsRepositoriesResponse,
   GetImmutableReleasesSettingsRepositoriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<GetImmutableReleasesSettingsRepositoriesRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<GetImmutableReleasesSettingsRepositoriesResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1312, __c82, 0) as any as S.Schema<GetImmutableReleasesSettingsRepositoriesRequest>,
+    output: __S(
+      1313,
+      __c82,
+      1,
+    ) as any as S.Schema<GetImmutableReleasesSettingsRepositoriesResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetImmutableReleasesSettingsRepositories",
+    pagination: {
+      mode: "link",
+      inputToken: "page",
+      pageSize: "per_page",
+      items: "repositories",
+    } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type GetMembershipForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
 /** Get an organization membership for the authenticated user If the authenticated user is an active or pending member of the organization, this endpoint will return the user's membership. If the authenticated user is not affiliated with the organization, a `404` is returned. This endpoint will return a `403` if the request is made by a GitHub App that is blocked by the organization. */
@@ -4001,6 +4156,8 @@ export const getMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembershipForAuthenticatedUser",
 }));
 
 export type GetMembershipForUserError = Forbidden | NotFound | GithubOpError;
@@ -4016,6 +4173,8 @@ export const getMembershipForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembershipForUser",
 }));
 
 export type GetOrgRoleError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4031,22 +4190,31 @@ export const getOrgRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgRole",
 }));
 
 export type GetOrgRulesetHistoryError = NotFound | GithubOpError;
 /** Get organization ruleset history Get the history of an organization ruleset. */
-export const getOrgRulesetHistory: API.OperationMethod<
+export const getOrgRulesetHistory: API.PaginatedOperationMethod<
   GetOrgRulesetHistoryRequest,
   GetOrgRulesetHistoryResponse,
   GetOrgRulesetHistoryError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<GetOrgRulesetHistoryRequest>,
-  output: __S(1459, __c91, 3) as any as S.Schema<GetOrgRulesetHistoryResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  RulesetVersion
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1456, __c91, 0) as any as S.Schema<GetOrgRulesetHistoryRequest>,
+    output: __S(1459, __c91, 3) as any as S.Schema<GetOrgRulesetHistoryResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetOrgRulesetHistory",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type GetOrgRulesetVersionError = NotFound | GithubOpError;
 /** Get organization ruleset version Get a version of an organization ruleset. */
@@ -4061,6 +4229,8 @@ export const getOrgRulesetVersion: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgRulesetVersion",
 }));
 
 export type GetWebhookError = NotFound | GithubOpError;
@@ -4076,6 +4246,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWebhookConfigForOrgError = GithubOpError;
@@ -4091,6 +4263,8 @@ export const getWebhookConfigForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookConfigForOrg",
 }));
 
 export type GetWebhookDeliveryError = BadRequest | UnprocessableEntity | GithubOpError;
@@ -4106,6 +4280,8 @@ export const getWebhookDelivery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookDelivery",
 }));
 
 export type ListError = GithubOpError;
@@ -4117,22 +4293,36 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Git
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "List",
   }));
 
 export type ListAppInstallationsError = GithubOpError;
 /** List app installations for an organization Lists all GitHub Apps in an organization. The installation count includes all GitHub Apps installed on repositories in the organization. The authenticated user must be an organization owner to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `admin:read` scope to use this endpoint. */
-export const listAppInstallations: API.OperationMethod<
+export const listAppInstallations: API.PaginatedOperationMethod<
   ListAppInstallationsRequest,
   ListAppInstallationsResponse,
   ListAppInstallationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListAppInstallationsRequest>,
-  output: __S(1620, __c101, 4) as any as S.Schema<ListAppInstallationsResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  Installation
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1616, __c101, 0) as any as S.Schema<ListAppInstallationsRequest>,
+    output: __S(1620, __c101, 4) as any as S.Schema<ListAppInstallationsResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppInstallations",
+    pagination: {
+      mode: "link",
+      inputToken: "page",
+      pageSize: "per_page",
+      items: "installations",
+    } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListArtifactDeploymentRecordsError = GithubOpError;
 /** List artifact deployment records List deployment records for an artifact metadata associated with an organization. */
@@ -4147,6 +4337,8 @@ export const listArtifactDeploymentRecords: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactDeploymentRecords",
 }));
 
 export type ListArtifactStorageRecordsError = GithubOpError;
@@ -4162,6 +4354,8 @@ export const listArtifactStorageRecords: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactStorageRecords",
 }));
 
 export type ListAttestationRepositoriesError = GithubOpError;
@@ -4177,6 +4371,8 @@ export const listAttestationRepositories: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationRepositories",
 }));
 
 export type ListAttestationsError = GithubOpError;
@@ -4192,6 +4388,8 @@ export const listAttestations: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestations",
 }));
 
 export type ListAttestationsBulkError = GithubOpError;
@@ -4207,82 +4405,119 @@ export const listAttestationsBulk: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationsBulk",
 }));
 
 export type ListBlockedUsersError = GithubOpError;
 /** List users blocked by an organization List the users blocked by an organization. */
-export const listBlockedUsers: API.OperationMethod<
+export const listBlockedUsers: API.PaginatedOperationMethod<
   ListBlockedUsersRequest,
   ListBlockedUsersResponse,
   ListBlockedUsersError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListBlockedUsersRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<ListBlockedUsersResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1744, __c109, 0) as any as S.Schema<ListBlockedUsersRequest>,
+    output: __S(1761, __c110, 1) as any as S.Schema<ListBlockedUsersResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBlockedUsers",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListFailedInvitationsError = NotFound | GithubOpError;
 /** List failed organization invitations The return hash contains `failed_at` and `failed_reason` fields which represent the time at which the invitation failed and the reason for the failure. */
-export const listFailedInvitations: API.OperationMethod<
+export const listFailedInvitations: API.PaginatedOperationMethod<
   ListFailedInvitationsRequest,
   ListFailedInvitationsResponse,
   ListFailedInvitationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<ListFailedInvitationsRequest>,
-  output: __S(1793, __c112, 1) as any as S.Schema<ListFailedInvitationsResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrganizationInvitation
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1776, __c111, 0) as any as S.Schema<ListFailedInvitationsRequest>,
+    output: __S(1793, __c112, 1) as any as S.Schema<ListFailedInvitationsResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFailedInvitations",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListForAuthenticatedUserError = Forbidden | GithubOpError;
 /** List organizations for the authenticated user List organizations for the authenticated user. For OAuth app tokens and personal access tokens (classic), this endpoint only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope for OAuth app tokens and personal access tokens (classic). Requests with insufficient scope will receive a `403 Forbidden` response. > [!NOTE] > Requests using a fine-grained access token will receive a `200 Success` response with an empty list. */
-export const listForAuthenticatedUser: API.OperationMethod<
+export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   ListForAuthenticatedUserRequest,
   ListForAuthenticatedUserResponse,
   ListForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
-  errors: [Forbidden],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrganizationSimple
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1808, __c113, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
+    output: __S(1601, __c100, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
+    errors: [Forbidden],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListForAuthenticatedUser",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListForUserError = GithubOpError;
 /** List organizations for a user List [public organization memberships](https://docs.github.com/articles/publicizing-or-concealing-organization-membership) for the specified user. This method only lists _public_ memberships, regardless of authentication. If you need to fetch all of the organization memberships (public and private) for the authenticated user, use the [List organizations for the authenticated user](https://docs.github.com/rest/orgs/orgs#list-organizations-for-the-authenticated-user) API instead. */
-export const listForUser: API.OperationMethod<
+export const listForUser: API.PaginatedOperationMethod<
   ListForUserRequest,
   ListForUserResponse,
   ListForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ListForUserRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<ListForUserResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrganizationSimple
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1824, __c114, 0) as any as S.Schema<ListForUserRequest>,
+    output: __S(1601, __c100, 1) as any as S.Schema<ListForUserResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListForUser",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListInvitationTeamsError = NotFound | GithubOpError;
 /** List organization invitation teams List all teams associated with an invitation. In order to see invitations in an organization, the authenticated user must be an organization owner. */
-export const listInvitationTeams: API.OperationMethod<
+export const listInvitationTeams: API.PaginatedOperationMethod<
   ListInvitationTeamsRequest,
   ListInvitationTeamsResponse,
   ListInvitationTeamsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListInvitationTeamsRequest>,
-  output: __S(1843, __c115, 3) as any as S.Schema<ListInvitationTeamsResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  Team
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1840, __c115, 0) as any as S.Schema<ListInvitationTeamsRequest>,
+    output: __S(1843, __c115, 3) as any as S.Schema<ListInvitationTeamsResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInvitationTeams",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListIssueFieldsError = NotFound | GithubOpError;
 /** List issue fields for an organization Lists all issue fields for an organization. OAuth app tokens and personal access tokens (classic) need the read:org scope to use this endpoint. */
@@ -4297,6 +4532,8 @@ export const listIssueFields: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueFields",
 }));
 
 export type ListIssueTypesError = NotFound | GithubOpError;
@@ -4312,40 +4549,56 @@ export const listIssueTypes: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueTypes",
 }));
 
 export type ListMembersError = UnprocessableEntity | GithubOpError;
 /** List organization members List all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned. */
-export const listMembers: API.OperationMethod<
+export const listMembers: API.PaginatedOperationMethod<
   ListMembersRequest,
   ListMembersResponse,
   ListMembersError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ListMembersRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<ListMembersResponse>,
-  errors: [UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1920, __c120, 0) as any as S.Schema<ListMembersRequest>,
+    output: __S(1761, __c110, 1) as any as S.Schema<ListMembersResponse>,
+    errors: [UnprocessableEntity],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMembers",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListMembershipsForAuthenticatedUserError =
   | Forbidden
   | UnprocessableEntity
   | GithubOpError;
 /** List organization memberships for the authenticated user Lists all of the authenticated user's organization memberships. */
-export const listMembershipsForAuthenticatedUser: API.OperationMethod<
+export const listMembershipsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListMembershipsForAuthenticatedUserRequest,
   ListMembershipsForAuthenticatedUserResponse,
   ListMembershipsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<ListMembershipsForAuthenticatedUserRequest>,
-  output: __S(1938, __c121, 2) as any as S.Schema<ListMembershipsForAuthenticatedUserResponse>,
-  errors: [Forbidden, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrgMembership
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1936, __c121, 0) as any as S.Schema<ListMembershipsForAuthenticatedUserRequest>,
+    output: __S(1938, __c121, 2) as any as S.Schema<ListMembershipsForAuthenticatedUserResponse>,
+    errors: [Forbidden, UnprocessableEntity],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMembershipsForAuthenticatedUser",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListOrgRolesError = NotFound | UnprocessableEntity | GithubOpError;
 /** Get all organization roles for an organization Lists the organization roles available in this organization. For more information on organization roles, see "[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles)." To use this endpoint, the authenticated user must be one of: - An administrator for the organization. - An organization member (or a member of a team) assigned a custom organization role that includes the **View organization roles** (`read_organization_custom_org_role`) permission. For more information, see "[Permissions for organization access](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/permissions-of-custom-organization-roles#permissions-for-organization-access)." OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
@@ -4360,142 +4613,207 @@ export const listOrgRoles: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgRoles",
 }));
 
 export type ListOrgRoleTeamsError = NotFound | UnprocessableEntity | GithubOpError;
 /** List teams that are assigned to an organization role Lists the teams that are assigned to an organization role. For more information on organization roles, see "[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles)." To use this endpoint, you must be an administrator for the organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listOrgRoleTeams: API.OperationMethod<
+export const listOrgRoleTeams: API.PaginatedOperationMethod<
   ListOrgRoleTeamsRequest,
   ListOrgRoleTeamsResponse,
   ListOrgRoleTeamsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ListOrgRoleTeamsRequest>,
-  output: __S(2003, __c125, 3) as any as S.Schema<ListOrgRoleTeamsResponse>,
-  errors: [NotFound, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  TeamRoleAssignment
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2000, __c125, 0) as any as S.Schema<ListOrgRoleTeamsRequest>,
+    output: __S(2003, __c125, 3) as any as S.Schema<ListOrgRoleTeamsResponse>,
+    errors: [NotFound, UnprocessableEntity],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrgRoleTeams",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListOrgRoleUsersError = NotFound | UnprocessableEntity | GithubOpError;
 /** List users that are assigned to an organization role Lists organization members that are assigned to an organization role. For more information on organization roles, see "[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles)." To use this endpoint, you must be an administrator for the organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listOrgRoleUsers: API.OperationMethod<
+export const listOrgRoleUsers: API.PaginatedOperationMethod<
   ListOrgRoleUsersRequest,
   ListOrgRoleUsersResponse,
   ListOrgRoleUsersError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListOrgRoleUsersRequest>,
-  output: __S(2020, __c126, 4) as any as S.Schema<ListOrgRoleUsersResponse>,
-  errors: [NotFound, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  UserRoleAssignment
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2016, __c126, 0) as any as S.Schema<ListOrgRoleUsersRequest>,
+    output: __S(2020, __c126, 4) as any as S.Schema<ListOrgRoleUsersResponse>,
+    errors: [NotFound, UnprocessableEntity],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrgRoleUsers",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListOutsideCollaboratorsError = GithubOpError;
 /** List outside collaborators for an organization List all users who are outside collaborators of an organization. */
-export const listOutsideCollaborators: API.OperationMethod<
+export const listOutsideCollaborators: API.PaginatedOperationMethod<
   ListOutsideCollaboratorsRequest,
   ListOutsideCollaboratorsResponse,
   ListOutsideCollaboratorsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListOutsideCollaboratorsRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<ListOutsideCollaboratorsResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2032, __c127, 0) as any as S.Schema<ListOutsideCollaboratorsRequest>,
+    output: __S(1761, __c110, 1) as any as S.Schema<ListOutsideCollaboratorsResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOutsideCollaborators",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListPatGrantRepositoriesError = Forbidden | NotFound | GithubOpError;
 /** List repositories a fine-grained personal access token has access to Lists the repositories a fine-grained personal access token has access to. Only GitHub Apps can use this endpoint. */
-export const listPatGrantRepositories: API.OperationMethod<
+export const listPatGrantRepositories: API.PaginatedOperationMethod<
   ListPatGrantRepositoriesRequest,
   ListPatGrantRepositoriesResponse,
   ListPatGrantRepositoriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListPatGrantRepositoriesRequest>,
-  output: __S(2064, __c129, 0) as any as S.Schema<ListPatGrantRepositoriesResponse>,
-  errors: [Forbidden, NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2048, __c128, 0) as any as S.Schema<ListPatGrantRepositoriesRequest>,
+    output: __S(2064, __c129, 0) as any as S.Schema<ListPatGrantRepositoriesResponse>,
+    errors: [Forbidden, NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPatGrantRepositories",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListPatGrantRequestRepositoriesError = Forbidden | NotFound | GithubOpError;
 /** List repositories requested to be accessed by a fine-grained personal access token Lists the repositories a fine-grained personal access token request is requesting access to. Only GitHub Apps can use this endpoint. */
-export const listPatGrantRequestRepositories: API.OperationMethod<
+export const listPatGrantRequestRepositories: API.PaginatedOperationMethod<
   ListPatGrantRequestRepositoriesRequest,
   ListPatGrantRequestRepositoriesResponse,
   ListPatGrantRequestRepositoriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListPatGrantRequestRepositoriesRequest>,
-  output: __S(2064, __c129, 0) as any as S.Schema<ListPatGrantRequestRepositoriesResponse>,
-  errors: [Forbidden, NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2080, __c130, 0) as any as S.Schema<ListPatGrantRequestRepositoriesRequest>,
+    output: __S(2064, __c129, 0) as any as S.Schema<ListPatGrantRequestRepositoriesResponse>,
+    errors: [Forbidden, NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPatGrantRequestRepositories",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListPatGrantRequestsError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
 /** List requests to access organization resources with fine-grained personal access tokens Lists requests from organization members to access organization resources with a fine-grained personal access token. Only GitHub Apps can use this endpoint. */
-export const listPatGrantRequests: API.OperationMethod<
+export const listPatGrantRequests: API.PaginatedOperationMethod<
   ListPatGrantRequestsRequest,
   ListPatGrantRequestsResponse,
   ListPatGrantRequestsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListPatGrantRequestsRequest>,
-  output: __S(2099, __c131, 3) as any as S.Schema<ListPatGrantRequestsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrganizationProgrammaticAccessGrantRequest
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2096, __c131, 0) as any as S.Schema<ListPatGrantRequestsRequest>,
+    output: __S(2099, __c131, 3) as any as S.Schema<ListPatGrantRequestsResponse>,
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPatGrantRequests",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListPatGrantsError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
 /** List fine-grained personal access tokens with access to organization resources Lists approved fine-grained personal access tokens owned by organization members that can access organization resources. Only GitHub Apps can use this endpoint. */
-export const listPatGrants: API.OperationMethod<
+export const listPatGrants: API.PaginatedOperationMethod<
   ListPatGrantsRequest,
   ListPatGrantsResponse,
   ListPatGrantsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ListPatGrantsRequest>,
-  output: __S(2131, __c133, 3) as any as S.Schema<ListPatGrantsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrganizationProgrammaticAccessGrant
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2128, __c133, 0) as any as S.Schema<ListPatGrantsRequest>,
+    output: __S(2131, __c133, 3) as any as S.Schema<ListPatGrantsResponse>,
+    errors: [Forbidden, NotFound, UnprocessableEntity],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPatGrants",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListPendingInvitationsError = NotFound | GithubOpError;
 /** List pending organization invitations The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, or `hiring_manager`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`. */
-export const listPendingInvitations: API.OperationMethod<
+export const listPendingInvitations: API.PaginatedOperationMethod<
   ListPendingInvitationsRequest,
   ListPendingInvitationsResponse,
   ListPendingInvitationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<ListPendingInvitationsRequest>,
-  output: __S(1793, __c112, 1) as any as S.Schema<ListPendingInvitationsResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrganizationInvitation
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2144, __c134, 0) as any as S.Schema<ListPendingInvitationsRequest>,
+    output: __S(1793, __c112, 1) as any as S.Schema<ListPendingInvitationsResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPendingInvitations",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListPublicMembersError = GithubOpError;
 /** List public organization members Members of an organization can choose to have their membership publicized or not. */
-export const listPublicMembers: API.OperationMethod<
+export const listPublicMembers: API.PaginatedOperationMethod<
   ListPublicMembersRequest,
   ListPublicMembersResponse,
   ListPublicMembersError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ListPublicMembersRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<ListPublicMembersResponse>,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2160, __c135, 0) as any as S.Schema<ListPublicMembersRequest>,
+    output: __S(1761, __c110, 1) as any as S.Schema<ListPublicMembersResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPublicMembers",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type ListWebhookDeliveriesError = BadRequest | UnprocessableEntity | GithubOpError;
 /** List deliveries for an organization webhook Returns a list of webhook deliveries for a webhook configured in an organization. You must be an organization owner to use this endpoint. OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps. */
@@ -4510,22 +4828,31 @@ export const listWebhookDeliveries: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookDeliveries",
 }));
 
 export type ListWebhooksError = NotFound | GithubOpError;
 /** List organization webhooks List webhooks for an organization. The authenticated user must be an organization owner to use this endpoint. OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps. */
-export const listWebhooks: API.OperationMethod<
+export const listWebhooks: API.PaginatedOperationMethod<
   ListWebhooksRequest,
   ListWebhooksResponse,
   ListWebhooksError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(2210, __c138, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
+  GithubOpContext,
+  OrgHook
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2208, __c138, 0) as any as S.Schema<ListWebhooksRequest>,
+    output: __S(2210, __c138, 2) as any as S.Schema<ListWebhooksResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWebhooks",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
 
 export type PingWebhookError = NotFound | GithubOpError;
 /** Ping an organization webhook This will trigger a [ping event](https://docs.github.com/webhooks/#ping-event) to be sent to the hook. You must be an organization owner to use this endpoint. OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps. */
@@ -4540,6 +4867,8 @@ export const pingWebhook: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PingWebhook",
 }));
 
 export type RedeliverWebhookDeliveryError = BadRequest | UnprocessableEntity | GithubOpError;
@@ -4555,6 +4884,8 @@ export const redeliverWebhookDelivery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeliverWebhookDelivery",
 }));
 
 export type RemoveMemberError = Forbidden | GithubOpError;
@@ -4570,6 +4901,8 @@ export const removeMember: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMember",
 }));
 
 export type RemoveMembershipForUserError = Forbidden | NotFound | GithubOpError;
@@ -4585,6 +4918,8 @@ export const removeMembershipForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMembershipForUser",
 }));
 
 export type RemoveOutsideCollaboratorError = UnprocessableEntity | GithubOpError;
@@ -4600,6 +4935,8 @@ export const removeOutsideCollaborator: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOutsideCollaborator",
 }));
 
 export type RemovePublicMembershipForAuthenticatedUserError = GithubOpError;
@@ -4619,6 +4956,8 @@ export const removePublicMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePublicMembershipForAuthenticatedUser",
 }));
 
 export type ReviewPatGrantRequestError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4634,6 +4973,8 @@ export const reviewPatGrantRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewPatGrantRequest",
 }));
 
 export type RevokeAllOrgRolesTeamError = GithubOpError;
@@ -4649,6 +4990,8 @@ export const revokeAllOrgRolesTeam: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAllOrgRolesTeam",
 }));
 
 export type RevokeAllOrgRolesUserError = GithubOpError;
@@ -4664,6 +5007,8 @@ export const revokeAllOrgRolesUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAllOrgRolesUser",
 }));
 
 export type RevokeOrgRoleTeamError = GithubOpError;
@@ -4679,6 +5024,8 @@ export const revokeOrgRoleTeam: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOrgRoleTeam",
 }));
 
 export type RevokeOrgRoleUserError = GithubOpError;
@@ -4694,6 +5041,8 @@ export const revokeOrgRoleUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOrgRoleUser",
 }));
 
 export type SetClusterDeploymentRecordsError = Forbidden | NotFound | GithubOpError;
@@ -4709,6 +5058,8 @@ export const setClusterDeploymentRecords: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetClusterDeploymentRecords",
 }));
 
 export type SetImmutableReleasesSettingsError = GithubOpError;
@@ -4724,6 +5075,8 @@ export const setImmutableReleasesSettings: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetImmutableReleasesSettings",
 }));
 
 export type SetImmutableReleasesSettingsRepositoriesError = GithubOpError;
@@ -4739,6 +5092,8 @@ export const setImmutableReleasesSettingsRepositories: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetImmutableReleasesSettingsRepositories",
 }));
 
 export type SetMembershipForUserError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -4754,6 +5109,8 @@ export const setMembershipForUser: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetMembershipForUser",
 }));
 
 export type SetPublicMembershipForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -4769,6 +5126,8 @@ export const setPublicMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPublicMembershipForAuthenticatedUser",
 }));
 
 export type UnblockUserError = GithubOpError;
@@ -4784,6 +5143,8 @@ export const unblockUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnblockUser",
 }));
 
 export type UpdateError = Conflict | UnprocessableEntity | GithubOpError;
@@ -4799,6 +5160,8 @@ export const update: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 export type UpdateIssueFieldError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4814,6 +5177,8 @@ export const updateIssueField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueField",
 }));
 
 export type UpdateIssueTypeError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4829,6 +5194,8 @@ export const updateIssueType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueType",
 }));
 
 export type UpdateMembershipForAuthenticatedUserError =
@@ -4848,6 +5215,8 @@ export const updateMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMembershipForAuthenticatedUser",
 }));
 
 export type UpdatePatAccessError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4863,6 +5232,8 @@ export const updatePatAccess: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePatAccess",
 }));
 
 export type UpdatePatAccessesError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4878,6 +5249,8 @@ export const updatePatAccesses: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePatAccesses",
 }));
 
 export type UpdateWebhookError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4893,6 +5266,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type UpdateWebhookConfigForOrgError = GithubOpError;
@@ -4908,6 +5283,8 @@ export const updateWebhookConfigForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookConfigForOrg",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

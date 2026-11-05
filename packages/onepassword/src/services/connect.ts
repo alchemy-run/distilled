@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { OnepasswordOpError, ConnectOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "onepassword-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "OnePassword",
+  service: "OnepasswordConnect",
+  labels: "onepassword",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -634,6 +647,8 @@ export const createVaultItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVaultItem",
 }));
 
 export type DeleteVaultItemError = Forbidden | NotFound | OnepasswordOpError;
@@ -649,6 +664,8 @@ export const deleteVaultItem: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVaultItem",
 }));
 
 export type DownloadFileByIDError = NotFound | OnepasswordOpError;
@@ -664,6 +681,8 @@ export const downloadFileByID: API.OperationMethod<
   errors: [NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadFileByID",
 }));
 
 export type GetApiActivityError = OnepasswordOpError;
@@ -679,6 +698,8 @@ export const getApiActivity: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiActivity",
 }));
 
 export type GetDetailsOfFileByIdError = Forbidden | NotFound | OnepasswordOpError;
@@ -694,6 +715,8 @@ export const getDetailsOfFileById: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDetailsOfFileById",
 }));
 
 export type GetHeartbeatError = OnepasswordOpError;
@@ -709,6 +732,8 @@ export const getHeartbeat: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHeartbeat",
 }));
 
 export type GetItemFilesError = NotFound | OnepasswordOpError;
@@ -724,6 +749,8 @@ export const getItemFiles: API.OperationMethod<
   errors: [NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItemFiles",
 }));
 
 export type GetPrometheusMetricsError = OnepasswordOpError;
@@ -739,6 +766,8 @@ export const getPrometheusMetrics: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrometheusMetrics",
 }));
 
 export type GetServerHealthError = OnepasswordOpError;
@@ -754,6 +783,8 @@ export const getServerHealth: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerHealth",
 }));
 
 export type GetVaultByIdError = Forbidden | NotFound | OnepasswordOpError;
@@ -769,6 +800,8 @@ export const getVaultById: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVaultById",
 }));
 
 export type GetVaultItemByIdError = Forbidden | NotFound | OnepasswordOpError;
@@ -784,6 +817,8 @@ export const getVaultItemById: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVaultItemById",
 }));
 
 export type GetVaultItemsError = NotFound | OnepasswordOpError;
@@ -799,6 +834,8 @@ export const getVaultItems: API.OperationMethod<
   errors: [NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVaultItems",
 }));
 
 export type GetVaultsError = OnepasswordOpError;
@@ -814,6 +851,8 @@ export const getVaults: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVaults",
 }));
 
 export type UpdateVaultItemError = BadRequest | Forbidden | NotFound | OnepasswordOpError;
@@ -829,6 +868,8 @@ export const updateVaultItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVaultItem",
 }));
 
 export type UpdateVaultItemByItemUuidError = Forbidden | NotFound | OnepasswordOpError;
@@ -844,6 +885,8 @@ export const updateVaultItemByItemUuid: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOnepasswordError],
   protocol: ConnectProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVaultItemByItemUuid",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

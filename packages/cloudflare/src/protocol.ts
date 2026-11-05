@@ -1,6 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
 import { retryableKey } from "@distilled.cloud/core/category";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   Forbidden,
@@ -9,6 +8,7 @@ import {
   InternalServerError,
   TooManyRequests,
   Unauthorized,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -29,6 +29,7 @@ import {
   SchemaMismatch,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 import {
   bodySymbol,
   headerSymbol,
@@ -82,11 +83,13 @@ import {
   InvalidRoute,
   UnknownCloudflareError,
 } from "./errors.ts";
+import { Jurisdiction } from "./jurisdiction.ts";
 import {
   binaryResponseBodySymbol,
   envelopePayloadRootSymbol,
   envelopePayloadSymbol,
   hostSymbol,
+  jurisdictionSymbol,
   resultInfoSymbol,
 } from "./traits.ts";
 
@@ -135,7 +138,8 @@ export type CloudflareOpError =
   // fail the two ways every operation can.
   | CloudflareError
   | CloudflareRateLimited
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Cloudflare operation. */
 export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
@@ -301,18 +305,31 @@ const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
 // and reintroduced for callers by the generated `CloudflareOpContext`
 // annotations.
 const requestFor = (
+  context: Context.Context<any>,
   creds: ResolvedCredentials,
   input: unknown,
   inputAst: AST.AST,
-): HttpClientRequest.HttpClientRequest =>
-  buildRequest({
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
+  const headers = formatHeaders(creds);
+  // The `Jurisdiction` layer, for operations marked `T.Jurisdiction()`. A
+  // `jurisdiction` member set on the call is a header too, and wins.
+  const jurisdiction = Context.getOrUndefined(context, Jurisdiction);
+  if (jurisdiction !== undefined && takesJurisdiction(inputAst))
+    headers[JURISDICTION_HEADER] = jurisdiction;
+  return buildRequest({
     input,
     inputAst,
     baseUrl: hostFor(input, inputAst) ?? creds.apiBaseUrl,
-    headers: formatHeaders(creds),
+    headers,
     mapMemberHeader: bearerPrefixAuthorization,
     unknownKeyToWire: camelToSnake,
   });
+};
+
+const JURISDICTION_HEADER = "cf-r2-jurisdiction";
+/** Whether an operation's input is marked `T.Jurisdiction()`. */
+const takesJurisdiction = (inputAst: AST.AST): boolean =>
+  getAnn(inputAst, jurisdictionSymbol) !== undefined;
 
 /**
  * The calling fiber's credentials, then `f` on them. The Credentials service
@@ -333,7 +350,7 @@ const withCredentials = <B>(
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.withFiber((fiber) =>
     withCredentials(fiber.context as Context.Context<any>, (creds) =>
-      Effect.succeed(requestFor(creds, input, inputAst)),
+      requestFor(fiber.context as Context.Context<any>, creds, input, inputAst),
     ),
   );
 
@@ -454,12 +471,9 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     // Read as text and parse tolerantly -- Cloudflare answers some errors
     // (HTML 5xx pages, bare plain-text 4xx) with non-JSON bodies.
     return Effect.matchEffect(response.text, {
-      onFailure: Effect.die,
+      onFailure: fail,
       onSuccess: (read): Effect.Effect<unknown> => {
         const text = read ?? "";
-        if (debugHttp()) {
-          console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-        }
         let json: Record<string, unknown> = {};
         let nonJson = false;
         if (text.trim().length > 0) {
@@ -667,10 +681,15 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
-        const request = requestFor(creds, input, op.inputAst);
         const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(client.execute(request), (response) =>
-          decodeResponse(context, response, op.outputAst, op.errors),
+        return Effect.flatMap(requestFor(context, creds, input, op.inputAst), (request) =>
+          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+            Telemetry.phase(
+              context,
+              "cloudflare.decode",
+              decodeResponse(context, response, op.outputAst, op.errors),
+            ),
+          ),
         );
       });
     }) as Effect.Effect<unknown>;

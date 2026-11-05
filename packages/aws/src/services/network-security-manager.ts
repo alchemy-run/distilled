@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -69,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NetworkSecurityManager",
+  service: "NetworkSecurityManager",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1164,7 +1180,7 @@ export type CreateDeploymentError =
  * Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use `isPublished` to create the deployment in published (`ACTIVE`) or draft (`DRAFT`) state. The response includes coverage information and any warnings about the deployment.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentInput,
+  CreateDeploymentInput & RegionInput,
   CreateDeploymentOutput,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1184,6 +1200,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDeploymentSnapshotError =
@@ -1199,7 +1217,7 @@ export type CreateDeploymentSnapshotError =
  * Creates a snapshot of the current published version of the specified deployment.
  */
 export const createDeploymentSnapshot: API.OperationMethod<
-  CreateDeploymentSnapshotInput,
+  CreateDeploymentSnapshotInput & RegionInput,
   CreateDeploymentSnapshotOutput,
   CreateDeploymentSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1218,6 +1236,8 @@ export const createDeploymentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentSnapshot",
 }));
 
 export type CreatePolicyError =
@@ -1234,7 +1254,7 @@ export type CreatePolicyError =
  * Creates a policy. A policy combines templates and rules with enforcement settings for a firewall type, such as AWS WAF or AWS Shield Advanced. Use `isPublished` to create the policy in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createPolicy: API.OperationMethod<
-  CreatePolicyInput,
+  CreatePolicyInput & RegionInput,
   CreatePolicyOutput,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1254,6 +1274,8 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreatePolicySnapshotError =
@@ -1269,7 +1291,7 @@ export type CreatePolicySnapshotError =
  * Creates a snapshot of the current published version of the specified policy.
  */
 export const createPolicySnapshot: API.OperationMethod<
-  CreatePolicySnapshotInput,
+  CreatePolicySnapshotInput & RegionInput,
   CreatePolicySnapshotOutput,
   CreatePolicySnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1288,6 +1310,8 @@ export const createPolicySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicySnapshot",
+  telemetry: TELEMETRY,
+  span: "CreatePolicySnapshot",
 }));
 
 export type CreateRuleError =
@@ -1304,7 +1328,7 @@ export type CreateRuleError =
  * Creates a rule. A rule defines a network security configuration to enforce, such as an AWS WAF rule group or configuration data. Use `isPublished` to create the rule in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleInput,
+  CreateRuleInput & RegionInput,
   CreateRuleOutput,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1324,6 +1348,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateRuleSnapshotError =
@@ -1339,7 +1365,7 @@ export type CreateRuleSnapshotError =
  * Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference.
  */
 export const createRuleSnapshot: API.OperationMethod<
-  CreateRuleSnapshotInput,
+  CreateRuleSnapshotInput & RegionInput,
   CreateRuleSnapshotOutput,
   CreateRuleSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1358,6 +1384,8 @@ export const createRuleSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateRuleSnapshot",
 }));
 
 export type CreateScopeError =
@@ -1374,7 +1402,7 @@ export type CreateScopeError =
  * Creates a scope. A scope selects the accounts and resources that a deployment applies to. Use `isPublished` to create the scope in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createScope: API.OperationMethod<
-  CreateScopeInput,
+  CreateScopeInput & RegionInput,
   CreateScopeOutput,
   CreateScopeError,
   Credentials | HttpClient.HttpClient
@@ -1394,6 +1422,8 @@ export const createScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScope",
+  telemetry: TELEMETRY,
+  span: "CreateScope",
 }));
 
 export type CreateScopeSnapshotError =
@@ -1409,7 +1439,7 @@ export type CreateScopeSnapshotError =
  * Creates a snapshot of the current published version of the specified scope.
  */
 export const createScopeSnapshot: API.OperationMethod<
-  CreateScopeSnapshotInput,
+  CreateScopeSnapshotInput & RegionInput,
   CreateScopeSnapshotOutput,
   CreateScopeSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1428,6 +1458,8 @@ export const createScopeSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScopeSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateScopeSnapshot",
 }));
 
 export type CreateTemplateError =
@@ -1444,7 +1476,7 @@ export type CreateTemplateError =
  * Creates a template. A template groups one or more rules to simplify reuse across policies. You can also associate rules with a policy directly, without a template. Use `isPublished` to create the template in published (`ACTIVE`) or draft (`DRAFT`) state.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateInput,
+  CreateTemplateInput & RegionInput,
   CreateTemplateOutput,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1464,6 +1496,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type CreateTemplateSnapshotError =
@@ -1479,7 +1513,7 @@ export type CreateTemplateSnapshotError =
  * Creates a snapshot of the current published version of the specified template.
  */
 export const createTemplateSnapshot: API.OperationMethod<
-  CreateTemplateSnapshotInput,
+  CreateTemplateSnapshotInput & RegionInput,
   CreateTemplateSnapshotOutput,
   CreateTemplateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1498,6 +1532,8 @@ export const createTemplateSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateSnapshot",
 }));
 
 export type DeleteAdminAccountError =
@@ -1510,7 +1546,7 @@ export type DeleteAdminAccountError =
  * Removes the specified AWS Network Security Manager administrator account.
  */
 export const deleteAdminAccount: API.OperationMethod<
-  DeleteAdminAccountRequest,
+  DeleteAdminAccountRequest & RegionInput,
   DeleteAdminAccountResponse,
   DeleteAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1526,6 +1562,8 @@ export const deleteAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DeleteAdminAccount",
 }));
 
 export type DeleteDeploymentError =
@@ -1539,7 +1577,7 @@ export type DeleteDeploymentError =
  * Deletes the specified deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1556,6 +1594,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeletePolicyError =
@@ -1569,7 +1609,7 @@ export type DeletePolicyError =
  * Deletes the specified policy.
  */
 export const deletePolicy: API.OperationMethod<
-  DeletePolicyInput,
+  DeletePolicyInput & RegionInput,
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1586,6 +1626,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteRuleError =
@@ -1599,7 +1641,7 @@ export type DeleteRuleError =
  * Deletes the specified rule.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleInput,
+  DeleteRuleInput & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -1616,6 +1658,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteScopeError =
@@ -1629,7 +1673,7 @@ export type DeleteScopeError =
  * Deletes the specified scope.
  */
 export const deleteScope: API.OperationMethod<
-  DeleteScopeInput,
+  DeleteScopeInput & RegionInput,
   DeleteScopeResponse,
   DeleteScopeError,
   Credentials | HttpClient.HttpClient
@@ -1646,6 +1690,8 @@ export const deleteScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScope",
+  telemetry: TELEMETRY,
+  span: "DeleteScope",
 }));
 
 export type DeleteTemplateError =
@@ -1659,7 +1705,7 @@ export type DeleteTemplateError =
  * Deletes the specified template.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateInput,
+  DeleteTemplateInput & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1676,6 +1722,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type GenerateRuleConfigurationError =
@@ -1688,7 +1736,7 @@ export type GenerateRuleConfigurationError =
  * Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or update a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one.
  */
 export const generateRuleConfiguration: API.OperationMethod<
-  GenerateRuleConfigurationRequest,
+  GenerateRuleConfigurationRequest & RegionInput,
   GenerateRuleConfigurationResponse,
   GenerateRuleConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1704,6 +1752,8 @@ export const generateRuleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRuleConfiguration",
+  telemetry: TELEMETRY,
+  span: "GenerateRuleConfiguration",
 }));
 
 export type GetAdminAccountError =
@@ -1717,7 +1767,7 @@ export type GetAdminAccountError =
  * Retrieves the details of the specified AWS Network Security Manager administrator account.
  */
 export const getAdminAccount: API.OperationMethod<
-  GetAdminAccountRequest,
+  GetAdminAccountRequest & RegionInput,
   GetAdminAccountResponse,
   GetAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1734,6 +1784,8 @@ export const getAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdminAccount",
+  telemetry: TELEMETRY,
+  span: "GetAdminAccount",
 }));
 
 export type GetDeploymentError =
@@ -1747,7 +1799,7 @@ export type GetDeploymentError =
  * Retrieves the details of the specified deployment, including coverage information and any warnings.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1764,6 +1816,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetPolicyError =
@@ -1777,7 +1831,7 @@ export type GetPolicyError =
  * Retrieves the details of the specified policy.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyInput,
+  GetPolicyInput & RegionInput,
   GetPolicyOutput,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1794,6 +1848,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetRuleError =
@@ -1807,7 +1863,7 @@ export type GetRuleError =
  * Retrieves the details of the specified rule.
  */
 export const getRule: API.OperationMethod<
-  GetRuleInput,
+  GetRuleInput & RegionInput,
   GetRuleOutput,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -1824,6 +1880,8 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetScopeError =
@@ -1837,7 +1895,7 @@ export type GetScopeError =
  * Retrieves the details of the specified scope.
  */
 export const getScope: API.OperationMethod<
-  GetScopeInput,
+  GetScopeInput & RegionInput,
   GetScopeOutput,
   GetScopeError,
   Credentials | HttpClient.HttpClient
@@ -1854,6 +1912,8 @@ export const getScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScope",
+  telemetry: TELEMETRY,
+  span: "GetScope",
 }));
 
 export type GetTemplateError =
@@ -1867,7 +1927,7 @@ export type GetTemplateError =
  * Retrieves the details of the specified template.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateInput,
+  GetTemplateInput & RegionInput,
   GetTemplateOutput,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1884,6 +1944,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type ListAdminAccountsError =
@@ -1896,7 +1958,7 @@ export type ListAdminAccountsError =
  * Lists the AWS Network Security Manager administrator accounts in the organization.
  */
 export const listAdminAccounts: API.PaginatedOperationMethod<
-  ListAdminAccountsRequest,
+  ListAdminAccountsRequest & RegionInput,
   ListAdminAccountsResponse,
   ListAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1919,6 +1981,8 @@ export const listAdminAccounts: API.PaginatedOperationMethod<
     items: "adminAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdminAccounts",
 })) as any;
 
 export type ListAggregateResourceSynchronizationStatusesError =
@@ -1931,7 +1995,7 @@ export type ListAggregateResourceSynchronizationStatusesError =
  * Lists the aggregated synchronization statuses of resources across the deployments in your administrator account. You can filter the results by synchronization status and page through them.
  */
 export const listAggregateResourceSynchronizationStatuses: API.PaginatedOperationMethod<
-  ListAggregateResourceSynchronizationStatusesInput,
+  ListAggregateResourceSynchronizationStatusesInput & RegionInput,
   ListAggregateResourceSynchronizationStatusesOutput,
   ListAggregateResourceSynchronizationStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -1958,6 +2022,8 @@ export const listAggregateResourceSynchronizationStatuses: API.PaginatedOperatio
     items: "resourceSynchronizationStatuses",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAggregateResourceSynchronizationStatuses",
 })) as any;
 
 export type ListDeploymentsError =
@@ -1970,7 +2036,7 @@ export type ListDeploymentsError =
  * Lists the deployments in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1993,6 +2059,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListDeploymentSnapshotsError =
@@ -2006,7 +2074,7 @@ export type ListDeploymentSnapshotsError =
  * Lists the snapshots of the specified deployment.
  */
 export const listDeploymentSnapshots: API.PaginatedOperationMethod<
-  ListDeploymentSnapshotsInput,
+  ListDeploymentSnapshotsInput & RegionInput,
   ListDeploymentSnapshotsOutput,
   ListDeploymentSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2030,6 +2098,8 @@ export const listDeploymentSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentSnapshots",
 })) as any;
 
 export type ListPoliciesError =
@@ -2042,7 +2112,7 @@ export type ListPoliciesError =
  * Lists the policies in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesInput,
+  ListPoliciesInput & RegionInput,
   ListPoliciesOutput,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2065,6 +2135,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListPolicySnapshotsError =
@@ -2078,7 +2150,7 @@ export type ListPolicySnapshotsError =
  * Lists the snapshots of the specified policy.
  */
 export const listPolicySnapshots: API.PaginatedOperationMethod<
-  ListPolicySnapshotsInput,
+  ListPolicySnapshotsInput & RegionInput,
   ListPolicySnapshotsOutput,
   ListPolicySnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2102,6 +2174,8 @@ export const listPolicySnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicySnapshots",
 })) as any;
 
 export type ListResourceAssociationsError =
@@ -2114,7 +2188,7 @@ export type ListResourceAssociationsError =
  * Lists the resources associated with the specified resource.
  */
 export const listResourceAssociations: API.PaginatedOperationMethod<
-  ListResourceAssociationsInput,
+  ListResourceAssociationsInput & RegionInput,
   ListResourceAssociationsOutput,
   ListResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2137,6 +2211,8 @@ export const listResourceAssociations: API.PaginatedOperationMethod<
     items: "resourceAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceAssociations",
 })) as any;
 
 export type ListResourceSynchronizationStatusesError =
@@ -2150,7 +2226,7 @@ export type ListResourceSynchronizationStatusesError =
  * Lists the synchronization statuses of the resources covered by the specified deployment. You can filter the results by synchronization status and page through them.
  */
 export const listResourceSynchronizationStatuses: API.PaginatedOperationMethod<
-  ListResourceSynchronizationStatusesInput,
+  ListResourceSynchronizationStatusesInput & RegionInput,
   ListResourceSynchronizationStatusesOutput,
   ListResourceSynchronizationStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -2174,6 +2250,8 @@ export const listResourceSynchronizationStatuses: API.PaginatedOperationMethod<
     items: "resourceSynchronizationStatuses",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSynchronizationStatuses",
 })) as any;
 
 export type ListRulesError =
@@ -2186,7 +2264,7 @@ export type ListRulesError =
  * Lists the rules in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesInput,
+  ListRulesInput & RegionInput,
   ListRulesOutput,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2209,6 +2287,8 @@ export const listRules: API.PaginatedOperationMethod<
     items: "rules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 })) as any;
 
 export type ListRuleSnapshotsError =
@@ -2222,7 +2302,7 @@ export type ListRuleSnapshotsError =
  * Lists the snapshots of the specified rule.
  */
 export const listRuleSnapshots: API.PaginatedOperationMethod<
-  ListRuleSnapshotsInput,
+  ListRuleSnapshotsInput & RegionInput,
   ListRuleSnapshotsOutput,
   ListRuleSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2246,6 +2326,8 @@ export const listRuleSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleSnapshots",
 })) as any;
 
 export type ListScopesError =
@@ -2258,7 +2340,7 @@ export type ListScopesError =
  * Lists the scopes in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listScopes: API.PaginatedOperationMethod<
-  ListScopesInput,
+  ListScopesInput & RegionInput,
   ListScopesOutput,
   ListScopesError,
   Credentials | HttpClient.HttpClient,
@@ -2281,6 +2363,8 @@ export const listScopes: API.PaginatedOperationMethod<
     items: "scopes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScopes",
 })) as any;
 
 export type ListScopeSnapshotsError =
@@ -2294,7 +2378,7 @@ export type ListScopeSnapshotsError =
  * Lists the snapshots of the specified scope.
  */
 export const listScopeSnapshots: API.PaginatedOperationMethod<
-  ListScopeSnapshotsInput,
+  ListScopeSnapshotsInput & RegionInput,
   ListScopeSnapshotsOutput,
   ListScopeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2318,6 +2402,8 @@ export const listScopeSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScopeSnapshots",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2331,7 +2417,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2348,6 +2434,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplatesError =
@@ -2360,7 +2448,7 @@ export type ListTemplatesError =
  * Lists the templates in the account. You can filter the results by status and page through them using `maxResults` and `nextToken`.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesInput,
+  ListTemplatesInput & RegionInput,
   ListTemplatesOutput,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2383,6 +2471,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 })) as any;
 
 export type ListTemplateSnapshotsError =
@@ -2396,7 +2486,7 @@ export type ListTemplateSnapshotsError =
  * Lists the snapshots of the specified template.
  */
 export const listTemplateSnapshots: API.PaginatedOperationMethod<
-  ListTemplateSnapshotsInput,
+  ListTemplateSnapshotsInput & RegionInput,
   ListTemplateSnapshotsOutput,
   ListTemplateSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2420,6 +2510,8 @@ export const listTemplateSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateSnapshots",
 })) as any;
 
 export type PutAdminAccountError =
@@ -2437,7 +2529,7 @@ export type PutAdminAccountError =
  * You can't set an administrator account again immediately after you remove it, or while the service creates its service-linked role. Retry the request after a few minutes.
  */
 export const putAdminAccount: API.OperationMethod<
-  PutAdminAccountRequest,
+  PutAdminAccountRequest & RegionInput,
   PutAdminAccountResponse,
   PutAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2456,6 +2548,8 @@ export const putAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAdminAccount",
+  telemetry: TELEMETRY,
+  span: "PutAdminAccount",
 }));
 
 export type TagResourceError =
@@ -2470,7 +2564,7 @@ export type TagResourceError =
  * Adds or overwrites the specified tags on the given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2488,6 +2582,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2502,7 +2598,7 @@ export type UntagResourceError =
  * Removes the specified tags from the given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2520,6 +2616,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeploymentError =
@@ -2535,7 +2633,7 @@ export type UpdateDeploymentError =
  * Updates the specified deployment. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the deployment as a draft.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentInput,
+  UpdateDeploymentInput & RegionInput,
   UpdateDeploymentOutput,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2554,6 +2652,8 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
+  telemetry: TELEMETRY,
+  span: "UpdateDeployment",
 }));
 
 export type UpdatePolicyError =
@@ -2569,7 +2669,7 @@ export type UpdatePolicyError =
  * Updates the specified policy. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the policy as a draft.
  */
 export const updatePolicy: API.OperationMethod<
-  UpdatePolicyInput,
+  UpdatePolicyInput & RegionInput,
   UpdatePolicyOutput,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2588,6 +2688,8 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type UpdateRuleError =
@@ -2603,7 +2705,7 @@ export type UpdateRuleError =
  * Updates the specified rule. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the rule as a draft.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleInput,
+  UpdateRuleInput & RegionInput,
   UpdateRuleOutput,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -2622,6 +2724,8 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateScopeError =
@@ -2637,7 +2741,7 @@ export type UpdateScopeError =
  * Updates the specified scope. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the scope as a draft.
  */
 export const updateScope: API.OperationMethod<
-  UpdateScopeInput,
+  UpdateScopeInput & RegionInput,
   UpdateScopeOutput,
   UpdateScopeError,
   Credentials | HttpClient.HttpClient
@@ -2656,6 +2760,8 @@ export const updateScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScope",
+  telemetry: TELEMETRY,
+  span: "UpdateScope",
 }));
 
 export type UpdateTemplateError =
@@ -2671,7 +2777,7 @@ export type UpdateTemplateError =
  * Updates the specified template. To prevent conflicting concurrent updates, provide the current `updateToken`. Use `isPublished` to publish the update or keep the template as a draft.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateInput,
+  UpdateTemplateInput & RegionInput,
   UpdateTemplateOutput,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2690,6 +2796,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://serverlessrepo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServerlessApplicationRepository",
+  service: "ServerlessApplicationRepository",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -484,7 +500,7 @@ export type CreateApplicationError =
  * Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -501,6 +517,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationVersionError =
@@ -514,7 +532,7 @@ export type CreateApplicationVersionError =
  * Creates an application version.
  */
 export const createApplicationVersion: API.OperationMethod<
-  CreateApplicationVersionRequest,
+  CreateApplicationVersionRequest & RegionInput,
   CreateApplicationVersionResponse,
   CreateApplicationVersionError,
   Credentials | HttpClient.HttpClient
@@ -531,6 +549,8 @@ export const createApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationVersion",
 }));
 
 export type CreateCloudFormationChangeSetError =
@@ -543,7 +563,7 @@ export type CreateCloudFormationChangeSetError =
  * Creates an AWS CloudFormation change set for the given application.
  */
 export const createCloudFormationChangeSet: API.OperationMethod<
-  CreateCloudFormationChangeSetRequest,
+  CreateCloudFormationChangeSetRequest & RegionInput,
   CreateCloudFormationChangeSetResponse,
   CreateCloudFormationChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -559,6 +579,8 @@ export const createCloudFormationChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationChangeSet",
+  telemetry: TELEMETRY,
+  span: "CreateCloudFormationChangeSet",
 }));
 
 export type CreateCloudFormationTemplateError =
@@ -572,7 +594,7 @@ export type CreateCloudFormationTemplateError =
  * Creates an AWS CloudFormation template.
  */
 export const createCloudFormationTemplate: API.OperationMethod<
-  CreateCloudFormationTemplateRequest,
+  CreateCloudFormationTemplateRequest & RegionInput,
   CreateCloudFormationTemplateResponse,
   CreateCloudFormationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -589,6 +611,8 @@ export const createCloudFormationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateCloudFormationTemplate",
 }));
 
 export type DeleteApplicationError =
@@ -603,7 +627,7 @@ export type DeleteApplicationError =
  * Deletes the specified application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -621,6 +645,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type GetApplicationError =
@@ -634,7 +660,7 @@ export type GetApplicationError =
  * Gets the specified application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -651,6 +677,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationPolicyError =
@@ -664,7 +692,7 @@ export type GetApplicationPolicyError =
  * Retrieves the policy for the application.
  */
 export const getApplicationPolicy: API.OperationMethod<
-  GetApplicationPolicyRequest,
+  GetApplicationPolicyRequest & RegionInput,
   GetApplicationPolicyResponse,
   GetApplicationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -681,6 +709,8 @@ export const getApplicationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationPolicy",
+  telemetry: TELEMETRY,
+  span: "GetApplicationPolicy",
 }));
 
 export type GetCloudFormationTemplateError =
@@ -694,7 +724,7 @@ export type GetCloudFormationTemplateError =
  * Gets the specified AWS CloudFormation template.
  */
 export const getCloudFormationTemplate: API.OperationMethod<
-  GetCloudFormationTemplateRequest,
+  GetCloudFormationTemplateRequest & RegionInput,
   GetCloudFormationTemplateResponse,
   GetCloudFormationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -711,6 +741,8 @@ export const getCloudFormationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFormationTemplate",
+  telemetry: TELEMETRY,
+  span: "GetCloudFormationTemplate",
 }));
 
 export type ListApplicationDependenciesError =
@@ -724,7 +756,7 @@ export type ListApplicationDependenciesError =
  * Retrieves the list of applications nested in the containing application.
  */
 export const listApplicationDependencies: API.PaginatedOperationMethod<
-  ListApplicationDependenciesRequest,
+  ListApplicationDependenciesRequest & RegionInput,
   ListApplicationDependenciesResponse,
   ListApplicationDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -743,6 +775,8 @@ export const listApplicationDependencies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationDependencies",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationDependencies",
 })) as any;
 
 export type ListApplicationsError =
@@ -755,7 +789,7 @@ export type ListApplicationsError =
  * Lists applications owned by the requester.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -773,6 +807,8 @@ export const listApplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplications",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListApplicationVersionsError =
@@ -786,7 +822,7 @@ export type ListApplicationVersionsError =
  * Lists versions for the specified application.
  */
 export const listApplicationVersions: API.PaginatedOperationMethod<
-  ListApplicationVersionsRequest,
+  ListApplicationVersionsRequest & RegionInput,
   ListApplicationVersionsResponse,
   ListApplicationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -805,6 +841,8 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationVersions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationVersions",
 })) as any;
 
 export type PutApplicationPolicyError =
@@ -821,7 +859,7 @@ export type PutApplicationPolicyError =
  * .
  */
 export const putApplicationPolicy: API.OperationMethod<
-  PutApplicationPolicyRequest,
+  PutApplicationPolicyRequest & RegionInput,
   PutApplicationPolicyResponse,
   PutApplicationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -838,6 +876,8 @@ export const putApplicationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationPolicy",
+  telemetry: TELEMETRY,
+  span: "PutApplicationPolicy",
 }));
 
 export type UnshareApplicationError =
@@ -853,7 +893,7 @@ export type UnshareApplicationError =
  * This operation can be called only from the organization's master account.
  */
 export const unshareApplication: API.OperationMethod<
-  UnshareApplicationRequest,
+  UnshareApplicationRequest & RegionInput,
   UnshareApplicationResponse,
   UnshareApplicationError,
   Credentials | HttpClient.HttpClient
@@ -870,6 +910,8 @@ export const unshareApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnshareApplication",
+  telemetry: TELEMETRY,
+  span: "UnshareApplication",
 }));
 
 export type UpdateApplicationError =
@@ -884,7 +926,7 @@ export type UpdateApplicationError =
  * Updates the specified application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -902,6 +944,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

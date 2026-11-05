@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -39,6 +41,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p) => {
     "Unable to resolve an Agent Registry endpoint: Region was not set and no explicit Endpoint override was provided.",
   );
 }, '{"url":"https://agent-registry.{R}.api.aws","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AgentRegistry",
+  service: "AgentRegistry",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -278,7 +294,7 @@ export type BatchGetDiscoverableRegistryRecordError =
  * Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the `errors` list rather than failing the entire request.
  */
 export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
-  BatchGetDiscoverableRegistryRecordRequest,
+  BatchGetDiscoverableRegistryRecordRequest & RegionInput,
   BatchGetDiscoverableRegistryRecordResponse,
   BatchGetDiscoverableRegistryRecordError,
   Credentials | HttpClient.HttpClient
@@ -296,6 +312,8 @@ export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDiscoverableRegistryRecord",
+  telemetry: TELEMETRY,
+  span: "BatchGetDiscoverableRegistryRecord",
 }));
 
 export type ListDiscoverableRegistryRecordsError =
@@ -310,7 +328,7 @@ export type ListDiscoverableRegistryRecordsError =
  * Lists the discoverable registry records in a registry. You can optionally filter and paginate the results.
  */
 export const listDiscoverableRegistryRecords: API.PaginatedOperationMethod<
-  ListDiscoverableRegistryRecordsRequest,
+  ListDiscoverableRegistryRecordsRequest & RegionInput,
   ListDiscoverableRegistryRecordsResponse,
   ListDiscoverableRegistryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -335,6 +353,8 @@ export const listDiscoverableRegistryRecords: API.PaginatedOperationMethod<
     items: "registryRecords",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoverableRegistryRecords",
 })) as any;
 
 export type SearchDiscoverableRegistryRecordsError =
@@ -349,7 +369,7 @@ export type SearchDiscoverableRegistryRecordsError =
  * Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance.
  */
 export const searchDiscoverableRegistryRecords: API.OperationMethod<
-  SearchDiscoverableRegistryRecordsRequest,
+  SearchDiscoverableRegistryRecordsRequest & RegionInput,
   SearchDiscoverableRegistryRecordsResponse,
   SearchDiscoverableRegistryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -367,6 +387,8 @@ export const searchDiscoverableRegistryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchDiscoverableRegistryRecords",
+  telemetry: TELEMETRY,
+  span: "SearchDiscoverableRegistryRecords",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -71,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://email.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PinpointEmail",
+  service: "PinpointEmail",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccountSuspendedException
   extends /*@__PURE__*/ S.TaggedError<AccountSuspendedException>()(
@@ -721,7 +737,7 @@ export type CreateConfigurationSetError =
  * configuration set are applied to the email.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -739,6 +755,8 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSet",
 }));
 
 export type CreateConfigurationSetEventDestinationError =
@@ -759,7 +777,7 @@ export type CreateConfigurationSetEventDestinationError =
  * A single configuration set can include more than one event destination.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -776,6 +794,8 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSetEventDestination",
 }));
 
 export type CreateDedicatedIpPoolError =
@@ -792,7 +812,7 @@ export type CreateDedicatedIpPoolError =
  * sends it using only the IP addresses in the associated pool.
  */
 export const createDedicatedIpPool: API.OperationMethod<
-  CreateDedicatedIpPoolRequest,
+  CreateDedicatedIpPoolRequest & RegionInput,
   CreateDedicatedIpPoolResponse,
   CreateDedicatedIpPoolError,
   Credentials | HttpClient.HttpClient
@@ -809,6 +829,8 @@ export const createDedicatedIpPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDedicatedIpPool",
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedIpPool",
 }));
 
 export type CreateDeliverabilityTestReportError =
@@ -832,7 +854,7 @@ export type CreateDeliverabilityTestReportError =
  * test.
  */
 export const createDeliverabilityTestReport: API.OperationMethod<
-  CreateDeliverabilityTestReportRequest,
+  CreateDeliverabilityTestReportRequest & RegionInput,
   CreateDeliverabilityTestReportResponse,
   CreateDeliverabilityTestReportError,
   Credentials | HttpClient.HttpClient
@@ -853,6 +875,8 @@ export const createDeliverabilityTestReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeliverabilityTestReport",
+  telemetry: TELEMETRY,
+  span: "CreateDeliverabilityTestReport",
 }));
 
 export type CreateEmailIdentityError =
@@ -878,7 +902,7 @@ export type CreateEmailIdentityError =
  * verification process.
  */
 export const createEmailIdentity: API.OperationMethod<
-  CreateEmailIdentityRequest,
+  CreateEmailIdentityRequest & RegionInput,
   CreateEmailIdentityResponse,
   CreateEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -894,6 +918,8 @@ export const createEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailIdentity",
+  telemetry: TELEMETRY,
+  span: "CreateEmailIdentity",
 }));
 
 export type DeleteConfigurationSetError =
@@ -912,7 +938,7 @@ export type DeleteConfigurationSetError =
  * the email.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -928,6 +954,8 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSet",
 }));
 
 export type DeleteConfigurationSetEventDestinationError =
@@ -945,7 +973,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -956,6 +984,8 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSetEventDestination",
 }));
 
 export type DeleteDedicatedIpPoolError =
@@ -968,7 +998,7 @@ export type DeleteDedicatedIpPoolError =
  * Delete a dedicated IP pool.
  */
 export const deleteDedicatedIpPool: API.OperationMethod<
-  DeleteDedicatedIpPoolRequest,
+  DeleteDedicatedIpPoolRequest & RegionInput,
   DeleteDedicatedIpPoolResponse,
   DeleteDedicatedIpPoolError,
   Credentials | HttpClient.HttpClient
@@ -984,6 +1014,8 @@ export const deleteDedicatedIpPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDedicatedIpPool",
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedIpPool",
 }));
 
 export type DeleteEmailIdentityError =
@@ -997,7 +1029,7 @@ export type DeleteEmailIdentityError =
  * can be either an email address or a domain name.
  */
 export const deleteEmailIdentity: API.OperationMethod<
-  DeleteEmailIdentityRequest,
+  DeleteEmailIdentityRequest & RegionInput,
   DeleteEmailIdentityResponse,
   DeleteEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1013,6 +1045,8 @@ export const deleteEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteEmailIdentity",
 }));
 
 export type GetAccountError = BadRequestException | TooManyRequestsException | CommonErrors;
@@ -1021,7 +1055,7 @@ export type GetAccountError = BadRequestException | TooManyRequestsException | C
  * account in the current AWS Region.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   GetAccountResponse,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -1032,6 +1066,8 @@ export const getAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccount",
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetBlacklistReportsError =
@@ -1043,7 +1079,7 @@ export type GetBlacklistReportsError =
  * Retrieve a list of the blacklists that your dedicated IP addresses appear on.
  */
 export const getBlacklistReports: API.OperationMethod<
-  GetBlacklistReportsRequest,
+  GetBlacklistReportsRequest & RegionInput,
   GetBlacklistReportsResponse,
   GetBlacklistReportsError,
   Credentials | HttpClient.HttpClient
@@ -1054,6 +1090,8 @@ export const getBlacklistReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlacklistReports",
+  telemetry: TELEMETRY,
+  span: "GetBlacklistReports",
 }));
 
 export type GetConfigurationSetError =
@@ -1073,7 +1111,7 @@ export type GetConfigurationSetError =
  * the email.
  */
 export const getConfigurationSet: API.OperationMethod<
-  GetConfigurationSetRequest,
+  GetConfigurationSetRequest & RegionInput,
   GetConfigurationSetResponse,
   GetConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -1084,6 +1122,8 @@ export const getConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationSet",
 }));
 
 export type GetConfigurationSetEventDestinationsError =
@@ -1102,7 +1142,7 @@ export type GetConfigurationSetEventDestinationsError =
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
 export const getConfigurationSetEventDestinations: API.OperationMethod<
-  GetConfigurationSetEventDestinationsRequest,
+  GetConfigurationSetEventDestinationsRequest & RegionInput,
   GetConfigurationSetEventDestinationsResponse,
   GetConfigurationSetEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -1113,6 +1153,8 @@ export const getConfigurationSetEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationSetEventDestinations",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationSetEventDestinations",
 }));
 
 export type GetDedicatedIpError =
@@ -1126,7 +1168,7 @@ export type GetDedicatedIpError =
  * for the address.
  */
 export const getDedicatedIp: API.OperationMethod<
-  GetDedicatedIpRequest,
+  GetDedicatedIpRequest & RegionInput,
   GetDedicatedIpResponse,
   GetDedicatedIpError,
   Credentials | HttpClient.HttpClient
@@ -1137,6 +1179,8 @@ export const getDedicatedIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDedicatedIp",
+  telemetry: TELEMETRY,
+  span: "GetDedicatedIp",
 }));
 
 export type GetDedicatedIpsError =
@@ -1149,7 +1193,7 @@ export type GetDedicatedIpsError =
  * account.
  */
 export const getDedicatedIps: API.PaginatedOperationMethod<
-  GetDedicatedIpsRequest,
+  GetDedicatedIpsRequest & RegionInput,
   GetDedicatedIpsResponse,
   GetDedicatedIpsError,
   Credentials | HttpClient.HttpClient,
@@ -1162,6 +1206,8 @@ export const getDedicatedIps: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetDedicatedIps",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedIps",
 })) as any;
 
 export type GetDeliverabilityDashboardOptionsError =
@@ -1180,7 +1226,7 @@ export type GetDeliverabilityDashboardOptionsError =
  * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
  */
 export const getDeliverabilityDashboardOptions: API.OperationMethod<
-  GetDeliverabilityDashboardOptionsRequest,
+  GetDeliverabilityDashboardOptionsRequest & RegionInput,
   GetDeliverabilityDashboardOptionsResponse,
   GetDeliverabilityDashboardOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1191,6 +1237,8 @@ export const getDeliverabilityDashboardOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliverabilityDashboardOptions",
+  telemetry: TELEMETRY,
+  span: "GetDeliverabilityDashboardOptions",
 }));
 
 export type GetDeliverabilityTestReportError =
@@ -1202,7 +1250,7 @@ export type GetDeliverabilityTestReportError =
  * Retrieve the results of a predictive inbox placement test.
  */
 export const getDeliverabilityTestReport: API.OperationMethod<
-  GetDeliverabilityTestReportRequest,
+  GetDeliverabilityTestReportRequest & RegionInput,
   GetDeliverabilityTestReportResponse,
   GetDeliverabilityTestReportError,
   Credentials | HttpClient.HttpClient
@@ -1213,6 +1261,8 @@ export const getDeliverabilityTestReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliverabilityTestReport",
+  telemetry: TELEMETRY,
+  span: "GetDeliverabilityTestReport",
 }));
 
 export type GetDomainDeliverabilityCampaignError =
@@ -1227,7 +1277,7 @@ export type GetDomainDeliverabilityCampaignError =
  * operation).
  */
 export const getDomainDeliverabilityCampaign: API.OperationMethod<
-  GetDomainDeliverabilityCampaignRequest,
+  GetDomainDeliverabilityCampaignRequest & RegionInput,
   GetDomainDeliverabilityCampaignResponse,
   GetDomainDeliverabilityCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1238,6 +1288,8 @@ export const getDomainDeliverabilityCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainDeliverabilityCampaign",
+  telemetry: TELEMETRY,
+  span: "GetDomainDeliverabilityCampaign",
 }));
 
 export type GetDomainStatisticsReportError =
@@ -1250,7 +1302,7 @@ export type GetDomainStatisticsReportError =
  * email.
  */
 export const getDomainStatisticsReport: API.OperationMethod<
-  GetDomainStatisticsReportRequest,
+  GetDomainStatisticsReportRequest & RegionInput,
   GetDomainStatisticsReportResponse,
   GetDomainStatisticsReportError,
   Credentials | HttpClient.HttpClient
@@ -1261,6 +1313,8 @@ export const getDomainStatisticsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainStatisticsReport",
+  telemetry: TELEMETRY,
+  span: "GetDomainStatisticsReport",
 }));
 
 export type GetEmailIdentityError =
@@ -1274,7 +1328,7 @@ export type GetEmailIdentityError =
  * custom Mail-From settings.
  */
 export const getEmailIdentity: API.OperationMethod<
-  GetEmailIdentityRequest,
+  GetEmailIdentityRequest & RegionInput,
   GetEmailIdentityResponse,
   GetEmailIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1285,6 +1339,8 @@ export const getEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailIdentity",
+  telemetry: TELEMETRY,
+  span: "GetEmailIdentity",
 }));
 
 export type ListConfigurationSetsError =
@@ -1302,7 +1358,7 @@ export type ListConfigurationSetsError =
  * the email.
  */
 export const listConfigurationSets: API.PaginatedOperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1315,6 +1371,8 @@ export const listConfigurationSets: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListConfigurationSets",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationSets",
 })) as any;
 
 export type ListDedicatedIpPoolsError =
@@ -1326,7 +1384,7 @@ export type ListDedicatedIpPoolsError =
  * AWS Region.
  */
 export const listDedicatedIpPools: API.PaginatedOperationMethod<
-  ListDedicatedIpPoolsRequest,
+  ListDedicatedIpPoolsRequest & RegionInput,
   ListDedicatedIpPoolsResponse,
   ListDedicatedIpPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -1339,6 +1397,8 @@ export const listDedicatedIpPools: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDedicatedIpPools",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedIpPools",
 })) as any;
 
 export type ListDeliverabilityTestReportsError =
@@ -1352,7 +1412,7 @@ export type ListDeliverabilityTestReportsError =
  * operation to view the results.
  */
 export const listDeliverabilityTestReports: API.PaginatedOperationMethod<
-  ListDeliverabilityTestReportsRequest,
+  ListDeliverabilityTestReportsRequest & RegionInput,
   ListDeliverabilityTestReportsResponse,
   ListDeliverabilityTestReportsError,
   Credentials | HttpClient.HttpClient,
@@ -1365,6 +1425,8 @@ export const listDeliverabilityTestReports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDeliverabilityTestReports",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeliverabilityTestReports",
 })) as any;
 
 export type ListDomainDeliverabilityCampaignsError =
@@ -1379,7 +1441,7 @@ export type ListDomainDeliverabilityCampaignsError =
  * for the domain.
  */
 export const listDomainDeliverabilityCampaigns: API.PaginatedOperationMethod<
-  ListDomainDeliverabilityCampaignsRequest,
+  ListDomainDeliverabilityCampaignsRequest & RegionInput,
   ListDomainDeliverabilityCampaignsResponse,
   ListDomainDeliverabilityCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -1392,6 +1454,8 @@ export const listDomainDeliverabilityCampaigns: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDomainDeliverabilityCampaigns",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainDeliverabilityCampaigns",
 })) as any;
 
 export type ListEmailIdentitiesError =
@@ -1404,7 +1468,7 @@ export type ListEmailIdentitiesError =
  * identities that are verified as well as those that aren't.
  */
 export const listEmailIdentities: API.PaginatedOperationMethod<
-  ListEmailIdentitiesRequest,
+  ListEmailIdentitiesRequest & RegionInput,
   ListEmailIdentitiesResponse,
   ListEmailIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1417,6 +1481,8 @@ export const listEmailIdentities: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEmailIdentities",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListEmailIdentities",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1433,7 +1499,7 @@ export type ListTagsForResourceError =
  * acts as a descriptor within a tag key.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1444,6 +1510,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAccountDedicatedIpWarmupAttributesError =
@@ -1454,7 +1522,7 @@ export type PutAccountDedicatedIpWarmupAttributesError =
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
 export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
-  PutAccountDedicatedIpWarmupAttributesRequest,
+  PutAccountDedicatedIpWarmupAttributesRequest & RegionInput,
   PutAccountDedicatedIpWarmupAttributesResponse,
   PutAccountDedicatedIpWarmupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1465,6 +1533,8 @@ export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountDedicatedIpWarmupAttributes",
+  telemetry: TELEMETRY,
+  span: "PutAccountDedicatedIpWarmupAttributes",
 }));
 
 export type PutAccountSendingAttributesError =
@@ -1475,7 +1545,7 @@ export type PutAccountSendingAttributesError =
  * Enable or disable the ability of your account to send email.
  */
 export const putAccountSendingAttributes: API.OperationMethod<
-  PutAccountSendingAttributesRequest,
+  PutAccountSendingAttributesRequest & RegionInput,
   PutAccountSendingAttributesResponse,
   PutAccountSendingAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1486,6 +1556,8 @@ export const putAccountSendingAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSendingAttributes",
+  telemetry: TELEMETRY,
+  span: "PutAccountSendingAttributes",
 }));
 
 export type PutConfigurationSetDeliveryOptionsError =
@@ -1498,7 +1570,7 @@ export type PutConfigurationSetDeliveryOptionsError =
  * to create groups of dedicated IP addresses for sending specific types of email.
  */
 export const putConfigurationSetDeliveryOptions: API.OperationMethod<
-  PutConfigurationSetDeliveryOptionsRequest,
+  PutConfigurationSetDeliveryOptionsRequest & RegionInput,
   PutConfigurationSetDeliveryOptionsResponse,
   PutConfigurationSetDeliveryOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1509,6 +1581,8 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetDeliveryOptions",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationSetDeliveryOptions",
 }));
 
 export type PutConfigurationSetReputationOptionsError =
@@ -1521,7 +1595,7 @@ export type PutConfigurationSetReputationOptionsError =
  * particular configuration set in a specific AWS Region.
  */
 export const putConfigurationSetReputationOptions: API.OperationMethod<
-  PutConfigurationSetReputationOptionsRequest,
+  PutConfigurationSetReputationOptionsRequest & RegionInput,
   PutConfigurationSetReputationOptionsResponse,
   PutConfigurationSetReputationOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1532,6 +1606,8 @@ export const putConfigurationSetReputationOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetReputationOptions",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationSetReputationOptions",
 }));
 
 export type PutConfigurationSetSendingOptionsError =
@@ -1544,7 +1620,7 @@ export type PutConfigurationSetSendingOptionsError =
  * in a specific AWS Region.
  */
 export const putConfigurationSetSendingOptions: API.OperationMethod<
-  PutConfigurationSetSendingOptionsRequest,
+  PutConfigurationSetSendingOptionsRequest & RegionInput,
   PutConfigurationSetSendingOptionsResponse,
   PutConfigurationSetSendingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1555,6 +1631,8 @@ export const putConfigurationSetSendingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetSendingOptions",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationSetSendingOptions",
 }));
 
 export type PutConfigurationSetTrackingOptionsError =
@@ -1567,7 +1645,7 @@ export type PutConfigurationSetTrackingOptionsError =
  * send using Amazon Pinpoint.
  */
 export const putConfigurationSetTrackingOptions: API.OperationMethod<
-  PutConfigurationSetTrackingOptionsRequest,
+  PutConfigurationSetTrackingOptionsRequest & RegionInput,
   PutConfigurationSetTrackingOptionsResponse,
   PutConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1578,6 +1656,8 @@ export const putConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetTrackingOptions",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationSetTrackingOptions",
 }));
 
 export type PutDedicatedIpInPoolError =
@@ -1595,7 +1675,7 @@ export type PutDedicatedIpInPoolError =
  * using the `CreateDedicatedIpPool` operation.
  */
 export const putDedicatedIpInPool: API.OperationMethod<
-  PutDedicatedIpInPoolRequest,
+  PutDedicatedIpInPoolRequest & RegionInput,
   PutDedicatedIpInPoolResponse,
   PutDedicatedIpInPoolError,
   Credentials | HttpClient.HttpClient
@@ -1606,6 +1686,8 @@ export const putDedicatedIpInPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDedicatedIpInPool",
+  telemetry: TELEMETRY,
+  span: "PutDedicatedIpInPool",
 }));
 
 export type PutDedicatedIpWarmupAttributesError =
@@ -1617,7 +1699,7 @@ export type PutDedicatedIpWarmupAttributesError =
  *
  */
 export const putDedicatedIpWarmupAttributes: API.OperationMethod<
-  PutDedicatedIpWarmupAttributesRequest,
+  PutDedicatedIpWarmupAttributesRequest & RegionInput,
   PutDedicatedIpWarmupAttributesResponse,
   PutDedicatedIpWarmupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1628,6 +1710,8 @@ export const putDedicatedIpWarmupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDedicatedIpWarmupAttributes",
+  telemetry: TELEMETRY,
+  span: "PutDedicatedIpWarmupAttributes",
 }));
 
 export type PutDeliverabilityDashboardOptionError =
@@ -1648,7 +1732,7 @@ export type PutDeliverabilityDashboardOptionError =
  * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
  */
 export const putDeliverabilityDashboardOption: API.OperationMethod<
-  PutDeliverabilityDashboardOptionRequest,
+  PutDeliverabilityDashboardOptionRequest & RegionInput,
   PutDeliverabilityDashboardOptionResponse,
   PutDeliverabilityDashboardOptionError,
   Credentials | HttpClient.HttpClient
@@ -1665,6 +1749,8 @@ export const putDeliverabilityDashboardOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliverabilityDashboardOption",
+  telemetry: TELEMETRY,
+  span: "PutDeliverabilityDashboardOption",
 }));
 
 export type PutEmailIdentityDkimAttributesError =
@@ -1676,7 +1762,7 @@ export type PutEmailIdentityDkimAttributesError =
  * Used to enable or disable DKIM authentication for an email identity.
  */
 export const putEmailIdentityDkimAttributes: API.OperationMethod<
-  PutEmailIdentityDkimAttributesRequest,
+  PutEmailIdentityDkimAttributesRequest & RegionInput,
   PutEmailIdentityDkimAttributesResponse,
   PutEmailIdentityDkimAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1687,6 +1773,8 @@ export const putEmailIdentityDkimAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEmailIdentityDkimAttributes",
+  telemetry: TELEMETRY,
+  span: "PutEmailIdentityDkimAttributes",
 }));
 
 export type PutEmailIdentityFeedbackAttributesError =
@@ -1710,7 +1798,7 @@ export type PutEmailIdentityFeedbackAttributesError =
  * occur (even if this setting is disabled).
  */
 export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
-  PutEmailIdentityFeedbackAttributesRequest,
+  PutEmailIdentityFeedbackAttributesRequest & RegionInput,
   PutEmailIdentityFeedbackAttributesResponse,
   PutEmailIdentityFeedbackAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1721,6 +1809,8 @@ export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEmailIdentityFeedbackAttributes",
+  telemetry: TELEMETRY,
+  span: "PutEmailIdentityFeedbackAttributes",
 }));
 
 export type PutEmailIdentityMailFromAttributesError =
@@ -1733,7 +1823,7 @@ export type PutEmailIdentityMailFromAttributesError =
  * identity.
  */
 export const putEmailIdentityMailFromAttributes: API.OperationMethod<
-  PutEmailIdentityMailFromAttributesRequest,
+  PutEmailIdentityMailFromAttributesRequest & RegionInput,
   PutEmailIdentityMailFromAttributesResponse,
   PutEmailIdentityMailFromAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1744,6 +1834,8 @@ export const putEmailIdentityMailFromAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEmailIdentityMailFromAttributes",
+  telemetry: TELEMETRY,
+  span: "PutEmailIdentityMailFromAttributes",
 }));
 
 export type SendEmailError =
@@ -1771,7 +1863,7 @@ export type SendEmailError =
  * valid MIME message.
  */
 export const sendEmail: API.OperationMethod<
-  SendEmailRequest,
+  SendEmailRequest & RegionInput,
   SendEmailResponse,
   SendEmailError,
   Credentials | HttpClient.HttpClient
@@ -1791,6 +1883,8 @@ export const sendEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmail",
+  telemetry: TELEMETRY,
+  span: "SendEmail",
 }));
 
 export type TagResourceError =
@@ -1812,7 +1906,7 @@ export type TagResourceError =
  * a descriptor within a tag key.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1828,6 +1922,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1840,7 +1936,7 @@ export type UntagResourceError =
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1856,6 +1952,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConfigurationSetEventDestinationError =
@@ -1873,7 +1971,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1884,6 +1982,8 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetEventDestination",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

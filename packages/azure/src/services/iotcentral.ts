@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.IoTCentral" },
+  prefix: "Iotcentral",
+  service: "Iotcentral",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The resource tags. */
 export type AppsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The properties of an IoT Central application. */
@@ -330,6 +351,8 @@ export const AppsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppsCreateOrUpdate",
 }));
 
 export type CheckAppNameAvailabilityError = AzureOpError;
@@ -345,6 +368,8 @@ export const CheckAppNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAppNameAvailability",
 }));
 
 export type CheckAppSubdomainAvailabilityError = AzureOpError;
@@ -360,6 +385,8 @@ export const CheckAppSubdomainAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAppSubdomainAvailability",
 }));
 
 export type DeleteAppError = AzureOpError;
@@ -375,6 +402,8 @@ export const DeleteApp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type GetAppError = AzureOpError;
@@ -390,6 +419,8 @@ export const GetApp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type ListAppByResourceGroupError = AzureOpError;
@@ -405,6 +436,8 @@ export const ListAppByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppByResourceGroup",
 }));
 
 export type ListAppBySubscriptionError = AzureOpError;
@@ -420,6 +453,8 @@ export const ListAppBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppBySubscription",
 }));
 
 export type ListAppTemplatesError = AzureOpError;
@@ -435,6 +470,8 @@ export const ListAppTemplates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppTemplates",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -450,6 +487,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateAppError = AzureOpError;
@@ -465,6 +504,8 @@ export const UpdateApp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -108,6 +110,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Chime",
+  service: "Chime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -972,7 +988,7 @@ export type AssociatePhoneNumberWithUserError =
  * Associates a phone number with the specified Amazon Chime user.
  */
 export const associatePhoneNumberWithUser: API.OperationMethod<
-  AssociatePhoneNumberWithUserRequest,
+  AssociatePhoneNumberWithUserRequest & RegionInput,
   AssociatePhoneNumberWithUserResponse,
   AssociatePhoneNumberWithUserError,
   Credentials | HttpClient.HttpClient
@@ -992,6 +1008,8 @@ export const associatePhoneNumberWithUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumberWithUser",
+  telemetry: TELEMETRY,
+  span: "AssociatePhoneNumberWithUser",
 }));
 
 export type AssociateSigninDelegateGroupsWithAccountError =
@@ -1007,7 +1025,7 @@ export type AssociateSigninDelegateGroupsWithAccountError =
  * Associates the specified sign-in delegate groups with the specified Amazon Chime account.
  */
 export const associateSigninDelegateGroupsWithAccount: API.OperationMethod<
-  AssociateSigninDelegateGroupsWithAccountRequest,
+  AssociateSigninDelegateGroupsWithAccountRequest & RegionInput,
   AssociateSigninDelegateGroupsWithAccountResponse,
   AssociateSigninDelegateGroupsWithAccountError,
   Credentials | HttpClient.HttpClient
@@ -1026,6 +1044,8 @@ export const associateSigninDelegateGroupsWithAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSigninDelegateGroupsWithAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateSigninDelegateGroupsWithAccount",
 }));
 
 export type BatchCreateRoomMembershipError =
@@ -1042,7 +1062,7 @@ export type BatchCreateRoomMembershipError =
  * chat room administrator or a general chat room member.
  */
 export const batchCreateRoomMembership: API.OperationMethod<
-  BatchCreateRoomMembershipRequest,
+  BatchCreateRoomMembershipRequest & RegionInput,
   BatchCreateRoomMembershipResponse,
   BatchCreateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1061,6 +1081,8 @@ export const batchCreateRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRoomMembership",
+  telemetry: TELEMETRY,
+  span: "BatchCreateRoomMembership",
 }));
 
 export type BatchDeletePhoneNumberError =
@@ -1080,7 +1102,7 @@ export type BatchDeletePhoneNumberError =
  * **Deletion queue** for 7 days before they are deleted permanently.
  */
 export const batchDeletePhoneNumber: API.OperationMethod<
-  BatchDeletePhoneNumberRequest,
+  BatchDeletePhoneNumberRequest & RegionInput,
   BatchDeletePhoneNumberResponse,
   BatchDeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1099,6 +1121,8 @@ export const batchDeletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "BatchDeletePhoneNumber",
 }));
 
 export type BatchSuspendUserError =
@@ -1128,7 +1152,7 @@ export type BatchSuspendUserError =
  * LogoutUser action.
  */
 export const batchSuspendUser: API.OperationMethod<
-  BatchSuspendUserRequest,
+  BatchSuspendUserRequest & RegionInput,
   BatchSuspendUserResponse,
   BatchSuspendUserError,
   Credentials | HttpClient.HttpClient
@@ -1147,6 +1171,8 @@ export const batchSuspendUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchSuspendUser",
+  telemetry: TELEMETRY,
+  span: "BatchSuspendUser",
 }));
 
 export type BatchUnsuspendUserError =
@@ -1171,7 +1197,7 @@ export type BatchUnsuspendUserError =
  * status. Users who are not previously suspended are ignored.
  */
 export const batchUnsuspendUser: API.OperationMethod<
-  BatchUnsuspendUserRequest,
+  BatchUnsuspendUserRequest & RegionInput,
   BatchUnsuspendUserResponse,
   BatchUnsuspendUserError,
   Credentials | HttpClient.HttpClient
@@ -1190,6 +1216,8 @@ export const batchUnsuspendUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUnsuspendUser",
+  telemetry: TELEMETRY,
+  span: "BatchUnsuspendUser",
 }));
 
 export type BatchUpdatePhoneNumberError =
@@ -1209,7 +1237,7 @@ export type BatchUpdatePhoneNumberError =
  * Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
 export const batchUpdatePhoneNumber: API.OperationMethod<
-  BatchUpdatePhoneNumberRequest,
+  BatchUpdatePhoneNumberRequest & RegionInput,
   BatchUpdatePhoneNumberResponse,
   BatchUpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1228,6 +1256,8 @@ export const batchUpdatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "BatchUpdatePhoneNumber",
 }));
 
 export type BatchUpdateUserError =
@@ -1243,7 +1273,7 @@ export type BatchUpdateUserError =
  * Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only `LicenseType` updates are supported for this action.
  */
 export const batchUpdateUser: API.OperationMethod<
-  BatchUpdateUserRequest,
+  BatchUpdateUserRequest & RegionInput,
   BatchUpdateUserResponse,
   BatchUpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -1262,6 +1292,8 @@ export const batchUpdateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateUser",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateUser",
 }));
 
 export type CreateAccountError =
@@ -1280,7 +1312,7 @@ export type CreateAccountError =
  * Administration Guide.
  */
 export const createAccount: API.OperationMethod<
-  CreateAccountRequest,
+  CreateAccountRequest & RegionInput,
   CreateAccountResponse,
   CreateAccountError,
   Credentials | HttpClient.HttpClient
@@ -1299,6 +1331,8 @@ export const createAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccount",
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateBotError =
@@ -1315,7 +1349,7 @@ export type CreateBotError =
  * Creates a bot for an Amazon Chime Enterprise account.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -1335,6 +1369,8 @@ export const createBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBot",
+  telemetry: TELEMETRY,
+  span: "CreateBot",
 }));
 
 export type CreateMeetingDialOutError =
@@ -1357,7 +1393,7 @@ export type CreateMeetingDialOutError =
  * **This API is not available in a dedicated namespace.**
  */
 export const createMeetingDialOut: API.OperationMethod<
-  CreateMeetingDialOutRequest,
+  CreateMeetingDialOutRequest & RegionInput,
   CreateMeetingDialOutResponse,
   CreateMeetingDialOutError,
   Credentials | HttpClient.HttpClient
@@ -1377,6 +1413,8 @@ export const createMeetingDialOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeetingDialOut",
+  telemetry: TELEMETRY,
+  span: "CreateMeetingDialOut",
 }));
 
 export type CreatePhoneNumberOrderError =
@@ -1394,7 +1432,7 @@ export type CreatePhoneNumberOrderError =
  * For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
  */
 export const createPhoneNumberOrder: API.OperationMethod<
-  CreatePhoneNumberOrderRequest,
+  CreatePhoneNumberOrderRequest & RegionInput,
   CreatePhoneNumberOrderResponse,
   CreatePhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -1414,6 +1452,8 @@ export const createPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePhoneNumberOrder",
+  telemetry: TELEMETRY,
+  span: "CreatePhoneNumberOrder",
 }));
 
 export type CreateRoomError =
@@ -1430,7 +1470,7 @@ export type CreateRoomError =
  * Creates a chat room for the specified Amazon Chime Enterprise account.
  */
 export const createRoom: API.OperationMethod<
-  CreateRoomRequest,
+  CreateRoomRequest & RegionInput,
   CreateRoomResponse,
   CreateRoomError,
   Credentials | HttpClient.HttpClient
@@ -1450,6 +1490,8 @@ export const createRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoom",
+  telemetry: TELEMETRY,
+  span: "CreateRoom",
 }));
 
 export type CreateRoomMembershipError =
@@ -1467,7 +1509,7 @@ export type CreateRoomMembershipError =
  * Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
  */
 export const createRoomMembership: API.OperationMethod<
-  CreateRoomMembershipRequest,
+  CreateRoomMembershipRequest & RegionInput,
   CreateRoomMembershipResponse,
   CreateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1488,6 +1530,8 @@ export const createRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoomMembership",
+  telemetry: TELEMETRY,
+  span: "CreateRoomMembership",
 }));
 
 export type CreateUserError =
@@ -1504,7 +1548,7 @@ export type CreateUserError =
  * Creates a user under the specified Amazon Chime account.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1524,6 +1568,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteAccountError =
@@ -1553,7 +1599,7 @@ export type DeleteAccountError =
  * `Disabled` accounts list.
  */
 export const deleteAccount: API.OperationMethod<
-  DeleteAccountRequest,
+  DeleteAccountRequest & RegionInput,
   DeleteAccountResponse,
   DeleteAccountError,
   Credentials | HttpClient.HttpClient
@@ -1573,6 +1619,8 @@ export const deleteAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccount",
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteEventsConfigurationError =
@@ -1587,7 +1635,7 @@ export type DeleteEventsConfigurationError =
  * Deletes the events configuration that allows a bot to receive outgoing events.
  */
 export const deleteEventsConfiguration: API.OperationMethod<
-  DeleteEventsConfigurationRequest,
+  DeleteEventsConfigurationRequest & RegionInput,
   DeleteEventsConfigurationResponse,
   DeleteEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1605,6 +1653,8 @@ export const deleteEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEventsConfiguration",
 }));
 
 export type DeletePhoneNumberError =
@@ -1626,7 +1676,7 @@ export type DeletePhoneNumberError =
  * for 7 days before they are deleted permanently.
  */
 export const deletePhoneNumber: API.OperationMethod<
-  DeletePhoneNumberRequest,
+  DeletePhoneNumberRequest & RegionInput,
   DeletePhoneNumberResponse,
   DeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1645,6 +1695,8 @@ export const deletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "DeletePhoneNumber",
 }));
 
 export type DeleteRoomError =
@@ -1660,7 +1712,7 @@ export type DeleteRoomError =
  * Deletes a chat room in an Amazon Chime Enterprise account.
  */
 export const deleteRoom: API.OperationMethod<
-  DeleteRoomRequest,
+  DeleteRoomRequest & RegionInput,
   DeleteRoomResponse,
   DeleteRoomError,
   Credentials | HttpClient.HttpClient
@@ -1679,6 +1731,8 @@ export const deleteRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoom",
+  telemetry: TELEMETRY,
+  span: "DeleteRoom",
 }));
 
 export type DeleteRoomMembershipError =
@@ -1694,7 +1748,7 @@ export type DeleteRoomMembershipError =
  * Removes a member from a chat room in an Amazon Chime Enterprise account.
  */
 export const deleteRoomMembership: API.OperationMethod<
-  DeleteRoomMembershipRequest,
+  DeleteRoomMembershipRequest & RegionInput,
   DeleteRoomMembershipResponse,
   DeleteRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1713,6 +1767,8 @@ export const deleteRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoomMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteRoomMembership",
 }));
 
 export type DisassociatePhoneNumberFromUserError =
@@ -1728,7 +1784,7 @@ export type DisassociatePhoneNumberFromUserError =
  * Disassociates the primary provisioned phone number from the specified Amazon Chime user.
  */
 export const disassociatePhoneNumberFromUser: API.OperationMethod<
-  DisassociatePhoneNumberFromUserRequest,
+  DisassociatePhoneNumberFromUserRequest & RegionInput,
   DisassociatePhoneNumberFromUserResponse,
   DisassociatePhoneNumberFromUserError,
   Credentials | HttpClient.HttpClient
@@ -1747,6 +1803,8 @@ export const disassociatePhoneNumberFromUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumberFromUser",
+  telemetry: TELEMETRY,
+  span: "DisassociatePhoneNumberFromUser",
 }));
 
 export type DisassociateSigninDelegateGroupsFromAccountError =
@@ -1762,7 +1820,7 @@ export type DisassociateSigninDelegateGroupsFromAccountError =
  * Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
  */
 export const disassociateSigninDelegateGroupsFromAccount: API.OperationMethod<
-  DisassociateSigninDelegateGroupsFromAccountRequest,
+  DisassociateSigninDelegateGroupsFromAccountRequest & RegionInput,
   DisassociateSigninDelegateGroupsFromAccountResponse,
   DisassociateSigninDelegateGroupsFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1781,6 +1839,8 @@ export const disassociateSigninDelegateGroupsFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSigninDelegateGroupsFromAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateSigninDelegateGroupsFromAccount",
 }));
 
 export type GetAccountError =
@@ -1797,7 +1857,7 @@ export type GetAccountError =
  * licenses.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   GetAccountResponse,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -1816,6 +1876,8 @@ export const getAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccount",
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountSettingsError =
@@ -1833,7 +1895,7 @@ export type GetAccountSettingsError =
  * Use the Policies Page in the *Amazon Chime Administration Guide*.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1852,6 +1914,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetBotError =
@@ -1867,7 +1931,7 @@ export type GetBotError =
  * Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
  */
 export const getBot: API.OperationMethod<
-  GetBotRequest,
+  GetBotRequest & RegionInput,
   GetBotResponse,
   GetBotError,
   Credentials | HttpClient.HttpClient
@@ -1886,6 +1950,8 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  telemetry: TELEMETRY,
+  span: "GetBot",
 }));
 
 export type GetEventsConfigurationError =
@@ -1901,7 +1967,7 @@ export type GetEventsConfigurationError =
  * Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
  */
 export const getEventsConfiguration: API.OperationMethod<
-  GetEventsConfigurationRequest,
+  GetEventsConfigurationRequest & RegionInput,
   GetEventsConfigurationResponse,
   GetEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1920,6 +1986,8 @@ export const getEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEventsConfiguration",
 }));
 
 export type GetGlobalSettingsError =
@@ -1935,7 +2003,7 @@ export type GetGlobalSettingsError =
  * Calling and Amazon Chime Voice Connector settings.
  */
 export const getGlobalSettings: API.OperationMethod<
-  GetGlobalSettingsRequest,
+  GetGlobalSettingsRequest & RegionInput,
   GetGlobalSettingsResponse,
   GetGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1953,6 +2021,8 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "GetGlobalSettings",
 }));
 
 export type GetPhoneNumberError =
@@ -1968,7 +2038,7 @@ export type GetPhoneNumberError =
  * Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
  */
 export const getPhoneNumber: API.OperationMethod<
-  GetPhoneNumberRequest,
+  GetPhoneNumberRequest & RegionInput,
   GetPhoneNumberResponse,
   GetPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1987,6 +2057,8 @@ export const getPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumber",
 }));
 
 export type GetPhoneNumberOrderError =
@@ -2003,7 +2075,7 @@ export type GetPhoneNumberOrderError =
  * numbers in E.164 format, product type, and order status.
  */
 export const getPhoneNumberOrder: API.OperationMethod<
-  GetPhoneNumberOrderRequest,
+  GetPhoneNumberOrderRequest & RegionInput,
   GetPhoneNumberOrderResponse,
   GetPhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -2022,6 +2094,8 @@ export const getPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberOrder",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumberOrder",
 }));
 
 export type GetPhoneNumberSettingsError =
@@ -2036,7 +2110,7 @@ export type GetPhoneNumberSettingsError =
  * Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
  */
 export const getPhoneNumberSettings: API.OperationMethod<
-  GetPhoneNumberSettingsRequest,
+  GetPhoneNumberSettingsRequest & RegionInput,
   GetPhoneNumberSettingsResponse,
   GetPhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2054,6 +2128,8 @@ export const getPhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberSettings",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumberSettings",
 }));
 
 export type GetRetentionSettingsError =
@@ -2070,7 +2146,7 @@ export type GetRetentionSettingsError =
  * Managing Chat Retention Policies in the *Amazon Chime Administration Guide*.
  */
 export const getRetentionSettings: API.OperationMethod<
-  GetRetentionSettingsRequest,
+  GetRetentionSettingsRequest & RegionInput,
   GetRetentionSettingsResponse,
   GetRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2089,6 +2165,8 @@ export const getRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "GetRetentionSettings",
 }));
 
 export type GetRoomError =
@@ -2104,7 +2182,7 @@ export type GetRoomError =
  * Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
 export const getRoom: API.OperationMethod<
-  GetRoomRequest,
+  GetRoomRequest & RegionInput,
   GetRoomResponse,
   GetRoomError,
   Credentials | HttpClient.HttpClient
@@ -2123,6 +2201,8 @@ export const getRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoom",
+  telemetry: TELEMETRY,
+  span: "GetRoom",
 }));
 
 export type GetUserError =
@@ -2141,7 +2221,7 @@ export type GetUserError =
  * ListUsers action, and then filter by email address.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -2160,6 +2240,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserSettingsError =
@@ -2175,7 +2257,7 @@ export type GetUserSettingsError =
  * Retrieves settings for the specified user ID, such as any associated phone number settings.
  */
 export const getUserSettings: API.OperationMethod<
-  GetUserSettingsRequest,
+  GetUserSettingsRequest & RegionInput,
   GetUserSettingsResponse,
   GetUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2194,6 +2276,8 @@ export const getUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserSettings",
+  telemetry: TELEMETRY,
+  span: "GetUserSettings",
 }));
 
 export type InviteUsersError =
@@ -2211,7 +2295,7 @@ export type InviteUsersError =
  * supported for this action.
  */
 export const inviteUsers: API.OperationMethod<
-  InviteUsersRequest,
+  InviteUsersRequest & RegionInput,
   InviteUsersResponse,
   InviteUsersError,
   Credentials | HttpClient.HttpClient
@@ -2230,6 +2314,8 @@ export const inviteUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteUsers",
+  telemetry: TELEMETRY,
+  span: "InviteUsers",
 }));
 
 export type ListAccountsError =
@@ -2247,7 +2333,7 @@ export type ListAccountsError =
  * filter by the user's email address, which returns one account result.
  */
 export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
+  ListAccountsRequest & RegionInput,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -2272,6 +2358,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 })) as any;
 
 export type ListBotsError =
@@ -2287,7 +2375,7 @@ export type ListBotsError =
  * Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -2312,6 +2400,8 @@ export const listBots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 })) as any;
 
 export type ListPhoneNumberOrdersError =
@@ -2326,7 +2416,7 @@ export type ListPhoneNumberOrdersError =
  * Lists the phone number orders for the administrator's Amazon Chime account.
  */
 export const listPhoneNumberOrders: API.PaginatedOperationMethod<
-  ListPhoneNumberOrdersRequest,
+  ListPhoneNumberOrdersRequest & RegionInput,
   ListPhoneNumberOrdersResponse,
   ListPhoneNumberOrdersError,
   Credentials | HttpClient.HttpClient,
@@ -2350,6 +2440,8 @@ export const listPhoneNumberOrders: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumberOrders",
 })) as any;
 
 export type ListPhoneNumbersError =
@@ -2365,7 +2457,7 @@ export type ListPhoneNumbersError =
  * Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
  */
 export const listPhoneNumbers: API.PaginatedOperationMethod<
-  ListPhoneNumbersRequest,
+  ListPhoneNumbersRequest & RegionInput,
   ListPhoneNumbersResponse,
   ListPhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -2390,6 +2482,8 @@ export const listPhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumbers",
 })) as any;
 
 export type ListRoomMembershipsError =
@@ -2406,7 +2500,7 @@ export type ListRoomMembershipsError =
  * such as the members' IDs, email addresses, and names.
  */
 export const listRoomMemberships: API.PaginatedOperationMethod<
-  ListRoomMembershipsRequest,
+  ListRoomMembershipsRequest & RegionInput,
   ListRoomMembershipsResponse,
   ListRoomMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -2431,6 +2525,8 @@ export const listRoomMemberships: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoomMemberships",
 })) as any;
 
 export type ListRoomsError =
@@ -2446,7 +2542,7 @@ export type ListRoomsError =
  * Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
  */
 export const listRooms: API.PaginatedOperationMethod<
-  ListRoomsRequest,
+  ListRoomsRequest & RegionInput,
   ListRoomsResponse,
   ListRoomsError,
   Credentials | HttpClient.HttpClient,
@@ -2471,6 +2567,8 @@ export const listRooms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRooms",
 })) as any;
 
 export type ListSupportedPhoneNumberCountriesError =
@@ -2486,7 +2584,7 @@ export type ListSupportedPhoneNumberCountriesError =
  * Lists supported phone number countries.
  */
 export const listSupportedPhoneNumberCountries: API.OperationMethod<
-  ListSupportedPhoneNumberCountriesRequest,
+  ListSupportedPhoneNumberCountriesRequest & RegionInput,
   ListSupportedPhoneNumberCountriesResponse,
   ListSupportedPhoneNumberCountriesError,
   Credentials | HttpClient.HttpClient
@@ -2505,6 +2603,8 @@ export const listSupportedPhoneNumberCountries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSupportedPhoneNumberCountries",
+  telemetry: TELEMETRY,
+  span: "ListSupportedPhoneNumberCountries",
 }));
 
 export type ListUsersError =
@@ -2521,7 +2621,7 @@ export type ListUsersError =
  * address to list only the user that the email address belongs to.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2546,6 +2646,8 @@ export const listUsers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type LogoutUserError =
@@ -2561,7 +2663,7 @@ export type LogoutUserError =
  * Logs out the specified user from all of the devices they are currently logged into.
  */
 export const logoutUser: API.OperationMethod<
-  LogoutUserRequest,
+  LogoutUserRequest & RegionInput,
   LogoutUserResponse,
   LogoutUserError,
   Credentials | HttpClient.HttpClient
@@ -2580,6 +2682,8 @@ export const logoutUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LogoutUser",
+  telemetry: TELEMETRY,
+  span: "LogoutUser",
 }));
 
 export type PutEventsConfigurationError =
@@ -2597,7 +2701,7 @@ export type PutEventsConfigurationError =
  * see Bot.
  */
 export const putEventsConfiguration: API.OperationMethod<
-  PutEventsConfigurationRequest,
+  PutEventsConfigurationRequest & RegionInput,
   PutEventsConfigurationResponse,
   PutEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2616,6 +2720,8 @@ export const putEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventsConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutEventsConfiguration",
 }));
 
 export type PutRetentionSettingsError =
@@ -2642,7 +2748,7 @@ export type PutRetentionSettingsError =
  * in the *Amazon Chime Administration Guide*.
  */
 export const putRetentionSettings: API.OperationMethod<
-  PutRetentionSettingsRequest,
+  PutRetentionSettingsRequest & RegionInput,
   PutRetentionSettingsResponse,
   PutRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2662,6 +2768,8 @@ export const putRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "PutRetentionSettings",
 }));
 
 export type RedactConversationMessageError =
@@ -2677,7 +2785,7 @@ export type RedactConversationMessageError =
  * Redacts the specified message from the specified Amazon Chime conversation.
  */
 export const redactConversationMessage: API.OperationMethod<
-  RedactConversationMessageRequest,
+  RedactConversationMessageRequest & RegionInput,
   RedactConversationMessageResponse,
   RedactConversationMessageError,
   Credentials | HttpClient.HttpClient
@@ -2696,6 +2804,8 @@ export const redactConversationMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactConversationMessage",
+  telemetry: TELEMETRY,
+  span: "RedactConversationMessage",
 }));
 
 export type RedactRoomMessageError =
@@ -2711,7 +2821,7 @@ export type RedactRoomMessageError =
  * Redacts the specified message from the specified Amazon Chime channel.
  */
 export const redactRoomMessage: API.OperationMethod<
-  RedactRoomMessageRequest,
+  RedactRoomMessageRequest & RegionInput,
   RedactRoomMessageResponse,
   RedactRoomMessageError,
   Credentials | HttpClient.HttpClient
@@ -2730,6 +2840,8 @@ export const redactRoomMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactRoomMessage",
+  telemetry: TELEMETRY,
+  span: "RedactRoomMessage",
 }));
 
 export type RegenerateSecurityTokenError =
@@ -2745,7 +2857,7 @@ export type RegenerateSecurityTokenError =
  * Regenerates the security token for a bot.
  */
 export const regenerateSecurityToken: API.OperationMethod<
-  RegenerateSecurityTokenRequest,
+  RegenerateSecurityTokenRequest & RegionInput,
   RegenerateSecurityTokenResponse,
   RegenerateSecurityTokenError,
   Credentials | HttpClient.HttpClient
@@ -2764,6 +2876,8 @@ export const regenerateSecurityToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegenerateSecurityToken",
+  telemetry: TELEMETRY,
+  span: "RegenerateSecurityToken",
 }));
 
 export type ResetPersonalPINError =
@@ -2780,7 +2894,7 @@ export type ResetPersonalPINError =
  * the User object with the updated personal meeting PIN.
  */
 export const resetPersonalPIN: API.OperationMethod<
-  ResetPersonalPINRequest,
+  ResetPersonalPINRequest & RegionInput,
   ResetPersonalPINResponse,
   ResetPersonalPINError,
   Credentials | HttpClient.HttpClient
@@ -2799,6 +2913,8 @@ export const resetPersonalPIN: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetPersonalPIN",
+  telemetry: TELEMETRY,
+  span: "ResetPersonalPIN",
 }));
 
 export type RestorePhoneNumberError =
@@ -2816,7 +2932,7 @@ export type RestorePhoneNumberError =
  * phone number **Inventory**.
  */
 export const restorePhoneNumber: API.OperationMethod<
-  RestorePhoneNumberRequest,
+  RestorePhoneNumberRequest & RegionInput,
   RestorePhoneNumberResponse,
   RestorePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2836,6 +2952,8 @@ export const restorePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestorePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "RestorePhoneNumber",
 }));
 
 export type SearchAvailablePhoneNumbersError =
@@ -2855,7 +2973,7 @@ export type SearchAvailablePhoneNumbersError =
  * support the `PhoneNumberType` filter, which you must use.
  */
 export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
-  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersRequest & RegionInput,
   SearchAvailablePhoneNumbersResponse,
   SearchAvailablePhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -2880,6 +2998,8 @@ export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAvailablePhoneNumbers",
 })) as any;
 
 export type UpdateAccountError =
@@ -2895,7 +3015,7 @@ export type UpdateAccountError =
  * Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
  */
 export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
+  UpdateAccountRequest & RegionInput,
   UpdateAccountResponse,
   UpdateAccountError,
   Credentials | HttpClient.HttpClient
@@ -2914,6 +3034,8 @@ export const updateAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccount",
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateAccountSettingsError =
@@ -2934,7 +3056,7 @@ export type UpdateAccountSettingsError =
  * Guide.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2954,6 +3076,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateBotError =
@@ -2969,7 +3093,7 @@ export type UpdateBotError =
  * Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -2988,6 +3112,8 @@ export const updateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBot",
+  telemetry: TELEMETRY,
+  span: "UpdateBot",
 }));
 
 export type UpdateGlobalSettingsError =
@@ -3002,7 +3128,7 @@ export type UpdateGlobalSettingsError =
  * Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsRequest,
+  UpdateGlobalSettingsRequest & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3020,6 +3146,8 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalSettings",
 }));
 
 export type UpdatePhoneNumberError =
@@ -3040,7 +3168,7 @@ export type UpdatePhoneNumberError =
  * Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
 export const updatePhoneNumber: API.OperationMethod<
-  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberRequest & RegionInput,
   UpdatePhoneNumberResponse,
   UpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -3060,6 +3188,8 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumber",
 }));
 
 export type UpdatePhoneNumberSettingsError =
@@ -3076,7 +3206,7 @@ export type UpdatePhoneNumberSettingsError =
  * days. Outbound calling names can take up to 72 hours to update.
  */
 export const updatePhoneNumberSettings: API.OperationMethod<
-  UpdatePhoneNumberSettingsRequest,
+  UpdatePhoneNumberSettingsRequest & RegionInput,
   UpdatePhoneNumberSettingsResponse,
   UpdatePhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3094,6 +3224,8 @@ export const updatePhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumberSettings",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumberSettings",
 }));
 
 export type UpdateRoomError =
@@ -3109,7 +3241,7 @@ export type UpdateRoomError =
  * Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
 export const updateRoom: API.OperationMethod<
-  UpdateRoomRequest,
+  UpdateRoomRequest & RegionInput,
   UpdateRoomResponse,
   UpdateRoomError,
   Credentials | HttpClient.HttpClient
@@ -3128,6 +3260,8 @@ export const updateRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoom",
+  telemetry: TELEMETRY,
+  span: "UpdateRoom",
 }));
 
 export type UpdateRoomMembershipError =
@@ -3146,7 +3280,7 @@ export type UpdateRoomMembershipError =
  * user IDs.
  */
 export const updateRoomMembership: API.OperationMethod<
-  UpdateRoomMembershipRequest,
+  UpdateRoomMembershipRequest & RegionInput,
   UpdateRoomMembershipResponse,
   UpdateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3165,6 +3299,8 @@ export const updateRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoomMembership",
+  telemetry: TELEMETRY,
+  span: "UpdateRoomMembership",
 }));
 
 export type UpdateUserError =
@@ -3180,7 +3316,7 @@ export type UpdateUserError =
  * Updates user details for a specified user ID. Currently, only `LicenseType` updates are supported for this action.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -3199,6 +3335,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserSettingsError =
@@ -3214,7 +3352,7 @@ export type UpdateUserSettingsError =
  * Updates the settings for the specified user, such as phone number settings.
  */
 export const updateUserSettings: API.OperationMethod<
-  UpdateUserSettingsRequest,
+  UpdateUserSettingsRequest & RegionInput,
   UpdateUserSettingsResponse,
   UpdateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3233,6 +3371,8 @@ export const updateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateUserSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

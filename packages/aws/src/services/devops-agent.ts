@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DevOpsAgent",
+  service: "DevOpsAgent",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2717,7 +2733,7 @@ export type AssociateServiceError =
  * Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on success.
  */
 export const associateService: API.OperationMethod<
-  AssociateServiceInput,
+  AssociateServiceInput & RegionInput,
   AssociateServiceOutput,
   AssociateServiceError,
   Credentials | HttpClient.HttpClient
@@ -2736,6 +2752,8 @@ export const associateService: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "AssociateService",
 }));
 
 export type CreateAgentSpaceError =
@@ -2750,7 +2768,7 @@ export type CreateAgentSpaceError =
  * Creates a new AgentSpace with the specified name and description. Duplicate space names are allowed.
  */
 export const createAgentSpace: API.OperationMethod<
-  CreateAgentSpaceInput,
+  CreateAgentSpaceInput & RegionInput,
   CreateAgentSpaceOutput,
   CreateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -2769,6 +2787,8 @@ export const createAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "CreateAgentSpace",
 }));
 
 export type CreateAssetError =
@@ -2782,7 +2802,7 @@ export type CreateAssetError =
  * Creates a new asset in the specified agent space
  */
 export const createAsset: API.OperationMethod<
-  CreateAssetRequest,
+  CreateAssetRequest & RegionInput,
   CreateAssetResponse,
   CreateAssetError,
   Credentials | HttpClient.HttpClient
@@ -2800,6 +2820,8 @@ export const createAsset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateAsset",
 }));
 
 export type CreateAssetFileError =
@@ -2815,7 +2837,7 @@ export type CreateAssetFileError =
  * Creates a file in an asset
  */
 export const createAssetFile: API.OperationMethod<
-  CreateAssetFileRequest,
+  CreateAssetFileRequest & RegionInput,
   CreateAssetFileResponse,
   CreateAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -2835,6 +2857,8 @@ export const createAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateAssetFile",
 }));
 
 export type CreateBacklogTaskError =
@@ -2849,7 +2873,7 @@ export type CreateBacklogTaskError =
  * Creates a new backlog task in the specified agent space
  */
 export const createBacklogTask: API.OperationMethod<
-  CreateBacklogTaskRequest,
+  CreateBacklogTaskRequest & RegionInput,
   CreateBacklogTaskResponse,
   CreateBacklogTaskError,
   Credentials | HttpClient.HttpClient
@@ -2868,6 +2892,8 @@ export const createBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBacklogTask",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateBacklogTask",
 }));
 
 export type CreateChatError =
@@ -2880,7 +2906,7 @@ export type CreateChatError =
  * Creates a new chat execution in the specified agent space
  */
 export const createChat: API.OperationMethod<
-  CreateChatRequest,
+  CreateChatRequest & RegionInput,
   CreateChatResponse,
   CreateChatError,
   Credentials | HttpClient.HttpClient
@@ -2897,6 +2923,8 @@ export const createChat: API.OperationMethod<
   retry: Retry,
   operationName: "CreateChat",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateChat",
 }));
 
 export type CreatePrivateConnectionError =
@@ -2910,7 +2938,7 @@ export type CreatePrivateConnectionError =
  * Creates a Private Connection to a target resource.
  */
 export const createPrivateConnection: API.OperationMethod<
-  CreatePrivateConnectionInput,
+  CreatePrivateConnectionInput & RegionInput,
   CreatePrivateConnectionOutput,
   CreatePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2928,6 +2956,8 @@ export const createPrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePrivateConnection",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateConnection",
 }));
 
 export type CreateTriggerError =
@@ -2942,7 +2972,7 @@ export type CreateTriggerError =
  * Creates a new Trigger in the specified agent space
  */
 export const createTrigger: API.OperationMethod<
-  CreateTriggerRequest,
+  CreateTriggerRequest & RegionInput,
   CreateTriggerResponse,
   CreateTriggerError,
   Credentials | HttpClient.HttpClient
@@ -2961,6 +2991,8 @@ export const createTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateTrigger",
 }));
 
 export type DeleteAgentSpaceError =
@@ -2974,7 +3006,7 @@ export type DeleteAgentSpaceError =
  * Deletes an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
  */
 export const deleteAgentSpace: API.OperationMethod<
-  DeleteAgentSpaceInput,
+  DeleteAgentSpaceInput & RegionInput,
   DeleteAgentSpaceOutput,
   DeleteAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -2992,6 +3024,8 @@ export const deleteAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentSpace",
 }));
 
 export type DeleteAssetError =
@@ -3006,7 +3040,7 @@ export type DeleteAssetError =
  * Deletes an asset and all its files from the specified agent space
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -3025,6 +3059,8 @@ export const deleteAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeleteAssetFileError =
@@ -3038,7 +3074,7 @@ export type DeleteAssetFileError =
  * Deletes a file from an asset
  */
 export const deleteAssetFile: API.OperationMethod<
-  DeleteAssetFileRequest,
+  DeleteAssetFileRequest & RegionInput,
   DeleteAssetFileResponse,
   DeleteAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -3056,6 +3092,8 @@ export const deleteAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetFile",
 }));
 
 export type DeletePrivateConnectionError =
@@ -3069,7 +3107,7 @@ export type DeletePrivateConnectionError =
  * Deletes a Private Connection. The deletion is asynchronous and returns DELETE_IN_PROGRESS status.
  */
 export const deletePrivateConnection: API.OperationMethod<
-  DeletePrivateConnectionInput,
+  DeletePrivateConnectionInput & RegionInput,
   DeletePrivateConnectionOutput,
   DeletePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3087,6 +3125,8 @@ export const deletePrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePrivateConnection",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DeletePrivateConnection",
 }));
 
 export type DeleteTriggerError =
@@ -3101,7 +3141,7 @@ export type DeleteTriggerError =
  * Deletes a Trigger from the specified agent space
  */
 export const deleteTrigger: API.OperationMethod<
-  DeleteTriggerRequest,
+  DeleteTriggerRequest & RegionInput,
   DeleteTriggerResponse,
   DeleteTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3120,6 +3160,8 @@ export const deleteTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "DeleteTrigger",
 }));
 
 export type DeregisterServiceError =
@@ -3133,7 +3175,7 @@ export type DeregisterServiceError =
  * Deregister a service
  */
 export const deregisterService: API.OperationMethod<
-  DeregisterServiceInput,
+  DeregisterServiceInput & RegionInput,
   DeregisterServiceOutput,
   DeregisterServiceError,
   Credentials | HttpClient.HttpClient
@@ -3151,6 +3193,8 @@ export const deregisterService: API.OperationMethod<
   retry: Retry,
   operationName: "DeregisterService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DeregisterService",
 }));
 
 export type DescribePrivateConnectionError =
@@ -3164,7 +3208,7 @@ export type DescribePrivateConnectionError =
  * Retrieves details of an existing Private Connection.
  */
 export const describePrivateConnection: API.OperationMethod<
-  DescribePrivateConnectionInput,
+  DescribePrivateConnectionInput & RegionInput,
   DescribePrivateConnectionOutput,
   DescribePrivateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3182,6 +3226,8 @@ export const describePrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePrivateConnection",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DescribePrivateConnection",
 }));
 
 export type DisableOperatorAppError =
@@ -3194,7 +3240,7 @@ export type DisableOperatorAppError =
  * Disable the Operator App for the specified AgentSpace
  */
 export const disableOperatorApp: API.OperationMethod<
-  DisableOperatorAppInput,
+  DisableOperatorAppInput & RegionInput,
   DisableOperatorAppResponse,
   DisableOperatorAppError,
   Credentials | HttpClient.HttpClient
@@ -3211,6 +3257,8 @@ export const disableOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "DisableOperatorApp",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DisableOperatorApp",
 }));
 
 export type DisassociateServiceError =
@@ -3223,7 +3271,7 @@ export type DisassociateServiceError =
  * Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success.
  */
 export const disassociateService: API.OperationMethod<
-  DisassociateServiceInput,
+  DisassociateServiceInput & RegionInput,
   DisassociateServiceOutput,
   DisassociateServiceError,
   Credentials | HttpClient.HttpClient
@@ -3240,6 +3288,8 @@ export const disassociateService: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DisassociateService",
 }));
 
 export type EnableOperatorAppError =
@@ -3252,7 +3302,7 @@ export type EnableOperatorAppError =
  * Enable the Operator App to access the given AgentSpace
  */
 export const enableOperatorApp: API.OperationMethod<
-  EnableOperatorAppInput,
+  EnableOperatorAppInput & RegionInput,
   EnableOperatorAppOutput,
   EnableOperatorAppError,
   Credentials | HttpClient.HttpClient
@@ -3269,6 +3319,8 @@ export const enableOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "EnableOperatorApp",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "EnableOperatorApp",
 }));
 
 export type GetAccountUsageError =
@@ -3282,7 +3334,7 @@ export type GetAccountUsageError =
  * Retrieves monthly account usage metrics and limits for the AWS account.
  */
 export const getAccountUsage: API.OperationMethod<
-  GetAccountUsageInput,
+  GetAccountUsageInput & RegionInput,
   GetAccountUsageOutput,
   GetAccountUsageError,
   Credentials | HttpClient.HttpClient
@@ -3300,6 +3352,8 @@ export const getAccountUsage: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccountUsage",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAccountUsage",
 }));
 
 export type GetAgentSpaceError =
@@ -3312,7 +3366,7 @@ export type GetAgentSpaceError =
  * Retrieves detailed information about a specific AgentSpace.
  */
 export const getAgentSpace: API.OperationMethod<
-  GetAgentSpaceInput,
+  GetAgentSpaceInput & RegionInput,
   GetAgentSpaceOutput,
   GetAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -3329,6 +3383,8 @@ export const getAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "GetAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetAgentSpace",
 }));
 
 export type GetAssetError =
@@ -3342,7 +3398,7 @@ export type GetAssetError =
  * Gets an asset from the specified agent space
  */
 export const getAsset: API.OperationMethod<
-  GetAssetRequest,
+  GetAssetRequest & RegionInput,
   GetAssetResponse,
   GetAssetError,
   Credentials | HttpClient.HttpClient
@@ -3360,6 +3416,8 @@ export const getAsset: API.OperationMethod<
   retry: Retry,
   operationName: "GetAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAsset",
 }));
 
 export type GetAssetContentError =
@@ -3373,7 +3431,7 @@ export type GetAssetContentError =
  * Gets an asset's content as a zip bundle
  */
 export const getAssetContent: API.OperationMethod<
-  GetAssetContentRequest,
+  GetAssetContentRequest & RegionInput,
   GetAssetContentResponse,
   GetAssetContentError,
   Credentials | HttpClient.HttpClient
@@ -3391,6 +3449,8 @@ export const getAssetContent: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetContent",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAssetContent",
 }));
 
 export type GetAssetFileError =
@@ -3404,7 +3464,7 @@ export type GetAssetFileError =
  * Gets a file from an asset
  */
 export const getAssetFile: API.OperationMethod<
-  GetAssetFileRequest,
+  GetAssetFileRequest & RegionInput,
   GetAssetFileResponse,
   GetAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -3422,6 +3482,8 @@ export const getAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAssetFile",
 }));
 
 export type GetAssociationError =
@@ -3434,7 +3496,7 @@ export type GetAssociationError =
  * Retrieves given associations configured for a specific AgentSpace.
  */
 export const getAssociation: API.OperationMethod<
-  GetAssociationInput,
+  GetAssociationInput & RegionInput,
   GetAssociationOutput,
   GetAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3451,6 +3513,8 @@ export const getAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssociation",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetAssociation",
 }));
 
 export type GetBacklogTaskError =
@@ -3465,7 +3529,7 @@ export type GetBacklogTaskError =
  * Gets a backlog task for the specified agent space and task id
  */
 export const getBacklogTask: API.OperationMethod<
-  GetBacklogTaskRequest,
+  GetBacklogTaskRequest & RegionInput,
   GetBacklogTaskResponse,
   GetBacklogTaskError,
   Credentials | HttpClient.HttpClient
@@ -3484,6 +3548,8 @@ export const getBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetBacklogTask",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetBacklogTask",
 }));
 
 export type GetOperatorAppError =
@@ -3495,7 +3561,7 @@ export type GetOperatorAppError =
  * Get the full auth configuration of operator including any enabled auth flow
  */
 export const getOperatorApp: API.OperationMethod<
-  GetOperatorAppInput,
+  GetOperatorAppInput & RegionInput,
   GetOperatorAppOutput,
   GetOperatorAppError,
   Credentials | HttpClient.HttpClient
@@ -3507,6 +3573,8 @@ export const getOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "GetOperatorApp",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetOperatorApp",
 }));
 
 export type GetRecommendationError =
@@ -3520,7 +3588,7 @@ export type GetRecommendationError =
  * Retrieves a specific recommendation by its ID
  */
 export const getRecommendation: API.OperationMethod<
-  GetRecommendationRequest,
+  GetRecommendationRequest & RegionInput,
   GetRecommendationResponse,
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -3538,6 +3606,8 @@ export const getRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "GetRecommendation",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetRecommendation",
 }));
 
 export type GetServiceError =
@@ -3550,7 +3620,7 @@ export type GetServiceError =
  * Retrieves given service by it's unique identifier
  */
 export const getService: API.OperationMethod<
-  GetServiceInput,
+  GetServiceInput & RegionInput,
   GetServiceOutput,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -3567,6 +3637,8 @@ export const getService: API.OperationMethod<
   retry: Retry,
   operationName: "GetService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetTriggerError =
@@ -3580,7 +3652,7 @@ export type GetTriggerError =
  * Gets a Trigger from the specified agent space
  */
 export const getTrigger: API.OperationMethod<
-  GetTriggerRequest,
+  GetTriggerRequest & RegionInput,
   GetTriggerResponse,
   GetTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3598,6 +3670,8 @@ export const getTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "GetTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetTrigger",
 }));
 
 export type ListAgentSpacesError =
@@ -3609,7 +3683,7 @@ export type ListAgentSpacesError =
  * Lists all AgentSpaces with optional pagination.
  */
 export const listAgentSpaces: API.PaginatedOperationMethod<
-  ListAgentSpacesInput,
+  ListAgentSpacesInput & RegionInput,
   ListAgentSpacesOutput,
   ListAgentSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -3628,6 +3702,8 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
     items: "agentSpaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentSpaces",
 })) as any;
 
 export type ListAssetFilesError =
@@ -3641,7 +3717,7 @@ export type ListAssetFilesError =
  * Lists files in an asset
  */
 export const listAssetFiles: API.PaginatedOperationMethod<
-  ListAssetFilesRequest,
+  ListAssetFilesRequest & RegionInput,
   ListAssetFilesResponse,
   ListAssetFilesError,
   Credentials | HttpClient.HttpClient,
@@ -3666,6 +3742,8 @@ export const listAssetFiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetFiles",
 })) as any;
 
 export type ListAssetsError =
@@ -3678,7 +3756,7 @@ export type ListAssetsError =
  * Lists assets in the specified agent space
  */
 export const listAssets: API.PaginatedOperationMethod<
-  ListAssetsRequest,
+  ListAssetsRequest & RegionInput,
   ListAssetsResponse,
   ListAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -3702,6 +3780,8 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
 })) as any;
 
 export type ListAssetTypesError =
@@ -3714,7 +3794,7 @@ export type ListAssetTypesError =
  * Lists the supported asset types
  */
 export const listAssetTypes: API.PaginatedOperationMethod<
-  ListAssetTypesRequest,
+  ListAssetTypesRequest & RegionInput,
   ListAssetTypesResponse,
   ListAssetTypesError,
   Credentials | HttpClient.HttpClient,
@@ -3738,6 +3818,8 @@ export const listAssetTypes: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetTypes",
 })) as any;
 
 export type ListAssetVersionsError =
@@ -3751,7 +3833,7 @@ export type ListAssetVersionsError =
  * Lists versions of an asset in the specified agent space
  */
 export const listAssetVersions: API.PaginatedOperationMethod<
-  ListAssetVersionsRequest,
+  ListAssetVersionsRequest & RegionInput,
   ListAssetVersionsResponse,
   ListAssetVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3776,6 +3858,8 @@ export const listAssetVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetVersions",
 })) as any;
 
 export type ListAssociationsError =
@@ -3788,7 +3872,7 @@ export type ListAssociationsError =
  * List all associations for given AgentSpace
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsInput,
+  ListAssociationsInput & RegionInput,
   ListAssociationsOutput,
   ListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3812,6 +3896,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListBacklogTasksError =
@@ -3824,7 +3910,7 @@ export type ListBacklogTasksError =
  * Lists backlog tasks in the specified agent space with optional filtering and sorting
  */
 export const listBacklogTasks: API.PaginatedOperationMethod<
-  ListBacklogTasksRequest,
+  ListBacklogTasksRequest & RegionInput,
   ListBacklogTasksResponse,
   ListBacklogTasksError,
   Credentials | HttpClient.HttpClient,
@@ -3848,6 +3934,8 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBacklogTasks",
 })) as any;
 
 export type ListChatsError =
@@ -3860,7 +3948,7 @@ export type ListChatsError =
  * Retrieves a paginated list of the user's recent chat executions
  */
 export const listChats: API.OperationMethod<
-  ListChatsRequest,
+  ListChatsRequest & RegionInput,
   ListChatsResponse,
   ListChatsError,
   Credentials | HttpClient.HttpClient
@@ -3877,6 +3965,8 @@ export const listChats: API.OperationMethod<
   retry: Retry,
   operationName: "ListChats",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "ListChats",
 }));
 
 export type ListExecutionsError =
@@ -3890,7 +3980,7 @@ export type ListExecutionsError =
  * List executions
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsRequest,
+  ListExecutionsRequest & RegionInput,
   ListExecutionsResponse,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3915,6 +4005,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListGoalsError =
@@ -3927,7 +4019,7 @@ export type ListGoalsError =
  * Lists goals in the specified agent space with optional filtering
  */
 export const listGoals: API.PaginatedOperationMethod<
-  ListGoalsRequest,
+  ListGoalsRequest & RegionInput,
   ListGoalsResponse,
   ListGoalsError,
   Credentials | HttpClient.HttpClient,
@@ -3951,6 +4043,8 @@ export const listGoals: API.PaginatedOperationMethod<
     items: "goals",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGoals",
 })) as any;
 
 export type ListJournalRecordsError =
@@ -3964,7 +4058,7 @@ export type ListJournalRecordsError =
  * List journal records for a specific execution
  */
 export const listJournalRecords: API.PaginatedOperationMethod<
-  ListJournalRecordsRequest,
+  ListJournalRecordsRequest & RegionInput,
   ListJournalRecordsResponse,
   ListJournalRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -3989,6 +4083,8 @@ export const listJournalRecords: API.PaginatedOperationMethod<
     items: "records",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJournalRecords",
 })) as any;
 
 export type ListPendingMessagesError =
@@ -4002,7 +4098,7 @@ export type ListPendingMessagesError =
  * List pending messages for a specific execution.
  */
 export const listPendingMessages: API.OperationMethod<
-  ListPendingMessagesRequest,
+  ListPendingMessagesRequest & RegionInput,
   ListPendingMessagesResponse,
   ListPendingMessagesError,
   Credentials | HttpClient.HttpClient
@@ -4020,6 +4116,8 @@ export const listPendingMessages: API.OperationMethod<
   retry: Retry,
   operationName: "ListPendingMessages",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "ListPendingMessages",
 }));
 
 export type ListPrivateConnectionsError =
@@ -4032,7 +4130,7 @@ export type ListPrivateConnectionsError =
  * Lists all Private Connections in the caller's account.
  */
 export const listPrivateConnections: API.OperationMethod<
-  ListPrivateConnectionsInput,
+  ListPrivateConnectionsInput & RegionInput,
   ListPrivateConnectionsOutput,
   ListPrivateConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -4049,6 +4147,8 @@ export const listPrivateConnections: API.OperationMethod<
   retry: Retry,
   operationName: "ListPrivateConnections",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ListPrivateConnections",
 }));
 
 export type ListRecommendationsError =
@@ -4061,7 +4161,7 @@ export type ListRecommendationsError =
  * Lists recommendations for the specified agent space
  */
 export const listRecommendations: API.OperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -4078,6 +4178,8 @@ export const listRecommendations: API.OperationMethod<
   retry: Retry,
   operationName: "ListRecommendations",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 }));
 
 export type ListServicesError =
@@ -4089,7 +4191,7 @@ export type ListServicesError =
  * List a list of registered service on the account level.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -4108,6 +4210,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "services",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4120,7 +4224,7 @@ export type ListTagsForResourceError =
  * Lists tags for the specified AWS DevOps Agent resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4137,6 +4241,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTriggersError =
@@ -4150,7 +4256,7 @@ export type ListTriggersError =
  * Lists Triggers in the specified agent space
  */
 export const listTriggers: API.PaginatedOperationMethod<
-  ListTriggersRequest,
+  ListTriggersRequest & RegionInput,
   ListTriggersResponse,
   ListTriggersError,
   Credentials | HttpClient.HttpClient,
@@ -4175,6 +4281,8 @@ export const listTriggers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTriggers",
 })) as any;
 
 export type ListWebhooksError =
@@ -4187,7 +4295,7 @@ export type ListWebhooksError =
  * List all webhooks for given Association
  */
 export const listWebhooks: API.OperationMethod<
-  ListWebhooksInput,
+  ListWebhooksInput & RegionInput,
   ListWebhooksOutput,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient
@@ -4204,6 +4312,8 @@ export const listWebhooks: API.OperationMethod<
   retry: Retry,
   operationName: "ListWebhooks",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type RegisterServiceError =
@@ -4216,7 +4326,7 @@ export type RegisterServiceError =
  * This operation registers the specified service
  */
 export const registerService: API.OperationMethod<
-  RegisterServiceInput,
+  RegisterServiceInput & RegionInput,
   RegisterServiceOutput,
   RegisterServiceError,
   Credentials | HttpClient.HttpClient
@@ -4233,6 +4343,8 @@ export const registerService: API.OperationMethod<
   retry: Retry,
   operationName: "RegisterService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "RegisterService",
 }));
 
 export type SendMessageError =
@@ -4247,7 +4359,7 @@ export type SendMessageError =
  * Sends a chat message and streams the response for the specified agent space execution
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResponse,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -4266,6 +4378,8 @@ export const sendMessage: API.OperationMethod<
   retry: Retry,
   operationName: "SendMessage",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "SendMessage",
 }));
 
 export type TagResourceError =
@@ -4278,7 +4392,7 @@ export type TagResourceError =
  * Adds or overwrites tags for the specified AWS DevOps Agent resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4295,6 +4409,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4307,7 +4423,7 @@ export type UntagResourceError =
  * Removes tags from the specified AWS DevOps Agent resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4324,6 +4440,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentSpaceError =
@@ -4337,7 +4455,7 @@ export type UpdateAgentSpaceError =
  * Updates the information of an existing AgentSpace.
  */
 export const updateAgentSpace: API.OperationMethod<
-  UpdateAgentSpaceInput,
+  UpdateAgentSpaceInput & RegionInput,
   UpdateAgentSpaceOutput,
   UpdateAgentSpaceError,
   Credentials | HttpClient.HttpClient
@@ -4355,6 +4473,8 @@ export const updateAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentSpace",
 }));
 
 export type UpdateApprovalActionError =
@@ -4370,7 +4490,7 @@ export type UpdateApprovalActionError =
  * Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
  */
 export const updateApprovalAction: API.OperationMethod<
-  UpdateApprovalActionRequest,
+  UpdateApprovalActionRequest & RegionInput,
   UpdateApprovalActionResponse,
   UpdateApprovalActionError,
   Credentials | HttpClient.HttpClient
@@ -4390,6 +4510,8 @@ export const updateApprovalAction: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateApprovalAction",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalAction",
 }));
 
 export type UpdateAssetError =
@@ -4404,7 +4526,7 @@ export type UpdateAssetError =
  * Updates an asset in the specified agent space
  */
 export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
+  UpdateAssetRequest & RegionInput,
   UpdateAssetResponse,
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
@@ -4423,6 +4545,8 @@ export const updateAsset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAsset",
 }));
 
 export type UpdateAssetFileError =
@@ -4438,7 +4562,7 @@ export type UpdateAssetFileError =
  * Updates a file in an asset
  */
 export const updateAssetFile: API.OperationMethod<
-  UpdateAssetFileRequest,
+  UpdateAssetFileRequest & RegionInput,
   UpdateAssetFileResponse,
   UpdateAssetFileError,
   Credentials | HttpClient.HttpClient
@@ -4458,6 +4582,8 @@ export const updateAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetFile",
 }));
 
 export type UpdateAssociationError =
@@ -4470,7 +4596,7 @@ export type UpdateAssociationError =
  * Partially updates the configuration of an existing service association for an AgentSpace. Present fields are fully replaced; absent fields are left unchanged. Returns 200 OK on success.
  */
 export const updateAssociation: API.OperationMethod<
-  UpdateAssociationInput,
+  UpdateAssociationInput & RegionInput,
   UpdateAssociationOutput,
   UpdateAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4487,6 +4613,8 @@ export const updateAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssociation",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssociation",
 }));
 
 export type UpdateBacklogTaskError =
@@ -4501,7 +4629,7 @@ export type UpdateBacklogTaskError =
  * Update an existing backlog task.
  */
 export const updateBacklogTask: API.OperationMethod<
-  UpdateBacklogTaskRequest,
+  UpdateBacklogTaskRequest & RegionInput,
   UpdateBacklogTaskResponse,
   UpdateBacklogTaskError,
   Credentials | HttpClient.HttpClient
@@ -4520,6 +4648,8 @@ export const updateBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBacklogTask",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateBacklogTask",
 }));
 
 export type UpdateGoalError =
@@ -4534,7 +4664,7 @@ export type UpdateGoalError =
  * Update an existing goal
  */
 export const updateGoal: API.OperationMethod<
-  UpdateGoalRequest,
+  UpdateGoalRequest & RegionInput,
   UpdateGoalResponse,
   UpdateGoalError,
   Credentials | HttpClient.HttpClient
@@ -4553,6 +4683,8 @@ export const updateGoal: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGoal",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateGoal",
 }));
 
 export type UpdateOperatorAppIdpConfigError =
@@ -4565,7 +4697,7 @@ export type UpdateOperatorAppIdpConfigError =
  * Update the external Identity Provider configuration for the Operator App
  */
 export const updateOperatorAppIdpConfig: API.OperationMethod<
-  UpdateOperatorAppIdpConfigInput,
+  UpdateOperatorAppIdpConfigInput & RegionInput,
   UpdateOperatorAppIdpConfigOutput,
   UpdateOperatorAppIdpConfigError,
   Credentials | HttpClient.HttpClient
@@ -4582,6 +4714,8 @@ export const updateOperatorAppIdpConfig: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateOperatorAppIdpConfig",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdateOperatorAppIdpConfig",
 }));
 
 export type UpdatePrivateConnectionCertificateError =
@@ -4595,7 +4729,7 @@ export type UpdatePrivateConnectionCertificateError =
  * Updates the certificate associated with a Private Connection.
  */
 export const updatePrivateConnectionCertificate: API.OperationMethod<
-  UpdatePrivateConnectionCertificateInput,
+  UpdatePrivateConnectionCertificateInput & RegionInput,
   UpdatePrivateConnectionCertificateOutput,
   UpdatePrivateConnectionCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4613,6 +4747,8 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePrivateConnectionCertificate",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateConnectionCertificate",
 }));
 
 export type UpdateRecommendationError =
@@ -4627,7 +4763,7 @@ export type UpdateRecommendationError =
  * Updates an existing recommendation with new content, status, or metadata
  */
 export const updateRecommendation: API.OperationMethod<
-  UpdateRecommendationRequest,
+  UpdateRecommendationRequest & RegionInput,
   UpdateRecommendationResponse,
   UpdateRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -4646,6 +4782,8 @@ export const updateRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRecommendation",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommendation",
 }));
 
 export type UpdateTriggerError =
@@ -4659,7 +4797,7 @@ export type UpdateTriggerError =
  * Updates the status of an existing Trigger
  */
 export const updateTrigger: API.OperationMethod<
-  UpdateTriggerRequest,
+  UpdateTriggerRequest & RegionInput,
   UpdateTriggerResponse,
   UpdateTriggerError,
   Credentials | HttpClient.HttpClient
@@ -4677,6 +4815,8 @@ export const updateTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateTrigger",
 }));
 
 export type ValidateAwsAssociationsError =
@@ -4689,7 +4829,7 @@ export type ValidateAwsAssociationsError =
  * Validates an aws association and set status and returns a 204 No Content response on success.
  */
 export const validateAwsAssociations: API.OperationMethod<
-  ValidateAwsAssociationsInput,
+  ValidateAwsAssociationsInput & RegionInput,
   ValidateAwsAssociationsOutput,
   ValidateAwsAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -4706,6 +4846,8 @@ export const validateAwsAssociations: API.OperationMethod<
   retry: Retry,
   operationName: "ValidateAwsAssociations",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ValidateAwsAssociations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Classroom",
+  service: "classroom",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2048,6 +2061,8 @@ export const acceptInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptInvitations",
 }));
 
 export type CreateCoursesError =
@@ -2068,6 +2083,8 @@ export const createCourses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCourses",
 }));
 
 export type CreateCoursesAliasesError =
@@ -2088,6 +2105,8 @@ export const createCoursesAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesAliases",
 }));
 
 export type CreateCoursesAnnouncementsError =
@@ -2108,6 +2127,8 @@ export const createCoursesAnnouncements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesAnnouncements",
 }));
 
 export type CreateCoursesAnnouncementsAddOnAttachmentsError =
@@ -2128,6 +2149,8 @@ export const createCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesAnnouncementsAddOnAttachments",
 }));
 
 export type CreateCoursesCourseWorkError =
@@ -2148,6 +2171,8 @@ export const createCoursesCourseWork: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesCourseWork",
 }));
 
 export type CreateCoursesCourseWorkAddOnAttachmentsError =
@@ -2168,6 +2193,8 @@ export const createCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesCourseWorkAddOnAttachments",
 }));
 
 export type CreateCoursesCourseWorkMaterialsError =
@@ -2188,6 +2215,8 @@ export const createCoursesCourseWorkMaterials: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesCourseWorkMaterials",
 }));
 
 export type CreateCoursesCourseWorkMaterialsAddOnAttachmentsError =
@@ -2212,6 +2241,8 @@ export const createCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesCourseWorkMaterialsAddOnAttachments",
 }));
 
 export type CreateCoursesCourseWorkRubricsError =
@@ -2232,6 +2263,8 @@ export const createCoursesCourseWorkRubrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesCourseWorkRubrics",
 }));
 
 export type CreateCoursesPostsAddOnAttachmentsError =
@@ -2252,6 +2285,8 @@ export const createCoursesPostsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesPostsAddOnAttachments",
 }));
 
 export type CreateCoursesStudentGroupsError =
@@ -2272,6 +2307,8 @@ export const createCoursesStudentGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesStudentGroups",
 }));
 
 export type CreateCoursesStudentGroupsStudentGroupMembersError =
@@ -2296,6 +2333,8 @@ export const createCoursesStudentGroupsStudentGroupMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesStudentGroupsStudentGroupMembers",
 }));
 
 export type CreateCoursesStudentsError =
@@ -2316,6 +2355,8 @@ export const createCoursesStudents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesStudents",
 }));
 
 export type CreateCoursesTeachersError =
@@ -2336,6 +2377,8 @@ export const createCoursesTeachers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesTeachers",
 }));
 
 export type CreateCoursesTopicsError =
@@ -2356,6 +2399,8 @@ export const createCoursesTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoursesTopics",
 }));
 
 export type CreateInvitationsError =
@@ -2376,6 +2421,8 @@ export const createInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvitations",
 }));
 
 export type CreateRegistrationsError =
@@ -2396,6 +2443,8 @@ export const createRegistrations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistrations",
 }));
 
 export type CreateUserProfilesGuardianInvitationsError =
@@ -2416,6 +2465,8 @@ export const createUserProfilesGuardianInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserProfilesGuardianInvitations",
 }));
 
 export type DeleteCoursesError =
@@ -2436,6 +2487,8 @@ export const deleteCourses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCourses",
 }));
 
 export type DeleteCoursesAliasesError =
@@ -2456,6 +2509,8 @@ export const deleteCoursesAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesAliases",
 }));
 
 export type DeleteCoursesAnnouncementsError =
@@ -2476,6 +2531,8 @@ export const deleteCoursesAnnouncements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesAnnouncements",
 }));
 
 export type DeleteCoursesAnnouncementsAddOnAttachmentsError =
@@ -2496,6 +2553,8 @@ export const deleteCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesAnnouncementsAddOnAttachments",
 }));
 
 export type DeleteCoursesCourseWorkError =
@@ -2516,6 +2575,8 @@ export const deleteCoursesCourseWork: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesCourseWork",
 }));
 
 export type DeleteCoursesCourseWorkAddOnAttachmentsError =
@@ -2536,6 +2597,8 @@ export const deleteCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesCourseWorkAddOnAttachments",
 }));
 
 export type DeleteCoursesCourseWorkMaterialsError =
@@ -2556,6 +2619,8 @@ export const deleteCoursesCourseWorkMaterials: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesCourseWorkMaterials",
 }));
 
 export type DeleteCoursesCourseWorkMaterialsAddOnAttachmentsError =
@@ -2580,6 +2645,8 @@ export const deleteCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesCourseWorkMaterialsAddOnAttachments",
 }));
 
 export type DeleteCoursesCourseWorkRubricsError =
@@ -2600,6 +2667,8 @@ export const deleteCoursesCourseWorkRubrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesCourseWorkRubrics",
 }));
 
 export type DeleteCoursesPostsAddOnAttachmentsError =
@@ -2620,6 +2689,8 @@ export const deleteCoursesPostsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesPostsAddOnAttachments",
 }));
 
 export type DeleteCoursesStudentGroupsError =
@@ -2640,6 +2711,8 @@ export const deleteCoursesStudentGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesStudentGroups",
 }));
 
 export type DeleteCoursesStudentGroupsStudentGroupMembersError =
@@ -2664,6 +2737,8 @@ export const deleteCoursesStudentGroupsStudentGroupMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesStudentGroupsStudentGroupMembers",
 }));
 
 export type DeleteCoursesStudentsError =
@@ -2684,6 +2759,8 @@ export const deleteCoursesStudents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesStudents",
 }));
 
 export type DeleteCoursesTeachersError =
@@ -2704,6 +2781,8 @@ export const deleteCoursesTeachers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesTeachers",
 }));
 
 export type DeleteCoursesTopicsError =
@@ -2724,6 +2803,8 @@ export const deleteCoursesTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoursesTopics",
 }));
 
 export type DeleteInvitationsError =
@@ -2744,6 +2825,8 @@ export const deleteInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvitations",
 }));
 
 export type DeleteRegistrationsError =
@@ -2764,6 +2847,8 @@ export const deleteRegistrations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistrations",
 }));
 
 export type DeleteUserProfilesGuardiansError =
@@ -2784,6 +2869,8 @@ export const deleteUserProfilesGuardians: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserProfilesGuardians",
 }));
 
 export type GetAddOnContextCoursesAnnouncementsError =
@@ -2802,6 +2889,8 @@ export const getAddOnContextCoursesAnnouncements: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddOnContextCoursesAnnouncements",
 }));
 
 export type GetAddOnContextCoursesCourseWorkError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2817,6 +2906,8 @@ export const getAddOnContextCoursesCourseWork: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddOnContextCoursesCourseWork",
 }));
 
 export type GetAddOnContextCoursesCourseWorkMaterialsError =
@@ -2835,6 +2926,8 @@ export const getAddOnContextCoursesCourseWorkMaterials: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddOnContextCoursesCourseWorkMaterials",
 }));
 
 export type GetAddOnContextCoursesPostsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2850,6 +2943,8 @@ export const getAddOnContextCoursesPosts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddOnContextCoursesPosts",
 }));
 
 export type GetCoursesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2865,6 +2960,8 @@ export const getCourses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCourses",
 }));
 
 export type GetCoursesAnnouncementsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2880,6 +2977,8 @@ export const getCoursesAnnouncements: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesAnnouncements",
 }));
 
 export type GetCoursesAnnouncementsAddOnAttachmentsError =
@@ -2898,6 +2997,8 @@ export const getCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesAnnouncementsAddOnAttachments",
 }));
 
 export type GetCoursesCourseWorkError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2913,6 +3014,8 @@ export const getCoursesCourseWork: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesCourseWork",
 }));
 
 export type GetCoursesCourseWorkAddOnAttachmentsError =
@@ -2931,6 +3034,8 @@ export const getCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesCourseWorkAddOnAttachments",
 }));
 
 export type GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsError =
@@ -2953,6 +3058,8 @@ export const getCoursesCourseWorkAddOnAttachmentsStudentSubmissions: API.Operati
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesCourseWorkAddOnAttachmentsStudentSubmissions",
 }));
 
 export type GetCoursesCourseWorkMaterialsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2968,6 +3075,8 @@ export const getCoursesCourseWorkMaterials: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesCourseWorkMaterials",
 }));
 
 export type GetCoursesCourseWorkMaterialsAddOnAttachmentsError =
@@ -2990,6 +3099,8 @@ export const getCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesCourseWorkMaterialsAddOnAttachments",
 }));
 
 export type GetCoursesCourseWorkRubricsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3005,6 +3116,8 @@ export const getCoursesCourseWorkRubrics: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesCourseWorkRubrics",
 }));
 
 export type GetCoursesCourseWorkStudentSubmissionsError =
@@ -3023,6 +3136,8 @@ export const getCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesCourseWorkStudentSubmissions",
 }));
 
 export type GetCoursesPostsAddOnAttachmentsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3038,6 +3153,8 @@ export const getCoursesPostsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesPostsAddOnAttachments",
 }));
 
 export type GetCoursesPostsAddOnAttachmentsStudentSubmissionsError =
@@ -3060,6 +3177,8 @@ export const getCoursesPostsAddOnAttachmentsStudentSubmissions: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesPostsAddOnAttachmentsStudentSubmissions",
 }));
 
 export type GetCoursesStudentsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3075,6 +3194,8 @@ export const getCoursesStudents: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesStudents",
 }));
 
 export type GetCoursesTeachersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3090,6 +3211,8 @@ export const getCoursesTeachers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesTeachers",
 }));
 
 export type GetCoursesTopicsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3105,6 +3228,8 @@ export const getCoursesTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoursesTopics",
 }));
 
 export type GetGradingPeriodSettingsCoursesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3120,6 +3245,8 @@ export const getGradingPeriodSettingsCourses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGradingPeriodSettingsCourses",
 }));
 
 export type GetInvitationsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3135,6 +3262,8 @@ export const getInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvitations",
 }));
 
 export type GetUserProfilesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3150,6 +3279,8 @@ export const getUserProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserProfiles",
 }));
 
 export type GetUserProfilesGuardianInvitationsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3165,6 +3296,8 @@ export const getUserProfilesGuardianInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserProfilesGuardianInvitations",
 }));
 
 export type GetUserProfilesGuardiansError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3180,6 +3313,8 @@ export const getUserProfilesGuardians: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserProfilesGuardians",
 }));
 
 export type ListCoursesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -3196,6 +3331,8 @@ export const listCourses: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCourses",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3213,6 +3350,8 @@ export const listCoursesAliases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesAliases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3230,6 +3369,8 @@ export const listCoursesAnnouncements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesAnnouncements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3250,6 +3391,8 @@ export const listCoursesAnnouncementsAddOnAttachments: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesAnnouncementsAddOnAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3267,6 +3410,8 @@ export const listCoursesCourseWork: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesCourseWork",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3287,6 +3432,8 @@ export const listCoursesCourseWorkAddOnAttachments: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesCourseWorkAddOnAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3304,6 +3451,8 @@ export const listCoursesCourseWorkMaterials: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesCourseWorkMaterials",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3328,6 +3477,8 @@ export const listCoursesCourseWorkMaterialsAddOnAttachments: API.PaginatedOperat
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesCourseWorkMaterialsAddOnAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3345,6 +3496,8 @@ export const listCoursesCourseWorkRubrics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesCourseWorkRubrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3365,6 +3518,8 @@ export const listCoursesCourseWorkStudentSubmissions: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesCourseWorkStudentSubmissions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3382,6 +3537,8 @@ export const listCoursesPostsAddOnAttachments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesPostsAddOnAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3399,6 +3556,8 @@ export const listCoursesStudentGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesStudentGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3423,6 +3582,8 @@ export const listCoursesStudentGroupsStudentGroupMembers: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesStudentGroupsStudentGroupMembers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3440,6 +3601,8 @@ export const listCoursesStudents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesStudents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3457,6 +3620,8 @@ export const listCoursesTeachers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesTeachers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3474,6 +3639,8 @@ export const listCoursesTopics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoursesTopics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3491,6 +3658,8 @@ export const listInvitations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3511,6 +3680,8 @@ export const listUserProfilesGuardianInvitations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserProfilesGuardianInvitations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3528,6 +3699,8 @@ export const listUserProfilesGuardians: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserProfilesGuardians",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3549,6 +3722,8 @@ export const modifyAssigneesCoursesAnnouncements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyAssigneesCoursesAnnouncements",
 }));
 
 export type ModifyAssigneesCoursesCourseWorkError =
@@ -3569,6 +3744,8 @@ export const modifyAssigneesCoursesCourseWork: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyAssigneesCoursesCourseWork",
 }));
 
 export type ModifyAttachmentsCoursesCourseWorkStudentSubmissionsError =
@@ -3593,6 +3770,8 @@ export const modifyAttachmentsCoursesCourseWorkStudentSubmissions: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyAttachmentsCoursesCourseWorkStudentSubmissions",
 }));
 
 export type PatchCoursesError =
@@ -3613,6 +3792,8 @@ export const patchCourses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCourses",
 }));
 
 export type PatchCoursesAnnouncementsError =
@@ -3633,6 +3814,8 @@ export const patchCoursesAnnouncements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesAnnouncements",
 }));
 
 export type PatchCoursesAnnouncementsAddOnAttachmentsError =
@@ -3653,6 +3836,8 @@ export const patchCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesAnnouncementsAddOnAttachments",
 }));
 
 export type PatchCoursesCourseWorkError =
@@ -3673,6 +3858,8 @@ export const patchCoursesCourseWork: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesCourseWork",
 }));
 
 export type PatchCoursesCourseWorkAddOnAttachmentsError =
@@ -3693,6 +3880,8 @@ export const patchCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesCourseWorkAddOnAttachments",
 }));
 
 export type PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsError =
@@ -3717,6 +3906,8 @@ export const patchCoursesCourseWorkAddOnAttachmentsStudentSubmissions: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissions",
 }));
 
 export type PatchCoursesCourseWorkMaterialsError =
@@ -3737,6 +3928,8 @@ export const patchCoursesCourseWorkMaterials: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesCourseWorkMaterials",
 }));
 
 export type PatchCoursesCourseWorkMaterialsAddOnAttachmentsError =
@@ -3761,6 +3954,8 @@ export const patchCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesCourseWorkMaterialsAddOnAttachments",
 }));
 
 export type PatchCoursesCourseWorkRubricsError =
@@ -3781,6 +3976,8 @@ export const patchCoursesCourseWorkRubrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesCourseWorkRubrics",
 }));
 
 export type PatchCoursesCourseWorkStudentSubmissionsError =
@@ -3801,6 +3998,8 @@ export const patchCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesCourseWorkStudentSubmissions",
 }));
 
 export type PatchCoursesPostsAddOnAttachmentsError =
@@ -3821,6 +4020,8 @@ export const patchCoursesPostsAddOnAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesPostsAddOnAttachments",
 }));
 
 export type PatchCoursesPostsAddOnAttachmentsStudentSubmissionsError =
@@ -3845,6 +4046,8 @@ export const patchCoursesPostsAddOnAttachmentsStudentSubmissions: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesPostsAddOnAttachmentsStudentSubmissions",
 }));
 
 export type PatchCoursesStudentGroupsError =
@@ -3865,6 +4068,8 @@ export const patchCoursesStudentGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesStudentGroups",
 }));
 
 export type PatchCoursesTopicsError =
@@ -3885,6 +4090,8 @@ export const patchCoursesTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoursesTopics",
 }));
 
 export type PatchUserProfilesGuardianInvitationsError =
@@ -3905,6 +4112,8 @@ export const patchUserProfilesGuardianInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUserProfilesGuardianInvitations",
 }));
 
 export type ReclaimCoursesCourseWorkStudentSubmissionsError =
@@ -3925,6 +4134,8 @@ export const reclaimCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReclaimCoursesCourseWorkStudentSubmissions",
 }));
 
 export type ReturnCoursesCourseWorkStudentSubmissionsError =
@@ -3945,6 +4156,8 @@ export const returnCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReturnCoursesCourseWorkStudentSubmissions",
 }));
 
 export type TurnInCoursesCourseWorkStudentSubmissionsError =
@@ -3965,6 +4178,8 @@ export const turnInCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TurnInCoursesCourseWorkStudentSubmissions",
 }));
 
 export type UpdateCoursesError =
@@ -3985,6 +4200,8 @@ export const updateCourses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCourses",
 }));
 
 export type UpdateGradingPeriodSettingsCoursesError =
@@ -4005,6 +4222,8 @@ export const updateGradingPeriodSettingsCourses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGradingPeriodSettingsCourses",
 }));
 
 export type UpdateRubricCoursesCourseWorkError =
@@ -4025,6 +4244,8 @@ export const updateRubricCoursesCourseWork: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRubricCoursesCourseWork",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -29,7 +29,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("PlaidCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "PlaidCredentials",
+  ) {}
 
 const resolveBaseUrl = (config: {
   readonly apiBaseUrl?: string;
@@ -82,7 +84,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
         env: process.env.PLAID_ENV,
       }),
     };
-  }).pipe(Effect.orDie),
+  }),
 );
 
 /** Auth headers for a resolved credentials config. */

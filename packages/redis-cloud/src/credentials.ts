@@ -34,7 +34,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "RedisCloudCredentials",
   ) {}
 
@@ -91,5 +91,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       authToken: authToken !== undefined ? Redacted.make(authToken) : undefined,
       apiBaseUrl: process.env.REDIS_CLOUD_API_BASE_URL ?? DEFAULT_API_BASE_URL,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

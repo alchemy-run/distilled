@@ -33,7 +33,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "GithubCredentials",
   ) {}
 
@@ -66,7 +66,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       apiBaseUrl,
       userAgent,
     })),
-    Effect.orDie,
   ),
 );
 

@@ -13,6 +13,20 @@ const __s: any[] = [];
 
 export type { SpritesOpError, SpritesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "fly-io-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "fly-request-id", name: "http.response.header.fly-request-id", transform: "list" },
+  ],
+  prefix: "Fly",
+  service: "FlySprites",
+  labels: "fly_io",
+  propagate: "w3c",
+} as const;
+
 export interface AuthorizeOAuthConnectionRequest {
   provider: string;
   /** Comma-separated scopes to request. Replaces the default scope set for this authorization URL. */
@@ -609,6 +623,8 @@ export const authorizeOAuthConnection: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeOAuthConnection",
 }));
 
 export type ChangeFileModeError = BadRequest | NotFound | SpritesOpError;
@@ -624,6 +640,8 @@ export const changeFileMode: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeFileMode",
 }));
 
 export type ChangeFileOwnerError = BadRequest | NotFound | SpritesOpError;
@@ -639,6 +657,8 @@ export const changeFileOwner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeFileOwner",
 }));
 
 export type CopyFileError = BadRequest | NotFound | SpritesOpError;
@@ -654,6 +674,8 @@ export const copyFile: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyFile",
 }));
 
 export type CreateCheckpointError = NotFound | SpritesOpError;
@@ -669,6 +691,8 @@ export const createCheckpoint: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCheckpoint",
 }));
 
 export type CreateOAuthApiKeyConnectionError = BadRequest | SpritesNotEnabled | SpritesOpError;
@@ -684,6 +708,8 @@ export const createOAuthApiKeyConnection: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuthApiKeyConnection",
 }));
 
 export type CreateOrganizationTokenError = SpritesNotEnabled | SpritesOpError;
@@ -699,6 +725,8 @@ export const createOrganizationToken: API.OperationMethod<
   errors: [SpritesNotEnabled],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationToken",
 }));
 
 export type CreateSpriteError = BadRequest | SpritesNotEnabled | Conflict | SpritesOpError;
@@ -714,6 +742,8 @@ export const createSprite: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled, Conflict],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSprite",
 }));
 
 export type DeleteFileError = BadRequest | NotFound | SpritesOpError;
@@ -729,6 +759,8 @@ export const deleteFile: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFile",
 }));
 
 export type DeleteOAuthConnectionError = SpritesNotEnabled | NotFound | SpritesOpError;
@@ -744,6 +776,8 @@ export const deleteOAuthConnection: API.OperationMethod<
   errors: [SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuthConnection",
 }));
 
 export type DeletePrivilegesPolicyError = BadRequest | NotFound | SpritesOpError;
@@ -759,6 +793,8 @@ export const deletePrivilegesPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivilegesPolicy",
 }));
 
 export type DeleteResourcesPolicyError = BadRequest | NotFound | SpritesOpError;
@@ -774,6 +810,8 @@ export const deleteResourcesPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourcesPolicy",
 }));
 
 export type DeleteSpriteError = SpritesNotEnabled | NotFound | SpritesOpError;
@@ -789,6 +827,8 @@ export const deleteSprite: API.OperationMethod<
   errors: [SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSprite",
 }));
 
 export type ExecCommandError = BadRequest | NotFound | SpritesOpError;
@@ -804,6 +844,8 @@ export const execCommand: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecCommand",
 }));
 
 export type GetCheckpointError = NotFound | SpritesOpError;
@@ -819,6 +861,8 @@ export const getCheckpoint: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCheckpoint",
 }));
 
 export type GetNetworkPolicyError = NotFound | SpritesOpError;
@@ -834,6 +878,8 @@ export const getNetworkPolicy: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkPolicy",
 }));
 
 export type GetOAuthConnectionError = SpritesNotEnabled | NotFound | SpritesOpError;
@@ -849,6 +895,8 @@ export const getOAuthConnection: API.OperationMethod<
   errors: [SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuthConnection",
 }));
 
 export type GetPrivilegesPolicyError = NotFound | SpritesOpError;
@@ -864,6 +912,8 @@ export const getPrivilegesPolicy: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivilegesPolicy",
 }));
 
 export type GetResourcesPolicyError = NotFound | SpritesOpError;
@@ -879,6 +929,8 @@ export const getResourcesPolicy: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcesPolicy",
 }));
 
 export type GetServiceError = NotFound | SpritesOpError;
@@ -894,6 +946,8 @@ export const getService: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceLogsError = NotFound | SpritesOpError;
@@ -909,6 +963,8 @@ export const getServiceLogs: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceLogs",
 }));
 
 export type GetSpriteError = SpritesNotEnabled | NotFound | SpritesOpError;
@@ -924,6 +980,8 @@ export const getSprite: API.OperationMethod<
   errors: [SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSprite",
 }));
 
 export type KillExecSessionError = NotFound | SpritesOpError;
@@ -939,6 +997,8 @@ export const killExecSession: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KillExecSession",
 }));
 
 export type ListCheckpointsError = NotFound | SpritesOpError;
@@ -954,6 +1014,8 @@ export const listCheckpoints: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCheckpoints",
 }));
 
 export type ListDirectoryError = NotFound | SpritesOpError;
@@ -969,6 +1031,8 @@ export const listDirectory: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectory",
 }));
 
 export type ListExecSessionsError = NotFound | SpritesOpError;
@@ -984,6 +1048,8 @@ export const listExecSessions: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExecSessions",
 }));
 
 export type ListOAuthConnectionsError = SpritesNotEnabled | SpritesOpError;
@@ -999,6 +1065,8 @@ export const listOAuthConnections: API.OperationMethod<
   errors: [SpritesNotEnabled],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuthConnections",
 }));
 
 export type ListServicesError = NotFound | SpritesOpError;
@@ -1014,6 +1082,8 @@ export const listServices: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 }));
 
 export type ListSpritesError = SpritesNotEnabled | SpritesOpError;
@@ -1031,6 +1101,8 @@ export const listSprites: API.PaginatedOperationMethod<
     errors: [SpritesNotEnabled],
     protocol: SpritesProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSprites",
     pagination: {
       inputToken: "continuation_token",
       outputToken: "next_continuation_token",
@@ -1055,6 +1127,8 @@ export const oauthConnectionCallback: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OauthConnectionCallback",
 }));
 
 export type PatchOAuthConnectionError = BadRequest | SpritesNotEnabled | NotFound | SpritesOpError;
@@ -1070,6 +1144,8 @@ export const patchOAuthConnection: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOAuthConnection",
 }));
 
 export type ProvisionOAuthConnectionError = BadRequest | SpritesNotEnabled | SpritesOpError;
@@ -1085,6 +1161,8 @@ export const provisionOAuthConnection: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionOAuthConnection",
 }));
 
 export type PutServiceError = BadRequest | NotFound | SpritesOpError;
@@ -1100,6 +1178,8 @@ export const putService: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutService",
 }));
 
 export type ReadFileError = NotFound | SpritesOpError;
@@ -1115,6 +1195,8 @@ export const readFile: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFile",
 }));
 
 export type RenameFileError = BadRequest | NotFound | SpritesOpError;
@@ -1130,6 +1212,8 @@ export const renameFile: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameFile",
 }));
 
 export type RestartServiceError = NotFound | SpritesOpError;
@@ -1145,6 +1229,8 @@ export const restartService: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartService",
 }));
 
 export type RestoreCheckpointError = NotFound | SpritesOpError;
@@ -1160,6 +1246,8 @@ export const restoreCheckpoint: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreCheckpoint",
 }));
 
 export type SetNetworkPolicyError = BadRequest | NotFound | SpritesOpError;
@@ -1175,6 +1263,8 @@ export const setNetworkPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetNetworkPolicy",
 }));
 
 export type SetPrivilegesPolicyError = BadRequest | NotFound | SpritesOpError;
@@ -1190,6 +1280,8 @@ export const setPrivilegesPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPrivilegesPolicy",
 }));
 
 export type SetResourcesPolicyError = BadRequest | NotFound | SpritesOpError;
@@ -1205,6 +1297,8 @@ export const setResourcesPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetResourcesPolicy",
 }));
 
 export type StartServiceError = NotFound | SpritesOpError;
@@ -1220,6 +1314,8 @@ export const startService: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartService",
 }));
 
 export type StopServiceError = NotFound | SpritesOpError;
@@ -1235,6 +1331,8 @@ export const stopService: API.OperationMethod<
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopService",
 }));
 
 export type UpdateOAuthConnectionError = BadRequest | SpritesNotEnabled | NotFound | SpritesOpError;
@@ -1250,6 +1348,8 @@ export const updateOAuthConnection: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOAuthConnection",
 }));
 
 export type UpdateSpriteError = BadRequest | SpritesNotEnabled | NotFound | SpritesOpError;
@@ -1265,6 +1365,8 @@ export const updateSprite: API.OperationMethod<
   errors: [BadRequest, SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSprite",
 }));
 
 export type WriteFileError = BadRequest | NotFound | SpritesOpError;
@@ -1280,6 +1382,8 @@ export const writeFile: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WriteFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

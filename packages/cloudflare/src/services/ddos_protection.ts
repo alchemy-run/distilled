@@ -30,6 +30,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "DdosProtection",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AdvancedTcpProtectionNotEntitled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AdvancedTcpProtectionNotEntitled>()(
@@ -889,6 +903,8 @@ export const bulkCreateAdvancedTcpProtectionPrefixes: API.PaginatedOperationMeth
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkCreateAdvancedTcpProtectionPrefixes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -907,6 +923,8 @@ export const bulkDeleteAdvancedTcpProtectionAllowlists: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAdvancedTcpProtectionAllowlists",
 }));
 
 export type BulkDeleteAdvancedTcpProtectionPrefixesError = CloudflareOpError;
@@ -922,6 +940,8 @@ export const bulkDeleteAdvancedTcpProtectionPrefixes: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAdvancedTcpProtectionPrefixes",
 }));
 
 export type BulkDeleteAdvancedTcpProtectionSynProtectionFiltersError = CloudflareOpError;
@@ -945,6 +965,8 @@ export const bulkDeleteAdvancedTcpProtectionSynProtectionFilters: API.OperationM
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAdvancedTcpProtectionSynProtectionFilters",
 }));
 
 export type BulkDeleteAdvancedTcpProtectionSynProtectionRulesError = CloudflareOpError;
@@ -968,6 +990,8 @@ export const bulkDeleteAdvancedTcpProtectionSynProtectionRules: API.OperationMet
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAdvancedTcpProtectionSynProtectionRules",
 }));
 
 export type BulkDeleteAdvancedTcpProtectionTcpFlowProtectionFiltersError = CloudflareOpError;
@@ -991,6 +1015,8 @@ export const bulkDeleteAdvancedTcpProtectionTcpFlowProtectionFilters: API.Operat
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAdvancedTcpProtectionTcpFlowProtectionFilters",
 }));
 
 export type BulkDeleteAdvancedTcpProtectionTcpFlowProtectionRulesError = CloudflareOpError;
@@ -1014,6 +1040,8 @@ export const bulkDeleteAdvancedTcpProtectionTcpFlowProtectionRules: API.Operatio
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAdvancedTcpProtectionTcpFlowProtectionRules",
 }));
 
 export type CreateAdvancedTcpProtectionAllowlistError =
@@ -1032,6 +1060,8 @@ export const createAdvancedTcpProtectionAllowlist: API.OperationMethod<
   errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvancedTcpProtectionAllowlist",
 }));
 
 export type CreateAdvancedTcpProtectionPrefixError = CloudflareOpError;
@@ -1047,6 +1077,8 @@ export const createAdvancedTcpProtectionPrefix: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvancedTcpProtectionPrefix",
 }));
 
 export type CreateAdvancedTcpProtectionSynProtectionFilterError =
@@ -1069,6 +1101,8 @@ export const createAdvancedTcpProtectionSynProtectionFilter: API.OperationMethod
   errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvancedTcpProtectionSynProtectionFilter",
 }));
 
 export type CreateAdvancedTcpProtectionSynProtectionRuleError =
@@ -1091,6 +1125,8 @@ export const createAdvancedTcpProtectionSynProtectionRule: API.OperationMethod<
   errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvancedTcpProtectionSynProtectionRule",
 }));
 
 export type CreateAdvancedTcpProtectionTcpFlowProtectionFilterError =
@@ -1117,6 +1153,8 @@ export const createAdvancedTcpProtectionTcpFlowProtectionFilter: API.OperationMe
   errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvancedTcpProtectionTcpFlowProtectionFilter",
 }));
 
 export type CreateAdvancedTcpProtectionTcpFlowProtectionRuleError =
@@ -1143,6 +1181,8 @@ export const createAdvancedTcpProtectionTcpFlowProtectionRule: API.OperationMeth
   errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvancedTcpProtectionTcpFlowProtectionRule",
 }));
 
 export type DeleteAdvancedTcpProtectionAllowlistItemError =
@@ -1168,6 +1208,8 @@ export const deleteAdvancedTcpProtectionAllowlistItem: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvancedTcpProtectionAllowlistItem",
 }));
 
 export type DeleteAdvancedTcpProtectionPrefixItemError = CloudflareOpError;
@@ -1183,6 +1225,8 @@ export const deleteAdvancedTcpProtectionPrefixItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvancedTcpProtectionPrefixItem",
 }));
 
 export type DeleteAdvancedTcpProtectionSynProtectionFilterItemError =
@@ -1216,6 +1260,8 @@ export const deleteAdvancedTcpProtectionSynProtectionFilterItem: API.OperationMe
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvancedTcpProtectionSynProtectionFilterItem",
 }));
 
 export type DeleteAdvancedTcpProtectionSynProtectionRuleItemError =
@@ -1249,6 +1295,8 @@ export const deleteAdvancedTcpProtectionSynProtectionRuleItem: API.OperationMeth
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvancedTcpProtectionSynProtectionRuleItem",
 }));
 
 export type DeleteAdvancedTcpProtectionTcpFlowProtectionFilterItemError =
@@ -1282,6 +1330,8 @@ export const deleteAdvancedTcpProtectionTcpFlowProtectionFilterItem: API.Operati
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvancedTcpProtectionTcpFlowProtectionFilterItem",
 }));
 
 export type DeleteAdvancedTcpProtectionTcpFlowProtectionRuleItemError =
@@ -1315,6 +1365,8 @@ export const deleteAdvancedTcpProtectionTcpFlowProtectionRuleItem: API.Operation
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvancedTcpProtectionTcpFlowProtectionRuleItem",
 }));
 
 export type GetAdvancedTcpProtectionAllowlistItemError =
@@ -1340,6 +1392,8 @@ export const getAdvancedTcpProtectionAllowlistItem: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedTcpProtectionAllowlistItem",
 }));
 
 export type GetAdvancedTcpProtectionPrefixItemError = CloudflareOpError;
@@ -1355,6 +1409,8 @@ export const getAdvancedTcpProtectionPrefixItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedTcpProtectionPrefixItem",
 }));
 
 export type GetAdvancedTcpProtectionStatusError = CloudflareOpError;
@@ -1370,6 +1426,8 @@ export const getAdvancedTcpProtectionStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedTcpProtectionStatus",
 }));
 
 export type GetAdvancedTcpProtectionSynProtectionFilterItemError =
@@ -1403,6 +1461,8 @@ export const getAdvancedTcpProtectionSynProtectionFilterItem: API.OperationMetho
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedTcpProtectionSynProtectionFilterItem",
 }));
 
 export type GetAdvancedTcpProtectionSynProtectionRuleItemError =
@@ -1436,6 +1496,8 @@ export const getAdvancedTcpProtectionSynProtectionRuleItem: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedTcpProtectionSynProtectionRuleItem",
 }));
 
 export type GetAdvancedTcpProtectionTcpFlowProtectionFilterItemError =
@@ -1469,6 +1531,8 @@ export const getAdvancedTcpProtectionTcpFlowProtectionFilterItem: API.OperationM
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedTcpProtectionTcpFlowProtectionFilterItem",
 }));
 
 export type GetAdvancedTcpProtectionTcpFlowProtectionRuleItemError =
@@ -1502,6 +1566,8 @@ export const getAdvancedTcpProtectionTcpFlowProtectionRuleItem: API.OperationMet
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedTcpProtectionTcpFlowProtectionRuleItem",
 }));
 
 export type ListAdvancedTcpProtectionAllowlistsError =
@@ -1522,6 +1588,8 @@ export const listAdvancedTcpProtectionAllowlists: API.PaginatedOperationMethod<
     errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdvancedTcpProtectionAllowlists",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1548,6 +1616,8 @@ export const listAdvancedTcpProtectionPrefixes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdvancedTcpProtectionPrefixes",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1585,6 +1655,8 @@ export const listAdvancedTcpProtectionSynProtectionFilters: API.PaginatedOperati
     errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdvancedTcpProtectionSynProtectionFilters",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1622,6 +1694,8 @@ export const listAdvancedTcpProtectionSynProtectionRules: API.PaginatedOperation
     errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdvancedTcpProtectionSynProtectionRules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1659,6 +1733,8 @@ export const listAdvancedTcpProtectionTcpFlowProtectionFilters: API.PaginatedOpe
     errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdvancedTcpProtectionTcpFlowProtectionFilters",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1696,6 +1772,8 @@ export const listAdvancedTcpProtectionTcpFlowProtectionRules: API.PaginatedOpera
     errors: [AdvancedTcpProtectionNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAdvancedTcpProtectionTcpFlowProtectionRules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1730,6 +1808,8 @@ export const patchAdvancedTcpProtectionAllowlistItem: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvancedTcpProtectionAllowlistItem",
 }));
 
 export type PatchAdvancedTcpProtectionPrefixItemError = CloudflareOpError;
@@ -1745,6 +1825,8 @@ export const patchAdvancedTcpProtectionPrefixItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvancedTcpProtectionPrefixItem",
 }));
 
 export type PatchAdvancedTcpProtectionStatusError = CloudflareOpError;
@@ -1760,6 +1842,8 @@ export const patchAdvancedTcpProtectionStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvancedTcpProtectionStatus",
 }));
 
 export type PatchAdvancedTcpProtectionSynProtectionFilterItemError =
@@ -1793,6 +1877,8 @@ export const patchAdvancedTcpProtectionSynProtectionFilterItem: API.OperationMet
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvancedTcpProtectionSynProtectionFilterItem",
 }));
 
 export type PatchAdvancedTcpProtectionSynProtectionRuleItemError =
@@ -1826,6 +1912,8 @@ export const patchAdvancedTcpProtectionSynProtectionRuleItem: API.OperationMetho
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvancedTcpProtectionSynProtectionRuleItem",
 }));
 
 export type PatchAdvancedTcpProtectionTcpFlowProtectionFilterItemError =
@@ -1859,6 +1947,8 @@ export const patchAdvancedTcpProtectionTcpFlowProtectionFilterItem: API.Operatio
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvancedTcpProtectionTcpFlowProtectionFilterItem",
 }));
 
 export type PatchAdvancedTcpProtectionTcpFlowProtectionRuleItemError =
@@ -1892,6 +1982,8 @@ export const patchAdvancedTcpProtectionTcpFlowProtectionRuleItem: API.OperationM
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvancedTcpProtectionTcpFlowProtectionRuleItem",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

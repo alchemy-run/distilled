@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HybridConnectivity" },
+  prefix: "Hybridconnectivity",
+  service: "Hybridconnectivity",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Name of the service. */
 export type ServiceName = "SSH" | "WAC";
 /** Service configuration details */
@@ -1077,6 +1098,14 @@ export const CreateServiceConfigurationOrupdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateServiceConfigurationOrupdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    },
+  },
 }));
 
 export type DeleteEndpointError = AzureOpError;
@@ -1092,6 +1121,14 @@ export const DeleteEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteEndpoint",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+    },
+  },
 }));
 
 export type DeletePublicCloudConnectorError = AzureOpError;
@@ -1107,6 +1144,8 @@ export const DeletePublicCloudConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudConnector",
 }));
 
 export type DeleteServiceConfigurationError = AzureOpError;
@@ -1122,6 +1161,14 @@ export const DeleteServiceConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteServiceConfiguration",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    },
+  },
 }));
 
 export type DeleteSolutionConfigurationError = AzureOpError;
@@ -1137,6 +1184,14 @@ export const DeleteSolutionConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSolutionConfiguration",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+    },
+  },
 }));
 
 export type EndpointsCreateOrUpdateError = AzureOpError;
@@ -1152,6 +1207,14 @@ export const EndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EndpointsCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+    },
+  },
 }));
 
 export type GetEndpointError = AzureOpError;
@@ -1167,6 +1230,14 @@ export const GetEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetEndpoint",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+    },
+  },
 }));
 
 export type GetInventoryError = AzureOpError;
@@ -1182,6 +1253,14 @@ export const GetInventory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetInventory",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}",
+    },
+  },
 }));
 
 export type GetPublicCloudConnectorError = AzureOpError;
@@ -1197,6 +1276,8 @@ export const GetPublicCloudConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudConnector",
 }));
 
 export type GetServiceConfigurationError = AzureOpError;
@@ -1212,6 +1293,14 @@ export const GetServiceConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetServiceConfiguration",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    },
+  },
 }));
 
 export type GetSolutionConfigurationError = AzureOpError;
@@ -1227,6 +1316,14 @@ export const GetSolutionConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSolutionConfiguration",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+    },
+  },
 }));
 
 export type GetSolutionTypeError = AzureOpError;
@@ -1242,6 +1339,8 @@ export const GetSolutionType: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSolutionType",
 }));
 
 export type ListEndpointCredentialsError = AzureOpError;
@@ -1257,6 +1356,14 @@ export const ListEndpointCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEndpointCredentials",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
+    },
+  },
 }));
 
 export type ListEndpointIngressGatewayCredentialsError = AzureOpError;
@@ -1272,6 +1379,14 @@ export const ListEndpointIngressGatewayCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEndpointIngressGatewayCredentials",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
+    },
+  },
 }));
 
 export type ListEndpointManagedProxyDetailsError = AzureOpError;
@@ -1287,6 +1402,14 @@ export const ListEndpointManagedProxyDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEndpointManagedProxyDetails",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
+    },
+  },
 }));
 
 export type ListEndpointsError = AzureOpError;
@@ -1302,6 +1425,13 @@ export const ListEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEndpoints",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints",
+    },
+  },
 }));
 
 export type ListInventoryBySolutionConfigurationError = AzureOpError;
@@ -1317,6 +1447,14 @@ export const ListInventoryBySolutionConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListInventoryBySolutionConfiguration",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory",
+    },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1332,6 +1470,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPublicCloudConnectorByResourceGroupError = AzureOpError;
@@ -1347,6 +1487,8 @@ export const ListPublicCloudConnectorByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudConnectorByResourceGroup",
 }));
 
 export type ListPublicCloudConnectorBySubscriptionError = AzureOpError;
@@ -1362,6 +1504,8 @@ export const ListPublicCloudConnectorBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudConnectorBySubscription",
 }));
 
 export type ListServiceConfigurationByEndpointResourceError = AzureOpError;
@@ -1377,6 +1521,14 @@ export const ListServiceConfigurationByEndpointResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListServiceConfigurationByEndpointResource",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
+    },
+  },
 }));
 
 export type ListSolutionConfigurationsError = AzureOpError;
@@ -1392,6 +1544,14 @@ export const ListSolutionConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSolutionConfigurations",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
+    },
+  },
 }));
 
 export type ListSolutionTypeByResourceGroupError = AzureOpError;
@@ -1407,6 +1567,8 @@ export const ListSolutionTypeByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSolutionTypeByResourceGroup",
 }));
 
 export type ListSolutionTypeBySubscriptionError = AzureOpError;
@@ -1422,6 +1584,8 @@ export const ListSolutionTypeBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSolutionTypeBySubscription",
 }));
 
 export type PostGenerateAwsTemplateError = AzureOpError;
@@ -1437,6 +1601,8 @@ export const PostGenerateAwsTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostGenerateAwsTemplate",
 }));
 
 export type PostGenerateGcpTemplateError = AzureOpError;
@@ -1452,6 +1618,8 @@ export const PostGenerateGcpTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostGenerateGcpTemplate",
 }));
 
 export type PublicCloudConnectorsCreateOrUpdateError = AzureOpError;
@@ -1467,6 +1635,8 @@ export const PublicCloudConnectorsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublicCloudConnectorsCreateOrUpdate",
 }));
 
 export type SolutionConfigurationsCreateOrUpdateError = AzureOpError;
@@ -1482,6 +1652,14 @@ export const SolutionConfigurationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SolutionConfigurationsCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+    },
+  },
 }));
 
 export type SyncSolutionConfigurationNowError = AzureOpError;
@@ -1497,6 +1675,14 @@ export const SyncSolutionConfigurationNow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SyncSolutionConfigurationNow",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow",
+    },
+  },
 }));
 
 export type TestPublicCloudConnectorPermissionsError = AzureOpError;
@@ -1512,6 +1698,8 @@ export const TestPublicCloudConnectorPermissions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestPublicCloudConnectorPermissions",
 }));
 
 export type UpdateEndpointError = AzureOpError;
@@ -1527,6 +1715,14 @@ export const UpdateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateEndpoint",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+    },
+  },
 }));
 
 export type UpdatePublicCloudConnectorError = AzureOpError;
@@ -1542,6 +1738,8 @@ export const UpdatePublicCloudConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePublicCloudConnector",
 }));
 
 export type UpdateServiceConfigurationError = AzureOpError;
@@ -1557,6 +1755,14 @@ export const UpdateServiceConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateServiceConfiguration",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    },
+  },
 }));
 
 export type UpdateSolutionConfigurationError = AzureOpError;
@@ -1572,6 +1778,14 @@ export const UpdateSolutionConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateSolutionConfiguration",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

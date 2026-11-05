@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Oauth",
+  propagate: "w3c",
+} as const;
+
 export interface BeginShortTokenRotationRequest {
   /** Issued when you created your application. Must be the app the token being rotated was issued to. */
   client_id: string;
@@ -309,6 +322,8 @@ export const beginShortTokenRotation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BeginShortTokenRotation",
 }));
 
 export type CompleteShortTokenRotationError = SlackOpError;
@@ -324,6 +339,8 @@ export const completeShortTokenRotation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteShortTokenRotation",
 }));
 
 export type OauthAccessError = SlackOpError;
@@ -339,6 +356,8 @@ export const oauthAccess: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OauthAccess",
 }));
 
 export type V2AccessError = SlackOpError;
@@ -354,6 +373,8 @@ export const v2Access: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2Access",
 }));
 
 export type V2ExchangeError = SlackOpError;
@@ -369,6 +390,8 @@ export const v2Exchange: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2Exchange",
 }));
 
 export type V2UserAccessError = SlackOpError;
@@ -384,6 +407,8 @@ export const v2UserAccess: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2UserAccess",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

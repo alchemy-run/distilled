@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://clouddirectory.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudDirectory",
+  service: "CloudDirectory",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1449,7 +1465,7 @@ export type AddFacetToObjectError =
  * Adds a new Facet to an object. An object can have more than one facet applied on it.
  */
 export const addFacetToObject: API.OperationMethod<
-  AddFacetToObjectRequest,
+  AddFacetToObjectRequest & RegionInput,
   AddFacetToObjectResponse,
   AddFacetToObjectError,
   Credentials | HttpClient.HttpClient
@@ -1470,6 +1486,8 @@ export const addFacetToObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFacetToObject",
+  telemetry: TELEMETRY,
+  span: "AddFacetToObject",
 }));
 
 export type ApplySchemaError =
@@ -1488,7 +1506,7 @@ export type ApplySchemaError =
  * name and version as that of the published schema.
  */
 export const applySchema: API.OperationMethod<
-  ApplySchemaRequest,
+  ApplySchemaRequest & RegionInput,
   ApplySchemaResponse,
   ApplySchemaError,
   Credentials | HttpClient.HttpClient
@@ -1509,6 +1527,8 @@ export const applySchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplySchema",
+  telemetry: TELEMETRY,
+  span: "ApplySchema",
 }));
 
 export type AttachObjectError =
@@ -1533,7 +1553,7 @@ export type AttachObjectError =
  * - Using `ObjectIdentifier`
  */
 export const attachObject: API.OperationMethod<
-  AttachObjectRequest,
+  AttachObjectRequest & RegionInput,
   AttachObjectResponse,
   AttachObjectError,
   Credentials | HttpClient.HttpClient
@@ -1556,6 +1576,8 @@ export const attachObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachObject",
+  telemetry: TELEMETRY,
+  span: "AttachObject",
 }));
 
 export type AttachPolicyError =
@@ -1574,7 +1596,7 @@ export type AttachPolicyError =
  * policies.
  */
 export const attachPolicy: API.OperationMethod<
-  AttachPolicyRequest,
+  AttachPolicyRequest & RegionInput,
   AttachPolicyResponse,
   AttachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1595,6 +1617,8 @@ export const attachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachPolicy",
+  telemetry: TELEMETRY,
+  span: "AttachPolicy",
 }));
 
 export type AttachToIndexError =
@@ -1615,7 +1639,7 @@ export type AttachToIndexError =
  * Attaches the specified object to the specified index.
  */
 export const attachToIndex: API.OperationMethod<
-  AttachToIndexRequest,
+  AttachToIndexRequest & RegionInput,
   AttachToIndexResponse,
   AttachToIndexError,
   Credentials | HttpClient.HttpClient
@@ -1639,6 +1663,8 @@ export const attachToIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachToIndex",
+  telemetry: TELEMETRY,
+  span: "AttachToIndex",
 }));
 
 export type AttachTypedLinkError =
@@ -1657,7 +1683,7 @@ export type AttachTypedLinkError =
  * Attaches a typed link to a specified source and target object. For more information, see Typed Links.
  */
 export const attachTypedLink: API.OperationMethod<
-  AttachTypedLinkRequest,
+  AttachTypedLinkRequest & RegionInput,
   AttachTypedLinkResponse,
   AttachTypedLinkError,
   Credentials | HttpClient.HttpClient
@@ -1679,6 +1705,8 @@ export const attachTypedLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachTypedLink",
+  telemetry: TELEMETRY,
+  span: "AttachTypedLink",
 }));
 
 export type BatchReadError =
@@ -1694,7 +1722,7 @@ export type BatchReadError =
  * Performs all the read operations in a batch.
  */
 export const batchRead: API.OperationMethod<
-  BatchReadRequest,
+  BatchReadRequest & RegionInput,
   BatchReadResponse,
   BatchReadError,
   Credentials | HttpClient.HttpClient
@@ -1713,6 +1741,8 @@ export const batchRead: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRead",
+  telemetry: TELEMETRY,
+  span: "BatchRead",
 }));
 
 export type BatchWriteError =
@@ -1730,7 +1760,7 @@ export type BatchWriteError =
  * none.
  */
 export const batchWrite: API.OperationMethod<
-  BatchWriteRequest,
+  BatchWriteRequest & RegionInput,
   BatchWriteResponse,
   BatchWriteError,
   Credentials | HttpClient.HttpClient
@@ -1750,6 +1780,8 @@ export const batchWrite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWrite",
+  telemetry: TELEMETRY,
+  span: "BatchWrite",
 }));
 
 export type CreateDirectoryError =
@@ -1770,7 +1802,7 @@ export type CreateDirectoryError =
  * `QuickStartSchema`. For more information, see Managed Schema in the *Amazon Cloud Directory Developer Guide*.
  */
 export const createDirectory: API.OperationMethod<
-  CreateDirectoryRequest,
+  CreateDirectoryRequest & RegionInput,
   CreateDirectoryResponse,
   CreateDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -1790,6 +1822,8 @@ export const createDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectory",
+  telemetry: TELEMETRY,
+  span: "CreateDirectory",
 }));
 
 export type CreateFacetError =
@@ -1809,7 +1843,7 @@ export type CreateFacetError =
  * in development or applied schemas.
  */
 export const createFacet: API.OperationMethod<
-  CreateFacetRequest,
+  CreateFacetRequest & RegionInput,
   CreateFacetResponse,
   CreateFacetError,
   Credentials | HttpClient.HttpClient
@@ -1831,6 +1865,8 @@ export const createFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFacet",
+  telemetry: TELEMETRY,
+  span: "CreateFacet",
 }));
 
 export type CreateIndexError =
@@ -1850,7 +1886,7 @@ export type CreateIndexError =
  * Creates an index object. See Indexing and search for more information.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -1873,6 +1909,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateObjectError =
@@ -1895,7 +1933,7 @@ export type CreateObjectError =
  * policy object, if the facet from which you create the object is a policy facet.
  */
 export const createObject: API.OperationMethod<
-  CreateObjectRequest,
+  CreateObjectRequest & RegionInput,
   CreateObjectResponse,
   CreateObjectError,
   Credentials | HttpClient.HttpClient
@@ -1918,6 +1956,8 @@ export const createObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateObject",
+  telemetry: TELEMETRY,
+  span: "CreateObject",
 }));
 
 export type CreateSchemaError =
@@ -1945,7 +1985,7 @@ export type CreateSchemaError =
  * facets. You can apply only published schemas to directories.
  */
 export const createSchema: API.OperationMethod<
-  CreateSchemaRequest,
+  CreateSchemaRequest & RegionInput,
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1964,6 +2004,8 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  telemetry: TELEMETRY,
+  span: "CreateSchema",
 }));
 
 export type CreateTypedLinkFacetError =
@@ -1982,7 +2024,7 @@ export type CreateTypedLinkFacetError =
  * Creates a TypedLinkFacet. For more information, see Typed Links.
  */
 export const createTypedLinkFacet: API.OperationMethod<
-  CreateTypedLinkFacetRequest,
+  CreateTypedLinkFacetRequest & RegionInput,
   CreateTypedLinkFacetResponse,
   CreateTypedLinkFacetError,
   Credentials | HttpClient.HttpClient
@@ -2004,6 +2046,8 @@ export const createTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTypedLinkFacet",
+  telemetry: TELEMETRY,
+  span: "CreateTypedLinkFacet",
 }));
 
 export type DeleteDirectoryError =
@@ -2023,7 +2067,7 @@ export type DeleteDirectoryError =
  * when deleting directories.
  */
 export const deleteDirectory: API.OperationMethod<
-  DeleteDirectoryRequest,
+  DeleteDirectoryRequest & RegionInput,
   DeleteDirectoryResponse,
   DeleteDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2044,6 +2088,8 @@ export const deleteDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectory",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectory",
 }));
 
 export type DeleteFacetError =
@@ -2063,7 +2109,7 @@ export type DeleteFacetError =
  * deletion.
  */
 export const deleteFacet: API.OperationMethod<
-  DeleteFacetRequest,
+  DeleteFacetRequest & RegionInput,
   DeleteFacetResponse,
   DeleteFacetError,
   Credentials | HttpClient.HttpClient
@@ -2084,6 +2130,8 @@ export const deleteFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFacet",
+  telemetry: TELEMETRY,
+  span: "DeleteFacet",
 }));
 
 export type DeleteObjectError =
@@ -2102,7 +2150,7 @@ export type DeleteObjectError =
  * parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
  */
 export const deleteObject: API.OperationMethod<
-  DeleteObjectRequest,
+  DeleteObjectRequest & RegionInput,
   DeleteObjectResponse,
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
@@ -2123,6 +2171,8 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
+  telemetry: TELEMETRY,
+  span: "DeleteObject",
 }));
 
 export type DeleteSchemaError =
@@ -2139,7 +2189,7 @@ export type DeleteSchemaError =
  * Deletes a given schema. Schemas in a development and published state can only be deleted.
  */
 export const deleteSchema: API.OperationMethod<
-  DeleteSchemaRequest,
+  DeleteSchemaRequest & RegionInput,
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2159,6 +2209,8 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  telemetry: TELEMETRY,
+  span: "DeleteSchema",
 }));
 
 export type DeleteTypedLinkFacetError =
@@ -2175,7 +2227,7 @@ export type DeleteTypedLinkFacetError =
  * Deletes a TypedLinkFacet. For more information, see Typed Links.
  */
 export const deleteTypedLinkFacet: API.OperationMethod<
-  DeleteTypedLinkFacetRequest,
+  DeleteTypedLinkFacetRequest & RegionInput,
   DeleteTypedLinkFacetResponse,
   DeleteTypedLinkFacetError,
   Credentials | HttpClient.HttpClient
@@ -2195,6 +2247,8 @@ export const deleteTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTypedLinkFacet",
+  telemetry: TELEMETRY,
+  span: "DeleteTypedLinkFacet",
 }));
 
 export type DetachFromIndexError =
@@ -2213,7 +2267,7 @@ export type DetachFromIndexError =
  * Detaches the specified object from the specified index.
  */
 export const detachFromIndex: API.OperationMethod<
-  DetachFromIndexRequest,
+  DetachFromIndexRequest & RegionInput,
   DetachFromIndexResponse,
   DetachFromIndexError,
   Credentials | HttpClient.HttpClient
@@ -2235,6 +2289,8 @@ export const detachFromIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachFromIndex",
+  telemetry: TELEMETRY,
+  span: "DetachFromIndex",
 }));
 
 export type DetachObjectError =
@@ -2253,7 +2309,7 @@ export type DetachObjectError =
  * parent is specified by the link name.
  */
 export const detachObject: API.OperationMethod<
-  DetachObjectRequest,
+  DetachObjectRequest & RegionInput,
   DetachObjectResponse,
   DetachObjectError,
   Credentials | HttpClient.HttpClient
@@ -2274,6 +2330,8 @@ export const detachObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachObject",
+  telemetry: TELEMETRY,
+  span: "DetachObject",
 }));
 
 export type DetachPolicyError =
@@ -2291,7 +2349,7 @@ export type DetachPolicyError =
  * Detaches a policy from an object.
  */
 export const detachPolicy: API.OperationMethod<
-  DetachPolicyRequest,
+  DetachPolicyRequest & RegionInput,
   DetachPolicyResponse,
   DetachPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2312,6 +2370,8 @@ export const detachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachPolicy",
+  telemetry: TELEMETRY,
+  span: "DetachPolicy",
 }));
 
 export type DetachTypedLinkError =
@@ -2329,7 +2389,7 @@ export type DetachTypedLinkError =
  * Detaches a typed link from a specified source and target object. For more information, see Typed Links.
  */
 export const detachTypedLink: API.OperationMethod<
-  DetachTypedLinkRequest,
+  DetachTypedLinkRequest & RegionInput,
   DetachTypedLinkResponse,
   DetachTypedLinkError,
   Credentials | HttpClient.HttpClient
@@ -2350,6 +2410,8 @@ export const detachTypedLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachTypedLink",
+  telemetry: TELEMETRY,
+  span: "DetachTypedLink",
 }));
 
 export type DisableDirectoryError =
@@ -2367,7 +2429,7 @@ export type DisableDirectoryError =
  * Only enabled directories can be disabled. Disabled directories may be reenabled.
  */
 export const disableDirectory: API.OperationMethod<
-  DisableDirectoryRequest,
+  DisableDirectoryRequest & RegionInput,
   DisableDirectoryResponse,
   DisableDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2387,6 +2449,8 @@ export const disableDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDirectory",
+  telemetry: TELEMETRY,
+  span: "DisableDirectory",
 }));
 
 export type EnableDirectoryError =
@@ -2404,7 +2468,7 @@ export type EnableDirectoryError =
  * enabled, the directory can then be read and written to.
  */
 export const enableDirectory: API.OperationMethod<
-  EnableDirectoryRequest,
+  EnableDirectoryRequest & RegionInput,
   EnableDirectoryResponse,
   EnableDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2424,6 +2488,8 @@ export const enableDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDirectory",
+  telemetry: TELEMETRY,
+  span: "EnableDirectory",
 }));
 
 export type GetAppliedSchemaVersionError =
@@ -2439,7 +2505,7 @@ export type GetAppliedSchemaVersionError =
  * Returns current applied schema version ARN, including the minor version in use.
  */
 export const getAppliedSchemaVersion: API.OperationMethod<
-  GetAppliedSchemaVersionRequest,
+  GetAppliedSchemaVersionRequest & RegionInput,
   GetAppliedSchemaVersionResponse,
   GetAppliedSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -2458,6 +2524,8 @@ export const getAppliedSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppliedSchemaVersion",
+  telemetry: TELEMETRY,
+  span: "GetAppliedSchemaVersion",
 }));
 
 export type GetDirectoryError =
@@ -2472,7 +2540,7 @@ export type GetDirectoryError =
  * Retrieves metadata about a directory.
  */
 export const getDirectory: API.OperationMethod<
-  GetDirectoryRequest,
+  GetDirectoryRequest & RegionInput,
   GetDirectoryResponse,
   GetDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2490,6 +2558,8 @@ export const getDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectory",
+  telemetry: TELEMETRY,
+  span: "GetDirectory",
 }));
 
 export type GetFacetError =
@@ -2507,7 +2577,7 @@ export type GetFacetError =
  * facets -- published, development, or applied.
  */
 export const getFacet: API.OperationMethod<
-  GetFacetRequest,
+  GetFacetRequest & RegionInput,
   GetFacetResponse,
   GetFacetError,
   Credentials | HttpClient.HttpClient
@@ -2527,6 +2597,8 @@ export const getFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFacet",
+  telemetry: TELEMETRY,
+  span: "GetFacet",
 }));
 
 export type GetLinkAttributesError =
@@ -2544,7 +2616,7 @@ export type GetLinkAttributesError =
  * Retrieves attributes that are associated with a typed link.
  */
 export const getLinkAttributes: API.OperationMethod<
-  GetLinkAttributesRequest,
+  GetLinkAttributesRequest & RegionInput,
   GetLinkAttributesResponse,
   GetLinkAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2565,6 +2637,8 @@ export const getLinkAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkAttributes",
+  telemetry: TELEMETRY,
+  span: "GetLinkAttributes",
 }));
 
 export type GetObjectAttributesError =
@@ -2582,7 +2656,7 @@ export type GetObjectAttributesError =
  * Retrieves attributes within a facet that are associated with an object.
  */
 export const getObjectAttributes: API.OperationMethod<
-  GetObjectAttributesRequest,
+  GetObjectAttributesRequest & RegionInput,
   GetObjectAttributesResponse,
   GetObjectAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2603,6 +2677,8 @@ export const getObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
+  telemetry: TELEMETRY,
+  span: "GetObjectAttributes",
 }));
 
 export type GetObjectInformationError =
@@ -2619,7 +2695,7 @@ export type GetObjectInformationError =
  * Retrieves metadata about an object.
  */
 export const getObjectInformation: API.OperationMethod<
-  GetObjectInformationRequest,
+  GetObjectInformationRequest & RegionInput,
   GetObjectInformationResponse,
   GetObjectInformationError,
   Credentials | HttpClient.HttpClient
@@ -2639,6 +2715,8 @@ export const getObjectInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectInformation",
+  telemetry: TELEMETRY,
+  span: "GetObjectInformation",
 }));
 
 export type GetSchemaAsJsonError =
@@ -2654,7 +2732,7 @@ export type GetSchemaAsJsonError =
  * Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
  */
 export const getSchemaAsJson: API.OperationMethod<
-  GetSchemaAsJsonRequest,
+  GetSchemaAsJsonRequest & RegionInput,
   GetSchemaAsJsonResponse,
   GetSchemaAsJsonError,
   Credentials | HttpClient.HttpClient
@@ -2673,6 +2751,8 @@ export const getSchemaAsJson: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaAsJson",
+  telemetry: TELEMETRY,
+  span: "GetSchemaAsJson",
 }));
 
 export type GetTypedLinkFacetInformationError =
@@ -2690,7 +2770,7 @@ export type GetTypedLinkFacetInformationError =
  * Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
  */
 export const getTypedLinkFacetInformation: API.OperationMethod<
-  GetTypedLinkFacetInformationRequest,
+  GetTypedLinkFacetInformationRequest & RegionInput,
   GetTypedLinkFacetInformationResponse,
   GetTypedLinkFacetInformationError,
   Credentials | HttpClient.HttpClient
@@ -2711,6 +2791,8 @@ export const getTypedLinkFacetInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTypedLinkFacetInformation",
+  telemetry: TELEMETRY,
+  span: "GetTypedLinkFacetInformation",
 }));
 
 export type ListAppliedSchemaArnsError =
@@ -2727,7 +2809,7 @@ export type ListAppliedSchemaArnsError =
  * Lists schema major versions applied to a directory. If `SchemaArn` is provided, lists the minor version.
  */
 export const listAppliedSchemaArns: API.PaginatedOperationMethod<
-  ListAppliedSchemaArnsRequest,
+  ListAppliedSchemaArnsRequest & RegionInput,
   ListAppliedSchemaArnsResponse,
   ListAppliedSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -2753,6 +2835,8 @@ export const listAppliedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppliedSchemaArns",
 })) as any;
 
 export type ListAttachedIndicesError =
@@ -2769,7 +2853,7 @@ export type ListAttachedIndicesError =
  * Lists indices attached to the specified object.
  */
 export const listAttachedIndices: API.PaginatedOperationMethod<
-  ListAttachedIndicesRequest,
+  ListAttachedIndicesRequest & RegionInput,
   ListAttachedIndicesResponse,
   ListAttachedIndicesError,
   Credentials | HttpClient.HttpClient,
@@ -2795,6 +2879,8 @@ export const listAttachedIndices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachedIndices",
 })) as any;
 
 export type ListDevelopmentSchemaArnsError =
@@ -2812,7 +2898,7 @@ export type ListDevelopmentSchemaArnsError =
  * state.
  */
 export const listDevelopmentSchemaArns: API.PaginatedOperationMethod<
-  ListDevelopmentSchemaArnsRequest,
+  ListDevelopmentSchemaArnsRequest & RegionInput,
   ListDevelopmentSchemaArnsResponse,
   ListDevelopmentSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -2838,6 +2924,8 @@ export const listDevelopmentSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevelopmentSchemaArns",
 })) as any;
 
 export type ListDirectoriesError =
@@ -2853,7 +2941,7 @@ export type ListDirectoriesError =
  * Lists directories created within an account.
  */
 export const listDirectories: API.PaginatedOperationMethod<
-  ListDirectoriesRequest,
+  ListDirectoriesRequest & RegionInput,
   ListDirectoriesResponse,
   ListDirectoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2878,6 +2966,8 @@ export const listDirectories: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDirectories",
 })) as any;
 
 export type ListFacetAttributesError =
@@ -2895,7 +2985,7 @@ export type ListFacetAttributesError =
  * Retrieves attributes attached to the facet.
  */
 export const listFacetAttributes: API.PaginatedOperationMethod<
-  ListFacetAttributesRequest,
+  ListFacetAttributesRequest & RegionInput,
   ListFacetAttributesResponse,
   ListFacetAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -2922,6 +3012,8 @@ export const listFacetAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFacetAttributes",
 })) as any;
 
 export type ListFacetNamesError =
@@ -2938,7 +3030,7 @@ export type ListFacetNamesError =
  * Retrieves the names of facets that exist in a schema.
  */
 export const listFacetNames: API.PaginatedOperationMethod<
-  ListFacetNamesRequest,
+  ListFacetNamesRequest & RegionInput,
   ListFacetNamesResponse,
   ListFacetNamesError,
   Credentials | HttpClient.HttpClient,
@@ -2964,6 +3056,8 @@ export const listFacetNames: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFacetNames",
 })) as any;
 
 export type ListIncomingTypedLinksError =
@@ -2984,7 +3078,7 @@ export type ListIncomingTypedLinksError =
  * attributes. For more information, see Typed Links.
  */
 export const listIncomingTypedLinks: API.OperationMethod<
-  ListIncomingTypedLinksRequest,
+  ListIncomingTypedLinksRequest & RegionInput,
   ListIncomingTypedLinksResponse,
   ListIncomingTypedLinksError,
   Credentials | HttpClient.HttpClient
@@ -3006,6 +3100,8 @@ export const listIncomingTypedLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIncomingTypedLinks",
+  telemetry: TELEMETRY,
+  span: "ListIncomingTypedLinks",
 }));
 
 export type ListIndexError =
@@ -3025,7 +3121,7 @@ export type ListIndexError =
  * Lists objects attached to the specified index.
  */
 export const listIndex: API.PaginatedOperationMethod<
-  ListIndexRequest,
+  ListIndexRequest & RegionInput,
   ListIndexResponse,
   ListIndexError,
   Credentials | HttpClient.HttpClient,
@@ -3054,6 +3150,8 @@ export const listIndex: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndex",
 })) as any;
 
 export type ListManagedSchemaArnsError =
@@ -3068,7 +3166,7 @@ export type ListManagedSchemaArnsError =
  * Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
  */
 export const listManagedSchemaArns: API.PaginatedOperationMethod<
-  ListManagedSchemaArnsRequest,
+  ListManagedSchemaArnsRequest & RegionInput,
   ListManagedSchemaArnsResponse,
   ListManagedSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -3092,6 +3190,8 @@ export const listManagedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedSchemaArns",
 })) as any;
 
 export type ListObjectAttributesError =
@@ -3110,7 +3210,7 @@ export type ListObjectAttributesError =
  * Lists all attributes that are associated with an object.
  */
 export const listObjectAttributes: API.PaginatedOperationMethod<
-  ListObjectAttributesRequest,
+  ListObjectAttributesRequest & RegionInput,
   ListObjectAttributesResponse,
   ListObjectAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -3138,6 +3238,8 @@ export const listObjectAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectAttributes",
 })) as any;
 
 export type ListObjectChildrenError =
@@ -3157,7 +3259,7 @@ export type ListObjectChildrenError =
  * object.
  */
 export const listObjectChildren: API.PaginatedOperationMethod<
-  ListObjectChildrenRequest,
+  ListObjectChildrenRequest & RegionInput,
   ListObjectChildrenResponse,
   ListObjectChildrenError,
   Credentials | HttpClient.HttpClient,
@@ -3185,6 +3287,8 @@ export const listObjectChildren: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectChildren",
 })) as any;
 
 export type ListObjectParentPathsError =
@@ -3210,7 +3314,7 @@ export type ListObjectParentPathsError =
  * target object.
  */
 export const listObjectParentPaths: API.PaginatedOperationMethod<
-  ListObjectParentPathsRequest,
+  ListObjectParentPathsRequest & RegionInput,
   ListObjectParentPathsResponse,
   ListObjectParentPathsError,
   Credentials | HttpClient.HttpClient,
@@ -3237,6 +3341,8 @@ export const listObjectParentPaths: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectParentPaths",
 })) as any;
 
 export type ListObjectParentsError =
@@ -3256,7 +3362,7 @@ export type ListObjectParentsError =
  * fashion.
  */
 export const listObjectParents: API.PaginatedOperationMethod<
-  ListObjectParentsRequest,
+  ListObjectParentsRequest & RegionInput,
   ListObjectParentsResponse,
   ListObjectParentsError,
   Credentials | HttpClient.HttpClient,
@@ -3284,6 +3390,8 @@ export const listObjectParents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectParents",
 })) as any;
 
 export type ListObjectPoliciesError =
@@ -3301,7 +3409,7 @@ export type ListObjectPoliciesError =
  * Returns policies attached to an object in pagination fashion.
  */
 export const listObjectPolicies: API.PaginatedOperationMethod<
-  ListObjectPoliciesRequest,
+  ListObjectPoliciesRequest & RegionInput,
   ListObjectPoliciesResponse,
   ListObjectPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3328,6 +3436,8 @@ export const listObjectPolicies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectPolicies",
 })) as any;
 
 export type ListOutgoingTypedLinksError =
@@ -3348,7 +3458,7 @@ export type ListOutgoingTypedLinksError =
  * attributes. For more information, see Typed Links.
  */
 export const listOutgoingTypedLinks: API.OperationMethod<
-  ListOutgoingTypedLinksRequest,
+  ListOutgoingTypedLinksRequest & RegionInput,
   ListOutgoingTypedLinksResponse,
   ListOutgoingTypedLinksError,
   Credentials | HttpClient.HttpClient
@@ -3370,6 +3480,8 @@ export const listOutgoingTypedLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOutgoingTypedLinks",
+  telemetry: TELEMETRY,
+  span: "ListOutgoingTypedLinks",
 }));
 
 export type ListPolicyAttachmentsError =
@@ -3388,7 +3500,7 @@ export type ListPolicyAttachmentsError =
  * Returns all of the `ObjectIdentifiers` to which a given policy is attached.
  */
 export const listPolicyAttachments: API.PaginatedOperationMethod<
-  ListPolicyAttachmentsRequest,
+  ListPolicyAttachmentsRequest & RegionInput,
   ListPolicyAttachmentsResponse,
   ListPolicyAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3416,6 +3528,8 @@ export const listPolicyAttachments: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyAttachments",
 })) as any;
 
 export type ListPublishedSchemaArnsError =
@@ -3432,7 +3546,7 @@ export type ListPublishedSchemaArnsError =
  * Lists the major version families of each published schema. If a major version ARN is provided as `SchemaArn`, the minor version revisions in that family are listed instead.
  */
 export const listPublishedSchemaArns: API.PaginatedOperationMethod<
-  ListPublishedSchemaArnsRequest,
+  ListPublishedSchemaArnsRequest & RegionInput,
   ListPublishedSchemaArnsResponse,
   ListPublishedSchemaArnsError,
   Credentials | HttpClient.HttpClient,
@@ -3458,6 +3572,8 @@ export const listPublishedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublishedSchemaArns",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3476,7 +3592,7 @@ export type ListTagsForResourceError =
  * call.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3502,6 +3618,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTypedLinkFacetAttributesError =
@@ -3519,7 +3637,7 @@ export type ListTypedLinkFacetAttributesError =
  * Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
  */
 export const listTypedLinkFacetAttributes: API.PaginatedOperationMethod<
-  ListTypedLinkFacetAttributesRequest,
+  ListTypedLinkFacetAttributesRequest & RegionInput,
   ListTypedLinkFacetAttributesResponse,
   ListTypedLinkFacetAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -3546,6 +3664,8 @@ export const listTypedLinkFacetAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypedLinkFacetAttributes",
 })) as any;
 
 export type ListTypedLinkFacetNamesError =
@@ -3563,7 +3683,7 @@ export type ListTypedLinkFacetNamesError =
  * For more information, see Typed Links.
  */
 export const listTypedLinkFacetNames: API.PaginatedOperationMethod<
-  ListTypedLinkFacetNamesRequest,
+  ListTypedLinkFacetNamesRequest & RegionInput,
   ListTypedLinkFacetNamesResponse,
   ListTypedLinkFacetNamesError,
   Credentials | HttpClient.HttpClient,
@@ -3589,6 +3709,8 @@ export const listTypedLinkFacetNames: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypedLinkFacetNames",
 })) as any;
 
 export type LookupPolicyError =
@@ -3611,7 +3733,7 @@ export type LookupPolicyError =
  * information, see Policies.
  */
 export const lookupPolicy: API.PaginatedOperationMethod<
-  LookupPolicyRequest,
+  LookupPolicyRequest & RegionInput,
   LookupPolicyResponse,
   LookupPolicyError,
   Credentials | HttpClient.HttpClient,
@@ -3638,6 +3760,8 @@ export const lookupPolicy: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "LookupPolicy",
 })) as any;
 
 export type PublishSchemaError =
@@ -3654,7 +3778,7 @@ export type PublishSchemaError =
  * Publishes a development schema with a major version and a recommended minor version.
  */
 export const publishSchema: API.OperationMethod<
-  PublishSchemaRequest,
+  PublishSchemaRequest & RegionInput,
   PublishSchemaResponse,
   PublishSchemaError,
   Credentials | HttpClient.HttpClient
@@ -3674,6 +3798,8 @@ export const publishSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishSchema",
+  telemetry: TELEMETRY,
+  span: "PublishSchema",
 }));
 
 export type PutSchemaFromJsonError =
@@ -3690,7 +3816,7 @@ export type PutSchemaFromJsonError =
  * Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
  */
 export const putSchemaFromJson: API.OperationMethod<
-  PutSchemaFromJsonRequest,
+  PutSchemaFromJsonRequest & RegionInput,
   PutSchemaFromJsonResponse,
   PutSchemaFromJsonError,
   Credentials | HttpClient.HttpClient
@@ -3710,6 +3836,8 @@ export const putSchemaFromJson: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchemaFromJson",
+  telemetry: TELEMETRY,
+  span: "PutSchemaFromJson",
 }));
 
 export type RemoveFacetFromObjectError =
@@ -3727,7 +3855,7 @@ export type RemoveFacetFromObjectError =
  * Removes the specified facet from the specified object.
  */
 export const removeFacetFromObject: API.OperationMethod<
-  RemoveFacetFromObjectRequest,
+  RemoveFacetFromObjectRequest & RegionInput,
   RemoveFacetFromObjectResponse,
   RemoveFacetFromObjectError,
   Credentials | HttpClient.HttpClient
@@ -3748,6 +3876,8 @@ export const removeFacetFromObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFacetFromObject",
+  telemetry: TELEMETRY,
+  span: "RemoveFacetFromObject",
 }));
 
 export type TagResourceError =
@@ -3764,7 +3894,7 @@ export type TagResourceError =
  * An API operation for adding tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3784,6 +3914,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3800,7 +3932,7 @@ export type UntagResourceError =
  * An API operation for removing tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3820,6 +3952,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFacetError =
@@ -3845,7 +3979,7 @@ export type UpdateFacetError =
  * - Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
  */
 export const updateFacet: API.OperationMethod<
-  UpdateFacetRequest,
+  UpdateFacetRequest & RegionInput,
   UpdateFacetResponse,
   UpdateFacetError,
   Credentials | HttpClient.HttpClient
@@ -3868,6 +4002,8 @@ export const updateFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFacet",
+  telemetry: TELEMETRY,
+  span: "UpdateFacet",
 }));
 
 export type UpdateLinkAttributesError =
@@ -3885,7 +4021,7 @@ export type UpdateLinkAttributesError =
  * Updates a given typed link's attributes. Attributes to be updated must not contribute to the typed link's identity, as defined by its `IdentityAttributeOrder`.
  */
 export const updateLinkAttributes: API.OperationMethod<
-  UpdateLinkAttributesRequest,
+  UpdateLinkAttributesRequest & RegionInput,
   UpdateLinkAttributesResponse,
   UpdateLinkAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3906,6 +4042,8 @@ export const updateLinkAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateLinkAttributes",
 }));
 
 export type UpdateObjectAttributesError =
@@ -3924,7 +4062,7 @@ export type UpdateObjectAttributesError =
  * Updates a given object's attributes.
  */
 export const updateObjectAttributes: API.OperationMethod<
-  UpdateObjectAttributesRequest,
+  UpdateObjectAttributesRequest & RegionInput,
   UpdateObjectAttributesResponse,
   UpdateObjectAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3946,6 +4084,8 @@ export const updateObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateObjectAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateObjectAttributes",
 }));
 
 export type UpdateSchemaError =
@@ -3962,7 +4102,7 @@ export type UpdateSchemaError =
  * updated.
  */
 export const updateSchema: API.OperationMethod<
-  UpdateSchemaRequest,
+  UpdateSchemaRequest & RegionInput,
   UpdateSchemaResponse,
   UpdateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -3981,6 +4121,8 @@ export const updateSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchema",
+  telemetry: TELEMETRY,
+  span: "UpdateSchema",
 }));
 
 export type UpdateTypedLinkFacetError =
@@ -4000,7 +4142,7 @@ export type UpdateTypedLinkFacetError =
  * Updates a TypedLinkFacet. For more information, see Typed Links.
  */
 export const updateTypedLinkFacet: API.OperationMethod<
-  UpdateTypedLinkFacetRequest,
+  UpdateTypedLinkFacetRequest & RegionInput,
   UpdateTypedLinkFacetResponse,
   UpdateTypedLinkFacetError,
   Credentials | HttpClient.HttpClient
@@ -4023,6 +4165,8 @@ export const updateTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTypedLinkFacet",
+  telemetry: TELEMETRY,
+  span: "UpdateTypedLinkFacet",
 }));
 
 export type UpgradeAppliedSchemaError =
@@ -4040,7 +4184,7 @@ export type UpgradeAppliedSchemaError =
  * Upgrades a single directory in-place using the `PublishedSchemaArn` with schema updates found in `MinorVersion`. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
  */
 export const upgradeAppliedSchema: API.OperationMethod<
-  UpgradeAppliedSchemaRequest,
+  UpgradeAppliedSchemaRequest & RegionInput,
   UpgradeAppliedSchemaResponse,
   UpgradeAppliedSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4061,6 +4205,8 @@ export const upgradeAppliedSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeAppliedSchema",
+  telemetry: TELEMETRY,
+  span: "UpgradeAppliedSchema",
 }));
 
 export type UpgradePublishedSchemaError =
@@ -4078,7 +4224,7 @@ export type UpgradePublishedSchemaError =
  * Upgrades a published schema under a new minor version revision using the current contents of `DevelopmentSchemaArn`.
  */
 export const upgradePublishedSchema: API.OperationMethod<
-  UpgradePublishedSchemaRequest,
+  UpgradePublishedSchemaRequest & RegionInput,
   UpgradePublishedSchemaResponse,
   UpgradePublishedSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4099,6 +4245,8 @@ export const upgradePublishedSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradePublishedSchema",
+  telemetry: TELEMETRY,
+  span: "UpgradePublishedSchema",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

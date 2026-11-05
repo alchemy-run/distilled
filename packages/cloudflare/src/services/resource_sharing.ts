@@ -39,6 +39,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "ResourceSharing",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -876,6 +890,8 @@ export const createRecipient: API.OperationMethod<
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecipient",
 }));
 
 export type CreateResourceError = ShareNotFound | Forbidden | CloudflareOpError;
@@ -891,6 +907,8 @@ export const createResource: API.OperationMethod<
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResource",
 }));
 
 export type CreateResourceSharingError = Forbidden | CloudflareOpError;
@@ -906,6 +924,8 @@ export const createResourceSharing: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceSharing",
 }));
 
 export type DeleteRecipientError = ShareRecipientNotFound | Forbidden | CloudflareOpError;
@@ -921,6 +941,8 @@ export const deleteRecipient: API.OperationMethod<
   errors: [ShareRecipientNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecipient",
 }));
 
 export type DeleteResourceError = ShareResourceNotFound | Forbidden | CloudflareOpError;
@@ -936,6 +958,8 @@ export const deleteResource: API.OperationMethod<
   errors: [ShareResourceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResource",
 }));
 
 export type DeleteResourceSharingError = ShareNotFound | Forbidden | CloudflareOpError;
@@ -951,6 +975,8 @@ export const deleteResourceSharing: API.OperationMethod<
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSharing",
 }));
 
 export type GetRecipientError = ShareRecipientNotFound | Forbidden | CloudflareOpError;
@@ -966,6 +992,8 @@ export const getRecipient: API.OperationMethod<
   errors: [ShareRecipientNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecipient",
 }));
 
 export type GetResourceError = ShareResourceNotFound | Forbidden | CloudflareOpError;
@@ -981,6 +1009,8 @@ export const getResource: API.OperationMethod<
   errors: [ShareResourceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResource",
 }));
 
 export type GetResourceSharingError = ShareNotFound | Forbidden | CloudflareOpError;
@@ -996,6 +1026,8 @@ export const getResourceSharing: API.OperationMethod<
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceSharing",
 }));
 
 export type ListRecipientsError = ShareNotFound | Forbidden | CloudflareOpError;
@@ -1013,6 +1045,8 @@ export const listRecipients: API.PaginatedOperationMethod<
     errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRecipients",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1039,6 +1073,8 @@ export const listResources: API.PaginatedOperationMethod<
     errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResources",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1065,6 +1101,8 @@ export const listResourceSharings: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResourceSharings",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1089,6 +1127,8 @@ export const updateResource: API.OperationMethod<
   errors: [ShareResourceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 export type UpdateResourceSharingError = ShareNotFound | Forbidden | CloudflareOpError;
@@ -1104,6 +1144,8 @@ export const updateResourceSharing: API.OperationMethod<
   errors: [ShareNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceSharing",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

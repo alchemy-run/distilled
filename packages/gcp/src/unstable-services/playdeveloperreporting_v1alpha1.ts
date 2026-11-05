@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "playdeveloperreporting" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Playdeveloperreporting",
+  service: "playdeveloperreporting",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -978,6 +997,8 @@ export const fetchReleaseFilterOptionsApps: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchReleaseFilterOptionsApps",
 }));
 
 export type GetVitalsAnonrssandswapmemoryusageError = NotFound | Forbidden | GcpOpError;
@@ -997,6 +1018,8 @@ export const getVitalsAnonrssandswapmemoryusage: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsAnonrssandswapmemoryusage",
 }));
 
 export type GetVitalsAnrrateError = NotFound | Forbidden | GcpOpError;
@@ -1016,6 +1039,8 @@ export const getVitalsAnrrate: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsAnrrate",
 }));
 
 export type GetVitalsBitmapmemoryusageError = NotFound | Forbidden | GcpOpError;
@@ -1035,6 +1060,8 @@ export const getVitalsBitmapmemoryusage: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsBitmapmemoryusage",
 }));
 
 export type GetVitalsCrashrateError = NotFound | Forbidden | GcpOpError;
@@ -1054,6 +1081,8 @@ export const getVitalsCrashrate: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsCrashrate",
 }));
 
 export type GetVitalsErrorsCountsError = NotFound | Forbidden | GcpOpError;
@@ -1073,6 +1102,8 @@ export const getVitalsErrorsCounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsErrorsCounts",
 }));
 
 export type GetVitalsExcessivewakeuprateError = NotFound | Forbidden | GcpOpError;
@@ -1092,6 +1123,8 @@ export const getVitalsExcessivewakeuprate: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsExcessivewakeuprate",
 }));
 
 export type GetVitalsLmkrateError = NotFound | Forbidden | GcpOpError;
@@ -1111,6 +1144,8 @@ export const getVitalsLmkrate: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsLmkrate",
 }));
 
 export type GetVitalsSlowrenderingrateError = NotFound | Forbidden | GcpOpError;
@@ -1130,6 +1165,8 @@ export const getVitalsSlowrenderingrate: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsSlowrenderingrate",
 }));
 
 export type GetVitalsSlowstartrateError = NotFound | Forbidden | GcpOpError;
@@ -1149,6 +1186,8 @@ export const getVitalsSlowstartrate: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsSlowstartrate",
 }));
 
 export type GetVitalsStuckbackgroundwakelockrateError = NotFound | Forbidden | GcpOpError;
@@ -1168,6 +1207,8 @@ export const getVitalsStuckbackgroundwakelockrate: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVitalsStuckbackgroundwakelockrate",
 }));
 
 export type ListAnomaliesError = NotFound | Forbidden | GcpOpError;
@@ -1188,6 +1229,8 @@ export const listAnomalies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnomalies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1213,6 +1256,8 @@ export const queryVitalsAnonrssandswapmemoryusage: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsAnonrssandswapmemoryusage",
 }));
 
 export type QueryVitalsAnrrateError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1232,6 +1277,8 @@ export const queryVitalsAnrrate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsAnrrate",
 }));
 
 export type QueryVitalsBitmapmemoryusageError =
@@ -1256,6 +1303,8 @@ export const queryVitalsBitmapmemoryusage: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsBitmapmemoryusage",
 }));
 
 export type QueryVitalsCrashrateError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1275,6 +1324,8 @@ export const queryVitalsCrashrate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsCrashrate",
 }));
 
 export type QueryVitalsErrorsCountsError =
@@ -1299,6 +1350,8 @@ export const queryVitalsErrorsCounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsErrorsCounts",
 }));
 
 export type QueryVitalsExcessivewakeuprateError =
@@ -1323,6 +1376,8 @@ export const queryVitalsExcessivewakeuprate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsExcessivewakeuprate",
 }));
 
 export type QueryVitalsLmkrateError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1342,6 +1397,8 @@ export const queryVitalsLmkrate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsLmkrate",
 }));
 
 export type QueryVitalsSlowrenderingrateError =
@@ -1366,6 +1423,8 @@ export const queryVitalsSlowrenderingrate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsSlowrenderingrate",
 }));
 
 export type QueryVitalsSlowstartrateError =
@@ -1390,6 +1449,8 @@ export const queryVitalsSlowstartrate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsSlowstartrate",
 }));
 
 export type QueryVitalsStuckbackgroundwakelockrateError =
@@ -1414,6 +1475,8 @@ export const queryVitalsStuckbackgroundwakelockrate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryVitalsStuckbackgroundwakelockrate",
 }));
 
 export type SearchAppsError = NotFound | Forbidden | GcpOpError;
@@ -1434,6 +1497,8 @@ export const searchApps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1455,6 +1520,8 @@ export const searchVitalsErrorsIssues: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchVitalsErrorsIssues",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1476,6 +1543,8 @@ export const searchVitalsErrorsReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchVitalsErrorsReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

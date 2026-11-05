@@ -26,6 +26,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   superCategoryId: "super_category_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "UrlScanner",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type ScansBulkCreateRequestBodyItemCustomHeadersMap = { [key: string]: string | undefined };
 export type ScansBulkCreateRequestBodyItemScreenshotsResolutionsItem =
   | "desktop"
@@ -57,199 +71,144 @@ export interface BulkCreateScansRequest {
 }
 export type BulkCreateScansResponse = string;
 export type ScansCreateRequestCountry =
-  | "AF"
+  | "AE"
   | "AL"
-  | "DZ"
-  | "AD"
-  | "AO"
-  | "AG"
-  | "AR"
   | "AM"
-  | "AU"
+  | "AO"
+  | "AR"
   | "AT"
+  | "AU"
   | "AZ"
-  | "BH"
-  | "BD"
   | "BB"
-  | "BY"
+  | "BD"
   | "BE"
-  | "BZ"
-  | "BJ"
-  | "BM"
-  | "BT"
-  | "BO"
-  | "BA"
-  | "BW"
-  | "BR"
-  | "BN"
-  | "BG"
   | "BF"
-  | "BI"
-  | "KH"
-  | "CM"
+  | "BG"
+  | "BH"
+  | "BN"
+  | "BO"
+  | "BR"
+  | "BT"
+  | "BW"
+  | "BY"
   | "CA"
-  | "CV"
-  | "KY"
-  | "CF"
-  | "TD"
-  | "CL"
-  | "CN"
-  | "CO"
-  | "KM"
-  | "CG"
-  | "CR"
+  | "CD"
+  | "CH"
   | "CI"
-  | "HR"
-  | "CU"
+  | "CL"
+  | "CM"
+  | "CO"
+  | "CR"
+  | "CW"
   | "CY"
   | "CZ"
-  | "CD"
-  | "DK"
-  | "DJ"
-  | "DM"
-  | "DO"
-  | "EC"
-  | "EG"
-  | "SV"
-  | "GQ"
-  | "ER"
-  | "EE"
-  | "SZ"
-  | "ET"
-  | "FJ"
-  | "FI"
-  | "FR"
-  | "GA"
-  | "GE"
   | "DE"
+  | "DJ"
+  | "DK"
+  | "DO"
+  | "DZ"
+  | "EC"
+  | "EE"
+  | "EG"
+  | "ES"
+  | "ET"
+  | "FI"
+  | "FJ"
+  | "FR"
+  | "GB"
+  | "GD"
+  | "GE"
   | "GH"
   | "GR"
-  | "GL"
-  | "GD"
   | "GT"
-  | "GN"
-  | "GW"
+  | "GU"
   | "GY"
-  | "HT"
+  | "HK"
   | "HN"
+  | "HR"
+  | "HT"
   | "HU"
-  | "IS"
-  | "IN"
   | "ID"
-  | "IR"
-  | "IQ"
   | "IE"
   | "IL"
+  | "IN"
+  | "IQ"
+  | "IS"
   | "IT"
   | "JM"
-  | "JP"
   | "JO"
-  | "KZ"
+  | "JP"
   | "KE"
-  | "KI"
-  | "KW"
   | "KG"
+  | "KH"
+  | "KR"
+  | "KW"
+  | "KZ"
   | "LA"
-  | "LV"
   | "LB"
-  | "LS"
+  | "LK"
   | "LR"
-  | "LY"
-  | "LI"
   | "LT"
   | "LU"
-  | "MO"
-  | "MG"
-  | "MW"
-  | "MY"
-  | "MV"
-  | "ML"
-  | "MR"
-  | "MU"
-  | "MX"
-  | "FM"
-  | "MD"
-  | "MC"
-  | "MN"
-  | "MS"
+  | "LV"
   | "MA"
-  | "MZ"
-  | "MM"
-  | "NA"
-  | "NR"
-  | "NP"
-  | "NL"
-  | "NZ"
-  | "NI"
-  | "NE"
-  | "NG"
-  | "KP"
+  | "MD"
+  | "MG"
   | "MK"
+  | "MM"
+  | "MN"
+  | "MO"
+  | "MT"
+  | "MU"
+  | "MV"
+  | "MW"
+  | "MX"
+  | "MY"
+  | "MZ"
+  | "NA"
+  | "NC"
+  | "NG"
+  | "NL"
   | "NO"
+  | "NP"
+  | "NZ"
   | "OM"
-  | "PK"
-  | "PS"
   | "PA"
-  | "PG"
-  | "PY"
   | "PE"
+  | "PF"
   | "PH"
+  | "PK"
   | "PL"
+  | "PR"
+  | "PS"
   | "PT"
+  | "PY"
   | "QA"
+  | "RE"
   | "RO"
+  | "RS"
   | "RU"
   | "RW"
-  | "SH"
-  | "KN"
-  | "LC"
-  | "VC"
-  | "WS"
-  | "SM"
-  | "ST"
   | "SA"
-  | "SN"
-  | "RS"
-  | "SC"
-  | "SL"
-  | "SK"
-  | "SI"
-  | "SB"
-  | "SO"
-  | "ZA"
-  | "KR"
-  | "SS"
-  | "ES"
-  | "LK"
-  | "SD"
-  | "SR"
   | "SE"
-  | "CH"
-  | "SY"
-  | "TW"
-  | "TJ"
-  | "TZ"
+  | "SG"
+  | "SI"
+  | "SK"
+  | "SN"
+  | "SR"
   | "TH"
-  | "BS"
-  | "GM"
-  | "TL"
-  | "TG"
-  | "TO"
-  | "TT"
+  | "TJ"
   | "TN"
   | "TR"
-  | "TM"
-  | "UG"
+  | "TT"
+  | "TW"
+  | "TZ"
   | "UA"
-  | "AE"
-  | "GB"
+  | "UG"
   | "US"
-  | "UY"
   | "UZ"
-  | "VU"
-  | "VE"
   | "VN"
-  | "YE"
+  | "ZA"
   | "ZM"
   | "ZW";
 export type ScansCreateRequestCustomHeadersMap = { [key: string]: string | undefined };
@@ -1073,6 +1032,26 @@ export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOaut
   message?: string | null;
   messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceList =
+  Array<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem>;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocol {
+  status: string;
+  details?: unknown | null;
+  durationMs?: number | null;
+  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceList | null;
+  message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+}
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceItemRequest =
@@ -1102,6 +1081,7 @@ export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscovery {
   mcpServerCard: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard;
   oauthDiscovery: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery;
   oauthProtectedResource: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource;
+  personalAgentProtocol: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocol;
   webMcp: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecks {
@@ -1542,6 +1522,8 @@ export const bulkCreateScans: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateScans",
 }));
 
 export type CreateScanError = CloudflareOpError;
@@ -1557,6 +1539,8 @@ export const createScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScan",
 }));
 
 export type DomScanError = CloudflareOpError;
@@ -1572,6 +1556,8 @@ export const domScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomScan",
 }));
 
 export type GetResponsError = CloudflareOpError;
@@ -1587,6 +1573,8 @@ export const getRespons: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRespons",
 }));
 
 export type GetScanError = CloudflareOpError;
@@ -1602,6 +1590,8 @@ export const getScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScan",
 }));
 
 export type HarScanError = CloudflareOpError;
@@ -1617,6 +1607,8 @@ export const harScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HarScan",
 }));
 
 export type ListScansError = CloudflareOpError;
@@ -1632,6 +1624,8 @@ export const listScans: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScans",
 }));
 
 export type ScreenshotScanError = CloudflareOpError;
@@ -1647,6 +1641,8 @@ export const screenshotScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScreenshotScan",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -2329,6 +2325,7 @@ function __c8(j: number): any {
           mcpServerCard: __S(256, __c8, 0),
           oauthDiscovery: __S(256, __c8, 0),
           oauthProtectedResource: __S(256, __c8, 0),
+          personalAgentProtocol: __S(256, __c8, 0),
           webMcp: __S(256, __c8, 0),
         }),
       ).annotate({ identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscovery" });

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -76,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://chatbot.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "chatbot",
+  service: "chatbot",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -715,7 +731,7 @@ export type AssociateToConfigurationError =
  * Links a resource (for example, a custom action) to a channel configuration.
  */
 export const associateToConfiguration: API.OperationMethod<
-  AssociateToConfigurationRequest,
+  AssociateToConfigurationRequest & RegionInput,
   AssociateToConfigurationResult,
   AssociateToConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +747,8 @@ export const associateToConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateToConfiguration",
+  telemetry: TELEMETRY,
+  span: "AssociateToConfiguration",
 }));
 
 export type CreateChimeWebhookConfigurationError =
@@ -744,7 +762,7 @@ export type CreateChimeWebhookConfigurationError =
  * Creates an AWS Chatbot configuration for Amazon Chime.
  */
 export const createChimeWebhookConfiguration: API.OperationMethod<
-  CreateChimeWebhookConfigurationRequest,
+  CreateChimeWebhookConfigurationRequest & RegionInput,
   CreateChimeWebhookConfigurationResult,
   CreateChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -761,6 +779,8 @@ export const createChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateChimeWebhookConfiguration",
 }));
 
 export type CreateCustomActionError =
@@ -774,7 +794,7 @@ export type CreateCustomActionError =
  * Creates a custom action that can be invoked as an alias or as a button on a notification.
  */
 export const createCustomAction: API.OperationMethod<
-  CreateCustomActionRequest,
+  CreateCustomActionRequest & RegionInput,
   CreateCustomActionResult,
   CreateCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -791,6 +811,8 @@ export const createCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomAction",
+  telemetry: TELEMETRY,
+  span: "CreateCustomAction",
 }));
 
 export type CreateMicrosoftTeamsChannelConfigurationError =
@@ -805,7 +827,7 @@ export type CreateMicrosoftTeamsChannelConfigurationError =
  * Creates an AWS Chatbot configuration for Microsoft Teams.
  */
 export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  CreateTeamsChannelConfigurationRequest,
+  CreateTeamsChannelConfigurationRequest & RegionInput,
   CreateTeamsChannelConfigurationResult,
   CreateMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -823,6 +845,8 @@ export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateMicrosoftTeamsChannelConfiguration",
 }));
 
 export type CreateSlackChannelConfigurationError =
@@ -837,7 +861,7 @@ export type CreateSlackChannelConfigurationError =
  * Creates an AWS Chatbot confugration for Slack.
  */
 export const createSlackChannelConfiguration: API.OperationMethod<
-  CreateSlackChannelConfigurationRequest,
+  CreateSlackChannelConfigurationRequest & RegionInput,
   CreateSlackChannelConfigurationResult,
   CreateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -855,6 +879,8 @@ export const createSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSlackChannelConfiguration",
 }));
 
 export type DeleteChimeWebhookConfigurationError =
@@ -867,7 +893,7 @@ export type DeleteChimeWebhookConfigurationError =
  * Deletes a Amazon Chime webhook configuration for AWS Chatbot.
  */
 export const deleteChimeWebhookConfiguration: API.OperationMethod<
-  DeleteChimeWebhookConfigurationRequest,
+  DeleteChimeWebhookConfigurationRequest & RegionInput,
   DeleteChimeWebhookConfigurationResult,
   DeleteChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -883,6 +909,8 @@ export const deleteChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteChimeWebhookConfiguration",
 }));
 
 export type DeleteCustomActionError =
@@ -895,7 +923,7 @@ export type DeleteCustomActionError =
  * Deletes a custom action.
  */
 export const deleteCustomAction: API.OperationMethod<
-  DeleteCustomActionRequest,
+  DeleteCustomActionRequest & RegionInput,
   DeleteCustomActionResult,
   DeleteCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -911,6 +939,8 @@ export const deleteCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomAction",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomAction",
 }));
 
 export type DeleteMicrosoftTeamsChannelConfigurationError =
@@ -923,7 +953,7 @@ export type DeleteMicrosoftTeamsChannelConfigurationError =
  * Deletes a Microsoft Teams channel configuration for AWS Chatbot
  */
 export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  DeleteTeamsChannelConfigurationRequest,
+  DeleteTeamsChannelConfigurationRequest & RegionInput,
   DeleteTeamsChannelConfigurationResult,
   DeleteMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -939,6 +969,8 @@ export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsChannelConfiguration",
 }));
 
 export type DeleteMicrosoftTeamsConfiguredTeamError =
@@ -950,7 +982,7 @@ export type DeleteMicrosoftTeamsConfiguredTeamError =
  * Deletes the Microsoft Teams team authorization allowing for channels to be configured in that Microsoft Teams team. Note that the Microsoft Teams team must have no channels configured to remove it.
  */
 export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
-  DeleteTeamsConfiguredTeamRequest,
+  DeleteTeamsConfiguredTeamRequest & RegionInput,
   DeleteTeamsConfiguredTeamResult,
   DeleteMicrosoftTeamsConfiguredTeamError,
   Credentials | HttpClient.HttpClient
@@ -965,6 +997,8 @@ export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsConfiguredTeam",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsConfiguredTeam",
 }));
 
 export type DeleteMicrosoftTeamsUserIdentityError =
@@ -976,7 +1010,7 @@ export type DeleteMicrosoftTeamsUserIdentityError =
  * Identifes a user level permission for a channel configuration.
  */
 export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
-  DeleteMicrosoftTeamsUserIdentityRequest,
+  DeleteMicrosoftTeamsUserIdentityRequest & RegionInput,
   DeleteMicrosoftTeamsUserIdentityResult,
   DeleteMicrosoftTeamsUserIdentityError,
   Credentials | HttpClient.HttpClient
@@ -991,6 +1025,8 @@ export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsUserIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsUserIdentity",
 }));
 
 export type DeleteSlackChannelConfigurationError =
@@ -1003,7 +1039,7 @@ export type DeleteSlackChannelConfigurationError =
  * Deletes a Slack channel configuration for AWS Chatbot
  */
 export const deleteSlackChannelConfiguration: API.OperationMethod<
-  DeleteSlackChannelConfigurationRequest,
+  DeleteSlackChannelConfigurationRequest & RegionInput,
   DeleteSlackChannelConfigurationResult,
   DeleteSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1019,6 +1055,8 @@ export const deleteSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackChannelConfiguration",
 }));
 
 export type DeleteSlackUserIdentityError =
@@ -1030,7 +1068,7 @@ export type DeleteSlackUserIdentityError =
  * Deletes a user level permission for a Slack channel configuration.
  */
 export const deleteSlackUserIdentity: API.OperationMethod<
-  DeleteSlackUserIdentityRequest,
+  DeleteSlackUserIdentityRequest & RegionInput,
   DeleteSlackUserIdentityResult,
   DeleteSlackUserIdentityError,
   Credentials | HttpClient.HttpClient
@@ -1041,6 +1079,8 @@ export const deleteSlackUserIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackUserIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackUserIdentity",
 }));
 
 export type DeleteSlackWorkspaceAuthorizationError =
@@ -1051,7 +1091,7 @@ export type DeleteSlackWorkspaceAuthorizationError =
  * Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted.
  */
 export const deleteSlackWorkspaceAuthorization: API.OperationMethod<
-  DeleteSlackWorkspaceAuthorizationRequest,
+  DeleteSlackWorkspaceAuthorizationRequest & RegionInput,
   DeleteSlackWorkspaceAuthorizationResult,
   DeleteSlackWorkspaceAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -1062,6 +1102,8 @@ export const deleteSlackWorkspaceAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackWorkspaceAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackWorkspaceAuthorization",
 }));
 
 export type DescribeChimeWebhookConfigurationsError =
@@ -1073,7 +1115,7 @@ export type DescribeChimeWebhookConfigurationsError =
  * Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
  */
 export const describeChimeWebhookConfigurations: API.PaginatedOperationMethod<
-  DescribeChimeWebhookConfigurationsRequest,
+  DescribeChimeWebhookConfigurationsRequest & RegionInput,
   DescribeChimeWebhookConfigurationsResult,
   DescribeChimeWebhookConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1095,6 +1137,8 @@ export const describeChimeWebhookConfigurations: API.PaginatedOperationMethod<
     items: "WebhookConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeChimeWebhookConfigurations",
 })) as any;
 
 export type DescribeSlackChannelConfigurationsError =
@@ -1106,7 +1150,7 @@ export type DescribeSlackChannelConfigurationsError =
  * Lists Slack channel configurations optionally filtered by ChatConfigurationArn
  */
 export const describeSlackChannelConfigurations: API.PaginatedOperationMethod<
-  DescribeSlackChannelConfigurationsRequest,
+  DescribeSlackChannelConfigurationsRequest & RegionInput,
   DescribeSlackChannelConfigurationsResult,
   DescribeSlackChannelConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1128,6 +1172,8 @@ export const describeSlackChannelConfigurations: API.PaginatedOperationMethod<
     items: "SlackChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackChannelConfigurations",
 })) as any;
 
 export type DescribeSlackUserIdentitiesError =
@@ -1139,7 +1185,7 @@ export type DescribeSlackUserIdentitiesError =
  * Lists all Slack user identities with a mapped role.
  */
 export const describeSlackUserIdentities: API.PaginatedOperationMethod<
-  DescribeSlackUserIdentitiesRequest,
+  DescribeSlackUserIdentitiesRequest & RegionInput,
   DescribeSlackUserIdentitiesResult,
   DescribeSlackUserIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1161,6 +1207,8 @@ export const describeSlackUserIdentities: API.PaginatedOperationMethod<
     items: "SlackUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackUserIdentities",
 })) as any;
 
 export type DescribeSlackWorkspacesError =
@@ -1172,7 +1220,7 @@ export type DescribeSlackWorkspacesError =
  * List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
  */
 export const describeSlackWorkspaces: API.PaginatedOperationMethod<
-  DescribeSlackWorkspacesRequest,
+  DescribeSlackWorkspacesRequest & RegionInput,
   DescribeSlackWorkspacesResult,
   DescribeSlackWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -1190,6 +1238,8 @@ export const describeSlackWorkspaces: API.PaginatedOperationMethod<
     items: "SlackWorkspaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackWorkspaces",
 })) as any;
 
 export type DisassociateFromConfigurationError =
@@ -1202,7 +1252,7 @@ export type DisassociateFromConfigurationError =
  * Unlink a resource, for example a custom action, from a channel configuration.
  */
 export const disassociateFromConfiguration: API.OperationMethod<
-  DisassociateFromConfigurationRequest,
+  DisassociateFromConfigurationRequest & RegionInput,
   DisassociateFromConfigurationResult,
   DisassociateFromConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1218,6 +1268,8 @@ export const disassociateFromConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromConfiguration",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromConfiguration",
 }));
 
 export type GetAccountPreferencesError =
@@ -1228,7 +1280,7 @@ export type GetAccountPreferencesError =
  * Returns AWS Chatbot account preferences.
  */
 export const getAccountPreferences: API.OperationMethod<
-  GetAccountPreferencesRequest,
+  GetAccountPreferencesRequest & RegionInput,
   GetAccountPreferencesResult,
   GetAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1239,6 +1291,8 @@ export const getAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "GetAccountPreferences",
 }));
 
 export type GetCustomActionError =
@@ -1251,7 +1305,7 @@ export type GetCustomActionError =
  * Returns a custom action.
  */
 export const getCustomAction: API.OperationMethod<
-  GetCustomActionRequest,
+  GetCustomActionRequest & RegionInput,
   GetCustomActionResult,
   GetCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -1267,6 +1321,8 @@ export const getCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomAction",
+  telemetry: TELEMETRY,
+  span: "GetCustomAction",
 }));
 
 export type GetMicrosoftTeamsChannelConfigurationError =
@@ -1279,7 +1335,7 @@ export type GetMicrosoftTeamsChannelConfigurationError =
  * Returns a Microsoft Teams channel configuration in an AWS account.
  */
 export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  GetTeamsChannelConfigurationRequest,
+  GetTeamsChannelConfigurationRequest & RegionInput,
   GetTeamsChannelConfigurationResult,
   GetMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1295,6 +1351,8 @@ export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftTeamsChannelConfiguration",
 }));
 
 export type ListAssociationsError = InvalidRequestException | CommonErrors;
@@ -1302,7 +1360,7 @@ export type ListAssociationsError = InvalidRequestException | CommonErrors;
  * Lists resources associated with a channel configuration.
  */
 export const listAssociations: API.PaginatedOperationMethod<
-  ListAssociationsRequest,
+  ListAssociationsRequest & RegionInput,
   ListAssociationsResult,
   ListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1320,6 +1378,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListCustomActionsError =
@@ -1331,7 +1391,7 @@ export type ListCustomActionsError =
  * Lists custom actions defined in this account.
  */
 export const listCustomActions: API.PaginatedOperationMethod<
-  ListCustomActionsRequest,
+  ListCustomActionsRequest & RegionInput,
   ListCustomActionsResult,
   ListCustomActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1349,6 +1409,8 @@ export const listCustomActions: API.PaginatedOperationMethod<
     items: "CustomActions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomActions",
 })) as any;
 
 export type ListMicrosoftTeamsChannelConfigurationsError =
@@ -1360,7 +1422,7 @@ export type ListMicrosoftTeamsChannelConfigurationsError =
  * Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
  */
 export const listMicrosoftTeamsChannelConfigurations: API.PaginatedOperationMethod<
-  ListTeamsChannelConfigurationsRequest,
+  ListTeamsChannelConfigurationsRequest & RegionInput,
   ListTeamsChannelConfigurationsResult,
   ListMicrosoftTeamsChannelConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1382,6 +1444,8 @@ export const listMicrosoftTeamsChannelConfigurations: API.PaginatedOperationMeth
     items: "TeamChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsChannelConfigurations",
 })) as any;
 
 export type ListMicrosoftTeamsConfiguredTeamsError =
@@ -1393,7 +1457,7 @@ export type ListMicrosoftTeamsConfiguredTeamsError =
  * Lists all authorized Microsoft Teams for an AWS Account
  */
 export const listMicrosoftTeamsConfiguredTeams: API.PaginatedOperationMethod<
-  ListMicrosoftTeamsConfiguredTeamsRequest,
+  ListMicrosoftTeamsConfiguredTeamsRequest & RegionInput,
   ListMicrosoftTeamsConfiguredTeamsResult,
   ListMicrosoftTeamsConfiguredTeamsError,
   Credentials | HttpClient.HttpClient,
@@ -1415,6 +1479,8 @@ export const listMicrosoftTeamsConfiguredTeams: API.PaginatedOperationMethod<
     items: "ConfiguredTeams",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsConfiguredTeams",
 })) as any;
 
 export type ListMicrosoftTeamsUserIdentitiesError =
@@ -1426,7 +1492,7 @@ export type ListMicrosoftTeamsUserIdentitiesError =
  * A list all Microsoft Teams user identities with a mapped role.
  */
 export const listMicrosoftTeamsUserIdentities: API.PaginatedOperationMethod<
-  ListMicrosoftTeamsUserIdentitiesRequest,
+  ListMicrosoftTeamsUserIdentitiesRequest & RegionInput,
   ListMicrosoftTeamsUserIdentitiesResult,
   ListMicrosoftTeamsUserIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1448,6 +1514,8 @@ export const listMicrosoftTeamsUserIdentities: API.PaginatedOperationMethod<
     items: "TeamsUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsUserIdentities",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1459,7 +1527,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1470,6 +1538,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1482,7 +1552,7 @@ export type TagResourceError =
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1498,6 +1568,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1509,7 +1581,7 @@ export type UntagResourceError =
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1520,6 +1592,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountPreferencesError =
@@ -1531,7 +1605,7 @@ export type UpdateAccountPreferencesError =
  * Updates AWS Chatbot account preferences.
  */
 export const updateAccountPreferences: API.OperationMethod<
-  UpdateAccountPreferencesRequest,
+  UpdateAccountPreferencesRequest & RegionInput,
   UpdateAccountPreferencesResult,
   UpdateAccountPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1542,6 +1616,8 @@ export const updateAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountPreferences",
 }));
 
 export type UpdateChimeWebhookConfigurationError =
@@ -1554,7 +1630,7 @@ export type UpdateChimeWebhookConfigurationError =
  * Updates a Amazon Chime webhook configuration.
  */
 export const updateChimeWebhookConfiguration: API.OperationMethod<
-  UpdateChimeWebhookConfigurationRequest,
+  UpdateChimeWebhookConfigurationRequest & RegionInput,
   UpdateChimeWebhookConfigurationResult,
   UpdateChimeWebhookConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1570,6 +1646,8 @@ export const updateChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateChimeWebhookConfiguration",
 }));
 
 export type UpdateCustomActionError =
@@ -1582,7 +1660,7 @@ export type UpdateCustomActionError =
  * Updates a custom action.
  */
 export const updateCustomAction: API.OperationMethod<
-  UpdateCustomActionRequest,
+  UpdateCustomActionRequest & RegionInput,
   UpdateCustomActionResult,
   UpdateCustomActionError,
   Credentials | HttpClient.HttpClient
@@ -1598,6 +1676,8 @@ export const updateCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomAction",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomAction",
 }));
 
 export type UpdateMicrosoftTeamsChannelConfigurationError =
@@ -1610,7 +1690,7 @@ export type UpdateMicrosoftTeamsChannelConfigurationError =
  * Updates an Microsoft Teams channel configuration.
  */
 export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
-  UpdateTeamsChannelConfigurationRequest,
+  UpdateTeamsChannelConfigurationRequest & RegionInput,
   UpdateTeamsChannelConfigurationResult,
   UpdateMicrosoftTeamsChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1626,6 +1706,8 @@ export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMicrosoftTeamsChannelConfiguration",
 }));
 
 export type UpdateSlackChannelConfigurationError =
@@ -1638,7 +1720,7 @@ export type UpdateSlackChannelConfigurationError =
  * Updates a Slack channel configuration.
  */
 export const updateSlackChannelConfiguration: API.OperationMethod<
-  UpdateSlackChannelConfigurationRequest,
+  UpdateSlackChannelConfigurationRequest & RegionInput,
   UpdateSlackChannelConfigurationResult,
   UpdateSlackChannelConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1654,6 +1736,8 @@ export const updateSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSlackChannelConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

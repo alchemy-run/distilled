@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * ForgejoProtocol -- the shared bearer-REST protocol instantiated for Forgejo.
@@ -33,7 +33,11 @@ import { UnknownForgejoError, type DefaultErrors, ForgejoParseError } from "./er
  * ForgejoOpError, ForgejoOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type ForgejoOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type ForgejoOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Forgejo operation. */
 export type ForgejoOpContext = Credentials | HttpClient.HttpClient;

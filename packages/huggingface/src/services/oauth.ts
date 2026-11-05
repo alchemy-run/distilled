@@ -15,6 +15,18 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Oauth",
+  propagate: "w3c",
+} as const;
+
 export interface GetUserInfoRequest {}
 /** Hardware SKU as [type, vendor, model] */
 export type GetUserInfoResponseHardwareItemsItemSkuList = Array<unknown>;
@@ -265,6 +277,8 @@ export const getUserInfo: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserInfo",
 }));
 
 export type InitiateDeviceAuthorizationError = HuggingFaceOpError;
@@ -280,6 +294,8 @@ export const initiateDeviceAuthorization: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InitiateDeviceAuthorization",
 }));
 
 export type PostUserInfoError = HuggingFaceOpError;
@@ -295,6 +311,8 @@ export const postUserInfo: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostUserInfo",
 }));
 
 export type RegisterOAuthAppError = HuggingFaceOpError;
@@ -310,6 +328,8 @@ export const registerOAuthApp: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterOAuthApp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

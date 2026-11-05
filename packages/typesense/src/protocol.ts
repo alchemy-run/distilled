@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * TypesenseProtocol -- the shared bearer/header-auth REST factory from core,
@@ -27,7 +27,11 @@ import { type DefaultErrors, UnknownTypesenseError, TypesenseParseError } from "
  * TypesenseOpError, TypesenseOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type TypesenseOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type TypesenseOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Typesense operation. */
 export type TypesenseOpContext = Credentials | HttpClient.HttpClient;

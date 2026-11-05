@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://schemas.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "schemas",
+  service: "schemas",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -537,7 +553,7 @@ export type CreateDiscovererError =
  * Creates a discoverer.
  */
 export const createDiscoverer: API.OperationMethod<
-  CreateDiscovererRequest,
+  CreateDiscovererRequest & RegionInput,
   CreateDiscovererResponse,
   CreateDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -555,6 +571,8 @@ export const createDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDiscoverer",
+  telemetry: TELEMETRY,
+  span: "CreateDiscoverer",
 }));
 
 export type CreateRegistryError =
@@ -569,7 +587,7 @@ export type CreateRegistryError =
  * Creates a registry.
  */
 export const createRegistry: API.OperationMethod<
-  CreateRegistryRequest,
+  CreateRegistryRequest & RegionInput,
   CreateRegistryResponse,
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -587,6 +605,8 @@ export const createRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
+  telemetry: TELEMETRY,
+  span: "CreateRegistry",
 }));
 
 export type CreateSchemaError =
@@ -601,7 +621,7 @@ export type CreateSchemaError =
  * Inactive schemas will be deleted after two years.
  */
 export const createSchema: API.OperationMethod<
-  CreateSchemaRequest,
+  CreateSchemaRequest & RegionInput,
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -617,6 +637,8 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  telemetry: TELEMETRY,
+  span: "CreateSchema",
 }));
 
 export type DeleteDiscovererError =
@@ -631,7 +653,7 @@ export type DeleteDiscovererError =
  * Deletes a discoverer.
  */
 export const deleteDiscoverer: API.OperationMethod<
-  DeleteDiscovererRequest,
+  DeleteDiscovererRequest & RegionInput,
   DeleteDiscovererResponse,
   DeleteDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -649,6 +671,8 @@ export const deleteDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDiscoverer",
+  telemetry: TELEMETRY,
+  span: "DeleteDiscoverer",
 }));
 
 export type DeleteRegistryError =
@@ -663,7 +687,7 @@ export type DeleteRegistryError =
  * Deletes a Registry.
  */
 export const deleteRegistry: API.OperationMethod<
-  DeleteRegistryRequest,
+  DeleteRegistryRequest & RegionInput,
   DeleteRegistryResponse,
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
@@ -681,6 +705,8 @@ export const deleteRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
+  telemetry: TELEMETRY,
+  span: "DeleteRegistry",
 }));
 
 export type DeleteResourcePolicyError =
@@ -695,7 +721,7 @@ export type DeleteResourcePolicyError =
  * Delete the resource-based policy attached to the specified registry.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -713,6 +739,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteSchemaError =
@@ -727,7 +755,7 @@ export type DeleteSchemaError =
  * Delete a schema definition.
  */
 export const deleteSchema: API.OperationMethod<
-  DeleteSchemaRequest,
+  DeleteSchemaRequest & RegionInput,
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
@@ -745,6 +773,8 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  telemetry: TELEMETRY,
+  span: "DeleteSchema",
 }));
 
 export type DeleteSchemaVersionError =
@@ -759,7 +789,7 @@ export type DeleteSchemaVersionError =
  * Delete the schema version definition
  */
 export const deleteSchemaVersion: API.OperationMethod<
-  DeleteSchemaVersionRequest,
+  DeleteSchemaVersionRequest & RegionInput,
   DeleteSchemaVersionResponse,
   DeleteSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -777,6 +807,8 @@ export const deleteSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchemaVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteSchemaVersion",
 }));
 
 export type DescribeCodeBindingError =
@@ -791,7 +823,7 @@ export type DescribeCodeBindingError =
  * Describe the code binding URI.
  */
 export const describeCodeBinding: API.OperationMethod<
-  DescribeCodeBindingRequest,
+  DescribeCodeBindingRequest & RegionInput,
   DescribeCodeBindingResponse,
   DescribeCodeBindingError,
   Credentials | HttpClient.HttpClient
@@ -809,6 +841,8 @@ export const describeCodeBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCodeBinding",
+  telemetry: TELEMETRY,
+  span: "DescribeCodeBinding",
 }));
 
 export type DescribeDiscovererError =
@@ -823,7 +857,7 @@ export type DescribeDiscovererError =
  * Describes the discoverer.
  */
 export const describeDiscoverer: API.OperationMethod<
-  DescribeDiscovererRequest,
+  DescribeDiscovererRequest & RegionInput,
   DescribeDiscovererResponse,
   DescribeDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -841,6 +875,8 @@ export const describeDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDiscoverer",
+  telemetry: TELEMETRY,
+  span: "DescribeDiscoverer",
 }));
 
 export type DescribeRegistryError =
@@ -855,7 +891,7 @@ export type DescribeRegistryError =
  * Describes the registry.
  */
 export const describeRegistry: API.OperationMethod<
-  DescribeRegistryRequest,
+  DescribeRegistryRequest & RegionInput,
   DescribeRegistryResponse,
   DescribeRegistryError,
   Credentials | HttpClient.HttpClient
@@ -873,6 +909,8 @@ export const describeRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegistry",
+  telemetry: TELEMETRY,
+  span: "DescribeRegistry",
 }));
 
 export type DescribeSchemaError =
@@ -887,7 +925,7 @@ export type DescribeSchemaError =
  * Retrieve the schema definition.
  */
 export const describeSchema: API.OperationMethod<
-  DescribeSchemaRequest,
+  DescribeSchemaRequest & RegionInput,
   DescribeSchemaResponse,
   DescribeSchemaError,
   Credentials | HttpClient.HttpClient
@@ -905,6 +943,8 @@ export const describeSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchema",
+  telemetry: TELEMETRY,
+  span: "DescribeSchema",
 }));
 
 export type ExportSchemaError =
@@ -920,7 +960,7 @@ export type ExportSchemaError =
  *
  */
 export const exportSchema: API.OperationMethod<
-  ExportSchemaRequest,
+  ExportSchemaRequest & RegionInput,
   ExportSchemaResponse,
   ExportSchemaError,
   Credentials | HttpClient.HttpClient
@@ -939,6 +979,8 @@ export const exportSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportSchema",
+  telemetry: TELEMETRY,
+  span: "ExportSchema",
 }));
 
 export type GetCodeBindingSourceError =
@@ -953,7 +995,7 @@ export type GetCodeBindingSourceError =
  * Get the code binding source URI.
  */
 export const getCodeBindingSource: API.OperationMethod<
-  GetCodeBindingSourceRequest,
+  GetCodeBindingSourceRequest & RegionInput,
   GetCodeBindingSourceResponse,
   GetCodeBindingSourceError,
   Credentials | HttpClient.HttpClient
@@ -971,6 +1013,8 @@ export const getCodeBindingSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeBindingSource",
+  telemetry: TELEMETRY,
+  span: "GetCodeBindingSource",
 }));
 
 export type GetDiscoveredSchemaError =
@@ -984,7 +1028,7 @@ export type GetDiscoveredSchemaError =
  * Get the discovered schema that was generated based on sampled events.
  */
 export const getDiscoveredSchema: API.OperationMethod<
-  GetDiscoveredSchemaRequest,
+  GetDiscoveredSchemaRequest & RegionInput,
   GetDiscoveredSchemaResponse,
   GetDiscoveredSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1001,6 +1045,8 @@ export const getDiscoveredSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiscoveredSchema",
+  telemetry: TELEMETRY,
+  span: "GetDiscoveredSchema",
 }));
 
 export type GetResourcePolicyError =
@@ -1015,7 +1061,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a given registry.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1033,6 +1079,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListDiscoverersError =
@@ -1046,7 +1094,7 @@ export type ListDiscoverersError =
  * List the discoverers.
  */
 export const listDiscoverers: API.PaginatedOperationMethod<
-  ListDiscoverersRequest,
+  ListDiscoverersRequest & RegionInput,
   ListDiscoverersResponse,
   ListDiscoverersError,
   Credentials | HttpClient.HttpClient,
@@ -1070,6 +1118,8 @@ export const listDiscoverers: API.PaginatedOperationMethod<
     items: "Discoverers",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoverers",
 })) as any;
 
 export type ListRegistriesError =
@@ -1083,7 +1133,7 @@ export type ListRegistriesError =
  * List the registries.
  */
 export const listRegistries: API.PaginatedOperationMethod<
-  ListRegistriesRequest,
+  ListRegistriesRequest & RegionInput,
   ListRegistriesResponse,
   ListRegistriesError,
   Credentials | HttpClient.HttpClient,
@@ -1107,6 +1157,8 @@ export const listRegistries: API.PaginatedOperationMethod<
     items: "Registries",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegistries",
 })) as any;
 
 export type ListSchemasError =
@@ -1120,7 +1172,7 @@ export type ListSchemasError =
  * List the schemas.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasRequest,
+  ListSchemasRequest & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -1144,6 +1196,8 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemas",
 })) as any;
 
 export type ListSchemaVersionsError =
@@ -1158,7 +1212,7 @@ export type ListSchemaVersionsError =
  * Provides a list of the schema versions and related information.
  */
 export const listSchemaVersions: API.PaginatedOperationMethod<
-  ListSchemaVersionsRequest,
+  ListSchemaVersionsRequest & RegionInput,
   ListSchemaVersionsResponse,
   ListSchemaVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1183,6 +1237,8 @@ export const listSchemaVersions: API.PaginatedOperationMethod<
     items: "SchemaVersions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemaVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1195,7 +1251,7 @@ export type ListTagsForResourceError =
  * Get tags for resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1211,6 +1267,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutCodeBindingError =
@@ -1227,7 +1285,7 @@ export type PutCodeBindingError =
  * Put code binding URI
  */
 export const putCodeBinding: API.OperationMethod<
-  PutCodeBindingRequest,
+  PutCodeBindingRequest & RegionInput,
   PutCodeBindingResponse,
   PutCodeBindingError,
   Credentials | HttpClient.HttpClient
@@ -1247,6 +1305,8 @@ export const putCodeBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCodeBinding",
+  telemetry: TELEMETRY,
+  span: "PutCodeBinding",
 }));
 
 export type PutResourcePolicyError =
@@ -1262,7 +1322,7 @@ export type PutResourcePolicyError =
  * The name of the policy.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1281,6 +1341,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type SearchSchemasError =
@@ -1294,7 +1356,7 @@ export type SearchSchemasError =
  * Search the schemas
  */
 export const searchSchemas: API.PaginatedOperationMethod<
-  SearchSchemasRequest,
+  SearchSchemasRequest & RegionInput,
   SearchSchemasResponse,
   SearchSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -1318,6 +1380,8 @@ export const searchSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSchemas",
 })) as any;
 
 export type StartDiscovererError =
@@ -1332,7 +1396,7 @@ export type StartDiscovererError =
  * Starts the discoverer
  */
 export const startDiscoverer: API.OperationMethod<
-  StartDiscovererRequest,
+  StartDiscovererRequest & RegionInput,
   StartDiscovererResponse,
   StartDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -1350,6 +1414,8 @@ export const startDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDiscoverer",
+  telemetry: TELEMETRY,
+  span: "StartDiscoverer",
 }));
 
 export type StopDiscovererError =
@@ -1364,7 +1430,7 @@ export type StopDiscovererError =
  * Stops the discoverer
  */
 export const stopDiscoverer: API.OperationMethod<
-  StopDiscovererRequest,
+  StopDiscovererRequest & RegionInput,
   StopDiscovererResponse,
   StopDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -1382,6 +1448,8 @@ export const stopDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDiscoverer",
+  telemetry: TELEMETRY,
+  span: "StopDiscoverer",
 }));
 
 export type TagResourceError =
@@ -1394,7 +1462,7 @@ export type TagResourceError =
  * Add tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1410,6 +1478,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1422,7 +1492,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1438,6 +1508,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDiscovererError =
@@ -1452,7 +1524,7 @@ export type UpdateDiscovererError =
  * Updates the discoverer
  */
 export const updateDiscoverer: API.OperationMethod<
-  UpdateDiscovererRequest,
+  UpdateDiscovererRequest & RegionInput,
   UpdateDiscovererResponse,
   UpdateDiscovererError,
   Credentials | HttpClient.HttpClient
@@ -1470,6 +1542,8 @@ export const updateDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDiscoverer",
+  telemetry: TELEMETRY,
+  span: "UpdateDiscoverer",
 }));
 
 export type UpdateRegistryError =
@@ -1484,7 +1558,7 @@ export type UpdateRegistryError =
  * Updates a registry.
  */
 export const updateRegistry: API.OperationMethod<
-  UpdateRegistryRequest,
+  UpdateRegistryRequest & RegionInput,
   UpdateRegistryResponse,
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -1502,6 +1576,8 @@ export const updateRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
+  telemetry: TELEMETRY,
+  span: "UpdateRegistry",
 }));
 
 export type UpdateSchemaError =
@@ -1517,7 +1593,7 @@ export type UpdateSchemaError =
  * Inactive schemas will be deleted after two years.
  */
 export const updateSchema: API.OperationMethod<
-  UpdateSchemaRequest,
+  UpdateSchemaRequest & RegionInput,
   UpdateSchemaResponse,
   UpdateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -1534,6 +1610,8 @@ export const updateSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchema",
+  telemetry: TELEMETRY,
+  span: "UpdateSchema",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

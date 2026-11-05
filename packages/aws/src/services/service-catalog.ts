@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -74,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://servicecatalog.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServiceCatalog",
+  service: "ServiceCatalog",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DuplicateResourceException
   extends /*@__PURE__*/ S.TaggedError<DuplicateResourceException>()("DuplicateResourceException", {
@@ -1692,7 +1709,7 @@ export type AcceptPortfolioShareError =
  * Accepts an offer to share the specified portfolio.
  */
 export const acceptPortfolioShare: API.OperationMethod<
-  AcceptPortfolioShareInput,
+  AcceptPortfolioShareInput & RegionInput,
   AcceptPortfolioShareOutput,
   AcceptPortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -1703,6 +1720,8 @@ export const acceptPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPortfolioShare",
+  telemetry: TELEMETRY,
+  span: "AcceptPortfolioShare",
 }));
 
 export type AssociateBudgetWithResourceError =
@@ -1715,7 +1734,7 @@ export type AssociateBudgetWithResourceError =
  * Associates the specified budget with the specified resource.
  */
 export const associateBudgetWithResource: API.OperationMethod<
-  AssociateBudgetWithResourceInput,
+  AssociateBudgetWithResourceInput & RegionInput,
   AssociateBudgetWithResourceOutput,
   AssociateBudgetWithResourceError,
   Credentials | HttpClient.HttpClient
@@ -1731,6 +1750,8 @@ export const associateBudgetWithResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBudgetWithResource",
+  telemetry: TELEMETRY,
+  span: "AssociateBudgetWithResource",
 }));
 
 export type AssociatePrincipalWithPortfolioError =
@@ -1758,7 +1779,7 @@ export type AssociatePrincipalWithPortfolioError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const associatePrincipalWithPortfolio: API.OperationMethod<
-  AssociatePrincipalWithPortfolioInput,
+  AssociatePrincipalWithPortfolioInput & RegionInput,
   AssociatePrincipalWithPortfolioOutput,
   AssociatePrincipalWithPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -1769,6 +1790,8 @@ export const associatePrincipalWithPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePrincipalWithPortfolio",
+  telemetry: TELEMETRY,
+  span: "AssociatePrincipalWithPortfolio",
 }));
 
 export type AssociateProductWithPortfolioError =
@@ -1782,7 +1805,7 @@ export type AssociateProductWithPortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const associateProductWithPortfolio: API.OperationMethod<
-  AssociateProductWithPortfolioInput,
+  AssociateProductWithPortfolioInput & RegionInput,
   AssociateProductWithPortfolioOutput,
   AssociateProductWithPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -1793,6 +1816,8 @@ export const associateProductWithPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProductWithPortfolio",
+  telemetry: TELEMETRY,
+  span: "AssociateProductWithPortfolio",
 }));
 
 export type AssociateServiceActionWithProvisioningArtifactError =
@@ -1805,7 +1830,7 @@ export type AssociateServiceActionWithProvisioningArtifactError =
  * Associates a self-service action with a provisioning artifact.
  */
 export const associateServiceActionWithProvisioningArtifact: API.OperationMethod<
-  AssociateServiceActionWithProvisioningArtifactInput,
+  AssociateServiceActionWithProvisioningArtifactInput & RegionInput,
   AssociateServiceActionWithProvisioningArtifactOutput,
   AssociateServiceActionWithProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1825,6 +1850,8 @@ export const associateServiceActionWithProvisioningArtifact: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceActionWithProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceActionWithProvisioningArtifact",
 }));
 
 export type AssociateTagOptionWithResourceError =
@@ -1839,7 +1866,7 @@ export type AssociateTagOptionWithResourceError =
  * Associate the specified TagOption with the specified portfolio or product.
  */
 export const associateTagOptionWithResource: API.OperationMethod<
-  AssociateTagOptionWithResourceInput,
+  AssociateTagOptionWithResourceInput & RegionInput,
   AssociateTagOptionWithResourceOutput,
   AssociateTagOptionWithResourceError,
   Credentials | HttpClient.HttpClient
@@ -1857,6 +1884,8 @@ export const associateTagOptionWithResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTagOptionWithResource",
+  telemetry: TELEMETRY,
+  span: "AssociateTagOptionWithResource",
 }));
 
 export type BatchAssociateServiceActionWithProvisioningArtifactError =
@@ -1866,7 +1895,7 @@ export type BatchAssociateServiceActionWithProvisioningArtifactError =
  * Associates multiple self-service actions with provisioning artifacts.
  */
 export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationMethod<
-  BatchAssociateServiceActionWithProvisioningArtifactInput,
+  BatchAssociateServiceActionWithProvisioningArtifactInput & RegionInput,
   BatchAssociateServiceActionWithProvisioningArtifactOutput,
   BatchAssociateServiceActionWithProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1885,6 +1914,8 @@ export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateServiceActionWithProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateServiceActionWithProvisioningArtifact",
 }));
 
 export type BatchDisassociateServiceActionFromProvisioningArtifactError =
@@ -1894,7 +1925,7 @@ export type BatchDisassociateServiceActionFromProvisioningArtifactError =
  * Disassociates a batch of self-service actions from the specified provisioning artifact.
  */
 export const batchDisassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
-  BatchDisassociateServiceActionFromProvisioningArtifactInput,
+  BatchDisassociateServiceActionFromProvisioningArtifactInput & RegionInput,
   BatchDisassociateServiceActionFromProvisioningArtifactOutput,
   BatchDisassociateServiceActionFromProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1913,6 +1944,8 @@ export const batchDisassociateServiceActionFromProvisioningArtifact: API.Operati
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateServiceActionFromProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateServiceActionFromProvisioningArtifact",
 }));
 
 export type CopyProductError =
@@ -1931,7 +1964,7 @@ export type CopyProductError =
  * operation, use DescribeCopyProductStatus.
  */
 export const copyProduct: API.OperationMethod<
-  CopyProductInput,
+  CopyProductInput & RegionInput,
   CopyProductOutput,
   CopyProductError,
   Credentials | HttpClient.HttpClient
@@ -1942,6 +1975,8 @@ export const copyProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyProduct",
+  telemetry: TELEMETRY,
+  span: "CopyProduct",
 }));
 
 export type CreateConstraintError =
@@ -1956,7 +1991,7 @@ export type CreateConstraintError =
  * A delegated admin is authorized to invoke this command.
  */
 export const createConstraint: API.OperationMethod<
-  CreateConstraintInput,
+  CreateConstraintInput & RegionInput,
   CreateConstraintOutput,
   CreateConstraintError,
   Credentials | HttpClient.HttpClient
@@ -1972,6 +2007,8 @@ export const createConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConstraint",
+  telemetry: TELEMETRY,
+  span: "CreateConstraint",
 }));
 
 export type CreatePortfolioError =
@@ -1985,7 +2022,7 @@ export type CreatePortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const createPortfolio: API.OperationMethod<
-  CreatePortfolioInput,
+  CreatePortfolioInput & RegionInput,
   CreatePortfolioOutput,
   CreatePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2033,8 @@ export const createPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolio",
+  telemetry: TELEMETRY,
+  span: "CreatePortfolio",
 }));
 
 export type CreatePortfolioShareError =
@@ -2029,7 +2068,7 @@ export type CreatePortfolioShareError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const createPortfolioShare: API.OperationMethod<
-  CreatePortfolioShareInput,
+  CreatePortfolioShareInput & RegionInput,
   CreatePortfolioShareOutput,
   CreatePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -2046,6 +2085,8 @@ export const createPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolioShare",
+  telemetry: TELEMETRY,
+  span: "CreatePortfolioShare",
 }));
 
 export type CreateProductError =
@@ -2064,7 +2105,7 @@ export type CreateProductError =
  * information data section.
  */
 export const createProduct: API.OperationMethod<
-  CreateProductInput,
+  CreateProductInput & RegionInput,
   CreateProductOutput,
   CreateProductError,
   Credentials | HttpClient.HttpClient
@@ -2075,6 +2116,8 @@ export const createProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProduct",
+  telemetry: TELEMETRY,
+  span: "CreateProduct",
 }));
 
 export type CreateProvisionedProductPlanError =
@@ -2096,7 +2139,7 @@ export type CreateProvisionedProductPlanError =
  * To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
  */
 export const createProvisionedProductPlan: API.OperationMethod<
-  CreateProvisionedProductPlanInput,
+  CreateProvisionedProductPlanInput & RegionInput,
   CreateProvisionedProductPlanOutput,
   CreateProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2107,6 +2150,8 @@ export const createProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "CreateProvisionedProductPlan",
 }));
 
 export type CreateProvisioningArtifactError =
@@ -2124,7 +2169,7 @@ export type CreateProvisioningArtifactError =
  * `ImportFromPhysicalId` template source in the information data section.
  */
 export const createProvisioningArtifact: API.OperationMethod<
-  CreateProvisioningArtifactInput,
+  CreateProvisioningArtifactInput & RegionInput,
   CreateProvisioningArtifactOutput,
   CreateProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2135,6 +2180,8 @@ export const createProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "CreateProvisioningArtifact",
 }));
 
 export type CreateServiceActionError =
@@ -2145,7 +2192,7 @@ export type CreateServiceActionError =
  * Creates a self-service action.
  */
 export const createServiceAction: API.OperationMethod<
-  CreateServiceActionInput,
+  CreateServiceActionInput & RegionInput,
   CreateServiceActionOutput,
   CreateServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2156,6 +2203,8 @@ export const createServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceAction",
+  telemetry: TELEMETRY,
+  span: "CreateServiceAction",
 }));
 
 export type CreateTagOptionError =
@@ -2167,7 +2216,7 @@ export type CreateTagOptionError =
  * Creates a TagOption.
  */
 export const createTagOption: API.OperationMethod<
-  CreateTagOptionInput,
+  CreateTagOptionInput & RegionInput,
   CreateTagOptionOutput,
   CreateTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2178,6 +2227,8 @@ export const createTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTagOption",
+  telemetry: TELEMETRY,
+  span: "CreateTagOption",
 }));
 
 export type DeleteConstraintError =
@@ -2190,7 +2241,7 @@ export type DeleteConstraintError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deleteConstraint: API.OperationMethod<
-  DeleteConstraintInput,
+  DeleteConstraintInput & RegionInput,
   DeleteConstraintOutput,
   DeleteConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2201,6 +2252,8 @@ export const deleteConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConstraint",
+  telemetry: TELEMETRY,
+  span: "DeleteConstraint",
 }));
 
 export type DeletePortfolioError =
@@ -2218,7 +2271,7 @@ export type DeletePortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deletePortfolio: API.OperationMethod<
-  DeletePortfolioInput,
+  DeletePortfolioInput & RegionInput,
   DeletePortfolioOutput,
   DeletePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2234,6 +2287,8 @@ export const deletePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolio",
+  telemetry: TELEMETRY,
+  span: "DeletePortfolio",
 }));
 
 export type DeletePortfolioShareError =
@@ -2250,7 +2305,7 @@ export type DeletePortfolioShareError =
  * Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
  */
 export const deletePortfolioShare: API.OperationMethod<
-  DeletePortfolioShareInput,
+  DeletePortfolioShareInput & RegionInput,
   DeletePortfolioShareOutput,
   DeletePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -2266,6 +2321,8 @@ export const deletePortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolioShare",
+  telemetry: TELEMETRY,
+  span: "DeletePortfolioShare",
 }));
 
 export type DeleteProductError =
@@ -2282,7 +2339,7 @@ export type DeleteProductError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deleteProduct: API.OperationMethod<
-  DeleteProductInput,
+  DeleteProductInput & RegionInput,
   DeleteProductOutput,
   DeleteProductError,
   Credentials | HttpClient.HttpClient
@@ -2298,6 +2355,8 @@ export const deleteProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProduct",
+  telemetry: TELEMETRY,
+  span: "DeleteProduct",
 }));
 
 export type DeleteProvisionedProductPlanError =
@@ -2308,7 +2367,7 @@ export type DeleteProvisionedProductPlanError =
  * Deletes the specified plan.
  */
 export const deleteProvisionedProductPlan: API.OperationMethod<
-  DeleteProvisionedProductPlanInput,
+  DeleteProvisionedProductPlanInput & RegionInput,
   DeleteProvisionedProductPlanOutput,
   DeleteProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2319,6 +2378,8 @@ export const deleteProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteProvisionedProductPlan",
 }));
 
 export type DeleteProvisioningArtifactError =
@@ -2334,7 +2395,7 @@ export type DeleteProvisioningArtifactError =
  * least one provisioning artifact.
  */
 export const deleteProvisioningArtifact: API.OperationMethod<
-  DeleteProvisioningArtifactInput,
+  DeleteProvisioningArtifactInput & RegionInput,
   DeleteProvisioningArtifactOutput,
   DeleteProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2345,6 +2406,8 @@ export const deleteProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "DeleteProvisioningArtifact",
 }));
 
 export type DeleteServiceActionError =
@@ -2356,7 +2419,7 @@ export type DeleteServiceActionError =
  * Deletes a self-service action.
  */
 export const deleteServiceAction: API.OperationMethod<
-  DeleteServiceActionInput,
+  DeleteServiceActionInput & RegionInput,
   DeleteServiceActionOutput,
   DeleteServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2367,6 +2430,8 @@ export const deleteServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceAction",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAction",
 }));
 
 export type DeleteTagOptionError =
@@ -2380,7 +2445,7 @@ export type DeleteTagOptionError =
  * You cannot delete a TagOption if it is associated with a product or portfolio.
  */
 export const deleteTagOption: API.OperationMethod<
-  DeleteTagOptionInput,
+  DeleteTagOptionInput & RegionInput,
   DeleteTagOptionOutput,
   DeleteTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2391,6 +2456,8 @@ export const deleteTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTagOption",
+  telemetry: TELEMETRY,
+  span: "DeleteTagOption",
 }));
 
 export type DescribeConstraintError = ResourceNotFoundException | CommonErrors;
@@ -2398,7 +2465,7 @@ export type DescribeConstraintError = ResourceNotFoundException | CommonErrors;
  * Gets information about the specified constraint.
  */
 export const describeConstraint: API.OperationMethod<
-  DescribeConstraintInput,
+  DescribeConstraintInput & RegionInput,
   DescribeConstraintOutput,
   DescribeConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2409,6 +2476,8 @@ export const describeConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConstraint",
+  telemetry: TELEMETRY,
+  span: "DescribeConstraint",
 }));
 
 export type DescribeCopyProductStatusError = ResourceNotFoundException | CommonErrors;
@@ -2416,7 +2485,7 @@ export type DescribeCopyProductStatusError = ResourceNotFoundException | CommonE
  * Gets the status of the specified copy product operation.
  */
 export const describeCopyProductStatus: API.OperationMethod<
-  DescribeCopyProductStatusInput,
+  DescribeCopyProductStatusInput & RegionInput,
   DescribeCopyProductStatusOutput,
   DescribeCopyProductStatusError,
   Credentials | HttpClient.HttpClient
@@ -2427,6 +2496,8 @@ export const describeCopyProductStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyProductStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeCopyProductStatus",
 }));
 
 export type DescribePortfolioError = ResourceNotFoundException | CommonErrors;
@@ -2436,7 +2507,7 @@ export type DescribePortfolioError = ResourceNotFoundException | CommonErrors;
  * A delegated admin is authorized to invoke this command.
  */
 export const describePortfolio: API.OperationMethod<
-  DescribePortfolioInput,
+  DescribePortfolioInput & RegionInput,
   DescribePortfolioOutput,
   DescribePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2447,6 +2518,8 @@ export const describePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolio",
+  telemetry: TELEMETRY,
+  span: "DescribePortfolio",
 }));
 
 export type DescribePortfolioSharesError =
@@ -2463,7 +2536,7 @@ export type DescribePortfolioSharesError =
  * The `PortfolioId` and `Type` parameters are both required.
  */
 export const describePortfolioShares: API.PaginatedOperationMethod<
-  DescribePortfolioSharesInput,
+  DescribePortfolioSharesInput & RegionInput,
   DescribePortfolioSharesOutput,
   DescribePortfolioSharesError,
   Credentials | HttpClient.HttpClient,
@@ -2480,6 +2553,8 @@ export const describePortfolioShares: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePortfolioShares",
 })) as any;
 
 export type DescribePortfolioShareStatusError =
@@ -2492,7 +2567,7 @@ export type DescribePortfolioShareStatusError =
  * by the management account in the organization or by a delegated admin.
  */
 export const describePortfolioShareStatus: API.OperationMethod<
-  DescribePortfolioShareStatusInput,
+  DescribePortfolioShareStatusInput & RegionInput,
   DescribePortfolioShareStatusOutput,
   DescribePortfolioShareStatusError,
   Credentials | HttpClient.HttpClient
@@ -2503,6 +2578,8 @@ export const describePortfolioShareStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolioShareStatus",
+  telemetry: TELEMETRY,
+  span: "DescribePortfolioShareStatus",
 }));
 
 export type DescribeProductError =
@@ -2519,7 +2596,7 @@ export type DescribeProductError =
  * DescribeProductAsAdmin should be used instead.
  */
 export const describeProduct: API.OperationMethod<
-  DescribeProductInput,
+  DescribeProductInput & RegionInput,
   DescribeProductOutput,
   DescribeProductError,
   Credentials | HttpClient.HttpClient
@@ -2530,6 +2607,8 @@ export const describeProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProduct",
+  telemetry: TELEMETRY,
+  span: "DescribeProduct",
 }));
 
 export type DescribeProductAsAdminError =
@@ -2540,7 +2619,7 @@ export type DescribeProductAsAdminError =
  * Gets information about the specified product. This operation is run with administrator access.
  */
 export const describeProductAsAdmin: API.OperationMethod<
-  DescribeProductAsAdminInput,
+  DescribeProductAsAdminInput & RegionInput,
   DescribeProductAsAdminOutput,
   DescribeProductAsAdminError,
   Credentials | HttpClient.HttpClient
@@ -2551,6 +2630,8 @@ export const describeProductAsAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductAsAdmin",
+  telemetry: TELEMETRY,
+  span: "DescribeProductAsAdmin",
 }));
 
 export type DescribeProductViewError =
@@ -2561,7 +2642,7 @@ export type DescribeProductViewError =
  * Gets information about the specified product.
  */
 export const describeProductView: API.OperationMethod<
-  DescribeProductViewInput,
+  DescribeProductViewInput & RegionInput,
   DescribeProductViewOutput,
   DescribeProductViewError,
   Credentials | HttpClient.HttpClient
@@ -2572,6 +2653,8 @@ export const describeProductView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductView",
+  telemetry: TELEMETRY,
+  span: "DescribeProductView",
 }));
 
 export type DescribeProvisionedProductError =
@@ -2582,7 +2665,7 @@ export type DescribeProvisionedProductError =
  * Gets information about the specified provisioned product.
  */
 export const describeProvisionedProduct: API.OperationMethod<
-  DescribeProvisionedProductInput,
+  DescribeProvisionedProductInput & RegionInput,
   DescribeProvisionedProductOutput,
   DescribeProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -2593,6 +2676,8 @@ export const describeProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisionedProduct",
 }));
 
 export type DescribeProvisionedProductPlanError =
@@ -2603,7 +2688,7 @@ export type DescribeProvisionedProductPlanError =
  * Gets information about the resource changes for the specified plan.
  */
 export const describeProvisionedProductPlan: API.OperationMethod<
-  DescribeProvisionedProductPlanInput,
+  DescribeProvisionedProductPlanInput & RegionInput,
   DescribeProvisionedProductPlanOutput,
   DescribeProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2614,6 +2699,8 @@ export const describeProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisionedProductPlan",
 }));
 
 export type DescribeProvisioningArtifactError =
@@ -2624,7 +2711,7 @@ export type DescribeProvisioningArtifactError =
  * Gets information about the specified provisioning artifact (also known as a version) for the specified product.
  */
 export const describeProvisioningArtifact: API.OperationMethod<
-  DescribeProvisioningArtifactInput,
+  DescribeProvisioningArtifactInput & RegionInput,
   DescribeProvisioningArtifactOutput,
   DescribeProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2635,6 +2722,8 @@ export const describeProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisioningArtifact",
 }));
 
 export type DescribeProvisioningParametersError =
@@ -2653,7 +2742,7 @@ export type DescribeProvisioningParametersError =
  * Tag the provisioned product with the value `sc-tagoption-conflict-portfolioId-productId`.
  */
 export const describeProvisioningParameters: API.OperationMethod<
-  DescribeProvisioningParametersInput,
+  DescribeProvisioningParametersInput & RegionInput,
   DescribeProvisioningParametersOutput,
   DescribeProvisioningParametersError,
   Credentials | HttpClient.HttpClient
@@ -2664,6 +2753,8 @@ export const describeProvisioningParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisioningParameters",
 }));
 
 export type DescribeRecordError = ResourceNotFoundException | CommonErrors;
@@ -2678,7 +2769,7 @@ export type DescribeRecordError = ResourceNotFoundException | CommonErrors;
  * use ListRecordHistory to see the product's history from when he was the owner.
  */
 export const describeRecord: API.OperationMethod<
-  DescribeRecordInput,
+  DescribeRecordInput & RegionInput,
   DescribeRecordOutput,
   DescribeRecordError,
   Credentials | HttpClient.HttpClient
@@ -2689,6 +2780,8 @@ export const describeRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecord",
+  telemetry: TELEMETRY,
+  span: "DescribeRecord",
 }));
 
 export type DescribeServiceActionError = ResourceNotFoundException | CommonErrors;
@@ -2696,7 +2789,7 @@ export type DescribeServiceActionError = ResourceNotFoundException | CommonError
  * Describes a self-service action.
  */
 export const describeServiceAction: API.OperationMethod<
-  DescribeServiceActionInput,
+  DescribeServiceActionInput & RegionInput,
   DescribeServiceActionOutput,
   DescribeServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2707,6 +2800,8 @@ export const describeServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceAction",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceAction",
 }));
 
 export type DescribeServiceActionExecutionParametersError =
@@ -2717,7 +2812,7 @@ export type DescribeServiceActionExecutionParametersError =
  * Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
  */
 export const describeServiceActionExecutionParameters: API.OperationMethod<
-  DescribeServiceActionExecutionParametersInput,
+  DescribeServiceActionExecutionParametersInput & RegionInput,
   DescribeServiceActionExecutionParametersOutput,
   DescribeServiceActionExecutionParametersError,
   Credentials | HttpClient.HttpClient
@@ -2728,6 +2823,8 @@ export const describeServiceActionExecutionParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceActionExecutionParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceActionExecutionParameters",
 }));
 
 export type DescribeTagOptionError =
@@ -2738,7 +2835,7 @@ export type DescribeTagOptionError =
  * Gets information about the specified TagOption.
  */
 export const describeTagOption: API.OperationMethod<
-  DescribeTagOptionInput,
+  DescribeTagOptionInput & RegionInput,
   DescribeTagOptionOutput,
   DescribeTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2749,6 +2846,8 @@ export const describeTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTagOption",
+  telemetry: TELEMETRY,
+  span: "DescribeTagOption",
 }));
 
 export type DisableAWSOrganizationsAccessError =
@@ -2773,7 +2872,7 @@ export type DisableAWSOrganizationsAccessError =
  * disabling Service Catalog access will retain access to the previously shared portfolio.
  */
 export const disableAWSOrganizationsAccess: API.OperationMethod<
-  DisableAWSOrganizationsAccessInput,
+  DisableAWSOrganizationsAccessInput & RegionInput,
   DisableAWSOrganizationsAccessOutput,
   DisableAWSOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -2784,6 +2883,8 @@ export const disableAWSOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAWSOrganizationsAccess",
+  telemetry: TELEMETRY,
+  span: "DisableAWSOrganizationsAccess",
 }));
 
 export type DisassociateBudgetFromResourceError = ResourceNotFoundException | CommonErrors;
@@ -2791,7 +2892,7 @@ export type DisassociateBudgetFromResourceError = ResourceNotFoundException | Co
  * Disassociates the specified budget from the specified resource.
  */
 export const disassociateBudgetFromResource: API.OperationMethod<
-  DisassociateBudgetFromResourceInput,
+  DisassociateBudgetFromResourceInput & RegionInput,
   DisassociateBudgetFromResourceOutput,
   DisassociateBudgetFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2802,6 +2903,8 @@ export const disassociateBudgetFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBudgetFromResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateBudgetFromResource",
 }));
 
 export type DisassociatePrincipalFromPortfolioError =
@@ -2831,7 +2934,7 @@ export type DisassociatePrincipalFromPortfolioError =
  * whose access you are removing.
  */
 export const disassociatePrincipalFromPortfolio: API.OperationMethod<
-  DisassociatePrincipalFromPortfolioInput,
+  DisassociatePrincipalFromPortfolioInput & RegionInput,
   DisassociatePrincipalFromPortfolioOutput,
   DisassociatePrincipalFromPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2842,6 +2945,8 @@ export const disassociatePrincipalFromPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePrincipalFromPortfolio",
+  telemetry: TELEMETRY,
+  span: "DisassociatePrincipalFromPortfolio",
 }));
 
 export type DisassociateProductFromPortfolioError =
@@ -2855,7 +2960,7 @@ export type DisassociateProductFromPortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const disassociateProductFromPortfolio: API.OperationMethod<
-  DisassociateProductFromPortfolioInput,
+  DisassociateProductFromPortfolioInput & RegionInput,
   DisassociateProductFromPortfolioOutput,
   DisassociateProductFromPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2866,6 +2971,8 @@ export const disassociateProductFromPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProductFromPortfolio",
+  telemetry: TELEMETRY,
+  span: "DisassociateProductFromPortfolio",
 }));
 
 export type DisassociateServiceActionFromProvisioningArtifactError =
@@ -2876,7 +2983,7 @@ export type DisassociateServiceActionFromProvisioningArtifactError =
  * Disassociates the specified self-service action association from the specified provisioning artifact.
  */
 export const disassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
-  DisassociateServiceActionFromProvisioningArtifactInput,
+  DisassociateServiceActionFromProvisioningArtifactInput & RegionInput,
   DisassociateServiceActionFromProvisioningArtifactOutput,
   DisassociateServiceActionFromProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2895,6 +3002,8 @@ export const disassociateServiceActionFromProvisioningArtifact: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceActionFromProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceActionFromProvisioningArtifact",
 }));
 
 export type DisassociateTagOptionFromResourceError =
@@ -2905,7 +3014,7 @@ export type DisassociateTagOptionFromResourceError =
  * Disassociates the specified TagOption from the specified resource.
  */
 export const disassociateTagOptionFromResource: API.OperationMethod<
-  DisassociateTagOptionFromResourceInput,
+  DisassociateTagOptionFromResourceInput & RegionInput,
   DisassociateTagOptionFromResourceOutput,
   DisassociateTagOptionFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2916,6 +3025,8 @@ export const disassociateTagOptionFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTagOptionFromResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateTagOptionFromResource",
 }));
 
 export type EnableAWSOrganizationsAccessError =
@@ -2940,7 +3051,7 @@ export type EnableAWSOrganizationsAccessError =
  * authorized to do so. Amazon Web Services is working to resolve this issue.
  */
 export const enableAWSOrganizationsAccess: API.OperationMethod<
-  EnableAWSOrganizationsAccessInput,
+  EnableAWSOrganizationsAccessInput & RegionInput,
   EnableAWSOrganizationsAccessOutput,
   EnableAWSOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -2951,6 +3062,8 @@ export const enableAWSOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAWSOrganizationsAccess",
+  telemetry: TELEMETRY,
+  span: "EnableAWSOrganizationsAccess",
 }));
 
 export type ExecuteProvisionedProductPlanError =
@@ -2962,7 +3075,7 @@ export type ExecuteProvisionedProductPlanError =
  * Provisions or modifies a product based on the resource changes for the specified plan.
  */
 export const executeProvisionedProductPlan: API.OperationMethod<
-  ExecuteProvisionedProductPlanInput,
+  ExecuteProvisionedProductPlanInput & RegionInput,
   ExecuteProvisionedProductPlanOutput,
   ExecuteProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2973,6 +3086,8 @@ export const executeProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "ExecuteProvisionedProductPlan",
 }));
 
 export type ExecuteProvisionedProductServiceActionError =
@@ -2985,7 +3100,7 @@ export type ExecuteProvisionedProductServiceActionError =
  * Executes a self-service action against a provisioned product.
  */
 export const executeProvisionedProductServiceAction: API.OperationMethod<
-  ExecuteProvisionedProductServiceActionInput,
+  ExecuteProvisionedProductServiceActionInput & RegionInput,
   ExecuteProvisionedProductServiceActionOutput,
   ExecuteProvisionedProductServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -3001,6 +3116,8 @@ export const executeProvisionedProductServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductServiceAction",
+  telemetry: TELEMETRY,
+  span: "ExecuteProvisionedProductServiceAction",
 }));
 
 export type GetAWSOrganizationsAccessStatusError =
@@ -3012,7 +3129,7 @@ export type GetAWSOrganizationsAccessStatusError =
  * called by the management account in the organization or by a delegated admin.
  */
 export const getAWSOrganizationsAccessStatus: API.OperationMethod<
-  GetAWSOrganizationsAccessStatusInput,
+  GetAWSOrganizationsAccessStatusInput & RegionInput,
   GetAWSOrganizationsAccessStatusOutput,
   GetAWSOrganizationsAccessStatusError,
   Credentials | HttpClient.HttpClient
@@ -3023,6 +3140,8 @@ export const getAWSOrganizationsAccessStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAWSOrganizationsAccessStatus",
+  telemetry: TELEMETRY,
+  span: "GetAWSOrganizationsAccessStatus",
 }));
 
 export type GetProvisionedProductOutputsError =
@@ -3033,7 +3152,7 @@ export type GetProvisionedProductOutputsError =
  * This API takes either a `ProvisonedProductId` or a `ProvisionedProductName`, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
  */
 export const getProvisionedProductOutputs: API.PaginatedOperationMethod<
-  GetProvisionedProductOutputsInput,
+  GetProvisionedProductOutputsInput & RegionInput,
   GetProvisionedProductOutputsOutput,
   GetProvisionedProductOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3050,6 +3169,8 @@ export const getProvisionedProductOutputs: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetProvisionedProductOutputs",
 })) as any;
 
 export type ImportAsProvisionedProductError =
@@ -3087,7 +3208,7 @@ export type ImportAsProvisionedProductError =
  * `IMPORT_COMPLETE` status before you import another.
  */
 export const importAsProvisionedProduct: API.OperationMethod<
-  ImportAsProvisionedProductInput,
+  ImportAsProvisionedProductInput & RegionInput,
   ImportAsProvisionedProductOutput,
   ImportAsProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3103,6 +3224,8 @@ export const importAsProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportAsProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "ImportAsProvisionedProduct",
 }));
 
 export type ListAcceptedPortfolioSharesError =
@@ -3115,7 +3238,7 @@ export type ListAcceptedPortfolioSharesError =
  * organizational shares were accepted by this account.
  */
 export const listAcceptedPortfolioShares: API.PaginatedOperationMethod<
-  ListAcceptedPortfolioSharesInput,
+  ListAcceptedPortfolioSharesInput & RegionInput,
   ListAcceptedPortfolioSharesOutput,
   ListAcceptedPortfolioSharesError,
   Credentials | HttpClient.HttpClient,
@@ -3132,6 +3255,8 @@ export const listAcceptedPortfolioShares: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAcceptedPortfolioShares",
 })) as any;
 
 export type ListBudgetsForResourceError =
@@ -3142,7 +3267,7 @@ export type ListBudgetsForResourceError =
  * Lists all the budgets associated to the specified resource.
  */
 export const listBudgetsForResource: API.PaginatedOperationMethod<
-  ListBudgetsForResourceInput,
+  ListBudgetsForResourceInput & RegionInput,
   ListBudgetsForResourceOutput,
   ListBudgetsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3159,6 +3284,8 @@ export const listBudgetsForResource: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBudgetsForResource",
 })) as any;
 
 export type ListConstraintsForPortfolioError =
@@ -3169,7 +3296,7 @@ export type ListConstraintsForPortfolioError =
  * Lists the constraints for the specified portfolio and product.
  */
 export const listConstraintsForPortfolio: API.PaginatedOperationMethod<
-  ListConstraintsForPortfolioInput,
+  ListConstraintsForPortfolioInput & RegionInput,
   ListConstraintsForPortfolioOutput,
   ListConstraintsForPortfolioError,
   Credentials | HttpClient.HttpClient,
@@ -3186,6 +3313,8 @@ export const listConstraintsForPortfolio: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConstraintsForPortfolio",
 })) as any;
 
 export type ListLaunchPathsError =
@@ -3216,7 +3345,7 @@ export type ListLaunchPathsError =
  * in the *Service Catalog User Guide*.
  */
 export const listLaunchPaths: API.PaginatedOperationMethod<
-  ListLaunchPathsInput,
+  ListLaunchPathsInput & RegionInput,
   ListLaunchPathsOutput,
   ListLaunchPathsError,
   Credentials | HttpClient.HttpClient,
@@ -3233,6 +3362,8 @@ export const listLaunchPaths: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLaunchPaths",
 })) as any;
 
 export type ListOrganizationPortfolioAccessError =
@@ -3248,7 +3379,7 @@ export type ListOrganizationPortfolioAccessError =
  * If a delegated admin is de-registered, they can no longer perform this operation.
  */
 export const listOrganizationPortfolioAccess: API.PaginatedOperationMethod<
-  ListOrganizationPortfolioAccessInput,
+  ListOrganizationPortfolioAccessInput & RegionInput,
   ListOrganizationPortfolioAccessOutput,
   ListOrganizationPortfolioAccessError,
   Credentials | HttpClient.HttpClient,
@@ -3265,6 +3396,8 @@ export const listOrganizationPortfolioAccess: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationPortfolioAccess",
 })) as any;
 
 export type ListPortfolioAccessError =
@@ -3277,7 +3410,7 @@ export type ListPortfolioAccessError =
  * A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
  */
 export const listPortfolioAccess: API.PaginatedOperationMethod<
-  ListPortfolioAccessInput,
+  ListPortfolioAccessInput & RegionInput,
   ListPortfolioAccessOutput,
   ListPortfolioAccessError,
   Credentials | HttpClient.HttpClient,
@@ -3294,6 +3427,8 @@ export const listPortfolioAccess: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortfolioAccess",
 })) as any;
 
 export type ListPortfoliosError = InvalidParametersException | CommonErrors;
@@ -3301,7 +3436,7 @@ export type ListPortfoliosError = InvalidParametersException | CommonErrors;
  * Lists all portfolios in the catalog.
  */
 export const listPortfolios: API.PaginatedOperationMethod<
-  ListPortfoliosInput,
+  ListPortfoliosInput & RegionInput,
   ListPortfoliosOutput,
   ListPortfoliosError,
   Credentials | HttpClient.HttpClient,
@@ -3318,6 +3453,8 @@ export const listPortfolios: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortfolios",
 })) as any;
 
 export type ListPortfoliosForProductError =
@@ -3328,7 +3465,7 @@ export type ListPortfoliosForProductError =
  * Lists all portfolios that the specified product is associated with.
  */
 export const listPortfoliosForProduct: API.PaginatedOperationMethod<
-  ListPortfoliosForProductInput,
+  ListPortfoliosForProductInput & RegionInput,
   ListPortfoliosForProductOutput,
   ListPortfoliosForProductError,
   Credentials | HttpClient.HttpClient,
@@ -3345,6 +3482,8 @@ export const listPortfoliosForProduct: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortfoliosForProduct",
 })) as any;
 
 export type ListPrincipalsForPortfolioError =
@@ -3355,7 +3494,7 @@ export type ListPrincipalsForPortfolioError =
  * Lists all `PrincipalARN`s and corresponding `PrincipalType`s associated with the specified portfolio.
  */
 export const listPrincipalsForPortfolio: API.PaginatedOperationMethod<
-  ListPrincipalsForPortfolioInput,
+  ListPrincipalsForPortfolioInput & RegionInput,
   ListPrincipalsForPortfolioOutput,
   ListPrincipalsForPortfolioError,
   Credentials | HttpClient.HttpClient,
@@ -3372,6 +3511,8 @@ export const listPrincipalsForPortfolio: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrincipalsForPortfolio",
 })) as any;
 
 export type ListProvisionedProductPlansError =
@@ -3382,7 +3523,7 @@ export type ListProvisionedProductPlansError =
  * Lists the plans for the specified provisioned product or all plans to which the user has access.
  */
 export const listProvisionedProductPlans: API.OperationMethod<
-  ListProvisionedProductPlansInput,
+  ListProvisionedProductPlansInput & RegionInput,
   ListProvisionedProductPlansOutput,
   ListProvisionedProductPlansError,
   Credentials | HttpClient.HttpClient
@@ -3393,6 +3534,8 @@ export const listProvisionedProductPlans: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedProductPlans",
+  telemetry: TELEMETRY,
+  span: "ListProvisionedProductPlans",
 }));
 
 export type ListProvisioningArtifactsError =
@@ -3403,7 +3546,7 @@ export type ListProvisioningArtifactsError =
  * Lists all provisioning artifacts (also known as versions) for the specified product.
  */
 export const listProvisioningArtifacts: API.OperationMethod<
-  ListProvisioningArtifactsInput,
+  ListProvisioningArtifactsInput & RegionInput,
   ListProvisioningArtifactsOutput,
   ListProvisioningArtifactsError,
   Credentials | HttpClient.HttpClient
@@ -3414,6 +3557,8 @@ export const listProvisioningArtifacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisioningArtifacts",
+  telemetry: TELEMETRY,
+  span: "ListProvisioningArtifacts",
 }));
 
 export type ListProvisioningArtifactsForServiceActionError =
@@ -3424,7 +3569,7 @@ export type ListProvisioningArtifactsForServiceActionError =
  * Lists all provisioning artifacts (also known as versions) for the specified self-service action.
  */
 export const listProvisioningArtifactsForServiceAction: API.PaginatedOperationMethod<
-  ListProvisioningArtifactsForServiceActionInput,
+  ListProvisioningArtifactsForServiceActionInput & RegionInput,
   ListProvisioningArtifactsForServiceActionOutput,
   ListProvisioningArtifactsForServiceActionError,
   Credentials | HttpClient.HttpClient,
@@ -3441,6 +3586,8 @@ export const listProvisioningArtifactsForServiceAction: API.PaginatedOperationMe
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProvisioningArtifactsForServiceAction",
 })) as any;
 
 export type ListRecordHistoryError = InvalidParametersException | CommonErrors;
@@ -3448,7 +3595,7 @@ export type ListRecordHistoryError = InvalidParametersException | CommonErrors;
  * Lists the specified requests or all performed requests.
  */
 export const listRecordHistory: API.OperationMethod<
-  ListRecordHistoryInput,
+  ListRecordHistoryInput & RegionInput,
   ListRecordHistoryOutput,
   ListRecordHistoryError,
   Credentials | HttpClient.HttpClient
@@ -3459,6 +3606,8 @@ export const listRecordHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecordHistory",
+  telemetry: TELEMETRY,
+  span: "ListRecordHistory",
 }));
 
 export type ListResourcesForTagOptionError =
@@ -3470,7 +3619,7 @@ export type ListResourcesForTagOptionError =
  * Lists the resources associated with the specified TagOption.
  */
 export const listResourcesForTagOption: API.PaginatedOperationMethod<
-  ListResourcesForTagOptionInput,
+  ListResourcesForTagOptionInput & RegionInput,
   ListResourcesForTagOptionOutput,
   ListResourcesForTagOptionError,
   Credentials | HttpClient.HttpClient,
@@ -3483,6 +3632,8 @@ export const listResourcesForTagOption: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListResourcesForTagOption",
   pagination: { inputToken: "PageToken", outputToken: "PageToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcesForTagOption",
 })) as any;
 
 export type ListServiceActionsError = InvalidParametersException | CommonErrors;
@@ -3490,7 +3641,7 @@ export type ListServiceActionsError = InvalidParametersException | CommonErrors;
  * Lists all self-service actions.
  */
 export const listServiceActions: API.PaginatedOperationMethod<
-  ListServiceActionsInput,
+  ListServiceActionsInput & RegionInput,
   ListServiceActionsOutput,
   ListServiceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3507,6 +3658,8 @@ export const listServiceActions: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceActions",
 })) as any;
 
 export type ListServiceActionsForProvisioningArtifactError =
@@ -3517,7 +3670,7 @@ export type ListServiceActionsForProvisioningArtifactError =
  * Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
  */
 export const listServiceActionsForProvisioningArtifact: API.PaginatedOperationMethod<
-  ListServiceActionsForProvisioningArtifactInput,
+  ListServiceActionsForProvisioningArtifactInput & RegionInput,
   ListServiceActionsForProvisioningArtifactOutput,
   ListServiceActionsForProvisioningArtifactError,
   Credentials | HttpClient.HttpClient,
@@ -3534,6 +3687,8 @@ export const listServiceActionsForProvisioningArtifact: API.PaginatedOperationMe
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceActionsForProvisioningArtifact",
 })) as any;
 
 export type ListStackInstancesForProvisionedProductError =
@@ -3544,7 +3699,7 @@ export type ListStackInstancesForProvisionedProductError =
  * Returns summary information about stack instances that are associated with the specified `CFN_STACKSET` type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
  */
 export const listStackInstancesForProvisionedProduct: API.OperationMethod<
-  ListStackInstancesForProvisionedProductInput,
+  ListStackInstancesForProvisionedProductInput & RegionInput,
   ListStackInstancesForProvisionedProductOutput,
   ListStackInstancesForProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3555,6 +3710,8 @@ export const listStackInstancesForProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstancesForProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "ListStackInstancesForProvisionedProduct",
 }));
 
 export type ListTagOptionsError =
@@ -3565,7 +3722,7 @@ export type ListTagOptionsError =
  * Lists the specified TagOptions or all TagOptions.
  */
 export const listTagOptions: API.PaginatedOperationMethod<
-  ListTagOptionsInput,
+  ListTagOptionsInput & RegionInput,
   ListTagOptionsOutput,
   ListTagOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -3578,6 +3735,8 @@ export const listTagOptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagOptions",
   pagination: { inputToken: "PageToken", outputToken: "PageToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagOptions",
 })) as any;
 
 export type NotifyProvisionProductEngineWorkflowResultError =
@@ -3589,7 +3748,7 @@ export type NotifyProvisionProductEngineWorkflowResultError =
  * of the provisioning engine execution.
  */
 export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
-  NotifyProvisionProductEngineWorkflowResultInput,
+  NotifyProvisionProductEngineWorkflowResultInput & RegionInput,
   NotifyProvisionProductEngineWorkflowResultOutput,
   NotifyProvisionProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3600,6 +3759,8 @@ export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyProvisionProductEngineWorkflowResult",
+  telemetry: TELEMETRY,
+  span: "NotifyProvisionProductEngineWorkflowResult",
 }));
 
 export type NotifyTerminateProvisionedProductEngineWorkflowResultError =
@@ -3611,7 +3772,7 @@ export type NotifyTerminateProvisionedProductEngineWorkflowResultError =
  * of the terminate engine execution.
  */
 export const notifyTerminateProvisionedProductEngineWorkflowResult: API.OperationMethod<
-  NotifyTerminateProvisionedProductEngineWorkflowResultInput,
+  NotifyTerminateProvisionedProductEngineWorkflowResultInput & RegionInput,
   NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
   NotifyTerminateProvisionedProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3630,6 +3791,8 @@ export const notifyTerminateProvisionedProductEngineWorkflowResult: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyTerminateProvisionedProductEngineWorkflowResult",
+  telemetry: TELEMETRY,
+  span: "NotifyTerminateProvisionedProductEngineWorkflowResult",
 }));
 
 export type NotifyUpdateProvisionedProductEngineWorkflowResultError =
@@ -3641,7 +3804,7 @@ export type NotifyUpdateProvisionedProductEngineWorkflowResultError =
  * of the update engine execution.
  */
 export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMethod<
-  NotifyUpdateProvisionedProductEngineWorkflowResultInput,
+  NotifyUpdateProvisionedProductEngineWorkflowResultInput & RegionInput,
   NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
   NotifyUpdateProvisionedProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3660,6 +3823,8 @@ export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyUpdateProvisionedProductEngineWorkflowResult",
+  telemetry: TELEMETRY,
+  span: "NotifyUpdateProvisionedProductEngineWorkflowResult",
 }));
 
 export type ProvisionProductError =
@@ -3700,7 +3865,7 @@ export type ProvisionProductError =
  * in the *Service Catalog User Guide*.
  */
 export const provisionProduct: API.OperationMethod<
-  ProvisionProductInput,
+  ProvisionProductInput & RegionInput,
   ProvisionProductOutput,
   ProvisionProductError,
   Credentials | HttpClient.HttpClient
@@ -3711,6 +3876,8 @@ export const provisionProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionProduct",
+  telemetry: TELEMETRY,
+  span: "ProvisionProduct",
 }));
 
 export type RejectPortfolioShareError = ResourceNotFoundException | CommonErrors;
@@ -3718,7 +3885,7 @@ export type RejectPortfolioShareError = ResourceNotFoundException | CommonErrors
  * Rejects an offer to share the specified portfolio.
  */
 export const rejectPortfolioShare: API.OperationMethod<
-  RejectPortfolioShareInput,
+  RejectPortfolioShareInput & RegionInput,
   RejectPortfolioShareOutput,
   RejectPortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -3729,6 +3896,8 @@ export const rejectPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectPortfolioShare",
+  telemetry: TELEMETRY,
+  span: "RejectPortfolioShare",
 }));
 
 export type ScanProvisionedProductsError = InvalidParametersException | CommonErrors;
@@ -3738,7 +3907,7 @@ export type ScanProvisionedProductsError = InvalidParametersException | CommonEr
  * To use additional filtering, see SearchProvisionedProducts.
  */
 export const scanProvisionedProducts: API.OperationMethod<
-  ScanProvisionedProductsInput,
+  ScanProvisionedProductsInput & RegionInput,
   ScanProvisionedProductsOutput,
   ScanProvisionedProductsError,
   Credentials | HttpClient.HttpClient
@@ -3749,6 +3918,8 @@ export const scanProvisionedProducts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScanProvisionedProducts",
+  telemetry: TELEMETRY,
+  span: "ScanProvisionedProducts",
 }));
 
 export type SearchProductsError = InvalidParametersException | CommonErrors;
@@ -3756,7 +3927,7 @@ export type SearchProductsError = InvalidParametersException | CommonErrors;
  * Gets information about the products to which the caller has access.
  */
 export const searchProducts: API.PaginatedOperationMethod<
-  SearchProductsInput,
+  SearchProductsInput & RegionInput,
   SearchProductsOutput,
   SearchProductsError,
   Credentials | HttpClient.HttpClient,
@@ -3773,6 +3944,8 @@ export const searchProducts: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchProducts",
 })) as any;
 
 export type SearchProductsAsAdminError =
@@ -3783,7 +3956,7 @@ export type SearchProductsAsAdminError =
  * Gets information about the products for the specified portfolio or all products.
  */
 export const searchProductsAsAdmin: API.PaginatedOperationMethod<
-  SearchProductsAsAdminInput,
+  SearchProductsAsAdminInput & RegionInput,
   SearchProductsAsAdminOutput,
   SearchProductsAsAdminError,
   Credentials | HttpClient.HttpClient,
@@ -3800,6 +3973,8 @@ export const searchProductsAsAdmin: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchProductsAsAdmin",
 })) as any;
 
 export type SearchProvisionedProductsError = InvalidParametersException | CommonErrors;
@@ -3807,7 +3982,7 @@ export type SearchProvisionedProductsError = InvalidParametersException | Common
  * Gets information about the provisioned products that meet the specified criteria.
  */
 export const searchProvisionedProducts: API.PaginatedOperationMethod<
-  SearchProvisionedProductsInput,
+  SearchProvisionedProductsInput & RegionInput,
   SearchProvisionedProductsOutput,
   SearchProvisionedProductsError,
   Credentials | HttpClient.HttpClient,
@@ -3824,6 +3999,8 @@ export const searchProvisionedProducts: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchProvisionedProducts",
 })) as any;
 
 export type TerminateProvisionedProductError = ResourceNotFoundException | CommonErrors;
@@ -3835,7 +4012,7 @@ export type TerminateProvisionedProductError = ResourceNotFoundException | Commo
  * You can check the status of this request using DescribeRecord.
  */
 export const terminateProvisionedProduct: API.OperationMethod<
-  TerminateProvisionedProductInput,
+  TerminateProvisionedProductInput & RegionInput,
   TerminateProvisionedProductOutput,
   TerminateProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3846,6 +4023,8 @@ export const terminateProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "TerminateProvisionedProduct",
 }));
 
 export type UpdateConstraintError =
@@ -3856,7 +4035,7 @@ export type UpdateConstraintError =
  * Updates the specified constraint.
  */
 export const updateConstraint: API.OperationMethod<
-  UpdateConstraintInput,
+  UpdateConstraintInput & RegionInput,
   UpdateConstraintOutput,
   UpdateConstraintError,
   Credentials | HttpClient.HttpClient
@@ -3867,6 +4046,8 @@ export const updateConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConstraint",
+  telemetry: TELEMETRY,
+  span: "UpdateConstraint",
 }));
 
 export type UpdatePortfolioError =
@@ -3881,7 +4062,7 @@ export type UpdatePortfolioError =
  * You cannot update a product that was shared with you.
  */
 export const updatePortfolio: API.OperationMethod<
-  UpdatePortfolioInput,
+  UpdatePortfolioInput & RegionInput,
   UpdatePortfolioOutput,
   UpdatePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -3897,6 +4078,8 @@ export const updatePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolio",
+  telemetry: TELEMETRY,
+  span: "UpdatePortfolio",
 }));
 
 export type UpdatePortfolioShareError =
@@ -3927,7 +4110,7 @@ export type UpdatePortfolioShareError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const updatePortfolioShare: API.OperationMethod<
-  UpdatePortfolioShareInput,
+  UpdatePortfolioShareInput & RegionInput,
   UpdatePortfolioShareOutput,
   UpdatePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -3943,6 +4126,8 @@ export const updatePortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolioShare",
+  telemetry: TELEMETRY,
+  span: "UpdatePortfolioShare",
 }));
 
 export type UpdateProductError =
@@ -3954,7 +4139,7 @@ export type UpdateProductError =
  * Updates the specified product.
  */
 export const updateProduct: API.OperationMethod<
-  UpdateProductInput,
+  UpdateProductInput & RegionInput,
   UpdateProductOutput,
   UpdateProductError,
   Credentials | HttpClient.HttpClient
@@ -3965,6 +4150,8 @@ export const updateProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProduct",
+  telemetry: TELEMETRY,
+  span: "UpdateProduct",
 }));
 
 export type UpdateProvisionedProductError =
@@ -3981,7 +4168,7 @@ export type UpdateProvisionedProductError =
  * You can check the status of this request using DescribeRecord.
  */
 export const updateProvisionedProduct: API.OperationMethod<
-  UpdateProvisionedProductInput,
+  UpdateProvisionedProductInput & RegionInput,
   UpdateProvisionedProductOutput,
   UpdateProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3992,6 +4179,8 @@ export const updateProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisionedProduct",
 }));
 
 export type UpdateProvisionedProductPropertiesError =
@@ -4003,7 +4192,7 @@ export type UpdateProvisionedProductPropertiesError =
  * Requests updates to the properties of the specified provisioned product.
  */
 export const updateProvisionedProductProperties: API.OperationMethod<
-  UpdateProvisionedProductPropertiesInput,
+  UpdateProvisionedProductPropertiesInput & RegionInput,
   UpdateProvisionedProductPropertiesOutput,
   UpdateProvisionedProductPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4014,6 +4203,8 @@ export const updateProvisionedProductProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProductProperties",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisionedProductProperties",
 }));
 
 export type UpdateProvisioningArtifactError =
@@ -4026,7 +4217,7 @@ export type UpdateProvisioningArtifactError =
  * You cannot update a provisioning artifact for a product that was shared with you.
  */
 export const updateProvisioningArtifact: API.OperationMethod<
-  UpdateProvisioningArtifactInput,
+  UpdateProvisioningArtifactInput & RegionInput,
   UpdateProvisioningArtifactOutput,
   UpdateProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -4037,6 +4228,8 @@ export const updateProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisioningArtifact",
 }));
 
 export type UpdateServiceActionError =
@@ -4047,7 +4240,7 @@ export type UpdateServiceActionError =
  * Updates a self-service action.
  */
 export const updateServiceAction: API.OperationMethod<
-  UpdateServiceActionInput,
+  UpdateServiceActionInput & RegionInput,
   UpdateServiceActionOutput,
   UpdateServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -4058,6 +4251,8 @@ export const updateServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAction",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAction",
 }));
 
 export type UpdateTagOptionError =
@@ -4070,7 +4265,7 @@ export type UpdateTagOptionError =
  * Updates the specified TagOption.
  */
 export const updateTagOption: API.OperationMethod<
-  UpdateTagOptionInput,
+  UpdateTagOptionInput & RegionInput,
   UpdateTagOptionOutput,
   UpdateTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -4086,6 +4281,8 @@ export const updateTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagOption",
+  telemetry: TELEMETRY,
+  span: "UpdateTagOption",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -129,6 +131,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kafka.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Kafka",
+  service: "Kafka",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -2113,7 +2129,7 @@ export type BatchAssociateScramSecretError =
  * Associates one or more Scram Secrets with an Amazon MSK cluster.
  */
 export const batchAssociateScramSecret: API.OperationMethod<
-  BatchAssociateScramSecretRequest,
+  BatchAssociateScramSecretRequest & RegionInput,
   BatchAssociateScramSecretResponse,
   BatchAssociateScramSecretError,
   Credentials | HttpClient.HttpClient
@@ -2132,6 +2148,8 @@ export const batchAssociateScramSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateScramSecret",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateScramSecret",
 }));
 
 export type BatchDisassociateScramSecretError =
@@ -2147,7 +2165,7 @@ export type BatchDisassociateScramSecretError =
  * Disassociates one or more Scram Secrets from an Amazon MSK cluster.
  */
 export const batchDisassociateScramSecret: API.OperationMethod<
-  BatchDisassociateScramSecretRequest,
+  BatchDisassociateScramSecretRequest & RegionInput,
   BatchDisassociateScramSecretResponse,
   BatchDisassociateScramSecretError,
   Credentials | HttpClient.HttpClient
@@ -2166,6 +2184,8 @@ export const batchDisassociateScramSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateScramSecret",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateScramSecret",
 }));
 
 export type CreateChannelError =
@@ -2182,7 +2202,7 @@ export type CreateChannelError =
  * Creates a Channel that streams records from an Amazon MSK Express cluster topic to Amazon S3 or Apache Iceberg.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelRequest,
+  CreateChannelRequest & RegionInput,
   CreateChannelResponse,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -2202,6 +2222,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateClusterError =
@@ -2217,7 +2239,7 @@ export type CreateClusterError =
  * Creates a new MSK cluster.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -2236,6 +2258,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateClusterV2Error =
@@ -2251,7 +2275,7 @@ export type CreateClusterV2Error =
  * Creates a new MSK cluster.
  */
 export const createClusterV2: API.OperationMethod<
-  CreateClusterV2Request,
+  CreateClusterV2Request & RegionInput,
   CreateClusterV2Response,
   CreateClusterV2Error,
   Credentials | HttpClient.HttpClient
@@ -2270,6 +2294,8 @@ export const createClusterV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterV2",
+  telemetry: TELEMETRY,
+  span: "CreateClusterV2",
 }));
 
 export type CreateConfigurationError =
@@ -2285,7 +2311,7 @@ export type CreateConfigurationError =
  * Creates a new MSK configuration.
  */
 export const createConfiguration: API.OperationMethod<
-  CreateConfigurationRequest,
+  CreateConfigurationRequest & RegionInput,
   CreateConfigurationResponse,
   CreateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2304,6 +2330,8 @@ export const createConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateReplicatorError =
@@ -2320,7 +2348,7 @@ export type CreateReplicatorError =
  * Creates the replicator.
  */
 export const createReplicator: API.OperationMethod<
-  CreateReplicatorRequest,
+  CreateReplicatorRequest & RegionInput,
   CreateReplicatorResponse,
   CreateReplicatorError,
   Credentials | HttpClient.HttpClient
@@ -2340,6 +2368,8 @@ export const createReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicator",
+  telemetry: TELEMETRY,
+  span: "CreateReplicator",
 }));
 
 export type CreateTopicError =
@@ -2365,7 +2395,7 @@ export type CreateTopicError =
  * Creates a topic in the specified MSK cluster.
  */
 export const createTopic: API.OperationMethod<
-  CreateTopicRequest,
+  CreateTopicRequest & RegionInput,
   CreateTopicResponse,
   CreateTopicError,
   Credentials | HttpClient.HttpClient
@@ -2394,6 +2424,8 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type CreateVpcConnectionError =
@@ -2408,7 +2440,7 @@ export type CreateVpcConnectionError =
  * Creates a new MSK VPC connection.
  */
 export const createVpcConnection: API.OperationMethod<
-  CreateVpcConnectionRequest,
+  CreateVpcConnectionRequest & RegionInput,
   CreateVpcConnectionResponse,
   CreateVpcConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2426,6 +2458,8 @@ export const createVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcConnection",
+  telemetry: TELEMETRY,
+  span: "CreateVpcConnection",
 }));
 
 export type DeleteChannelError =
@@ -2441,7 +2475,7 @@ export type DeleteChannelError =
  * Deletes the channel specified by channelArn from the cluster specified by clusterArn. The channel transitions through DELETING and is removed when the asynchronous delete completes.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelRequest,
+  DeleteChannelRequest & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -2460,6 +2494,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteClusterError =
@@ -2472,7 +2508,7 @@ export type DeleteClusterError =
  * Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -2488,6 +2524,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterPolicyError =
@@ -2500,7 +2538,7 @@ export type DeleteClusterPolicyError =
  * Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
  */
 export const deleteClusterPolicy: API.OperationMethod<
-  DeleteClusterPolicyRequest,
+  DeleteClusterPolicyRequest & RegionInput,
   DeleteClusterPolicyResponse,
   DeleteClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2516,6 +2554,8 @@ export const deleteClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterPolicy",
 }));
 
 export type DeleteConfigurationError =
@@ -2528,7 +2568,7 @@ export type DeleteConfigurationError =
  * Deletes an MSK Configuration.
  */
 export const deleteConfiguration: API.OperationMethod<
-  DeleteConfigurationRequest,
+  DeleteConfigurationRequest & RegionInput,
   DeleteConfigurationResponse,
   DeleteConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2544,6 +2584,8 @@ export const deleteConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteReplicatorError =
@@ -2559,7 +2601,7 @@ export type DeleteReplicatorError =
  * Deletes a replicator.
  */
 export const deleteReplicator: API.OperationMethod<
-  DeleteReplicatorRequest,
+  DeleteReplicatorRequest & RegionInput,
   DeleteReplicatorResponse,
   DeleteReplicatorError,
   Credentials | HttpClient.HttpClient
@@ -2578,6 +2620,8 @@ export const deleteReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicator",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicator",
 }));
 
 export type DeleteTopicError =
@@ -2599,7 +2643,7 @@ export type DeleteTopicError =
  * Deletes a topic in the specified MSK cluster.
  */
 export const deleteTopic: API.OperationMethod<
-  DeleteTopicRequest,
+  DeleteTopicRequest & RegionInput,
   DeleteTopicResponse,
   DeleteTopicError,
   Credentials | HttpClient.HttpClient
@@ -2624,6 +2668,8 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  telemetry: TELEMETRY,
+  span: "DeleteTopic",
 }));
 
 export type DeleteVpcConnectionError =
@@ -2636,7 +2682,7 @@ export type DeleteVpcConnectionError =
  * Deletes a MSK VPC connection.
  */
 export const deleteVpcConnection: API.OperationMethod<
-  DeleteVpcConnectionRequest,
+  DeleteVpcConnectionRequest & RegionInput,
   DeleteVpcConnectionResponse,
   DeleteVpcConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2652,6 +2698,8 @@ export const deleteVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcConnection",
 }));
 
 export type DescribeChannelError =
@@ -2667,7 +2715,7 @@ export type DescribeChannelError =
  * Returns the current configuration and state of a channel.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelRequest,
+  DescribeChannelRequest & RegionInput,
   DescribeChannelResponse,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -2686,6 +2734,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeClusterError =
@@ -2699,7 +2749,7 @@ export type DescribeClusterError =
  * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResponse,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -2716,6 +2766,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeClusterOperationError =
@@ -2729,7 +2781,7 @@ export type DescribeClusterOperationError =
  * Returns a description of the cluster operation specified by the ARN.
  */
 export const describeClusterOperation: API.OperationMethod<
-  DescribeClusterOperationRequest,
+  DescribeClusterOperationRequest & RegionInput,
   DescribeClusterOperationResponse,
   DescribeClusterOperationError,
   Credentials | HttpClient.HttpClient
@@ -2746,6 +2798,8 @@ export const describeClusterOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterOperation",
 }));
 
 export type DescribeClusterOperationV2Error =
@@ -2761,7 +2815,7 @@ export type DescribeClusterOperationV2Error =
  * Returns a description of the cluster operation specified by the ARN.
  */
 export const describeClusterOperationV2: API.OperationMethod<
-  DescribeClusterOperationV2Request,
+  DescribeClusterOperationV2Request & RegionInput,
   DescribeClusterOperationV2Response,
   DescribeClusterOperationV2Error,
   Credentials | HttpClient.HttpClient
@@ -2780,6 +2834,8 @@ export const describeClusterOperationV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterOperationV2",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterOperationV2",
 }));
 
 export type DescribeClusterV2Error =
@@ -2793,7 +2849,7 @@ export type DescribeClusterV2Error =
  * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
  */
 export const describeClusterV2: API.OperationMethod<
-  DescribeClusterV2Request,
+  DescribeClusterV2Request & RegionInput,
   DescribeClusterV2Response,
   DescribeClusterV2Error,
   Credentials | HttpClient.HttpClient
@@ -2810,6 +2866,8 @@ export const describeClusterV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterV2",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterV2",
 }));
 
 export type DescribeConfigurationError =
@@ -2824,7 +2882,7 @@ export type DescribeConfigurationError =
  * Returns a description of this MSK configuration.
  */
 export const describeConfiguration: API.OperationMethod<
-  DescribeConfigurationRequest,
+  DescribeConfigurationRequest & RegionInput,
   DescribeConfigurationResponse,
   DescribeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2842,6 +2900,8 @@ export const describeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeConfiguration",
 }));
 
 export type DescribeConfigurationRevisionError =
@@ -2856,7 +2916,7 @@ export type DescribeConfigurationRevisionError =
  * Returns a description of this revision of the configuration.
  */
 export const describeConfigurationRevision: API.OperationMethod<
-  DescribeConfigurationRevisionRequest,
+  DescribeConfigurationRevisionRequest & RegionInput,
   DescribeConfigurationRevisionResponse,
   DescribeConfigurationRevisionError,
   Credentials | HttpClient.HttpClient
@@ -2874,6 +2934,8 @@ export const describeConfigurationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRevision",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRevision",
 }));
 
 export type DescribeReplicatorError =
@@ -2889,7 +2951,7 @@ export type DescribeReplicatorError =
  * Describes a replicator.
  */
 export const describeReplicator: API.OperationMethod<
-  DescribeReplicatorRequest,
+  DescribeReplicatorRequest & RegionInput,
   DescribeReplicatorResponse,
   DescribeReplicatorError,
   Credentials | HttpClient.HttpClient
@@ -2908,6 +2970,8 @@ export const describeReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReplicator",
+  telemetry: TELEMETRY,
+  span: "DescribeReplicator",
 }));
 
 export type DescribeTopicError =
@@ -2922,7 +2986,7 @@ export type DescribeTopicError =
  * Returns topic details of this topic on a MSK cluster.
  */
 export const describeTopic: API.OperationMethod<
-  DescribeTopicRequest,
+  DescribeTopicRequest & RegionInput,
   DescribeTopicResponse,
   DescribeTopicError,
   Credentials | HttpClient.HttpClient
@@ -2940,6 +3004,8 @@ export const describeTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopic",
+  telemetry: TELEMETRY,
+  span: "DescribeTopic",
 }));
 
 export type DescribeTopicPartitionsError =
@@ -2953,7 +3019,7 @@ export type DescribeTopicPartitionsError =
  * Returns partition details of this topic on a MSK cluster.
  */
 export const describeTopicPartitions: API.PaginatedOperationMethod<
-  DescribeTopicPartitionsRequest,
+  DescribeTopicPartitionsRequest & RegionInput,
   DescribeTopicPartitionsResponse,
   DescribeTopicPartitionsError,
   Credentials | HttpClient.HttpClient,
@@ -2977,6 +3043,8 @@ export const describeTopicPartitions: API.PaginatedOperationMethod<
     items: "Partitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTopicPartitions",
 })) as any;
 
 export type DescribeVpcConnectionError =
@@ -2991,7 +3059,7 @@ export type DescribeVpcConnectionError =
  * Returns a description of this MSK VPC connection.
  */
 export const describeVpcConnection: API.OperationMethod<
-  DescribeVpcConnectionRequest,
+  DescribeVpcConnectionRequest & RegionInput,
   DescribeVpcConnectionResponse,
   DescribeVpcConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3009,6 +3077,8 @@ export const describeVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcConnection",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcConnection",
 }));
 
 export type GetBootstrapBrokersError =
@@ -3023,7 +3093,7 @@ export type GetBootstrapBrokersError =
  * A list of brokers that a client application can use to bootstrap. This list doesn't necessarily include all of the brokers in the cluster. The following Python 3.6 example shows how you can use the Amazon Resource Name (ARN) of a cluster to get its bootstrap brokers. If you don't know the ARN of your cluster, you can use the `ListClusters` operation to get the ARNs of all the clusters in this account and Region.
  */
 export const getBootstrapBrokers: API.OperationMethod<
-  GetBootstrapBrokersRequest,
+  GetBootstrapBrokersRequest & RegionInput,
   GetBootstrapBrokersResponse,
   GetBootstrapBrokersError,
   Credentials | HttpClient.HttpClient
@@ -3041,6 +3111,8 @@ export const getBootstrapBrokers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBootstrapBrokers",
+  telemetry: TELEMETRY,
+  span: "GetBootstrapBrokers",
 }));
 
 export type GetClusterPolicyError =
@@ -3053,7 +3125,7 @@ export type GetClusterPolicyError =
  * Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
  */
 export const getClusterPolicy: API.OperationMethod<
-  GetClusterPolicyRequest,
+  GetClusterPolicyRequest & RegionInput,
   GetClusterPolicyResponse,
   GetClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3069,6 +3141,8 @@ export const getClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "GetClusterPolicy",
 }));
 
 export type GetCompatibleKafkaVersionsError =
@@ -3084,7 +3158,7 @@ export type GetCompatibleKafkaVersionsError =
  * Gets the Apache Kafka versions to which you can update the MSK cluster.
  */
 export const getCompatibleKafkaVersions: API.OperationMethod<
-  GetCompatibleKafkaVersionsRequest,
+  GetCompatibleKafkaVersionsRequest & RegionInput,
   GetCompatibleKafkaVersionsResponse,
   GetCompatibleKafkaVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3103,6 +3177,8 @@ export const getCompatibleKafkaVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleKafkaVersions",
+  telemetry: TELEMETRY,
+  span: "GetCompatibleKafkaVersions",
 }));
 
 export type ListChannelsError =
@@ -3118,7 +3194,7 @@ export type ListChannelsError =
  * Returns the list of channels in a cluster.
  */
 export const listChannels: API.OperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient
@@ -3137,6 +3213,8 @@ export const listChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChannels",
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 }));
 
 export type ListClientVpcConnectionsError =
@@ -3150,7 +3228,7 @@ export type ListClientVpcConnectionsError =
  * Returns a list of all the VPC connections in this Region.
  */
 export const listClientVpcConnections: API.PaginatedOperationMethod<
-  ListClientVpcConnectionsRequest,
+  ListClientVpcConnectionsRequest & RegionInput,
   ListClientVpcConnectionsResponse,
   ListClientVpcConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3174,6 +3252,8 @@ export const listClientVpcConnections: API.PaginatedOperationMethod<
     items: "ClientVpcConnections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClientVpcConnections",
 })) as any;
 
 export type ListClusterOperationsError =
@@ -3186,7 +3266,7 @@ export type ListClusterOperationsError =
  * Returns a list of all the operations that have been performed on the specified MSK cluster.
  */
 export const listClusterOperations: API.PaginatedOperationMethod<
-  ListClusterOperationsRequest,
+  ListClusterOperationsRequest & RegionInput,
   ListClusterOperationsResponse,
   ListClusterOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -3209,6 +3289,8 @@ export const listClusterOperations: API.PaginatedOperationMethod<
     items: "ClusterOperationInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterOperations",
 })) as any;
 
 export type ListClusterOperationsV2Error =
@@ -3224,7 +3306,7 @@ export type ListClusterOperationsV2Error =
  * Returns a list of all the operations that have been performed on the specified MSK cluster.
  */
 export const listClusterOperationsV2: API.PaginatedOperationMethod<
-  ListClusterOperationsV2Request,
+  ListClusterOperationsV2Request & RegionInput,
   ListClusterOperationsV2Response,
   ListClusterOperationsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -3250,6 +3332,8 @@ export const listClusterOperationsV2: API.PaginatedOperationMethod<
     items: "ClusterOperationInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterOperationsV2",
 })) as any;
 
 export type ListClustersError =
@@ -3262,7 +3346,7 @@ export type ListClustersError =
  * Returns a list of all the MSK clusters in the current Region.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -3285,6 +3369,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "ClusterInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListClustersV2Error =
@@ -3297,7 +3383,7 @@ export type ListClustersV2Error =
  * Returns a list of all the MSK clusters in the current Region.
  */
 export const listClustersV2: API.PaginatedOperationMethod<
-  ListClustersV2Request,
+  ListClustersV2Request & RegionInput,
   ListClustersV2Response,
   ListClustersV2Error,
   Credentials | HttpClient.HttpClient,
@@ -3320,6 +3406,8 @@ export const listClustersV2: API.PaginatedOperationMethod<
     items: "ClusterInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClustersV2",
 })) as any;
 
 export type ListConfigurationRevisionsError =
@@ -3334,7 +3422,7 @@ export type ListConfigurationRevisionsError =
  * Returns a list of all the MSK configurations in this Region.
  */
 export const listConfigurationRevisions: API.PaginatedOperationMethod<
-  ListConfigurationRevisionsRequest,
+  ListConfigurationRevisionsRequest & RegionInput,
   ListConfigurationRevisionsResponse,
   ListConfigurationRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -3359,6 +3447,8 @@ export const listConfigurationRevisions: API.PaginatedOperationMethod<
     items: "Revisions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationRevisions",
 })) as any;
 
 export type ListConfigurationsError =
@@ -3372,7 +3462,7 @@ export type ListConfigurationsError =
  * Returns a list of all the MSK configurations in this Region.
  */
 export const listConfigurations: API.PaginatedOperationMethod<
-  ListConfigurationsRequest,
+  ListConfigurationsRequest & RegionInput,
   ListConfigurationsResponse,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3396,6 +3486,8 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "Configurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 })) as any;
 
 export type ListKafkaVersionsError =
@@ -3408,7 +3500,7 @@ export type ListKafkaVersionsError =
  * Returns a list of Apache Kafka versions.
  */
 export const listKafkaVersions: API.PaginatedOperationMethod<
-  ListKafkaVersionsRequest,
+  ListKafkaVersionsRequest & RegionInput,
   ListKafkaVersionsResponse,
   ListKafkaVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3431,6 +3523,8 @@ export const listKafkaVersions: API.PaginatedOperationMethod<
     items: "KafkaVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKafkaVersions",
 })) as any;
 
 export type ListNodesError =
@@ -3443,7 +3537,7 @@ export type ListNodesError =
  * Returns a list of the broker nodes in the cluster.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesRequest,
+  ListNodesRequest & RegionInput,
   ListNodesResponse,
   ListNodesError,
   Credentials | HttpClient.HttpClient,
@@ -3466,6 +3560,8 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "NodeInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListReplicatorsError =
@@ -3481,7 +3577,7 @@ export type ListReplicatorsError =
  * Lists the replicators.
  */
 export const listReplicators: API.PaginatedOperationMethod<
-  ListReplicatorsRequest,
+  ListReplicatorsRequest & RegionInput,
   ListReplicatorsResponse,
   ListReplicatorsError,
   Credentials | HttpClient.HttpClient,
@@ -3507,6 +3603,8 @@ export const listReplicators: API.PaginatedOperationMethod<
     items: "Replicators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReplicators",
 })) as any;
 
 export type ListScramSecretsError =
@@ -3522,7 +3620,7 @@ export type ListScramSecretsError =
  * Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
  */
 export const listScramSecrets: API.PaginatedOperationMethod<
-  ListScramSecretsRequest,
+  ListScramSecretsRequest & RegionInput,
   ListScramSecretsResponse,
   ListScramSecretsError,
   Credentials | HttpClient.HttpClient,
@@ -3548,6 +3646,8 @@ export const listScramSecrets: API.PaginatedOperationMethod<
     items: "SecretArnList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScramSecrets",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3559,7 +3659,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags associated with the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3570,6 +3670,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTopicsError =
@@ -3585,7 +3687,7 @@ export type ListTopicsError =
  * List topics in a MSK cluster.
  */
 export const listTopics: API.PaginatedOperationMethod<
-  ListTopicsRequest,
+  ListTopicsRequest & RegionInput,
   ListTopicsResponse,
   ListTopicsError,
   Credentials | HttpClient.HttpClient,
@@ -3611,6 +3713,8 @@ export const listTopics: API.PaginatedOperationMethod<
     items: "Topics",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopics",
 })) as any;
 
 export type ListVpcConnectionsError =
@@ -3624,7 +3728,7 @@ export type ListVpcConnectionsError =
  * Returns a list of all the VPC connections in this Region.
  */
 export const listVpcConnections: API.PaginatedOperationMethod<
-  ListVpcConnectionsRequest,
+  ListVpcConnectionsRequest & RegionInput,
   ListVpcConnectionsResponse,
   ListVpcConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3648,6 +3752,8 @@ export const listVpcConnections: API.PaginatedOperationMethod<
     items: "VpcConnections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcConnections",
 })) as any;
 
 export type PutClusterPolicyError =
@@ -3659,7 +3765,7 @@ export type PutClusterPolicyError =
  * Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
  */
 export const putClusterPolicy: API.OperationMethod<
-  PutClusterPolicyRequest,
+  PutClusterPolicyRequest & RegionInput,
   PutClusterPolicyResponse,
   PutClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3670,6 +3776,8 @@ export const putClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "PutClusterPolicy",
 }));
 
 export type RebootBrokerError =
@@ -3685,7 +3793,7 @@ export type RebootBrokerError =
  * Reboots brokers.
  */
 export const rebootBroker: API.OperationMethod<
-  RebootBrokerRequest,
+  RebootBrokerRequest & RegionInput,
   RebootBrokerResponse,
   RebootBrokerError,
   Credentials | HttpClient.HttpClient
@@ -3704,6 +3812,8 @@ export const rebootBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootBroker",
+  telemetry: TELEMETRY,
+  span: "RebootBroker",
 }));
 
 export type RejectClientVpcConnectionError =
@@ -3717,7 +3827,7 @@ export type RejectClientVpcConnectionError =
  * Returns empty response.
  */
 export const rejectClientVpcConnection: API.OperationMethod<
-  RejectClientVpcConnectionRequest,
+  RejectClientVpcConnectionRequest & RegionInput,
   RejectClientVpcConnectionResponse,
   RejectClientVpcConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3734,6 +3844,8 @@ export const rejectClientVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectClientVpcConnection",
+  telemetry: TELEMETRY,
+  span: "RejectClientVpcConnection",
 }));
 
 export type TagResourceError =
@@ -3745,7 +3857,7 @@ export type TagResourceError =
  * Adds tags to the specified MSK resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3756,6 +3868,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3767,7 +3881,7 @@ export type UntagResourceError =
  * Removes the tags associated with the keys that are provided in the query.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3778,6 +3892,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBrokerCountError =
@@ -3791,7 +3907,7 @@ export type UpdateBrokerCountError =
  * Updates the number of broker nodes in the cluster.
  */
 export const updateBrokerCount: API.OperationMethod<
-  UpdateBrokerCountRequest,
+  UpdateBrokerCountRequest & RegionInput,
   UpdateBrokerCountResponse,
   UpdateBrokerCountError,
   Credentials | HttpClient.HttpClient
@@ -3808,6 +3924,8 @@ export const updateBrokerCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerCount",
+  telemetry: TELEMETRY,
+  span: "UpdateBrokerCount",
 }));
 
 export type UpdateBrokerStorageError =
@@ -3821,7 +3939,7 @@ export type UpdateBrokerStorageError =
  * Updates the EBS storage associated with MSK brokers.
  */
 export const updateBrokerStorage: API.OperationMethod<
-  UpdateBrokerStorageRequest,
+  UpdateBrokerStorageRequest & RegionInput,
   UpdateBrokerStorageResponse,
   UpdateBrokerStorageError,
   Credentials | HttpClient.HttpClient
@@ -3838,6 +3956,8 @@ export const updateBrokerStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerStorage",
+  telemetry: TELEMETRY,
+  span: "UpdateBrokerStorage",
 }));
 
 export type UpdateBrokerTypeError =
@@ -3853,7 +3973,7 @@ export type UpdateBrokerTypeError =
  * Updates EC2 instance type.
  */
 export const updateBrokerType: API.OperationMethod<
-  UpdateBrokerTypeRequest,
+  UpdateBrokerTypeRequest & RegionInput,
   UpdateBrokerTypeResponse,
   UpdateBrokerTypeError,
   Credentials | HttpClient.HttpClient
@@ -3872,6 +3992,8 @@ export const updateBrokerType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerType",
+  telemetry: TELEMETRY,
+  span: "UpdateBrokerType",
 }));
 
 export type UpdateChannelError =
@@ -3887,7 +4009,7 @@ export type UpdateChannelError =
  * Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be supplied.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelRequest,
+  UpdateChannelRequest & RegionInput,
   UpdateChannelResponse,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -3906,6 +4028,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateClusterConfigurationError =
@@ -3920,7 +4044,7 @@ export type UpdateClusterConfigurationError =
  * Updates the cluster with the configuration that is specified in the request body.
  */
 export const updateClusterConfiguration: API.OperationMethod<
-  UpdateClusterConfigurationRequest,
+  UpdateClusterConfigurationRequest & RegionInput,
   UpdateClusterConfigurationResponse,
   UpdateClusterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3938,6 +4062,8 @@ export const updateClusterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterConfiguration",
 }));
 
 export type UpdateClusterKafkaVersionError =
@@ -3953,7 +4079,7 @@ export type UpdateClusterKafkaVersionError =
  * Updates the Apache Kafka version for the cluster.
  */
 export const updateClusterKafkaVersion: API.OperationMethod<
-  UpdateClusterKafkaVersionRequest,
+  UpdateClusterKafkaVersionRequest & RegionInput,
   UpdateClusterKafkaVersionResponse,
   UpdateClusterKafkaVersionError,
   Credentials | HttpClient.HttpClient
@@ -3972,6 +4098,8 @@ export const updateClusterKafkaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterKafkaVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterKafkaVersion",
 }));
 
 export type UpdateConfigurationError =
@@ -3986,7 +4114,7 @@ export type UpdateConfigurationError =
  * Updates an MSK configuration.
  */
 export const updateConfiguration: API.OperationMethod<
-  UpdateConfigurationRequest,
+  UpdateConfigurationRequest & RegionInput,
   UpdateConfigurationResponse,
   UpdateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4004,6 +4132,8 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateConnectivityError =
@@ -4018,7 +4148,7 @@ export type UpdateConnectivityError =
  * Updates the cluster's connectivity configuration.
  */
 export const updateConnectivity: API.OperationMethod<
-  UpdateConnectivityRequest,
+  UpdateConnectivityRequest & RegionInput,
   UpdateConnectivityResponse,
   UpdateConnectivityError,
   Credentials | HttpClient.HttpClient
@@ -4036,6 +4166,8 @@ export const updateConnectivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivity",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectivity",
 }));
 
 export type UpdateMonitoringError =
@@ -4049,7 +4181,7 @@ export type UpdateMonitoringError =
  * Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
  */
 export const updateMonitoring: API.OperationMethod<
-  UpdateMonitoringRequest,
+  UpdateMonitoringRequest & RegionInput,
   UpdateMonitoringResponse,
   UpdateMonitoringError,
   Credentials | HttpClient.HttpClient
@@ -4066,6 +4198,8 @@ export const updateMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitoring",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoring",
 }));
 
 export type UpdateRebalancingError =
@@ -4081,7 +4215,7 @@ export type UpdateRebalancingError =
  * Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers.
  */
 export const updateRebalancing: API.OperationMethod<
-  UpdateRebalancingRequest,
+  UpdateRebalancingRequest & RegionInput,
   UpdateRebalancingResponse,
   UpdateRebalancingError,
   Credentials | HttpClient.HttpClient
@@ -4100,6 +4234,8 @@ export const updateRebalancing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRebalancing",
+  telemetry: TELEMETRY,
+  span: "UpdateRebalancing",
 }));
 
 export type UpdateReplicationInfoError =
@@ -4115,7 +4251,7 @@ export type UpdateReplicationInfoError =
  * Updates replication info of a replicator.
  */
 export const updateReplicationInfo: API.OperationMethod<
-  UpdateReplicationInfoRequest,
+  UpdateReplicationInfoRequest & RegionInput,
   UpdateReplicationInfoResponse,
   UpdateReplicationInfoError,
   Credentials | HttpClient.HttpClient
@@ -4134,6 +4270,8 @@ export const updateReplicationInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationInfo",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationInfo",
 }));
 
 export type UpdateSecurityError =
@@ -4149,7 +4287,7 @@ export type UpdateSecurityError =
  * Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
  */
 export const updateSecurity: API.OperationMethod<
-  UpdateSecurityRequest,
+  UpdateSecurityRequest & RegionInput,
   UpdateSecurityResponse,
   UpdateSecurityError,
   Credentials | HttpClient.HttpClient
@@ -4168,6 +4306,8 @@ export const updateSecurity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurity",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurity",
 }));
 
 export type UpdateStorageError =
@@ -4183,7 +4323,7 @@ export type UpdateStorageError =
  * Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
  */
 export const updateStorage: API.OperationMethod<
-  UpdateStorageRequest,
+  UpdateStorageRequest & RegionInput,
   UpdateStorageResponse,
   UpdateStorageError,
   Credentials | HttpClient.HttpClient
@@ -4202,6 +4342,8 @@ export const updateStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStorage",
+  telemetry: TELEMETRY,
+  span: "UpdateStorage",
 }));
 
 export type UpdateTopicError =
@@ -4225,7 +4367,7 @@ export type UpdateTopicError =
  * Updates the configuration of the specified topic.
  */
 export const updateTopic: API.OperationMethod<
-  UpdateTopicRequest,
+  UpdateTopicRequest & RegionInput,
   UpdateTopicResponse,
   UpdateTopicError,
   Credentials | HttpClient.HttpClient
@@ -4252,6 +4394,8 @@ export const updateTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopic",
+  telemetry: TELEMETRY,
+  span: "UpdateTopic",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

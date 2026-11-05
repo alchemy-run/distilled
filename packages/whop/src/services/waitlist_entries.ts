@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "WaitlistEntries",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -207,6 +220,8 @@ export const approveAllWaitlistEntries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveAllWaitlistEntries",
 }));
 
 export type ApproveWaitlistEntryError = Forbidden | NotFound | Conflict | WhopOpError;
@@ -222,6 +237,8 @@ export const approveWaitlistEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveWaitlistEntry",
 }));
 
 export type CancelWaitlistEntryError = Forbidden | NotFound | Conflict | WhopOpError;
@@ -237,6 +254,8 @@ export const cancelWaitlistEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWaitlistEntry",
 }));
 
 export type CreateWaitlistEntryError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -252,6 +271,8 @@ export const createWaitlistEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWaitlistEntry",
 }));
 
 export type DenyWaitlistEntryError = Forbidden | NotFound | Conflict | WhopOpError;
@@ -267,6 +288,8 @@ export const denyWaitlistEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DenyWaitlistEntry",
 }));
 
 export type GetWaitlistEntryError = Forbidden | NotFound | WhopOpError;
@@ -282,6 +305,8 @@ export const getWaitlistEntry: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWaitlistEntry",
 }));
 
 export type ListWaitlistEntriesError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -299,6 +324,8 @@ export const listWaitlistEntries: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWaitlistEntries",
     pagination: {
       mode: "relay",
       inputToken: "after",

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://signer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "signer",
+  service: "signer",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -547,7 +563,7 @@ export type AddProfilePermissionError =
  * Adds cross-account permissions to a signing profile.
  */
 export const addProfilePermission: API.OperationMethod<
-  AddProfilePermissionRequest,
+  AddProfilePermissionRequest & RegionInput,
   AddProfilePermissionResponse,
   AddProfilePermissionError,
   Credentials | HttpClient.HttpClient
@@ -566,6 +582,8 @@ export const addProfilePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddProfilePermission",
+  telemetry: TELEMETRY,
+  span: "AddProfilePermission",
 }));
 
 export type CancelSigningProfileError =
@@ -580,7 +598,7 @@ export type CancelSigningProfileError =
  * operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
  */
 export const cancelSigningProfile: API.OperationMethod<
-  CancelSigningProfileRequest,
+  CancelSigningProfileRequest & RegionInput,
   CancelSigningProfileResponse,
   CancelSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -596,6 +614,8 @@ export const cancelSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSigningProfile",
+  telemetry: TELEMETRY,
+  span: "CancelSigningProfile",
 }));
 
 export type DescribeSigningJobError =
@@ -610,7 +630,7 @@ export type DescribeSigningJobError =
  * operation.
  */
 export const describeSigningJob: API.OperationMethod<
-  DescribeSigningJobRequest,
+  DescribeSigningJobRequest & RegionInput,
   DescribeSigningJobResponse,
   DescribeSigningJobError,
   Credentials | HttpClient.HttpClient
@@ -626,6 +646,8 @@ export const describeSigningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSigningJob",
+  telemetry: TELEMETRY,
+  span: "DescribeSigningJob",
 }));
 
 export type GetRevocationStatusError =
@@ -639,7 +661,7 @@ export type GetRevocationStatusError =
  * and signing certificate.
  */
 export const getRevocationStatus: API.OperationMethod<
-  GetRevocationStatusRequest,
+  GetRevocationStatusRequest & RegionInput,
   GetRevocationStatusResponse,
   GetRevocationStatusError,
   Credentials | HttpClient.HttpClient
@@ -656,6 +678,8 @@ export const getRevocationStatus: API.OperationMethod<
   retry: Retry,
   operationName: "GetRevocationStatus",
   endpointHostPrefix: "data-",
+  telemetry: TELEMETRY,
+  span: "GetRevocationStatus",
 }));
 
 export type GetSigningPlatformError =
@@ -668,7 +692,7 @@ export type GetSigningPlatformError =
  * Returns information on a specific signing platform.
  */
 export const getSigningPlatform: API.OperationMethod<
-  GetSigningPlatformRequest,
+  GetSigningPlatformRequest & RegionInput,
   GetSigningPlatformResponse,
   GetSigningPlatformError,
   Credentials | HttpClient.HttpClient
@@ -684,6 +708,8 @@ export const getSigningPlatform: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningPlatform",
+  telemetry: TELEMETRY,
+  span: "GetSigningPlatform",
 }));
 
 export type GetSigningProfileError =
@@ -696,7 +722,7 @@ export type GetSigningProfileError =
  * Returns information on a specific signing profile.
  */
 export const getSigningProfile: API.OperationMethod<
-  GetSigningProfileRequest,
+  GetSigningProfileRequest & RegionInput,
   GetSigningProfileResponse,
   GetSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -712,6 +738,8 @@ export const getSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningProfile",
+  telemetry: TELEMETRY,
+  span: "GetSigningProfile",
 }));
 
 export type ListProfilePermissionsError =
@@ -725,7 +753,7 @@ export type ListProfilePermissionsError =
  * Lists the cross-account permissions associated with a signing profile.
  */
 export const listProfilePermissions: API.OperationMethod<
-  ListProfilePermissionsRequest,
+  ListProfilePermissionsRequest & RegionInput,
   ListProfilePermissionsResponse,
   ListProfilePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -742,6 +770,8 @@ export const listProfilePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfilePermissions",
+  telemetry: TELEMETRY,
+  span: "ListProfilePermissions",
 }));
 
 export type ListSigningJobsError =
@@ -760,7 +790,7 @@ export type ListSigningJobsError =
  * parameter until all of your signing jobs have been returned.
  */
 export const listSigningJobs: API.PaginatedOperationMethod<
-  ListSigningJobsRequest,
+  ListSigningJobsRequest & RegionInput,
   ListSigningJobsResponse,
   ListSigningJobsError,
   Credentials | HttpClient.HttpClient,
@@ -782,6 +812,8 @@ export const listSigningJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSigningJobs",
 })) as any;
 
 export type ListSigningPlatformsError =
@@ -800,7 +832,7 @@ export type ListSigningPlatformsError =
  * returned.
  */
 export const listSigningPlatforms: API.PaginatedOperationMethod<
-  ListSigningPlatformsRequest,
+  ListSigningPlatformsRequest & RegionInput,
   ListSigningPlatformsResponse,
   ListSigningPlatformsError,
   Credentials | HttpClient.HttpClient,
@@ -822,6 +854,8 @@ export const listSigningPlatforms: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSigningPlatforms",
 })) as any;
 
 export type ListSigningProfilesError =
@@ -840,7 +874,7 @@ export type ListSigningProfilesError =
  * your signing jobs have been returned.
  */
 export const listSigningProfiles: API.PaginatedOperationMethod<
-  ListSigningProfilesRequest,
+  ListSigningProfilesRequest & RegionInput,
   ListSigningProfilesResponse,
   ListSigningProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -857,6 +891,8 @@ export const listSigningProfiles: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSigningProfiles",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -869,7 +905,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags associated with a signing profile resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -885,6 +921,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSigningProfileError =
@@ -900,7 +938,7 @@ export type PutSigningProfileError =
  * carry out a pre-defined signing job.
  */
 export const putSigningProfile: API.OperationMethod<
-  PutSigningProfileRequest,
+  PutSigningProfileRequest & RegionInput,
   PutSigningProfileResponse,
   PutSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -918,6 +956,8 @@ export const putSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSigningProfile",
+  telemetry: TELEMETRY,
+  span: "PutSigningProfile",
 }));
 
 export type RemoveProfilePermissionError =
@@ -932,7 +972,7 @@ export type RemoveProfilePermissionError =
  * Removes cross-account permissions from a signing profile.
  */
 export const removeProfilePermission: API.OperationMethod<
-  RemoveProfilePermissionRequest,
+  RemoveProfilePermissionRequest & RegionInput,
   RemoveProfilePermissionResponse,
   RemoveProfilePermissionError,
   Credentials | HttpClient.HttpClient
@@ -950,6 +990,8 @@ export const removeProfilePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveProfilePermission",
+  telemetry: TELEMETRY,
+  span: "RemoveProfilePermission",
 }));
 
 export type RevokeSignatureError =
@@ -964,7 +1006,7 @@ export type RevokeSignatureError =
  * longer valid.
  */
 export const revokeSignature: API.OperationMethod<
-  RevokeSignatureRequest,
+  RevokeSignatureRequest & RegionInput,
   RevokeSignatureResponse,
   RevokeSignatureError,
   Credentials | HttpClient.HttpClient
@@ -981,6 +1023,8 @@ export const revokeSignature: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSignature",
+  telemetry: TELEMETRY,
+  span: "RevokeSignature",
 }));
 
 export type RevokeSigningProfileError =
@@ -998,7 +1042,7 @@ export type RevokeSigningProfileError =
  * for more information on scheduled deletion of a revoked signing profile.
  */
 export const revokeSigningProfile: API.OperationMethod<
-  RevokeSigningProfileRequest,
+  RevokeSigningProfileRequest & RegionInput,
   RevokeSigningProfileResponse,
   RevokeSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -1015,6 +1059,8 @@ export const revokeSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSigningProfile",
+  telemetry: TELEMETRY,
+  span: "RevokeSigningProfile",
 }));
 
 export type SignPayloadError =
@@ -1028,7 +1074,7 @@ export type SignPayloadError =
  * Signs a binary payload and returns a signature envelope.
  */
 export const signPayload: API.OperationMethod<
-  SignPayloadRequest,
+  SignPayloadRequest & RegionInput,
   SignPayloadResponse,
   SignPayloadError,
   Credentials | HttpClient.HttpClient
@@ -1045,6 +1091,8 @@ export const signPayload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignPayload",
+  telemetry: TELEMETRY,
+  span: "SignPayload",
 }));
 
 export type StartSigningJobError =
@@ -1080,7 +1128,7 @@ export type StartSigningJobError =
  * For a Java example that shows how to use this action, see StartSigningJob.
  */
 export const startSigningJob: API.OperationMethod<
-  StartSigningJobRequest,
+  StartSigningJobRequest & RegionInput,
   StartSigningJobResponse,
   StartSigningJobError,
   Credentials | HttpClient.HttpClient
@@ -1098,6 +1146,8 @@ export const startSigningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSigningJob",
+  telemetry: TELEMETRY,
+  span: "StartSigningJob",
 }));
 
 export type TagResourceError =
@@ -1113,7 +1163,7 @@ export type TagResourceError =
  * the tag, use a key-value pair.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1129,6 +1179,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1142,7 +1194,7 @@ export type UntagResourceError =
  * tag keys.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1158,6 +1210,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

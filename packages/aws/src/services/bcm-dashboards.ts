@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BCMDashboards",
+  service: "BCMDashboards",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -530,7 +547,7 @@ export type CreateDashboardError =
  * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -547,6 +564,8 @@ export const createDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDashboard",
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateScheduledReportError =
@@ -561,7 +580,7 @@ export type CreateScheduledReportError =
  * Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time.
  */
 export const createScheduledReport: API.OperationMethod<
-  CreateScheduledReportRequest,
+  CreateScheduledReportRequest & RegionInput,
   CreateScheduledReportResponse,
   CreateScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -579,6 +598,8 @@ export const createScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledReport",
+  telemetry: TELEMETRY,
+  span: "CreateScheduledReport",
 }));
 
 export type DeleteDashboardError =
@@ -591,7 +612,7 @@ export type DeleteDashboardError =
  * Deletes a specified dashboard. This action cannot be undone.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -607,6 +628,8 @@ export const deleteDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteScheduledReportError =
@@ -620,7 +643,7 @@ export type DeleteScheduledReportError =
  * Deletes a specified scheduled report. This is an irreversible operation.
  */
 export const deleteScheduledReport: API.OperationMethod<
-  DeleteScheduledReportRequest,
+  DeleteScheduledReportRequest & RegionInput,
   DeleteScheduledReportResponse,
   DeleteScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -637,6 +660,8 @@ export const deleteScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledReport",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledReport",
 }));
 
 export type ExecuteScheduledReportError =
@@ -653,7 +678,7 @@ export type ExecuteScheduledReportError =
  * If a `clientToken` is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute.
  */
 export const executeScheduledReport: API.OperationMethod<
-  ExecuteScheduledReportRequest,
+  ExecuteScheduledReportRequest & RegionInput,
   ExecuteScheduledReportResponse,
   ExecuteScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -671,6 +696,8 @@ export const executeScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteScheduledReport",
+  telemetry: TELEMETRY,
+  span: "ExecuteScheduledReport",
 }));
 
 export type GetDashboardError =
@@ -684,7 +711,7 @@ export type GetDashboardError =
  * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
  */
 export const getDashboard: API.OperationMethod<
-  GetDashboardRequest,
+  GetDashboardRequest & RegionInput,
   GetDashboardResponse,
   GetDashboardError,
   Credentials | HttpClient.HttpClient
@@ -701,6 +728,8 @@ export const getDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetResourcePolicyError =
@@ -714,7 +743,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +760,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetScheduledReportError =
@@ -744,7 +775,7 @@ export type GetScheduledReportError =
  * Retrieves the configuration and metadata of a specified scheduled report.
  */
 export const getScheduledReport: API.OperationMethod<
-  GetScheduledReportRequest,
+  GetScheduledReportRequest & RegionInput,
   GetScheduledReportResponse,
   GetScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -761,6 +792,8 @@ export const getScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduledReport",
+  telemetry: TELEMETRY,
+  span: "GetScheduledReport",
 }));
 
 export type ListDashboardsError =
@@ -773,7 +806,7 @@ export type ListDashboardsError =
  * Returns a list of all dashboards in your account.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -796,6 +829,8 @@ export const listDashboards: API.PaginatedOperationMethod<
     items: "dashboards",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 })) as any;
 
 export type ListScheduledReportsError =
@@ -808,7 +843,7 @@ export type ListScheduledReportsError =
  * Returns a list of scheduled reports in your account.
  */
 export const listScheduledReports: API.PaginatedOperationMethod<
-  ListScheduledReportsRequest,
+  ListScheduledReportsRequest & RegionInput,
   ListScheduledReportsResponse,
   ListScheduledReportsError,
   Credentials | HttpClient.HttpClient,
@@ -831,6 +866,8 @@ export const listScheduledReports: API.PaginatedOperationMethod<
     items: "scheduledReports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduledReports",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -843,7 +880,7 @@ export type ListTagsForResourceError =
  * Returns a list of all tags associated with a specified dashboard resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -859,6 +896,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -871,7 +910,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified dashboard resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -887,6 +926,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -899,7 +940,7 @@ export type UntagResourceError =
  * Removes specified tags from a dashboard resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -915,6 +956,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDashboardError =
@@ -928,7 +971,7 @@ export type UpdateDashboardError =
  * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -945,6 +988,8 @@ export const updateDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboard",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateScheduledReportError =
@@ -959,7 +1004,7 @@ export type UpdateScheduledReportError =
  * Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged.
  */
 export const updateScheduledReport: API.OperationMethod<
-  UpdateScheduledReportRequest,
+  UpdateScheduledReportRequest & RegionInput,
   UpdateScheduledReportResponse,
   UpdateScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -977,6 +1022,8 @@ export const updateScheduledReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledReport",
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledReport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -29,6 +29,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "CustomCsrs",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type CreateRequestSansList = Array<string>;
 export type CreateRequestKeyType = "rsa2048" | "p256v1";
 export interface CreateCustomCsrForAccountRequest {
@@ -252,6 +266,8 @@ export const createCustomCsrForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomCsrForAccount",
 }));
 
 export type CreateCustomCsrForZoneError = CloudflareOpError;
@@ -267,6 +283,8 @@ export const createCustomCsrForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomCsrForZone",
 }));
 
 export type DeleteCustomCsrForAccountError = CloudflareOpError;
@@ -282,6 +300,8 @@ export const deleteCustomCsrForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomCsrForAccount",
 }));
 
 export type DeleteCustomCsrForZoneError = CloudflareOpError;
@@ -297,6 +317,8 @@ export const deleteCustomCsrForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomCsrForZone",
 }));
 
 export type GetCustomCsrForAccountError = CloudflareOpError;
@@ -312,6 +334,8 @@ export const getCustomCsrForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomCsrForAccount",
 }));
 
 export type GetCustomCsrForZoneError = CloudflareOpError;
@@ -327,6 +351,8 @@ export const getCustomCsrForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomCsrForZone",
 }));
 
 export type ListCustomCsrsForAccountError = CloudflareOpError;
@@ -344,6 +370,8 @@ export const listCustomCsrsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomCsrsForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -370,6 +398,8 @@ export const listCustomCsrsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomCsrsForZone",
     pagination: {
       mode: "page",
       inputToken: "page",

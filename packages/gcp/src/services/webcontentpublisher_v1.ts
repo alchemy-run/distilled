@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "webcontentpublisher" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Webcontentpublisher",
+  service: "webcontentpublisher",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -311,6 +330,8 @@ export const checkFreeAccessPublications: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckFreeAccessPublications",
 }));
 
 export type CreateOrganizationsPublicationsError =
@@ -331,6 +352,8 @@ export const createOrganizationsPublications: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsPublications",
 }));
 
 export type CreateOrganizationsPublicationsCtasError =
@@ -351,6 +374,8 @@ export const createOrganizationsPublicationsCtas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsPublicationsCtas",
 }));
 
 export type GeneratePlatformSiteTokensUsersError =
@@ -371,6 +396,8 @@ export const generatePlatformSiteTokensUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GeneratePlatformSiteTokensUsers",
 }));
 
 export type GetOrganizationsPublicationsError = NotFound | Forbidden | GcpOpError;
@@ -386,6 +413,8 @@ export const getOrganizationsPublications: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsPublications",
 }));
 
 export type GetOrganizationsPublicationsCtasError = NotFound | Forbidden | GcpOpError;
@@ -401,6 +430,8 @@ export const getOrganizationsPublicationsCtas: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsPublicationsCtas",
 }));
 
 export type ListOrganizationsPublicationsError = NotFound | Forbidden | GcpOpError;
@@ -417,6 +448,8 @@ export const listOrganizationsPublications: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsPublications",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -434,6 +467,8 @@ export const listOrganizationsPublicationsCtas: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsPublicationsCtas",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -455,6 +490,8 @@ export const patchOrganizationsPublications: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsPublications",
 }));
 
 export type PatchOrganizationsPublicationsCtasError =
@@ -475,6 +512,8 @@ export const patchOrganizationsPublicationsCtas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsPublicationsCtas",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

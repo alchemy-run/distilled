@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -68,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rbin.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "rbin",
+  service: "rbin",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -326,7 +342,7 @@ export type CreateRuleError =
  * Create Recycle Bin retention rules in the *Amazon EBS User Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -337,6 +353,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type DeleteRuleError =
@@ -350,7 +368,7 @@ export type DeleteRuleError =
  * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -366,6 +384,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type GetRuleError =
@@ -377,7 +397,7 @@ export type GetRuleError =
  * Gets information about a Recycle Bin retention rule.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -388,6 +408,8 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type ListRulesError = InternalServerException | ValidationException | CommonErrors;
@@ -395,7 +417,7 @@ export type ListRulesError = InternalServerException | ValidationException | Com
  * Lists the Recycle Bin retention rules in the Region.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -413,6 +435,8 @@ export const listRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -424,7 +448,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to a retention rule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -435,6 +459,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type LockRuleError =
@@ -451,7 +477,7 @@ export type LockRuleError =
  * have exclusion tags.
  */
 export const lockRule: API.OperationMethod<
-  LockRuleRequest,
+  LockRuleRequest & RegionInput,
   LockRuleResponse,
   LockRuleError,
   Credentials | HttpClient.HttpClient
@@ -467,6 +493,8 @@ export const lockRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LockRule",
+  telemetry: TELEMETRY,
+  span: "LockRule",
 }));
 
 export type TagResourceError =
@@ -479,7 +507,7 @@ export type TagResourceError =
  * Assigns tags to the specified retention rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -495,6 +523,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnlockRuleError =
@@ -508,7 +538,7 @@ export type UnlockRuleError =
  * only after the unlock delay period expires.
  */
 export const unlockRule: API.OperationMethod<
-  UnlockRuleRequest,
+  UnlockRuleRequest & RegionInput,
   UnlockRuleResponse,
   UnlockRuleError,
   Credentials | HttpClient.HttpClient
@@ -524,6 +554,8 @@ export const unlockRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlockRule",
+  telemetry: TELEMETRY,
+  span: "UnlockRule",
 }));
 
 export type UntagResourceError =
@@ -535,7 +567,7 @@ export type UntagResourceError =
  * Unassigns a tag from a retention rule.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -546,6 +578,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateRuleError =
@@ -562,7 +596,7 @@ export type UpdateRuleError =
  * Update Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -579,6 +613,8 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

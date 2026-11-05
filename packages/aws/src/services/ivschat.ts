@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ivschat.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ivschat",
+  service: "ivschat",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -437,7 +453,7 @@ export type CreateChatTokenError =
  * application.
  */
 export const createChatToken: API.OperationMethod<
-  CreateChatTokenRequest,
+  CreateChatTokenRequest & RegionInput,
   CreateChatTokenResponse,
   CreateChatTokenError,
   Credentials | HttpClient.HttpClient
@@ -453,6 +469,8 @@ export const createChatToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChatToken",
+  telemetry: TELEMETRY,
+  span: "CreateChatToken",
 }));
 
 export type CreateLoggingConfigurationError =
@@ -469,7 +487,7 @@ export type CreateLoggingConfigurationError =
  * messages.
  */
 export const createLoggingConfiguration: API.OperationMethod<
-  CreateLoggingConfigurationRequest,
+  CreateLoggingConfigurationRequest & RegionInput,
   CreateLoggingConfigurationResponse,
   CreateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -488,6 +506,8 @@ export const createLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLoggingConfiguration",
 }));
 
 export type CreateRoomError =
@@ -503,7 +523,7 @@ export type CreateRoomError =
  * Creates a room that allows clients to connect and pass messages.
  */
 export const createRoom: API.OperationMethod<
-  CreateRoomRequest,
+  CreateRoomRequest & RegionInput,
   CreateRoomResponse,
   CreateRoomError,
   Credentials | HttpClient.HttpClient
@@ -522,6 +542,8 @@ export const createRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoom",
+  telemetry: TELEMETRY,
+  span: "CreateRoom",
 }));
 
 export type DeleteLoggingConfigurationError =
@@ -536,7 +558,7 @@ export type DeleteLoggingConfigurationError =
  * Deletes the specified logging configuration.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -554,6 +576,8 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggingConfiguration",
 }));
 
 export type DeleteMessageError =
@@ -570,7 +594,7 @@ export type DeleteMessageError =
  * DeleteMessage WebSocket operation in the Amazon IVS Chat Messaging API.
  */
 export const deleteMessage: API.OperationMethod<
-  DeleteMessageRequest,
+  DeleteMessageRequest & RegionInput,
   DeleteMessageResponse,
   DeleteMessageError,
   Credentials | HttpClient.HttpClient
@@ -587,6 +611,8 @@ export const deleteMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessage",
+  telemetry: TELEMETRY,
+  span: "DeleteMessage",
 }));
 
 export type DeleteRoomError =
@@ -600,7 +626,7 @@ export type DeleteRoomError =
  * Deletes the specified room.
  */
 export const deleteRoom: API.OperationMethod<
-  DeleteRoomRequest,
+  DeleteRoomRequest & RegionInput,
   DeleteRoomResponse,
   DeleteRoomError,
   Credentials | HttpClient.HttpClient
@@ -617,6 +643,8 @@ export const deleteRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoom",
+  telemetry: TELEMETRY,
+  span: "DeleteRoom",
 }));
 
 export type DisconnectUserError =
@@ -632,7 +660,7 @@ export type DisconnectUserError =
  * DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
  */
 export const disconnectUser: API.OperationMethod<
-  DisconnectUserRequest,
+  DisconnectUserRequest & RegionInput,
   DisconnectUserResponse,
   DisconnectUserError,
   Credentials | HttpClient.HttpClient
@@ -649,6 +677,8 @@ export const disconnectUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectUser",
+  telemetry: TELEMETRY,
+  span: "DisconnectUser",
 }));
 
 export type GetLoggingConfigurationError =
@@ -661,7 +691,7 @@ export type GetLoggingConfigurationError =
  * Gets the specified logging configuration.
  */
 export const getLoggingConfiguration: API.OperationMethod<
-  GetLoggingConfigurationRequest,
+  GetLoggingConfigurationRequest & RegionInput,
   GetLoggingConfigurationResponse,
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -677,6 +707,8 @@ export const getLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLoggingConfiguration",
 }));
 
 export type GetRoomError =
@@ -689,7 +721,7 @@ export type GetRoomError =
  * Gets the specified room.
  */
 export const getRoom: API.OperationMethod<
-  GetRoomRequest,
+  GetRoomRequest & RegionInput,
   GetRoomResponse,
   GetRoomError,
   Credentials | HttpClient.HttpClient
@@ -705,6 +737,8 @@ export const getRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoom",
+  telemetry: TELEMETRY,
+  span: "GetRoom",
 }));
 
 export type ListLoggingConfigurationsError =
@@ -717,7 +751,7 @@ export type ListLoggingConfigurationsError =
  * the API request is processed.
  */
 export const listLoggingConfigurations: API.PaginatedOperationMethod<
-  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsRequest & RegionInput,
   ListLoggingConfigurationsResponse,
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -734,6 +768,8 @@ export const listLoggingConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLoggingConfigurations",
 })) as any;
 
 export type ListRoomsError =
@@ -747,7 +783,7 @@ export type ListRoomsError =
  * processed. Results are sorted in descending order of `updateTime`.
  */
 export const listRooms: API.PaginatedOperationMethod<
-  ListRoomsRequest,
+  ListRoomsRequest & RegionInput,
   ListRoomsResponse,
   ListRoomsError,
   Credentials | HttpClient.HttpClient,
@@ -769,6 +805,8 @@ export const listRooms: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRooms",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -781,7 +819,7 @@ export type ListTagsForResourceError =
  * Gets information about AWS tags for the specified ARN.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -797,6 +835,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SendEventError =
@@ -812,7 +852,7 @@ export type SendEventError =
  * rendered.
  */
 export const sendEvent: API.OperationMethod<
-  SendEventRequest,
+  SendEventRequest & RegionInput,
   SendEventResponse,
   SendEventError,
   Credentials | HttpClient.HttpClient
@@ -829,6 +869,8 @@ export const sendEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEvent",
+  telemetry: TELEMETRY,
+  span: "SendEvent",
 }));
 
 export type TagResourceError =
@@ -841,7 +883,7 @@ export type TagResourceError =
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -857,6 +899,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -869,7 +913,7 @@ export type UntagResourceError =
  * Removes tags from the resource with the specified ARN.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -885,6 +929,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLoggingConfigurationError =
@@ -899,7 +945,7 @@ export type UpdateLoggingConfigurationError =
  * Updates a specified logging configuration.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -917,6 +963,8 @@ export const updateLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLoggingConfiguration",
 }));
 
 export type UpdateRoomError =
@@ -930,7 +978,7 @@ export type UpdateRoomError =
  * Updates a room's configuration.
  */
 export const updateRoom: API.OperationMethod<
-  UpdateRoomRequest,
+  UpdateRoomRequest & RegionInput,
   UpdateRoomResponse,
   UpdateRoomError,
   Credentials | HttpClient.HttpClient
@@ -947,6 +995,8 @@ export const updateRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoom",
+  telemetry: TELEMETRY,
+  span: "UpdateRoom",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

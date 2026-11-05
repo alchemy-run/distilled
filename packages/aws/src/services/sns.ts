@@ -1,12 +1,16 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxMessage from "@distilled.cloud/core/telemetry-message-context";
+import * as TxName from "@distilled.cloud/core/telemetry-name-template";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -81,6 +85,22 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sns.{R}.{D}","properties":{},"headers":{}}');
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  attributes: { "messaging.system": "aws.sns" },
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SNS",
+  service: "SNS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
+
 export class AuthorizationErrorException
   extends /*@__PURE__*/ S.TaggedError<AuthorizationErrorException>()(
     "AuthorizationErrorException",
@@ -135,6 +155,15 @@ export class EndpointDisabledException
       /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export class FifoTopicDataProtectionUnsupported
+  extends /*@__PURE__*/ S.TaggedError<FifoTopicDataProtectionUnsupported>()(
+    "FifoTopicDataProtectionUnsupported",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "InvalidAction",
+      message: { includes: "is not supported on FIFO topics" },
+    }),
+  ) {}
 export class FilterPolicyLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<FilterPolicyLimitExceededException>()(
     "FilterPolicyLimitExceededException",
@@ -153,6 +182,10 @@ export class InternalErrorException
       /*@__PURE__*/ T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
+export class InvalidAction
+  extends /*@__PURE__*/ S.TaggedError<InvalidAction>()("InvalidAction", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidBatchEntryIdException
   extends /*@__PURE__*/ S.TaggedError<InvalidBatchEntryIdException>()(
     "InvalidBatchEntryIdException",
@@ -803,7 +836,7 @@ export type AddPermissionError =
  * `SetTopicAttributes` actions in your IAM policy.
  */
 export const addPermission: API.OperationMethod<
-  AddPermissionInput,
+  AddPermissionInput & RegionInput,
   AddPermissionResponse,
   AddPermissionError,
   Credentials | HttpClient.HttpClient
@@ -821,6 +854,16 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "AddPermission",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type CheckIfPhoneNumberIsOptedOutError =
@@ -838,7 +881,7 @@ export type CheckIfPhoneNumberIsOptedOutError =
  * `OptInPhoneNumber` action.
  */
 export const checkIfPhoneNumberIsOptedOut: API.OperationMethod<
-  CheckIfPhoneNumberIsOptedOutInput,
+  CheckIfPhoneNumberIsOptedOutInput & RegionInput,
   CheckIfPhoneNumberIsOptedOutResponse,
   CheckIfPhoneNumberIsOptedOutError,
   Credentials | HttpClient.HttpClient
@@ -854,6 +897,8 @@ export const checkIfPhoneNumberIsOptedOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckIfPhoneNumberIsOptedOut",
+  telemetry: TELEMETRY,
+  span: "CheckIfPhoneNumberIsOptedOut",
 }));
 
 export type ConfirmSubscriptionError =
@@ -873,7 +918,7 @@ export type ConfirmSubscriptionError =
  * set to "true".
  */
 export const confirmSubscription: API.OperationMethod<
-  ConfirmSubscriptionInput,
+  ConfirmSubscriptionInput & RegionInput,
   ConfirmSubscriptionResponse,
   ConfirmSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -892,6 +937,16 @@ export const confirmSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmSubscription",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConfirmSubscription",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type CreatePlatformApplicationError =
@@ -940,7 +995,7 @@ export type CreatePlatformApplicationError =
  * `CreatePlatformEndpoint` action.
  */
 export const createPlatformApplication: API.OperationMethod<
-  CreatePlatformApplicationInput,
+  CreatePlatformApplicationInput & RegionInput,
   CreatePlatformApplicationResponse,
   CreatePlatformApplicationError,
   Credentials | HttpClient.HttpClient
@@ -951,6 +1006,8 @@ export const createPlatformApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformApplication",
+  telemetry: TELEMETRY,
+  span: "CreatePlatformApplication",
 }));
 
 export type CreatePlatformEndpointError =
@@ -979,7 +1036,7 @@ export type CreatePlatformEndpointError =
  * Baidu.
  */
 export const createPlatformEndpoint: API.OperationMethod<
-  CreatePlatformEndpointInput,
+  CreatePlatformEndpointInput & RegionInput,
   CreateEndpointResponse,
   CreatePlatformEndpointError,
   Credentials | HttpClient.HttpClient
@@ -997,6 +1054,8 @@ export const createPlatformEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreatePlatformEndpoint",
 }));
 
 export type CreateSMSSandboxPhoneNumberError =
@@ -1021,7 +1080,7 @@ export type CreateSMSSandboxPhoneNumberError =
  * the *Amazon SNS Developer Guide*.
  */
 export const createSMSSandboxPhoneNumber: API.OperationMethod<
-  CreateSMSSandboxPhoneNumberInput,
+  CreateSMSSandboxPhoneNumberInput & RegionInput,
   CreateSMSSandboxPhoneNumberResult,
   CreateSMSSandboxPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1039,6 +1098,8 @@ export const createSMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSMSSandboxPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "CreateSMSSandboxPhoneNumber",
 }));
 
 export type CreateTopicError =
@@ -1060,7 +1121,7 @@ export type CreateTopicError =
  * topic's ARN is returned without creating a new topic.
  */
 export const createTopic: API.OperationMethod<
-  CreateTopicInput,
+  CreateTopicInput & RegionInput,
   CreateTopicResponse,
   CreateTopicError,
   Credentials | HttpClient.HttpClient
@@ -1081,6 +1142,8 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type DeleteEndpointError =
@@ -1099,7 +1162,7 @@ export type DeleteEndpointError =
  * unsubscribe the endpoint from the topic.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointInput,
+  DeleteEndpointInput & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1116,6 +1179,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeletePlatformApplicationError =
@@ -1132,7 +1197,7 @@ export type DeletePlatformApplicationError =
  * Mobile Push Notifications.
  */
 export const deletePlatformApplication: API.OperationMethod<
-  DeletePlatformApplicationInput,
+  DeletePlatformApplicationInput & RegionInput,
   DeletePlatformApplicationResponse,
   DeletePlatformApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1149,6 +1214,8 @@ export const deletePlatformApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlatformApplication",
+  telemetry: TELEMETRY,
+  span: "DeletePlatformApplication",
 }));
 
 export type DeleteSMSSandboxPhoneNumberError =
@@ -1173,7 +1240,7 @@ export type DeleteSMSSandboxPhoneNumberError =
  * the *Amazon SNS Developer Guide*.
  */
 export const deleteSMSSandboxPhoneNumber: API.OperationMethod<
-  DeleteSMSSandboxPhoneNumberInput,
+  DeleteSMSSandboxPhoneNumberInput & RegionInput,
   DeleteSMSSandboxPhoneNumberResult,
   DeleteSMSSandboxPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1191,6 +1258,8 @@ export const deleteSMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSMSSandboxPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "DeleteSMSSandboxPhoneNumber",
 }));
 
 export type DeleteTopicError =
@@ -1212,7 +1281,7 @@ export type DeleteTopicError =
  * error.
  */
 export const deleteTopic: API.OperationMethod<
-  DeleteTopicInput,
+  DeleteTopicInput & RegionInput,
   DeleteTopicResponse,
   DeleteTopicError,
   Credentials | HttpClient.HttpClient
@@ -1234,6 +1303,16 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteTopic",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type GetDataProtectionPolicyError =
@@ -1244,6 +1323,8 @@ export type GetDataProtectionPolicyError =
   | NotFoundException
   | RequestLimitExceeded
   | InvalidClientTokenId
+  | InvalidAction
+  | FifoTopicDataProtectionUnsupported
   | CommonErrors;
 /**
  * Amazon SNS message data protection is no longer available to new customers.
@@ -1254,7 +1335,7 @@ export type GetDataProtectionPolicyError =
  * stored in the specified Amazon SNS topic.
  */
 export const getDataProtectionPolicy: API.OperationMethod<
-  GetDataProtectionPolicyInput,
+  GetDataProtectionPolicyInput & RegionInput,
   GetDataProtectionPolicyResponse,
   GetDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1269,10 +1350,14 @@ export const getDataProtectionPolicy: API.OperationMethod<
     NotFoundException,
     RequestLimitExceeded,
     InvalidClientTokenId,
+    InvalidAction,
+    FifoTopicDataProtectionUnsupported,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProtectionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetDataProtectionPolicy",
 }));
 
 export type GetEndpointAttributesError =
@@ -1289,7 +1374,7 @@ export type GetEndpointAttributesError =
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
 export const getEndpointAttributes: API.OperationMethod<
-  GetEndpointAttributesInput,
+  GetEndpointAttributesInput & RegionInput,
   GetEndpointAttributesResponse,
   GetEndpointAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1307,6 +1392,8 @@ export const getEndpointAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpointAttributes",
+  telemetry: TELEMETRY,
+  span: "GetEndpointAttributes",
 }));
 
 export type GetPlatformApplicationAttributesError =
@@ -1323,7 +1410,7 @@ export type GetPlatformApplicationAttributesError =
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
 export const getPlatformApplicationAttributes: API.OperationMethod<
-  GetPlatformApplicationAttributesInput,
+  GetPlatformApplicationAttributesInput & RegionInput,
   GetPlatformApplicationAttributesResponse,
   GetPlatformApplicationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1341,6 +1428,8 @@ export const getPlatformApplicationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlatformApplicationAttributes",
+  telemetry: TELEMETRY,
+  span: "GetPlatformApplicationAttributes",
 }));
 
 export type GetSMSAttributesError =
@@ -1355,7 +1444,7 @@ export type GetSMSAttributesError =
  * These settings are set with the `SetSMSAttributes` action.
  */
 export const getSMSAttributes: API.OperationMethod<
-  GetSMSAttributesInput,
+  GetSMSAttributesInput & RegionInput,
   GetSMSAttributesResponse,
   GetSMSAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1371,6 +1460,8 @@ export const getSMSAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSMSAttributes",
+  telemetry: TELEMETRY,
+  span: "GetSMSAttributes",
 }));
 
 export type GetSMSSandboxAccountStatusError =
@@ -1392,7 +1483,7 @@ export type GetSMSSandboxAccountStatusError =
  * the *Amazon SNS Developer Guide*.
  */
 export const getSMSSandboxAccountStatus: API.OperationMethod<
-  GetSMSSandboxAccountStatusInput,
+  GetSMSSandboxAccountStatusInput & RegionInput,
   GetSMSSandboxAccountStatusResult,
   GetSMSSandboxAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -1403,6 +1494,8 @@ export const getSMSSandboxAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSMSSandboxAccountStatus",
+  telemetry: TELEMETRY,
+  span: "GetSMSSandboxAccountStatus",
 }));
 
 export type GetSubscriptionAttributesError =
@@ -1415,7 +1508,7 @@ export type GetSubscriptionAttributesError =
  * Returns all of the properties of a subscription.
  */
 export const getSubscriptionAttributes: API.OperationMethod<
-  GetSubscriptionAttributesInput,
+  GetSubscriptionAttributesInput & RegionInput,
   GetSubscriptionAttributesResponse,
   GetSubscriptionAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1431,6 +1524,8 @@ export const getSubscriptionAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionAttributes",
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionAttributes",
 }));
 
 export type GetTopicAttributesError =
@@ -1447,7 +1542,7 @@ export type GetTopicAttributesError =
  * on the authorization of the user.
  */
 export const getTopicAttributes: API.OperationMethod<
-  GetTopicAttributesInput,
+  GetTopicAttributesInput & RegionInput,
   GetTopicAttributesResponse,
   GetTopicAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1466,6 +1561,16 @@ export const getTopicAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopicAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTopicAttributes",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type ListEndpointsByPlatformApplicationError =
@@ -1490,7 +1595,7 @@ export type ListEndpointsByPlatformApplicationError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listEndpointsByPlatformApplication: API.PaginatedOperationMethod<
-  ListEndpointsByPlatformApplicationInput,
+  ListEndpointsByPlatformApplicationInput & RegionInput,
   ListEndpointsByPlatformApplicationResponse,
   ListEndpointsByPlatformApplicationError,
   Credentials | HttpClient.HttpClient,
@@ -1510,6 +1615,8 @@ export const listEndpointsByPlatformApplication: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEndpointsByPlatformApplication",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Endpoints" } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpointsByPlatformApplication",
 })) as any;
 
 export type ListOriginationNumbersError =
@@ -1525,7 +1632,7 @@ export type ListOriginationNumbersError =
  * Guide.
  */
 export const listOriginationNumbers: API.PaginatedOperationMethod<
-  ListOriginationNumbersRequest,
+  ListOriginationNumbersRequest & RegionInput,
   ListOriginationNumbersResult,
   ListOriginationNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -1549,6 +1656,8 @@ export const listOriginationNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginationNumbers",
 })) as any;
 
 export type ListPhoneNumbersOptedOutError =
@@ -1569,7 +1678,7 @@ export type ListPhoneNumbersOptedOutError =
  * more records to return, `NextToken` will be null.
  */
 export const listPhoneNumbersOptedOut: API.PaginatedOperationMethod<
-  ListPhoneNumbersOptedOutInput,
+  ListPhoneNumbersOptedOutInput & RegionInput,
   ListPhoneNumbersOptedOutResponse,
   ListPhoneNumbersOptedOutError,
   Credentials | HttpClient.HttpClient,
@@ -1587,6 +1696,8 @@ export const listPhoneNumbersOptedOut: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListPhoneNumbersOptedOut",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "phoneNumbers" } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumbersOptedOut",
 })) as any;
 
 export type ListPlatformApplicationsError =
@@ -1608,7 +1719,7 @@ export type ListPlatformApplicationsError =
  * This action is throttled at 15 transactions per second (TPS).
  */
 export const listPlatformApplications: API.PaginatedOperationMethod<
-  ListPlatformApplicationsInput,
+  ListPlatformApplicationsInput & RegionInput,
   ListPlatformApplicationsResponse,
   ListPlatformApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1625,6 +1736,8 @@ export const listPlatformApplications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PlatformApplications",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformApplications",
 })) as any;
 
 export type ListSMSSandboxPhoneNumbersError =
@@ -1648,7 +1761,7 @@ export type ListSMSSandboxPhoneNumbersError =
  * the *Amazon SNS Developer Guide*.
  */
 export const listSMSSandboxPhoneNumbers: API.PaginatedOperationMethod<
-  ListSMSSandboxPhoneNumbersInput,
+  ListSMSSandboxPhoneNumbersInput & RegionInput,
   ListSMSSandboxPhoneNumbersResult,
   ListSMSSandboxPhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -1672,6 +1785,8 @@ export const listSMSSandboxPhoneNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSMSSandboxPhoneNumbers",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -1688,7 +1803,7 @@ export type ListSubscriptionsError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsInput,
+  ListSubscriptionsInput & RegionInput,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1705,6 +1820,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Subscriptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type ListSubscriptionsByTopicError =
@@ -1724,7 +1841,7 @@ export type ListSubscriptionsByTopicError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listSubscriptionsByTopic: API.PaginatedOperationMethod<
-  ListSubscriptionsByTopicInput,
+  ListSubscriptionsByTopicInput & RegionInput,
   ListSubscriptionsByTopicResponse,
   ListSubscriptionsByTopicError,
   Credentials | HttpClient.HttpClient,
@@ -1748,6 +1865,16 @@ export const listSubscriptionsByTopic: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Subscriptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSubscriptionsByTopic",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1764,7 +1891,7 @@ export type ListTagsForResourceError =
  * *Amazon Simple Notification Service Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1783,6 +1910,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTopicsError =
@@ -1799,7 +1928,7 @@ export type ListTopicsError =
  * This action is throttled at 30 transactions per second (TPS).
  */
 export const listTopics: API.PaginatedOperationMethod<
-  ListTopicsInput,
+  ListTopicsInput & RegionInput,
   ListTopicsResponse,
   ListTopicsError,
   Credentials | HttpClient.HttpClient,
@@ -1812,6 +1941,8 @@ export const listTopics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTopics",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Topics" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopics",
 })) as any;
 
 export type OptInPhoneNumberError =
@@ -1827,7 +1958,7 @@ export type OptInPhoneNumberError =
  * You can opt in a phone number only once every 30 days.
  */
 export const optInPhoneNumber: API.OperationMethod<
-  OptInPhoneNumberInput,
+  OptInPhoneNumberInput & RegionInput,
   OptInPhoneNumberResponse,
   OptInPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1843,6 +1974,8 @@ export const optInPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptInPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "OptInPhoneNumber",
 }));
 
 export type PublishError =
@@ -1888,7 +2021,7 @@ export type PublishError =
  * Amazon Web Services Region.
  */
 export const publish: API.OperationMethod<
-  PublishInput,
+  PublishInput & RegionInput,
   PublishResponse,
   PublishError,
   Credentials | HttpClient.HttpClient
@@ -1917,6 +2050,22 @@ export const publish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Publish",
+  telemetry: TELEMETRY,
+  span: {
+    op: "Publish",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+      TargetArn: [{ name: "messaging.destination.name", transform: "arnResource" }],
+    },
+    output: { MessageId: [{ name: "messaging.message.id" }] },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({ member: "MessageAttributes" }),
+  },
 }));
 
 export type PublishBatchError =
@@ -1989,7 +2138,7 @@ export type PublishBatchError =
  * immediately delivers the message to subscribers.
  */
 export const publishBatch: API.OperationMethod<
-  PublishBatchInput,
+  PublishBatchInput & RegionInput,
   PublishBatchResponse,
   PublishBatchError,
   Credentials | HttpClient.HttpClient
@@ -2021,6 +2170,24 @@ export const publishBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PublishBatch",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+      PublishBatchRequestEntries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({
+      list: "PublishBatchRequestEntries",
+      member: "MessageAttributes",
+    }),
+  },
 }));
 
 export type PutDataProtectionPolicyError =
@@ -2031,6 +2198,8 @@ export type PutDataProtectionPolicyError =
   | NotFoundException
   | RequestLimitExceeded
   | InvalidClientTokenId
+  | InvalidAction
+  | FifoTopicDataProtectionUnsupported
   | CommonErrors;
 /**
  * Amazon SNS message data protection is no longer available to new customers.
@@ -2041,7 +2210,7 @@ export type PutDataProtectionPolicyError =
  * topic.
  */
 export const putDataProtectionPolicy: API.OperationMethod<
-  PutDataProtectionPolicyInput,
+  PutDataProtectionPolicyInput & RegionInput,
   PutDataProtectionPolicyResponse,
   PutDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2056,10 +2225,14 @@ export const putDataProtectionPolicy: API.OperationMethod<
     NotFoundException,
     RequestLimitExceeded,
     InvalidClientTokenId,
+    InvalidAction,
+    FifoTopicDataProtectionUnsupported,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataProtectionPolicy",
+  telemetry: TELEMETRY,
+  span: "PutDataProtectionPolicy",
 }));
 
 export type RemovePermissionError =
@@ -2078,7 +2251,7 @@ export type RemovePermissionError =
  * `SetTopicAttributes` actions in your IAM policy.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionInput,
+  RemovePermissionInput & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2096,6 +2269,16 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemovePermission",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type SetEndpointAttributesError =
@@ -2112,7 +2295,7 @@ export type SetEndpointAttributesError =
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
 export const setEndpointAttributes: API.OperationMethod<
-  SetEndpointAttributesInput,
+  SetEndpointAttributesInput & RegionInput,
   SetEndpointAttributesResponse,
   SetEndpointAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2130,6 +2313,8 @@ export const setEndpointAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetEndpointAttributes",
+  telemetry: TELEMETRY,
+  span: "SetEndpointAttributes",
 }));
 
 export type SetPlatformApplicationAttributesError =
@@ -2148,7 +2333,7 @@ export type SetPlatformApplicationAttributesError =
  * Message Delivery Status.
  */
 export const setPlatformApplicationAttributes: API.OperationMethod<
-  SetPlatformApplicationAttributesInput,
+  SetPlatformApplicationAttributesInput & RegionInput,
   SetPlatformApplicationAttributesResponse,
   SetPlatformApplicationAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2166,6 +2351,8 @@ export const setPlatformApplicationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetPlatformApplicationAttributes",
+  telemetry: TELEMETRY,
+  span: "SetPlatformApplicationAttributes",
 }));
 
 export type SetSMSAttributesError =
@@ -2188,7 +2375,7 @@ export type SetSMSAttributesError =
  * `s3:ListBucket` action.
  */
 export const setSMSAttributes: API.OperationMethod<
-  SetSMSAttributesInput,
+  SetSMSAttributesInput & RegionInput,
   SetSMSAttributesResponse,
   SetSMSAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2204,6 +2391,8 @@ export const setSMSAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSMSAttributes",
+  telemetry: TELEMETRY,
+  span: "SetSMSAttributes",
 }));
 
 export type SetSubscriptionAttributesError =
@@ -2219,7 +2408,7 @@ export type SetSubscriptionAttributesError =
  * value.
  */
 export const setSubscriptionAttributes: API.OperationMethod<
-  SetSubscriptionAttributesInput,
+  SetSubscriptionAttributesInput & RegionInput,
   SetSubscriptionAttributesResponse,
   SetSubscriptionAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2237,6 +2426,8 @@ export const setSubscriptionAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSubscriptionAttributes",
+  telemetry: TELEMETRY,
+  span: "SetSubscriptionAttributes",
 }));
 
 export type SetTopicAttributesError =
@@ -2256,7 +2447,7 @@ export type SetTopicAttributesError =
  * `SetTopicAttributes` actions in your IAM policy.
  */
 export const setTopicAttributes: API.OperationMethod<
-  SetTopicAttributesInput,
+  SetTopicAttributesInput & RegionInput,
   SetTopicAttributesResponse,
   SetTopicAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2275,6 +2466,16 @@ export const setTopicAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTopicAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SetTopicAttributes",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type SubscribeError =
@@ -2300,7 +2501,7 @@ export type SubscribeError =
  * This action is throttled at 100 transactions per second (TPS).
  */
 export const subscribe: API.OperationMethod<
-  SubscribeInput,
+  SubscribeInput & RegionInput,
   SubscribeResponse,
   SubscribeError,
   Credentials | HttpClient.HttpClient
@@ -2322,6 +2523,16 @@ export const subscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
+  telemetry: TELEMETRY,
+  span: {
+    op: "Subscribe",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type TagResourceError =
@@ -2355,7 +2566,7 @@ export type TagResourceError =
  * your application requires a higher throughput, file a technical support request.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2376,6 +2587,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnsubscribeError =
@@ -2396,7 +2609,7 @@ export type UnsubscribeError =
  * This action is throttled at 100 transactions per second (TPS).
  */
 export const unsubscribe: API.OperationMethod<
-  UnsubscribeInput,
+  UnsubscribeInput & RegionInput,
   UnsubscribeResponse,
   UnsubscribeError,
   Credentials | HttpClient.HttpClient
@@ -2413,6 +2626,8 @@ export const unsubscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Unsubscribe",
+  telemetry: TELEMETRY,
+  span: "Unsubscribe",
 }));
 
 export type UntagResourceError =
@@ -2431,7 +2646,7 @@ export type UntagResourceError =
  * *Amazon SNS Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2452,6 +2667,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type VerifySMSSandboxPhoneNumberError =
@@ -2476,7 +2693,7 @@ export type VerifySMSSandboxPhoneNumberError =
  * the *Amazon SNS Developer Guide*.
  */
 export const verifySMSSandboxPhoneNumber: API.OperationMethod<
-  VerifySMSSandboxPhoneNumberInput,
+  VerifySMSSandboxPhoneNumberInput & RegionInput,
   VerifySMSSandboxPhoneNumberResult,
   VerifySMSSandboxPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2494,6 +2711,8 @@ export const verifySMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySMSSandboxPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "VerifySMSSandboxPhoneNumber",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.FileShares" },
+  prefix: "Fileshares",
+  service: "Fileshares",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckFileShareNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -837,6 +858,8 @@ export const CheckFileShareNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckFileShareNameAvailability",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -852,6 +875,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type DeleteFileShareError = AzureOpError;
@@ -867,6 +892,8 @@ export const DeleteFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFileShare",
 }));
 
 export type DeleteFileShareSnapshotError = AzureOpError;
@@ -882,6 +909,8 @@ export const DeleteFileShareSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFileShareSnapshot",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -897,6 +926,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type FileSharesCreateOrUpdateError = AzureOpError;
@@ -912,6 +943,8 @@ export const FileSharesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileSharesCreateOrUpdate",
 }));
 
 export type FileShareSnapshotCreateOrUpdateError = AzureOpError;
@@ -927,6 +960,8 @@ export const FileShareSnapshotCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileShareSnapshotCreateOrUpdate",
 }));
 
 export type GetFileShareError = AzureOpError;
@@ -942,6 +977,8 @@ export const GetFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileShare",
 }));
 
 export type GetFileShareLimitsError = AzureOpError;
@@ -957,6 +994,8 @@ export const GetFileShareLimits: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileShareLimits",
 }));
 
 export type GetFileShareProvisioningRecommendationError = AzureOpError;
@@ -972,6 +1011,8 @@ export const GetFileShareProvisioningRecommendation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileShareProvisioningRecommendation",
 }));
 
 export type GetFileShareSnapshotError = AzureOpError;
@@ -987,6 +1028,8 @@ export const GetFileShareSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileShareSnapshot",
 }));
 
 export type GetFileShareUsageDataError = AzureOpError;
@@ -1002,6 +1045,8 @@ export const GetFileShareUsageData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileShareUsageData",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1017,6 +1062,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1032,6 +1079,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type ListFileShareByParentError = AzureOpError;
@@ -1047,6 +1096,8 @@ export const ListFileShareByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileShareByParent",
 }));
 
 export type ListFileShareBySubscriptionError = AzureOpError;
@@ -1062,6 +1113,8 @@ export const ListFileShareBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileShareBySubscription",
 }));
 
 export type ListFileShareSnapshotError = AzureOpError;
@@ -1077,6 +1130,8 @@ export const ListFileShareSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileShareSnapshot",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1092,6 +1147,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByFileShareError = AzureOpError;
@@ -1107,6 +1164,8 @@ export const ListPrivateEndpointConnectionByFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByFileShare",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -1122,6 +1181,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type UpdateFileShareError = AzureOpError;
@@ -1137,6 +1198,8 @@ export const UpdateFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileShare",
 }));
 
 export type UpdateFileShareSnapshotError = AzureOpError;
@@ -1152,6 +1215,8 @@ export const UpdateFileShareSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileShareSnapshot",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

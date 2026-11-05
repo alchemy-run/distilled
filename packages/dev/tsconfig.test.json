@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  // Tests live in test/, next to the package they test.
+  // Imports of ../src resolve through the reference to lib/*.d.ts.
+  "include": ["test/**/*.ts", "test/**/*.json"],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "outDir": "./.test-types",
+    "rootDir": "./test",
+    "tsBuildInfoFile": "./.test-types/tsconfig.test.tsbuildinfo",
+    "rewriteRelativeImportExtensions": false,
+    "paths": {
+      "@distilled.cloud/core/*": ["../core/src/*"]
+    }
+  },
+  "references": [{ "path": "./tsconfig.json" }, { "path": "../core" }]
+}

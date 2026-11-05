@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -93,6 +95,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cognito-identity.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CognitoIdentity",
+  service: "CognitoIdentity",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -465,7 +482,7 @@ export type CreateIdentityPoolError =
  * operation.
  */
 export const createIdentityPool: API.OperationMethod<
-  CreateIdentityPoolInput,
+  CreateIdentityPoolInput & RegionInput,
   IdentityPool,
   CreateIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -483,6 +500,8 @@ export const createIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityPool",
+  telemetry: TELEMETRY,
+  span: "CreateIdentityPool",
 }));
 
 export type DeleteIdentitiesError =
@@ -498,7 +517,7 @@ export type DeleteIdentitiesError =
  * operation.
  */
 export const deleteIdentities: API.OperationMethod<
-  DeleteIdentitiesInput,
+  DeleteIdentitiesInput & RegionInput,
   DeleteIdentitiesResponse,
   DeleteIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -509,6 +528,8 @@ export const deleteIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentities",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentities",
 }));
 
 export type DeleteIdentityPoolError =
@@ -526,7 +547,7 @@ export type DeleteIdentityPoolError =
  * operation.
  */
 export const deleteIdentityPool: API.OperationMethod<
-  DeleteIdentityPoolInput,
+  DeleteIdentityPoolInput & RegionInput,
   DeleteIdentityPoolResponse,
   DeleteIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -543,6 +564,8 @@ export const deleteIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPool",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityPool",
 }));
 
 export type DescribeIdentityError =
@@ -560,7 +583,7 @@ export type DescribeIdentityError =
  * operation.
  */
 export const describeIdentity: API.OperationMethod<
-  DescribeIdentityInput,
+  DescribeIdentityInput & RegionInput,
   IdentityDescription,
   DescribeIdentityError,
   Creds | HttpClient.HttpClient
@@ -577,6 +600,8 @@ export const describeIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentity",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentity",
 }));
 
 export type DescribeIdentityPoolError =
@@ -594,7 +619,7 @@ export type DescribeIdentityPoolError =
  * operation.
  */
 export const describeIdentityPool: API.OperationMethod<
-  DescribeIdentityPoolInput,
+  DescribeIdentityPoolInput & RegionInput,
   IdentityPool,
   DescribeIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -611,6 +636,8 @@ export const describeIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityPool",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityPool",
 }));
 
 export type GetCredentialsForIdentityError =
@@ -631,7 +658,7 @@ export type GetCredentialsForIdentityError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getCredentialsForIdentity: API.OperationMethod<
-  GetCredentialsForIdentityInput,
+  GetCredentialsForIdentityInput & RegionInput,
   GetCredentialsForIdentityResponse,
   GetCredentialsForIdentityError,
   Creds | HttpClient.HttpClient
@@ -651,6 +678,8 @@ export const getCredentialsForIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialsForIdentity",
+  telemetry: TELEMETRY,
+  span: "GetCredentialsForIdentity",
 }));
 
 export type GetIdError =
@@ -670,7 +699,7 @@ export type GetIdError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getId: API.OperationMethod<
-  GetIdInput,
+  GetIdInput & RegionInput,
   GetIdResponse,
   GetIdError,
   Creds | HttpClient.HttpClient
@@ -690,6 +719,8 @@ export const getId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetId",
+  telemetry: TELEMETRY,
+  span: "GetId",
 }));
 
 export type GetIdentityPoolRolesError =
@@ -707,7 +738,7 @@ export type GetIdentityPoolRolesError =
  * operation.
  */
 export const getIdentityPoolRoles: API.OperationMethod<
-  GetIdentityPoolRolesInput,
+  GetIdentityPoolRolesInput & RegionInput,
   GetIdentityPoolRolesResponse,
   GetIdentityPoolRolesError,
   Creds | HttpClient.HttpClient
@@ -725,6 +756,8 @@ export const getIdentityPoolRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPoolRoles",
+  telemetry: TELEMETRY,
+  span: "GetIdentityPoolRoles",
 }));
 
 export type GetOpenIdTokenError =
@@ -746,7 +779,7 @@ export type GetOpenIdTokenError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const getOpenIdToken: API.OperationMethod<
-  GetOpenIdTokenInput,
+  GetOpenIdTokenInput & RegionInput,
   GetOpenIdTokenResponse,
   GetOpenIdTokenError,
   Creds | HttpClient.HttpClient
@@ -765,6 +798,8 @@ export const getOpenIdToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIdToken",
+  telemetry: TELEMETRY,
+  span: "GetOpenIdToken",
 }));
 
 export type GetOpenIdTokenForDeveloperIdentityError =
@@ -795,7 +830,7 @@ export type GetOpenIdTokenForDeveloperIdentityError =
  * operation.
  */
 export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
-  GetOpenIdTokenForDeveloperIdentityInput,
+  GetOpenIdTokenForDeveloperIdentityInput & RegionInput,
   GetOpenIdTokenForDeveloperIdentityResponse,
   GetOpenIdTokenForDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -814,6 +849,8 @@ export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIdTokenForDeveloperIdentity",
+  telemetry: TELEMETRY,
+  span: "GetOpenIdTokenForDeveloperIdentity",
 }));
 
 export type GetPrincipalTagAttributeMapError =
@@ -828,7 +865,7 @@ export type GetPrincipalTagAttributeMapError =
  * `PrincipalTags` and user attributes.
  */
 export const getPrincipalTagAttributeMap: API.OperationMethod<
-  GetPrincipalTagAttributeMapInput,
+  GetPrincipalTagAttributeMapInput & RegionInput,
   GetPrincipalTagAttributeMapResponse,
   GetPrincipalTagAttributeMapError,
   Creds | HttpClient.HttpClient
@@ -845,6 +882,8 @@ export const getPrincipalTagAttributeMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrincipalTagAttributeMap",
+  telemetry: TELEMETRY,
+  span: "GetPrincipalTagAttributeMap",
 }));
 
 export type ListIdentitiesError =
@@ -861,7 +900,7 @@ export type ListIdentitiesError =
  * operation.
  */
 export const listIdentities: API.OperationMethod<
-  ListIdentitiesInput,
+  ListIdentitiesInput & RegionInput,
   ListIdentitiesResponse,
   ListIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -878,6 +917,8 @@ export const listIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentities",
+  telemetry: TELEMETRY,
+  span: "ListIdentities",
 }));
 
 export type ListIdentityPoolsError =
@@ -894,7 +935,7 @@ export type ListIdentityPoolsError =
  * operation.
  */
 export const listIdentityPools: API.PaginatedOperationMethod<
-  ListIdentityPoolsInput,
+  ListIdentityPoolsInput & RegionInput,
   ListIdentityPoolsResponse,
   ListIdentityPoolsError,
   Creds | HttpClient.HttpClient,
@@ -918,6 +959,8 @@ export const listIdentityPools: API.PaginatedOperationMethod<
     items: "IdentityPools",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityPools",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -936,7 +979,7 @@ export type ListTagsForResourceError =
  * You can use this action up to 10 times per second, per account.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -953,6 +996,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type LookupDeveloperIdentityError =
@@ -985,7 +1030,7 @@ export type LookupDeveloperIdentityError =
  * operation.
  */
 export const lookupDeveloperIdentity: API.OperationMethod<
-  LookupDeveloperIdentityInput,
+  LookupDeveloperIdentityInput & RegionInput,
   LookupDeveloperIdentityResponse,
   LookupDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -1003,6 +1048,8 @@ export const lookupDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LookupDeveloperIdentity",
+  telemetry: TELEMETRY,
+  span: "LookupDeveloperIdentity",
 }));
 
 export type MergeDeveloperIdentitiesError =
@@ -1032,7 +1079,7 @@ export type MergeDeveloperIdentitiesError =
  * operation.
  */
 export const mergeDeveloperIdentities: API.OperationMethod<
-  MergeDeveloperIdentitiesInput,
+  MergeDeveloperIdentitiesInput & RegionInput,
   MergeDeveloperIdentitiesResponse,
   MergeDeveloperIdentitiesError,
   Creds | HttpClient.HttpClient
@@ -1050,6 +1097,8 @@ export const mergeDeveloperIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeDeveloperIdentities",
+  telemetry: TELEMETRY,
+  span: "MergeDeveloperIdentities",
 }));
 
 export type SetIdentityPoolRolesError =
@@ -1068,7 +1117,7 @@ export type SetIdentityPoolRolesError =
  * operation.
  */
 export const setIdentityPoolRoles: API.OperationMethod<
-  SetIdentityPoolRolesInput,
+  SetIdentityPoolRolesInput & RegionInput,
   SetIdentityPoolRolesResponse,
   SetIdentityPoolRolesError,
   Creds | HttpClient.HttpClient
@@ -1087,6 +1136,8 @@ export const setIdentityPoolRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityPoolRoles",
+  telemetry: TELEMETRY,
+  span: "SetIdentityPoolRoles",
 }));
 
 export type SetPrincipalTagAttributeMapError =
@@ -1101,7 +1152,7 @@ export type SetPrincipalTagAttributeMapError =
  * attribute mappings.
  */
 export const setPrincipalTagAttributeMap: API.OperationMethod<
-  SetPrincipalTagAttributeMapInput,
+  SetPrincipalTagAttributeMapInput & RegionInput,
   SetPrincipalTagAttributeMapResponse,
   SetPrincipalTagAttributeMapError,
   Creds | HttpClient.HttpClient
@@ -1118,6 +1169,8 @@ export const setPrincipalTagAttributeMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetPrincipalTagAttributeMap",
+  telemetry: TELEMETRY,
+  span: "SetPrincipalTagAttributeMap",
 }));
 
 export type TagResourceError =
@@ -1148,7 +1201,7 @@ export type TagResourceError =
  * as many as 50 tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -1165,6 +1218,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnlinkDeveloperIdentityError =
@@ -1185,7 +1240,7 @@ export type UnlinkDeveloperIdentityError =
  * operation.
  */
 export const unlinkDeveloperIdentity: API.OperationMethod<
-  UnlinkDeveloperIdentityInput,
+  UnlinkDeveloperIdentityInput & RegionInput,
   UnlinkDeveloperIdentityResponse,
   UnlinkDeveloperIdentityError,
   Creds | HttpClient.HttpClient
@@ -1203,6 +1258,8 @@ export const unlinkDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlinkDeveloperIdentity",
+  telemetry: TELEMETRY,
+  span: "UnlinkDeveloperIdentity",
 }));
 
 export type UnlinkIdentityError =
@@ -1222,7 +1279,7 @@ export type UnlinkIdentityError =
  * This is a public API. You do not need any credentials to call this API.
  */
 export const unlinkIdentity: API.OperationMethod<
-  UnlinkIdentityInput,
+  UnlinkIdentityInput & RegionInput,
   UnlinkIdentityResponse,
   UnlinkIdentityError,
   Creds | HttpClient.HttpClient
@@ -1241,6 +1298,8 @@ export const unlinkIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlinkIdentity",
+  telemetry: TELEMETRY,
+  span: "UnlinkIdentity",
 }));
 
 export type UntagResourceError =
@@ -1255,7 +1314,7 @@ export type UntagResourceError =
  * this action up to 5 times per second, per account
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -1272,6 +1331,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdentityPoolError =
@@ -1293,7 +1354,7 @@ export type UpdateIdentityPoolError =
  * operation.
  */
 export const updateIdentityPool: API.OperationMethod<
-  IdentityPool,
+  IdentityPool & RegionInput,
   IdentityPool,
   UpdateIdentityPoolError,
   Creds | HttpClient.HttpClient
@@ -1313,6 +1374,8 @@ export const updateIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityPool",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityPool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

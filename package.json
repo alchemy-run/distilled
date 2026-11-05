@@ -28,7 +28,7 @@
     "validate:publish-packages": "node scripts/validate-publish-packages.ts"
   },
   "devDependencies": {
-    "@alchemy.run/pkg": "2.0.0-beta.81",
+    "@alchemy.run/pkg": "2.0.0-beta.85",
     "@effect/platform-node": "catalog:",
     "@types/node": "catalog:",
     "changelogithub": "catalog:",
@@ -36,6 +36,7 @@
     "husky": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
+    "rolldown": "catalog:",
     "tsrs": "catalog:",
     "vitest": "catalog:"
   },

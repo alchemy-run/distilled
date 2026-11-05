@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -171,6 +173,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Support",
+  service: "Support",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AttachmentIdNotFound
   extends /*@__PURE__*/ S.TaggedError<AttachmentIdNotFound>()("AttachmentIdNotFound", {
@@ -659,7 +676,7 @@ export type AddAttachmentsToSetError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const addAttachmentsToSet: API.OperationMethod<
-  AddAttachmentsToSetRequest,
+  AddAttachmentsToSetRequest & RegionInput,
   AddAttachmentsToSetResponse,
   AddAttachmentsToSetError,
   Credentials | HttpClient.HttpClient
@@ -677,6 +694,8 @@ export const addAttachmentsToSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddAttachmentsToSet",
+  telemetry: TELEMETRY,
+  span: "AddAttachmentsToSet",
 }));
 
 export type AddCommunicationToCaseError =
@@ -714,7 +733,7 @@ export type AddCommunicationToCaseError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const addCommunicationToCase: API.OperationMethod<
-  AddCommunicationToCaseRequest,
+  AddCommunicationToCaseRequest & RegionInput,
   AddCommunicationToCaseResponse,
   AddCommunicationToCaseError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +750,8 @@ export const addCommunicationToCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCommunicationToCase",
+  telemetry: TELEMETRY,
+  span: "AddCommunicationToCase",
 }));
 
 export type CompleteAttachmentUploadError =
@@ -748,7 +769,7 @@ export type CompleteAttachmentUploadError =
  * become `attachment-ready` before passing the `uploadId` to CreateCase or AddCommunicationToCase.
  */
 export const completeAttachmentUpload: API.OperationMethod<
-  CompleteAttachmentUploadRequest,
+  CompleteAttachmentUploadRequest & RegionInput,
   CompleteAttachmentUploadResponse,
   CompleteAttachmentUploadError,
   Credentials | HttpClient.HttpClient
@@ -759,6 +780,8 @@ export const completeAttachmentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteAttachmentUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteAttachmentUpload",
 }));
 
 export type CreateCaseError =
@@ -807,7 +830,7 @@ export type CreateCaseError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const createCase: API.OperationMethod<
-  CreateCaseRequest,
+  CreateCaseRequest & RegionInput,
   CreateCaseResponse,
   CreateCaseError,
   Credentials | HttpClient.HttpClient
@@ -824,6 +847,8 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
+  telemetry: TELEMETRY,
+  span: "CreateCase",
 }));
 
 export type DescribeAttachmentError =
@@ -857,7 +882,7 @@ export type DescribeAttachmentError =
  * use to download the attachment directly.
  */
 export const describeAttachment: API.OperationMethod<
-  DescribeAttachmentRequest,
+  DescribeAttachmentRequest & RegionInput,
   DescribeAttachmentResponse,
   DescribeAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -873,6 +898,8 @@ export const describeAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachment",
+  telemetry: TELEMETRY,
+  span: "DescribeAttachment",
 }));
 
 export type DescribeAttachmentUploadStatusError =
@@ -900,7 +927,7 @@ export type DescribeAttachmentUploadStatusError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeAttachmentUploadStatus: API.OperationMethod<
-  DescribeAttachmentUploadStatusRequest,
+  DescribeAttachmentUploadStatusRequest & RegionInput,
   DescribeAttachmentUploadStatusResponse,
   DescribeAttachmentUploadStatusError,
   Credentials | HttpClient.HttpClient
@@ -911,6 +938,8 @@ export const describeAttachmentUploadStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachmentUploadStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeAttachmentUploadStatus",
 }));
 
 export type DescribeCasesError =
@@ -957,7 +986,7 @@ export type DescribeCasesError =
  * smaller.
  */
 export const describeCases: API.PaginatedOperationMethod<
-  DescribeCasesRequest,
+  DescribeCasesRequest & RegionInput,
   DescribeCasesResponse,
   DescribeCasesError,
   Credentials | HttpClient.HttpClient,
@@ -975,6 +1004,8 @@ export const describeCases: API.PaginatedOperationMethod<
     items: "cases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCases",
 })) as any;
 
 export type DescribeCommunicationsError =
@@ -1018,7 +1049,7 @@ export type DescribeCommunicationsError =
  * smaller.
  */
 export const describeCommunications: API.PaginatedOperationMethod<
-  DescribeCommunicationsRequest,
+  DescribeCommunicationsRequest & RegionInput,
   DescribeCommunicationsResponse,
   DescribeCommunicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1036,6 +1067,8 @@ export const describeCommunications: API.PaginatedOperationMethod<
     items: "communications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCommunications",
 })) as any;
 
 export type DescribeCreateCaseOptionsError =
@@ -1058,7 +1091,7 @@ export type DescribeCreateCaseOptionsError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeCreateCaseOptions: API.OperationMethod<
-  DescribeCreateCaseOptionsRequest,
+  DescribeCreateCaseOptionsRequest & RegionInput,
   DescribeCreateCaseOptionsResponse,
   DescribeCreateCaseOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1069,6 +1102,8 @@ export const describeCreateCaseOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCreateCaseOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeCreateCaseOptions",
 }));
 
 export type DescribeServicesError = DryRunOperationException | InternalServerError | CommonErrors;
@@ -1093,7 +1128,7 @@ export type DescribeServicesError = DryRunOperationException | InternalServerErr
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeServices: API.OperationMethod<
-  DescribeServicesRequest,
+  DescribeServicesRequest & RegionInput,
   DescribeServicesResponse,
   DescribeServicesError,
   Credentials | HttpClient.HttpClient
@@ -1104,6 +1139,8 @@ export const describeServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServices",
+  telemetry: TELEMETRY,
+  span: "DescribeServices",
 }));
 
 export type DescribeSeverityLevelsError =
@@ -1124,7 +1161,7 @@ export type DescribeSeverityLevelsError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeSeverityLevels: API.OperationMethod<
-  DescribeSeverityLevelsRequest,
+  DescribeSeverityLevelsRequest & RegionInput,
   DescribeSeverityLevelsResponse,
   DescribeSeverityLevelsError,
   Credentials | HttpClient.HttpClient
@@ -1135,6 +1172,8 @@ export const describeSeverityLevels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSeverityLevels",
+  telemetry: TELEMETRY,
+  span: "DescribeSeverityLevels",
 }));
 
 export type DescribeSupportedLanguagesError =
@@ -1156,7 +1195,7 @@ export type DescribeSupportedLanguagesError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const describeSupportedLanguages: API.OperationMethod<
-  DescribeSupportedLanguagesRequest,
+  DescribeSupportedLanguagesRequest & RegionInput,
   DescribeSupportedLanguagesResponse,
   DescribeSupportedLanguagesError,
   Credentials | HttpClient.HttpClient
@@ -1167,6 +1206,8 @@ export const describeSupportedLanguages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSupportedLanguages",
+  telemetry: TELEMETRY,
+  span: "DescribeSupportedLanguages",
 }));
 
 export type DescribeTrustedAdvisorCheckRefreshStatusesError =
@@ -1196,7 +1237,7 @@ export type DescribeTrustedAdvisorCheckRefreshStatusesError =
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const describeTrustedAdvisorCheckRefreshStatuses: API.OperationMethod<
-  DescribeTrustedAdvisorCheckRefreshStatusesRequest,
+  DescribeTrustedAdvisorCheckRefreshStatusesRequest & RegionInput,
   DescribeTrustedAdvisorCheckRefreshStatusesResponse,
   DescribeTrustedAdvisorCheckRefreshStatusesError,
   Credentials | HttpClient.HttpClient
@@ -1207,6 +1248,8 @@ export const describeTrustedAdvisorCheckRefreshStatuses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorCheckRefreshStatuses",
+  telemetry: TELEMETRY,
+  span: "DescribeTrustedAdvisorCheckRefreshStatuses",
 }));
 
 export type DescribeTrustedAdvisorCheckResultError =
@@ -1253,7 +1296,7 @@ export type DescribeTrustedAdvisorCheckResultError =
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const describeTrustedAdvisorCheckResult: API.OperationMethod<
-  DescribeTrustedAdvisorCheckResultRequest,
+  DescribeTrustedAdvisorCheckResultRequest & RegionInput,
   DescribeTrustedAdvisorCheckResultResponse,
   DescribeTrustedAdvisorCheckResultError,
   Credentials | HttpClient.HttpClient
@@ -1264,6 +1307,8 @@ export const describeTrustedAdvisorCheckResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorCheckResult",
+  telemetry: TELEMETRY,
+  span: "DescribeTrustedAdvisorCheckResult",
 }));
 
 export type DescribeTrustedAdvisorChecksError =
@@ -1294,7 +1339,7 @@ export type DescribeTrustedAdvisorChecksError =
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const describeTrustedAdvisorChecks: API.OperationMethod<
-  DescribeTrustedAdvisorChecksRequest,
+  DescribeTrustedAdvisorChecksRequest & RegionInput,
   DescribeTrustedAdvisorChecksResponse,
   DescribeTrustedAdvisorChecksError,
   Credentials | HttpClient.HttpClient
@@ -1305,6 +1350,8 @@ export const describeTrustedAdvisorChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorChecks",
+  telemetry: TELEMETRY,
+  span: "DescribeTrustedAdvisorChecks",
 }));
 
 export type DescribeTrustedAdvisorCheckSummariesError =
@@ -1336,7 +1383,7 @@ export type DescribeTrustedAdvisorCheckSummariesError =
  * The **Resources processed** value, `resourcesProcessed`, usually shows both flagged resources (those with warnings or errors) and resources in good standing (ok status resources). However, some checks report flagged resources only. To understand what a specific check reports, review the detailed check information in the Trusted Advisor check reference. If you see a **Green** criterion listed in the **Alert criteria**, then the check reports all resources. If there's no **Green** criterion listed in the **Alert criteria**, then the check reports only flagged resources. For example, the Amazon EC2 Reserved Instance optimization check (cX3c2R1chu) doesn't list a **Green** criterion in the **Alert criteria**. So, this check only reports flagged resources.
  */
 export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
-  DescribeTrustedAdvisorCheckSummariesRequest,
+  DescribeTrustedAdvisorCheckSummariesRequest & RegionInput,
   DescribeTrustedAdvisorCheckSummariesResponse,
   DescribeTrustedAdvisorCheckSummariesError,
   Credentials | HttpClient.HttpClient
@@ -1347,6 +1394,8 @@ export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorCheckSummaries",
+  telemetry: TELEMETRY,
+  span: "DescribeTrustedAdvisorCheckSummaries",
 }));
 
 export type GetAttachmentDownloadLinkError =
@@ -1370,7 +1419,7 @@ export type GetAttachmentDownloadLinkError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const getAttachmentDownloadLink: API.OperationMethod<
-  GetAttachmentDownloadLinkRequest,
+  GetAttachmentDownloadLinkRequest & RegionInput,
   GetAttachmentDownloadLinkResponse,
   GetAttachmentDownloadLinkError,
   Credentials | HttpClient.HttpClient
@@ -1381,6 +1430,8 @@ export const getAttachmentDownloadLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachmentDownloadLink",
+  telemetry: TELEMETRY,
+  span: "GetAttachmentDownloadLink",
 }));
 
 export type GetAttachmentUploadLinksError =
@@ -1414,7 +1465,7 @@ export type GetAttachmentUploadLinksError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const getAttachmentUploadLinks: API.OperationMethod<
-  GetAttachmentUploadLinksRequest,
+  GetAttachmentUploadLinksRequest & RegionInput,
   GetAttachmentUploadLinksResponse,
   GetAttachmentUploadLinksError,
   Credentials | HttpClient.HttpClient
@@ -1425,6 +1476,8 @@ export const getAttachmentUploadLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachmentUploadLinks",
+  telemetry: TELEMETRY,
+  span: "GetAttachmentUploadLinks",
 }));
 
 export type RefreshTrustedAdvisorCheckError = InternalServerError | CommonErrors;
@@ -1454,7 +1507,7 @@ export type RefreshTrustedAdvisorCheckError = InternalServerError | CommonErrors
  * API in the *Amazon Web Services Support User Guide*.
  */
 export const refreshTrustedAdvisorCheck: API.OperationMethod<
-  RefreshTrustedAdvisorCheckRequest,
+  RefreshTrustedAdvisorCheckRequest & RegionInput,
   RefreshTrustedAdvisorCheckResponse,
   RefreshTrustedAdvisorCheckError,
   Credentials | HttpClient.HttpClient
@@ -1465,6 +1518,8 @@ export const refreshTrustedAdvisorCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshTrustedAdvisorCheck",
+  telemetry: TELEMETRY,
+  span: "RefreshTrustedAdvisorCheck",
 }));
 
 export type ResolveCaseError =
@@ -1485,7 +1540,7 @@ export type ResolveCaseError =
  * information about changing your support plan, see Amazon Web Services Support.
  */
 export const resolveCase: API.OperationMethod<
-  ResolveCaseRequest,
+  ResolveCaseRequest & RegionInput,
   ResolveCaseResponse,
   ResolveCaseError,
   Credentials | HttpClient.HttpClient
@@ -1496,6 +1551,8 @@ export const resolveCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveCase",
+  telemetry: TELEMETRY,
+  span: "ResolveCase",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

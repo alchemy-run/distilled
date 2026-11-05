@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/aws",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.18",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -14,21 +14,25 @@
   "type": "module",
   "sideEffects": false,
   "module": "src/index.ts",
+  "browser": {
+    "./lib/_bundle/sdk.js": "./lib/_browser/_bundle/sdk.js",
+    "./lib/auth.browser.js": "./lib/_browser/auth.browser.js",
+    "./lib/endpoint.js": "./lib/_browser/endpoint.js",
+    "./lib/protocols/rest-json.js": "./lib/_browser/protocols/rest-json.js"
+  },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
-      "browser": "./lib/index.browser.js",
       "default": "./lib/index.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "module": "./lib/services.full/*.js",
-      "module-sync": "./lib/services/*.js",
-      "default": "./lib/services.full/*.js"
+      "distilled-lazy": "./lib/services.lazy/*.js",
+      "default": "./lib/services/*.js"
     },
     "./Auth": {
       "types": "./lib/auth.d.ts",
@@ -92,12 +96,6 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
-    "./client/*": {
-      "types": "./lib/client/*.d.ts",
-      "bun": "./src/client/*.ts",
-      "worker": "./src/client/*.ts",
-      "default": "./lib/client/*.js"
-    },
     "./customizations/*": {
       "types": "./lib/customizations/*.d.ts",
       "bun": "./src/customizations/*.ts",
@@ -109,24 +107,6 @@
       "bun": "./src/error-message.ts",
       "worker": "./src/error-message.ts",
       "default": "./lib/error-message.js"
-    },
-    "./eventstream/*": {
-      "types": "./lib/eventstream/*.d.ts",
-      "bun": "./src/eventstream/*.ts",
-      "worker": "./src/eventstream/*.ts",
-      "default": "./lib/eventstream/*.js"
-    },
-    "./hash/*": {
-      "types": "./lib/hash/*.d.ts",
-      "bun": "./src/hash/*.ts",
-      "worker": "./src/hash/*.ts",
-      "default": "./lib/hash/*.js"
-    },
-    "./middleware/*": {
-      "types": "./lib/middleware/*.d.ts",
-      "bun": "./src/middleware/*.ts",
-      "worker": "./src/middleware/*.ts",
-      "default": "./lib/middleware/*.js"
     },
     "./patch/*": {
       "types": "./lib/patch/*.d.ts",
@@ -145,12 +125,6 @@
       "bun": "./src/protocols/*.ts",
       "worker": "./src/protocols/*.ts",
       "default": "./lib/protocols/*.js"
-    },
-    "./rules-engine/*": {
-      "types": "./lib/rules-engine/*.d.ts",
-      "bun": "./src/rules-engine/*.ts",
-      "worker": "./src/rules-engine/*.ts",
-      "default": "./lib/rules-engine/*.js"
     },
     "./util/*": {
       "types": "./lib/util/*.d.ts",
@@ -177,17 +151,18 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@distilled.cloud/aws4signer": "workspace:*",
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-22",
+    "generatedAt": "2026-11-05",
     "specUpdatedAt": "2026-10-14"
   }
 }

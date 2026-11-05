@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -70,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mq.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "mq",
+  service: "mq",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -797,7 +813,7 @@ export type CreateBrokerError =
  * For more information, see Create an IAM User and Get Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the *Amazon MQ Developer Guide*.
  */
 export const createBroker: API.OperationMethod<
-  CreateBrokerRequest,
+  CreateBrokerRequest & RegionInput,
   CreateBrokerResponse,
   CreateBrokerError,
   Credentials | HttpClient.HttpClient
@@ -814,6 +830,8 @@ export const createBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBroker",
+  telemetry: TELEMETRY,
+  span: "CreateBroker",
 }));
 
 export type CreateConfigurationError =
@@ -826,7 +844,7 @@ export type CreateConfigurationError =
  * Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
  */
 export const createConfiguration: API.OperationMethod<
-  CreateConfigurationRequest,
+  CreateConfigurationRequest & RegionInput,
   CreateConfigurationResponse,
   CreateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -842,6 +860,8 @@ export const createConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateTagsError =
@@ -854,7 +874,7 @@ export type CreateTagsError =
  * Add a tag to a resource.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsRequest,
+  CreateTagsRequest & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -870,6 +890,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type CreateUserError =
@@ -885,7 +907,7 @@ export type CreateUserError =
  * Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -902,6 +924,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteBrokerError =
@@ -914,7 +938,7 @@ export type DeleteBrokerError =
  * Deletes a broker. Note: This API is asynchronous.
  */
 export const deleteBroker: API.OperationMethod<
-  DeleteBrokerRequest,
+  DeleteBrokerRequest & RegionInput,
   DeleteBrokerResponse,
   DeleteBrokerError,
   Credentials | HttpClient.HttpClient
@@ -930,6 +954,8 @@ export const deleteBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBroker",
+  telemetry: TELEMETRY,
+  span: "DeleteBroker",
 }));
 
 export type DeleteConfigurationError =
@@ -943,7 +969,7 @@ export type DeleteConfigurationError =
  * Deletes the specified configuration.
  */
 export const deleteConfiguration: API.OperationMethod<
-  DeleteConfigurationRequest,
+  DeleteConfigurationRequest & RegionInput,
   DeleteConfigurationResponse,
   DeleteConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -960,6 +986,8 @@ export const deleteConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteTagsError =
@@ -972,7 +1000,7 @@ export type DeleteTagsError =
  * Removes a tag from a resource.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsRequest,
+  DeleteTagsRequest & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -988,6 +1016,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DeleteUserError =
@@ -1000,7 +1030,7 @@ export type DeleteUserError =
  * Deletes an ActiveMQ user.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -1016,6 +1046,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeBrokerError =
@@ -1028,7 +1060,7 @@ export type DescribeBrokerError =
  * Returns information about the specified broker.
  */
 export const describeBroker: API.OperationMethod<
-  DescribeBrokerRequest,
+  DescribeBrokerRequest & RegionInput,
   DescribeBrokerResponse,
   DescribeBrokerError,
   Credentials | HttpClient.HttpClient
@@ -1044,6 +1076,8 @@ export const describeBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBroker",
+  telemetry: TELEMETRY,
+  span: "DescribeBroker",
 }));
 
 export type DescribeBrokerEngineTypesError =
@@ -1055,7 +1089,7 @@ export type DescribeBrokerEngineTypesError =
  * Describe available engine types and versions.
  */
 export const describeBrokerEngineTypes: API.OperationMethod<
-  DescribeBrokerEngineTypesRequest,
+  DescribeBrokerEngineTypesRequest & RegionInput,
   DescribeBrokerEngineTypesResponse,
   DescribeBrokerEngineTypesError,
   Credentials | HttpClient.HttpClient
@@ -1066,6 +1100,8 @@ export const describeBrokerEngineTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerEngineTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeBrokerEngineTypes",
 }));
 
 export type DescribeBrokerInstanceOptionsError =
@@ -1077,7 +1113,7 @@ export type DescribeBrokerInstanceOptionsError =
  * Describe available broker instance options.
  */
 export const describeBrokerInstanceOptions: API.OperationMethod<
-  DescribeBrokerInstanceOptionsRequest,
+  DescribeBrokerInstanceOptionsRequest & RegionInput,
   DescribeBrokerInstanceOptionsResponse,
   DescribeBrokerInstanceOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1088,6 +1124,8 @@ export const describeBrokerInstanceOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerInstanceOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeBrokerInstanceOptions",
 }));
 
 export type DescribeConfigurationError =
@@ -1100,7 +1138,7 @@ export type DescribeConfigurationError =
  * Returns information about the specified configuration.
  */
 export const describeConfiguration: API.OperationMethod<
-  DescribeConfigurationRequest,
+  DescribeConfigurationRequest & RegionInput,
   DescribeConfigurationResponse,
   DescribeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1116,6 +1154,8 @@ export const describeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeConfiguration",
 }));
 
 export type DescribeConfigurationRevisionError =
@@ -1128,7 +1168,7 @@ export type DescribeConfigurationRevisionError =
  * Returns the specified configuration revision for the specified configuration.
  */
 export const describeConfigurationRevision: API.OperationMethod<
-  DescribeConfigurationRevisionRequest,
+  DescribeConfigurationRevisionRequest & RegionInput,
   DescribeConfigurationRevisionResponse,
   DescribeConfigurationRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1144,6 +1184,8 @@ export const describeConfigurationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRevision",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRevision",
 }));
 
 export type DescribeSharedResourcesError =
@@ -1156,7 +1198,7 @@ export type DescribeSharedResourcesError =
  * Returns the resources shared to a broker.
  */
 export const describeSharedResources: API.PaginatedOperationMethod<
-  DescribeSharedResourcesRequest,
+  DescribeSharedResourcesRequest & RegionInput,
   DescribeSharedResourcesResponse,
   DescribeSharedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1179,6 +1221,8 @@ export const describeSharedResources: API.PaginatedOperationMethod<
     items: "SharedResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSharedResources",
 })) as any;
 
 export type DescribeUserError =
@@ -1191,7 +1235,7 @@ export type DescribeUserError =
  * Returns information about an ActiveMQ user.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -1207,6 +1251,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type ListBrokersError =
@@ -1218,7 +1264,7 @@ export type ListBrokersError =
  * Returns a list of all brokers.
  */
 export const listBrokers: API.PaginatedOperationMethod<
-  ListBrokersRequest,
+  ListBrokersRequest & RegionInput,
   ListBrokersResponse,
   ListBrokersError,
   Credentials | HttpClient.HttpClient,
@@ -1236,6 +1282,8 @@ export const listBrokers: API.PaginatedOperationMethod<
     items: "BrokerSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrokers",
 })) as any;
 
 export type ListConfigurationRevisionsError =
@@ -1248,7 +1296,7 @@ export type ListConfigurationRevisionsError =
  * Returns a list of all revisions for the specified configuration.
  */
 export const listConfigurationRevisions: API.OperationMethod<
-  ListConfigurationRevisionsRequest,
+  ListConfigurationRevisionsRequest & RegionInput,
   ListConfigurationRevisionsResponse,
   ListConfigurationRevisionsError,
   Credentials | HttpClient.HttpClient
@@ -1264,6 +1312,8 @@ export const listConfigurationRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationRevisions",
+  telemetry: TELEMETRY,
+  span: "ListConfigurationRevisions",
 }));
 
 export type ListConfigurationsError =
@@ -1275,7 +1325,7 @@ export type ListConfigurationsError =
  * Returns a list of all configurations.
  */
 export const listConfigurations: API.OperationMethod<
-  ListConfigurationsRequest,
+  ListConfigurationsRequest & RegionInput,
   ListConfigurationsResponse,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1286,6 +1336,8 @@ export const listConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 }));
 
 export type ListTagsError =
@@ -1298,7 +1350,7 @@ export type ListTagsError =
  * Lists tags for a resource.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -1314,6 +1366,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListUsersError =
@@ -1326,7 +1380,7 @@ export type ListUsersError =
  * Returns a list of all ActiveMQ users.
  */
 export const listUsers: API.OperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient
@@ -1342,6 +1396,8 @@ export const listUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsers",
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type PromoteError =
@@ -1354,7 +1410,7 @@ export type PromoteError =
  * Promotes a data replication replica broker to the primary broker role.
  */
 export const promote: API.OperationMethod<
-  PromoteRequest,
+  PromoteRequest & RegionInput,
   PromoteResponse,
   PromoteError,
   Credentials | HttpClient.HttpClient
@@ -1370,6 +1426,8 @@ export const promote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Promote",
+  telemetry: TELEMETRY,
+  span: "Promote",
 }));
 
 export type RebootBrokerError =
@@ -1382,7 +1440,7 @@ export type RebootBrokerError =
  * Reboots a broker. Note: This API is asynchronous.
  */
 export const rebootBroker: API.OperationMethod<
-  RebootBrokerRequest,
+  RebootBrokerRequest & RegionInput,
   RebootBrokerResponse,
   RebootBrokerError,
   Credentials | HttpClient.HttpClient
@@ -1398,6 +1456,8 @@ export const rebootBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootBroker",
+  telemetry: TELEMETRY,
+  span: "RebootBroker",
 }));
 
 export type UpdateBrokerError =
@@ -1411,7 +1471,7 @@ export type UpdateBrokerError =
  * Adds a pending configuration change to a broker.
  */
 export const updateBroker: API.OperationMethod<
-  UpdateBrokerRequest,
+  UpdateBrokerRequest & RegionInput,
   UpdateBrokerResponse,
   UpdateBrokerError,
   Credentials | HttpClient.HttpClient
@@ -1428,6 +1488,8 @@ export const updateBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBroker",
+  telemetry: TELEMETRY,
+  span: "UpdateBroker",
 }));
 
 export type UpdateConfigurationError =
@@ -1441,7 +1503,7 @@ export type UpdateConfigurationError =
  * Updates the specified configuration.
  */
 export const updateConfiguration: API.OperationMethod<
-  UpdateConfigurationRequest,
+  UpdateConfigurationRequest & RegionInput,
   UpdateConfigurationResponse,
   UpdateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1458,6 +1520,8 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateUserError =
@@ -1471,7 +1535,7 @@ export type UpdateUserError =
  * Updates the information for an ActiveMQ user.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -1488,6 +1552,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

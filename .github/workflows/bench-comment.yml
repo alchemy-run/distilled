@@ -96,14 +96,19 @@ jobs:
             git init -q -b bench-images "$dir" && git -C "$dir" remote add origin "$remote"
           fi
           mkdir -p "$dir/pr-$PR/$SHA" && cp "$RUNNER_TEMP"/images/*.png "$dir/pr-$PR/$SHA/"
+          # The retry's rebase also commits, so set the identity on the repo.
+          git -C "$dir" config user.name "github-actions[bot]"
+          git -C "$dir" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git -C "$dir" add -A
-          git -C "$dir" -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -q -m "bench: PR #$PR at $SHA"
+          git -C "$dir" commit -q -m "bench: PR #$PR at $SHA"
           # Other PRs push here too: rebase and retry on a race.
-          for attempt in 1 2 3; do
-            git -C "$dir" push -q origin bench-images && break
+          pushed=""
+          for attempt in 1 2 3 4 5; do
+            if git -C "$dir" push -q origin bench-images; then pushed=1; break; fi
+            sleep $((attempt * 2))
             git -C "$dir" pull -q --rebase origin bench-images
           done
+          [ -n "$pushed" ] || { echo "::error::could not push to bench-images"; exit 1; }
           echo "url=https://raw.githubusercontent.com/$GITHUB_REPOSITORY/bench-images/pr-$PR/$SHA" >> "$GITHUB_OUTPUT"
 
       # One comment per PR, edited on every push.

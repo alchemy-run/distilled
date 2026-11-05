@@ -136,7 +136,7 @@ Local mode is an environment variable rather than an edit to the package's
 spec path. Nothing committed points at `.local` — `specs:check` fails the
 build if anything does — so there is no local-only reference to forget to
 revert, and a package that reads from a gitignored directory can never reach
-`main`. See `@distilled.cloud/core/codegen/spec-path` and
+`main`. See `@distilled.cloud/dev/codegen/spec-path` and
 `.claude/skills/distilled-sdk`.
 
 ## Deploying

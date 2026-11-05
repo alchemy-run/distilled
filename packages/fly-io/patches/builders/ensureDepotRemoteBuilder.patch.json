@@ -1,0 +1,27 @@
+{
+  "description": "Type the GraphQL missing-app rejection on ensureDepotRemoteBuilder.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.builders#RemoteBuilderAppNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.distilled.openapi#errorMatchers": [
+            { "message": { "matches": "[Cc]ould not find [Aa]pp" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.builders#EnsureDepotRemoteBuilder/errors",
+      "value": [{ "target": "com.flyio.builders#RemoteBuilderAppNotFound" }]
+    }
+  ]
+}

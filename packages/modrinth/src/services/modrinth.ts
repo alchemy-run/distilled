@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { ModrinthOpError, ModrinthOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modrinth-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modrinth",
+  service: "Modrinth",
+  labels: "modrinth",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1993,6 +2006,8 @@ export const addFilesToVersion: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFilesToVersion",
 }));
 
 export type AddGalleryImageError = BadRequest | NotFound | ModrinthOpError;
@@ -2008,6 +2023,8 @@ export const addGalleryImage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGalleryImage",
 }));
 
 export type AddTeamMemberError = NotFound | ModrinthOpError;
@@ -2023,6 +2040,8 @@ export const addTeamMember: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeamMember",
 }));
 
 export type ChangeProjectIconError = BadRequest | ModrinthOpError;
@@ -2038,6 +2057,8 @@ export const changeProjectIcon: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeProjectIcon",
 }));
 
 export type ChangeUserIconError = BadRequest | NotFound | ModrinthOpError;
@@ -2053,6 +2074,8 @@ export const changeUserIcon: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeUserIcon",
 }));
 
 export type CheckProjectValidityError = NotFound | ModrinthOpError;
@@ -2068,6 +2091,8 @@ export const checkProjectValidity: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckProjectValidity",
 }));
 
 export type CreateProjectError = BadRequest | ModrinthOpError;
@@ -2083,6 +2108,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateVersionError = BadRequest | ModrinthOpError;
@@ -2098,6 +2125,8 @@ export const createVersion: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVersion",
 }));
 
 export type DeleteFileFromHashError = NotFound | ModrinthOpError;
@@ -2113,6 +2142,8 @@ export const deleteFileFromHash: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFileFromHash",
 }));
 
 export type DeleteGalleryImageError = BadRequest | ModrinthOpError;
@@ -2128,6 +2159,8 @@ export const deleteGalleryImage: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGalleryImage",
 }));
 
 export type DeleteNotificationError = NotFound | ModrinthOpError;
@@ -2143,6 +2176,8 @@ export const deleteNotification: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotification",
 }));
 
 export type DeleteNotificationsError = NotFound | ModrinthOpError;
@@ -2158,6 +2193,8 @@ export const deleteNotifications: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotifications",
 }));
 
 export type DeleteProjectError = BadRequest | ModrinthOpError;
@@ -2173,6 +2210,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectIconError = BadRequest | ModrinthOpError;
@@ -2188,6 +2227,8 @@ export const deleteProjectIcon: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectIcon",
 }));
 
 export type DeleteTeamMemberError = NotFound | ModrinthOpError;
@@ -2203,6 +2244,8 @@ export const deleteTeamMember: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamMember",
 }));
 
 export type DeleteThreadMessageError = NotFound | ModrinthOpError;
@@ -2218,6 +2261,8 @@ export const deleteThreadMessage: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThreadMessage",
 }));
 
 export type DeleteUserIconError = BadRequest | NotFound | ModrinthOpError;
@@ -2233,6 +2278,8 @@ export const deleteUserIcon: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserIcon",
 }));
 
 export type DeleteVersionError = NotFound | ModrinthOpError;
@@ -2248,6 +2295,8 @@ export const deleteVersion: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVersion",
 }));
 
 export type FollowProjectError = BadRequest | ModrinthOpError;
@@ -2263,6 +2312,8 @@ export const followProject: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FollowProject",
 }));
 
 export type ForgeUpdates2Error = BadRequest | ModrinthOpError;
@@ -2278,6 +2329,8 @@ export const forgeUpdates2: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForgeUpdates2",
 }));
 
 export type GetDependenciesError = NotFound | ModrinthOpError;
@@ -2293,6 +2346,8 @@ export const getDependencies: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDependencies",
 }));
 
 export type GetFollowedProjectsError = NotFound | ModrinthOpError;
@@ -2308,6 +2363,8 @@ export const getFollowedProjects: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFollowedProjects",
 }));
 
 export type GetLatestVersionFromHashError = BadRequest | NotFound | ModrinthOpError;
@@ -2323,6 +2380,8 @@ export const getLatestVersionFromHash: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLatestVersionFromHash",
 }));
 
 export type GetLatestVersionsFromHashesError = BadRequest | ModrinthOpError;
@@ -2338,6 +2397,8 @@ export const getLatestVersionsFromHashes: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLatestVersionsFromHashes",
 }));
 
 export type GetNotificationError = NotFound | ModrinthOpError;
@@ -2353,6 +2414,8 @@ export const getNotification: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotification",
 }));
 
 export type GetNotificationsError = NotFound | ModrinthOpError;
@@ -2368,6 +2431,8 @@ export const getNotifications: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotifications",
 }));
 
 export type GetOpenReportsError = NotFound | ModrinthOpError;
@@ -2383,6 +2448,8 @@ export const getOpenReports: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenReports",
 }));
 
 export type GetPayoutHistoryError = NotFound | ModrinthOpError;
@@ -2398,6 +2465,8 @@ export const getPayoutHistory: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayoutHistory",
 }));
 
 export type GetProjectError = NotFound | ModrinthOpError;
@@ -2413,6 +2482,8 @@ export const getProject: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectsError = ModrinthOpError;
@@ -2428,6 +2499,8 @@ export const getProjects: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjects",
 }));
 
 export type GetProjectTeamMembersError = NotFound | ModrinthOpError;
@@ -2443,6 +2516,8 @@ export const getProjectTeamMembers: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectTeamMembers",
 }));
 
 export type GetProjectVersionsError = NotFound | ModrinthOpError;
@@ -2458,6 +2533,8 @@ export const getProjectVersions: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectVersions",
 }));
 
 export type GetReportError = NotFound | ModrinthOpError;
@@ -2473,6 +2550,8 @@ export const getReport: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetReportsError = NotFound | ModrinthOpError;
@@ -2488,6 +2567,8 @@ export const getReports: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReports",
 }));
 
 export type GetTeamMembersError = ModrinthOpError;
@@ -2503,6 +2584,8 @@ export const getTeamMembers: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamMembers",
 }));
 
 export type GetTeamsError = ModrinthOpError;
@@ -2518,6 +2601,8 @@ export const getTeams: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeams",
 }));
 
 export type GetThreadError = NotFound | ModrinthOpError;
@@ -2533,6 +2618,8 @@ export const getThread: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThread",
 }));
 
 export type GetThreadsError = NotFound | ModrinthOpError;
@@ -2548,6 +2635,8 @@ export const getThreads: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThreads",
 }));
 
 export type GetUserError = NotFound | ModrinthOpError;
@@ -2563,6 +2652,8 @@ export const getUser: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserFromAuthError = ModrinthOpError;
@@ -2578,6 +2669,8 @@ export const getUserFromAuth: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserFromAuth",
 }));
 
 export type GetUserNotificationsError = NotFound | ModrinthOpError;
@@ -2593,6 +2686,8 @@ export const getUserNotifications: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserNotifications",
 }));
 
 export type GetUserProjectsError = NotFound | ModrinthOpError;
@@ -2608,6 +2703,8 @@ export const getUserProjects: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserProjects",
 }));
 
 export type GetUsersError = ModrinthOpError;
@@ -2623,6 +2720,8 @@ export const getUsers: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsers",
 }));
 
 export type GetVersionError = NotFound | ModrinthOpError;
@@ -2638,6 +2737,8 @@ export const getVersion: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetVersionFromIdOrNumberError = NotFound | ModrinthOpError;
@@ -2653,6 +2754,8 @@ export const getVersionFromIdOrNumber: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersionFromIdOrNumber",
 }));
 
 export type GetVersionsError = ModrinthOpError;
@@ -2668,6 +2771,8 @@ export const getVersions: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersions",
 }));
 
 export type JoinTeamError = NotFound | ModrinthOpError;
@@ -2683,6 +2788,8 @@ export const joinTeam: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JoinTeam",
 }));
 
 export type LicenseTextError = BadRequest | ModrinthOpError;
@@ -2698,6 +2805,8 @@ export const licenseText: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseText",
 }));
 
 export type ListCategoryError = ModrinthOpError;
@@ -2713,6 +2822,8 @@ export const listCategory: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategory",
 }));
 
 export type ListDonationPlatformError = ModrinthOpError;
@@ -2728,6 +2839,8 @@ export const listDonationPlatform: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDonationPlatform",
 }));
 
 export type ListLoaderError = ModrinthOpError;
@@ -2743,6 +2856,8 @@ export const listLoader: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoader",
 }));
 
 export type ListProjectTypeError = ModrinthOpError;
@@ -2758,6 +2873,8 @@ export const listProjectType: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectType",
 }));
 
 export type ListReportTypeError = ModrinthOpError;
@@ -2773,6 +2890,8 @@ export const listReportType: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportType",
 }));
 
 export type ListSideTypeError = ModrinthOpError;
@@ -2788,6 +2907,8 @@ export const listSideType: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSideType",
 }));
 
 export type ListVersionError = ModrinthOpError;
@@ -2803,6 +2924,8 @@ export const listVersion: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVersion",
 }));
 
 export type ModifyGalleryImageError = NotFound | ModrinthOpError;
@@ -2818,6 +2941,8 @@ export const modifyGalleryImage: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyGalleryImage",
 }));
 
 export type ModifyProjectError = NotFound | ModrinthOpError;
@@ -2833,6 +2958,8 @@ export const modifyProject: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyProject",
 }));
 
 export type ModifyReportError = BadRequest | NotFound | ModrinthOpError;
@@ -2848,6 +2975,8 @@ export const modifyReport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyReport",
 }));
 
 export type ModifyTeamMemberError = NotFound | ModrinthOpError;
@@ -2863,6 +2992,8 @@ export const modifyTeamMember: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyTeamMember",
 }));
 
 export type ModifyUserError = NotFound | ModrinthOpError;
@@ -2878,6 +3009,8 @@ export const modifyUser: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyUser",
 }));
 
 export type ModifyVersionError = NotFound | ModrinthOpError;
@@ -2893,6 +3026,8 @@ export const modifyVersion: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyVersion",
 }));
 
 export type RandomProjectsError = BadRequest | ModrinthOpError;
@@ -2908,6 +3043,8 @@ export const randomProjects: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RandomProjects",
 }));
 
 export type ReadNotificationError = NotFound | ModrinthOpError;
@@ -2923,6 +3060,8 @@ export const readNotification: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNotification",
 }));
 
 export type ReadNotificationsError = NotFound | ModrinthOpError;
@@ -2938,6 +3077,8 @@ export const readNotifications: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNotifications",
 }));
 
 export type ScheduleProjectError = BadRequest | ModrinthOpError;
@@ -2953,6 +3094,8 @@ export const scheduleProject: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduleProject",
 }));
 
 export type ScheduleVersionError = BadRequest | ModrinthOpError;
@@ -2968,6 +3111,8 @@ export const scheduleVersion: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduleVersion",
 }));
 
 export type SearchProjectsError = BadRequest | ModrinthOpError;
@@ -2983,6 +3128,8 @@ export const searchProjects: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchProjects",
 }));
 
 export type SendThreadMessageError = BadRequest | NotFound | ModrinthOpError;
@@ -2998,6 +3145,8 @@ export const sendThreadMessage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendThreadMessage",
 }));
 
 export type Statistics2Error = ModrinthOpError;
@@ -3013,6 +3162,8 @@ export const statistics2: API.OperationMethod<
   errors: [UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Statistics2",
 }));
 
 export type SubmitReportError = BadRequest | ModrinthOpError;
@@ -3028,6 +3179,8 @@ export const submitReport: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitReport",
 }));
 
 export type TransferTeamOwnershipError = NotFound | ModrinthOpError;
@@ -3043,6 +3196,8 @@ export const transferTeamOwnership: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferTeamOwnership",
 }));
 
 export type UnfollowProjectError = BadRequest | ModrinthOpError;
@@ -3058,6 +3213,8 @@ export const unfollowProject: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnfollowProject",
 }));
 
 export type UpdateProjectsError = BadRequest | ModrinthOpError;
@@ -3073,6 +3230,8 @@ export const updateProjects: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjects",
 }));
 
 export type VersionFromHashError = NotFound | ModrinthOpError;
@@ -3088,6 +3247,8 @@ export const versionFromHash: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VersionFromHash",
 }));
 
 export type VersionsFromHashesError = BadRequest | ModrinthOpError;
@@ -3103,6 +3264,8 @@ export const versionsFromHashes: API.OperationMethod<
   errors: [BadRequest, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VersionsFromHashes",
 }));
 
 export type WithdrawPayoutError = NotFound | ModrinthOpError;
@@ -3118,6 +3281,8 @@ export const withdrawPayout: API.OperationMethod<
   errors: [NotFound, UnknownModrinthError],
   protocol: ModrinthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WithdrawPayout",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

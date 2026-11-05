@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://compute-optimizer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ComputeOptimizer",
+  service: "ComputeOptimizer",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2064,7 +2081,7 @@ export type DeleteRecommendationPreferencesError =
  * Guide.
  */
 export const deleteRecommendationPreferences: API.OperationMethod<
-  DeleteRecommendationPreferencesRequest,
+  DeleteRecommendationPreferencesRequest & RegionInput,
   DeleteRecommendationPreferencesResponse,
   DeleteRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2084,6 +2101,8 @@ export const deleteRecommendationPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendationPreferences",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommendationPreferences",
 }));
 
 export type DescribeRecommendationExportJobsError =
@@ -2104,7 +2123,7 @@ export type DescribeRecommendationExportJobsError =
  * to view your export jobs.
  */
 export const describeRecommendationExportJobs: API.PaginatedOperationMethod<
-  DescribeRecommendationExportJobsRequest,
+  DescribeRecommendationExportJobsRequest & RegionInput,
   DescribeRecommendationExportJobsResponse,
   DescribeRecommendationExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2131,6 +2150,8 @@ export const describeRecommendationExportJobs: API.PaginatedOperationMethod<
     items: "recommendationExportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRecommendationExportJobs",
 })) as any;
 
 export type ExportAutoScalingGroupRecommendationsError =
@@ -2154,7 +2175,7 @@ export type ExportAutoScalingGroupRecommendationsError =
  * You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
  */
 export const exportAutoScalingGroupRecommendations: API.OperationMethod<
-  ExportAutoScalingGroupRecommendationsRequest,
+  ExportAutoScalingGroupRecommendationsRequest & RegionInput,
   ExportAutoScalingGroupRecommendationsResponse,
   ExportAutoScalingGroupRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2174,6 +2195,8 @@ export const exportAutoScalingGroupRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportAutoScalingGroupRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportAutoScalingGroupRecommendations",
 }));
 
 export type ExportEBSVolumeRecommendationsError =
@@ -2197,7 +2220,7 @@ export type ExportEBSVolumeRecommendationsError =
  * You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
  */
 export const exportEBSVolumeRecommendations: API.OperationMethod<
-  ExportEBSVolumeRecommendationsRequest,
+  ExportEBSVolumeRecommendationsRequest & RegionInput,
   ExportEBSVolumeRecommendationsResponse,
   ExportEBSVolumeRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2217,6 +2240,8 @@ export const exportEBSVolumeRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportEBSVolumeRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportEBSVolumeRecommendations",
 }));
 
 export type ExportEC2InstanceRecommendationsError =
@@ -2240,7 +2265,7 @@ export type ExportEC2InstanceRecommendationsError =
  * You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
  */
 export const exportEC2InstanceRecommendations: API.OperationMethod<
-  ExportEC2InstanceRecommendationsRequest,
+  ExportEC2InstanceRecommendationsRequest & RegionInput,
   ExportEC2InstanceRecommendationsResponse,
   ExportEC2InstanceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2260,6 +2285,8 @@ export const exportEC2InstanceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportEC2InstanceRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportEC2InstanceRecommendations",
 }));
 
 export type ExportECSServiceRecommendationsError =
@@ -2283,7 +2310,7 @@ export type ExportECSServiceRecommendationsError =
  * You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
  */
 export const exportECSServiceRecommendations: API.OperationMethod<
-  ExportECSServiceRecommendationsRequest,
+  ExportECSServiceRecommendationsRequest & RegionInput,
   ExportECSServiceRecommendationsResponse,
   ExportECSServiceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2303,6 +2330,8 @@ export const exportECSServiceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportECSServiceRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportECSServiceRecommendations",
 }));
 
 export type ExportIdleRecommendationsError =
@@ -2326,7 +2355,7 @@ export type ExportIdleRecommendationsError =
  * You can have only one idle resource export job in progress per Amazon Web Services Region.
  */
 export const exportIdleRecommendations: API.OperationMethod<
-  ExportIdleRecommendationsRequest,
+  ExportIdleRecommendationsRequest & RegionInput,
   ExportIdleRecommendationsResponse,
   ExportIdleRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2346,6 +2375,8 @@ export const exportIdleRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportIdleRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportIdleRecommendations",
 }));
 
 export type ExportLambdaFunctionRecommendationsError =
@@ -2369,7 +2400,7 @@ export type ExportLambdaFunctionRecommendationsError =
  * You can have only one Lambda function export job in progress per Amazon Web Services Region.
  */
 export const exportLambdaFunctionRecommendations: API.OperationMethod<
-  ExportLambdaFunctionRecommendationsRequest,
+  ExportLambdaFunctionRecommendationsRequest & RegionInput,
   ExportLambdaFunctionRecommendationsResponse,
   ExportLambdaFunctionRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2389,6 +2420,8 @@ export const exportLambdaFunctionRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLambdaFunctionRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportLambdaFunctionRecommendations",
 }));
 
 export type ExportLicenseRecommendationsError =
@@ -2412,7 +2445,7 @@ export type ExportLicenseRecommendationsError =
  * You can have only one license export job in progress per Amazon Web Services Region.
  */
 export const exportLicenseRecommendations: API.OperationMethod<
-  ExportLicenseRecommendationsRequest,
+  ExportLicenseRecommendationsRequest & RegionInput,
   ExportLicenseRecommendationsResponse,
   ExportLicenseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2432,6 +2465,8 @@ export const exportLicenseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLicenseRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportLicenseRecommendations",
 }));
 
 export type ExportRDSDatabaseRecommendationsError =
@@ -2455,7 +2490,7 @@ export type ExportRDSDatabaseRecommendationsError =
  * You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services Region.
  */
 export const exportRDSDatabaseRecommendations: API.OperationMethod<
-  ExportRDSDatabaseRecommendationsRequest,
+  ExportRDSDatabaseRecommendationsRequest & RegionInput,
   ExportRDSDatabaseRecommendationsResponse,
   ExportRDSDatabaseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2475,6 +2510,8 @@ export const exportRDSDatabaseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportRDSDatabaseRecommendations",
+  telemetry: TELEMETRY,
+  span: "ExportRDSDatabaseRecommendations",
 }));
 
 export type GetAutoScalingGroupRecommendationsError =
@@ -2496,7 +2533,7 @@ export type GetAutoScalingGroupRecommendationsError =
  * Guide.
  */
 export const getAutoScalingGroupRecommendations: API.OperationMethod<
-  GetAutoScalingGroupRecommendationsRequest,
+  GetAutoScalingGroupRecommendationsRequest & RegionInput,
   GetAutoScalingGroupRecommendationsResponse,
   GetAutoScalingGroupRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2516,6 +2553,8 @@ export const getAutoScalingGroupRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoScalingGroupRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetAutoScalingGroupRecommendations",
 }));
 
 export type GetEBSVolumeRecommendationsError =
@@ -2537,7 +2576,7 @@ export type GetEBSVolumeRecommendationsError =
  * Guide.
  */
 export const getEBSVolumeRecommendations: API.OperationMethod<
-  GetEBSVolumeRecommendationsRequest,
+  GetEBSVolumeRecommendationsRequest & RegionInput,
   GetEBSVolumeRecommendationsResponse,
   GetEBSVolumeRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2557,6 +2596,8 @@ export const getEBSVolumeRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEBSVolumeRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetEBSVolumeRecommendations",
 }));
 
 export type GetEC2InstanceRecommendationsError =
@@ -2578,7 +2619,7 @@ export type GetEC2InstanceRecommendationsError =
  * Guide.
  */
 export const getEC2InstanceRecommendations: API.OperationMethod<
-  GetEC2InstanceRecommendationsRequest,
+  GetEC2InstanceRecommendationsRequest & RegionInput,
   GetEC2InstanceRecommendationsResponse,
   GetEC2InstanceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2598,6 +2639,8 @@ export const getEC2InstanceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEC2InstanceRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetEC2InstanceRecommendations",
 }));
 
 export type GetEC2RecommendationProjectedMetricsError =
@@ -2620,7 +2663,7 @@ export type GetEC2RecommendationProjectedMetricsError =
  * CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
  */
 export const getEC2RecommendationProjectedMetrics: API.OperationMethod<
-  GetEC2RecommendationProjectedMetricsRequest,
+  GetEC2RecommendationProjectedMetricsRequest & RegionInput,
   GetEC2RecommendationProjectedMetricsResponse,
   GetEC2RecommendationProjectedMetricsError,
   Credentials | HttpClient.HttpClient
@@ -2640,6 +2683,8 @@ export const getEC2RecommendationProjectedMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEC2RecommendationProjectedMetrics",
+  telemetry: TELEMETRY,
+  span: "GetEC2RecommendationProjectedMetrics",
 }));
 
 export type GetECSServiceRecommendationProjectedMetricsError =
@@ -2656,7 +2701,7 @@ export type GetECSServiceRecommendationProjectedMetricsError =
  * Returns the projected metrics of Amazon ECS service recommendations.
  */
 export const getECSServiceRecommendationProjectedMetrics: API.OperationMethod<
-  GetECSServiceRecommendationProjectedMetricsRequest,
+  GetECSServiceRecommendationProjectedMetricsRequest & RegionInput,
   GetECSServiceRecommendationProjectedMetricsResponse,
   GetECSServiceRecommendationProjectedMetricsError,
   Credentials | HttpClient.HttpClient
@@ -2680,6 +2725,8 @@ export const getECSServiceRecommendationProjectedMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetECSServiceRecommendationProjectedMetrics",
+  telemetry: TELEMETRY,
+  span: "GetECSServiceRecommendationProjectedMetrics",
 }));
 
 export type GetECSServiceRecommendationsError =
@@ -2702,7 +2749,7 @@ export type GetECSServiceRecommendationsError =
  * Guide.
  */
 export const getECSServiceRecommendations: API.OperationMethod<
-  GetECSServiceRecommendationsRequest,
+  GetECSServiceRecommendationsRequest & RegionInput,
   GetECSServiceRecommendationsResponse,
   GetECSServiceRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2722,6 +2769,8 @@ export const getECSServiceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetECSServiceRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetECSServiceRecommendations",
 }));
 
 export type GetEffectiveRecommendationPreferencesError =
@@ -2744,7 +2793,7 @@ export type GetEffectiveRecommendationPreferencesError =
  * recommendation preferences that are in effect, or `Active`.
  */
 export const getEffectiveRecommendationPreferences: API.OperationMethod<
-  GetEffectiveRecommendationPreferencesRequest,
+  GetEffectiveRecommendationPreferencesRequest & RegionInput,
   GetEffectiveRecommendationPreferencesResponse,
   GetEffectiveRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2764,6 +2813,8 @@ export const getEffectiveRecommendationPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEffectiveRecommendationPreferences",
+  telemetry: TELEMETRY,
+  span: "GetEffectiveRecommendationPreferences",
 }));
 
 export type GetEnrollmentStatusError =
@@ -2783,7 +2834,7 @@ export type GetEnrollmentStatusError =
  * about the enrollment status of member accounts of an organization.
  */
 export const getEnrollmentStatus: API.OperationMethod<
-  GetEnrollmentStatusRequest,
+  GetEnrollmentStatusRequest & RegionInput,
   GetEnrollmentStatusResponse,
   GetEnrollmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -2801,6 +2852,8 @@ export const getEnrollmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnrollmentStatus",
+  telemetry: TELEMETRY,
+  span: "GetEnrollmentStatus",
 }));
 
 export type GetEnrollmentStatusesForOrganizationError =
@@ -2818,7 +2871,7 @@ export type GetEnrollmentStatusesForOrganizationError =
  * To get the enrollment status of standalone accounts, use the GetEnrollmentStatus action.
  */
 export const getEnrollmentStatusesForOrganization: API.PaginatedOperationMethod<
-  GetEnrollmentStatusesForOrganizationRequest,
+  GetEnrollmentStatusesForOrganizationRequest & RegionInput,
   GetEnrollmentStatusesForOrganizationResponse,
   GetEnrollmentStatusesForOrganizationError,
   Credentials | HttpClient.HttpClient,
@@ -2843,6 +2896,8 @@ export const getEnrollmentStatusesForOrganization: API.PaginatedOperationMethod<
     items: "accountEnrollmentStatuses",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEnrollmentStatusesForOrganization",
 })) as any;
 
 export type GetIdleRecommendationsError =
@@ -2862,7 +2917,7 @@ export type GetIdleRecommendationsError =
  * *Compute Optimizer User Guide*
  */
 export const getIdleRecommendations: API.OperationMethod<
-  GetIdleRecommendationsRequest,
+  GetIdleRecommendationsRequest & RegionInput,
   GetIdleRecommendationsResponse,
   GetIdleRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2882,6 +2937,8 @@ export const getIdleRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdleRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetIdleRecommendations",
 }));
 
 export type GetLambdaFunctionRecommendationsError =
@@ -2903,7 +2960,7 @@ export type GetLambdaFunctionRecommendationsError =
  * Guide.
  */
 export const getLambdaFunctionRecommendations: API.PaginatedOperationMethod<
-  GetLambdaFunctionRecommendationsRequest,
+  GetLambdaFunctionRecommendationsRequest & RegionInput,
   GetLambdaFunctionRecommendationsResponse,
   GetLambdaFunctionRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -2930,6 +2987,8 @@ export const getLambdaFunctionRecommendations: API.PaginatedOperationMethod<
     items: "lambdaFunctionRecommendations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLambdaFunctionRecommendations",
 })) as any;
 
 export type GetLicenseRecommendationsError =
@@ -2951,7 +3010,7 @@ export type GetLicenseRecommendationsError =
  * Guide.
  */
 export const getLicenseRecommendations: API.OperationMethod<
-  GetLicenseRecommendationsRequest,
+  GetLicenseRecommendationsRequest & RegionInput,
   GetLicenseRecommendationsResponse,
   GetLicenseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -2971,6 +3030,8 @@ export const getLicenseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetLicenseRecommendations",
 }));
 
 export type GetRDSDatabaseRecommendationProjectedMetricsError =
@@ -2987,7 +3048,7 @@ export type GetRDSDatabaseRecommendationProjectedMetricsError =
  * Returns the projected metrics of Aurora and RDS database recommendations.
  */
 export const getRDSDatabaseRecommendationProjectedMetrics: API.OperationMethod<
-  GetRDSDatabaseRecommendationProjectedMetricsRequest,
+  GetRDSDatabaseRecommendationProjectedMetricsRequest & RegionInput,
   GetRDSDatabaseRecommendationProjectedMetricsResponse,
   GetRDSDatabaseRecommendationProjectedMetricsError,
   Credentials | HttpClient.HttpClient
@@ -3011,6 +3072,8 @@ export const getRDSDatabaseRecommendationProjectedMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRDSDatabaseRecommendationProjectedMetrics",
+  telemetry: TELEMETRY,
+  span: "GetRDSDatabaseRecommendationProjectedMetrics",
 }));
 
 export type GetRDSDatabaseRecommendationsError =
@@ -3033,7 +3096,7 @@ export type GetRDSDatabaseRecommendationsError =
  * Guide.
  */
 export const getRDSDatabaseRecommendations: API.OperationMethod<
-  GetRDSDatabaseRecommendationsRequest,
+  GetRDSDatabaseRecommendationsRequest & RegionInput,
   GetRDSDatabaseRecommendationsResponse,
   GetRDSDatabaseRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -3053,6 +3116,8 @@ export const getRDSDatabaseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRDSDatabaseRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetRDSDatabaseRecommendations",
 }));
 
 export type GetRecommendationPreferencesError =
@@ -3078,7 +3143,7 @@ export type GetRecommendationPreferencesError =
  * Guide.
  */
 export const getRecommendationPreferences: API.PaginatedOperationMethod<
-  GetRecommendationPreferencesRequest,
+  GetRecommendationPreferencesRequest & RegionInput,
   GetRecommendationPreferencesResponse,
   GetRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient,
@@ -3105,6 +3170,8 @@ export const getRecommendationPreferences: API.PaginatedOperationMethod<
     items: "recommendationPreferencesDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRecommendationPreferences",
 })) as any;
 
 export type GetRecommendationSummariesError =
@@ -3144,7 +3211,7 @@ export type GetRecommendationSummariesError =
  * `Overprovisioned`, `Optimized`, or `NotOptimized`.
  */
 export const getRecommendationSummaries: API.PaginatedOperationMethod<
-  GetRecommendationSummariesRequest,
+  GetRecommendationSummariesRequest & RegionInput,
   GetRecommendationSummariesResponse,
   GetRecommendationSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -3170,6 +3237,8 @@ export const getRecommendationSummaries: API.PaginatedOperationMethod<
     items: "recommendationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRecommendationSummaries",
 })) as any;
 
 export type PutRecommendationPreferencesError =
@@ -3191,7 +3260,7 @@ export type PutRecommendationPreferencesError =
  * Guide.
  */
 export const putRecommendationPreferences: API.OperationMethod<
-  PutRecommendationPreferencesRequest,
+  PutRecommendationPreferencesRequest & RegionInput,
   PutRecommendationPreferencesResponse,
   PutRecommendationPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -3211,6 +3280,8 @@ export const putRecommendationPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecommendationPreferences",
+  telemetry: TELEMETRY,
+  span: "PutRecommendationPreferences",
 }));
 
 export type UpdateEnrollmentStatusError =
@@ -3235,7 +3306,7 @@ export type UpdateEnrollmentStatusError =
  * Service-Linked Roles for Compute Optimizer in the *Compute Optimizer User Guide*.
  */
 export const updateEnrollmentStatus: API.OperationMethod<
-  UpdateEnrollmentStatusRequest,
+  UpdateEnrollmentStatusRequest & RegionInput,
   UpdateEnrollmentStatusResponse,
   UpdateEnrollmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -3253,6 +3324,8 @@ export const updateEnrollmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnrollmentStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateEnrollmentStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

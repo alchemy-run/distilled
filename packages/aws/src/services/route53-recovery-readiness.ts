@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://route53-recovery-readiness.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53RecoveryReadiness",
+  service: "Route53RecoveryReadiness",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -539,7 +555,7 @@ export type CreateCellError =
  * Creates a cell in an account.
  */
 export const createCell: API.OperationMethod<
-  CreateCellRequest,
+  CreateCellRequest & RegionInput,
   CreateCellResponse,
   CreateCellError,
   Credentials | HttpClient.HttpClient
@@ -556,6 +572,8 @@ export const createCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCell",
+  telemetry: TELEMETRY,
+  span: "CreateCell",
 }));
 
 export type CreateCrossAccountAuthorizationError =
@@ -569,7 +587,7 @@ export type CreateCrossAccountAuthorizationError =
  * Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
  */
 export const createCrossAccountAuthorization: API.OperationMethod<
-  CreateCrossAccountAuthorizationRequest,
+  CreateCrossAccountAuthorizationRequest & RegionInput,
   CreateCrossAccountAuthorizationResponse,
   CreateCrossAccountAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -586,6 +604,8 @@ export const createCrossAccountAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrossAccountAuthorization",
+  telemetry: TELEMETRY,
+  span: "CreateCrossAccountAuthorization",
 }));
 
 export type CreateReadinessCheckError =
@@ -599,7 +619,7 @@ export type CreateReadinessCheckError =
  * Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
  */
 export const createReadinessCheck: API.OperationMethod<
-  CreateReadinessCheckRequest,
+  CreateReadinessCheckRequest & RegionInput,
   CreateReadinessCheckResponse,
   CreateReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -616,6 +636,8 @@ export const createReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "CreateReadinessCheck",
 }));
 
 export type CreateRecoveryGroupError =
@@ -629,7 +651,7 @@ export type CreateRecoveryGroupError =
  * Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
  */
 export const createRecoveryGroup: API.OperationMethod<
-  CreateRecoveryGroupRequest,
+  CreateRecoveryGroupRequest & RegionInput,
   CreateRecoveryGroupResponse,
   CreateRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -646,6 +668,8 @@ export const createRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "CreateRecoveryGroup",
 }));
 
 export type CreateResourceSetError =
@@ -659,7 +683,7 @@ export type CreateResourceSetError =
  * Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
  */
 export const createResourceSet: API.OperationMethod<
-  CreateResourceSetRequest,
+  CreateResourceSetRequest & RegionInput,
   CreateResourceSetResponse,
   CreateResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -676,6 +700,8 @@ export const createResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSet",
+  telemetry: TELEMETRY,
+  span: "CreateResourceSet",
 }));
 
 export type DeleteCellError =
@@ -689,7 +715,7 @@ export type DeleteCellError =
  * Delete a cell. When successful, the response code is 204, with no response body.
  */
 export const deleteCell: API.OperationMethod<
-  DeleteCellRequest,
+  DeleteCellRequest & RegionInput,
   DeleteCellResponse,
   DeleteCellError,
   Credentials | HttpClient.HttpClient
@@ -706,6 +732,8 @@ export const deleteCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCell",
+  telemetry: TELEMETRY,
+  span: "DeleteCell",
 }));
 
 export type DeleteCrossAccountAuthorizationError =
@@ -718,7 +746,7 @@ export type DeleteCrossAccountAuthorizationError =
  * Deletes cross account readiness authorization.
  */
 export const deleteCrossAccountAuthorization: API.OperationMethod<
-  DeleteCrossAccountAuthorizationRequest,
+  DeleteCrossAccountAuthorizationRequest & RegionInput,
   DeleteCrossAccountAuthorizationResponse,
   DeleteCrossAccountAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -734,6 +762,8 @@ export const deleteCrossAccountAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrossAccountAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteCrossAccountAuthorization",
 }));
 
 export type DeleteReadinessCheckError =
@@ -747,7 +777,7 @@ export type DeleteReadinessCheckError =
  * Deletes a readiness check.
  */
 export const deleteReadinessCheck: API.OperationMethod<
-  DeleteReadinessCheckRequest,
+  DeleteReadinessCheckRequest & RegionInput,
   DeleteReadinessCheckResponse,
   DeleteReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -764,6 +794,8 @@ export const deleteReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "DeleteReadinessCheck",
 }));
 
 export type DeleteRecoveryGroupError =
@@ -777,7 +809,7 @@ export type DeleteRecoveryGroupError =
  * Deletes a recovery group.
  */
 export const deleteRecoveryGroup: API.OperationMethod<
-  DeleteRecoveryGroupRequest,
+  DeleteRecoveryGroupRequest & RegionInput,
   DeleteRecoveryGroupResponse,
   DeleteRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -794,6 +826,8 @@ export const deleteRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryGroup",
 }));
 
 export type DeleteResourceSetError =
@@ -807,7 +841,7 @@ export type DeleteResourceSetError =
  * Deletes a resource set.
  */
 export const deleteResourceSet: API.OperationMethod<
-  DeleteResourceSetRequest,
+  DeleteResourceSetRequest & RegionInput,
   DeleteResourceSetResponse,
   DeleteResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -824,6 +858,8 @@ export const deleteResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSet",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSet",
 }));
 
 export type GetArchitectureRecommendationsError =
@@ -837,7 +873,7 @@ export type GetArchitectureRecommendationsError =
  * Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
  */
 export const getArchitectureRecommendations: API.OperationMethod<
-  GetArchitectureRecommendationsRequest,
+  GetArchitectureRecommendationsRequest & RegionInput,
   GetArchitectureRecommendationsResponse,
   GetArchitectureRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -854,6 +890,8 @@ export const getArchitectureRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchitectureRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetArchitectureRecommendations",
 }));
 
 export type GetCellError =
@@ -867,7 +905,7 @@ export type GetCellError =
  * Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
  */
 export const getCell: API.OperationMethod<
-  GetCellRequest,
+  GetCellRequest & RegionInput,
   GetCellResponse,
   GetCellError,
   Credentials | HttpClient.HttpClient
@@ -884,6 +922,8 @@ export const getCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCell",
+  telemetry: TELEMETRY,
+  span: "GetCell",
 }));
 
 export type GetCellReadinessSummaryError =
@@ -897,7 +937,7 @@ export type GetCellReadinessSummaryError =
  * Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
  */
 export const getCellReadinessSummary: API.PaginatedOperationMethod<
-  GetCellReadinessSummaryRequest,
+  GetCellReadinessSummaryRequest & RegionInput,
   GetCellReadinessSummaryResponse,
   GetCellReadinessSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -921,6 +961,8 @@ export const getCellReadinessSummary: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCellReadinessSummary",
 })) as any;
 
 export type GetReadinessCheckError =
@@ -934,7 +976,7 @@ export type GetReadinessCheckError =
  * Gets details about a readiness check.
  */
 export const getReadinessCheck: API.OperationMethod<
-  GetReadinessCheckRequest,
+  GetReadinessCheckRequest & RegionInput,
   GetReadinessCheckResponse,
   GetReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -951,6 +993,8 @@ export const getReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "GetReadinessCheck",
 }));
 
 export type GetReadinessCheckResourceStatusError =
@@ -964,7 +1008,7 @@ export type GetReadinessCheckResourceStatusError =
  * Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
  */
 export const getReadinessCheckResourceStatus: API.PaginatedOperationMethod<
-  GetReadinessCheckResourceStatusRequest,
+  GetReadinessCheckResourceStatusRequest & RegionInput,
   GetReadinessCheckResourceStatusResponse,
   GetReadinessCheckResourceStatusError,
   Credentials | HttpClient.HttpClient,
@@ -988,6 +1032,8 @@ export const getReadinessCheckResourceStatus: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetReadinessCheckResourceStatus",
 })) as any;
 
 export type GetReadinessCheckStatusError =
@@ -1001,7 +1047,7 @@ export type GetReadinessCheckStatusError =
  * Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
  */
 export const getReadinessCheckStatus: API.PaginatedOperationMethod<
-  GetReadinessCheckStatusRequest,
+  GetReadinessCheckStatusRequest & RegionInput,
   GetReadinessCheckStatusResponse,
   GetReadinessCheckStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1025,6 +1071,8 @@ export const getReadinessCheckStatus: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetReadinessCheckStatus",
 })) as any;
 
 export type GetRecoveryGroupError =
@@ -1038,7 +1086,7 @@ export type GetRecoveryGroupError =
  * Gets details about a recovery group, including a list of the cells that are included in it.
  */
 export const getRecoveryGroup: API.OperationMethod<
-  GetRecoveryGroupRequest,
+  GetRecoveryGroupRequest & RegionInput,
   GetRecoveryGroupResponse,
   GetRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -1055,6 +1103,8 @@ export const getRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryGroup",
 }));
 
 export type GetRecoveryGroupReadinessSummaryError =
@@ -1068,7 +1118,7 @@ export type GetRecoveryGroupReadinessSummaryError =
  * Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
  */
 export const getRecoveryGroupReadinessSummary: API.PaginatedOperationMethod<
-  GetRecoveryGroupReadinessSummaryRequest,
+  GetRecoveryGroupReadinessSummaryRequest & RegionInput,
   GetRecoveryGroupReadinessSummaryResponse,
   GetRecoveryGroupReadinessSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -1092,6 +1142,8 @@ export const getRecoveryGroupReadinessSummary: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRecoveryGroupReadinessSummary",
 })) as any;
 
 export type GetResourceSetError =
@@ -1105,7 +1157,7 @@ export type GetResourceSetError =
  * Displays the details about a resource set, including a list of the resources in the set.
  */
 export const getResourceSet: API.OperationMethod<
-  GetResourceSetRequest,
+  GetResourceSetRequest & RegionInput,
   GetResourceSetResponse,
   GetResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -1122,6 +1174,8 @@ export const getResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSet",
+  telemetry: TELEMETRY,
+  span: "GetResourceSet",
 }));
 
 export type ListCellsError =
@@ -1134,7 +1188,7 @@ export type ListCellsError =
  * Lists the cells for an account.
  */
 export const listCells: API.PaginatedOperationMethod<
-  ListCellsRequest,
+  ListCellsRequest & RegionInput,
   ListCellsResponse,
   ListCellsError,
   Credentials | HttpClient.HttpClient,
@@ -1157,6 +1211,8 @@ export const listCells: API.PaginatedOperationMethod<
     items: "Cells",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCells",
 })) as any;
 
 export type ListCrossAccountAuthorizationsError =
@@ -1169,7 +1225,7 @@ export type ListCrossAccountAuthorizationsError =
  * Lists the cross-account readiness authorizations that are in place for an account.
  */
 export const listCrossAccountAuthorizations: API.PaginatedOperationMethod<
-  ListCrossAccountAuthorizationsRequest,
+  ListCrossAccountAuthorizationsRequest & RegionInput,
   ListCrossAccountAuthorizationsResponse,
   ListCrossAccountAuthorizationsError,
   Credentials | HttpClient.HttpClient,
@@ -1192,6 +1248,8 @@ export const listCrossAccountAuthorizations: API.PaginatedOperationMethod<
     items: "CrossAccountAuthorizations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountAuthorizations",
 })) as any;
 
 export type ListReadinessChecksError =
@@ -1204,7 +1262,7 @@ export type ListReadinessChecksError =
  * Lists the readiness checks for an account.
  */
 export const listReadinessChecks: API.PaginatedOperationMethod<
-  ListReadinessChecksRequest,
+  ListReadinessChecksRequest & RegionInput,
   ListReadinessChecksResponse,
   ListReadinessChecksError,
   Credentials | HttpClient.HttpClient,
@@ -1227,6 +1285,8 @@ export const listReadinessChecks: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReadinessChecks",
 })) as any;
 
 export type ListRecoveryGroupsError =
@@ -1239,7 +1299,7 @@ export type ListRecoveryGroupsError =
  * Lists the recovery groups in an account.
  */
 export const listRecoveryGroups: API.PaginatedOperationMethod<
-  ListRecoveryGroupsRequest,
+  ListRecoveryGroupsRequest & RegionInput,
   ListRecoveryGroupsResponse,
   ListRecoveryGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1262,6 +1322,8 @@ export const listRecoveryGroups: API.PaginatedOperationMethod<
     items: "RecoveryGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryGroups",
 })) as any;
 
 export type ListResourceSetsError =
@@ -1274,7 +1336,7 @@ export type ListResourceSetsError =
  * Lists the resource sets in an account.
  */
 export const listResourceSets: API.PaginatedOperationMethod<
-  ListResourceSetsRequest,
+  ListResourceSetsRequest & RegionInput,
   ListResourceSetsResponse,
   ListResourceSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1297,6 +1359,8 @@ export const listResourceSets: API.PaginatedOperationMethod<
     items: "ResourceSets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSets",
 })) as any;
 
 export type ListRulesError =
@@ -1309,7 +1373,7 @@ export type ListRulesError =
  * Lists all readiness rules, or lists the readiness rules for a specific resource type.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1332,6 +1396,8 @@ export const listRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 })) as any;
 
 export type ListTagsForResourcesError =
@@ -1343,7 +1409,7 @@ export type ListTagsForResourcesError =
  * Lists the tags for a resource.
  */
 export const listTagsForResources: API.OperationMethod<
-  ListTagsForResourcesRequest,
+  ListTagsForResourcesRequest & RegionInput,
   ListTagsForResourcesResponse,
   ListTagsForResourcesError,
   Credentials | HttpClient.HttpClient
@@ -1354,6 +1420,8 @@ export const listTagsForResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResources",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResources",
 }));
 
 export type TagResourceError =
@@ -1365,7 +1433,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1376,6 +1444,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1387,7 +1457,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1398,6 +1468,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCellError =
@@ -1411,7 +1483,7 @@ export type UpdateCellError =
  * Updates a cell to replace the list of nested cells with a new list of nested cells.
  */
 export const updateCell: API.OperationMethod<
-  UpdateCellRequest,
+  UpdateCellRequest & RegionInput,
   UpdateCellResponse,
   UpdateCellError,
   Credentials | HttpClient.HttpClient
@@ -1428,6 +1500,8 @@ export const updateCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCell",
+  telemetry: TELEMETRY,
+  span: "UpdateCell",
 }));
 
 export type UpdateReadinessCheckError =
@@ -1441,7 +1515,7 @@ export type UpdateReadinessCheckError =
  * Updates a readiness check.
  */
 export const updateReadinessCheck: API.OperationMethod<
-  UpdateReadinessCheckRequest,
+  UpdateReadinessCheckRequest & RegionInput,
   UpdateReadinessCheckResponse,
   UpdateReadinessCheckError,
   Credentials | HttpClient.HttpClient
@@ -1458,6 +1532,8 @@ export const updateReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "UpdateReadinessCheck",
 }));
 
 export type UpdateRecoveryGroupError =
@@ -1471,7 +1547,7 @@ export type UpdateRecoveryGroupError =
  * Updates a recovery group.
  */
 export const updateRecoveryGroup: API.OperationMethod<
-  UpdateRecoveryGroupRequest,
+  UpdateRecoveryGroupRequest & RegionInput,
   UpdateRecoveryGroupResponse,
   UpdateRecoveryGroupError,
   Credentials | HttpClient.HttpClient
@@ -1488,6 +1564,8 @@ export const updateRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryGroup",
 }));
 
 export type UpdateResourceSetError =
@@ -1501,7 +1579,7 @@ export type UpdateResourceSetError =
  * Updates a resource set.
  */
 export const updateResourceSet: API.OperationMethod<
-  UpdateResourceSetRequest,
+  UpdateResourceSetRequest & RegionInput,
   UpdateResourceSetResponse,
   UpdateResourceSetError,
   Credentials | HttpClient.HttpClient
@@ -1518,6 +1596,8 @@ export const updateResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceSet",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

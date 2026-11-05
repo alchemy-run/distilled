@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Partners",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -818,6 +831,8 @@ export const createReferralPartner: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReferralPartner",
 }));
 
 export type GetPartnerError = Forbidden | NotFound | WhopOpError;
@@ -833,6 +848,8 @@ export const getPartner: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartner",
 }));
 
 export type GetPartnerBusinessError = NotFound | WhopOpError;
@@ -848,6 +865,8 @@ export const getPartnerBusiness: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerBusiness",
 }));
 
 export type GetPartnerLeaderboardError = BadRequest | WhopOpError;
@@ -863,6 +882,8 @@ export const getPartnerLeaderboard: API.OperationMethod<
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerLeaderboard",
 }));
 
 export type ListPartnerBusinessEarningsError = BadRequest | WhopOpError;
@@ -880,6 +901,8 @@ export const listPartnerBusinessEarnings: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPartnerBusinessEarnings",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -907,6 +930,8 @@ export const listPartnerBusinesses: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPartnerBusinesses",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -934,6 +959,8 @@ export const listReferredUsers: API.PaginatedOperationMethod<
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListReferredUsers",
     pagination: {
       mode: "relay",
       inputToken: "after",

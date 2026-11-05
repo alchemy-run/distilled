@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Iam",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** List of actions to check authorizations for */
 export type CheckIamAuthorizationRequestActionsList = Array<string>;
 /** Resources on which accesses should be checked */
@@ -621,6 +635,8 @@ export const checkIamAuthorization: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckIamAuthorization",
 }));
 
 export type CheckIamResourceAuthorizationError = OvhOpError;
@@ -636,6 +652,8 @@ export const checkIamResourceAuthorization: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckIamResourceAuthorization",
 }));
 
 export type CreateIamLogSubscriptionError = OvhOpError;
@@ -651,6 +669,8 @@ export const createIamLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIamLogSubscription",
 }));
 
 export type CreateIamLogUrlError = OvhOpError;
@@ -666,6 +686,8 @@ export const createIamLogUrl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIamLogUrl",
 }));
 
 export type CreateIamPermissionsGroupError = OvhOpError;
@@ -681,6 +703,8 @@ export const createIamPermissionsGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIamPermissionsGroup",
 }));
 
 export type CreateIamPolicyError = OvhOpError;
@@ -696,6 +720,8 @@ export const createIamPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIamPolicy",
 }));
 
 export type CreateIamResourceGroupError = OvhOpError;
@@ -711,6 +737,8 @@ export const createIamResourceGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIamResourceGroup",
 }));
 
 export type CreateIamResourceTagError = OvhOpError;
@@ -726,6 +754,8 @@ export const createIamResourceTag: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIamResourceTag",
 }));
 
 export type DeleteIamLogSubscriptionError = OvhOpError;
@@ -741,6 +771,8 @@ export const deleteIamLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIamLogSubscription",
 }));
 
 export type DeleteIamPermissionsGroupError = OvhOpError;
@@ -756,6 +788,8 @@ export const deleteIamPermissionsGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIamPermissionsGroup",
 }));
 
 export type DeleteIamPolicyError = OvhOpError;
@@ -771,6 +805,8 @@ export const deleteIamPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIamPolicy",
 }));
 
 export type DeleteIamResourceGroupError = OvhOpError;
@@ -786,6 +822,8 @@ export const deleteIamResourceGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIamResourceGroup",
 }));
 
 export type DeleteIamResourceTagError = OvhOpError;
@@ -801,6 +839,8 @@ export const deleteIamResourceTag: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIamResourceTag",
 }));
 
 export type GetIamLogKindError = OvhOpError;
@@ -816,6 +856,8 @@ export const getIamLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamLogKind",
 }));
 
 export type GetIamLogSubscriptionError = OvhOpError;
@@ -831,6 +873,8 @@ export const getIamLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamLogSubscription",
 }));
 
 export type GetIamPermissionsGroupError = OvhOpError;
@@ -846,6 +890,8 @@ export const getIamPermissionsGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPermissionsGroup",
 }));
 
 export type GetIamPolicyError = OvhOpError;
@@ -861,6 +907,8 @@ export const getIamPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicy",
 }));
 
 export type GetIamResourceError = OvhOpError;
@@ -876,6 +924,8 @@ export const getIamResource: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamResource",
 }));
 
 export type GetIamResourceGroupError = OvhOpError;
@@ -891,6 +941,8 @@ export const getIamResourceGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamResourceGroup",
 }));
 
 export type ListIamLogKindError = OvhOpError;
@@ -906,6 +958,8 @@ export const listIamLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamLogKind",
 }));
 
 export type ListIamLogSubscriptionError = OvhOpError;
@@ -921,6 +975,8 @@ export const listIamLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamLogSubscription",
 }));
 
 export type ListIamPermissionsGroupError = OvhOpError;
@@ -936,6 +992,8 @@ export const listIamPermissionsGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamPermissionsGroup",
 }));
 
 export type ListIamPolicyError = OvhOpError;
@@ -951,6 +1009,8 @@ export const listIamPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamPolicy",
 }));
 
 export type ListIamReferenceActionError = OvhOpError;
@@ -966,6 +1026,8 @@ export const listIamReferenceAction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamReferenceAction",
 }));
 
 export type ListIamReferenceResourceTypeError = OvhOpError;
@@ -981,6 +1043,8 @@ export const listIamReferenceResourceType: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamReferenceResourceType",
 }));
 
 export type ListIamResourceError = OvhOpError;
@@ -996,6 +1060,8 @@ export const listIamResource: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamResource",
 }));
 
 export type ListIamResourceGroupError = OvhOpError;
@@ -1011,6 +1077,8 @@ export const listIamResourceGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIamResourceGroup",
 }));
 
 export type PutIamPermissionsGroupError = OvhOpError;
@@ -1026,6 +1094,8 @@ export const putIamPermissionsGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIamPermissionsGroup",
 }));
 
 export type PutIamPolicyError = OvhOpError;
@@ -1041,6 +1111,8 @@ export const putIamPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIamPolicy",
 }));
 
 export type PutIamResourceError = OvhOpError;
@@ -1056,6 +1128,8 @@ export const putIamResource: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIamResource",
 }));
 
 export type PutIamResourceGroupError = OvhOpError;
@@ -1071,6 +1145,8 @@ export const putIamResourceGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIamResourceGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

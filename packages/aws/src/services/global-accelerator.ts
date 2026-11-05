@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://globalaccelerator.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GlobalAccelerator",
+  service: "GlobalAccelerator",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AcceleratorNotDisabledException
   extends /*@__PURE__*/ S.TaggedError<AcceleratorNotDisabledException>()(
@@ -896,7 +913,7 @@ export type AddCustomRoutingEndpointsError =
  * AllowCustomRoutingTraffic operation.
  */
 export const addCustomRoutingEndpoints: API.OperationMethod<
-  AddCustomRoutingEndpointsRequest,
+  AddCustomRoutingEndpointsRequest & RegionInput,
   AddCustomRoutingEndpointsResponse,
   AddCustomRoutingEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -915,6 +932,8 @@ export const addCustomRoutingEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCustomRoutingEndpoints",
+  telemetry: TELEMETRY,
+  span: "AddCustomRoutingEndpoints",
 }));
 
 export type AddEndpointsError =
@@ -946,7 +965,7 @@ export type AddEndpointsError =
  * Endpoints for standard accelerators in the *Global Accelerator Developer Guide*.
  */
 export const addEndpoints: API.OperationMethod<
-  AddEndpointsRequest,
+  AddEndpointsRequest & RegionInput,
   AddEndpointsResponse,
   AddEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -964,6 +983,8 @@ export const addEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddEndpoints",
+  telemetry: TELEMETRY,
+  span: "AddEndpoints",
 }));
 
 export type AdvertiseByoipCidrError =
@@ -985,7 +1006,7 @@ export type AdvertiseByoipCidrError =
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const advertiseByoipCidr: API.OperationMethod<
-  AdvertiseByoipCidrRequest,
+  AdvertiseByoipCidrRequest & RegionInput,
   AdvertiseByoipCidrResponse,
   AdvertiseByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -1002,6 +1023,8 @@ export const advertiseByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdvertiseByoipCidr",
+  telemetry: TELEMETRY,
+  span: "AdvertiseByoipCidr",
 }));
 
 export type AllowCustomRoutingTrafficError =
@@ -1019,7 +1042,7 @@ export type AllowCustomRoutingTrafficError =
  * accelerator: the status changes from IN_PROGRESS to DEPLOYED.
  */
 export const allowCustomRoutingTraffic: API.OperationMethod<
-  AllowCustomRoutingTrafficRequest,
+  AllowCustomRoutingTrafficRequest & RegionInput,
   AllowCustomRoutingTrafficResponse,
   AllowCustomRoutingTrafficError,
   Credentials | HttpClient.HttpClient
@@ -1030,6 +1053,8 @@ export const allowCustomRoutingTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllowCustomRoutingTraffic",
+  telemetry: TELEMETRY,
+  span: "AllowCustomRoutingTraffic",
 }));
 
 export type CreateAcceleratorError =
@@ -1048,7 +1073,7 @@ export type CreateAcceleratorError =
  * on Amazon Web Services CLI commands.
  */
 export const createAccelerator: API.OperationMethod<
-  CreateAcceleratorRequest,
+  CreateAcceleratorRequest & RegionInput,
   CreateAcceleratorResponse,
   CreateAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1065,6 +1090,8 @@ export const createAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccelerator",
+  telemetry: TELEMETRY,
+  span: "CreateAccelerator",
 }));
 
 export type CreateCrossAccountAttachmentError =
@@ -1097,7 +1124,7 @@ export type CreateCrossAccountAttachmentError =
  * Global Accelerator Developer Guide.
  */
 export const createCrossAccountAttachment: API.OperationMethod<
-  CreateCrossAccountAttachmentRequest,
+  CreateCrossAccountAttachmentRequest & RegionInput,
   CreateCrossAccountAttachmentResponse,
   CreateCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1114,6 +1141,8 @@ export const createCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateCrossAccountAttachment",
 }));
 
 export type CreateCustomRoutingAcceleratorError =
@@ -1137,7 +1166,7 @@ export type CreateCustomRoutingAcceleratorError =
  * on Amazon Web Services CLI commands.
  */
 export const createCustomRoutingAccelerator: API.OperationMethod<
-  CreateCustomRoutingAcceleratorRequest,
+  CreateCustomRoutingAcceleratorRequest & RegionInput,
   CreateCustomRoutingAcceleratorResponse,
   CreateCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1154,6 +1183,8 @@ export const createCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "CreateCustomRoutingAccelerator",
 }));
 
 export type CreateCustomRoutingEndpointGroupError =
@@ -1172,7 +1203,7 @@ export type CreateCustomRoutingEndpointGroupError =
  * Region.
  */
 export const createCustomRoutingEndpointGroup: API.OperationMethod<
-  CreateCustomRoutingEndpointGroupRequest,
+  CreateCustomRoutingEndpointGroupRequest & RegionInput,
   CreateCustomRoutingEndpointGroupResponse,
   CreateCustomRoutingEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1192,6 +1223,8 @@ export const createCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCustomRoutingEndpointGroup",
 }));
 
 export type CreateCustomRoutingListenerError =
@@ -1206,7 +1239,7 @@ export type CreateCustomRoutingListenerError =
  * Connections arrive to assigned static IP addresses on the port range that you specify.
  */
 export const createCustomRoutingListener: API.OperationMethod<
-  CreateCustomRoutingListenerRequest,
+  CreateCustomRoutingListenerRequest & RegionInput,
   CreateCustomRoutingListenerResponse,
   CreateCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -1223,6 +1256,8 @@ export const createCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "CreateCustomRoutingListener",
 }));
 
 export type CreateEndpointGroupError =
@@ -1243,7 +1278,7 @@ export type CreateEndpointGroupError =
  * Endpoints for standard accelerators in the *Global Accelerator Developer Guide*.
  */
 export const createEndpointGroup: API.OperationMethod<
-  CreateEndpointGroupRequest,
+  CreateEndpointGroupRequest & RegionInput,
   CreateEndpointGroupResponse,
   CreateEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1262,6 +1297,8 @@ export const createEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "CreateEndpointGroup",
 }));
 
 export type CreateListenerError =
@@ -1276,7 +1313,7 @@ export type CreateListenerError =
  * IP addresses on a port, port range, or list of port ranges that you specify.
  */
 export const createListener: API.OperationMethod<
-  CreateListenerRequest,
+  CreateListenerRequest & RegionInput,
   CreateListenerResponse,
   CreateListenerError,
   Credentials | HttpClient.HttpClient
@@ -1293,6 +1330,8 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
+  telemetry: TELEMETRY,
+  span: "CreateListener",
 }));
 
 export type DeleteAcceleratorError =
@@ -1319,7 +1358,7 @@ export type DeleteAcceleratorError =
  * the *Global Accelerator Developer Guide*.
  */
 export const deleteAccelerator: API.OperationMethod<
-  DeleteAcceleratorRequest,
+  DeleteAcceleratorRequest & RegionInput,
   DeleteAcceleratorResponse,
   DeleteAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1337,6 +1376,8 @@ export const deleteAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccelerator",
+  telemetry: TELEMETRY,
+  span: "DeleteAccelerator",
 }));
 
 export type DeleteCrossAccountAttachmentError =
@@ -1356,7 +1397,7 @@ export type DeleteCrossAccountAttachmentError =
  * Global Accelerator Developer Guide.
  */
 export const deleteCrossAccountAttachment: API.OperationMethod<
-  DeleteCrossAccountAttachmentRequest,
+  DeleteCrossAccountAttachmentRequest & RegionInput,
   DeleteCrossAccountAttachmentResponse,
   DeleteCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1373,6 +1414,8 @@ export const deleteCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteCrossAccountAttachment",
 }));
 
 export type DeleteCustomRoutingAcceleratorError =
@@ -1399,7 +1442,7 @@ export type DeleteCustomRoutingAcceleratorError =
  * the *Global Accelerator Developer Guide*.
  */
 export const deleteCustomRoutingAccelerator: API.OperationMethod<
-  DeleteCustomRoutingAcceleratorRequest,
+  DeleteCustomRoutingAcceleratorRequest & RegionInput,
   DeleteCustomRoutingAcceleratorResponse,
   DeleteCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1417,6 +1460,8 @@ export const deleteCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRoutingAccelerator",
 }));
 
 export type DeleteCustomRoutingEndpointGroupError =
@@ -1428,7 +1473,7 @@ export type DeleteCustomRoutingEndpointGroupError =
  * Delete an endpoint group from a listener for a custom routing accelerator.
  */
 export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
-  DeleteCustomRoutingEndpointGroupRequest,
+  DeleteCustomRoutingEndpointGroupRequest & RegionInput,
   DeleteCustomRoutingEndpointGroupResponse,
   DeleteCustomRoutingEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1484,8 @@ export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRoutingEndpointGroup",
 }));
 
 export type DeleteCustomRoutingListenerError =
@@ -1451,7 +1498,7 @@ export type DeleteCustomRoutingListenerError =
  * Delete a listener for a custom routing accelerator.
  */
 export const deleteCustomRoutingListener: API.OperationMethod<
-  DeleteCustomRoutingListenerRequest,
+  DeleteCustomRoutingListenerRequest & RegionInput,
   DeleteCustomRoutingListenerResponse,
   DeleteCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -1467,6 +1514,8 @@ export const deleteCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRoutingListener",
 }));
 
 export type DeleteEndpointGroupError =
@@ -1478,7 +1527,7 @@ export type DeleteEndpointGroupError =
  * Delete an endpoint group from a listener.
  */
 export const deleteEndpointGroup: API.OperationMethod<
-  DeleteEndpointGroupRequest,
+  DeleteEndpointGroupRequest & RegionInput,
   DeleteEndpointGroupResponse,
   DeleteEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1489,6 +1538,8 @@ export const deleteEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpointGroup",
 }));
 
 export type DeleteListenerError =
@@ -1501,7 +1552,7 @@ export type DeleteListenerError =
  * Delete a listener from an accelerator.
  */
 export const deleteListener: API.OperationMethod<
-  DeleteListenerRequest,
+  DeleteListenerRequest & RegionInput,
   DeleteListenerResponse,
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
@@ -1517,6 +1568,8 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
+  telemetry: TELEMETRY,
+  span: "DeleteListener",
 }));
 
 export type DenyCustomRoutingTrafficError =
@@ -1534,7 +1587,7 @@ export type DenyCustomRoutingTrafficError =
  * accelerator: the status changes from IN_PROGRESS to DEPLOYED.
  */
 export const denyCustomRoutingTraffic: API.OperationMethod<
-  DenyCustomRoutingTrafficRequest,
+  DenyCustomRoutingTrafficRequest & RegionInput,
   DenyCustomRoutingTrafficResponse,
   DenyCustomRoutingTrafficError,
   Credentials | HttpClient.HttpClient
@@ -1545,6 +1598,8 @@ export const denyCustomRoutingTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DenyCustomRoutingTraffic",
+  telemetry: TELEMETRY,
+  span: "DenyCustomRoutingTraffic",
 }));
 
 export type DeprovisionByoipCidrError =
@@ -1565,7 +1620,7 @@ export type DeprovisionByoipCidrError =
  * your own IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const deprovisionByoipCidr: API.OperationMethod<
-  DeprovisionByoipCidrRequest,
+  DeprovisionByoipCidrRequest & RegionInput,
   DeprovisionByoipCidrResponse,
   DeprovisionByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -1582,6 +1637,8 @@ export const deprovisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionByoipCidr",
+  telemetry: TELEMETRY,
+  span: "DeprovisionByoipCidr",
 }));
 
 export type DescribeAcceleratorError =
@@ -1593,7 +1650,7 @@ export type DescribeAcceleratorError =
  * Describe an accelerator.
  */
 export const describeAccelerator: API.OperationMethod<
-  DescribeAcceleratorRequest,
+  DescribeAcceleratorRequest & RegionInput,
   DescribeAcceleratorResponse,
   DescribeAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1604,6 +1661,8 @@ export const describeAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccelerator",
+  telemetry: TELEMETRY,
+  span: "DescribeAccelerator",
 }));
 
 export type DescribeAcceleratorAttributesError =
@@ -1615,7 +1674,7 @@ export type DescribeAcceleratorAttributesError =
  * Describe the attributes of an accelerator.
  */
 export const describeAcceleratorAttributes: API.OperationMethod<
-  DescribeAcceleratorAttributesRequest,
+  DescribeAcceleratorAttributesRequest & RegionInput,
   DescribeAcceleratorAttributesResponse,
   DescribeAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1626,6 +1685,8 @@ export const describeAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAcceleratorAttributes",
 }));
 
 export type DescribeCrossAccountAttachmentError =
@@ -1638,7 +1699,7 @@ export type DescribeCrossAccountAttachmentError =
  * Gets configuration information about a cross-account attachment.
  */
 export const describeCrossAccountAttachment: API.OperationMethod<
-  DescribeCrossAccountAttachmentRequest,
+  DescribeCrossAccountAttachmentRequest & RegionInput,
   DescribeCrossAccountAttachmentResponse,
   DescribeCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1654,6 +1715,8 @@ export const describeCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "DescribeCrossAccountAttachment",
 }));
 
 export type DescribeCustomRoutingAcceleratorError =
@@ -1665,7 +1728,7 @@ export type DescribeCustomRoutingAcceleratorError =
  * Describe a custom routing accelerator.
  */
 export const describeCustomRoutingAccelerator: API.OperationMethod<
-  DescribeCustomRoutingAcceleratorRequest,
+  DescribeCustomRoutingAcceleratorRequest & RegionInput,
   DescribeCustomRoutingAcceleratorResponse,
   DescribeCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -1676,6 +1739,8 @@ export const describeCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingAccelerator",
 }));
 
 export type DescribeCustomRoutingAcceleratorAttributesError =
@@ -1687,7 +1752,7 @@ export type DescribeCustomRoutingAcceleratorAttributesError =
  * Describe the attributes of a custom routing accelerator.
  */
 export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
-  DescribeCustomRoutingAcceleratorAttributesRequest,
+  DescribeCustomRoutingAcceleratorAttributesRequest & RegionInput,
   DescribeCustomRoutingAcceleratorAttributesResponse,
   DescribeCustomRoutingAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1698,6 +1763,8 @@ export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingAcceleratorAttributes",
 }));
 
 export type DescribeCustomRoutingEndpointGroupError =
@@ -1709,7 +1776,7 @@ export type DescribeCustomRoutingEndpointGroupError =
  * Describe an endpoint group for a custom routing accelerator.
  */
 export const describeCustomRoutingEndpointGroup: API.OperationMethod<
-  DescribeCustomRoutingEndpointGroupRequest,
+  DescribeCustomRoutingEndpointGroupRequest & RegionInput,
   DescribeCustomRoutingEndpointGroupResponse,
   DescribeCustomRoutingEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1720,6 +1787,8 @@ export const describeCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingEndpointGroup",
 }));
 
 export type DescribeCustomRoutingListenerError =
@@ -1731,7 +1800,7 @@ export type DescribeCustomRoutingListenerError =
  * The description of a listener for a custom routing accelerator.
  */
 export const describeCustomRoutingListener: API.OperationMethod<
-  DescribeCustomRoutingListenerRequest,
+  DescribeCustomRoutingListenerRequest & RegionInput,
   DescribeCustomRoutingListenerResponse,
   DescribeCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -1742,6 +1811,8 @@ export const describeCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingListener",
 }));
 
 export type DescribeEndpointGroupError =
@@ -1753,7 +1824,7 @@ export type DescribeEndpointGroupError =
  * Describe an endpoint group.
  */
 export const describeEndpointGroup: API.OperationMethod<
-  DescribeEndpointGroupRequest,
+  DescribeEndpointGroupRequest & RegionInput,
   DescribeEndpointGroupResponse,
   DescribeEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -1764,6 +1835,8 @@ export const describeEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpointGroup",
 }));
 
 export type DescribeListenerError =
@@ -1775,7 +1848,7 @@ export type DescribeListenerError =
  * Describe a listener.
  */
 export const describeListener: API.OperationMethod<
-  DescribeListenerRequest,
+  DescribeListenerRequest & RegionInput,
   DescribeListenerResponse,
   DescribeListenerError,
   Credentials | HttpClient.HttpClient
@@ -1786,6 +1859,8 @@ export const describeListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListener",
+  telemetry: TELEMETRY,
+  span: "DescribeListener",
 }));
 
 export type ListAcceleratorsError =
@@ -1797,7 +1872,7 @@ export type ListAcceleratorsError =
  * List the accelerators for an Amazon Web Services account.
  */
 export const listAccelerators: API.PaginatedOperationMethod<
-  ListAcceleratorsRequest,
+  ListAcceleratorsRequest & RegionInput,
   ListAcceleratorsResponse,
   ListAcceleratorsError,
   Credentials | HttpClient.HttpClient,
@@ -1815,6 +1890,8 @@ export const listAccelerators: API.PaginatedOperationMethod<
     items: "Accelerators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccelerators",
 })) as any;
 
 export type ListByoipCidrsError =
@@ -1828,7 +1905,7 @@ export type ListByoipCidrsError =
  * the current state and a history of state changes.
  */
 export const listByoipCidrs: API.PaginatedOperationMethod<
-  ListByoipCidrsRequest,
+  ListByoipCidrsRequest & RegionInput,
   ListByoipCidrsResponse,
   ListByoipCidrsError,
   Credentials | HttpClient.HttpClient,
@@ -1851,6 +1928,8 @@ export const listByoipCidrs: API.PaginatedOperationMethod<
     items: "ByoipCidrs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListByoipCidrs",
 })) as any;
 
 export type ListCrossAccountAttachmentsError =
@@ -1863,7 +1942,7 @@ export type ListCrossAccountAttachmentsError =
  * List the cross-account attachments that have been created in Global Accelerator.
  */
 export const listCrossAccountAttachments: API.PaginatedOperationMethod<
-  ListCrossAccountAttachmentsRequest,
+  ListCrossAccountAttachmentsRequest & RegionInput,
   ListCrossAccountAttachmentsResponse,
   ListCrossAccountAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1886,6 +1965,8 @@ export const listCrossAccountAttachments: API.PaginatedOperationMethod<
     items: "CrossAccountAttachments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountAttachments",
 })) as any;
 
 export type ListCrossAccountResourceAccountsError =
@@ -1900,7 +1981,7 @@ export type ListCrossAccountResourceAccountsError =
  * Global Accelerator Developer Guide.
  */
 export const listCrossAccountResourceAccounts: API.OperationMethod<
-  ListCrossAccountResourceAccountsRequest,
+  ListCrossAccountResourceAccountsRequest & RegionInput,
   ListCrossAccountResourceAccountsResponse,
   ListCrossAccountResourceAccountsError,
   Credentials | HttpClient.HttpClient
@@ -1911,6 +1992,8 @@ export const listCrossAccountResourceAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrossAccountResourceAccounts",
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountResourceAccounts",
 }));
 
 export type ListCrossAccountResourcesError =
@@ -1924,7 +2007,7 @@ export type ListCrossAccountResourcesError =
  * List the cross-account resources available to work with.
  */
 export const listCrossAccountResources: API.PaginatedOperationMethod<
-  ListCrossAccountResourcesRequest,
+  ListCrossAccountResourcesRequest & RegionInput,
   ListCrossAccountResourcesResponse,
   ListCrossAccountResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1948,6 +2031,8 @@ export const listCrossAccountResources: API.PaginatedOperationMethod<
     items: "CrossAccountResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountResources",
 })) as any;
 
 export type ListCustomRoutingAcceleratorsError =
@@ -1959,7 +2044,7 @@ export type ListCustomRoutingAcceleratorsError =
  * List the custom routing accelerators for an Amazon Web Services account.
  */
 export const listCustomRoutingAccelerators: API.PaginatedOperationMethod<
-  ListCustomRoutingAcceleratorsRequest,
+  ListCustomRoutingAcceleratorsRequest & RegionInput,
   ListCustomRoutingAcceleratorsResponse,
   ListCustomRoutingAcceleratorsError,
   Credentials | HttpClient.HttpClient,
@@ -1977,6 +2062,8 @@ export const listCustomRoutingAccelerators: API.PaginatedOperationMethod<
     items: "Accelerators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingAccelerators",
 })) as any;
 
 export type ListCustomRoutingEndpointGroupsError =
@@ -1989,7 +2076,7 @@ export type ListCustomRoutingEndpointGroupsError =
  * List the endpoint groups that are associated with a listener for a custom routing accelerator.
  */
 export const listCustomRoutingEndpointGroups: API.PaginatedOperationMethod<
-  ListCustomRoutingEndpointGroupsRequest,
+  ListCustomRoutingEndpointGroupsRequest & RegionInput,
   ListCustomRoutingEndpointGroupsResponse,
   ListCustomRoutingEndpointGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2012,6 +2099,8 @@ export const listCustomRoutingEndpointGroups: API.PaginatedOperationMethod<
     items: "EndpointGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingEndpointGroups",
 })) as any;
 
 export type ListCustomRoutingListenersError =
@@ -2024,7 +2113,7 @@ export type ListCustomRoutingListenersError =
  * List the listeners for a custom routing accelerator.
  */
 export const listCustomRoutingListeners: API.PaginatedOperationMethod<
-  ListCustomRoutingListenersRequest,
+  ListCustomRoutingListenersRequest & RegionInput,
   ListCustomRoutingListenersResponse,
   ListCustomRoutingListenersError,
   Credentials | HttpClient.HttpClient,
@@ -2047,6 +2136,8 @@ export const listCustomRoutingListeners: API.PaginatedOperationMethod<
     items: "Listeners",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingListeners",
 })) as any;
 
 export type ListCustomRoutingPortMappingsError =
@@ -2070,7 +2161,7 @@ export type ListCustomRoutingPortMappingsError =
  * ports are allowed or denied traffic.
  */
 export const listCustomRoutingPortMappings: API.PaginatedOperationMethod<
-  ListCustomRoutingPortMappingsRequest,
+  ListCustomRoutingPortMappingsRequest & RegionInput,
   ListCustomRoutingPortMappingsResponse,
   ListCustomRoutingPortMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -2094,6 +2185,8 @@ export const listCustomRoutingPortMappings: API.PaginatedOperationMethod<
     items: "PortMappings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingPortMappings",
 })) as any;
 
 export type ListCustomRoutingPortMappingsByDestinationError =
@@ -2109,7 +2202,7 @@ export type ListCustomRoutingPortMappingsByDestinationError =
  * list the port mappings for a specific destination instance.
  */
 export const listCustomRoutingPortMappingsByDestination: API.PaginatedOperationMethod<
-  ListCustomRoutingPortMappingsByDestinationRequest,
+  ListCustomRoutingPortMappingsByDestinationRequest & RegionInput,
   ListCustomRoutingPortMappingsByDestinationResponse,
   ListCustomRoutingPortMappingsByDestinationError,
   Credentials | HttpClient.HttpClient,
@@ -2132,6 +2225,8 @@ export const listCustomRoutingPortMappingsByDestination: API.PaginatedOperationM
     items: "DestinationPortMappings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingPortMappingsByDestination",
 })) as any;
 
 export type ListEndpointGroupsError =
@@ -2144,7 +2239,7 @@ export type ListEndpointGroupsError =
  * List the endpoint groups that are associated with a listener.
  */
 export const listEndpointGroups: API.PaginatedOperationMethod<
-  ListEndpointGroupsRequest,
+  ListEndpointGroupsRequest & RegionInput,
   ListEndpointGroupsResponse,
   ListEndpointGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2167,6 +2262,8 @@ export const listEndpointGroups: API.PaginatedOperationMethod<
     items: "EndpointGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpointGroups",
 })) as any;
 
 export type ListListenersError =
@@ -2179,7 +2276,7 @@ export type ListListenersError =
  * List the listeners for an accelerator.
  */
 export const listListeners: API.PaginatedOperationMethod<
-  ListListenersRequest,
+  ListListenersRequest & RegionInput,
   ListListenersResponse,
   ListListenersError,
   Credentials | HttpClient.HttpClient,
@@ -2202,6 +2299,8 @@ export const listListeners: API.PaginatedOperationMethod<
     items: "Listeners",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListListeners",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2219,7 +2318,7 @@ export type ListTagsForResourceError =
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2237,6 +2336,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ProvisionByoipCidrError =
@@ -2256,7 +2357,7 @@ export type ProvisionByoipCidrError =
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const provisionByoipCidr: API.OperationMethod<
-  ProvisionByoipCidrRequest,
+  ProvisionByoipCidrRequest & RegionInput,
   ProvisionByoipCidrResponse,
   ProvisionByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -2273,6 +2374,8 @@ export const provisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionByoipCidr",
+  telemetry: TELEMETRY,
+  span: "ProvisionByoipCidr",
 }));
 
 export type RemoveCustomRoutingEndpointsError =
@@ -2287,7 +2390,7 @@ export type RemoveCustomRoutingEndpointsError =
  * Remove endpoints from a custom routing accelerator.
  */
 export const removeCustomRoutingEndpoints: API.OperationMethod<
-  RemoveCustomRoutingEndpointsRequest,
+  RemoveCustomRoutingEndpointsRequest & RegionInput,
   RemoveCustomRoutingEndpointsResponse,
   RemoveCustomRoutingEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2305,6 +2408,8 @@ export const removeCustomRoutingEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveCustomRoutingEndpoints",
+  telemetry: TELEMETRY,
+  span: "RemoveCustomRoutingEndpoints",
 }));
 
 export type RemoveEndpointsError =
@@ -2331,7 +2436,7 @@ export type RemoveEndpointsError =
  * remain in the group.
  */
 export const removeEndpoints: API.OperationMethod<
-  RemoveEndpointsRequest,
+  RemoveEndpointsRequest & RegionInput,
   RemoveEndpointsResponse,
   RemoveEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2348,6 +2453,8 @@ export const removeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveEndpoints",
+  telemetry: TELEMETRY,
+  span: "RemoveEndpoints",
 }));
 
 export type TagResourceError =
@@ -2362,7 +2469,7 @@ export type TagResourceError =
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2373,6 +2480,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2388,7 +2497,7 @@ export type UntagResourceError =
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2399,6 +2508,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAcceleratorError =
@@ -2429,7 +2540,7 @@ export type UpdateAcceleratorError =
  * on Amazon Web Services CLI commands.
  */
 export const updateAccelerator: API.OperationMethod<
-  UpdateAcceleratorRequest,
+  UpdateAcceleratorRequest & RegionInput,
   UpdateAcceleratorResponse,
   UpdateAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -2447,6 +2558,8 @@ export const updateAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccelerator",
+  telemetry: TELEMETRY,
+  span: "UpdateAccelerator",
 }));
 
 export type UpdateAcceleratorAttributesError =
@@ -2460,7 +2573,7 @@ export type UpdateAcceleratorAttributesError =
  * Update the attributes for an accelerator.
  */
 export const updateAcceleratorAttributes: API.OperationMethod<
-  UpdateAcceleratorAttributesRequest,
+  UpdateAcceleratorAttributesRequest & RegionInput,
   UpdateAcceleratorAttributesResponse,
   UpdateAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2477,6 +2590,8 @@ export const updateAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateAcceleratorAttributes",
 }));
 
 export type UpdateCrossAccountAttachmentError =
@@ -2497,7 +2612,7 @@ export type UpdateCrossAccountAttachmentError =
  * Global Accelerator Developer Guide.
  */
 export const updateCrossAccountAttachment: API.OperationMethod<
-  UpdateCrossAccountAttachmentRequest,
+  UpdateCrossAccountAttachmentRequest & RegionInput,
   UpdateCrossAccountAttachmentResponse,
   UpdateCrossAccountAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2515,6 +2630,8 @@ export const updateCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "UpdateCrossAccountAttachment",
 }));
 
 export type UpdateCustomRoutingAcceleratorError =
@@ -2528,7 +2645,7 @@ export type UpdateCustomRoutingAcceleratorError =
  * Update a custom routing accelerator.
  */
 export const updateCustomRoutingAccelerator: API.OperationMethod<
-  UpdateCustomRoutingAcceleratorRequest,
+  UpdateCustomRoutingAcceleratorRequest & RegionInput,
   UpdateCustomRoutingAcceleratorResponse,
   UpdateCustomRoutingAcceleratorError,
   Credentials | HttpClient.HttpClient
@@ -2545,6 +2662,8 @@ export const updateCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRoutingAccelerator",
 }));
 
 export type UpdateCustomRoutingAcceleratorAttributesError =
@@ -2558,7 +2677,7 @@ export type UpdateCustomRoutingAcceleratorAttributesError =
  * Update the attributes for a custom routing accelerator.
  */
 export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
-  UpdateCustomRoutingAcceleratorAttributesRequest,
+  UpdateCustomRoutingAcceleratorAttributesRequest & RegionInput,
   UpdateCustomRoutingAcceleratorAttributesResponse,
   UpdateCustomRoutingAcceleratorAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2575,6 +2694,8 @@ export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRoutingAcceleratorAttributes",
 }));
 
 export type UpdateCustomRoutingListenerError =
@@ -2588,7 +2709,7 @@ export type UpdateCustomRoutingListenerError =
  * Update a listener for a custom routing accelerator.
  */
 export const updateCustomRoutingListener: API.OperationMethod<
-  UpdateCustomRoutingListenerRequest,
+  UpdateCustomRoutingListenerRequest & RegionInput,
   UpdateCustomRoutingListenerResponse,
   UpdateCustomRoutingListenerError,
   Credentials | HttpClient.HttpClient
@@ -2605,6 +2726,8 @@ export const updateCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRoutingListener",
 }));
 
 export type UpdateEndpointGroupError =
@@ -2618,7 +2741,7 @@ export type UpdateEndpointGroupError =
  * Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
  */
 export const updateEndpointGroup: API.OperationMethod<
-  UpdateEndpointGroupRequest,
+  UpdateEndpointGroupRequest & RegionInput,
   UpdateEndpointGroupResponse,
   UpdateEndpointGroupError,
   Credentials | HttpClient.HttpClient
@@ -2635,6 +2758,8 @@ export const updateEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointGroup",
 }));
 
 export type UpdateListenerError =
@@ -2648,7 +2773,7 @@ export type UpdateListenerError =
  * Update a listener.
  */
 export const updateListener: API.OperationMethod<
-  UpdateListenerRequest,
+  UpdateListenerRequest & RegionInput,
   UpdateListenerResponse,
   UpdateListenerError,
   Credentials | HttpClient.HttpClient
@@ -2665,6 +2790,8 @@ export const updateListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateListener",
+  telemetry: TELEMETRY,
+  span: "UpdateListener",
 }));
 
 export type WithdrawByoipCidrError =
@@ -2686,7 +2813,7 @@ export type WithdrawByoipCidrError =
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
 export const withdrawByoipCidr: API.OperationMethod<
-  WithdrawByoipCidrRequest,
+  WithdrawByoipCidrRequest & RegionInput,
   WithdrawByoipCidrResponse,
   WithdrawByoipCidrError,
   Credentials | HttpClient.HttpClient
@@ -2703,6 +2830,8 @@ export const withdrawByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WithdrawByoipCidr",
+  telemetry: TELEMETRY,
+  span: "WithdrawByoipCidr",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

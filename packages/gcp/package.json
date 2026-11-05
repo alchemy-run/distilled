@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/gcp",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.18",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -13,6 +13,9 @@
   ],
   "type": "module",
   "sideEffects": false,
+  "browser": {
+    "./lib/_bundle/sdk.js": "./lib/_browser/_bundle/sdk.js"
+  },
   "exports": {
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
@@ -61,9 +64,8 @@
       "types": "./lib/unstable-services/*.d.ts",
       "bun": "./src/unstable-services/*.ts",
       "worker": "./src/unstable-services/*.ts",
-      "module": "./lib/unstable-services.full/*.js",
-      "module-sync": "./lib/unstable-services/*.js",
-      "default": "./lib/unstable-services.full/*.js"
+      "distilled-lazy": "./lib/unstable-services.lazy/*.js",
+      "default": "./lib/unstable-services/*.js"
     },
     ".": {
       "types": "./lib/index.d.ts",
@@ -76,15 +78,14 @@
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "module": "./lib/services.full/*.js",
-      "module-sync": "./lib/services/*.js",
-      "default": "./lib/services.full/*.js"
+      "distilled-lazy": "./lib/services.lazy/*.js",
+      "default": "./lib/services/*.js"
     }
   },
   "scripts": {
     "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
-    "generate": "node --conditions=bun scripts/generate.ts && node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsrs -p tsconfig.json",
     "typecheck:strict": "tsrs -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-gcp",
@@ -94,13 +95,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-20",
+    "generatedAt": "2026-10-31",
     "specUpdatedAt": "2026-10-08"
   }
 }

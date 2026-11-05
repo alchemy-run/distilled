@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -67,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MPA",
+  service: "MPA",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -604,7 +620,7 @@ export type CancelSessionError =
  * Cancels an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const cancelSession: API.OperationMethod<
-  CancelSessionRequest,
+  CancelSessionRequest & RegionInput,
   CancelSessionResponse,
   CancelSessionError,
   Credentials | HttpClient.HttpClient
@@ -622,6 +638,8 @@ export const cancelSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSession",
+  telemetry: TELEMETRY,
+  span: "CancelSession",
 }));
 
 export type CreateApprovalTeamError =
@@ -636,7 +654,7 @@ export type CreateApprovalTeamError =
  * Creates a new approval team. For more information, see Approval team in the *Multi-party approval User Guide*.
  */
 export const createApprovalTeam: API.OperationMethod<
-  CreateApprovalTeamRequest,
+  CreateApprovalTeamRequest & RegionInput,
   CreateApprovalTeamResponse,
   CreateApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -654,6 +672,8 @@ export const createApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "CreateApprovalTeam",
 }));
 
 export type CreateIdentitySourceError =
@@ -667,7 +687,7 @@ export type CreateIdentitySourceError =
  * Creates a new identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const createIdentitySource: API.OperationMethod<
-  CreateIdentitySourceRequest,
+  CreateIdentitySourceRequest & RegionInput,
   CreateIdentitySourceResponse,
   CreateIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -684,6 +704,8 @@ export const createIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentitySource",
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySource",
 }));
 
 export type DeleteIdentitySourceError =
@@ -697,7 +719,7 @@ export type DeleteIdentitySourceError =
  * Deletes an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const deleteIdentitySource: API.OperationMethod<
-  DeleteIdentitySourceRequest,
+  DeleteIdentitySourceRequest & RegionInput,
   DeleteIdentitySourceResponse,
   DeleteIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -714,6 +736,8 @@ export const deleteIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySource",
 }));
 
 export type DeleteInactiveApprovalTeamVersionError =
@@ -730,7 +754,7 @@ export type DeleteInactiveApprovalTeamVersionError =
  * You can also use this operation to delete a team draft. For more information, see Interacting with drafts in the *Multi-party approval User Guide*.
  */
 export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
-  DeleteInactiveApprovalTeamVersionRequest,
+  DeleteInactiveApprovalTeamVersionRequest & RegionInput,
   DeleteInactiveApprovalTeamVersionResponse,
   DeleteInactiveApprovalTeamVersionError,
   Credentials | HttpClient.HttpClient
@@ -748,6 +772,8 @@ export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInactiveApprovalTeamVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteInactiveApprovalTeamVersion",
 }));
 
 export type GetApprovalTeamError =
@@ -761,7 +787,7 @@ export type GetApprovalTeamError =
  * Returns details for an approval team.
  */
 export const getApprovalTeam: API.OperationMethod<
-  GetApprovalTeamRequest,
+  GetApprovalTeamRequest & RegionInput,
   GetApprovalTeamResponse,
   GetApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -778,6 +804,8 @@ export const getApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "GetApprovalTeam",
 }));
 
 export type GetIdentitySourceError =
@@ -791,7 +819,7 @@ export type GetIdentitySourceError =
  * Returns details for an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const getIdentitySource: API.OperationMethod<
-  GetIdentitySourceRequest,
+  GetIdentitySourceRequest & RegionInput,
   GetIdentitySourceResponse,
   GetIdentitySourceError,
   Credentials | HttpClient.HttpClient
@@ -808,6 +836,8 @@ export const getIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
+  telemetry: TELEMETRY,
+  span: "GetIdentitySource",
 }));
 
 export type GetPolicyVersionError =
@@ -821,7 +851,7 @@ export type GetPolicyVersionError =
  * Returns details for the version of a policy. Policies define the permissions for team resources.
  */
 export const getPolicyVersion: API.OperationMethod<
-  GetPolicyVersionRequest,
+  GetPolicyVersionRequest & RegionInput,
   GetPolicyVersionResponse,
   GetPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -838,6 +868,8 @@ export const getPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "GetPolicyVersion",
 }));
 
 export type GetResourcePolicyError =
@@ -851,7 +883,7 @@ export type GetResourcePolicyError =
  * Returns details about a policy for a resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -868,6 +900,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetSessionError =
@@ -881,7 +915,7 @@ export type GetSessionError =
  * Returns details for an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -898,6 +932,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type ListApprovalTeamsError =
@@ -910,7 +946,7 @@ export type ListApprovalTeamsError =
  * Returns a list of approval teams.
  */
 export const listApprovalTeams: API.PaginatedOperationMethod<
-  ListApprovalTeamsRequest,
+  ListApprovalTeamsRequest & RegionInput,
   ListApprovalTeamsResponse,
   ListApprovalTeamsError,
   Credentials | HttpClient.HttpClient,
@@ -933,6 +969,8 @@ export const listApprovalTeams: API.PaginatedOperationMethod<
     items: "ApprovalTeams",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApprovalTeams",
 })) as any;
 
 export type ListIdentitySourcesError =
@@ -945,7 +983,7 @@ export type ListIdentitySourcesError =
  * Returns a list of identity sources. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
 export const listIdentitySources: API.PaginatedOperationMethod<
-  ListIdentitySourcesRequest,
+  ListIdentitySourcesRequest & RegionInput,
   ListIdentitySourcesResponse,
   ListIdentitySourcesError,
   Credentials | HttpClient.HttpClient,
@@ -968,6 +1006,8 @@ export const listIdentitySources: API.PaginatedOperationMethod<
     items: "IdentitySources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentitySources",
 })) as any;
 
 export type ListPoliciesError =
@@ -980,7 +1020,7 @@ export type ListPoliciesError =
  * Returns a list of policies. Policies define the permissions for team resources.
  */
 export const listPolicies: API.PaginatedOperationMethod<
-  ListPoliciesRequest,
+  ListPoliciesRequest & RegionInput,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1003,6 +1043,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListPolicyVersionsError =
@@ -1016,7 +1058,7 @@ export type ListPolicyVersionsError =
  * Returns a list of the versions for policies. Policies define the permissions for team resources.
  */
 export const listPolicyVersions: API.PaginatedOperationMethod<
-  ListPolicyVersionsRequest,
+  ListPolicyVersionsRequest & RegionInput,
   ListPolicyVersionsResponse,
   ListPolicyVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1040,6 +1082,8 @@ export const listPolicyVersions: API.PaginatedOperationMethod<
     items: "PolicyVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyVersions",
 })) as any;
 
 export type ListResourcePoliciesError =
@@ -1053,7 +1097,7 @@ export type ListResourcePoliciesError =
  * Returns a list of policies for a resource.
  */
 export const listResourcePolicies: API.PaginatedOperationMethod<
-  ListResourcePoliciesRequest,
+  ListResourcePoliciesRequest & RegionInput,
   ListResourcePoliciesResponse,
   ListResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1077,6 +1121,8 @@ export const listResourcePolicies: API.PaginatedOperationMethod<
     items: "ResourcePolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcePolicies",
 })) as any;
 
 export type ListSessionsError =
@@ -1090,7 +1136,7 @@ export type ListSessionsError =
  * Returns a list of approval sessions. For more information, see Session in the *Multi-party approval User Guide*.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1114,6 +1160,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1127,7 +1175,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1144,6 +1192,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartActiveApprovalTeamDeletionError =
@@ -1162,7 +1212,7 @@ export type StartActiveApprovalTeamDeletionError =
  * Requests to delete an active team must be approved by the team.
  */
 export const startActiveApprovalTeamDeletion: API.OperationMethod<
-  StartActiveApprovalTeamDeletionRequest,
+  StartActiveApprovalTeamDeletionRequest & RegionInput,
   StartActiveApprovalTeamDeletionResponse,
   StartActiveApprovalTeamDeletionError,
   Credentials | HttpClient.HttpClient
@@ -1180,6 +1230,8 @@ export const startActiveApprovalTeamDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartActiveApprovalTeamDeletion",
+  telemetry: TELEMETRY,
+  span: "StartActiveApprovalTeamDeletion",
 }));
 
 export type StartApprovalTeamBaselineError =
@@ -1193,7 +1245,7 @@ export type StartApprovalTeamBaselineError =
  * Starts a baseline session for specified approvers on an `ACTIVE` approval team.
  */
 export const startApprovalTeamBaseline: API.OperationMethod<
-  StartApprovalTeamBaselineRequest,
+  StartApprovalTeamBaselineRequest & RegionInput,
   StartApprovalTeamBaselineResponse,
   StartApprovalTeamBaselineError,
   Credentials | HttpClient.HttpClient
@@ -1210,6 +1262,8 @@ export const startApprovalTeamBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApprovalTeamBaseline",
+  telemetry: TELEMETRY,
+  span: "StartApprovalTeamBaseline",
 }));
 
 export type TagResourceError =
@@ -1224,7 +1278,7 @@ export type TagResourceError =
  * Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1242,6 +1296,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1255,7 +1311,7 @@ export type UntagResourceError =
  * Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1272,6 +1328,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApprovalTeamError =
@@ -1291,7 +1349,7 @@ export type UpdateApprovalTeamError =
  * Updates to an active team must be approved by the team.
  */
 export const updateApprovalTeam: API.OperationMethod<
-  UpdateApprovalTeamRequest,
+  UpdateApprovalTeamRequest & RegionInput,
   UpdateApprovalTeamResponse,
   UpdateApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -1310,6 +1368,8 @@ export const updateApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalTeam",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

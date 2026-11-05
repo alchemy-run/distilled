@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Entity",
+  propagate: "w3c",
+} as const;
+
 /** The full comment data. Required for edit and post actions. See the [comment schema](/messaging/work-objects-comments#entity-present-comments-method) for the full list of properties. */
 export type AcknowledgeCommentActionRequestCommentMap = { [key: string]: unknown | undefined };
 export interface AcknowledgeCommentActionRequest {
@@ -86,6 +99,8 @@ export const acknowledgeCommentAction: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgeCommentAction",
 }));
 
 export type PresentCommentsError = SlackOpError;
@@ -101,6 +116,8 @@ export const presentComments: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PresentComments",
 }));
 
 export type PresentDetailsError = SlackOpError;
@@ -116,6 +133,8 @@ export const presentDetails: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PresentDetails",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

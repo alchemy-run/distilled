@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "GlobalConfig",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -424,6 +438,8 @@ export const createEdgeConfig: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEdgeConfig",
 }));
 
 export type CreateEdgeConfigTokenError =
@@ -445,6 +461,8 @@ export const createEdgeConfigToken: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEdgeConfigToken",
 }));
 
 export type DeleteEdgeConfigError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -460,6 +478,8 @@ export const deleteEdgeConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeConfig",
 }));
 
 export type DeleteEdgeConfigSchemaError =
@@ -481,6 +501,8 @@ export const deleteEdgeConfigSchema: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeConfigSchema",
 }));
 
 export type DeleteEdgeConfigTokensError =
@@ -502,6 +524,8 @@ export const deleteEdgeConfigTokens: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeConfigTokens",
 }));
 
 export type GetEdgeConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -517,6 +541,8 @@ export const getEdgeConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfig",
 }));
 
 export type GetEdgeConfigBackupError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -532,6 +558,8 @@ export const getEdgeConfigBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigBackup",
 }));
 
 export type GetEdgeConfigBackupsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -547,6 +575,8 @@ export const getEdgeConfigBackups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigBackups",
 }));
 
 export type GetEdgeConfigItemError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -562,6 +592,8 @@ export const getEdgeConfigItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigItem",
 }));
 
 export type GetEdgeConfigItemsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -577,6 +609,8 @@ export const getEdgeConfigItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigItems",
 }));
 
 export type GetEdgeConfigsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -592,6 +626,8 @@ export const getEdgeConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigs",
 }));
 
 export type GetEdgeConfigSchemaError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -607,6 +643,8 @@ export const getEdgeConfigSchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigSchema",
 }));
 
 export type GetEdgeConfigTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -622,6 +660,8 @@ export const getEdgeConfigToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigToken",
 }));
 
 export type GetEdgeConfigTokensError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -637,6 +677,8 @@ export const getEdgeConfigTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeConfigTokens",
 }));
 
 export type PatchEdgeConfigItemsError =
@@ -658,6 +700,8 @@ export const patchEdgeConfigItems: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEdgeConfigItems",
 }));
 
 export type PatchEdgeConfigSchemaError =
@@ -679,6 +723,8 @@ export const patchEdgeConfigSchema: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEdgeConfigSchema",
 }));
 
 export type RestoreEdgeConfigBackupError =
@@ -700,6 +746,8 @@ export const restoreEdgeConfigBackup: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreEdgeConfigBackup",
 }));
 
 export type UpdateEdgeConfigError =
@@ -721,6 +769,8 @@ export const updateEdgeConfig: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEdgeConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

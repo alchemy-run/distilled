@@ -4,6 +4,72 @@
 descriptions. Almost everything under `packages/*/src/services/` is generated
 and committed — you will spend more time in generators than in SDK code.
 
+## External contributors
+
+Check every rule before you open a pull request. Reviewers cite these rules by
+number.
+
+1. **Fix a spec with a patch.** Typed errors, nullability, sensitive marks,
+   missing fields and pagination go in `packages/<pkg>/patches/`, then
+   `pnpm generate <pkg>`. Example: a Clerk error code is a body matcher,
+   `{ "status": 404, "body": { "/errors/0/code": "resource_not_found" } }`.
+2. **Do not edit generated files.** `packages/*/src/services/` comes only from
+   `pnpm generate`. Example: a `NotFound` added by hand to
+   `services/turnstile.ts` is gone after the next generate.
+3. **Do not special-case the spec in a script.** A rule in
+   `scripts/convert.ts` or the generator that names a member, shape or
+   operation is a patch. Example: `if (name === "environment")` that marks a
+   field sensitive becomes a patch on that member.
+4. **No `throw`, and no `try`/`catch` that hides a failure, in runtime code.**
+   An expected failure is a typed Effect failure. `Effect.die` is only for a
+   programmer bug. Example: a bad path label fails with core `InvalidInput`;
+   `catch { return {} }` around a config file read hides a broken file.
+5. **Reuse what core already has.** Search `packages/core/src/` and recently
+   merged PRs before you add a helper, trait, error class or schema walker.
+   Example: secrets use `core/src/sensitive.ts`, response headers use
+   `T.Header`, debug logs use `TelemetryDebug`, HMAC uses
+   `@distilled.cloud/core/crypto`.
+6. **Fix it where the problem lives.** A problem every SDK has goes in core. A
+   rule of one provider stays in that provider. Example: an Azure path rule in
+   core `invalidLabel` would refuse valid S3 keys such as `a//b`.
+7. **Show the failing call.** The PR body names the operation, the request
+   and the real response, and each patch has evidence (a live response, the
+   provider's docs, or its official client). Example: do not add error codes
+   that no response has returned.
+8. **Use the official spec, through its mirror.** Every SDK is generated from
+   the provider's own published API description, pinned in its spec mirror.
+   Example: do not hand-write a spec from docs pages, or generate from an
+   unmirrored local or beta file.
+9. **No tests for patches or one-line fixes.** Core already tests error
+   matchers, nullability and sensitive marks. Ask first before you add a test
+   for new runtime behaviour. Example: delete a new
+   `packages/<pkg>/test/*.test.ts` that only checks a patch's generated shape.
+10. **One change per PR.** Do not carry another open PR's commits, and do not
+    mix a spec fix with a runtime change. Example: patches plus a new
+    credentials precedence are two PRs.
+11. **Mark a breaking change with `!`.** A changed public type, a removed
+    operation or a new error type in a signature gets `!` in the
+    conventional-commit title. Example: `fix(axiom)!: redact API tokens`
+    (`string` becomes `string | Redacted<string>`).
+12. **Regenerate, stamp and format.** Commit the `pnpm generate <pkg>` output
+    with its `distilled.generatedAt` stamp in `package.json`, and let the
+    pre-commit hook run `pnpm format`. Use the repo's tools: Node scripts,
+    vitest and pnpm. Example: `import.meta.dir` and `bun:test` fail CI.
+13. **Pair an Alchemy-facing change with an Alchemy PR.** If the change breaks
+    a type that alchemy-run/alchemy uses, link the companion PR there.
+    Example: moving an operation to `unstable/` needs the Alchemy resource
+    moved too.
+14. **Allow edits by maintainers.** Keep the box ticked so a maintainer can
+    merge `main` and regenerate. Example: a fork PR without it waits until
+    the author rebases it.
+15. **A value that picks where a call goes is a param and a layer.** A
+    region, jurisdiction, account or org stays an optional member of each
+    operation's input, and a layer can set it for a whole scope. The call's
+    value wins over the layer. Do not remove the member to make the layer
+    the only way. Example: `S3.getObject({ Bucket, Key, region })` and
+    `Effect.provide(Region.of("eu-west-1"))` both work; #1047 removed R2's
+    `jurisdiction` members for a layer and #1063 put them back.
+
 ## Getting the repo
 
 ```sh
@@ -12,7 +78,7 @@ cd distilled
 pnpm install
 ```
 
-That is a complete checkout: ~840 MB, of which ~770 MB is the committed
+That is a complete checkout: ~490 MB, of which ~400 MB is the committed
 generated SDKs. Drop `--depth=1` only if you need history.
 
 **Do not clone with `--recursive`, and never pass `--recursive` to
@@ -77,6 +143,12 @@ same condition. Tests use vitest: `pnpm vitest run
 
 ## Things that will surprise you
 
+- **The generator is its own package.** `packages/dev`
+  (`@distilled.cloud/dev`, private, never published) holds the codegen
+  (`src/codegen/`) and the SDK test helpers (`src/testing.ts`). Packages list
+  it in `devDependencies`; no SDK imports it at runtime. `@distilled.cloud/core`
+  is the runtime only.
+
 - **`tsconfig.base.json` sets `noCheck: true`.** Day-to-day `tsrs -b` emits the
   generated SDKs without checking them, because checking 20 generated SDKs
   costs minutes and gigabytes. If you changed a generator, run
@@ -94,6 +166,9 @@ same condition. Tests use vitest: `pnpm vitest run
   `packages/*/src/services/` are erased by the next `pnpm generate`. Patches
   live in `packages/<pkg>/patches/` as RFC-6902 ops on the converted Smithy
   model, under the names the spec gives (`pnpm patches:names <pkg>`).
+  The converted models are not committed: `generate` keeps them in memory.
+  To read them, run the package's `convert`, which writes them to the
+  gitignored `.generated-specs/`.
 - **`stacks/*` are workspace members but are not in the root tsconfig's
   project references,** so `tsrs -b` never sees them. They have their own
   `typecheck` scripts and their own CI job.

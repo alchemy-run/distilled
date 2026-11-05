@@ -56,6 +56,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   trademarkSymbol: "trademark_symbol",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "AbuseReports",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class InvalidAccountId
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidAccountId>()("InvalidAccountId", {
@@ -677,6 +691,8 @@ export interface ReviewMitigationRequest {
   appeals?: MitigationsReviewRequestAppealsList;
   /** Counter-notice details supporting an appeal. */
   data?: MitigationsReviewRequestData;
+  /** Optional explanation for a "content_removed" appeal, such as how the content was removed. Not accepted for other appeal types. */
+  explanation?: string;
   /** The type of appeal being submitted. */
   type?: MitigationsReviewRequestType | (string & {});
 }
@@ -724,6 +740,8 @@ export const createAbuseReport: API.OperationMethod<
   errors: [InvalidRequest, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAbuseReport",
 }));
 
 export type GetError = CloudflareOpError;
@@ -735,6 +753,8 @@ export const get: API.OperationMethod<GetRequest, GetResponse, GetError, Cloudfl
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetSubmittedError = CloudflareOpError;
@@ -750,6 +770,8 @@ export const getSubmitted: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubmitted",
 }));
 
 export type ListAbuseReportsError = InvalidAccountId | CloudflareOpError;
@@ -765,6 +787,8 @@ export const listAbuseReports: API.OperationMethod<
   errors: [InvalidAccountId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAbuseReports",
 }));
 
 export type ListMitigationsError = CloudflareOpError;
@@ -780,6 +804,8 @@ export const listMitigations: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMitigations",
 }));
 
 export type ListSubmittedError = CloudflareOpError;
@@ -795,6 +821,8 @@ export const listSubmitted: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubmitted",
 }));
 
 export type ListSubmittedEmailsError = CloudflareOpError;
@@ -810,6 +838,8 @@ export const listSubmittedEmails: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubmittedEmails",
 }));
 
 export type ReviewMitigationError = CloudflareOpError;
@@ -827,6 +857,8 @@ export const reviewMitigation: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ReviewMitigation",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1272,6 +1304,7 @@ function __c12(j: number): any {
           reportId: S.String.pipe(T.Label("report_id")),
           appeals: S.optional(__S(97, __c12, 1)),
           data: S.optional(__S(98, __c12, 2)),
+          explanation: S.optional(S.String),
           type: S.optional(S.String),
         })
           .pipe(

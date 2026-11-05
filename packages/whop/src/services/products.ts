@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Products",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -522,6 +535,8 @@ export const createProduct: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProduct",
 }));
 
 export type DeleteProductError = NotFound | WhopOpError;
@@ -537,6 +552,8 @@ export const deleteProduct: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProduct",
 }));
 
 export type GetProductError = NotFound | WhopOpError;
@@ -552,6 +569,8 @@ export const getProduct: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type ListProductsError = BadRequest | WhopOpError;
@@ -569,6 +588,8 @@ export const listProducts: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProducts",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -594,6 +615,8 @@ export const publishProduct: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishProduct",
 }));
 
 export type UnpublishProductError = NotFound | Conflict | WhopOpError;
@@ -609,6 +632,8 @@ export const unpublishProduct: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpublishProduct",
 }));
 
 export type UpdateProductError = NotFound | WhopOpError;
@@ -624,6 +649,8 @@ export const updateProduct: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProduct",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

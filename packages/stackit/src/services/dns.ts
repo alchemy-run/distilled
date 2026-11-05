@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Dns",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -824,6 +837,8 @@ export const cloneZone: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneZone",
 }));
 
 export type CreateMoveCodeError = BadRequest | Conflict | StackitOpError;
@@ -839,6 +854,8 @@ export const createMoveCode: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMoveCode",
 }));
 
 export type CreateRecordSetError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -854,6 +871,8 @@ export const createRecordSet: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecordSet",
 }));
 
 export type CreateZoneError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -869,6 +888,8 @@ export const createZone: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZone",
 }));
 
 export type DeleteMoveCodeError = BadRequest | NotFound | StackitOpError;
@@ -884,6 +905,8 @@ export const deleteMoveCode: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMoveCode",
 }));
 
 export type DeleteRecordSetError = BadRequest | NotFound | StackitOpError;
@@ -899,6 +922,8 @@ export const deleteRecordSet: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecordSet",
 }));
 
 export type DeleteZoneError = BadRequest | NotFound | StackitOpError;
@@ -914,6 +939,8 @@ export const deleteZone: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZone",
 }));
 
 export type ExportRecordSetsError = BadRequest | Forbidden | StackitOpError;
@@ -929,6 +956,8 @@ export const exportRecordSets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportRecordSets",
 }));
 
 export type GetRecordSetError = BadRequest | NotFound | StackitOpError;
@@ -944,6 +973,8 @@ export const getRecordSet: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecordSet",
 }));
 
 export type GetZoneError = BadRequest | NotFound | StackitOpError;
@@ -959,6 +990,8 @@ export const getZone: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZone",
 }));
 
 export type GetZone2Error = BadRequest | StackitOpError;
@@ -974,6 +1007,8 @@ export const getZone2: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZone2",
 }));
 
 export type ImportRecordSetsError = BadRequest | Forbidden | StackitOpError;
@@ -989,6 +1024,8 @@ export const importRecordSets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportRecordSets",
 }));
 
 export type ListRecordSetsError = BadRequest | NotFound | StackitOpError;
@@ -1006,6 +1043,8 @@ export const listRecordSets: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRecordSets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1032,6 +1071,8 @@ export const listZones: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListZones",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1056,6 +1097,8 @@ export const moveZone: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveZone",
 }));
 
 export type PartialUpdateRecordError = BadRequest | NotFound | StackitOpError;
@@ -1071,6 +1114,8 @@ export const partialUpdateRecord: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateRecord",
 }));
 
 export type PartialUpdateRecordSetError = BadRequest | NotFound | StackitOpError;
@@ -1086,6 +1131,8 @@ export const partialUpdateRecordSet: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateRecordSet",
 }));
 
 export type PartialUpdateZoneError = BadRequest | NotFound | StackitOpError;
@@ -1101,6 +1148,8 @@ export const partialUpdateZone: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateZone",
 }));
 
 export type RestoreRecordSetError = BadRequest | NotFound | StackitOpError;
@@ -1116,6 +1165,8 @@ export const restoreRecordSet: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreRecordSet",
 }));
 
 export type RestoreZoneError = BadRequest | StackitOpError;
@@ -1131,6 +1182,8 @@ export const restoreZone: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreZone",
 }));
 
 export type ValidateMoveCodeError = BadRequest | StackitOpError;
@@ -1146,6 +1199,8 @@ export const validateMoveCode: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMoveCode",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

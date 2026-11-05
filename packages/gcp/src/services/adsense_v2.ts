@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "adsense" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Adsense",
+  service: "adsense",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1017,6 +1036,8 @@ export const createAccountsAdclientsAdunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsAdclientsAdunits",
 }));
 
 export type CreateAccountsAdclientsCustomchannelsError =
@@ -1038,6 +1059,8 @@ export const createAccountsAdclientsCustomchannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsAdclientsCustomchannels",
 }));
 
 export type DeleteAccountsAdclientsCustomchannelsError =
@@ -1059,6 +1082,8 @@ export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsAdclientsCustomchannels",
 }));
 
 export type GenerateAccountsReportsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1074,6 +1099,8 @@ export const generateAccountsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAccountsReports",
 }));
 
 export type GenerateAccountsReportsSavedError =
@@ -1093,6 +1120,8 @@ export const generateAccountsReportsSaved: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAccountsReportsSaved",
 }));
 
 export type GenerateCsvAccountsReportsError =
@@ -1112,6 +1141,8 @@ export const generateCsvAccountsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCsvAccountsReports",
 }));
 
 export type GenerateCsvAccountsReportsSavedError =
@@ -1131,6 +1162,8 @@ export const generateCsvAccountsReportsSaved: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCsvAccountsReportsSaved",
 }));
 
 export type GetAccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1146,6 +1179,8 @@ export const getAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type GetAccountsAdclientsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1161,6 +1196,8 @@ export const getAccountsAdclients: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsAdclients",
 }));
 
 export type GetAccountsAdclientsAdunitsError =
@@ -1180,6 +1217,8 @@ export const getAccountsAdclientsAdunits: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsAdclientsAdunits",
 }));
 
 export type GetAccountsAdclientsCustomchannelsError =
@@ -1199,6 +1238,8 @@ export const getAccountsAdclientsCustomchannels: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsAdclientsCustomchannels",
 }));
 
 export type GetAccountsAdclientsUrlchannelsError =
@@ -1218,6 +1259,8 @@ export const getAccountsAdclientsUrlchannels: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsAdclientsUrlchannels",
 }));
 
 export type GetAccountsPolicyIssuesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1233,6 +1276,8 @@ export const getAccountsPolicyIssues: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsPolicyIssues",
 }));
 
 export type GetAccountsSitesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1248,6 +1293,8 @@ export const getAccountsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsSites",
 }));
 
 export type GetAdBlockingRecoveryTagAccountsError =
@@ -1267,6 +1314,8 @@ export const getAdBlockingRecoveryTagAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdBlockingRecoveryTagAccounts",
 }));
 
 export type GetAdcodeAccountsAdclientsError =
@@ -1286,6 +1335,8 @@ export const getAdcodeAccountsAdclients: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdcodeAccountsAdclients",
 }));
 
 export type GetAdcodeAccountsAdclientsAdunitsError =
@@ -1305,6 +1356,8 @@ export const getAdcodeAccountsAdclientsAdunits: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdcodeAccountsAdclientsAdunits",
 }));
 
 export type GetSavedAccountsReportsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1320,6 +1373,8 @@ export const getSavedAccountsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedAccountsReports",
 }));
 
 export type ListAccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1336,6 +1391,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1353,6 +1410,8 @@ export const listAccountsAdclients: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdclients",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1374,6 +1433,8 @@ export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdclientsAdunits",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1395,6 +1456,8 @@ export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdclientsCustomchannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1416,6 +1479,8 @@ export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdclientsUrlchannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1432,6 +1497,8 @@ export const listAccountsAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAlerts",
 }));
 
 export type ListAccountsPaymentsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1447,6 +1514,8 @@ export const listAccountsPayments: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsPayments",
 }));
 
 export type ListAccountsPolicyIssuesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1463,6 +1532,8 @@ export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsPolicyIssues",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1480,6 +1551,8 @@ export const listAccountsReportsSaved: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsReportsSaved",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1497,6 +1570,8 @@ export const listAccountsSites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsSites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1514,6 +1589,8 @@ export const listChildAccountsAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChildAccountsAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1539,6 +1616,8 @@ export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOper
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinkedAdUnitsAccountsAdclientsCustomchannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1564,6 +1643,8 @@ export const listLinkedCustomChannelsAccountsAdclientsAdunits: API.PaginatedOper
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinkedCustomChannelsAccountsAdclientsAdunits",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1586,6 +1667,8 @@ export const patchAccountsAdclientsAdunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsAdclientsAdunits",
 }));
 
 export type PatchAccountsAdclientsCustomchannelsError =
@@ -1607,6 +1690,8 @@ export const patchAccountsAdclientsCustomchannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsAdclientsCustomchannels",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

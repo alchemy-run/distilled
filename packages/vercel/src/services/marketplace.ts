@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Marketplace",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1012,6 +1026,8 @@ export const createEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvent",
 }));
 
 export type CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsError =
@@ -1039,6 +1055,8 @@ export const createInstallationsByIntegrationConfigurationIdResourcesByResourceI
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItems",
 }));
 
 export type DeleteInstallationResourceExperimentationItemError =
@@ -1066,6 +1084,8 @@ export const deleteInstallationResourceExperimentationItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstallationResourceExperimentationItem",
 }));
 
 export type DeleteIntegrationResourceError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1081,6 +1101,8 @@ export const deleteIntegrationResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationResource",
 }));
 
 export type FinalizeInstallationError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1096,6 +1118,8 @@ export const finalizeInstallation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeInstallation",
 }));
 
 export type GetAccountInfoError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1111,6 +1135,8 @@ export const getAccountInfo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountInfo",
 }));
 
 export type GetInstallationResourceExperimentationGlobalConfigError =
@@ -1138,6 +1164,8 @@ export const getInstallationResourceExperimentationGlobalConfig: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstallationResourceExperimentationGlobalConfig",
 }));
 
 export type GetIntegrationResourceError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1153,6 +1181,8 @@ export const getIntegrationResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationResource",
 }));
 
 export type GetIntegrationResourcesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1168,6 +1198,8 @@ export const getIntegrationResources: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationResources",
 }));
 
 export type GetInvoiceError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1183,6 +1215,8 @@ export const getInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetMemberError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1198,6 +1232,8 @@ export const getMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type HeadInstallationResourceExperimentationGlobalConfigError =
@@ -1225,6 +1261,8 @@ export const headInstallationResourceExperimentationGlobalConfig: API.OperationM
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HeadInstallationResourceExperimentationGlobalConfig",
 }));
 
 export type ImportResourceError =
@@ -1246,6 +1284,8 @@ export const importResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportResource",
 }));
 
 export type ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigError =
@@ -1274,6 +1314,8 @@ export const replaceInstallationsByIntegrationConfigurationIdResourcesByResource
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfig",
 }));
 
 export type RevokeInstallationCredentialError =
@@ -1294,6 +1336,8 @@ export const revokeInstallationCredential: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeInstallationCredential",
 }));
 
 export type RotateInstallationCredentialError =
@@ -1314,6 +1358,8 @@ export const rotateInstallationCredential: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateInstallationCredential",
 }));
 
 export type SubmitBillingDataError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1329,6 +1375,8 @@ export const submitBillingData: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitBillingData",
 }));
 
 export type SubmitInvoiceError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -1344,6 +1392,8 @@ export const submitInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitInvoice",
 }));
 
 export type SubmitPrepaymentBalancesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1359,6 +1409,8 @@ export const submitPrepaymentBalances: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitPrepaymentBalances",
 }));
 
 export type UpdateInstallationError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1374,6 +1426,8 @@ export const updateInstallation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstallation",
 }));
 
 export type UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdError =
@@ -1401,6 +1455,8 @@ export const updateInstallationsByIntegrationConfigurationIdResourcesByResourceI
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemId",
 }));
 
 export type UpdateInvoiceError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -1416,6 +1472,8 @@ export const updateInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInvoice",
 }));
 
 export type UpdateResourceError =
@@ -1437,6 +1495,8 @@ export const updateResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 export type UpdateResourceSecretsByIdError =
@@ -1458,6 +1518,8 @@ export const updateResourceSecretsById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceSecretsById",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as S from "@distilled.cloud/core/schema-lite";
+import type { Operation } from "@distilled.cloud/s3/client/operation";
+import { withEffects } from "@distilled.cloud/s3/client/protocol";
+import type { Response } from "@distilled.cloud/s3/client/response";
+import { encodeMessage, stringHeader } from "@distilled.cloud/s3/eventstream/codec";
+import { restXmlProtocol as restXml } from "@distilled.cloud/s3/protocols/rest-xml";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -9,16 +15,11 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import { describe, it } from "vitest";
-import type { Operation } from "../../src/client/operation.ts";
-import { withEffects } from "../../src/client/protocol.ts";
-import type { Response } from "../../src/client/response.ts";
-import * as Credentials from "../../src/credentials.browser.ts";
+import * as Credentials from "../../src/credentials.ts";
 import * as Endpoint from "../../src/endpoint.ts";
 import { ParseError } from "../../src/errors.ts";
-import { encodeMessage, stringHeader } from "../../src/eventstream/codec.ts";
 import { awsQueryProtocol as awsQuery } from "../../src/protocols/aws-query.ts";
 import { ec2QueryProtocol as ec2Query } from "../../src/protocols/ec2-query.ts";
-import { restXmlProtocol as restXml } from "../../src/protocols/rest-xml.ts";
 import * as Region from "../../src/region.ts";
 import * as S3Control from "../../src/services/s3-control.ts";
 import * as S3 from "../../src/services/s3.ts";
@@ -472,6 +473,23 @@ describe("AwsProtocol REST-XML empty values", () => {
 
 const object = { Bucket: "examplebucket", Key: "reports/part.md" };
 
+describe("Region.fromEnv", () => {
+  it("fails the operation with MissingRegion when no region is set", async () => {
+    const saved = [process.env.AWS_REGION, process.env.AWS_DEFAULT_REGION];
+    delete process.env.AWS_REGION;
+    delete process.env.AWS_DEFAULT_REGION;
+    try {
+      const error = await Effect.runPromise(
+        Effect.flip(capture(S3.headBucket({ Bucket: "b" }), undefined, Region.fromEnv())),
+      );
+      assert.equal(error._tag, "Alchemy::AWS::MissingRegion");
+    } finally {
+      if (saved[0] !== undefined) process.env.AWS_REGION = saved[0];
+      if (saved[1] !== undefined) process.env.AWS_DEFAULT_REGION = saved[1];
+    }
+  });
+});
+
 // A dotted name cannot be virtual-hosted, so the endpoint rules pick path
 // style and the resolved endpoint already ends in `/{Bucket}`.
 describe("AwsProtocol S3 path-style addressing", () => {
@@ -506,6 +524,86 @@ describe("AwsProtocol REST-XML greedy {Key+} label", () => {
       assert.equal(url.pathname, `/examplebucket${path}`);
     });
   }
+});
+
+/** The operation's failure, after checking that no request reached the HTTP client. */
+const refused = <A, E>(
+  operation: Effect.Effect<A, E, Credentials.Credentials | HttpClient.HttpClient>,
+  endpoint: Layer.Layer<never> = Endpoint.of("https://s3.us-east-1.amazonaws.com"),
+) =>
+  Effect.gen(function* () {
+    const requests: HttpClientRequest.HttpClientRequest[] = [];
+    const client = HttpClient.make((request) =>
+      Effect.sync(() => {
+        requests.push(request);
+        return HttpClientResponse.fromWeb(request, new Response(""));
+      }),
+    );
+    const error = yield* Effect.flip(
+      operation.pipe(
+        Effect.provide(
+          Layer.mergeAll(
+            Layer.succeed(HttpClient.HttpClient, client),
+            Layer.succeed(Credentials.Credentials, Effect.succeed(credentials)),
+            endpoint,
+          ),
+        ),
+      ),
+    );
+    assert.equal(requests.length, 0);
+    return error;
+  });
+
+// The URL parser resolves a `.` or `..` segment, and an empty label drops a
+// path segment, so each would address another resource.
+describe("AwsProtocol path labels that would address another resource", () => {
+  for (const Key of ["", ".", "..", "../other/k", "a/./b", "a/../../b"]) {
+    it(`DeleteObject fails with InvalidInput for Key ${JSON.stringify(Key)}`, async () => {
+      const error = await Effect.runPromise(refused(S3.deleteObject({ ...bucket, Key })));
+      assert.ok(error instanceof InvalidInput);
+      assert.equal(error.member, "Key");
+    });
+  }
+
+  for (const Bucket of ["", ".", ".."]) {
+    it(`DeleteBucket fails with InvalidInput for Bucket ${JSON.stringify(Bucket)}`, async () => {
+      const error = await Effect.runPromise(refused(S3.deleteBucket({ Bucket })));
+      assert.ok(error instanceof InvalidInput);
+      assert.equal(error.member, "Bucket");
+    });
+  }
+
+  for (const Key of ["...", ".hidden", "a/.b/c", "a//b", "%2E%2E"]) {
+    it(`GetObject sends Key ${JSON.stringify(Key)} as written`, async () => {
+      const request = await Effect.runPromise(captureSigned(S3.getObject({ ...bucket, Key })));
+      const path = Key.split("/").map(encodeURIComponent).join("/");
+      assert.equal(new URL(request.url).pathname, `/examplebucket/${path}`);
+    });
+  }
+
+  for (const RequestRoute of ["attacker.invalid/", "a?b", "a#b", "user@host", ""]) {
+    it(`WriteGetObjectResponse fails with InvalidInput for RequestRoute ${JSON.stringify(RequestRoute)}`, async () => {
+      const error = await Effect.runPromise(
+        refused(
+          S3.writeGetObjectResponse({ RequestRoute, RequestToken: "t" }),
+          Region.of("us-east-1"),
+        ),
+      );
+      assert.ok(error instanceof InvalidInput);
+      assert.equal(error.member, "RequestRoute");
+    });
+  }
+
+  it("WriteGetObjectResponse puts a valid RequestRoute in front of the host", async () => {
+    const { request } = await Effect.runPromise(
+      capture(
+        S3.writeGetObjectResponse({ RequestRoute: "io-a1c1d5c7", RequestToken: "t" }),
+        undefined,
+        Region.of("us-east-1"),
+      ),
+    );
+    assert.equal(new URL(request.url).host, "io-a1c1d5c7.s3-object-lambda.us-east-1.amazonaws.com");
+  });
 });
 
 describe("AwsProtocol Content-Type serialization", () => {

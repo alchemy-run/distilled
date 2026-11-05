@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pi.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PI",
+  service: "PI",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServiceError
   extends /*@__PURE__*/ S.TaggedError<InternalServiceError>()("InternalServiceError", {
@@ -414,7 +431,7 @@ export type CreatePerformanceAnalysisReportError =
  * DB instance.
  */
 export const createPerformanceAnalysisReport: API.OperationMethod<
-  CreatePerformanceAnalysisReportRequest,
+  CreatePerformanceAnalysisReportRequest & RegionInput,
   CreatePerformanceAnalysisReportResponse,
   CreatePerformanceAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -425,6 +442,8 @@ export const createPerformanceAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePerformanceAnalysisReport",
+  telemetry: TELEMETRY,
+  span: "CreatePerformanceAnalysisReport",
 }));
 
 export type DeletePerformanceAnalysisReportError =
@@ -436,7 +455,7 @@ export type DeletePerformanceAnalysisReportError =
  * Deletes a performance analysis report.
  */
 export const deletePerformanceAnalysisReport: API.OperationMethod<
-  DeletePerformanceAnalysisReportRequest,
+  DeletePerformanceAnalysisReportRequest & RegionInput,
   DeletePerformanceAnalysisReportResponse,
   DeletePerformanceAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -447,6 +466,8 @@ export const deletePerformanceAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePerformanceAnalysisReport",
+  telemetry: TELEMETRY,
+  span: "DeletePerformanceAnalysisReport",
 }));
 
 export type DescribeDimensionKeysError =
@@ -461,7 +482,7 @@ export type DescribeDimensionKeysError =
  * only the first 500 bytes are returned.
  */
 export const describeDimensionKeys: API.PaginatedOperationMethod<
-  DescribeDimensionKeysRequest,
+  DescribeDimensionKeysRequest & RegionInput,
   DescribeDimensionKeysResponse,
   DescribeDimensionKeysError,
   Credentials | HttpClient.HttpClient,
@@ -478,6 +499,8 @@ export const describeDimensionKeys: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDimensionKeys",
 })) as any;
 
 export type GetDimensionKeyDetailsError =
@@ -492,7 +515,7 @@ export type GetDimensionKeyDetailsError =
  * SQL statement text, lock snapshots, and execution plans.
  */
 export const getDimensionKeyDetails: API.OperationMethod<
-  GetDimensionKeyDetailsRequest,
+  GetDimensionKeyDetailsRequest & RegionInput,
   GetDimensionKeyDetailsResponse,
   GetDimensionKeyDetailsError,
   Credentials | HttpClient.HttpClient
@@ -503,6 +526,8 @@ export const getDimensionKeyDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDimensionKeyDetails",
+  telemetry: TELEMETRY,
+  span: "GetDimensionKeyDetails",
 }));
 
 export type GetPerformanceAnalysisReportError =
@@ -517,7 +542,7 @@ export type GetPerformanceAnalysisReportError =
  * `description` and `recommendation` fields.
  */
 export const getPerformanceAnalysisReport: API.OperationMethod<
-  GetPerformanceAnalysisReportRequest,
+  GetPerformanceAnalysisReportRequest & RegionInput,
   GetPerformanceAnalysisReportResponse,
   GetPerformanceAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -528,6 +553,8 @@ export const getPerformanceAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPerformanceAnalysisReport",
+  telemetry: TELEMETRY,
+  span: "GetPerformanceAnalysisReport",
 }));
 
 export type GetResourceMetadataError =
@@ -540,7 +567,7 @@ export type GetResourceMetadataError =
  * that a feature is turned on or off on a specific DB instance.
  */
 export const getResourceMetadata: API.OperationMethod<
-  GetResourceMetadataRequest,
+  GetResourceMetadataRequest & RegionInput,
   GetResourceMetadataResponse,
   GetResourceMetadataError,
   Credentials | HttpClient.HttpClient
@@ -551,6 +578,8 @@ export const getResourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceMetadata",
+  telemetry: TELEMETRY,
+  span: "GetResourceMetadata",
 }));
 
 export type GetResourceMetricsError =
@@ -567,7 +596,7 @@ export type GetResourceMetricsError =
  * only the first 500 bytes are returned.
  */
 export const getResourceMetrics: API.PaginatedOperationMethod<
-  GetResourceMetricsRequest,
+  GetResourceMetricsRequest & RegionInput,
   GetResourceMetricsResponse,
   GetResourceMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -584,6 +613,8 @@ export const getResourceMetrics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceMetrics",
 })) as any;
 
 export type ListAvailableResourceDimensionsError =
@@ -595,7 +626,7 @@ export type ListAvailableResourceDimensionsError =
  * Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
  */
 export const listAvailableResourceDimensions: API.PaginatedOperationMethod<
-  ListAvailableResourceDimensionsRequest,
+  ListAvailableResourceDimensionsRequest & RegionInput,
   ListAvailableResourceDimensionsResponse,
   ListAvailableResourceDimensionsError,
   Credentials | HttpClient.HttpClient,
@@ -612,6 +643,8 @@ export const listAvailableResourceDimensions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAvailableResourceDimensions",
 })) as any;
 
 export type ListAvailableResourceMetricsError =
@@ -623,7 +656,7 @@ export type ListAvailableResourceMetricsError =
  * Retrieve metrics of the specified types that can be queried for a specified DB instance.
  */
 export const listAvailableResourceMetrics: API.PaginatedOperationMethod<
-  ListAvailableResourceMetricsRequest,
+  ListAvailableResourceMetricsRequest & RegionInput,
   ListAvailableResourceMetricsResponse,
   ListAvailableResourceMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -640,6 +673,8 @@ export const listAvailableResourceMetrics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAvailableResourceMetrics",
 })) as any;
 
 export type ListPerformanceAnalysisReportRecommendationsError =
@@ -651,7 +686,7 @@ export type ListPerformanceAnalysisReportRecommendationsError =
  * Retrieves recommendations for a performance analysis report.
  */
 export const listPerformanceAnalysisReportRecommendations: API.PaginatedOperationMethod<
-  ListPerformanceAnalysisReportRecommendationsRequest,
+  ListPerformanceAnalysisReportRecommendationsRequest & RegionInput,
   ListPerformanceAnalysisReportRecommendationsResponse,
   ListPerformanceAnalysisReportRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -669,6 +704,8 @@ export const listPerformanceAnalysisReportRecommendations: API.PaginatedOperatio
     items: "Recommendations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPerformanceAnalysisReportRecommendations",
 })) as any;
 
 export type ListPerformanceAnalysisReportsError =
@@ -680,7 +717,7 @@ export type ListPerformanceAnalysisReportsError =
  * Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
  */
 export const listPerformanceAnalysisReports: API.PaginatedOperationMethod<
-  ListPerformanceAnalysisReportsRequest,
+  ListPerformanceAnalysisReportsRequest & RegionInput,
   ListPerformanceAnalysisReportsResponse,
   ListPerformanceAnalysisReportsError,
   Credentials | HttpClient.HttpClient,
@@ -697,6 +734,8 @@ export const listPerformanceAnalysisReports: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPerformanceAnalysisReports",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -708,7 +747,7 @@ export type ListTagsForResourceError =
  * Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -719,6 +758,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -730,7 +771,7 @@ export type TagResourceError =
  * Adds metadata tags to the Amazon RDS Performance Insights resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -741,6 +782,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -752,7 +795,7 @@ export type UntagResourceError =
  * Deletes the metadata tags from the Amazon RDS Performance Insights resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -763,6 +806,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

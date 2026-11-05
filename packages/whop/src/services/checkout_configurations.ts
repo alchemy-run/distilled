@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "CheckoutConfigurations",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -677,6 +690,8 @@ export const createCheckoutConfiguration: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCheckoutConfiguration",
 }));
 
 export type DeleteCheckoutConfigurationError = NotFound | WhopOpError;
@@ -692,6 +707,8 @@ export const deleteCheckoutConfiguration: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCheckoutConfiguration",
 }));
 
 export type GetCheckoutConfigurationError = NotFound | WhopOpError;
@@ -707,6 +724,8 @@ export const getCheckoutConfiguration: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCheckoutConfiguration",
 }));
 
 export type ListCheckoutConfigurationsError = BadRequest | WhopOpError;
@@ -724,6 +743,8 @@ export const listCheckoutConfigurations: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCheckoutConfigurations",
     pagination: {
       mode: "relay",
       inputToken: "after",

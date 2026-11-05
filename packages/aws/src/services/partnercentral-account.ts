@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -69,6 +71,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PartnerCentralAccount",
+  service: "PartnerCentralAccount",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -968,7 +985,7 @@ export type AcceptConnectionInvitationError =
  * Accepts a connection invitation from another partner, establishing a formal partnership connection between the two parties.
  */
 export const acceptConnectionInvitation: API.OperationMethod<
-  AcceptConnectionInvitationRequest,
+  AcceptConnectionInvitationRequest & RegionInput,
   AcceptConnectionInvitationResponse,
   AcceptConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -987,6 +1004,8 @@ export const acceptConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptConnectionInvitation",
 }));
 
 export type AssociateAwsTrainingCertificationEmailDomainError =
@@ -1001,7 +1020,7 @@ export type AssociateAwsTrainingCertificationEmailDomainError =
  * Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications.
  */
 export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
-  AssociateAwsTrainingCertificationEmailDomainRequest,
+  AssociateAwsTrainingCertificationEmailDomainRequest & RegionInput,
   AssociateAwsTrainingCertificationEmailDomainResponse,
   AssociateAwsTrainingCertificationEmailDomainError,
   Credentials | HttpClient.HttpClient
@@ -1023,6 +1042,8 @@ export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAwsTrainingCertificationEmailDomain",
+  telemetry: TELEMETRY,
+  span: "AssociateAwsTrainingCertificationEmailDomain",
 }));
 
 export type CancelConnectionError =
@@ -1037,7 +1058,7 @@ export type CancelConnectionError =
  * Cancels an existing connection between partners, terminating the partnership relationship.
  */
 export const cancelConnection: API.OperationMethod<
-  CancelConnectionRequest,
+  CancelConnectionRequest & RegionInput,
   CancelConnectionResponse,
   CancelConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1055,6 +1076,8 @@ export const cancelConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnection",
+  telemetry: TELEMETRY,
+  span: "CancelConnection",
 }));
 
 export type CancelConnectionInvitationError =
@@ -1069,7 +1092,7 @@ export type CancelConnectionInvitationError =
  * Cancels a pending connection invitation before it has been accepted or rejected.
  */
 export const cancelConnectionInvitation: API.OperationMethod<
-  CancelConnectionInvitationRequest,
+  CancelConnectionInvitationRequest & RegionInput,
   CancelConnectionInvitationResponse,
   CancelConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1087,6 +1110,8 @@ export const cancelConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "CancelConnectionInvitation",
 }));
 
 export type CancelProfileUpdateTaskError =
@@ -1101,7 +1126,7 @@ export type CancelProfileUpdateTaskError =
  * Cancels an in-progress profile update task, stopping any pending changes to the partner profile.
  */
 export const cancelProfileUpdateTask: API.OperationMethod<
-  CancelProfileUpdateTaskRequest,
+  CancelProfileUpdateTaskRequest & RegionInput,
   CancelProfileUpdateTaskResponse,
   CancelProfileUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1119,6 +1144,8 @@ export const cancelProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelProfileUpdateTask",
+  telemetry: TELEMETRY,
+  span: "CancelProfileUpdateTask",
 }));
 
 export type CreateConnectionInvitationError =
@@ -1134,7 +1161,7 @@ export type CreateConnectionInvitationError =
  * Creates a new connection invitation to establish a partnership with another organization.
  */
 export const createConnectionInvitation: API.OperationMethod<
-  CreateConnectionInvitationRequest,
+  CreateConnectionInvitationRequest & RegionInput,
   CreateConnectionInvitationResponse,
   CreateConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1153,6 +1180,8 @@ export const createConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "CreateConnectionInvitation",
 }));
 
 export type CreatePartnerError =
@@ -1166,7 +1195,7 @@ export type CreatePartnerError =
  * Creates a new partner account in the AWS Partner Network with the specified details and configuration.
  */
 export const createPartner: API.OperationMethod<
-  CreatePartnerRequest,
+  CreatePartnerRequest & RegionInput,
   CreatePartnerResponse,
   CreatePartnerError,
   Credentials | HttpClient.HttpClient
@@ -1183,6 +1212,8 @@ export const createPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartner",
+  telemetry: TELEMETRY,
+  span: "CreatePartner",
 }));
 
 export type DisassociateAwsTrainingCertificationEmailDomainError =
@@ -1196,7 +1227,7 @@ export type DisassociateAwsTrainingCertificationEmailDomainError =
  * Removes the association between an email domain and AWS training and certification for the partner account.
  */
 export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMethod<
-  DisassociateAwsTrainingCertificationEmailDomainRequest,
+  DisassociateAwsTrainingCertificationEmailDomainRequest & RegionInput,
   DisassociateAwsTrainingCertificationEmailDomainResponse,
   DisassociateAwsTrainingCertificationEmailDomainError,
   Credentials | HttpClient.HttpClient
@@ -1221,6 +1252,8 @@ export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAwsTrainingCertificationEmailDomain",
+  telemetry: TELEMETRY,
+  span: "DisassociateAwsTrainingCertificationEmailDomain",
 }));
 
 export type GetAllianceLeadContactError =
@@ -1234,7 +1267,7 @@ export type GetAllianceLeadContactError =
  * Retrieves the alliance lead contact information for a partner account.
  */
 export const getAllianceLeadContact: API.OperationMethod<
-  GetAllianceLeadContactRequest,
+  GetAllianceLeadContactRequest & RegionInput,
   GetAllianceLeadContactResponse,
   GetAllianceLeadContactError,
   Credentials | HttpClient.HttpClient
@@ -1251,6 +1284,8 @@ export const getAllianceLeadContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllianceLeadContact",
+  telemetry: TELEMETRY,
+  span: "GetAllianceLeadContact",
 }));
 
 export type GetConnectionError =
@@ -1264,7 +1299,7 @@ export type GetConnectionError =
  * Retrieves detailed information about a specific connection between partners.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1281,6 +1316,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetConnectionInvitationError =
@@ -1294,7 +1331,7 @@ export type GetConnectionInvitationError =
  * Retrieves detailed information about a specific connection invitation.
  */
 export const getConnectionInvitation: API.OperationMethod<
-  GetConnectionInvitationRequest,
+  GetConnectionInvitationRequest & RegionInput,
   GetConnectionInvitationResponse,
   GetConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1311,6 +1348,8 @@ export const getConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "GetConnectionInvitation",
 }));
 
 export type GetConnectionPreferencesError =
@@ -1323,7 +1362,7 @@ export type GetConnectionPreferencesError =
  * Retrieves the connection preferences for a partner account, including access settings and exclusions.
  */
 export const getConnectionPreferences: API.OperationMethod<
-  GetConnectionPreferencesRequest,
+  GetConnectionPreferencesRequest & RegionInput,
   GetConnectionPreferencesResponse,
   GetConnectionPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1339,6 +1378,8 @@ export const getConnectionPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionPreferences",
+  telemetry: TELEMETRY,
+  span: "GetConnectionPreferences",
 }));
 
 export type GetPartnerError =
@@ -1352,7 +1393,7 @@ export type GetPartnerError =
  * Retrieves detailed information about a specific partner account.
  */
 export const getPartner: API.OperationMethod<
-  GetPartnerRequest,
+  GetPartnerRequest & RegionInput,
   GetPartnerResponse,
   GetPartnerError,
   Credentials | HttpClient.HttpClient
@@ -1369,6 +1410,8 @@ export const getPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartner",
+  telemetry: TELEMETRY,
+  span: "GetPartner",
 }));
 
 export type GetProfileUpdateTaskError =
@@ -1382,7 +1425,7 @@ export type GetProfileUpdateTaskError =
  * Retrieves information about a specific profile update task.
  */
 export const getProfileUpdateTask: API.OperationMethod<
-  GetProfileUpdateTaskRequest,
+  GetProfileUpdateTaskRequest & RegionInput,
   GetProfileUpdateTaskResponse,
   GetProfileUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1399,6 +1442,8 @@ export const getProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileUpdateTask",
+  telemetry: TELEMETRY,
+  span: "GetProfileUpdateTask",
 }));
 
 export type GetProfileVisibilityError =
@@ -1412,7 +1457,7 @@ export type GetProfileVisibilityError =
  * Retrieves the visibility settings for a partner profile, determining who can see the profile information.
  */
 export const getProfileVisibility: API.OperationMethod<
-  GetProfileVisibilityRequest,
+  GetProfileVisibilityRequest & RegionInput,
   GetProfileVisibilityResponse,
   GetProfileVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -1429,6 +1474,8 @@ export const getProfileVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileVisibility",
+  telemetry: TELEMETRY,
+  span: "GetProfileVisibility",
 }));
 
 export type GetQualificationsAssociationDetailsError =
@@ -1442,7 +1489,7 @@ export type GetQualificationsAssociationDetailsError =
  * Returns your current qualifications association status, the primary partner, and the full list of partners associated under the primary partner.
  */
 export const getQualificationsAssociationDetails: API.OperationMethod<
-  GetQualificationsAssociationDetailsRequest,
+  GetQualificationsAssociationDetailsRequest & RegionInput,
   GetQualificationsAssociationDetailsResponse,
   GetQualificationsAssociationDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1459,6 +1506,8 @@ export const getQualificationsAssociationDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationDetails",
+  telemetry: TELEMETRY,
+  span: "GetQualificationsAssociationDetails",
 }));
 
 export type GetQualificationsAssociationTaskError =
@@ -1472,7 +1521,7 @@ export type GetQualificationsAssociationTaskError =
  * Retrieves the status and details of the most recent qualifications association task for your partner account. Use this operation to poll the progress of an association task initiated by `StartQualificationsAssociationTask`.
  */
 export const getQualificationsAssociationTask: API.OperationMethod<
-  GetQualificationsAssociationTaskRequest,
+  GetQualificationsAssociationTaskRequest & RegionInput,
   GetQualificationsAssociationTaskResponse,
   GetQualificationsAssociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1489,6 +1538,8 @@ export const getQualificationsAssociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationTask",
+  telemetry: TELEMETRY,
+  span: "GetQualificationsAssociationTask",
 }));
 
 export type GetQualificationsDisassociationTaskError =
@@ -1502,7 +1553,7 @@ export type GetQualificationsDisassociationTaskError =
  * Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by `StartQualificationsDisassociationTask`.
  */
 export const getQualificationsDisassociationTask: API.OperationMethod<
-  GetQualificationsDisassociationTaskRequest,
+  GetQualificationsDisassociationTaskRequest & RegionInput,
   GetQualificationsDisassociationTaskResponse,
   GetQualificationsDisassociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1519,6 +1570,8 @@ export const getQualificationsDisassociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsDisassociationTask",
+  telemetry: TELEMETRY,
+  span: "GetQualificationsDisassociationTask",
 }));
 
 export type GetVerificationError =
@@ -1532,7 +1585,7 @@ export type GetVerificationError =
  * Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
  */
 export const getVerification: API.OperationMethod<
-  GetVerificationRequest,
+  GetVerificationRequest & RegionInput,
   GetVerificationResponse,
   GetVerificationError,
   Credentials | HttpClient.HttpClient
@@ -1549,6 +1602,8 @@ export const getVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVerification",
+  telemetry: TELEMETRY,
+  span: "GetVerification",
 }));
 
 export type ListConnectionInvitationsError =
@@ -1561,7 +1616,7 @@ export type ListConnectionInvitationsError =
  * Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria.
  */
 export const listConnectionInvitations: API.PaginatedOperationMethod<
-  ListConnectionInvitationsRequest,
+  ListConnectionInvitationsRequest & RegionInput,
   ListConnectionInvitationsResponse,
   ListConnectionInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1584,6 +1639,8 @@ export const listConnectionInvitations: API.PaginatedOperationMethod<
     items: "ConnectionInvitationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectionInvitations",
 })) as any;
 
 export type ListConnectionsError =
@@ -1596,7 +1653,7 @@ export type ListConnectionsError =
  * Lists active connections for the partner account, with optional filtering by connection type and participant.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1619,6 +1676,8 @@ export const listConnections: API.PaginatedOperationMethod<
     items: "ConnectionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 })) as any;
 
 export type ListPartnersError =
@@ -1631,7 +1690,7 @@ export type ListPartnersError =
  * Lists partner accounts in the catalog, providing a summary view of all partners.
  */
 export const listPartners: API.PaginatedOperationMethod<
-  ListPartnersRequest,
+  ListPartnersRequest & RegionInput,
   ListPartnersResponse,
   ListPartnersError,
   Credentials | HttpClient.HttpClient,
@@ -1653,6 +1712,8 @@ export const listPartners: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PartnerSummaryList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPartners",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1666,7 +1727,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a specific AWS Partner Central Account resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1683,6 +1744,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAllianceLeadContactError =
@@ -1696,7 +1759,7 @@ export type PutAllianceLeadContactError =
  * Creates or updates the alliance lead contact information for a partner account.
  */
 export const putAllianceLeadContact: API.OperationMethod<
-  PutAllianceLeadContactRequest,
+  PutAllianceLeadContactRequest & RegionInput,
   PutAllianceLeadContactResponse,
   PutAllianceLeadContactError,
   Credentials | HttpClient.HttpClient
@@ -1713,6 +1776,8 @@ export const putAllianceLeadContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAllianceLeadContact",
+  telemetry: TELEMETRY,
+  span: "PutAllianceLeadContact",
 }));
 
 export type PutProfileVisibilityError =
@@ -1727,7 +1792,7 @@ export type PutProfileVisibilityError =
  * Sets the visibility level for a partner profile, controlling who can view the profile information.
  */
 export const putProfileVisibility: API.OperationMethod<
-  PutProfileVisibilityRequest,
+  PutProfileVisibilityRequest & RegionInput,
   PutProfileVisibilityResponse,
   PutProfileVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -1745,6 +1810,8 @@ export const putProfileVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileVisibility",
+  telemetry: TELEMETRY,
+  span: "PutProfileVisibility",
 }));
 
 export type RejectConnectionInvitationError =
@@ -1759,7 +1826,7 @@ export type RejectConnectionInvitationError =
  * Rejects a connection invitation from another partner, declining the partnership request.
  */
 export const rejectConnectionInvitation: API.OperationMethod<
-  RejectConnectionInvitationRequest,
+  RejectConnectionInvitationRequest & RegionInput,
   RejectConnectionInvitationResponse,
   RejectConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1777,6 +1844,8 @@ export const rejectConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectConnectionInvitation",
 }));
 
 export type SendEmailVerificationCodeError =
@@ -1790,7 +1859,7 @@ export type SendEmailVerificationCodeError =
  * Sends an email verification code to the specified email address for account verification purposes.
  */
 export const sendEmailVerificationCode: API.OperationMethod<
-  SendEmailVerificationCodeRequest,
+  SendEmailVerificationCodeRequest & RegionInput,
   SendEmailVerificationCodeResponse,
   SendEmailVerificationCodeError,
   Credentials | HttpClient.HttpClient
@@ -1807,6 +1876,8 @@ export const sendEmailVerificationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmailVerificationCode",
+  telemetry: TELEMETRY,
+  span: "SendEmailVerificationCode",
 }));
 
 export type StartProfileUpdateTaskError =
@@ -1822,7 +1893,7 @@ export type StartProfileUpdateTaskError =
  * Initiates a profile update task to modify partner profile information asynchronously.
  */
 export const startProfileUpdateTask: API.OperationMethod<
-  StartProfileUpdateTaskRequest,
+  StartProfileUpdateTaskRequest & RegionInput,
   StartProfileUpdateTaskResponse,
   StartProfileUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1841,6 +1912,8 @@ export const startProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProfileUpdateTask",
+  telemetry: TELEMETRY,
+  span: "StartProfileUpdateTask",
 }));
 
 export type StartQualificationsAssociationTaskError =
@@ -1855,7 +1928,7 @@ export type StartQualificationsAssociationTaskError =
  * Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use `GetQualificationsAssociationTask` to monitor task progress.
  */
 export const startQualificationsAssociationTask: API.OperationMethod<
-  StartQualificationsAssociationTaskRequest,
+  StartQualificationsAssociationTaskRequest & RegionInput,
   StartQualificationsAssociationTaskResponse,
   StartQualificationsAssociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1873,6 +1946,8 @@ export const startQualificationsAssociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsAssociationTask",
+  telemetry: TELEMETRY,
+  span: "StartQualificationsAssociationTask",
 }));
 
 export type StartQualificationsDisassociationTaskError =
@@ -1887,7 +1962,7 @@ export type StartQualificationsDisassociationTaskError =
  * Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use `GetQualificationsDisassociationTask` to monitor task progress.
  */
 export const startQualificationsDisassociationTask: API.OperationMethod<
-  StartQualificationsDisassociationTaskRequest,
+  StartQualificationsDisassociationTaskRequest & RegionInput,
   StartQualificationsDisassociationTaskResponse,
   StartQualificationsDisassociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1905,6 +1980,8 @@ export const startQualificationsDisassociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsDisassociationTask",
+  telemetry: TELEMETRY,
+  span: "StartQualificationsDisassociationTask",
 }));
 
 export type StartVerificationError =
@@ -1919,7 +1996,7 @@ export type StartVerificationError =
  * Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.
  */
 export const startVerification: API.OperationMethod<
-  StartVerificationRequest,
+  StartVerificationRequest & RegionInput,
   StartVerificationResponse,
   StartVerificationError,
   Credentials | HttpClient.HttpClient
@@ -1937,6 +2014,8 @@ export const startVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVerification",
+  telemetry: TELEMETRY,
+  span: "StartVerification",
 }));
 
 export type TagResourceError =
@@ -1951,7 +2030,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified AWS Partner Central Account resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1969,6 +2048,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1983,7 +2064,7 @@ export type UntagResourceError =
  * Removes specified tags from an AWS Partner Central Account resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2001,6 +2082,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectionPreferencesError =
@@ -2014,7 +2097,7 @@ export type UpdateConnectionPreferencesError =
  * Updates the connection preferences for a partner account, modifying access settings and exclusions.
  */
 export const updateConnectionPreferences: API.OperationMethod<
-  UpdateConnectionPreferencesRequest,
+  UpdateConnectionPreferencesRequest & RegionInput,
   UpdateConnectionPreferencesResponse,
   UpdateConnectionPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -2031,6 +2114,8 @@ export const updateConnectionPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionPreferences",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionPreferences",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

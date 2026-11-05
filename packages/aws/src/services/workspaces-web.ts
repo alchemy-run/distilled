@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://workspaces-web.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WorkSpacesWeb",
+  service: "WorkSpacesWeb",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1237,7 +1253,7 @@ export type AssociateBrowserSettingsError =
  * Associates a browser settings resource with a web portal.
  */
 export const associateBrowserSettings: API.OperationMethod<
-  AssociateBrowserSettingsRequest,
+  AssociateBrowserSettingsRequest & RegionInput,
   AssociateBrowserSettingsResponse,
   AssociateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1255,6 +1271,8 @@ export const associateBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBrowserSettings",
+  telemetry: TELEMETRY,
+  span: "AssociateBrowserSettings",
 }));
 
 export type AssociateDataProtectionSettingsError =
@@ -1269,7 +1287,7 @@ export type AssociateDataProtectionSettingsError =
  * Associates a data protection settings resource with a web portal.
  */
 export const associateDataProtectionSettings: API.OperationMethod<
-  AssociateDataProtectionSettingsRequest,
+  AssociateDataProtectionSettingsRequest & RegionInput,
   AssociateDataProtectionSettingsResponse,
   AssociateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1287,6 +1305,8 @@ export const associateDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDataProtectionSettings",
+  telemetry: TELEMETRY,
+  span: "AssociateDataProtectionSettings",
 }));
 
 export type AssociateIpAccessSettingsError =
@@ -1301,7 +1321,7 @@ export type AssociateIpAccessSettingsError =
  * Associates an IP access settings resource with a web portal.
  */
 export const associateIpAccessSettings: API.OperationMethod<
-  AssociateIpAccessSettingsRequest,
+  AssociateIpAccessSettingsRequest & RegionInput,
   AssociateIpAccessSettingsResponse,
   AssociateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1319,6 +1339,8 @@ export const associateIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIpAccessSettings",
+  telemetry: TELEMETRY,
+  span: "AssociateIpAccessSettings",
 }));
 
 export type AssociateNetworkSettingsError =
@@ -1333,7 +1355,7 @@ export type AssociateNetworkSettingsError =
  * Associates a network settings resource with a web portal.
  */
 export const associateNetworkSettings: API.OperationMethod<
-  AssociateNetworkSettingsRequest,
+  AssociateNetworkSettingsRequest & RegionInput,
   AssociateNetworkSettingsResponse,
   AssociateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1351,6 +1373,8 @@ export const associateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "AssociateNetworkSettings",
 }));
 
 export type AssociateSessionLoggerError =
@@ -1365,7 +1389,7 @@ export type AssociateSessionLoggerError =
  * Associates a session logger with a portal.
  */
 export const associateSessionLogger: API.OperationMethod<
-  AssociateSessionLoggerRequest,
+  AssociateSessionLoggerRequest & RegionInput,
   AssociateSessionLoggerResponse,
   AssociateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -1383,6 +1407,8 @@ export const associateSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSessionLogger",
+  telemetry: TELEMETRY,
+  span: "AssociateSessionLogger",
 }));
 
 export type AssociateTrustStoreError =
@@ -1397,7 +1423,7 @@ export type AssociateTrustStoreError =
  * Associates a trust store with a web portal.
  */
 export const associateTrustStore: API.OperationMethod<
-  AssociateTrustStoreRequest,
+  AssociateTrustStoreRequest & RegionInput,
   AssociateTrustStoreResponse,
   AssociateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -1415,6 +1441,8 @@ export const associateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTrustStore",
+  telemetry: TELEMETRY,
+  span: "AssociateTrustStore",
 }));
 
 export type AssociateUserAccessLoggingSettingsError =
@@ -1429,7 +1457,7 @@ export type AssociateUserAccessLoggingSettingsError =
  * Associates a user access logging settings resource with a web portal.
  */
 export const associateUserAccessLoggingSettings: API.OperationMethod<
-  AssociateUserAccessLoggingSettingsRequest,
+  AssociateUserAccessLoggingSettingsRequest & RegionInput,
   AssociateUserAccessLoggingSettingsResponse,
   AssociateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1447,6 +1475,8 @@ export const associateUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserAccessLoggingSettings",
+  telemetry: TELEMETRY,
+  span: "AssociateUserAccessLoggingSettings",
 }));
 
 export type AssociateUserSettingsError =
@@ -1461,7 +1491,7 @@ export type AssociateUserSettingsError =
  * Associates a user settings resource with a web portal.
  */
 export const associateUserSettings: API.OperationMethod<
-  AssociateUserSettingsRequest,
+  AssociateUserSettingsRequest & RegionInput,
   AssociateUserSettingsResponse,
   AssociateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1479,6 +1509,8 @@ export const associateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserSettings",
+  telemetry: TELEMETRY,
+  span: "AssociateUserSettings",
 }));
 
 export type CreateBrowserSettingsError =
@@ -1494,7 +1526,7 @@ export type CreateBrowserSettingsError =
  * Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
  */
 export const createBrowserSettings: API.OperationMethod<
-  CreateBrowserSettingsRequest,
+  CreateBrowserSettingsRequest & RegionInput,
   CreateBrowserSettingsResponse,
   CreateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1513,6 +1545,8 @@ export const createBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowserSettings",
+  telemetry: TELEMETRY,
+  span: "CreateBrowserSettings",
 }));
 
 export type CreateDataProtectionSettingsError =
@@ -1528,7 +1562,7 @@ export type CreateDataProtectionSettingsError =
  * Creates a data protection settings resource that can be associated with a web portal.
  */
 export const createDataProtectionSettings: API.OperationMethod<
-  CreateDataProtectionSettingsRequest,
+  CreateDataProtectionSettingsRequest & RegionInput,
   CreateDataProtectionSettingsResponse,
   CreateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1547,6 +1581,8 @@ export const createDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProtectionSettings",
+  telemetry: TELEMETRY,
+  span: "CreateDataProtectionSettings",
 }));
 
 export type CreateIdentityProviderError =
@@ -1562,7 +1598,7 @@ export type CreateIdentityProviderError =
  * Creates an identity provider resource that is then associated with a web portal.
  */
 export const createIdentityProvider: API.OperationMethod<
-  CreateIdentityProviderRequest,
+  CreateIdentityProviderRequest & RegionInput,
   CreateIdentityProviderResponse,
   CreateIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -1581,6 +1617,8 @@ export const createIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProvider",
 }));
 
 export type CreateIpAccessSettingsError =
@@ -1595,7 +1633,7 @@ export type CreateIpAccessSettingsError =
  * Creates an IP access settings resource that can be associated with a web portal.
  */
 export const createIpAccessSettings: API.OperationMethod<
-  CreateIpAccessSettingsRequest,
+  CreateIpAccessSettingsRequest & RegionInput,
   CreateIpAccessSettingsResponse,
   CreateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1613,6 +1651,8 @@ export const createIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpAccessSettings",
+  telemetry: TELEMETRY,
+  span: "CreateIpAccessSettings",
 }));
 
 export type CreateNetworkSettingsError =
@@ -1627,7 +1667,7 @@ export type CreateNetworkSettingsError =
  * Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
  */
 export const createNetworkSettings: API.OperationMethod<
-  CreateNetworkSettingsRequest,
+  CreateNetworkSettingsRequest & RegionInput,
   CreateNetworkSettingsResponse,
   CreateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1645,6 +1685,8 @@ export const createNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "CreateNetworkSettings",
 }));
 
 export type CreatePortalError =
@@ -1660,7 +1702,7 @@ export type CreatePortalError =
  * Creates a web portal.
  */
 export const createPortal: API.OperationMethod<
-  CreatePortalRequest,
+  CreatePortalRequest & RegionInput,
   CreatePortalResponse,
   CreatePortalError,
   Credentials | HttpClient.HttpClient
@@ -1679,6 +1721,8 @@ export const createPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortal",
+  telemetry: TELEMETRY,
+  span: "CreatePortal",
 }));
 
 export type CreateSessionLoggerError =
@@ -1693,7 +1737,7 @@ export type CreateSessionLoggerError =
  * Creates a session logger.
  */
 export const createSessionLogger: API.OperationMethod<
-  CreateSessionLoggerRequest,
+  CreateSessionLoggerRequest & RegionInput,
   CreateSessionLoggerResponse,
   CreateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -1711,6 +1755,8 @@ export const createSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSessionLogger",
+  telemetry: TELEMETRY,
+  span: "CreateSessionLogger",
 }));
 
 export type CreateTrustStoreError =
@@ -1725,7 +1771,7 @@ export type CreateTrustStoreError =
  * Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
  */
 export const createTrustStore: API.OperationMethod<
-  CreateTrustStoreRequest,
+  CreateTrustStoreRequest & RegionInput,
   CreateTrustStoreResponse,
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -1743,6 +1789,8 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
+  telemetry: TELEMETRY,
+  span: "CreateTrustStore",
 }));
 
 export type CreateUserAccessLoggingSettingsError =
@@ -1757,7 +1805,7 @@ export type CreateUserAccessLoggingSettingsError =
  * Creates a user access logging settings resource that can be associated with a web portal.
  */
 export const createUserAccessLoggingSettings: API.OperationMethod<
-  CreateUserAccessLoggingSettingsRequest,
+  CreateUserAccessLoggingSettingsRequest & RegionInput,
   CreateUserAccessLoggingSettingsResponse,
   CreateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1775,6 +1823,8 @@ export const createUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserAccessLoggingSettings",
+  telemetry: TELEMETRY,
+  span: "CreateUserAccessLoggingSettings",
 }));
 
 export type CreateUserSettingsError =
@@ -1790,7 +1840,7 @@ export type CreateUserSettingsError =
  * Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
  */
 export const createUserSettings: API.OperationMethod<
-  CreateUserSettingsRequest,
+  CreateUserSettingsRequest & RegionInput,
   CreateUserSettingsResponse,
   CreateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1809,6 +1859,8 @@ export const createUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserSettings",
+  telemetry: TELEMETRY,
+  span: "CreateUserSettings",
 }));
 
 export type DeleteBrowserSettingsError =
@@ -1822,7 +1874,7 @@ export type DeleteBrowserSettingsError =
  * Deletes browser settings.
  */
 export const deleteBrowserSettings: API.OperationMethod<
-  DeleteBrowserSettingsRequest,
+  DeleteBrowserSettingsRequest & RegionInput,
   DeleteBrowserSettingsResponse,
   DeleteBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1839,6 +1891,8 @@ export const deleteBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowserSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteBrowserSettings",
 }));
 
 export type DeleteDataProtectionSettingsError =
@@ -1852,7 +1906,7 @@ export type DeleteDataProtectionSettingsError =
  * Deletes data protection settings.
  */
 export const deleteDataProtectionSettings: API.OperationMethod<
-  DeleteDataProtectionSettingsRequest,
+  DeleteDataProtectionSettingsRequest & RegionInput,
   DeleteDataProtectionSettingsResponse,
   DeleteDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1869,6 +1923,8 @@ export const deleteDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProtectionSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteDataProtectionSettings",
 }));
 
 export type DeleteIdentityProviderError =
@@ -1882,7 +1938,7 @@ export type DeleteIdentityProviderError =
  * Deletes the identity provider.
  */
 export const deleteIdentityProvider: API.OperationMethod<
-  DeleteIdentityProviderRequest,
+  DeleteIdentityProviderRequest & RegionInput,
   DeleteIdentityProviderResponse,
   DeleteIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -1899,6 +1955,8 @@ export const deleteIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProvider",
 }));
 
 export type DeleteIpAccessSettingsError =
@@ -1912,7 +1970,7 @@ export type DeleteIpAccessSettingsError =
  * Deletes IP access settings.
  */
 export const deleteIpAccessSettings: API.OperationMethod<
-  DeleteIpAccessSettingsRequest,
+  DeleteIpAccessSettingsRequest & RegionInput,
   DeleteIpAccessSettingsResponse,
   DeleteIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1929,6 +1987,8 @@ export const deleteIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpAccessSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteIpAccessSettings",
 }));
 
 export type DeleteNetworkSettingsError =
@@ -1942,7 +2002,7 @@ export type DeleteNetworkSettingsError =
  * Deletes network settings.
  */
 export const deleteNetworkSettings: API.OperationMethod<
-  DeleteNetworkSettingsRequest,
+  DeleteNetworkSettingsRequest & RegionInput,
   DeleteNetworkSettingsResponse,
   DeleteNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1959,6 +2019,8 @@ export const deleteNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkSettings",
 }));
 
 export type DeletePortalError =
@@ -1972,7 +2034,7 @@ export type DeletePortalError =
  * Deletes a web portal.
  */
 export const deletePortal: API.OperationMethod<
-  DeletePortalRequest,
+  DeletePortalRequest & RegionInput,
   DeletePortalResponse,
   DeletePortalError,
   Credentials | HttpClient.HttpClient
@@ -1989,6 +2051,8 @@ export const deletePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortal",
+  telemetry: TELEMETRY,
+  span: "DeletePortal",
 }));
 
 export type DeleteSessionLoggerError =
@@ -2002,7 +2066,7 @@ export type DeleteSessionLoggerError =
  * Deletes a session logger resource.
  */
 export const deleteSessionLogger: API.OperationMethod<
-  DeleteSessionLoggerRequest,
+  DeleteSessionLoggerRequest & RegionInput,
   DeleteSessionLoggerResponse,
   DeleteSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -2019,6 +2083,8 @@ export const deleteSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSessionLogger",
+  telemetry: TELEMETRY,
+  span: "DeleteSessionLogger",
 }));
 
 export type DeleteTrustStoreError =
@@ -2032,7 +2098,7 @@ export type DeleteTrustStoreError =
  * Deletes the trust store.
  */
 export const deleteTrustStore: API.OperationMethod<
-  DeleteTrustStoreRequest,
+  DeleteTrustStoreRequest & RegionInput,
   DeleteTrustStoreResponse,
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2049,6 +2115,8 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustStore",
 }));
 
 export type DeleteUserAccessLoggingSettingsError =
@@ -2062,7 +2130,7 @@ export type DeleteUserAccessLoggingSettingsError =
  * Deletes user access logging settings.
  */
 export const deleteUserAccessLoggingSettings: API.OperationMethod<
-  DeleteUserAccessLoggingSettingsRequest,
+  DeleteUserAccessLoggingSettingsRequest & RegionInput,
   DeleteUserAccessLoggingSettingsResponse,
   DeleteUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2079,6 +2147,8 @@ export const deleteUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserAccessLoggingSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteUserAccessLoggingSettings",
 }));
 
 export type DeleteUserSettingsError =
@@ -2092,7 +2162,7 @@ export type DeleteUserSettingsError =
  * Deletes user settings.
  */
 export const deleteUserSettings: API.OperationMethod<
-  DeleteUserSettingsRequest,
+  DeleteUserSettingsRequest & RegionInput,
   DeleteUserSettingsResponse,
   DeleteUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2109,6 +2179,8 @@ export const deleteUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteUserSettings",
 }));
 
 export type DisassociateBrowserSettingsError =
@@ -2123,7 +2195,7 @@ export type DisassociateBrowserSettingsError =
  * Disassociates browser settings from a web portal.
  */
 export const disassociateBrowserSettings: API.OperationMethod<
-  DisassociateBrowserSettingsRequest,
+  DisassociateBrowserSettingsRequest & RegionInput,
   DisassociateBrowserSettingsResponse,
   DisassociateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2141,6 +2213,8 @@ export const disassociateBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBrowserSettings",
+  telemetry: TELEMETRY,
+  span: "DisassociateBrowserSettings",
 }));
 
 export type DisassociateDataProtectionSettingsError =
@@ -2155,7 +2229,7 @@ export type DisassociateDataProtectionSettingsError =
  * Disassociates data protection settings from a web portal.
  */
 export const disassociateDataProtectionSettings: API.OperationMethod<
-  DisassociateDataProtectionSettingsRequest,
+  DisassociateDataProtectionSettingsRequest & RegionInput,
   DisassociateDataProtectionSettingsResponse,
   DisassociateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2173,6 +2247,8 @@ export const disassociateDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDataProtectionSettings",
+  telemetry: TELEMETRY,
+  span: "DisassociateDataProtectionSettings",
 }));
 
 export type DisassociateIpAccessSettingsError =
@@ -2187,7 +2263,7 @@ export type DisassociateIpAccessSettingsError =
  * Disassociates IP access settings from a web portal.
  */
 export const disassociateIpAccessSettings: API.OperationMethod<
-  DisassociateIpAccessSettingsRequest,
+  DisassociateIpAccessSettingsRequest & RegionInput,
   DisassociateIpAccessSettingsResponse,
   DisassociateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2205,6 +2281,8 @@ export const disassociateIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIpAccessSettings",
+  telemetry: TELEMETRY,
+  span: "DisassociateIpAccessSettings",
 }));
 
 export type DisassociateNetworkSettingsError =
@@ -2219,7 +2297,7 @@ export type DisassociateNetworkSettingsError =
  * Disassociates network settings from a web portal.
  */
 export const disassociateNetworkSettings: API.OperationMethod<
-  DisassociateNetworkSettingsRequest,
+  DisassociateNetworkSettingsRequest & RegionInput,
   DisassociateNetworkSettingsResponse,
   DisassociateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2237,6 +2315,8 @@ export const disassociateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "DisassociateNetworkSettings",
 }));
 
 export type DisassociateSessionLoggerError =
@@ -2250,7 +2330,7 @@ export type DisassociateSessionLoggerError =
  * Disassociates a session logger from a portal.
  */
 export const disassociateSessionLogger: API.OperationMethod<
-  DisassociateSessionLoggerRequest,
+  DisassociateSessionLoggerRequest & RegionInput,
   DisassociateSessionLoggerResponse,
   DisassociateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -2267,6 +2347,8 @@ export const disassociateSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSessionLogger",
+  telemetry: TELEMETRY,
+  span: "DisassociateSessionLogger",
 }));
 
 export type DisassociateTrustStoreError =
@@ -2281,7 +2363,7 @@ export type DisassociateTrustStoreError =
  * Disassociates a trust store from a web portal.
  */
 export const disassociateTrustStore: API.OperationMethod<
-  DisassociateTrustStoreRequest,
+  DisassociateTrustStoreRequest & RegionInput,
   DisassociateTrustStoreResponse,
   DisassociateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2299,6 +2381,8 @@ export const disassociateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTrustStore",
+  telemetry: TELEMETRY,
+  span: "DisassociateTrustStore",
 }));
 
 export type DisassociateUserAccessLoggingSettingsError =
@@ -2313,7 +2397,7 @@ export type DisassociateUserAccessLoggingSettingsError =
  * Disassociates user access logging settings from a web portal.
  */
 export const disassociateUserAccessLoggingSettings: API.OperationMethod<
-  DisassociateUserAccessLoggingSettingsRequest,
+  DisassociateUserAccessLoggingSettingsRequest & RegionInput,
   DisassociateUserAccessLoggingSettingsResponse,
   DisassociateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2331,6 +2415,8 @@ export const disassociateUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserAccessLoggingSettings",
+  telemetry: TELEMETRY,
+  span: "DisassociateUserAccessLoggingSettings",
 }));
 
 export type DisassociateUserSettingsError =
@@ -2345,7 +2431,7 @@ export type DisassociateUserSettingsError =
  * Disassociates user settings from a web portal.
  */
 export const disassociateUserSettings: API.OperationMethod<
-  DisassociateUserSettingsRequest,
+  DisassociateUserSettingsRequest & RegionInput,
   DisassociateUserSettingsResponse,
   DisassociateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2363,6 +2449,8 @@ export const disassociateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserSettings",
+  telemetry: TELEMETRY,
+  span: "DisassociateUserSettings",
 }));
 
 export type ExpireSessionError =
@@ -2376,7 +2464,7 @@ export type ExpireSessionError =
  * Expires an active secure browser session.
  */
 export const expireSession: API.OperationMethod<
-  ExpireSessionRequest,
+  ExpireSessionRequest & RegionInput,
   ExpireSessionResponse,
   ExpireSessionError,
   Credentials | HttpClient.HttpClient
@@ -2393,6 +2481,8 @@ export const expireSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExpireSession",
+  telemetry: TELEMETRY,
+  span: "ExpireSession",
 }));
 
 export type GetBrowserSettingsError =
@@ -2406,7 +2496,7 @@ export type GetBrowserSettingsError =
  * Gets browser settings.
  */
 export const getBrowserSettings: API.OperationMethod<
-  GetBrowserSettingsRequest,
+  GetBrowserSettingsRequest & RegionInput,
   GetBrowserSettingsResponse,
   GetBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2423,6 +2513,8 @@ export const getBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserSettings",
+  telemetry: TELEMETRY,
+  span: "GetBrowserSettings",
 }));
 
 export type GetDataProtectionSettingsError =
@@ -2436,7 +2528,7 @@ export type GetDataProtectionSettingsError =
  * Gets the data protection settings.
  */
 export const getDataProtectionSettings: API.OperationMethod<
-  GetDataProtectionSettingsRequest,
+  GetDataProtectionSettingsRequest & RegionInput,
   GetDataProtectionSettingsResponse,
   GetDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2453,6 +2545,8 @@ export const getDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProtectionSettings",
+  telemetry: TELEMETRY,
+  span: "GetDataProtectionSettings",
 }));
 
 export type GetIdentityProviderError =
@@ -2466,7 +2560,7 @@ export type GetIdentityProviderError =
  * Gets the identity provider.
  */
 export const getIdentityProvider: API.OperationMethod<
-  GetIdentityProviderRequest,
+  GetIdentityProviderRequest & RegionInput,
   GetIdentityProviderResponse,
   GetIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -2483,6 +2577,8 @@ export const getIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "GetIdentityProvider",
 }));
 
 export type GetIpAccessSettingsError =
@@ -2496,7 +2592,7 @@ export type GetIpAccessSettingsError =
  * Gets the IP access settings.
  */
 export const getIpAccessSettings: API.OperationMethod<
-  GetIpAccessSettingsRequest,
+  GetIpAccessSettingsRequest & RegionInput,
   GetIpAccessSettingsResponse,
   GetIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2513,6 +2609,8 @@ export const getIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpAccessSettings",
+  telemetry: TELEMETRY,
+  span: "GetIpAccessSettings",
 }));
 
 export type GetNetworkSettingsError =
@@ -2526,7 +2624,7 @@ export type GetNetworkSettingsError =
  * Gets the network settings.
  */
 export const getNetworkSettings: API.OperationMethod<
-  GetNetworkSettingsRequest,
+  GetNetworkSettingsRequest & RegionInput,
   GetNetworkSettingsResponse,
   GetNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2543,6 +2641,8 @@ export const getNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "GetNetworkSettings",
 }));
 
 export type GetPortalError =
@@ -2556,7 +2656,7 @@ export type GetPortalError =
  * Gets the web portal.
  */
 export const getPortal: API.OperationMethod<
-  GetPortalRequest,
+  GetPortalRequest & RegionInput,
   GetPortalResponse,
   GetPortalError,
   Credentials | HttpClient.HttpClient
@@ -2573,6 +2673,8 @@ export const getPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortal",
+  telemetry: TELEMETRY,
+  span: "GetPortal",
 }));
 
 export type GetPortalServiceProviderMetadataError =
@@ -2586,7 +2688,7 @@ export type GetPortalServiceProviderMetadataError =
  * Gets the service provider metadata.
  */
 export const getPortalServiceProviderMetadata: API.OperationMethod<
-  GetPortalServiceProviderMetadataRequest,
+  GetPortalServiceProviderMetadataRequest & RegionInput,
   GetPortalServiceProviderMetadataResponse,
   GetPortalServiceProviderMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2603,6 +2705,8 @@ export const getPortalServiceProviderMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalServiceProviderMetadata",
+  telemetry: TELEMETRY,
+  span: "GetPortalServiceProviderMetadata",
 }));
 
 export type GetSessionError =
@@ -2616,7 +2720,7 @@ export type GetSessionError =
  * Gets information for a secure browser session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -2633,6 +2737,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionLoggerError =
@@ -2646,7 +2752,7 @@ export type GetSessionLoggerError =
  * Gets details about a specific session logger resource.
  */
 export const getSessionLogger: API.OperationMethod<
-  GetSessionLoggerRequest,
+  GetSessionLoggerRequest & RegionInput,
   GetSessionLoggerResponse,
   GetSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -2663,6 +2769,8 @@ export const getSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionLogger",
+  telemetry: TELEMETRY,
+  span: "GetSessionLogger",
 }));
 
 export type GetTrustStoreError =
@@ -2676,7 +2784,7 @@ export type GetTrustStoreError =
  * Gets the trust store.
  */
 export const getTrustStore: API.OperationMethod<
-  GetTrustStoreRequest,
+  GetTrustStoreRequest & RegionInput,
   GetTrustStoreResponse,
   GetTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2693,6 +2801,8 @@ export const getTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStore",
+  telemetry: TELEMETRY,
+  span: "GetTrustStore",
 }));
 
 export type GetTrustStoreCertificateError =
@@ -2706,7 +2816,7 @@ export type GetTrustStoreCertificateError =
  * Gets the trust store certificate.
  */
 export const getTrustStoreCertificate: API.OperationMethod<
-  GetTrustStoreCertificateRequest,
+  GetTrustStoreCertificateRequest & RegionInput,
   GetTrustStoreCertificateResponse,
   GetTrustStoreCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2723,6 +2833,8 @@ export const getTrustStoreCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreCertificate",
+  telemetry: TELEMETRY,
+  span: "GetTrustStoreCertificate",
 }));
 
 export type GetUserAccessLoggingSettingsError =
@@ -2736,7 +2848,7 @@ export type GetUserAccessLoggingSettingsError =
  * Gets user access logging settings.
  */
 export const getUserAccessLoggingSettings: API.OperationMethod<
-  GetUserAccessLoggingSettingsRequest,
+  GetUserAccessLoggingSettingsRequest & RegionInput,
   GetUserAccessLoggingSettingsResponse,
   GetUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2753,6 +2865,8 @@ export const getUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserAccessLoggingSettings",
+  telemetry: TELEMETRY,
+  span: "GetUserAccessLoggingSettings",
 }));
 
 export type GetUserSettingsError =
@@ -2766,7 +2880,7 @@ export type GetUserSettingsError =
  * Gets user settings.
  */
 export const getUserSettings: API.OperationMethod<
-  GetUserSettingsRequest,
+  GetUserSettingsRequest & RegionInput,
   GetUserSettingsResponse,
   GetUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2783,6 +2897,8 @@ export const getUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserSettings",
+  telemetry: TELEMETRY,
+  span: "GetUserSettings",
 }));
 
 export type ListBrowserSettingsError =
@@ -2795,7 +2911,7 @@ export type ListBrowserSettingsError =
  * Retrieves a list of browser settings.
  */
 export const listBrowserSettings: API.PaginatedOperationMethod<
-  ListBrowserSettingsRequest,
+  ListBrowserSettingsRequest & RegionInput,
   ListBrowserSettingsResponse,
   ListBrowserSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2817,6 +2933,8 @@ export const listBrowserSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrowserSettings",
 })) as any;
 
 export type ListDataProtectionSettingsError =
@@ -2829,7 +2947,7 @@ export type ListDataProtectionSettingsError =
  * Retrieves a list of data protection settings.
  */
 export const listDataProtectionSettings: API.PaginatedOperationMethod<
-  ListDataProtectionSettingsRequest,
+  ListDataProtectionSettingsRequest & RegionInput,
   ListDataProtectionSettingsResponse,
   ListDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2852,6 +2970,8 @@ export const listDataProtectionSettings: API.PaginatedOperationMethod<
     items: "dataProtectionSettings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataProtectionSettings",
 })) as any;
 
 export type ListIdentityProvidersError =
@@ -2864,7 +2984,7 @@ export type ListIdentityProvidersError =
  * Retrieves a list of identity providers for a specific web portal.
  */
 export const listIdentityProviders: API.PaginatedOperationMethod<
-  ListIdentityProvidersRequest,
+  ListIdentityProvidersRequest & RegionInput,
   ListIdentityProvidersResponse,
   ListIdentityProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -2886,6 +3006,8 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviders",
 })) as any;
 
 export type ListIpAccessSettingsError =
@@ -2898,7 +3020,7 @@ export type ListIpAccessSettingsError =
  * Retrieves a list of IP access settings.
  */
 export const listIpAccessSettings: API.PaginatedOperationMethod<
-  ListIpAccessSettingsRequest,
+  ListIpAccessSettingsRequest & RegionInput,
   ListIpAccessSettingsResponse,
   ListIpAccessSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2920,6 +3042,8 @@ export const listIpAccessSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIpAccessSettings",
 })) as any;
 
 export type ListNetworkSettingsError =
@@ -2932,7 +3056,7 @@ export type ListNetworkSettingsError =
  * Retrieves a list of network settings.
  */
 export const listNetworkSettings: API.PaginatedOperationMethod<
-  ListNetworkSettingsRequest,
+  ListNetworkSettingsRequest & RegionInput,
   ListNetworkSettingsResponse,
   ListNetworkSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2954,6 +3078,8 @@ export const listNetworkSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkSettings",
 })) as any;
 
 export type ListPortalsError =
@@ -2966,7 +3092,7 @@ export type ListPortalsError =
  * Retrieves a list or web portals.
  */
 export const listPortals: API.PaginatedOperationMethod<
-  ListPortalsRequest,
+  ListPortalsRequest & RegionInput,
   ListPortalsResponse,
   ListPortalsError,
   Credentials | HttpClient.HttpClient,
@@ -2988,6 +3114,8 @@ export const listPortals: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortals",
 })) as any;
 
 export type ListSessionLoggersError =
@@ -3000,7 +3128,7 @@ export type ListSessionLoggersError =
  * Lists all available session logger resources.
  */
 export const listSessionLoggers: API.PaginatedOperationMethod<
-  ListSessionLoggersRequest,
+  ListSessionLoggersRequest & RegionInput,
   ListSessionLoggersResponse,
   ListSessionLoggersError,
   Credentials | HttpClient.HttpClient,
@@ -3023,6 +3151,8 @@ export const listSessionLoggers: API.PaginatedOperationMethod<
     items: "sessionLoggers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionLoggers",
 })) as any;
 
 export type ListSessionsError =
@@ -3036,7 +3166,7 @@ export type ListSessionsError =
  * Lists information for multiple secure browser sessions from a specific portal.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -3060,6 +3190,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3073,7 +3205,7 @@ export type ListTagsForResourceError =
  * Retrieves a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3090,6 +3222,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrustStoreCertificatesError =
@@ -3103,7 +3237,7 @@ export type ListTrustStoreCertificatesError =
  * Retrieves a list of trust store certificates.
  */
 export const listTrustStoreCertificates: API.PaginatedOperationMethod<
-  ListTrustStoreCertificatesRequest,
+  ListTrustStoreCertificatesRequest & RegionInput,
   ListTrustStoreCertificatesResponse,
   ListTrustStoreCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -3126,6 +3260,8 @@ export const listTrustStoreCertificates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustStoreCertificates",
 })) as any;
 
 export type ListTrustStoresError =
@@ -3138,7 +3274,7 @@ export type ListTrustStoresError =
  * Retrieves a list of trust stores.
  */
 export const listTrustStores: API.PaginatedOperationMethod<
-  ListTrustStoresRequest,
+  ListTrustStoresRequest & RegionInput,
   ListTrustStoresResponse,
   ListTrustStoresError,
   Credentials | HttpClient.HttpClient,
@@ -3160,6 +3296,8 @@ export const listTrustStores: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustStores",
 })) as any;
 
 export type ListUserAccessLoggingSettingsError =
@@ -3172,7 +3310,7 @@ export type ListUserAccessLoggingSettingsError =
  * Retrieves a list of user access logging settings.
  */
 export const listUserAccessLoggingSettings: API.PaginatedOperationMethod<
-  ListUserAccessLoggingSettingsRequest,
+  ListUserAccessLoggingSettingsRequest & RegionInput,
   ListUserAccessLoggingSettingsResponse,
   ListUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -3194,6 +3332,8 @@ export const listUserAccessLoggingSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserAccessLoggingSettings",
 })) as any;
 
 export type ListUserSettingsError =
@@ -3206,7 +3346,7 @@ export type ListUserSettingsError =
  * Retrieves a list of user settings.
  */
 export const listUserSettings: API.PaginatedOperationMethod<
-  ListUserSettingsRequest,
+  ListUserSettingsRequest & RegionInput,
   ListUserSettingsResponse,
   ListUserSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -3228,6 +3368,8 @@ export const listUserSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserSettings",
 })) as any;
 
 export type TagResourceError =
@@ -3242,7 +3384,7 @@ export type TagResourceError =
  * Adds or overwrites one or more tags for the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3260,6 +3402,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3273,7 +3417,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3290,6 +3434,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBrowserSettingsError =
@@ -3303,7 +3449,7 @@ export type UpdateBrowserSettingsError =
  * Updates browser settings.
  */
 export const updateBrowserSettings: API.OperationMethod<
-  UpdateBrowserSettingsRequest,
+  UpdateBrowserSettingsRequest & RegionInput,
   UpdateBrowserSettingsResponse,
   UpdateBrowserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3320,6 +3466,8 @@ export const updateBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrowserSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateBrowserSettings",
 }));
 
 export type UpdateDataProtectionSettingsError =
@@ -3333,7 +3481,7 @@ export type UpdateDataProtectionSettingsError =
  * Updates data protection settings.
  */
 export const updateDataProtectionSettings: API.OperationMethod<
-  UpdateDataProtectionSettingsRequest,
+  UpdateDataProtectionSettingsRequest & RegionInput,
   UpdateDataProtectionSettingsResponse,
   UpdateDataProtectionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3350,6 +3498,8 @@ export const updateDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataProtectionSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateDataProtectionSettings",
 }));
 
 export type UpdateIdentityProviderError =
@@ -3363,7 +3513,7 @@ export type UpdateIdentityProviderError =
  * Updates the identity provider.
  */
 export const updateIdentityProvider: API.OperationMethod<
-  UpdateIdentityProviderRequest,
+  UpdateIdentityProviderRequest & RegionInput,
   UpdateIdentityProviderResponse,
   UpdateIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3380,6 +3530,8 @@ export const updateIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProvider",
 }));
 
 export type UpdateIpAccessSettingsError =
@@ -3393,7 +3545,7 @@ export type UpdateIpAccessSettingsError =
  * Updates IP access settings.
  */
 export const updateIpAccessSettings: API.OperationMethod<
-  UpdateIpAccessSettingsRequest,
+  UpdateIpAccessSettingsRequest & RegionInput,
   UpdateIpAccessSettingsResponse,
   UpdateIpAccessSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3410,6 +3562,8 @@ export const updateIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIpAccessSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateIpAccessSettings",
 }));
 
 export type UpdateNetworkSettingsError =
@@ -3423,7 +3577,7 @@ export type UpdateNetworkSettingsError =
  * Updates network settings.
  */
 export const updateNetworkSettings: API.OperationMethod<
-  UpdateNetworkSettingsRequest,
+  UpdateNetworkSettingsRequest & RegionInput,
   UpdateNetworkSettingsResponse,
   UpdateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3440,6 +3594,8 @@ export const updateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkSettings",
 }));
 
 export type UpdatePortalError =
@@ -3455,7 +3611,7 @@ export type UpdatePortalError =
  * Updates a web portal.
  */
 export const updatePortal: API.OperationMethod<
-  UpdatePortalRequest,
+  UpdatePortalRequest & RegionInput,
   UpdatePortalResponse,
   UpdatePortalError,
   Credentials | HttpClient.HttpClient
@@ -3474,6 +3630,8 @@ export const updatePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortal",
+  telemetry: TELEMETRY,
+  span: "UpdatePortal",
 }));
 
 export type UpdateSessionLoggerError =
@@ -3487,7 +3645,7 @@ export type UpdateSessionLoggerError =
  * Updates the details of a session logger.
  */
 export const updateSessionLogger: API.OperationMethod<
-  UpdateSessionLoggerRequest,
+  UpdateSessionLoggerRequest & RegionInput,
   UpdateSessionLoggerResponse,
   UpdateSessionLoggerError,
   Credentials | HttpClient.HttpClient
@@ -3504,6 +3662,8 @@ export const updateSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSessionLogger",
+  telemetry: TELEMETRY,
+  span: "UpdateSessionLogger",
 }));
 
 export type UpdateTrustStoreError =
@@ -3518,7 +3678,7 @@ export type UpdateTrustStoreError =
  * Updates the trust store.
  */
 export const updateTrustStore: API.OperationMethod<
-  UpdateTrustStoreRequest,
+  UpdateTrustStoreRequest & RegionInput,
   UpdateTrustStoreResponse,
   UpdateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -3536,6 +3696,8 @@ export const updateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustStore",
+  telemetry: TELEMETRY,
+  span: "UpdateTrustStore",
 }));
 
 export type UpdateUserAccessLoggingSettingsError =
@@ -3549,7 +3711,7 @@ export type UpdateUserAccessLoggingSettingsError =
  * Updates the user access logging settings.
  */
 export const updateUserAccessLoggingSettings: API.OperationMethod<
-  UpdateUserAccessLoggingSettingsRequest,
+  UpdateUserAccessLoggingSettingsRequest & RegionInput,
   UpdateUserAccessLoggingSettingsResponse,
   UpdateUserAccessLoggingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3566,6 +3728,8 @@ export const updateUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserAccessLoggingSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateUserAccessLoggingSettings",
 }));
 
 export type UpdateUserSettingsError =
@@ -3579,7 +3743,7 @@ export type UpdateUserSettingsError =
  * Updates the user settings.
  */
 export const updateUserSettings: API.OperationMethod<
-  UpdateUserSettingsRequest,
+  UpdateUserSettingsRequest & RegionInput,
   UpdateUserSettingsResponse,
   UpdateUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3596,6 +3760,8 @@ export const updateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateUserSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

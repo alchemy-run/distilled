@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://refactor-spaces.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MigrationHubRefactorSpaces",
+  service: "MigrationHubRefactorSpaces",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -687,7 +703,7 @@ export type CreateApplicationError =
  * Create an application in the *Refactor Spaces User Guide*.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -706,6 +722,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateEnvironmentError =
@@ -731,7 +749,7 @@ export type CreateEnvironmentError =
  * with private URL endpoints.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -750,6 +768,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateRouteError =
@@ -832,7 +852,7 @@ export type CreateRouteError =
  * a route in the *Refactor Spaces User Guide*.
  */
 export const createRoute: API.OperationMethod<
-  CreateRouteRequest,
+  CreateRouteRequest & RegionInput,
   CreateRouteResponse,
   CreateRouteError,
   Credentials | HttpClient.HttpClient
@@ -851,6 +871,8 @@ export const createRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
+  telemetry: TELEMETRY,
+  span: "CreateRoute",
 }));
 
 export type CreateServiceError =
@@ -874,7 +896,7 @@ export type CreateServiceError =
  * cross-account constraints, apply your own security group.
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -893,6 +915,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type DeleteApplicationError =
@@ -908,7 +932,7 @@ export type DeleteApplicationError =
  * delete any services or routes within the application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -926,6 +950,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteEnvironmentError =
@@ -941,7 +967,7 @@ export type DeleteEnvironmentError =
  * delete any applications and services within the environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -959,6 +985,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteResourcePolicyError =
@@ -972,7 +1000,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy set for the environment.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -989,6 +1017,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRouteError =
@@ -1003,7 +1033,7 @@ export type DeleteRouteError =
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const deleteRoute: API.OperationMethod<
-  DeleteRouteRequest,
+  DeleteRouteRequest & RegionInput,
   DeleteRouteResponse,
   DeleteRouteError,
   Credentials | HttpClient.HttpClient
@@ -1021,6 +1051,8 @@ export const deleteRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoute",
+  telemetry: TELEMETRY,
+  span: "DeleteRoute",
 }));
 
 export type DeleteServiceError =
@@ -1035,7 +1067,7 @@ export type DeleteServiceError =
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -1053,6 +1085,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type GetApplicationError =
@@ -1066,7 +1100,7 @@ export type GetApplicationError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1083,6 +1117,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetEnvironmentError =
@@ -1096,7 +1132,7 @@ export type GetEnvironmentError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1113,6 +1149,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetResourcePolicyError =
@@ -1126,7 +1164,7 @@ export type GetResourcePolicyError =
  * Gets the resource-based permission policy that is set for the given environment.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1143,6 +1181,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetRouteError =
@@ -1156,7 +1196,7 @@ export type GetRouteError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const getRoute: API.OperationMethod<
-  GetRouteRequest,
+  GetRouteRequest & RegionInput,
   GetRouteResponse,
   GetRouteError,
   Credentials | HttpClient.HttpClient
@@ -1173,6 +1213,8 @@ export const getRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoute",
+  telemetry: TELEMETRY,
+  span: "GetRoute",
 }));
 
 export type GetServiceError =
@@ -1186,7 +1228,7 @@ export type GetServiceError =
  * Gets an Amazon Web Services Migration Hub Refactor Spaces service.
  */
 export const getService: API.OperationMethod<
-  GetServiceRequest,
+  GetServiceRequest & RegionInput,
   GetServiceResponse,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -1203,6 +1245,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type ListApplicationsError =
@@ -1218,7 +1262,7 @@ export type ListApplicationsError =
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1244,6 +1288,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -1258,7 +1304,7 @@ export type ListEnvironmentsError =
  * account.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1282,6 +1328,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "EnvironmentSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListEnvironmentVpcsError =
@@ -1296,7 +1344,7 @@ export type ListEnvironmentVpcsError =
  * environment.
  */
 export const listEnvironmentVpcs: API.PaginatedOperationMethod<
-  ListEnvironmentVpcsRequest,
+  ListEnvironmentVpcsRequest & RegionInput,
   ListEnvironmentVpcsResponse,
   ListEnvironmentVpcsError,
   Credentials | HttpClient.HttpClient,
@@ -1320,6 +1368,8 @@ export const listEnvironmentVpcs: API.PaginatedOperationMethod<
     items: "EnvironmentVpcList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentVpcs",
 })) as any;
 
 export type ListRoutesError =
@@ -1335,7 +1385,7 @@ export type ListRoutesError =
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
  */
 export const listRoutes: API.PaginatedOperationMethod<
-  ListRoutesRequest,
+  ListRoutesRequest & RegionInput,
   ListRoutesResponse,
   ListRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -1361,6 +1411,8 @@ export const listRoutes: API.PaginatedOperationMethod<
     items: "RouteSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutes",
 })) as any;
 
 export type ListServicesError =
@@ -1376,7 +1428,7 @@ export type ListServicesError =
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1402,6 +1454,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "ServiceSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1414,7 +1468,7 @@ export type ListTagsForResourceError =
  * `OwnerAccountId`. Listing tags in other accounts is not supported.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1425,6 +1479,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -1442,7 +1498,7 @@ export type PutResourcePolicyError =
  * permission in Resource Access Manager. The policy must not contain new lines or blank lines.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1460,6 +1516,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type TagResourceError =
@@ -1476,7 +1534,7 @@ export type TagResourceError =
  * environment's transit gateway.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1487,6 +1545,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1500,7 +1560,7 @@ export type UntagResourceError =
  * `OwnerAccountId`. Untagging resources across accounts is not supported.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1511,6 +1571,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateRouteError =
@@ -1524,7 +1586,7 @@ export type UpdateRouteError =
  * Updates an Amazon Web Services Migration Hub Refactor Spaces route.
  */
 export const updateRoute: API.OperationMethod<
-  UpdateRouteRequest,
+  UpdateRouteRequest & RegionInput,
   UpdateRouteResponse,
   UpdateRouteError,
   Credentials | HttpClient.HttpClient
@@ -1541,6 +1603,8 @@ export const updateRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoute",
+  telemetry: TELEMETRY,
+  span: "UpdateRoute",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

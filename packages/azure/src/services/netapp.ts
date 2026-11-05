@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.NetApp" },
+  prefix: "Netapp",
+  service: "Netapp",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
 export interface KeyVaultPrivateEndpoint {
   /** Identifier for the virtual network id */
@@ -5212,6 +5233,8 @@ export const AccountsChangeKeyVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsChangeKeyVault",
 }));
 
 export type AccountsCreateOrUpdateError = AzureOpError;
@@ -5227,6 +5250,8 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsCreateOrUpdate",
 }));
 
 export type AccountsTransitionToCmkError = AzureOpError;
@@ -5242,6 +5267,8 @@ export const AccountsTransitionToCmk: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsTransitionToCmk",
 }));
 
 export type AuthorizeVolumeExternalReplicationError = AzureOpError;
@@ -5257,6 +5284,8 @@ export const AuthorizeVolumeExternalReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeVolumeExternalReplication",
 }));
 
 export type AuthorizeVolumeReplicationError = AzureOpError;
@@ -5272,6 +5301,8 @@ export const AuthorizeVolumeReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeVolumeReplication",
 }));
 
 export type BackupsGetVolumeLatestRestoreStatusError = AzureOpError;
@@ -5287,6 +5318,8 @@ export const BackupsGetVolumeLatestRestoreStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupsGetVolumeLatestRestoreStatus",
 }));
 
 export type BackupVaultsCreateOrUpdateError = AzureOpError;
@@ -5302,6 +5335,8 @@ export const BackupVaultsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupVaultsCreateOrUpdate",
 }));
 
 export type BucketsCreateOrUpdateError = AzureOpError;
@@ -5317,6 +5352,8 @@ export const BucketsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BucketsCreateOrUpdate",
 }));
 
 export type CachesCreateOrUpdateError = AzureOpError;
@@ -5332,6 +5369,8 @@ export const CachesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CachesCreateOrUpdate",
 }));
 
 export type CachesPoolChangeError = AzureOpError;
@@ -5347,6 +5386,8 @@ export const CachesPoolChange: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CachesPoolChange",
 }));
 
 export type CheckNetAppResourceFilePathAvailabilityError = AzureOpError;
@@ -5362,6 +5403,8 @@ export const CheckNetAppResourceFilePathAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNetAppResourceFilePathAvailability",
 }));
 
 export type CheckNetAppResourceNameAvailabilityError = AzureOpError;
@@ -5377,6 +5420,8 @@ export const CheckNetAppResourceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNetAppResourceNameAvailability",
 }));
 
 export type CheckNetAppResourceQuotaAvailabilityError = AzureOpError;
@@ -5392,6 +5437,8 @@ export const CheckNetAppResourceQuotaAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNetAppResourceQuotaAvailability",
 }));
 
 export type ClearRansomwareReportSuspectsError = AzureOpError;
@@ -5407,6 +5454,8 @@ export const ClearRansomwareReportSuspects: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearRansomwareReportSuspects",
 }));
 
 export type CreateBackupError = AzureOpError;
@@ -5422,6 +5471,8 @@ export const CreateBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackup",
 }));
 
 export type CreateBackupPolicyError = AzureOpError;
@@ -5437,6 +5488,8 @@ export const CreateBackupPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackupPolicy",
 }));
 
 export type CreateSnapshotError = AzureOpError;
@@ -5452,6 +5505,8 @@ export const CreateSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateSnapshotPolicyError = AzureOpError;
@@ -5467,6 +5522,8 @@ export const CreateSnapshotPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshotPolicy",
 }));
 
 export type CreateVolumeGroupError = AzureOpError;
@@ -5482,6 +5539,8 @@ export const CreateVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeGroup",
 }));
 
 export type CreateVolumeQuotaRuleError = AzureOpError;
@@ -5497,6 +5556,8 @@ export const CreateVolumeQuotaRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeQuotaRule",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -5512,6 +5573,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteBackupError = AzureOpError;
@@ -5527,6 +5590,8 @@ export const DeleteBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackup",
 }));
 
 export type DeleteBackupPolicyError = AzureOpError;
@@ -5542,6 +5607,8 @@ export const DeleteBackupPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupPolicy",
 }));
 
 export type DeleteBackupVaultError = AzureOpError;
@@ -5557,6 +5624,8 @@ export const DeleteBackupVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVault",
 }));
 
 export type DeleteBucketError = AzureOpError;
@@ -5572,6 +5641,8 @@ export const DeleteBucket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBucket",
 }));
 
 export type DeleteCachError = AzureOpError;
@@ -5587,6 +5658,8 @@ export const DeleteCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCach",
 }));
 
 export type DeletePoolError = AzureOpError;
@@ -5602,6 +5675,8 @@ export const DeletePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePool",
 }));
 
 export type DeleteSnapshotError = AzureOpError;
@@ -5617,6 +5692,8 @@ export const DeleteSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteSnapshotPolicyError = AzureOpError;
@@ -5632,6 +5709,8 @@ export const DeleteSnapshotPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshotPolicy",
 }));
 
 export type DeleteVolumeError = AzureOpError;
@@ -5647,6 +5726,8 @@ export const DeleteVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DeleteVolumeGroupError = AzureOpError;
@@ -5662,6 +5743,8 @@ export const DeleteVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeGroup",
 }));
 
 export type DeleteVolumeQuotaRuleError = AzureOpError;
@@ -5677,6 +5760,8 @@ export const DeleteVolumeQuotaRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeQuotaRule",
 }));
 
 export type DeleteVolumeReplicationError = AzureOpError;
@@ -5692,6 +5777,8 @@ export const DeleteVolumeReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeReplication",
 }));
 
 export type FinalizeVolumeExternalReplicationError = AzureOpError;
@@ -5707,6 +5794,8 @@ export const FinalizeVolumeExternalReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeVolumeExternalReplication",
 }));
 
 export type FinalizeVolumeRelocationError = AzureOpError;
@@ -5722,6 +5811,8 @@ export const FinalizeVolumeRelocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeVolumeRelocation",
 }));
 
 export type GenerateBucketAkvCredentialsError = AzureOpError;
@@ -5737,6 +5828,8 @@ export const GenerateBucketAkvCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateBucketAkvCredentials",
 }));
 
 export type GenerateBucketCredentialsError = AzureOpError;
@@ -5752,6 +5845,8 @@ export const GenerateBucketCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateBucketCredentials",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -5767,6 +5862,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountChangeKeyVaultInformationError = AzureOpError;
@@ -5782,6 +5879,8 @@ export const GetAccountChangeKeyVaultInformation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountChangeKeyVaultInformation",
 }));
 
 export type GetBackupError = AzureOpError;
@@ -5797,6 +5896,8 @@ export const GetBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackup",
 }));
 
 export type GetBackupLatestStatusError = AzureOpError;
@@ -5812,6 +5913,8 @@ export const GetBackupLatestStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupLatestStatus",
 }));
 
 export type GetBackupPolicyError = AzureOpError;
@@ -5827,6 +5930,8 @@ export const GetBackupPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupPolicy",
 }));
 
 export type GetBackupVaultError = AzureOpError;
@@ -5842,6 +5947,8 @@ export const GetBackupVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupVault",
 }));
 
 export type GetBucketError = AzureOpError;
@@ -5857,6 +5964,8 @@ export const GetBucket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBucket",
 }));
 
 export type GetCachError = AzureOpError;
@@ -5872,6 +5981,8 @@ export const GetCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCach",
 }));
 
 export type GetNetAppResourceQuotaLimitError = AzureOpError;
@@ -5887,6 +5998,8 @@ export const GetNetAppResourceQuotaLimit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetAppResourceQuotaLimit",
 }));
 
 export type GetNetAppResourceQuotaLimitsAccountError = AzureOpError;
@@ -5902,6 +6015,8 @@ export const GetNetAppResourceQuotaLimitsAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetAppResourceQuotaLimitsAccount",
 }));
 
 export type GetNetAppResourceRegionInfosError = AzureOpError;
@@ -5917,6 +6032,8 @@ export const GetNetAppResourceRegionInfos: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetAppResourceRegionInfos",
 }));
 
 export type GetNetAppResourceUsageError = AzureOpError;
@@ -5932,6 +6049,8 @@ export const GetNetAppResourceUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetAppResourceUsage",
 }));
 
 export type GetPoolError = AzureOpError;
@@ -5947,6 +6066,8 @@ export const GetPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPool",
 }));
 
 export type GetRansomwareReportError = AzureOpError;
@@ -5962,6 +6083,8 @@ export const GetRansomwareReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRansomwareReport",
 }));
 
 export type GetSnapshotError = AzureOpError;
@@ -5977,6 +6100,8 @@ export const GetSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetSnapshotPolicyError = AzureOpError;
@@ -5992,6 +6117,8 @@ export const GetSnapshotPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotPolicy",
 }));
 
 export type GetVolumeError = AzureOpError;
@@ -6007,6 +6134,8 @@ export const GetVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type GetVolumeGroupError = AzureOpError;
@@ -6022,6 +6151,8 @@ export const GetVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeGroup",
 }));
 
 export type GetVolumeQuotaRuleError = AzureOpError;
@@ -6037,6 +6168,8 @@ export const GetVolumeQuotaRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeQuotaRule",
 }));
 
 export type ListAccountBySubscriptionError = AzureOpError;
@@ -6052,6 +6185,8 @@ export const ListAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountBySubscription",
 }));
 
 export type ListAccountsError = AzureOpError;
@@ -6067,6 +6202,8 @@ export const ListAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 }));
 
 export type ListBackupByVaultError = AzureOpError;
@@ -6082,6 +6219,8 @@ export const ListBackupByVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupByVault",
 }));
 
 export type ListBackupPoliciesError = AzureOpError;
@@ -6097,6 +6236,8 @@ export const ListBackupPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupPolicies",
 }));
 
 export type ListBackupVaultByNetAppAccountError = AzureOpError;
@@ -6112,6 +6253,8 @@ export const ListBackupVaultByNetAppAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupVaultByNetAppAccount",
 }));
 
 export type ListBucketsError = AzureOpError;
@@ -6127,6 +6270,8 @@ export const ListBuckets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuckets",
 }));
 
 export type ListCachesError = AzureOpError;
@@ -6142,6 +6287,8 @@ export const ListCaches: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaches",
 }));
 
 export type ListCachPeeringPassphrasesError = AzureOpError;
@@ -6157,6 +6304,8 @@ export const ListCachPeeringPassphrases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCachPeeringPassphrases",
 }));
 
 export type ListNetAppResourceQuotaLimitsError = AzureOpError;
@@ -6172,6 +6321,8 @@ export const ListNetAppResourceQuotaLimits: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetAppResourceQuotaLimits",
 }));
 
 export type ListNetAppResourceQuotaLimitsAccountError = AzureOpError;
@@ -6187,6 +6338,8 @@ export const ListNetAppResourceQuotaLimitsAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetAppResourceQuotaLimitsAccount",
 }));
 
 export type ListNetAppResourceRegionInfosError = AzureOpError;
@@ -6202,6 +6355,8 @@ export const ListNetAppResourceRegionInfos: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetAppResourceRegionInfos",
 }));
 
 export type ListNetAppResourceUsagesError = AzureOpError;
@@ -6217,6 +6372,8 @@ export const ListNetAppResourceUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetAppResourceUsages",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -6232,6 +6389,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPoolsError = AzureOpError;
@@ -6247,6 +6406,8 @@ export const ListPools: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPools",
 }));
 
 export type ListRansomwareReportsError = AzureOpError;
@@ -6262,6 +6423,8 @@ export const ListRansomwareReports: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRansomwareReports",
 }));
 
 export type ListSnapshotPoliciesError = AzureOpError;
@@ -6277,6 +6440,8 @@ export const ListSnapshotPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotPolicies",
 }));
 
 export type ListSnapshotPolicyVolumesError = AzureOpError;
@@ -6292,6 +6457,8 @@ export const ListSnapshotPolicyVolumes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotPolicyVolumes",
 }));
 
 export type ListSnapshotsError = AzureOpError;
@@ -6307,6 +6474,8 @@ export const ListSnapshots: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshots",
 }));
 
 export type ListVolumeGroupByNetAppAccountError = AzureOpError;
@@ -6322,6 +6491,8 @@ export const ListVolumeGroupByNetAppAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeGroupByNetAppAccount",
 }));
 
 export type ListVolumeQuotaReportError = AzureOpError;
@@ -6337,6 +6508,8 @@ export const ListVolumeQuotaReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeQuotaReport",
 }));
 
 export type ListVolumeQuotaRuleByVolumeError = AzureOpError;
@@ -6352,6 +6525,8 @@ export const ListVolumeQuotaRuleByVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeQuotaRuleByVolume",
 }));
 
 export type ListVolumeReplicationsError = AzureOpError;
@@ -6367,6 +6542,8 @@ export const ListVolumeReplications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeReplications",
 }));
 
 export type ListVolumesError = AzureOpError;
@@ -6382,6 +6559,8 @@ export const ListVolumes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 }));
 
 export type MigrateBackupsUnderAccountBackupsError = AzureOpError;
@@ -6397,6 +6576,8 @@ export const MigrateBackupsUnderAccountBackups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateBackupsUnderAccountBackups",
 }));
 
 export type MigrateBackupsUnderVolumeBackupsError = AzureOpError;
@@ -6412,6 +6593,8 @@ export const MigrateBackupsUnderVolumeBackups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateBackupsUnderVolumeBackups",
 }));
 
 export type NetAppResourceQueryRegionInfoError = AzureOpError;
@@ -6427,6 +6610,8 @@ export const NetAppResourceQueryRegionInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetAppResourceQueryRegionInfo",
 }));
 
 export type PoolsCreateOrUpdateError = AzureOpError;
@@ -6442,6 +6627,8 @@ export const PoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoolsCreateOrUpdate",
 }));
 
 export type RefreshBucketCertificateError = AzureOpError;
@@ -6457,6 +6644,8 @@ export const RefreshBucketCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshBucketCertificate",
 }));
 
 export type RenewAccountCredentialsError = AzureOpError;
@@ -6472,6 +6661,8 @@ export const RenewAccountCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewAccountCredentials",
 }));
 
 export type ResetCachSmbPasswordError = AzureOpError;
@@ -6487,6 +6678,8 @@ export const ResetCachSmbPassword: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetCachSmbPassword",
 }));
 
 export type ResetVolumeCifsPasswordError = AzureOpError;
@@ -6502,6 +6695,8 @@ export const ResetVolumeCifsPassword: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetVolumeCifsPassword",
 }));
 
 export type RestoreBackupsUnderBackupVaultFilesError = AzureOpError;
@@ -6517,6 +6712,8 @@ export const RestoreBackupsUnderBackupVaultFiles: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreBackupsUnderBackupVaultFiles",
 }));
 
 export type RestoreSnapshotFilesError = AzureOpError;
@@ -6532,6 +6729,8 @@ export const RestoreSnapshotFiles: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreSnapshotFiles",
 }));
 
 export type SetNetAppResourceQueryNetworkSiblingError = AzureOpError;
@@ -6547,6 +6746,8 @@ export const SetNetAppResourceQueryNetworkSibling: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetNetAppResourceQueryNetworkSibling",
 }));
 
 export type TransferVolumesPerformReplicationError = AzureOpError;
@@ -6562,6 +6763,8 @@ export const TransferVolumesPerformReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferVolumesPerformReplication",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -6577,6 +6780,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateBackupError = AzureOpError;
@@ -6592,6 +6797,8 @@ export const UpdateBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackup",
 }));
 
 export type UpdateBackupPolicyError = AzureOpError;
@@ -6607,6 +6814,8 @@ export const UpdateBackupPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackupPolicy",
 }));
 
 export type UpdateBackupVaultError = AzureOpError;
@@ -6622,6 +6831,8 @@ export const UpdateBackupVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackupVault",
 }));
 
 export type UpdateBucketError = AzureOpError;
@@ -6637,6 +6848,8 @@ export const UpdateBucket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBucket",
 }));
 
 export type UpdateCachError = AzureOpError;
@@ -6652,6 +6865,8 @@ export const UpdateCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCach",
 }));
 
 export type UpdateNetAppResourceNetworkSiblingSetError = AzureOpError;
@@ -6667,6 +6882,8 @@ export const UpdateNetAppResourceNetworkSiblingSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetAppResourceNetworkSiblingSet",
 }));
 
 export type UpdatePoolError = AzureOpError;
@@ -6682,6 +6899,8 @@ export const UpdatePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePool",
 }));
 
 export type UpdateSnapshotError = AzureOpError;
@@ -6697,6 +6916,8 @@ export const UpdateSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshot",
 }));
 
 export type UpdateSnapshotPolicyError = AzureOpError;
@@ -6712,6 +6933,8 @@ export const UpdateSnapshotPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshotPolicy",
 }));
 
 export type UpdateVolumeError = AzureOpError;
@@ -6727,6 +6950,8 @@ export const UpdateVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolume",
 }));
 
 export type UpdateVolumeQuotaRuleError = AzureOpError;
@@ -6742,6 +6967,8 @@ export const UpdateVolumeQuotaRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolumeQuotaRule",
 }));
 
 export type VolumesBreakFileLocksError = AzureOpError;
@@ -6757,6 +6984,8 @@ export const VolumesBreakFileLocks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesBreakFileLocks",
 }));
 
 export type VolumesBreakReplicationError = AzureOpError;
@@ -6772,6 +7001,8 @@ export const VolumesBreakReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesBreakReplication",
 }));
 
 export type VolumesCreateOrUpdateError = AzureOpError;
@@ -6787,6 +7018,8 @@ export const VolumesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesCreateOrUpdate",
 }));
 
 export type VolumesListGetGroupIdListForLdapUserError = AzureOpError;
@@ -6802,6 +7035,8 @@ export const VolumesListGetGroupIdListForLdapUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesListGetGroupIdListForLdapUser",
 }));
 
 export type VolumesPeerExternalClusterError = AzureOpError;
@@ -6817,6 +7052,8 @@ export const VolumesPeerExternalCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesPeerExternalCluster",
 }));
 
 export type VolumesPoolChangeError = AzureOpError;
@@ -6832,6 +7069,8 @@ export const VolumesPoolChange: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesPoolChange",
 }));
 
 export type VolumesPopulateAvailabilityZoneError = AzureOpError;
@@ -6847,6 +7086,8 @@ export const VolumesPopulateAvailabilityZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesPopulateAvailabilityZone",
 }));
 
 export type VolumesReestablishReplicationError = AzureOpError;
@@ -6862,6 +7103,8 @@ export const VolumesReestablishReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesReestablishReplication",
 }));
 
 export type VolumesReInitializeReplicationError = AzureOpError;
@@ -6877,6 +7120,8 @@ export const VolumesReInitializeReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesReInitializeReplication",
 }));
 
 export type VolumesRelocateError = AzureOpError;
@@ -6892,6 +7137,8 @@ export const VolumesRelocate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesRelocate",
 }));
 
 export type VolumesReplicationStatusError = AzureOpError;
@@ -6907,6 +7154,8 @@ export const VolumesReplicationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesReplicationStatus",
 }));
 
 export type VolumesResyncReplicationError = AzureOpError;
@@ -6922,6 +7171,8 @@ export const VolumesResyncReplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesResyncReplication",
 }));
 
 export type VolumesRevertError = AzureOpError;
@@ -6937,6 +7188,8 @@ export const VolumesRevert: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesRevert",
 }));
 
 export type VolumesRevertRelocationError = AzureOpError;
@@ -6952,6 +7205,8 @@ export const VolumesRevertRelocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesRevertRelocation",
 }));
 
 export type VolumesSplitCloneFromParentError = AzureOpError;
@@ -6967,6 +7222,8 @@ export const VolumesSplitCloneFromParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesSplitCloneFromParent",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

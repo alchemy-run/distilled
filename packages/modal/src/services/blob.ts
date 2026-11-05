@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "BlobService",
+  propagate: "w3c",
+} as const;
+
 export interface CreateBlobRequest {
   /** TODO(erikbern): how are these garbage collected? Shouldn't they belong to an app? */
   contentMd5?: string;
@@ -58,6 +70,8 @@ export const createBlob: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBlob",
 }));
 
 export type GetBlobError = ModalOpError;
@@ -72,6 +86,8 @@ export const getBlob: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlob",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

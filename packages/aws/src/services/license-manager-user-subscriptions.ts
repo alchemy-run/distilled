@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://license-manager-user-subscriptions.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LicenseManagerUserSubscriptions",
+  service: "LicenseManagerUserSubscriptions",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -405,7 +421,7 @@ export type AssociateUserError =
  * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
  */
 export const associateUser: API.OperationMethod<
-  AssociateUserRequest,
+  AssociateUserRequest & RegionInput,
   AssociateUserResponse,
   AssociateUserError,
   Credentials | HttpClient.HttpClient
@@ -424,6 +440,8 @@ export const associateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUser",
+  telemetry: TELEMETRY,
+  span: "AssociateUser",
 }));
 
 export type CreateLicenseServerEndpointError =
@@ -439,7 +457,7 @@ export type CreateLicenseServerEndpointError =
  * Creates a network endpoint for the Remote Desktop Services (RDS) license server.
  */
 export const createLicenseServerEndpoint: API.OperationMethod<
-  CreateLicenseServerEndpointRequest,
+  CreateLicenseServerEndpointRequest & RegionInput,
   CreateLicenseServerEndpointResponse,
   CreateLicenseServerEndpointError,
   Credentials | HttpClient.HttpClient
@@ -458,6 +476,8 @@ export const createLicenseServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseServerEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseServerEndpoint",
 }));
 
 export type DeleteLicenseServerEndpointError =
@@ -473,7 +493,7 @@ export type DeleteLicenseServerEndpointError =
  * Deletes a `LicenseServerEndpoint` resource.
  */
 export const deleteLicenseServerEndpoint: API.OperationMethod<
-  DeleteLicenseServerEndpointRequest,
+  DeleteLicenseServerEndpointRequest & RegionInput,
   DeleteLicenseServerEndpointResponse,
   DeleteLicenseServerEndpointError,
   Credentials | HttpClient.HttpClient
@@ -492,6 +512,8 @@ export const deleteLicenseServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseServerEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseServerEndpoint",
 }));
 
 export type DeregisterIdentityProviderError =
@@ -507,7 +529,7 @@ export type DeregisterIdentityProviderError =
  * Deregisters the Active Directory identity provider from License Manager user-based subscriptions.
  */
 export const deregisterIdentityProvider: API.OperationMethod<
-  DeregisterIdentityProviderRequest,
+  DeregisterIdentityProviderRequest & RegionInput,
   DeregisterIdentityProviderResponse,
   DeregisterIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -526,6 +548,8 @@ export const deregisterIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "DeregisterIdentityProvider",
 }));
 
 export type DisassociateUserError =
@@ -541,7 +565,7 @@ export type DisassociateUserError =
  * Disassociates the user from an EC2 instance providing user-based subscriptions.
  */
 export const disassociateUser: API.OperationMethod<
-  DisassociateUserRequest,
+  DisassociateUserRequest & RegionInput,
   DisassociateUserResponse,
   DisassociateUserError,
   Credentials | HttpClient.HttpClient
@@ -560,6 +584,8 @@ export const disassociateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUser",
+  telemetry: TELEMETRY,
+  span: "DisassociateUser",
 }));
 
 export type ListIdentityProvidersError =
@@ -575,7 +601,7 @@ export type ListIdentityProvidersError =
  * Lists the Active Directory identity providers for user-based subscriptions.
  */
 export const listIdentityProviders: API.PaginatedOperationMethod<
-  ListIdentityProvidersRequest,
+  ListIdentityProvidersRequest & RegionInput,
   ListIdentityProvidersResponse,
   ListIdentityProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -601,6 +627,8 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     items: "IdentityProviderSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviders",
 })) as any;
 
 export type ListInstancesError =
@@ -616,7 +644,7 @@ export type ListInstancesError =
  * Lists the EC2 instances providing user-based subscriptions.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -642,6 +670,8 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "InstanceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListLicenseServerEndpointsError =
@@ -656,7 +686,7 @@ export type ListLicenseServerEndpointsError =
  * List the Remote Desktop Services (RDS) License Server endpoints
  */
 export const listLicenseServerEndpoints: API.PaginatedOperationMethod<
-  ListLicenseServerEndpointsRequest,
+  ListLicenseServerEndpointsRequest & RegionInput,
   ListLicenseServerEndpointsResponse,
   ListLicenseServerEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -681,6 +711,8 @@ export const listLicenseServerEndpoints: API.PaginatedOperationMethod<
     items: "LicenseServerEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLicenseServerEndpoints",
 })) as any;
 
 export type ListProductSubscriptionsError =
@@ -696,7 +728,7 @@ export type ListProductSubscriptionsError =
  * Lists the user-based subscription products available from an identity provider.
  */
 export const listProductSubscriptions: API.PaginatedOperationMethod<
-  ListProductSubscriptionsRequest,
+  ListProductSubscriptionsRequest & RegionInput,
   ListProductSubscriptionsResponse,
   ListProductSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -722,6 +754,8 @@ export const listProductSubscriptions: API.PaginatedOperationMethod<
     items: "ProductUserSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProductSubscriptions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -733,7 +767,7 @@ export type ListTagsForResourceError =
  * Returns the list of tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -744,6 +778,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUserAssociationsError =
@@ -759,7 +795,7 @@ export type ListUserAssociationsError =
  * Lists user associations for an identity provider.
  */
 export const listUserAssociations: API.PaginatedOperationMethod<
-  ListUserAssociationsRequest,
+  ListUserAssociationsRequest & RegionInput,
   ListUserAssociationsResponse,
   ListUserAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -785,6 +821,8 @@ export const listUserAssociations: API.PaginatedOperationMethod<
     items: "InstanceUserSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserAssociations",
 })) as any;
 
 export type RegisterIdentityProviderError =
@@ -800,7 +838,7 @@ export type RegisterIdentityProviderError =
  * Registers an identity provider for user-based subscriptions.
  */
 export const registerIdentityProvider: API.OperationMethod<
-  RegisterIdentityProviderRequest,
+  RegisterIdentityProviderRequest & RegionInput,
   RegisterIdentityProviderResponse,
   RegisterIdentityProviderError,
   Credentials | HttpClient.HttpClient
@@ -819,6 +857,8 @@ export const registerIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "RegisterIdentityProvider",
 }));
 
 export type StartProductSubscriptionError =
@@ -836,7 +876,7 @@ export type StartProductSubscriptionError =
  * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
  */
 export const startProductSubscription: API.OperationMethod<
-  StartProductSubscriptionRequest,
+  StartProductSubscriptionRequest & RegionInput,
   StartProductSubscriptionResponse,
   StartProductSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -855,6 +895,8 @@ export const startProductSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProductSubscription",
+  telemetry: TELEMETRY,
+  span: "StartProductSubscription",
 }));
 
 export type StopProductSubscriptionError =
@@ -870,7 +912,7 @@ export type StopProductSubscriptionError =
  * Stops a product subscription for a user with the specified identity provider.
  */
 export const stopProductSubscription: API.OperationMethod<
-  StopProductSubscriptionRequest,
+  StopProductSubscriptionRequest & RegionInput,
   StopProductSubscriptionResponse,
   StopProductSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -889,6 +931,8 @@ export const stopProductSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProductSubscription",
+  telemetry: TELEMETRY,
+  span: "StopProductSubscription",
 }));
 
 export type TagResourceError =
@@ -900,7 +944,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -911,6 +955,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -918,7 +964,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -929,6 +975,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdentityProviderSettingsError =
@@ -941,7 +989,7 @@ export type UpdateIdentityProviderSettingsError =
  * Updates additional product configuration settings for the registered identity provider.
  */
 export const updateIdentityProviderSettings: API.OperationMethod<
-  UpdateIdentityProviderSettingsRequest,
+  UpdateIdentityProviderSettingsRequest & RegionInput,
   UpdateIdentityProviderSettingsResponse,
   UpdateIdentityProviderSettingsError,
   Credentials | HttpClient.HttpClient
@@ -957,6 +1005,8 @@ export const updateIdentityProviderSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProviderSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProviderSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

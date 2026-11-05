@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Agents",
+  propagate: "w3c",
+} as const;
+
 export interface ArchiveConversationRequest {
   /** ID of the code channel to archive. */
   channel_id: string;
@@ -369,6 +382,8 @@ export const archiveConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveConversation",
 }));
 
 export type CreateConversationError = SlackOpError;
@@ -384,6 +399,8 @@ export const createConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversation",
 }));
 
 export type GetCanvasError = SlackOpError;
@@ -399,6 +416,8 @@ export const getCanvas: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvas",
 }));
 
 export type ListViewsError = SlackOpError;
@@ -414,6 +433,8 @@ export const listViews: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListViews",
 }));
 
 export type RemoveViewError = SlackOpError;
@@ -429,6 +450,8 @@ export const removeView: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveView",
 }));
 
 export type RenameSessionError = SlackOpError;
@@ -444,6 +467,8 @@ export const renameSession: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameSession",
 }));
 
 export type SetCanvasContentError = SlackOpError;
@@ -459,6 +484,8 @@ export const setCanvasContent: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCanvasContent",
 }));
 
 export type SetCommandsError = SlackOpError;
@@ -474,6 +501,8 @@ export const setCommands: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCommands",
 }));
 
 export type SetPropertiesError = SlackOpError;
@@ -489,6 +518,8 @@ export const setProperties: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetProperties",
 }));
 
 export type SetStatusError = SlackOpError;
@@ -504,6 +535,8 @@ export const setStatus: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetStatus",
 }));
 
 export type SetViewError = SlackOpError;
@@ -519,6 +552,8 @@ export const setView: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetView",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

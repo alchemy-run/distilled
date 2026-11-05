@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://redshift.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Redshift",
+  service: "Redshift",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessToClusterDeniedFault
   extends /*@__PURE__*/ S.TaggedError<AccessToClusterDeniedFault>()(
@@ -3859,7 +3876,7 @@ export type AcceptReservedNodeExchangeError =
  * configuration (term, payment type, or number of nodes) and no additional costs.
  */
 export const acceptReservedNodeExchange: API.OperationMethod<
-  AcceptReservedNodeExchangeInputMessage,
+  AcceptReservedNodeExchangeInputMessage & RegionInput,
   AcceptReservedNodeExchangeOutputMessage,
   AcceptReservedNodeExchangeError,
   Credentials | HttpClient.HttpClient
@@ -3878,6 +3895,8 @@ export const acceptReservedNodeExchange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptReservedNodeExchange",
+  telemetry: TELEMETRY,
+  span: "AcceptReservedNodeExchange",
 }));
 
 export type AddPartnerError =
@@ -3892,7 +3911,7 @@ export type AddPartnerError =
  * To complete the integration, you also set up the integration on the partner website.
  */
 export const addPartner: API.OperationMethod<
-  PartnerIntegrationInputMessage,
+  PartnerIntegrationInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   AddPartnerError,
   Credentials | HttpClient.HttpClient
@@ -3908,6 +3927,8 @@ export const addPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPartner",
+  telemetry: TELEMETRY,
+  span: "AddPartner",
 }));
 
 export type AssociateDataShareConsumerError =
@@ -3920,7 +3941,7 @@ export type AssociateDataShareConsumerError =
  * can consume the datashare.
  */
 export const associateDataShareConsumer: API.OperationMethod<
-  AssociateDataShareConsumerMessage,
+  AssociateDataShareConsumerMessage & RegionInput,
   DataShare,
   AssociateDataShareConsumerError,
   Credentials | HttpClient.HttpClient
@@ -3931,6 +3952,8 @@ export const associateDataShareConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDataShareConsumer",
+  telemetry: TELEMETRY,
+  span: "AssociateDataShareConsumer",
 }));
 
 export type AuthorizeClusterSecurityGroupIngressError =
@@ -3961,7 +3984,7 @@ export type AuthorizeClusterSecurityGroupIngressError =
  * Groups in the *Amazon Redshift Cluster Management Guide*.
  */
 export const authorizeClusterSecurityGroupIngress: API.OperationMethod<
-  AuthorizeClusterSecurityGroupIngressMessage,
+  AuthorizeClusterSecurityGroupIngressMessage & RegionInput,
   AuthorizeClusterSecurityGroupIngressResult,
   AuthorizeClusterSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -3977,6 +4000,8 @@ export const authorizeClusterSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeClusterSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "AuthorizeClusterSecurityGroupIngress",
 }));
 
 export type AuthorizeDataShareError = InvalidDataShareFault | CommonErrors;
@@ -3986,7 +4011,7 @@ export type AuthorizeDataShareError = InvalidDataShareFault | CommonErrors;
  * the producer account must have the correct access permissions.
  */
 export const authorizeDataShare: API.OperationMethod<
-  AuthorizeDataShareMessage,
+  AuthorizeDataShareMessage & RegionInput,
   DataShare,
   AuthorizeDataShareError,
   Credentials | HttpClient.HttpClient
@@ -3997,6 +4022,8 @@ export const authorizeDataShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeDataShare",
+  telemetry: TELEMETRY,
+  span: "AuthorizeDataShare",
 }));
 
 export type AuthorizeEndpointAccessError =
@@ -4011,7 +4038,7 @@ export type AuthorizeEndpointAccessError =
  * Grants access to a cluster.
  */
 export const authorizeEndpointAccess: API.OperationMethod<
-  AuthorizeEndpointAccessMessage,
+  AuthorizeEndpointAccessMessage & RegionInput,
   EndpointAuthorization,
   AuthorizeEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4029,6 +4056,8 @@ export const authorizeEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "AuthorizeEndpointAccess",
 }));
 
 export type AuthorizeSnapshotAccessError =
@@ -4049,7 +4078,7 @@ export type AuthorizeSnapshotAccessError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const authorizeSnapshotAccess: API.OperationMethod<
-  AuthorizeSnapshotAccessMessage,
+  AuthorizeSnapshotAccessMessage & RegionInput,
   AuthorizeSnapshotAccessResult,
   AuthorizeSnapshotAccessError,
   Credentials | HttpClient.HttpClient
@@ -4068,6 +4097,8 @@ export const authorizeSnapshotAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeSnapshotAccess",
+  telemetry: TELEMETRY,
+  span: "AuthorizeSnapshotAccess",
 }));
 
 export type BatchDeleteClusterSnapshotsError = BatchDeleteRequestSizeExceededFault | CommonErrors;
@@ -4075,7 +4106,7 @@ export type BatchDeleteClusterSnapshotsError = BatchDeleteRequestSizeExceededFau
  * Deletes a set of cluster snapshots.
  */
 export const batchDeleteClusterSnapshots: API.OperationMethod<
-  BatchDeleteClusterSnapshotsRequest,
+  BatchDeleteClusterSnapshotsRequest & RegionInput,
   BatchDeleteClusterSnapshotsResult,
   BatchDeleteClusterSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -4086,6 +4117,8 @@ export const batchDeleteClusterSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteClusterSnapshots",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteClusterSnapshots",
 }));
 
 export type BatchModifyClusterSnapshotsError =
@@ -4096,7 +4129,7 @@ export type BatchModifyClusterSnapshotsError =
  * Modifies the settings for a set of cluster snapshots.
  */
 export const batchModifyClusterSnapshots: API.OperationMethod<
-  BatchModifyClusterSnapshotsMessage,
+  BatchModifyClusterSnapshotsMessage & RegionInput,
   BatchModifyClusterSnapshotsOutputMessage,
   BatchModifyClusterSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -4107,6 +4140,8 @@ export const batchModifyClusterSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchModifyClusterSnapshots",
+  telemetry: TELEMETRY,
+  span: "BatchModifyClusterSnapshots",
 }));
 
 export type CancelResizeError =
@@ -4119,7 +4154,7 @@ export type CancelResizeError =
  * Cancels a resize operation for a cluster.
  */
 export const cancelResize: API.OperationMethod<
-  CancelResizeMessage,
+  CancelResizeMessage & RegionInput,
   ResizeProgressMessage,
   CancelResizeError,
   Credentials | HttpClient.HttpClient
@@ -4135,6 +4170,8 @@ export const cancelResize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelResize",
+  telemetry: TELEMETRY,
+  span: "CancelResize",
 }));
 
 export type CopyClusterSnapshotError =
@@ -4161,7 +4198,7 @@ export type CopyClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const copyClusterSnapshot: API.OperationMethod<
-  CopyClusterSnapshotMessage,
+  CopyClusterSnapshotMessage & RegionInput,
   CopyClusterSnapshotResult,
   CopyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4179,6 +4216,8 @@ export const copyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyClusterSnapshot",
 }));
 
 export type CreateAuthenticationProfileError =
@@ -4190,7 +4229,7 @@ export type CreateAuthenticationProfileError =
  * Creates an authentication profile with the specified parameters.
  */
 export const createAuthenticationProfile: API.OperationMethod<
-  CreateAuthenticationProfileMessage,
+  CreateAuthenticationProfileMessage & RegionInput,
   CreateAuthenticationProfileResult,
   CreateAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -4205,6 +4244,8 @@ export const createAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthenticationProfile",
+  telemetry: TELEMETRY,
+  span: "CreateAuthenticationProfile",
 }));
 
 export type CreateClusterError =
@@ -4265,7 +4306,7 @@ export type CreateClusterError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterMessage,
+  CreateClusterMessage & RegionInput,
   CreateClusterResult,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -4304,6 +4345,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateClusterParameterGroupError =
@@ -4326,7 +4369,7 @@ export type CreateClusterParameterGroupError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterParameterGroup: API.OperationMethod<
-  CreateClusterParameterGroupMessage,
+  CreateClusterParameterGroupMessage & RegionInput,
   CreateClusterParameterGroupResult,
   CreateClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -4342,6 +4385,8 @@ export const createClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateClusterParameterGroup",
 }));
 
 export type CreateClusterSecurityGroupError =
@@ -4359,7 +4404,7 @@ export type CreateClusterSecurityGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSecurityGroup: API.OperationMethod<
-  CreateClusterSecurityGroupMessage,
+  CreateClusterSecurityGroupMessage & RegionInput,
   CreateClusterSecurityGroupResult,
   CreateClusterSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -4375,6 +4420,8 @@ export const createClusterSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "CreateClusterSecurityGroup",
 }));
 
 export type CreateClusterSnapshotError =
@@ -4395,7 +4442,7 @@ export type CreateClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSnapshot: API.OperationMethod<
-  CreateClusterSnapshotMessage,
+  CreateClusterSnapshotMessage & RegionInput,
   CreateClusterSnapshotResult,
   CreateClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4414,6 +4461,8 @@ export const createClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateClusterSnapshot",
 }));
 
 export type CreateClusterSubnetGroupError =
@@ -4436,7 +4485,7 @@ export type CreateClusterSubnetGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSubnetGroup: API.OperationMethod<
-  CreateClusterSubnetGroupMessage,
+  CreateClusterSubnetGroupMessage & RegionInput,
   CreateClusterSubnetGroupResult,
   CreateClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -4456,6 +4505,8 @@ export const createClusterSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateClusterSubnetGroup",
 }));
 
 export type CreateCustomDomainAssociationError =
@@ -4468,7 +4519,7 @@ export type CreateCustomDomainAssociationError =
  * cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
  */
 export const createCustomDomainAssociation: API.OperationMethod<
-  CreateCustomDomainAssociationMessage,
+  CreateCustomDomainAssociationMessage & RegionInput,
   CreateCustomDomainAssociationResult,
   CreateCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4479,6 +4530,8 @@ export const createCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateCustomDomainAssociation",
 }));
 
 export type CreateEndpointAccessError =
@@ -4497,7 +4550,7 @@ export type CreateEndpointAccessError =
  * Creates a Redshift-managed VPC endpoint.
  */
 export const createEndpointAccess: API.OperationMethod<
-  CreateEndpointAccessMessage,
+  CreateEndpointAccessMessage & RegionInput,
   EndpointAccess,
   CreateEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4519,6 +4572,8 @@ export const createEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "CreateEndpointAccess",
 }));
 
 export type CreateEventSubscriptionError =
@@ -4556,7 +4611,7 @@ export type CreateEventSubscriptionError =
  * will be notified of events generated from all Amazon Redshift sources belonging to your Amazon Web Services account. You must specify a source type if you specify a source ID.
  */
 export const createEventSubscription: API.OperationMethod<
-  CreateEventSubscriptionMessage,
+  CreateEventSubscriptionMessage & RegionInput,
   CreateEventSubscriptionResult,
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4579,6 +4634,8 @@ export const createEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateEventSubscription",
 }));
 
 export type CreateHsmClientCertificateError =
@@ -4599,7 +4656,7 @@ export type CreateHsmClientCertificateError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createHsmClientCertificate: API.OperationMethod<
-  CreateHsmClientCertificateMessage,
+  CreateHsmClientCertificateMessage & RegionInput,
   CreateHsmClientCertificateResult,
   CreateHsmClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4615,6 +4672,8 @@ export const createHsmClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsmClientCertificate",
+  telemetry: TELEMETRY,
+  span: "CreateHsmClientCertificate",
 }));
 
 export type CreateHsmConfigurationError =
@@ -4634,7 +4693,7 @@ export type CreateHsmConfigurationError =
  * in the Amazon Redshift Cluster Management Guide.
  */
 export const createHsmConfiguration: API.OperationMethod<
-  CreateHsmConfigurationMessage,
+  CreateHsmConfigurationMessage & RegionInput,
   CreateHsmConfigurationResult,
   CreateHsmConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4650,6 +4709,8 @@ export const createHsmConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsmConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateHsmConfiguration",
 }));
 
 export type CreateIntegrationError =
@@ -4667,7 +4728,7 @@ export type CreateIntegrationError =
  * Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationMessage,
+  CreateIntegrationMessage & RegionInput,
   Integration,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4688,6 +4749,8 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateIntegration",
 }));
 
 export type CreateQev2IdcApplicationError =
@@ -4700,7 +4763,7 @@ export type CreateQev2IdcApplicationError =
  * Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const createQev2IdcApplication: API.OperationMethod<
-  CreateQev2IdcApplicationMessage,
+  CreateQev2IdcApplicationMessage & RegionInput,
   CreateQev2IdcApplicationResult,
   CreateQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4716,6 +4779,8 @@ export const createQev2IdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQev2IdcApplication",
+  telemetry: TELEMETRY,
+  span: "CreateQev2IdcApplication",
 }));
 
 export type CreateRedshiftIdcApplicationError =
@@ -4731,7 +4796,7 @@ export type CreateRedshiftIdcApplicationError =
  * Creates an Amazon Redshift application for use with IAM Identity Center.
  */
 export const createRedshiftIdcApplication: API.OperationMethod<
-  CreateRedshiftIdcApplicationMessage,
+  CreateRedshiftIdcApplicationMessage & RegionInput,
   CreateRedshiftIdcApplicationResult,
   CreateRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4750,6 +4815,8 @@ export const createRedshiftIdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRedshiftIdcApplication",
+  telemetry: TELEMETRY,
+  span: "CreateRedshiftIdcApplication",
 }));
 
 export type CreateScheduledActionError =
@@ -4767,7 +4834,7 @@ export type CreateScheduledActionError =
  * For example, you can create a schedule of when to run the `ResizeCluster` API operation.
  */
 export const createScheduledAction: API.OperationMethod<
-  CreateScheduledActionMessage,
+  CreateScheduledActionMessage & RegionInput,
   ScheduledAction,
   CreateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -4787,6 +4854,8 @@ export const createScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledAction",
+  telemetry: TELEMETRY,
+  span: "CreateScheduledAction",
 }));
 
 export type CreateSnapshotCopyGrantError =
@@ -4807,7 +4876,7 @@ export type CreateSnapshotCopyGrantError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createSnapshotCopyGrant: API.OperationMethod<
-  CreateSnapshotCopyGrantMessage,
+  CreateSnapshotCopyGrantMessage & RegionInput,
   CreateSnapshotCopyGrantResult,
   CreateSnapshotCopyGrantError,
   Credentials | HttpClient.HttpClient
@@ -4825,6 +4894,8 @@ export const createSnapshotCopyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotCopyGrant",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshotCopyGrant",
 }));
 
 export type CreateSnapshotScheduleError =
@@ -4839,7 +4910,7 @@ export type CreateSnapshotScheduleError =
  * Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
  */
 export const createSnapshotSchedule: API.OperationMethod<
-  CreateSnapshotScheduleMessage,
+  CreateSnapshotScheduleMessage & RegionInput,
   SnapshotSchedule,
   CreateSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4857,6 +4928,8 @@ export const createSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotSchedule",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshotSchedule",
 }));
 
 export type CreateTagsError =
@@ -4875,7 +4948,7 @@ export type CreateTagsError =
  * will be updated with the new value.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsMessage,
+  CreateTagsMessage & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -4886,6 +4959,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type CreateUsageLimitError =
@@ -4902,7 +4977,7 @@ export type CreateUsageLimitError =
  * The usage limit is identified by the returned usage limit identifier.
  */
 export const createUsageLimit: API.OperationMethod<
-  CreateUsageLimitMessage,
+  CreateUsageLimitMessage & RegionInput,
   UsageLimit,
   CreateUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -4921,6 +4996,8 @@ export const createUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageLimit",
+  telemetry: TELEMETRY,
+  span: "CreateUsageLimit",
 }));
 
 export type DeauthorizeDataShareError = InvalidDataShareFault | CommonErrors;
@@ -4928,7 +5005,7 @@ export type DeauthorizeDataShareError = InvalidDataShareFault | CommonErrors;
  * From a datashare producer account, removes authorization from the specified datashare.
  */
 export const deauthorizeDataShare: API.OperationMethod<
-  DeauthorizeDataShareMessage,
+  DeauthorizeDataShareMessage & RegionInput,
   DataShare,
   DeauthorizeDataShareError,
   Credentials | HttpClient.HttpClient
@@ -4939,6 +5016,8 @@ export const deauthorizeDataShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeauthorizeDataShare",
+  telemetry: TELEMETRY,
+  span: "DeauthorizeDataShare",
 }));
 
 export type DeleteAuthenticationProfileError =
@@ -4949,7 +5028,7 @@ export type DeleteAuthenticationProfileError =
  * Deletes an authentication profile.
  */
 export const deleteAuthenticationProfile: API.OperationMethod<
-  DeleteAuthenticationProfileMessage,
+  DeleteAuthenticationProfileMessage & RegionInput,
   DeleteAuthenticationProfileResult,
   DeleteAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -4960,6 +5039,8 @@ export const deleteAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthenticationProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticationProfile",
 }));
 
 export type DeleteClusterError =
@@ -4989,7 +5070,7 @@ export type DeleteClusterError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterMessage,
+  DeleteClusterMessage & RegionInput,
   DeleteClusterResult,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -5006,6 +5087,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterParameterGroupError =
@@ -5019,7 +5102,7 @@ export type DeleteClusterParameterGroupError =
  * cluster.
  */
 export const deleteClusterParameterGroup: API.OperationMethod<
-  DeleteClusterParameterGroupMessage,
+  DeleteClusterParameterGroupMessage & RegionInput,
   DeleteClusterParameterGroupResponse,
   DeleteClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -5030,6 +5113,8 @@ export const deleteClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterParameterGroup",
 }));
 
 export type DeleteClusterSecurityGroupError =
@@ -5047,7 +5132,7 @@ export type DeleteClusterSecurityGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const deleteClusterSecurityGroup: API.OperationMethod<
-  DeleteClusterSecurityGroupMessage,
+  DeleteClusterSecurityGroupMessage & RegionInput,
   DeleteClusterSecurityGroupResponse,
   DeleteClusterSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -5058,6 +5143,8 @@ export const deleteClusterSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterSecurityGroup",
 }));
 
 export type DeleteClusterSnapshotError =
@@ -5075,7 +5162,7 @@ export type DeleteClusterSnapshotError =
  * snapshot.
  */
 export const deleteClusterSnapshot: API.OperationMethod<
-  DeleteClusterSnapshotMessage,
+  DeleteClusterSnapshotMessage & RegionInput,
   DeleteClusterSnapshotResult,
   DeleteClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5086,6 +5173,8 @@ export const deleteClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterSnapshot",
 }));
 
 export type DeleteClusterSubnetGroupError =
@@ -5097,7 +5186,7 @@ export type DeleteClusterSubnetGroupError =
  * Deletes the specified cluster subnet group.
  */
 export const deleteClusterSubnetGroup: API.OperationMethod<
-  DeleteClusterSubnetGroupMessage,
+  DeleteClusterSubnetGroupMessage & RegionInput,
   DeleteClusterSubnetGroupResponse,
   DeleteClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -5112,6 +5201,8 @@ export const deleteClusterSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterSubnetGroup",
 }));
 
 export type DeleteCustomDomainAssociationError =
@@ -5124,7 +5215,7 @@ export type DeleteCustomDomainAssociationError =
  * Contains information about deleting a custom domain association for a cluster.
  */
 export const deleteCustomDomainAssociation: API.OperationMethod<
-  DeleteCustomDomainAssociationMessage,
+  DeleteCustomDomainAssociationMessage & RegionInput,
   DeleteCustomDomainAssociationResponse,
   DeleteCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5140,6 +5231,8 @@ export const deleteCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDomainAssociation",
 }));
 
 export type DeleteEndpointAccessError =
@@ -5153,7 +5246,7 @@ export type DeleteEndpointAccessError =
  * Deletes a Redshift-managed VPC endpoint.
  */
 export const deleteEndpointAccess: API.OperationMethod<
-  DeleteEndpointAccessMessage,
+  DeleteEndpointAccessMessage & RegionInput,
   EndpointAccess,
   DeleteEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -5170,6 +5263,8 @@ export const deleteEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpointAccess",
 }));
 
 export type DeleteEventSubscriptionError =
@@ -5180,7 +5275,7 @@ export type DeleteEventSubscriptionError =
  * Deletes an Amazon Redshift event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
-  DeleteEventSubscriptionMessage,
+  DeleteEventSubscriptionMessage & RegionInput,
   DeleteEventSubscriptionResponse,
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5191,6 +5286,8 @@ export const deleteEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteEventSubscription",
 }));
 
 export type DeleteHsmClientCertificateError =
@@ -5201,7 +5298,7 @@ export type DeleteHsmClientCertificateError =
  * Deletes the specified HSM client certificate.
  */
 export const deleteHsmClientCertificate: API.OperationMethod<
-  DeleteHsmClientCertificateMessage,
+  DeleteHsmClientCertificateMessage & RegionInput,
   DeleteHsmClientCertificateResponse,
   DeleteHsmClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -5212,6 +5309,8 @@ export const deleteHsmClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsmClientCertificate",
+  telemetry: TELEMETRY,
+  span: "DeleteHsmClientCertificate",
 }));
 
 export type DeleteHsmConfigurationError =
@@ -5222,7 +5321,7 @@ export type DeleteHsmConfigurationError =
  * Deletes the specified Amazon Redshift HSM configuration.
  */
 export const deleteHsmConfiguration: API.OperationMethod<
-  DeleteHsmConfigurationMessage,
+  DeleteHsmConfigurationMessage & RegionInput,
   DeleteHsmConfigurationResponse,
   DeleteHsmConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5233,6 +5332,8 @@ export const deleteHsmConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsmConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteHsmConfiguration",
 }));
 
 export type DeleteIntegrationError =
@@ -5245,7 +5346,7 @@ export type DeleteIntegrationError =
  * Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationMessage,
+  DeleteIntegrationMessage & RegionInput,
   Integration,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5261,6 +5362,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeletePartnerError =
@@ -5273,7 +5376,7 @@ export type DeletePartnerError =
  * Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
  */
 export const deletePartner: API.OperationMethod<
-  PartnerIntegrationInputMessage,
+  PartnerIntegrationInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   DeletePartnerError,
   Credentials | HttpClient.HttpClient
@@ -5289,6 +5392,8 @@ export const deletePartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartner",
+  telemetry: TELEMETRY,
+  span: "DeletePartner",
 }));
 
 export type DeleteQev2IdcApplicationError =
@@ -5301,7 +5406,7 @@ export type DeleteQev2IdcApplicationError =
  * Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const deleteQev2IdcApplication: API.OperationMethod<
-  DeleteQev2IdcApplicationMessage,
+  DeleteQev2IdcApplicationMessage & RegionInput,
   DeleteQev2IdcApplicationResponse,
   DeleteQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5317,6 +5422,8 @@ export const deleteQev2IdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQev2IdcApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteQev2IdcApplication",
 }));
 
 export type DeleteRedshiftIdcApplicationError =
@@ -5329,7 +5436,7 @@ export type DeleteRedshiftIdcApplicationError =
  * Deletes an Amazon Redshift IAM Identity Center application.
  */
 export const deleteRedshiftIdcApplication: API.OperationMethod<
-  DeleteRedshiftIdcApplicationMessage,
+  DeleteRedshiftIdcApplicationMessage & RegionInput,
   DeleteRedshiftIdcApplicationResponse,
   DeleteRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5345,6 +5452,8 @@ export const deleteRedshiftIdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRedshiftIdcApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteRedshiftIdcApplication",
 }));
 
 export type DeleteResourcePolicyError =
@@ -5355,7 +5464,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy for a specified resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyMessage,
+  DeleteResourcePolicyMessage & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5366,6 +5475,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteScheduledActionError =
@@ -5376,7 +5487,7 @@ export type DeleteScheduledActionError =
  * Deletes a scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionMessage,
+  DeleteScheduledActionMessage & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -5387,6 +5498,8 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledAction",
 }));
 
 export type DeleteSnapshotCopyGrantError =
@@ -5397,7 +5510,7 @@ export type DeleteSnapshotCopyGrantError =
  * Deletes the specified snapshot copy grant.
  */
 export const deleteSnapshotCopyGrant: API.OperationMethod<
-  DeleteSnapshotCopyGrantMessage,
+  DeleteSnapshotCopyGrantMessage & RegionInput,
   DeleteSnapshotCopyGrantResponse,
   DeleteSnapshotCopyGrantError,
   Credentials | HttpClient.HttpClient
@@ -5408,6 +5521,8 @@ export const deleteSnapshotCopyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotCopyGrant",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshotCopyGrant",
 }));
 
 export type DeleteSnapshotScheduleError =
@@ -5418,7 +5533,7 @@ export type DeleteSnapshotScheduleError =
  * Deletes a snapshot schedule.
  */
 export const deleteSnapshotSchedule: API.OperationMethod<
-  DeleteSnapshotScheduleMessage,
+  DeleteSnapshotScheduleMessage & RegionInput,
   DeleteSnapshotScheduleResponse,
   DeleteSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -5429,6 +5544,8 @@ export const deleteSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshotSchedule",
 }));
 
 export type DeleteTagsError = InvalidTagFault | ResourceNotFoundFault | CommonErrors;
@@ -5437,7 +5554,7 @@ export type DeleteTagsError = InvalidTagFault | ResourceNotFoundFault | CommonEr
  * from which you want to delete the tag or tags.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsMessage,
+  DeleteTagsMessage & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -5448,6 +5565,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DeleteUsageLimitError =
@@ -5458,7 +5577,7 @@ export type DeleteUsageLimitError =
  * Deletes a usage limit from a cluster.
  */
 export const deleteUsageLimit: API.OperationMethod<
-  DeleteUsageLimitMessage,
+  DeleteUsageLimitMessage & RegionInput,
   DeleteUsageLimitResponse,
   DeleteUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -5469,6 +5588,8 @@ export const deleteUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageLimit",
+  telemetry: TELEMETRY,
+  span: "DeleteUsageLimit",
 }));
 
 export type DeregisterNamespaceError =
@@ -5480,7 +5601,7 @@ export type DeregisterNamespaceError =
  * Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
  */
 export const deregisterNamespace: API.OperationMethod<
-  DeregisterNamespaceInputMessage,
+  DeregisterNamespaceInputMessage & RegionInput,
   DeregisterNamespaceOutputMessage,
   DeregisterNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -5491,6 +5612,8 @@ export const deregisterNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterNamespace",
+  telemetry: TELEMETRY,
+  span: "DeregisterNamespace",
 }));
 
 export type DescribeAccountAttributesError = CommonErrors;
@@ -5498,7 +5621,7 @@ export type DescribeAccountAttributesError = CommonErrors;
  * Returns a list of attributes attached to an account
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesMessage,
+  DescribeAccountAttributesMessage & RegionInput,
   AccountAttributeList,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5509,6 +5632,8 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAttributes",
 }));
 
 export type DescribeAuthenticationProfilesError =
@@ -5519,7 +5644,7 @@ export type DescribeAuthenticationProfilesError =
  * Describes an authentication profile.
  */
 export const describeAuthenticationProfiles: API.OperationMethod<
-  DescribeAuthenticationProfilesMessage,
+  DescribeAuthenticationProfilesMessage & RegionInput,
   DescribeAuthenticationProfilesResult,
   DescribeAuthenticationProfilesError,
   Credentials | HttpClient.HttpClient
@@ -5530,6 +5655,8 @@ export const describeAuthenticationProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuthenticationProfiles",
+  telemetry: TELEMETRY,
+  span: "DescribeAuthenticationProfiles",
 }));
 
 export type DescribeClusterDbRevisionsError =
@@ -5540,7 +5667,7 @@ export type DescribeClusterDbRevisionsError =
  * Returns an array of `ClusterDbRevision` objects.
  */
 export const describeClusterDbRevisions: API.PaginatedOperationMethod<
-  DescribeClusterDbRevisionsMessage,
+  DescribeClusterDbRevisionsMessage & RegionInput,
   ClusterDbRevisionsMessage,
   DescribeClusterDbRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -5558,6 +5685,8 @@ export const describeClusterDbRevisions: API.PaginatedOperationMethod<
     items: "ClusterDbRevisions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterDbRevisions",
 })) as any;
 
 export type DescribeClusterParameterGroupsError =
@@ -5586,7 +5715,7 @@ export type DescribeClusterParameterGroupsError =
  * them.
  */
 export const describeClusterParameterGroups: API.PaginatedOperationMethod<
-  DescribeClusterParameterGroupsMessage,
+  DescribeClusterParameterGroupsMessage & RegionInput,
   ClusterParameterGroupsMessage,
   DescribeClusterParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5604,6 +5733,8 @@ export const describeClusterParameterGroups: API.PaginatedOperationMethod<
     items: "ParameterGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterParameterGroups",
 })) as any;
 
 export type DescribeClusterParametersError = ClusterParameterGroupNotFoundFault | CommonErrors;
@@ -5623,7 +5754,7 @@ export type DescribeClusterParametersError = ClusterParameterGroupNotFoundFault 
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeClusterParameters: API.PaginatedOperationMethod<
-  DescribeClusterParametersMessage,
+  DescribeClusterParametersMessage & RegionInput,
   ClusterParameterGroupDetails,
   DescribeClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -5641,6 +5772,8 @@ export const describeClusterParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterParameters",
 })) as any;
 
 export type DescribeClustersError = ClusterNotFoundFault | InvalidTagFault | CommonErrors;
@@ -5662,7 +5795,7 @@ export type DescribeClustersError = ClusterNotFoundFault | InvalidTagFault | Com
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeClusters: API.PaginatedOperationMethod<
-  DescribeClustersMessage,
+  DescribeClustersMessage & RegionInput,
   ClustersMessage,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient,
@@ -5680,6 +5813,8 @@ export const describeClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 })) as any;
 
 export type DescribeClusterSecurityGroupsError =
@@ -5706,7 +5841,7 @@ export type DescribeClusterSecurityGroupsError =
  * them.
  */
 export const describeClusterSecurityGroups: API.PaginatedOperationMethod<
-  DescribeClusterSecurityGroupsMessage,
+  DescribeClusterSecurityGroupsMessage & RegionInput,
   ClusterSecurityGroupMessage,
   DescribeClusterSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5724,6 +5859,8 @@ export const describeClusterSecurityGroups: API.PaginatedOperationMethod<
     items: "ClusterSecurityGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterSecurityGroups",
 })) as any;
 
 export type DescribeClusterSnapshotsError =
@@ -5750,7 +5887,7 @@ export type DescribeClusterSnapshotsError =
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeClusterSnapshots: API.PaginatedOperationMethod<
-  DescribeClusterSnapshotsMessage,
+  DescribeClusterSnapshotsMessage & RegionInput,
   SnapshotMessage,
   DescribeClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -5773,6 +5910,8 @@ export const describeClusterSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterSnapshots",
 })) as any;
 
 export type DescribeClusterSubnetGroupsError =
@@ -5795,7 +5934,7 @@ export type DescribeClusterSubnetGroupsError =
  * them.
  */
 export const describeClusterSubnetGroups: API.PaginatedOperationMethod<
-  DescribeClusterSubnetGroupsMessage,
+  DescribeClusterSubnetGroupsMessage & RegionInput,
   ClusterSubnetGroupMessage,
   DescribeClusterSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5813,6 +5952,8 @@ export const describeClusterSubnetGroups: API.PaginatedOperationMethod<
     items: "ClusterSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterSubnetGroups",
 })) as any;
 
 export type DescribeClusterTracksError =
@@ -5823,7 +5964,7 @@ export type DescribeClusterTracksError =
  * Returns a list of all the available maintenance tracks.
  */
 export const describeClusterTracks: API.PaginatedOperationMethod<
-  DescribeClusterTracksMessage,
+  DescribeClusterTracksMessage & RegionInput,
   TrackListMessage,
   DescribeClusterTracksError,
   Credentials | HttpClient.HttpClient,
@@ -5841,6 +5982,8 @@ export const describeClusterTracks: API.PaginatedOperationMethod<
     items: "MaintenanceTracks",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterTracks",
 })) as any;
 
 export type DescribeClusterVersionsError = CommonErrors;
@@ -5853,7 +5996,7 @@ export type DescribeClusterVersionsError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeClusterVersions: API.PaginatedOperationMethod<
-  DescribeClusterVersionsMessage,
+  DescribeClusterVersionsMessage & RegionInput,
   ClusterVersionsMessage,
   DescribeClusterVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5871,6 +6014,8 @@ export const describeClusterVersions: API.PaginatedOperationMethod<
     items: "ClusterVersions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterVersions",
 })) as any;
 
 export type DescribeCustomDomainAssociationsError =
@@ -5881,7 +6026,7 @@ export type DescribeCustomDomainAssociationsError =
  * Contains information about custom domain associations for a cluster.
  */
 export const describeCustomDomainAssociations: API.PaginatedOperationMethod<
-  DescribeCustomDomainAssociationsMessage,
+  DescribeCustomDomainAssociationsMessage & RegionInput,
   CustomDomainAssociationsMessage,
   DescribeCustomDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5899,6 +6044,8 @@ export const describeCustomDomainAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCustomDomainAssociations",
 })) as any;
 
 export type DescribeDataSharesError = InvalidDataShareFault | CommonErrors;
@@ -5907,7 +6054,7 @@ export type DescribeDataSharesError = InvalidDataShareFault | CommonErrors;
  * account.
  */
 export const describeDataShares: API.PaginatedOperationMethod<
-  DescribeDataSharesMessage,
+  DescribeDataSharesMessage & RegionInput,
   DescribeDataSharesResult,
   DescribeDataSharesError,
   Credentials | HttpClient.HttpClient,
@@ -5925,6 +6072,8 @@ export const describeDataShares: API.PaginatedOperationMethod<
     items: "DataShares",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataShares",
 })) as any;
 
 export type DescribeDataSharesForConsumerError = InvalidNamespaceFault | CommonErrors;
@@ -5932,7 +6081,7 @@ export type DescribeDataSharesForConsumerError = InvalidNamespaceFault | CommonE
  * Returns a list of datashares where the account identifier being called is a consumer account identifier.
  */
 export const describeDataSharesForConsumer: API.PaginatedOperationMethod<
-  DescribeDataSharesForConsumerMessage,
+  DescribeDataSharesForConsumerMessage & RegionInput,
   DescribeDataSharesForConsumerResult,
   DescribeDataSharesForConsumerError,
   Credentials | HttpClient.HttpClient,
@@ -5950,6 +6099,8 @@ export const describeDataSharesForConsumer: API.PaginatedOperationMethod<
     items: "DataShares",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataSharesForConsumer",
 })) as any;
 
 export type DescribeDataSharesForProducerError = InvalidNamespaceFault | CommonErrors;
@@ -5957,7 +6108,7 @@ export type DescribeDataSharesForProducerError = InvalidNamespaceFault | CommonE
  * Returns a list of datashares when the account identifier being called is a producer account identifier.
  */
 export const describeDataSharesForProducer: API.PaginatedOperationMethod<
-  DescribeDataSharesForProducerMessage,
+  DescribeDataSharesForProducerMessage & RegionInput,
   DescribeDataSharesForProducerResult,
   DescribeDataSharesForProducerError,
   Credentials | HttpClient.HttpClient,
@@ -5975,6 +6126,8 @@ export const describeDataSharesForProducer: API.PaginatedOperationMethod<
     items: "DataShares",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataSharesForProducer",
 })) as any;
 
 export type DescribeDefaultClusterParametersError = CommonErrors;
@@ -5987,7 +6140,7 @@ export type DescribeDefaultClusterParametersError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeDefaultClusterParameters: API.PaginatedOperationMethod<
-  DescribeDefaultClusterParametersMessage,
+  DescribeDefaultClusterParametersMessage & RegionInput,
   DescribeDefaultClusterParametersResult,
   DescribeDefaultClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -6005,6 +6158,8 @@ export const describeDefaultClusterParameters: API.PaginatedOperationMethod<
     items: "DefaultClusterParameters.Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDefaultClusterParameters",
 })) as any;
 
 export type DescribeEndpointAccessError =
@@ -6016,7 +6171,7 @@ export type DescribeEndpointAccessError =
  * Describes a Redshift-managed VPC endpoint.
  */
 export const describeEndpointAccess: API.PaginatedOperationMethod<
-  DescribeEndpointAccessMessage,
+  DescribeEndpointAccessMessage & RegionInput,
   EndpointAccessList,
   DescribeEndpointAccessError,
   Credentials | HttpClient.HttpClient,
@@ -6034,6 +6189,8 @@ export const describeEndpointAccess: API.PaginatedOperationMethod<
     items: "EndpointAccessList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEndpointAccess",
 })) as any;
 
 export type DescribeEndpointAuthorizationError =
@@ -6044,7 +6201,7 @@ export type DescribeEndpointAuthorizationError =
  * Describes an endpoint authorization.
  */
 export const describeEndpointAuthorization: API.PaginatedOperationMethod<
-  DescribeEndpointAuthorizationMessage,
+  DescribeEndpointAuthorizationMessage & RegionInput,
   EndpointAuthorizationList,
   DescribeEndpointAuthorizationError,
   Credentials | HttpClient.HttpClient,
@@ -6062,6 +6219,8 @@ export const describeEndpointAuthorization: API.PaginatedOperationMethod<
     items: "EndpointAuthorizationList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEndpointAuthorization",
 })) as any;
 
 export type DescribeEventCategoriesError = CommonErrors;
@@ -6071,7 +6230,7 @@ export type DescribeEventCategoriesError = CommonErrors;
  * Notifications.
  */
 export const describeEventCategories: API.OperationMethod<
-  DescribeEventCategoriesMessage,
+  DescribeEventCategoriesMessage & RegionInput,
   EventCategoriesMessage,
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -6082,6 +6241,8 @@ export const describeEventCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
+  telemetry: TELEMETRY,
+  span: "DescribeEventCategories",
 }));
 
 export type DescribeEventsError = CommonErrors;
@@ -6092,7 +6253,7 @@ export type DescribeEventsError = CommonErrors;
  * default, the past hour of events are returned.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -6110,6 +6271,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeEventSubscriptionsError =
@@ -6132,7 +6295,7 @@ export type DescribeEventSubscriptionsError =
  * them.
  */
 export const describeEventSubscriptions: API.PaginatedOperationMethod<
-  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsMessage & RegionInput,
   EventSubscriptionsMessage,
   DescribeEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6150,6 +6313,8 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
     items: "EventSubscriptionsList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventSubscriptions",
 })) as any;
 
 export type DescribeHsmClientCertificatesError =
@@ -6171,7 +6336,7 @@ export type DescribeHsmClientCertificatesError =
  * them.
  */
 export const describeHsmClientCertificates: API.PaginatedOperationMethod<
-  DescribeHsmClientCertificatesMessage,
+  DescribeHsmClientCertificatesMessage & RegionInput,
   HsmClientCertificateMessage,
   DescribeHsmClientCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -6189,6 +6354,8 @@ export const describeHsmClientCertificates: API.PaginatedOperationMethod<
     items: "HsmClientCertificates",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeHsmClientCertificates",
 })) as any;
 
 export type DescribeHsmConfigurationsError =
@@ -6211,7 +6378,7 @@ export type DescribeHsmConfigurationsError =
  * them.
  */
 export const describeHsmConfigurations: API.PaginatedOperationMethod<
-  DescribeHsmConfigurationsMessage,
+  DescribeHsmConfigurationsMessage & RegionInput,
   HsmConfigurationMessage,
   DescribeHsmConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -6229,6 +6396,8 @@ export const describeHsmConfigurations: API.PaginatedOperationMethod<
     items: "HsmConfigurations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeHsmConfigurations",
 })) as any;
 
 export type DescribeInboundIntegrationsError =
@@ -6240,7 +6409,7 @@ export type DescribeInboundIntegrationsError =
  * Returns a list of inbound integrations.
  */
 export const describeInboundIntegrations: API.PaginatedOperationMethod<
-  DescribeInboundIntegrationsMessage,
+  DescribeInboundIntegrationsMessage & RegionInput,
   InboundIntegrationsMessage,
   DescribeInboundIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -6258,6 +6427,8 @@ export const describeInboundIntegrations: API.PaginatedOperationMethod<
     items: "InboundIntegrations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInboundIntegrations",
 })) as any;
 
 export type DescribeIntegrationsError =
@@ -6268,7 +6439,7 @@ export type DescribeIntegrationsError =
  * Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
  */
 export const describeIntegrations: API.PaginatedOperationMethod<
-  DescribeIntegrationsMessage,
+  DescribeIntegrationsMessage & RegionInput,
   IntegrationsMessage,
   DescribeIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -6286,6 +6457,8 @@ export const describeIntegrations: API.PaginatedOperationMethod<
     items: "Integrations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeIntegrations",
 })) as any;
 
 export type DescribeLoggingStatusError =
@@ -6297,7 +6470,7 @@ export type DescribeLoggingStatusError =
  * logged for the specified Amazon Redshift cluster.
  */
 export const describeLoggingStatus: API.OperationMethod<
-  DescribeLoggingStatusMessage,
+  DescribeLoggingStatusMessage & RegionInput,
   LoggingStatus,
   DescribeLoggingStatusError,
   Credentials | HttpClient.HttpClient
@@ -6308,6 +6481,8 @@ export const describeLoggingStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeLoggingStatus",
 }));
 
 export type DescribeNodeConfigurationOptionsError =
@@ -6322,7 +6497,7 @@ export type DescribeNodeConfigurationOptionsError =
  * disk usage for the specified action type.
  */
 export const describeNodeConfigurationOptions: API.PaginatedOperationMethod<
-  DescribeNodeConfigurationOptionsMessage,
+  DescribeNodeConfigurationOptionsMessage & RegionInput,
   NodeConfigurationOptionsMessage,
   DescribeNodeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6346,6 +6521,8 @@ export const describeNodeConfigurationOptions: API.PaginatedOperationMethod<
     items: "NodeConfigurationOptionList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNodeConfigurationOptions",
 })) as any;
 
 export type DescribeOrderableClusterOptionsError = CommonErrors;
@@ -6361,7 +6538,7 @@ export type DescribeOrderableClusterOptionsError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeOrderableClusterOptions: API.PaginatedOperationMethod<
-  DescribeOrderableClusterOptionsMessage,
+  DescribeOrderableClusterOptionsMessage & RegionInput,
   OrderableClusterOptionsMessage,
   DescribeOrderableClusterOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6379,6 +6556,8 @@ export const describeOrderableClusterOptions: API.PaginatedOperationMethod<
     items: "OrderableClusterOptions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrderableClusterOptions",
 })) as any;
 
 export type DescribePartnersError =
@@ -6390,7 +6569,7 @@ export type DescribePartnersError =
  * Returns information about the partner integrations defined for a cluster.
  */
 export const describePartners: API.OperationMethod<
-  DescribePartnersInputMessage,
+  DescribePartnersInputMessage & RegionInput,
   DescribePartnersOutputMessage,
   DescribePartnersError,
   Credentials | HttpClient.HttpClient
@@ -6401,6 +6580,8 @@ export const describePartners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePartners",
+  telemetry: TELEMETRY,
+  span: "DescribePartners",
 }));
 
 export type DescribeQev2IdcApplicationsError =
@@ -6413,7 +6594,7 @@ export type DescribeQev2IdcApplicationsError =
  * Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center applications. To retrieve additional results, use the MaxRecords and Marker parameters.
  */
 export const describeQev2IdcApplications: API.PaginatedOperationMethod<
-  DescribeQev2IdcApplicationsMessage,
+  DescribeQev2IdcApplicationsMessage & RegionInput,
   DescribeQev2IdcApplicationsResult,
   DescribeQev2IdcApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -6436,6 +6617,8 @@ export const describeQev2IdcApplications: API.PaginatedOperationMethod<
     items: "Qev2IdcApplications",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeQev2IdcApplications",
 })) as any;
 
 export type DescribeRedshiftIdcApplicationsError =
@@ -6448,7 +6631,7 @@ export type DescribeRedshiftIdcApplicationsError =
  * Lists the Amazon Redshift IAM Identity Center applications.
  */
 export const describeRedshiftIdcApplications: API.PaginatedOperationMethod<
-  DescribeRedshiftIdcApplicationsMessage,
+  DescribeRedshiftIdcApplicationsMessage & RegionInput,
   DescribeRedshiftIdcApplicationsResult,
   DescribeRedshiftIdcApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -6471,6 +6654,8 @@ export const describeRedshiftIdcApplications: API.PaginatedOperationMethod<
     items: "RedshiftIdcApplications",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRedshiftIdcApplications",
 })) as any;
 
 export type DescribeReservedNodeExchangeStatusError =
@@ -6483,7 +6668,7 @@ export type DescribeReservedNodeExchangeStatusError =
  * exchange. Statuses include such values as in progress and requested.
  */
 export const describeReservedNodeExchangeStatus: API.PaginatedOperationMethod<
-  DescribeReservedNodeExchangeStatusInputMessage,
+  DescribeReservedNodeExchangeStatusInputMessage & RegionInput,
   DescribeReservedNodeExchangeStatusOutputMessage,
   DescribeReservedNodeExchangeStatusError,
   Credentials | HttpClient.HttpClient,
@@ -6501,6 +6686,8 @@ export const describeReservedNodeExchangeStatus: API.PaginatedOperationMethod<
     items: "ReservedNodeExchangeStatusDetails",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedNodeExchangeStatus",
 })) as any;
 
 export type DescribeReservedNodeOfferingsError =
@@ -6521,7 +6708,7 @@ export type DescribeReservedNodeOfferingsError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeReservedNodeOfferings: API.PaginatedOperationMethod<
-  DescribeReservedNodeOfferingsMessage,
+  DescribeReservedNodeOfferingsMessage & RegionInput,
   ReservedNodeOfferingsMessage,
   DescribeReservedNodeOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -6543,6 +6730,8 @@ export const describeReservedNodeOfferings: API.PaginatedOperationMethod<
     items: "ReservedNodeOfferings",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedNodeOfferings",
 })) as any;
 
 export type DescribeReservedNodesError =
@@ -6553,7 +6742,7 @@ export type DescribeReservedNodesError =
  * Returns the descriptions of the reserved nodes.
  */
 export const describeReservedNodes: API.PaginatedOperationMethod<
-  DescribeReservedNodesMessage,
+  DescribeReservedNodesMessage & RegionInput,
   ReservedNodesMessage,
   DescribeReservedNodesError,
   Credentials | HttpClient.HttpClient,
@@ -6571,6 +6760,8 @@ export const describeReservedNodes: API.PaginatedOperationMethod<
     items: "ReservedNodes",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedNodes",
 })) as any;
 
 export type DescribeResizeError =
@@ -6588,7 +6779,7 @@ export type DescribeResizeError =
  * specifying a different number or type of nodes for the cluster.
  */
 export const describeResize: API.OperationMethod<
-  DescribeResizeMessage,
+  DescribeResizeMessage & RegionInput,
   ResizeProgressMessage,
   DescribeResizeError,
   Credentials | HttpClient.HttpClient
@@ -6599,6 +6790,8 @@ export const describeResize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResize",
+  telemetry: TELEMETRY,
+  span: "DescribeResize",
 }));
 
 export type DescribeScheduledActionsError =
@@ -6609,7 +6802,7 @@ export type DescribeScheduledActionsError =
  * Describes properties of scheduled actions.
  */
 export const describeScheduledActions: API.PaginatedOperationMethod<
-  DescribeScheduledActionsMessage,
+  DescribeScheduledActionsMessage & RegionInput,
   ScheduledActionsMessage,
   DescribeScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -6627,6 +6820,8 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledActions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScheduledActions",
 })) as any;
 
 export type DescribeSnapshotCopyGrantsError =
@@ -6642,7 +6837,7 @@ export type DescribeSnapshotCopyGrantsError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeSnapshotCopyGrants: API.PaginatedOperationMethod<
-  DescribeSnapshotCopyGrantsMessage,
+  DescribeSnapshotCopyGrantsMessage & RegionInput,
   SnapshotCopyGrantMessage,
   DescribeSnapshotCopyGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -6660,6 +6855,8 @@ export const describeSnapshotCopyGrants: API.PaginatedOperationMethod<
     items: "SnapshotCopyGrants",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshotCopyGrants",
 })) as any;
 
 export type DescribeSnapshotSchedulesError = CommonErrors;
@@ -6667,7 +6864,7 @@ export type DescribeSnapshotSchedulesError = CommonErrors;
  * Returns a list of snapshot schedules.
  */
 export const describeSnapshotSchedules: API.PaginatedOperationMethod<
-  DescribeSnapshotSchedulesMessage,
+  DescribeSnapshotSchedulesMessage & RegionInput,
   DescribeSnapshotSchedulesOutputMessage,
   DescribeSnapshotSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -6685,6 +6882,8 @@ export const describeSnapshotSchedules: API.PaginatedOperationMethod<
     items: "SnapshotSchedules",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshotSchedules",
 })) as any;
 
 export type DescribeStorageError = CommonErrors;
@@ -6692,7 +6891,7 @@ export type DescribeStorageError = CommonErrors;
  * Returns account level backups storage size and provisional storage.
  */
 export const describeStorage: API.OperationMethod<
-  DescribeStorageRequest,
+  DescribeStorageRequest & RegionInput,
   CustomerStorageMessage,
   DescribeStorageError,
   Credentials | HttpClient.HttpClient
@@ -6703,6 +6902,8 @@ export const describeStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStorage",
+  telemetry: TELEMETRY,
+  span: "DescribeStorage",
 }));
 
 export type DescribeTableRestoreStatusError =
@@ -6718,7 +6919,7 @@ export type DescribeTableRestoreStatusError =
  * `TableRestoreRequestId`.
  */
 export const describeTableRestoreStatus: API.PaginatedOperationMethod<
-  DescribeTableRestoreStatusMessage,
+  DescribeTableRestoreStatusMessage & RegionInput,
   TableRestoreStatusMessage,
   DescribeTableRestoreStatusError,
   Credentials | HttpClient.HttpClient,
@@ -6736,6 +6937,8 @@ export const describeTableRestoreStatus: API.PaginatedOperationMethod<
     items: "TableRestoreStatusDetails",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTableRestoreStatus",
 })) as any;
 
 export type DescribeTagsError = InvalidTagFault | ResourceNotFoundFault | CommonErrors;
@@ -6765,7 +6968,7 @@ export type DescribeTagsError = InvalidTagFault | ResourceNotFoundFault | Common
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsMessage,
+  DescribeTagsMessage & RegionInput,
   TaggedResourceListMessage,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -6783,6 +6986,8 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "TaggedResources",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 })) as any;
 
 export type DescribeUsageLimitsError =
@@ -6806,7 +7011,7 @@ export type DescribeUsageLimitsError =
  * then all usage limit objects for the combination of cluster and feature are returned.
  */
 export const describeUsageLimits: API.PaginatedOperationMethod<
-  DescribeUsageLimitsMessage,
+  DescribeUsageLimitsMessage & RegionInput,
   UsageLimitList,
   DescribeUsageLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -6824,6 +7029,8 @@ export const describeUsageLimits: API.PaginatedOperationMethod<
     items: "UsageLimits",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUsageLimits",
 })) as any;
 
 export type DisableLoggingError =
@@ -6836,7 +7043,7 @@ export type DisableLoggingError =
  * specified Amazon Redshift cluster.
  */
 export const disableLogging: API.OperationMethod<
-  DisableLoggingMessage,
+  DisableLoggingMessage & RegionInput,
   LoggingStatus,
   DisableLoggingError,
   Credentials | HttpClient.HttpClient
@@ -6847,6 +7054,8 @@ export const disableLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableLogging",
+  telemetry: TELEMETRY,
+  span: "DisableLogging",
 }));
 
 export type DisableSnapshotCopyError =
@@ -6865,7 +7074,7 @@ export type DisableSnapshotCopyError =
  * grants Amazon Redshift permission to the key in the destination region.
  */
 export const disableSnapshotCopy: API.OperationMethod<
-  DisableSnapshotCopyMessage,
+  DisableSnapshotCopyMessage & RegionInput,
   DisableSnapshotCopyResult,
   DisableSnapshotCopyError,
   Credentials | HttpClient.HttpClient
@@ -6882,6 +7091,8 @@ export const disableSnapshotCopy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSnapshotCopy",
+  telemetry: TELEMETRY,
+  span: "DisableSnapshotCopy",
 }));
 
 export type DisassociateDataShareConsumerError =
@@ -6892,7 +7103,7 @@ export type DisassociateDataShareConsumerError =
  * From a datashare consumer account, remove association for the specified datashare.
  */
 export const disassociateDataShareConsumer: API.OperationMethod<
-  DisassociateDataShareConsumerMessage,
+  DisassociateDataShareConsumerMessage & RegionInput,
   DataShare,
   DisassociateDataShareConsumerError,
   Credentials | HttpClient.HttpClient
@@ -6903,6 +7114,8 @@ export const disassociateDataShareConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDataShareConsumer",
+  telemetry: TELEMETRY,
+  span: "DisassociateDataShareConsumer",
 }));
 
 export type EnableLoggingError =
@@ -6919,7 +7132,7 @@ export type EnableLoggingError =
  * specified Amazon Redshift cluster.
  */
 export const enableLogging: API.OperationMethod<
-  EnableLoggingMessage,
+  EnableLoggingMessage & RegionInput,
   LoggingStatus,
   EnableLoggingError,
   Credentials | HttpClient.HttpClient
@@ -6938,6 +7151,8 @@ export const enableLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableLogging",
+  telemetry: TELEMETRY,
+  span: "EnableLogging",
 }));
 
 export type EnableSnapshotCopyError =
@@ -6958,7 +7173,7 @@ export type EnableSnapshotCopyError =
  * specified cluster.
  */
 export const enableSnapshotCopy: API.OperationMethod<
-  EnableSnapshotCopyMessage,
+  EnableSnapshotCopyMessage & RegionInput,
   EnableSnapshotCopyResult,
   EnableSnapshotCopyError,
   Credentials | HttpClient.HttpClient
@@ -6981,6 +7196,8 @@ export const enableSnapshotCopy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSnapshotCopy",
+  telemetry: TELEMETRY,
+  span: "EnableSnapshotCopy",
 }));
 
 export type FailoverPrimaryComputeError =
@@ -6993,7 +7210,7 @@ export type FailoverPrimaryComputeError =
  * Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
  */
 export const failoverPrimaryCompute: API.OperationMethod<
-  FailoverPrimaryComputeInputMessage,
+  FailoverPrimaryComputeInputMessage & RegionInput,
   FailoverPrimaryComputeResult,
   FailoverPrimaryComputeError,
   Credentials | HttpClient.HttpClient
@@ -7009,6 +7226,8 @@ export const failoverPrimaryCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverPrimaryCompute",
+  telemetry: TELEMETRY,
+  span: "FailoverPrimaryCompute",
 }));
 
 export type GetClusterCredentialsError =
@@ -7043,7 +7262,7 @@ export type GetClusterCredentialsError =
  * to the resource `dbname` for the specified database name.
  */
 export const getClusterCredentials: API.OperationMethod<
-  GetClusterCredentialsMessage,
+  GetClusterCredentialsMessage & RegionInput,
   ClusterCredentials,
   GetClusterCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -7054,6 +7273,8 @@ export const getClusterCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterCredentials",
+  telemetry: TELEMETRY,
+  span: "GetClusterCredentials",
 }));
 
 export type GetClusterCredentialsWithIAMError =
@@ -7074,7 +7295,7 @@ export type GetClusterCredentialsWithIAMError =
  * Amazon Redshift Cluster Management Guide.
  */
 export const getClusterCredentialsWithIAM: API.OperationMethod<
-  GetClusterCredentialsWithIAMMessage,
+  GetClusterCredentialsWithIAMMessage & RegionInput,
   ClusterExtendedCredentials,
   GetClusterCredentialsWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -7085,6 +7306,8 @@ export const getClusterCredentialsWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterCredentialsWithIAM",
+  telemetry: TELEMETRY,
+  span: "GetClusterCredentialsWithIAM",
 }));
 
 export type GetIdentityCenterAuthTokenError =
@@ -7108,7 +7331,7 @@ export type GetIdentityCenterAuthTokenError =
  * return an error.
  */
 export const getIdentityCenterAuthToken: API.OperationMethod<
-  GetIdentityCenterAuthTokenRequest,
+  GetIdentityCenterAuthTokenRequest & RegionInput,
   GetIdentityCenterAuthTokenResponse,
   GetIdentityCenterAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -7124,6 +7347,8 @@ export const getIdentityCenterAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityCenterAuthToken",
+  telemetry: TELEMETRY,
+  span: "GetIdentityCenterAuthToken",
 }));
 
 export type GetReservedNodeExchangeConfigurationOptionsError =
@@ -7142,7 +7367,7 @@ export type GetReservedNodeExchangeConfigurationOptionsError =
  * Details include the node type, the price, the node count, and the offering type.
  */
 export const getReservedNodeExchangeConfigurationOptions: API.PaginatedOperationMethod<
-  GetReservedNodeExchangeConfigurationOptionsInputMessage,
+  GetReservedNodeExchangeConfigurationOptionsInputMessage & RegionInput,
   GetReservedNodeExchangeConfigurationOptionsOutputMessage,
   GetReservedNodeExchangeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -7177,6 +7402,8 @@ export const getReservedNodeExchangeConfigurationOptions: API.PaginatedOperation
     items: "ReservedNodeConfigurationOptionList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetReservedNodeExchangeConfigurationOptions",
 })) as any;
 
 export type GetReservedNodeExchangeOfferingsError =
@@ -7192,7 +7419,7 @@ export type GetReservedNodeExchangeOfferingsError =
  * and usage price of the given DC1 reserved node.
  */
 export const getReservedNodeExchangeOfferings: API.PaginatedOperationMethod<
-  GetReservedNodeExchangeOfferingsInputMessage,
+  GetReservedNodeExchangeOfferingsInputMessage & RegionInput,
   GetReservedNodeExchangeOfferingsOutputMessage,
   GetReservedNodeExchangeOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -7217,6 +7444,8 @@ export const getReservedNodeExchangeOfferings: API.PaginatedOperationMethod<
     items: "ReservedNodeOfferings",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetReservedNodeExchangeOfferings",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -7228,7 +7457,7 @@ export type GetResourcePolicyError =
  * Get the resource policy for a specified resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyMessage,
+  GetResourcePolicyMessage & RegionInput,
   GetResourcePolicyResult,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7239,6 +7468,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListRecommendationsError =
@@ -7249,7 +7480,7 @@ export type ListRecommendationsError =
  * List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsMessage,
+  ListRecommendationsMessage & RegionInput,
   ListRecommendationsResult,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -7267,6 +7498,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
     items: "Recommendations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 })) as any;
 
 export type ModifyAquaConfigurationError =
@@ -7278,7 +7511,7 @@ export type ModifyAquaConfigurationError =
  * This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
  */
 export const modifyAquaConfiguration: API.OperationMethod<
-  ModifyAquaInputMessage,
+  ModifyAquaInputMessage & RegionInput,
   ModifyAquaOutputMessage,
   ModifyAquaConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7289,6 +7522,8 @@ export const modifyAquaConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAquaConfiguration",
+  telemetry: TELEMETRY,
+  span: "ModifyAquaConfiguration",
 }));
 
 export type ModifyAuthenticationProfileError =
@@ -7300,7 +7535,7 @@ export type ModifyAuthenticationProfileError =
  * Modifies an authentication profile.
  */
 export const modifyAuthenticationProfile: API.OperationMethod<
-  ModifyAuthenticationProfileMessage,
+  ModifyAuthenticationProfileMessage & RegionInput,
   ModifyAuthenticationProfileResult,
   ModifyAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -7315,6 +7550,8 @@ export const modifyAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAuthenticationProfile",
+  telemetry: TELEMETRY,
+  span: "ModifyAuthenticationProfile",
 }));
 
 export type ModifyClusterError =
@@ -7373,7 +7610,7 @@ export type ModifyClusterError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterMessage,
+  ModifyClusterMessage & RegionInput,
   ModifyClusterResult,
   ModifyClusterError,
   Credentials | HttpClient.HttpClient
@@ -7407,6 +7644,8 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyCluster",
 }));
 
 export type ModifyClusterDbRevisionError =
@@ -7420,7 +7659,7 @@ export type ModifyClusterDbRevisionError =
  * revision of the database running in a cluster.
  */
 export const modifyClusterDbRevision: API.OperationMethod<
-  ModifyClusterDbRevisionMessage,
+  ModifyClusterDbRevisionMessage & RegionInput,
   ModifyClusterDbRevisionResult,
   ModifyClusterDbRevisionError,
   Credentials | HttpClient.HttpClient
@@ -7436,6 +7675,8 @@ export const modifyClusterDbRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterDbRevision",
+  telemetry: TELEMETRY,
+  span: "ModifyClusterDbRevision",
 }));
 
 export type ModifyClusterIamRolesError =
@@ -7451,7 +7692,7 @@ export type ModifyClusterIamRolesError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const modifyClusterIamRoles: API.OperationMethod<
-  ModifyClusterIamRolesMessage,
+  ModifyClusterIamRolesMessage & RegionInput,
   ModifyClusterIamRolesResult,
   ModifyClusterIamRolesError,
   Credentials | HttpClient.HttpClient
@@ -7462,6 +7703,8 @@ export const modifyClusterIamRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterIamRoles",
+  telemetry: TELEMETRY,
+  span: "ModifyClusterIamRoles",
 }));
 
 export type ModifyClusterMaintenanceError =
@@ -7472,7 +7715,7 @@ export type ModifyClusterMaintenanceError =
  * Modifies the maintenance settings of a cluster.
  */
 export const modifyClusterMaintenance: API.OperationMethod<
-  ModifyClusterMaintenanceMessage,
+  ModifyClusterMaintenanceMessage & RegionInput,
   ModifyClusterMaintenanceResult,
   ModifyClusterMaintenanceError,
   Credentials | HttpClient.HttpClient
@@ -7483,6 +7726,8 @@ export const modifyClusterMaintenance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterMaintenance",
+  telemetry: TELEMETRY,
+  span: "ModifyClusterMaintenance",
 }));
 
 export type ModifyClusterParameterGroupError =
@@ -7497,7 +7742,7 @@ export type ModifyClusterParameterGroupError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const modifyClusterParameterGroup: API.OperationMethod<
-  ModifyClusterParameterGroupMessage,
+  ModifyClusterParameterGroupMessage & RegionInput,
   ClusterParameterGroupNameMessage,
   ModifyClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -7508,6 +7753,8 @@ export const modifyClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyClusterParameterGroup",
 }));
 
 export type ModifyClusterSnapshotError =
@@ -7521,7 +7768,7 @@ export type ModifyClusterSnapshotError =
  * This exanmple modifies the manual retention period setting for a cluster snapshot.
  */
 export const modifyClusterSnapshot: API.OperationMethod<
-  ModifyClusterSnapshotMessage,
+  ModifyClusterSnapshotMessage & RegionInput,
   ModifyClusterSnapshotResult,
   ModifyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -7536,6 +7783,8 @@ export const modifyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "ModifyClusterSnapshot",
 }));
 
 export type ModifyClusterSnapshotScheduleError =
@@ -7547,7 +7796,7 @@ export type ModifyClusterSnapshotScheduleError =
  * Modifies a snapshot schedule for a cluster.
  */
 export const modifyClusterSnapshotSchedule: API.OperationMethod<
-  ModifyClusterSnapshotScheduleMessage,
+  ModifyClusterSnapshotScheduleMessage & RegionInput,
   ModifyClusterSnapshotScheduleResponse,
   ModifyClusterSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -7562,6 +7811,8 @@ export const modifyClusterSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterSnapshotSchedule",
+  telemetry: TELEMETRY,
+  span: "ModifyClusterSnapshotSchedule",
 }));
 
 export type ModifyClusterSubnetGroupError =
@@ -7595,7 +7846,7 @@ export type ModifyClusterSubnetGroupError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const modifyClusterSubnetGroup: API.OperationMethod<
-  ModifyClusterSubnetGroupMessage,
+  ModifyClusterSubnetGroupMessage & RegionInput,
   ModifyClusterSubnetGroupResult,
   ModifyClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -7613,6 +7864,8 @@ export const modifyClusterSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyClusterSubnetGroup",
 }));
 
 export type ModifyCustomDomainAssociationError =
@@ -7625,7 +7878,7 @@ export type ModifyCustomDomainAssociationError =
  * Contains information for changing a custom domain association.
  */
 export const modifyCustomDomainAssociation: API.OperationMethod<
-  ModifyCustomDomainAssociationMessage,
+  ModifyCustomDomainAssociationMessage & RegionInput,
   ModifyCustomDomainAssociationResult,
   ModifyCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -7641,6 +7894,8 @@ export const modifyCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCustomDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "ModifyCustomDomainAssociation",
 }));
 
 export type ModifyEndpointAccessError =
@@ -7655,7 +7910,7 @@ export type ModifyEndpointAccessError =
  * Modifies a Redshift-managed VPC endpoint.
  */
 export const modifyEndpointAccess: API.OperationMethod<
-  ModifyEndpointAccessMessage,
+  ModifyEndpointAccessMessage & RegionInput,
   EndpointAccess,
   ModifyEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -7673,6 +7928,8 @@ export const modifyEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "ModifyEndpointAccess",
 }));
 
 export type ModifyEventSubscriptionError =
@@ -7690,7 +7947,7 @@ export type ModifyEventSubscriptionError =
  * Modifies an existing Amazon Redshift event notification subscription.
  */
 export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionMessage & RegionInput,
   ModifyEventSubscriptionResult,
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -7711,6 +7968,8 @@ export const modifyEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
+  telemetry: TELEMETRY,
+  span: "ModifyEventSubscription",
 }));
 
 export type ModifyIntegrationError =
@@ -7724,7 +7983,7 @@ export type ModifyIntegrationError =
  * Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const modifyIntegration: API.OperationMethod<
-  ModifyIntegrationMessage,
+  ModifyIntegrationMessage & RegionInput,
   Integration,
   ModifyIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -7741,6 +8000,8 @@ export const modifyIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIntegration",
+  telemetry: TELEMETRY,
+  span: "ModifyIntegration",
 }));
 
 export type ModifyLakehouseConfigurationError =
@@ -7756,7 +8017,7 @@ export type ModifyLakehouseConfigurationError =
  * Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
 export const modifyLakehouseConfiguration: API.OperationMethod<
-  ModifyLakehouseConfigurationMessage,
+  ModifyLakehouseConfigurationMessage & RegionInput,
   LakehouseConfiguration,
   ModifyLakehouseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7775,6 +8036,8 @@ export const modifyLakehouseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLakehouseConfiguration",
+  telemetry: TELEMETRY,
+  span: "ModifyLakehouseConfiguration",
 }));
 
 export type ModifyQev2IdcApplicationError =
@@ -7787,7 +8050,7 @@ export type ModifyQev2IdcApplicationError =
  * Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const modifyQev2IdcApplication: API.OperationMethod<
-  ModifyQev2IdcApplicationMessage,
+  ModifyQev2IdcApplicationMessage & RegionInput,
   ModifyQev2IdcApplicationResult,
   ModifyQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -7803,6 +8066,8 @@ export const modifyQev2IdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyQev2IdcApplication",
+  telemetry: TELEMETRY,
+  span: "ModifyQev2IdcApplication",
 }));
 
 export type ModifyRedshiftIdcApplicationError =
@@ -7815,7 +8080,7 @@ export type ModifyRedshiftIdcApplicationError =
  * Changes an existing Amazon Redshift IAM Identity Center application.
  */
 export const modifyRedshiftIdcApplication: API.OperationMethod<
-  ModifyRedshiftIdcApplicationMessage,
+  ModifyRedshiftIdcApplicationMessage & RegionInput,
   ModifyRedshiftIdcApplicationResult,
   ModifyRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -7831,6 +8096,8 @@ export const modifyRedshiftIdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyRedshiftIdcApplication",
+  telemetry: TELEMETRY,
+  span: "ModifyRedshiftIdcApplication",
 }));
 
 export type ModifyScheduledActionError =
@@ -7846,7 +8113,7 @@ export type ModifyScheduledActionError =
  * Modifies a scheduled action.
  */
 export const modifyScheduledAction: API.OperationMethod<
-  ModifyScheduledActionMessage,
+  ModifyScheduledActionMessage & RegionInput,
   ScheduledAction,
   ModifyScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -7865,6 +8132,8 @@ export const modifyScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyScheduledAction",
+  telemetry: TELEMETRY,
+  span: "ModifyScheduledAction",
 }));
 
 export type ModifySnapshotCopyRetentionPeriodError =
@@ -7884,7 +8153,7 @@ export type ModifySnapshotCopyRetentionPeriodError =
  * period.
  */
 export const modifySnapshotCopyRetentionPeriod: API.OperationMethod<
-  ModifySnapshotCopyRetentionPeriodMessage,
+  ModifySnapshotCopyRetentionPeriodMessage & RegionInput,
   ModifySnapshotCopyRetentionPeriodResult,
   ModifySnapshotCopyRetentionPeriodError,
   Credentials | HttpClient.HttpClient
@@ -7901,6 +8170,8 @@ export const modifySnapshotCopyRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySnapshotCopyRetentionPeriod",
+  telemetry: TELEMETRY,
+  span: "ModifySnapshotCopyRetentionPeriod",
 }));
 
 export type ModifySnapshotScheduleError =
@@ -7913,7 +8184,7 @@ export type ModifySnapshotScheduleError =
  * asynchronously.
  */
 export const modifySnapshotSchedule: API.OperationMethod<
-  ModifySnapshotScheduleMessage,
+  ModifySnapshotScheduleMessage & RegionInput,
   SnapshotSchedule,
   ModifySnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -7928,6 +8199,8 @@ export const modifySnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySnapshotSchedule",
+  telemetry: TELEMETRY,
+  span: "ModifySnapshotSchedule",
 }));
 
 export type ModifyUsageLimitError =
@@ -7940,7 +8213,7 @@ export type ModifyUsageLimitError =
  * You can't modify the feature type or period of a usage limit.
  */
 export const modifyUsageLimit: API.OperationMethod<
-  ModifyUsageLimitMessage,
+  ModifyUsageLimitMessage & RegionInput,
   UsageLimit,
   ModifyUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -7951,6 +8224,8 @@ export const modifyUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUsageLimit",
+  telemetry: TELEMETRY,
+  span: "ModifyUsageLimit",
 }));
 
 export type PauseClusterError =
@@ -7962,7 +8237,7 @@ export type PauseClusterError =
  * Pauses a cluster.
  */
 export const pauseCluster: API.OperationMethod<
-  PauseClusterMessage,
+  PauseClusterMessage & RegionInput,
   PauseClusterResult,
   PauseClusterError,
   Credentials | HttpClient.HttpClient
@@ -7973,6 +8248,8 @@ export const pauseCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseCluster",
+  telemetry: TELEMETRY,
+  span: "PauseCluster",
 }));
 
 export type PurchaseReservedNodeOfferingError =
@@ -7993,7 +8270,7 @@ export type PurchaseReservedNodeOfferingError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const purchaseReservedNodeOffering: API.OperationMethod<
-  PurchaseReservedNodeOfferingMessage,
+  PurchaseReservedNodeOfferingMessage & RegionInput,
   PurchaseReservedNodeOfferingResult,
   PurchaseReservedNodeOfferingError,
   Credentials | HttpClient.HttpClient
@@ -8009,6 +8286,8 @@ export const purchaseReservedNodeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedNodeOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedNodeOffering",
 }));
 
 export type PutResourcePolicyError =
@@ -8021,7 +8300,7 @@ export type PutResourcePolicyError =
  * Updates the resource policy for a specified resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyMessage,
+  PutResourcePolicyMessage & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -8037,6 +8316,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RebootClusterError = ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors;
@@ -8051,7 +8332,7 @@ export type RebootClusterError = ClusterNotFoundFault | InvalidClusterStateFault
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const rebootCluster: API.OperationMethod<
-  RebootClusterMessage,
+  RebootClusterMessage & RegionInput,
   RebootClusterResult,
   RebootClusterError,
   Credentials | HttpClient.HttpClient
@@ -8062,6 +8343,8 @@ export const rebootCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootCluster",
+  telemetry: TELEMETRY,
+  span: "RebootCluster",
 }));
 
 export type RegisterNamespaceError =
@@ -8073,7 +8356,7 @@ export type RegisterNamespaceError =
  * Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
  */
 export const registerNamespace: API.OperationMethod<
-  RegisterNamespaceInputMessage,
+  RegisterNamespaceInputMessage & RegionInput,
   RegisterNamespaceOutputMessage,
   RegisterNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -8084,6 +8367,8 @@ export const registerNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterNamespace",
+  telemetry: TELEMETRY,
+  span: "RegisterNamespace",
 }));
 
 export type RejectDataShareError = InvalidDataShareFault | CommonErrors;
@@ -8091,7 +8376,7 @@ export type RejectDataShareError = InvalidDataShareFault | CommonErrors;
  * From a datashare consumer account, rejects the specified datashare.
  */
 export const rejectDataShare: API.OperationMethod<
-  RejectDataShareMessage,
+  RejectDataShareMessage & RegionInput,
   DataShare,
   RejectDataShareError,
   Credentials | HttpClient.HttpClient
@@ -8102,6 +8387,8 @@ export const rejectDataShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDataShare",
+  telemetry: TELEMETRY,
+  span: "RejectDataShare",
 }));
 
 export type ResetClusterParameterGroupError =
@@ -8115,7 +8402,7 @@ export type ResetClusterParameterGroupError =
  * For parameter changes to take effect you must reboot any associated clusters.
  */
 export const resetClusterParameterGroup: API.OperationMethod<
-  ResetClusterParameterGroupMessage,
+  ResetClusterParameterGroupMessage & RegionInput,
   ClusterParameterGroupNameMessage,
   ResetClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -8126,6 +8413,8 @@ export const resetClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetClusterParameterGroup",
 }));
 
 export type ResizeClusterError =
@@ -8179,7 +8468,7 @@ export type ResizeClusterError =
  * cluster.
  */
 export const resizeCluster: API.OperationMethod<
-  ResizeClusterMessage,
+  ResizeClusterMessage & RegionInput,
   ResizeClusterResult,
   ResizeClusterError,
   Credentials | HttpClient.HttpClient
@@ -8206,6 +8495,8 @@ export const resizeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResizeCluster",
+  telemetry: TELEMETRY,
+  span: "ResizeCluster",
 }));
 
 export type RestoreFromClusterSnapshotError =
@@ -8279,7 +8570,7 @@ export type RestoreFromClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const restoreFromClusterSnapshot: API.OperationMethod<
-  RestoreFromClusterSnapshotMessage,
+  RestoreFromClusterSnapshotMessage & RegionInput,
   RestoreFromClusterSnapshotResult,
   RestoreFromClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8326,6 +8617,8 @@ export const restoreFromClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreFromClusterSnapshot",
 }));
 
 export type RestoreTableFromClusterSnapshotError =
@@ -8356,7 +8649,7 @@ export type RestoreTableFromClusterSnapshotError =
  * interleaved sort keys.
  */
 export const restoreTableFromClusterSnapshot: API.OperationMethod<
-  RestoreTableFromClusterSnapshotMessage,
+  RestoreTableFromClusterSnapshotMessage & RegionInput,
   RestoreTableFromClusterSnapshotResult,
   RestoreTableFromClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8375,6 +8668,8 @@ export const restoreTableFromClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreTableFromClusterSnapshot",
 }));
 
 export type ResumeClusterError =
@@ -8387,7 +8682,7 @@ export type ResumeClusterError =
  * Resumes a paused cluster.
  */
 export const resumeCluster: API.OperationMethod<
-  ResumeClusterMessage,
+  ResumeClusterMessage & RegionInput,
   ResumeClusterResult,
   ResumeClusterError,
   Credentials | HttpClient.HttpClient
@@ -8403,6 +8698,8 @@ export const resumeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeCluster",
+  telemetry: TELEMETRY,
+  span: "ResumeCluster",
 }));
 
 export type RevokeClusterSecurityGroupIngressError =
@@ -8418,7 +8715,7 @@ export type RevokeClusterSecurityGroupIngressError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const revokeClusterSecurityGroupIngress: API.OperationMethod<
-  RevokeClusterSecurityGroupIngressMessage,
+  RevokeClusterSecurityGroupIngressMessage & RegionInput,
   RevokeClusterSecurityGroupIngressResult,
   RevokeClusterSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -8433,6 +8730,8 @@ export const revokeClusterSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeClusterSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "RevokeClusterSecurityGroupIngress",
 }));
 
 export type RevokeEndpointAccessError =
@@ -8448,7 +8747,7 @@ export type RevokeEndpointAccessError =
  * Revokes access to a cluster.
  */
 export const revokeEndpointAccess: API.OperationMethod<
-  RevokeEndpointAccessMessage,
+  RevokeEndpointAccessMessage & RegionInput,
   EndpointAuthorization,
   RevokeEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -8467,6 +8766,8 @@ export const revokeEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "RevokeEndpointAccess",
 }));
 
 export type RevokeSnapshotAccessError =
@@ -8485,7 +8786,7 @@ export type RevokeSnapshotAccessError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const revokeSnapshotAccess: API.OperationMethod<
-  RevokeSnapshotAccessMessage,
+  RevokeSnapshotAccessMessage & RegionInput,
   RevokeSnapshotAccessResult,
   RevokeSnapshotAccessError,
   Credentials | HttpClient.HttpClient
@@ -8501,6 +8802,8 @@ export const revokeSnapshotAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSnapshotAccess",
+  telemetry: TELEMETRY,
+  span: "RevokeSnapshotAccess",
 }));
 
 export type RotateEncryptionKeyError =
@@ -8513,7 +8816,7 @@ export type RotateEncryptionKeyError =
  * Rotates the encryption keys for a cluster.
  */
 export const rotateEncryptionKey: API.OperationMethod<
-  RotateEncryptionKeyMessage,
+  RotateEncryptionKeyMessage & RegionInput,
   RotateEncryptionKeyResult,
   RotateEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -8529,6 +8832,8 @@ export const rotateEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "RotateEncryptionKey",
 }));
 
 export type UpdatePartnerStatusError =
@@ -8541,7 +8846,7 @@ export type UpdatePartnerStatusError =
  * Updates the status of a partner integration.
  */
 export const updatePartnerStatus: API.OperationMethod<
-  UpdatePartnerStatusInputMessage,
+  UpdatePartnerStatusInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   UpdatePartnerStatusError,
   Credentials | HttpClient.HttpClient
@@ -8557,6 +8862,8 @@ export const updatePartnerStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnerStatus",
+  telemetry: TELEMETRY,
+  span: "UpdatePartnerStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

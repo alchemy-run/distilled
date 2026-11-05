@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Discussions",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export type ChangeStatusRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
 export type ChangeStatusRequestStatus = "open" | "closed";
 export interface ChangeStatusRequest {
@@ -4565,6 +4578,8 @@ export const changeStatus: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeStatus",
 }));
 
 export type ChangeTitleError = HuggingFaceOpError;
@@ -4580,6 +4595,8 @@ export const changeTitle: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeTitle",
 }));
 
 export type CreateBlogCommentError = HuggingFaceOpError;
@@ -4595,6 +4612,8 @@ export const createBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBlogComment",
 }));
 
 export type CreateCommunityBlogCommentError = HuggingFaceOpError;
@@ -4610,6 +4629,8 @@ export const createCommunityBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommunityBlogComment",
 }));
 
 export type CreateDiscussionError = HuggingFaceOpError;
@@ -4625,6 +4646,8 @@ export const createDiscussion: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDiscussion",
 }));
 
 export type CreateDiscussionCommentError = HuggingFaceOpError;
@@ -4640,6 +4663,8 @@ export const createDiscussionComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDiscussionComment",
 }));
 
 export type CreatePaperCommentError = HuggingFaceOpError;
@@ -4655,6 +4680,8 @@ export const createPaperComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaperComment",
 }));
 
 export type CreatePostCommentError = HuggingFaceOpError;
@@ -4670,6 +4697,8 @@ export const createPostComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostComment",
 }));
 
 export type DeleteDiscussionError = HuggingFaceOpError;
@@ -4685,6 +4714,8 @@ export const deleteDiscussion: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiscussion",
 }));
 
 export type DeletePostError = HuggingFaceOpError;
@@ -4700,6 +4731,8 @@ export const deletePost: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePost",
 }));
 
 export type DeletePrRefError = HuggingFaceOpError;
@@ -4715,6 +4748,8 @@ export const deletePrRef: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrRef",
 }));
 
 export type GetDiscussionDetailsError = HuggingFaceOpError;
@@ -4730,6 +4765,8 @@ export const getDiscussionDetails: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscussionDetails",
 }));
 
 export type HideBlogCommentError = HuggingFaceOpError;
@@ -4745,6 +4782,8 @@ export const hideBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HideBlogComment",
 }));
 
 export type HideCommunityBlogCommentError = HuggingFaceOpError;
@@ -4760,6 +4799,8 @@ export const hideCommunityBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HideCommunityBlogComment",
 }));
 
 export type HideDiscussionCommentError = HuggingFaceOpError;
@@ -4775,6 +4816,8 @@ export const hideDiscussionComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HideDiscussionComment",
 }));
 
 export type HidePaperCommentError = HuggingFaceOpError;
@@ -4790,6 +4833,8 @@ export const hidePaperComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HidePaperComment",
 }));
 
 export type HidePostCommentError = HuggingFaceOpError;
@@ -4805,6 +4850,8 @@ export const hidePostComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HidePostComment",
 }));
 
 export type ListDiscussionsError = HuggingFaceOpError;
@@ -4820,6 +4867,8 @@ export const listDiscussions: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscussions",
 }));
 
 export type MergePullRequestError = HuggingFaceOpError;
@@ -4835,6 +4884,8 @@ export const mergePullRequest: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergePullRequest",
 }));
 
 export type PinDiscussionError = HuggingFaceOpError;
@@ -4850,6 +4901,8 @@ export const pinDiscussion: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PinDiscussion",
 }));
 
 export type PrStorageEstimateError = HuggingFaceOpError;
@@ -4865,6 +4918,8 @@ export const prStorageEstimate: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrStorageEstimate",
 }));
 
 export type ReactToBlogCommentError = HuggingFaceOpError;
@@ -4880,6 +4935,8 @@ export const reactToBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactToBlogComment",
 }));
 
 export type ReactToCommunityBlogCommentError = HuggingFaceOpError;
@@ -4895,6 +4952,8 @@ export const reactToCommunityBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactToCommunityBlogComment",
 }));
 
 export type ReactToDiscussionCommentError = HuggingFaceOpError;
@@ -4910,6 +4969,8 @@ export const reactToDiscussionComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactToDiscussionComment",
 }));
 
 export type ReactToPaperCommentError = HuggingFaceOpError;
@@ -4925,6 +4986,8 @@ export const reactToPaperComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactToPaperComment",
 }));
 
 export type ReactToPostCommentError = HuggingFaceOpError;
@@ -4940,6 +5003,8 @@ export const reactToPostComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactToPostComment",
 }));
 
 export type ReplyToBlogCommentError = HuggingFaceOpError;
@@ -4955,6 +5020,8 @@ export const replyToBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyToBlogComment",
 }));
 
 export type ReplyToCommunityBlogCommentError = HuggingFaceOpError;
@@ -4970,6 +5037,8 @@ export const replyToCommunityBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyToCommunityBlogComment",
 }));
 
 export type ReplyToPaperCommentError = HuggingFaceOpError;
@@ -4985,6 +5054,8 @@ export const replyToPaperComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyToPaperComment",
 }));
 
 export type ReplyToPostCommentError = HuggingFaceOpError;
@@ -5000,6 +5071,8 @@ export const replyToPostComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyToPostComment",
 }));
 
 export type ToggleIgnoreDiscussionError = HuggingFaceOpError;
@@ -5015,6 +5088,8 @@ export const toggleIgnoreDiscussion: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleIgnoreDiscussion",
 }));
 
 export type UpdateBlogCommentError = HuggingFaceOpError;
@@ -5030,6 +5105,8 @@ export const updateBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBlogComment",
 }));
 
 export type UpdateCommunityBlogCommentError = HuggingFaceOpError;
@@ -5045,6 +5122,8 @@ export const updateCommunityBlogComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCommunityBlogComment",
 }));
 
 export type UpdateDiscussionCommentError = HuggingFaceOpError;
@@ -5060,6 +5139,8 @@ export const updateDiscussionComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDiscussionComment",
 }));
 
 export type UpdatePaperCommentError = HuggingFaceOpError;
@@ -5075,6 +5156,8 @@ export const updatePaperComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaperComment",
 }));
 
 export type UpdatePostCommentError = HuggingFaceOpError;
@@ -5090,6 +5173,8 @@ export const updatePostComment: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePostComment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

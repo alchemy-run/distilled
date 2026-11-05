@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -141,6 +143,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudFront",
+  service: "CloudFront",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDenied
   extends /*@__PURE__*/ S.TaggedError<AccessDenied>()(
@@ -3823,7 +3839,7 @@ export type AssociateAliasError =
  * For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
 export const associateAlias: API.OperationMethod<
-  AssociateAliasRequest,
+  AssociateAliasRequest & RegionInput,
   AssociateAliasResponse,
   AssociateAliasError,
   Credentials | HttpClient.HttpClient
@@ -3840,6 +3856,8 @@ export const associateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAlias",
+  telemetry: TELEMETRY,
+  span: "AssociateAlias",
 }));
 
 export type AssociateDistributionTenantWebACLError =
@@ -3854,7 +3872,7 @@ export type AssociateDistributionTenantWebACLError =
  * Associates the WAF web ACL with a distribution tenant.
  */
 export const associateDistributionTenantWebACL: API.OperationMethod<
-  AssociateDistributionTenantWebACLRequest,
+  AssociateDistributionTenantWebACLRequest & RegionInput,
   AssociateDistributionTenantWebACLResult,
   AssociateDistributionTenantWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3872,6 +3890,8 @@ export const associateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionTenantWebACL",
+  telemetry: TELEMETRY,
+  span: "AssociateDistributionTenantWebACL",
 }));
 
 export type AssociateDistributionWebACLError =
@@ -3886,7 +3906,7 @@ export type AssociateDistributionWebACLError =
  * Associates the WAF web ACL with a distribution.
  */
 export const associateDistributionWebACL: API.OperationMethod<
-  AssociateDistributionWebACLRequest,
+  AssociateDistributionWebACLRequest & RegionInput,
   AssociateDistributionWebACLResult,
   AssociateDistributionWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3904,6 +3924,8 @@ export const associateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionWebACL",
+  telemetry: TELEMETRY,
+  span: "AssociateDistributionWebACL",
 }));
 
 export type CopyDistributionError =
@@ -3986,7 +4008,7 @@ export type CopyDistributionError =
  * - CopyDistribution
  */
 export const copyDistribution: API.OperationMethod<
-  CopyDistributionRequest,
+  CopyDistributionRequest & RegionInput,
   CopyDistributionResult,
   CopyDistributionError,
   Credentials | HttpClient.HttpClient
@@ -4062,6 +4084,8 @@ export const copyDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDistribution",
+  telemetry: TELEMETRY,
+  span: "CopyDistribution",
 }));
 
 export type CreateAnycastIpListError =
@@ -4076,7 +4100,7 @@ export type CreateAnycastIpListError =
  * Creates an Anycast static IP list.
  */
 export const createAnycastIpList: API.OperationMethod<
-  CreateAnycastIpListRequest,
+  CreateAnycastIpListRequest & RegionInput,
   CreateAnycastIpListResult,
   CreateAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -4094,6 +4118,8 @@ export const createAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "CreateAnycastIpList",
 }));
 
 export type CreateCachePolicyError =
@@ -4122,7 +4148,7 @@ export type CreateCachePolicyError =
  * For more information about cache policies, see Controlling the cache key in the *Amazon CloudFront Developer Guide*.
  */
 export const createCachePolicy: API.OperationMethod<
-  CreateCachePolicyRequest,
+  CreateCachePolicyRequest & RegionInput,
   CreateCachePolicyResult,
   CreateCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4142,6 +4168,8 @@ export const createCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCachePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateCachePolicy",
 }));
 
 export type CreateCloudFrontOriginAccessIdentityError =
@@ -4155,7 +4183,7 @@ export type CreateCloudFrontOriginAccessIdentityError =
  * Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the *Amazon CloudFront Developer Guide*.
  */
 export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
-  CreateCloudFrontOriginAccessIdentityRequest,
+  CreateCloudFrontOriginAccessIdentityRequest & RegionInput,
   CreateCloudFrontOriginAccessIdentityResult,
   CreateCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -4172,6 +4200,8 @@ export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "CreateCloudFrontOriginAccessIdentity",
 }));
 
 export type CreateConnectionFunctionError =
@@ -4187,7 +4217,7 @@ export type CreateConnectionFunctionError =
  * Creates a connection function.
  */
 export const createConnectionFunction: API.OperationMethod<
-  CreateConnectionFunctionRequest,
+  CreateConnectionFunctionRequest & RegionInput,
   CreateConnectionFunctionResult,
   CreateConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -4206,6 +4236,8 @@ export const createConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "CreateConnectionFunction",
 }));
 
 export type CreateConnectionGroupError =
@@ -4220,7 +4252,7 @@ export type CreateConnectionGroupError =
  * Creates a connection group.
  */
 export const createConnectionGroup: API.OperationMethod<
-  CreateConnectionGroupRequest,
+  CreateConnectionGroupRequest & RegionInput,
   CreateConnectionGroupResult,
   CreateConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -4238,6 +4270,8 @@ export const createConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateConnectionGroup",
 }));
 
 export type CreateContinuousDeploymentPolicyError =
@@ -4256,7 +4290,7 @@ export type CreateContinuousDeploymentPolicyError =
  * After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
  */
 export const createContinuousDeploymentPolicy: API.OperationMethod<
-  CreateContinuousDeploymentPolicyRequest,
+  CreateContinuousDeploymentPolicyRequest & RegionInput,
   CreateContinuousDeploymentPolicyResult,
   CreateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4274,6 +4308,8 @@ export const createContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateContinuousDeploymentPolicy",
 }));
 
 export type CreateDistributionError =
@@ -4349,7 +4385,7 @@ export type CreateDistributionError =
  * Creates a CloudFront distribution.
  */
 export const createDistribution: API.OperationMethod<
-  CreateDistributionRequest,
+  CreateDistributionRequest & RegionInput,
   CreateDistributionResult,
   CreateDistributionError,
   Credentials | HttpClient.HttpClient
@@ -4428,6 +4464,8 @@ export const createDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistribution",
+  telemetry: TELEMETRY,
+  span: "CreateDistribution",
 }));
 
 export type CreateDistributionTenantError =
@@ -4444,7 +4482,7 @@ export type CreateDistributionTenantError =
  * Creates a distribution tenant.
  */
 export const createDistributionTenant: API.OperationMethod<
-  CreateDistributionTenantRequest,
+  CreateDistributionTenantRequest & RegionInput,
   CreateDistributionTenantResult,
   CreateDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -4464,6 +4502,8 @@ export const createDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "CreateDistributionTenant",
 }));
 
 export type CreateDistributionWithTagsError =
@@ -4543,7 +4583,7 @@ export type CreateDistributionWithTagsError =
  * - TagResource
  */
 export const createDistributionWithTags: API.OperationMethod<
-  CreateDistributionWithTagsRequest,
+  CreateDistributionWithTagsRequest & RegionInput,
   CreateDistributionWithTagsResult,
   CreateDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
@@ -4622,6 +4662,8 @@ export const createDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionWithTags",
+  telemetry: TELEMETRY,
+  span: "CreateDistributionWithTags",
 }));
 
 export type CreateFieldLevelEncryptionConfigError =
@@ -4638,7 +4680,7 @@ export type CreateFieldLevelEncryptionConfigError =
  * Create a new field-level encryption configuration.
  */
 export const createFieldLevelEncryptionConfig: API.OperationMethod<
-  CreateFieldLevelEncryptionConfigRequest,
+  CreateFieldLevelEncryptionConfigRequest & RegionInput,
   CreateFieldLevelEncryptionConfigResult,
   CreateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -4658,6 +4700,8 @@ export const createFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "CreateFieldLevelEncryptionConfig",
 }));
 
 export type CreateFieldLevelEncryptionProfileError =
@@ -4674,7 +4718,7 @@ export type CreateFieldLevelEncryptionProfileError =
  * Create a field-level encryption profile.
  */
 export const createFieldLevelEncryptionProfile: API.OperationMethod<
-  CreateFieldLevelEncryptionProfileRequest,
+  CreateFieldLevelEncryptionProfileRequest & RegionInput,
   CreateFieldLevelEncryptionProfileResult,
   CreateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -4694,6 +4738,8 @@ export const createFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "CreateFieldLevelEncryptionProfile",
 }));
 
 export type CreateFunctionError =
@@ -4713,7 +4759,7 @@ export type CreateFunctionError =
  * When you're ready to use your function with a CloudFront distribution, use `PublishFunction` to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
  */
 export const createFunction: API.OperationMethod<
-  CreateFunctionRequest,
+  CreateFunctionRequest & RegionInput,
   CreateFunctionResult,
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -4730,6 +4776,8 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
+  telemetry: TELEMETRY,
+  span: "CreateFunction",
 }));
 
 export type CreateInvalidationError =
@@ -4745,7 +4793,7 @@ export type CreateInvalidationError =
  * Create a new invalidation. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
 export const createInvalidation: API.OperationMethod<
-  CreateInvalidationRequest,
+  CreateInvalidationRequest & RegionInput,
   CreateInvalidationResult,
   CreateInvalidationError,
   Credentials | HttpClient.HttpClient
@@ -4764,6 +4812,8 @@ export const createInvalidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidation",
+  telemetry: TELEMETRY,
+  span: "CreateInvalidation",
 }));
 
 export type CreateInvalidationForDistributionTenantError =
@@ -4779,7 +4829,7 @@ export type CreateInvalidationForDistributionTenantError =
  * Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
 export const createInvalidationForDistributionTenant: API.OperationMethod<
-  CreateInvalidationForDistributionTenantRequest,
+  CreateInvalidationForDistributionTenantRequest & RegionInput,
   CreateInvalidationForDistributionTenantResult,
   CreateInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -4798,6 +4848,8 @@ export const createInvalidationForDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidationForDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "CreateInvalidationForDistributionTenant",
 }));
 
 export type CreateKeyGroupError =
@@ -4812,7 +4864,7 @@ export type CreateKeyGroupError =
  * To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the *Amazon CloudFront Developer Guide*.
  */
 export const createKeyGroup: API.OperationMethod<
-  CreateKeyGroupRequest,
+  CreateKeyGroupRequest & RegionInput,
   CreateKeyGroupResult,
   CreateKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -4823,6 +4875,8 @@ export const createKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyGroup",
+  telemetry: TELEMETRY,
+  span: "CreateKeyGroup",
 }));
 
 export type CreateKeyValueStoreError =
@@ -4837,7 +4891,7 @@ export type CreateKeyValueStoreError =
  * Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid `ImportSource` that you own.
  */
 export const createKeyValueStore: API.OperationMethod<
-  CreateKeyValueStoreRequest,
+  CreateKeyValueStoreRequest & RegionInput,
   CreateKeyValueStoreResult,
   CreateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -4855,6 +4909,8 @@ export const createKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "CreateKeyValueStore",
 }));
 
 export type CreateMonitoringSubscriptionError =
@@ -4869,7 +4925,7 @@ export type CreateMonitoringSubscriptionError =
  * For more information, see Viewing additional CloudFront distribution metrics in the *Amazon CloudFront Developer Guide*.
  */
 export const createMonitoringSubscription: API.OperationMethod<
-  CreateMonitoringSubscriptionRequest,
+  CreateMonitoringSubscriptionRequest & RegionInput,
   CreateMonitoringSubscriptionResult,
   CreateMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4885,6 +4941,8 @@ export const createMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitoringSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateMonitoringSubscription",
 }));
 
 export type CreateOriginAccessControlError =
@@ -4900,7 +4958,7 @@ export type CreateOriginAccessControlError =
  * For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the *Amazon CloudFront Developer Guide*.
  */
 export const createOriginAccessControl: API.OperationMethod<
-  CreateOriginAccessControlRequest,
+  CreateOriginAccessControlRequest & RegionInput,
   CreateOriginAccessControlResult,
   CreateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -4911,6 +4969,8 @@ export const createOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "CreateOriginAccessControl",
 }));
 
 export type CreateOriginRequestPolicyError =
@@ -4939,7 +4999,7 @@ export type CreateOriginRequestPolicyError =
  * For more information about origin request policies, see Controlling origin requests in the *Amazon CloudFront Developer Guide*.
  */
 export const createOriginRequestPolicy: API.OperationMethod<
-  CreateOriginRequestPolicyRequest,
+  CreateOriginRequestPolicyRequest & RegionInput,
   CreateOriginRequestPolicyResult,
   CreateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4959,6 +5019,8 @@ export const createOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateOriginRequestPolicy",
 }));
 
 export type CreatePublicKeyError =
@@ -4970,7 +5032,7 @@ export type CreatePublicKeyError =
  * Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
  */
 export const createPublicKey: API.OperationMethod<
-  CreatePublicKeyRequest,
+  CreatePublicKeyRequest & RegionInput,
   CreatePublicKeyResult,
   CreatePublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -4981,6 +5043,8 @@ export const createPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicKey",
+  telemetry: TELEMETRY,
+  span: "CreatePublicKey",
 }));
 
 export type CreateRealtimeLogConfigError =
@@ -4997,7 +5061,7 @@ export type CreateRealtimeLogConfigError =
  * For more information about real-time log configurations, see Real-time logs in the *Amazon CloudFront Developer Guide*.
  */
 export const createRealtimeLogConfig: API.OperationMethod<
-  CreateRealtimeLogConfigRequest,
+  CreateRealtimeLogConfigRequest & RegionInput,
   CreateRealtimeLogConfigResult,
   CreateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -5013,6 +5077,8 @@ export const createRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "CreateRealtimeLogConfig",
 }));
 
 export type CreateResponseHeadersPolicyError =
@@ -5035,7 +5101,7 @@ export type CreateResponseHeadersPolicyError =
  * For more information, see Adding or removing HTTP headers in CloudFront responses in the *Amazon CloudFront Developer Guide*.
  */
 export const createResponseHeadersPolicy: API.OperationMethod<
-  CreateResponseHeadersPolicyRequest,
+  CreateResponseHeadersPolicyRequest & RegionInput,
   CreateResponseHeadersPolicyResult,
   CreateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5055,6 +5121,8 @@ export const createResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateResponseHeadersPolicy",
 }));
 
 export type CreateStreamingDistributionError =
@@ -5076,7 +5144,7 @@ export type CreateStreamingDistributionError =
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
 export const createStreamingDistribution: API.OperationMethod<
-  CreateStreamingDistributionRequest,
+  CreateStreamingDistributionRequest & RegionInput,
   CreateStreamingDistributionResult,
   CreateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -5101,6 +5169,8 @@ export const createStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "CreateStreamingDistribution",
 }));
 
 export type CreateStreamingDistributionWithTagsError =
@@ -5123,7 +5193,7 @@ export type CreateStreamingDistributionWithTagsError =
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
 export const createStreamingDistributionWithTags: API.OperationMethod<
-  CreateStreamingDistributionWithTagsRequest,
+  CreateStreamingDistributionWithTagsRequest & RegionInput,
   CreateStreamingDistributionWithTagsResult,
   CreateStreamingDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
@@ -5149,6 +5219,8 @@ export const createStreamingDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistributionWithTags",
+  telemetry: TELEMETRY,
+  span: "CreateStreamingDistributionWithTags",
 }));
 
 export type CreateTrustStoreError =
@@ -5163,7 +5235,7 @@ export type CreateTrustStoreError =
  * Creates a trust store.
  */
 export const createTrustStore: API.OperationMethod<
-  CreateTrustStoreRequest,
+  CreateTrustStoreRequest & RegionInput,
   CreateTrustStoreResult,
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -5181,6 +5253,8 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
+  telemetry: TELEMETRY,
+  span: "CreateTrustStore",
 }));
 
 export type CreateVpcOriginError =
@@ -5196,7 +5270,7 @@ export type CreateVpcOriginError =
  * Create an Amazon CloudFront VPC origin.
  */
 export const createVpcOrigin: API.OperationMethod<
-  CreateVpcOriginRequest,
+  CreateVpcOriginRequest & RegionInput,
   CreateVpcOriginResult,
   CreateVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -5215,6 +5289,8 @@ export const createVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "CreateVpcOrigin",
 }));
 
 export type DeleteAnycastIpListError =
@@ -5231,7 +5307,7 @@ export type DeleteAnycastIpListError =
  * Deletes an Anycast static IP list.
  */
 export const deleteAnycastIpList: API.OperationMethod<
-  DeleteAnycastIpListRequest,
+  DeleteAnycastIpListRequest & RegionInput,
   DeleteAnycastIpListResponse,
   DeleteAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -5251,6 +5327,8 @@ export const deleteAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "DeleteAnycastIpList",
 }));
 
 export type DeleteCachePolicyError =
@@ -5269,7 +5347,7 @@ export type DeleteCachePolicyError =
  * To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use `ListCachePolicies` or `GetCachePolicy`.
  */
 export const deleteCachePolicy: API.OperationMethod<
-  DeleteCachePolicyRequest,
+  DeleteCachePolicyRequest & RegionInput,
   DeleteCachePolicyResponse,
   DeleteCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5287,6 +5365,8 @@ export const deleteCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCachePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteCachePolicy",
 }));
 
 export type DeleteCloudFrontOriginAccessIdentityError =
@@ -5300,7 +5380,7 @@ export type DeleteCloudFrontOriginAccessIdentityError =
  * Delete an origin access identity.
  */
 export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
-  DeleteCloudFrontOriginAccessIdentityRequest,
+  DeleteCloudFrontOriginAccessIdentityRequest & RegionInput,
   DeleteCloudFrontOriginAccessIdentityResponse,
   DeleteCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -5317,6 +5397,8 @@ export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudFrontOriginAccessIdentity",
 }));
 
 export type DeleteConnectionFunctionError =
@@ -5332,7 +5414,7 @@ export type DeleteConnectionFunctionError =
  * Deletes a connection function.
  */
 export const deleteConnectionFunction: API.OperationMethod<
-  DeleteConnectionFunctionRequest,
+  DeleteConnectionFunctionRequest & RegionInput,
   DeleteConnectionFunctionResponse,
   DeleteConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -5351,6 +5433,8 @@ export const deleteConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionFunction",
 }));
 
 export type DeleteConnectionGroupError =
@@ -5365,7 +5449,7 @@ export type DeleteConnectionGroupError =
  * Deletes a connection group.
  */
 export const deleteConnectionGroup: API.OperationMethod<
-  DeleteConnectionGroupRequest,
+  DeleteConnectionGroupRequest & RegionInput,
   DeleteConnectionGroupResponse,
   DeleteConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -5383,6 +5467,8 @@ export const deleteConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionGroup",
 }));
 
 export type DeleteContinuousDeploymentPolicyError =
@@ -5399,7 +5485,7 @@ export type DeleteContinuousDeploymentPolicyError =
  * You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
  */
 export const deleteContinuousDeploymentPolicy: API.OperationMethod<
-  DeleteContinuousDeploymentPolicyRequest,
+  DeleteContinuousDeploymentPolicyRequest & RegionInput,
   DeleteContinuousDeploymentPolicyResponse,
   DeleteContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5417,6 +5503,8 @@ export const deleteContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteContinuousDeploymentPolicy",
 }));
 
 export type DeleteDistributionError =
@@ -5433,7 +5521,7 @@ export type DeleteDistributionError =
  * Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
  */
 export const deleteDistribution: API.OperationMethod<
-  DeleteDistributionRequest,
+  DeleteDistributionRequest & RegionInput,
   DeleteDistributionResponse,
   DeleteDistributionError,
   Credentials | HttpClient.HttpClient
@@ -5451,6 +5539,8 @@ export const deleteDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistribution",
+  telemetry: TELEMETRY,
+  span: "DeleteDistribution",
 }));
 
 export type DeleteDistributionTenantError =
@@ -5466,7 +5556,7 @@ export type DeleteDistributionTenantError =
  * To delete a distribution tenant, you must first disable the distribution tenant by using the `UpdateDistributionTenant` API operation.
  */
 export const deleteDistributionTenant: API.OperationMethod<
-  DeleteDistributionTenantRequest,
+  DeleteDistributionTenantRequest & RegionInput,
   DeleteDistributionTenantResponse,
   DeleteDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -5483,6 +5573,8 @@ export const deleteDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "DeleteDistributionTenant",
 }));
 
 export type DeleteFieldLevelEncryptionConfigError =
@@ -5496,7 +5588,7 @@ export type DeleteFieldLevelEncryptionConfigError =
  * Remove a field-level encryption configuration.
  */
 export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
-  DeleteFieldLevelEncryptionConfigRequest,
+  DeleteFieldLevelEncryptionConfigRequest & RegionInput,
   DeleteFieldLevelEncryptionConfigResponse,
   DeleteFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -5513,6 +5605,8 @@ export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteFieldLevelEncryptionConfig",
 }));
 
 export type DeleteFieldLevelEncryptionProfileError =
@@ -5526,7 +5620,7 @@ export type DeleteFieldLevelEncryptionProfileError =
  * Remove a field-level encryption profile.
  */
 export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
-  DeleteFieldLevelEncryptionProfileRequest,
+  DeleteFieldLevelEncryptionProfileRequest & RegionInput,
   DeleteFieldLevelEncryptionProfileResponse,
   DeleteFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -5543,6 +5637,8 @@ export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteFieldLevelEncryptionProfile",
 }));
 
 export type DeleteFunctionError =
@@ -5560,7 +5656,7 @@ export type DeleteFunctionError =
  * To delete a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const deleteFunction: API.OperationMethod<
-  DeleteFunctionRequest,
+  DeleteFunctionRequest & RegionInput,
   DeleteFunctionResponse,
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
@@ -5577,6 +5673,8 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteFunction",
 }));
 
 export type DeleteKeyGroupError =
@@ -5593,7 +5691,7 @@ export type DeleteKeyGroupError =
  * To delete a key group, you must provide the key group's identifier and version. To get these values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
  */
 export const deleteKeyGroup: API.OperationMethod<
-  DeleteKeyGroupRequest,
+  DeleteKeyGroupRequest & RegionInput,
   DeleteKeyGroupResponse,
   DeleteKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -5604,6 +5702,8 @@ export const deleteKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyGroup",
 }));
 
 export type DeleteKeyValueStoreError =
@@ -5618,7 +5718,7 @@ export type DeleteKeyValueStoreError =
  * Specifies the key value store to delete.
  */
 export const deleteKeyValueStore: API.OperationMethod<
-  DeleteKeyValueStoreRequest,
+  DeleteKeyValueStoreRequest & RegionInput,
   DeleteKeyValueStoreResponse,
   DeleteKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -5636,6 +5736,8 @@ export const deleteKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyValueStore",
 }));
 
 export type DeleteMonitoringSubscriptionError =
@@ -5648,7 +5750,7 @@ export type DeleteMonitoringSubscriptionError =
  * Disables additional CloudWatch metrics for the specified CloudFront distribution.
  */
 export const deleteMonitoringSubscription: API.OperationMethod<
-  DeleteMonitoringSubscriptionRequest,
+  DeleteMonitoringSubscriptionRequest & RegionInput,
   DeleteMonitoringSubscriptionResult,
   DeleteMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5659,6 +5761,8 @@ export const deleteMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitoringSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoringSubscription",
 }));
 
 export type DeleteOriginAccessControlError =
@@ -5674,7 +5778,7 @@ export type DeleteOriginAccessControlError =
  * You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
  */
 export const deleteOriginAccessControl: API.OperationMethod<
-  DeleteOriginAccessControlRequest,
+  DeleteOriginAccessControlRequest & RegionInput,
   DeleteOriginAccessControlResponse,
   DeleteOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -5691,6 +5795,8 @@ export const deleteOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginAccessControl",
 }));
 
 export type DeleteOriginRequestPolicyError =
@@ -5709,7 +5815,7 @@ export type DeleteOriginRequestPolicyError =
  * To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
  */
 export const deleteOriginRequestPolicy: API.OperationMethod<
-  DeleteOriginRequestPolicyRequest,
+  DeleteOriginRequestPolicyRequest & RegionInput,
   DeleteOriginRequestPolicyResponse,
   DeleteOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5727,6 +5833,8 @@ export const deleteOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginRequestPolicy",
 }));
 
 export type DeletePublicKeyError =
@@ -5740,7 +5848,7 @@ export type DeletePublicKeyError =
  * Remove a public key you previously added to CloudFront.
  */
 export const deletePublicKey: API.OperationMethod<
-  DeletePublicKeyRequest,
+  DeletePublicKeyRequest & RegionInput,
   DeletePublicKeyResponse,
   DeletePublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -5757,6 +5865,8 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
+  telemetry: TELEMETRY,
+  span: "DeletePublicKey",
 }));
 
 export type DeleteRealtimeLogConfigError =
@@ -5773,7 +5883,7 @@ export type DeleteRealtimeLogConfigError =
  * To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
  */
 export const deleteRealtimeLogConfig: API.OperationMethod<
-  DeleteRealtimeLogConfigRequest,
+  DeleteRealtimeLogConfigRequest & RegionInput,
   DeleteRealtimeLogConfigResponse,
   DeleteRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -5784,6 +5894,8 @@ export const deleteRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteRealtimeLogConfig",
 }));
 
 export type DeleteResourcePolicyError =
@@ -5798,7 +5910,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy attached to the CloudFront resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5816,6 +5928,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteResponseHeadersPolicyError =
@@ -5834,7 +5948,7 @@ export type DeleteResponseHeadersPolicyError =
  * To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use `ListResponseHeadersPolicies` or `GetResponseHeadersPolicy`.
  */
 export const deleteResponseHeadersPolicy: API.OperationMethod<
-  DeleteResponseHeadersPolicyRequest,
+  DeleteResponseHeadersPolicyRequest & RegionInput,
   DeleteResponseHeadersPolicyResponse,
   DeleteResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5852,6 +5966,8 @@ export const deleteResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResponseHeadersPolicy",
 }));
 
 export type DeleteStreamingDistributionError =
@@ -5885,7 +6001,7 @@ export type DeleteStreamingDistributionError =
  * For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const deleteStreamingDistribution: API.OperationMethod<
-  DeleteStreamingDistributionRequest,
+  DeleteStreamingDistributionRequest & RegionInput,
   DeleteStreamingDistributionResponse,
   DeleteStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -5902,6 +6018,8 @@ export const deleteStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "DeleteStreamingDistribution",
 }));
 
 export type DeleteTrustStoreError =
@@ -5916,7 +6034,7 @@ export type DeleteTrustStoreError =
  * Deletes a trust store.
  */
 export const deleteTrustStore: API.OperationMethod<
-  DeleteTrustStoreRequest,
+  DeleteTrustStoreRequest & RegionInput,
   DeleteTrustStoreResponse,
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -5934,6 +6052,8 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustStore",
 }));
 
 export type DeleteVpcOriginError =
@@ -5950,7 +6070,7 @@ export type DeleteVpcOriginError =
  * Delete an Amazon CloudFront VPC origin.
  */
 export const deleteVpcOrigin: API.OperationMethod<
-  DeleteVpcOriginRequest,
+  DeleteVpcOriginRequest & RegionInput,
   DeleteVpcOriginResult,
   DeleteVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -5970,6 +6090,8 @@ export const deleteVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcOrigin",
 }));
 
 export type DescribeConnectionFunctionError =
@@ -5982,7 +6104,7 @@ export type DescribeConnectionFunctionError =
  * Describes a connection function.
  */
 export const describeConnectionFunction: API.OperationMethod<
-  DescribeConnectionFunctionRequest,
+  DescribeConnectionFunctionRequest & RegionInput,
   DescribeConnectionFunctionResult,
   DescribeConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -5993,6 +6115,8 @@ export const describeConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectionFunction",
 }));
 
 export type DescribeFunctionError = NoSuchFunctionExists | UnsupportedOperation | CommonErrors;
@@ -6002,7 +6126,7 @@ export type DescribeFunctionError = NoSuchFunctionExists | UnsupportedOperation 
  * To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
 export const describeFunction: API.OperationMethod<
-  DescribeFunctionRequest,
+  DescribeFunctionRequest & RegionInput,
   DescribeFunctionResult,
   DescribeFunctionError,
   Credentials | HttpClient.HttpClient
@@ -6013,6 +6137,8 @@ export const describeFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFunction",
+  telemetry: TELEMETRY,
+  span: "DescribeFunction",
 }));
 
 export type DescribeKeyValueStoreError =
@@ -6025,7 +6151,7 @@ export type DescribeKeyValueStoreError =
  * Specifies the key value store and its configuration.
  */
 export const describeKeyValueStore: API.OperationMethod<
-  DescribeKeyValueStoreRequest,
+  DescribeKeyValueStoreRequest & RegionInput,
   DescribeKeyValueStoreResult,
   DescribeKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -6036,6 +6162,8 @@ export const describeKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "DescribeKeyValueStore",
 }));
 
 export type DisassociateDistributionTenantWebACLError =
@@ -6049,7 +6177,7 @@ export type DisassociateDistributionTenantWebACLError =
  * Disassociates a distribution tenant from the WAF web ACL.
  */
 export const disassociateDistributionTenantWebACL: API.OperationMethod<
-  DisassociateDistributionTenantWebACLRequest,
+  DisassociateDistributionTenantWebACLRequest & RegionInput,
   DisassociateDistributionTenantWebACLResult,
   DisassociateDistributionTenantWebACLError,
   Credentials | HttpClient.HttpClient
@@ -6066,6 +6194,8 @@ export const disassociateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionTenantWebACL",
+  telemetry: TELEMETRY,
+  span: "DisassociateDistributionTenantWebACL",
 }));
 
 export type DisassociateDistributionWebACLError =
@@ -6079,7 +6209,7 @@ export type DisassociateDistributionWebACLError =
  * Disassociates a distribution from the WAF web ACL.
  */
 export const disassociateDistributionWebACL: API.OperationMethod<
-  DisassociateDistributionWebACLRequest,
+  DisassociateDistributionWebACLRequest & RegionInput,
   DisassociateDistributionWebACLResult,
   DisassociateDistributionWebACLError,
   Credentials | HttpClient.HttpClient
@@ -6096,6 +6226,8 @@ export const disassociateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionWebACL",
+  telemetry: TELEMETRY,
+  span: "DisassociateDistributionWebACL",
 }));
 
 export type GetAnycastIpListError =
@@ -6108,7 +6240,7 @@ export type GetAnycastIpListError =
  * Gets an Anycast static IP list.
  */
 export const getAnycastIpList: API.OperationMethod<
-  GetAnycastIpListRequest,
+  GetAnycastIpListRequest & RegionInput,
   GetAnycastIpListResult,
   GetAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -6119,6 +6251,8 @@ export const getAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "GetAnycastIpList",
 }));
 
 export type GetCachePolicyError = AccessDenied | NoSuchCachePolicy | CommonErrors;
@@ -6132,7 +6266,7 @@ export type GetCachePolicyError = AccessDenied | NoSuchCachePolicy | CommonError
  * To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
 export const getCachePolicy: API.OperationMethod<
-  GetCachePolicyRequest,
+  GetCachePolicyRequest & RegionInput,
   GetCachePolicyResult,
   GetCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6143,6 +6277,8 @@ export const getCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicy",
+  telemetry: TELEMETRY,
+  span: "GetCachePolicy",
 }));
 
 export type GetCachePolicyConfigError = AccessDenied | NoSuchCachePolicy | CommonErrors;
@@ -6152,7 +6288,7 @@ export type GetCachePolicyConfigError = AccessDenied | NoSuchCachePolicy | Commo
  * To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
 export const getCachePolicyConfig: API.OperationMethod<
-  GetCachePolicyConfigRequest,
+  GetCachePolicyConfigRequest & RegionInput,
   GetCachePolicyConfigResult,
   GetCachePolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6163,6 +6299,8 @@ export const getCachePolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetCachePolicyConfig",
 }));
 
 export type GetCloudFrontOriginAccessIdentityError =
@@ -6173,7 +6311,7 @@ export type GetCloudFrontOriginAccessIdentityError =
  * Get the information about an origin access identity.
  */
 export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
-  GetCloudFrontOriginAccessIdentityRequest,
+  GetCloudFrontOriginAccessIdentityRequest & RegionInput,
   GetCloudFrontOriginAccessIdentityResult,
   GetCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -6184,6 +6322,8 @@ export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "GetCloudFrontOriginAccessIdentity",
 }));
 
 export type GetCloudFrontOriginAccessIdentityConfigError =
@@ -6194,7 +6334,7 @@ export type GetCloudFrontOriginAccessIdentityConfigError =
  * Get the configuration information about an origin access identity.
  */
 export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
-  GetCloudFrontOriginAccessIdentityConfigRequest,
+  GetCloudFrontOriginAccessIdentityConfigRequest & RegionInput,
   GetCloudFrontOriginAccessIdentityConfigResult,
   GetCloudFrontOriginAccessIdentityConfigError,
   Credentials | HttpClient.HttpClient
@@ -6205,6 +6345,8 @@ export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentityConfig",
+  telemetry: TELEMETRY,
+  span: "GetCloudFrontOriginAccessIdentityConfig",
 }));
 
 export type GetConnectionFunctionError =
@@ -6216,7 +6358,7 @@ export type GetConnectionFunctionError =
  * Gets a connection function.
  */
 export const getConnectionFunction: API.OperationMethod<
-  GetConnectionFunctionRequest,
+  GetConnectionFunctionRequest & RegionInput,
   GetConnectionFunctionResult,
   GetConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -6227,6 +6369,8 @@ export const getConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "GetConnectionFunction",
 }));
 
 export type GetConnectionGroupError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6234,7 +6378,7 @@ export type GetConnectionGroupError = AccessDenied | EntityNotFound | CommonErro
  * Gets information about a connection group.
  */
 export const getConnectionGroup: API.OperationMethod<
-  GetConnectionGroupRequest,
+  GetConnectionGroupRequest & RegionInput,
   GetConnectionGroupResult,
   GetConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -6245,6 +6389,8 @@ export const getConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "GetConnectionGroup",
 }));
 
 export type GetConnectionGroupByRoutingEndpointError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6252,7 +6398,7 @@ export type GetConnectionGroupByRoutingEndpointError = AccessDenied | EntityNotF
  * Gets information about a connection group by using the endpoint that you specify.
  */
 export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
-  GetConnectionGroupByRoutingEndpointRequest,
+  GetConnectionGroupByRoutingEndpointRequest & RegionInput,
   GetConnectionGroupByRoutingEndpointResult,
   GetConnectionGroupByRoutingEndpointError,
   Credentials | HttpClient.HttpClient
@@ -6263,6 +6409,8 @@ export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroupByRoutingEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetConnectionGroupByRoutingEndpoint",
 }));
 
 export type GetContinuousDeploymentPolicyError =
@@ -6273,7 +6421,7 @@ export type GetContinuousDeploymentPolicyError =
  * Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
  */
 export const getContinuousDeploymentPolicy: API.OperationMethod<
-  GetContinuousDeploymentPolicyRequest,
+  GetContinuousDeploymentPolicyRequest & RegionInput,
   GetContinuousDeploymentPolicyResult,
   GetContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6284,6 +6432,8 @@ export const getContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "GetContinuousDeploymentPolicy",
 }));
 
 export type GetContinuousDeploymentPolicyConfigError =
@@ -6294,7 +6444,7 @@ export type GetContinuousDeploymentPolicyConfigError =
  * Gets configuration information about a continuous deployment policy.
  */
 export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
-  GetContinuousDeploymentPolicyConfigRequest,
+  GetContinuousDeploymentPolicyConfigRequest & RegionInput,
   GetContinuousDeploymentPolicyConfigResult,
   GetContinuousDeploymentPolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6305,6 +6455,8 @@ export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetContinuousDeploymentPolicyConfig",
 }));
 
 export type GetDistributionError = AccessDenied | NoSuchDistribution | CommonErrors;
@@ -6312,7 +6464,7 @@ export type GetDistributionError = AccessDenied | NoSuchDistribution | CommonErr
  * Get the information about a distribution.
  */
 export const getDistribution: API.OperationMethod<
-  GetDistributionRequest,
+  GetDistributionRequest & RegionInput,
   GetDistributionResult,
   GetDistributionError,
   Credentials | HttpClient.HttpClient
@@ -6323,6 +6475,8 @@ export const getDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistribution",
+  telemetry: TELEMETRY,
+  span: "GetDistribution",
 }));
 
 export type GetDistributionConfigError = AccessDenied | NoSuchDistribution | CommonErrors;
@@ -6330,7 +6484,7 @@ export type GetDistributionConfigError = AccessDenied | NoSuchDistribution | Com
  * Get the configuration information about a distribution.
  */
 export const getDistributionConfig: API.OperationMethod<
-  GetDistributionConfigRequest,
+  GetDistributionConfigRequest & RegionInput,
   GetDistributionConfigResult,
   GetDistributionConfigError,
   Credentials | HttpClient.HttpClient
@@ -6341,6 +6495,8 @@ export const getDistributionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfig",
+  telemetry: TELEMETRY,
+  span: "GetDistributionConfig",
 }));
 
 export type GetDistributionTenantError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6348,7 +6504,7 @@ export type GetDistributionTenantError = AccessDenied | EntityNotFound | CommonE
  * Gets information about a distribution tenant.
  */
 export const getDistributionTenant: API.OperationMethod<
-  GetDistributionTenantRequest,
+  GetDistributionTenantRequest & RegionInput,
   GetDistributionTenantResult,
   GetDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -6359,6 +6515,8 @@ export const getDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "GetDistributionTenant",
 }));
 
 export type GetDistributionTenantByDomainError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6366,7 +6524,7 @@ export type GetDistributionTenantByDomainError = AccessDenied | EntityNotFound |
  * Gets information about a distribution tenant by the associated domain.
  */
 export const getDistributionTenantByDomain: API.OperationMethod<
-  GetDistributionTenantByDomainRequest,
+  GetDistributionTenantByDomainRequest & RegionInput,
   GetDistributionTenantByDomainResult,
   GetDistributionTenantByDomainError,
   Credentials | HttpClient.HttpClient
@@ -6377,6 +6535,8 @@ export const getDistributionTenantByDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenantByDomain",
+  telemetry: TELEMETRY,
+  span: "GetDistributionTenantByDomain",
 }));
 
 export type GetFieldLevelEncryptionError =
@@ -6387,7 +6547,7 @@ export type GetFieldLevelEncryptionError =
  * Get the field-level encryption configuration information.
  */
 export const getFieldLevelEncryption: API.OperationMethod<
-  GetFieldLevelEncryptionRequest,
+  GetFieldLevelEncryptionRequest & RegionInput,
   GetFieldLevelEncryptionResult,
   GetFieldLevelEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -6398,6 +6558,8 @@ export const getFieldLevelEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryption",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryption",
 }));
 
 export type GetFieldLevelEncryptionConfigError =
@@ -6408,7 +6570,7 @@ export type GetFieldLevelEncryptionConfigError =
  * Get the field-level encryption configuration information.
  */
 export const getFieldLevelEncryptionConfig: API.OperationMethod<
-  GetFieldLevelEncryptionConfigRequest,
+  GetFieldLevelEncryptionConfigRequest & RegionInput,
   GetFieldLevelEncryptionConfigResult,
   GetFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -6419,6 +6581,8 @@ export const getFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryptionConfig",
 }));
 
 export type GetFieldLevelEncryptionProfileError =
@@ -6429,7 +6593,7 @@ export type GetFieldLevelEncryptionProfileError =
  * Get the field-level encryption profile information.
  */
 export const getFieldLevelEncryptionProfile: API.OperationMethod<
-  GetFieldLevelEncryptionProfileRequest,
+  GetFieldLevelEncryptionProfileRequest & RegionInput,
   GetFieldLevelEncryptionProfileResult,
   GetFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -6440,6 +6604,8 @@ export const getFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryptionProfile",
 }));
 
 export type GetFieldLevelEncryptionProfileConfigError =
@@ -6450,7 +6616,7 @@ export type GetFieldLevelEncryptionProfileConfigError =
  * Get the field-level encryption profile configuration information.
  */
 export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
-  GetFieldLevelEncryptionProfileConfigRequest,
+  GetFieldLevelEncryptionProfileConfigRequest & RegionInput,
   GetFieldLevelEncryptionProfileConfigResult,
   GetFieldLevelEncryptionProfileConfigError,
   Credentials | HttpClient.HttpClient
@@ -6461,6 +6627,8 @@ export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfileConfig",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryptionProfileConfig",
 }));
 
 export type GetFunctionError = NoSuchFunctionExists | UnsupportedOperation | CommonErrors;
@@ -6470,7 +6638,7 @@ export type GetFunctionError = NoSuchFunctionExists | UnsupportedOperation | Com
  * To get a function's code, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
 export const getFunction: API.OperationMethod<
-  GetFunctionRequest,
+  GetFunctionRequest & RegionInput,
   GetFunctionResult,
   GetFunctionError,
   Credentials | HttpClient.HttpClient
@@ -6481,6 +6649,8 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetInvalidationError =
@@ -6492,7 +6662,7 @@ export type GetInvalidationError =
  * Get the information about an invalidation.
  */
 export const getInvalidation: API.OperationMethod<
-  GetInvalidationRequest,
+  GetInvalidationRequest & RegionInput,
   GetInvalidationResult,
   GetInvalidationError,
   Credentials | HttpClient.HttpClient
@@ -6503,6 +6673,8 @@ export const getInvalidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidation",
+  telemetry: TELEMETRY,
+  span: "GetInvalidation",
 }));
 
 export type GetInvalidationForDistributionTenantError =
@@ -6514,7 +6686,7 @@ export type GetInvalidationForDistributionTenantError =
  * Gets information about a specific invalidation for a distribution tenant.
  */
 export const getInvalidationForDistributionTenant: API.OperationMethod<
-  GetInvalidationForDistributionTenantRequest,
+  GetInvalidationForDistributionTenantRequest & RegionInput,
   GetInvalidationForDistributionTenantResult,
   GetInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -6525,6 +6697,8 @@ export const getInvalidationForDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidationForDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "GetInvalidationForDistributionTenant",
 }));
 
 export type GetKeyGroupError = NoSuchResource | CommonErrors;
@@ -6534,7 +6708,7 @@ export type GetKeyGroupError = NoSuchResource | CommonErrors;
  * To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
 export const getKeyGroup: API.OperationMethod<
-  GetKeyGroupRequest,
+  GetKeyGroupRequest & RegionInput,
   GetKeyGroupResult,
   GetKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -6545,6 +6719,8 @@ export const getKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroup",
+  telemetry: TELEMETRY,
+  span: "GetKeyGroup",
 }));
 
 export type GetKeyGroupConfigError = NoSuchResource | CommonErrors;
@@ -6554,7 +6730,7 @@ export type GetKeyGroupConfigError = NoSuchResource | CommonErrors;
  * To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
 export const getKeyGroupConfig: API.OperationMethod<
-  GetKeyGroupConfigRequest,
+  GetKeyGroupConfigRequest & RegionInput,
   GetKeyGroupConfigResult,
   GetKeyGroupConfigError,
   Credentials | HttpClient.HttpClient
@@ -6565,6 +6741,8 @@ export const getKeyGroupConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroupConfig",
+  telemetry: TELEMETRY,
+  span: "GetKeyGroupConfig",
 }));
 
 export type GetManagedCertificateDetailsError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6572,7 +6750,7 @@ export type GetManagedCertificateDetailsError = AccessDenied | EntityNotFound | 
  * Gets details about the CloudFront managed ACM certificate.
  */
 export const getManagedCertificateDetails: API.OperationMethod<
-  GetManagedCertificateDetailsRequest,
+  GetManagedCertificateDetailsRequest & RegionInput,
   GetManagedCertificateDetailsResult,
   GetManagedCertificateDetailsError,
   Credentials | HttpClient.HttpClient
@@ -6583,6 +6761,8 @@ export const getManagedCertificateDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedCertificateDetails",
+  telemetry: TELEMETRY,
+  span: "GetManagedCertificateDetails",
 }));
 
 export type GetMonitoringSubscriptionError =
@@ -6595,7 +6775,7 @@ export type GetMonitoringSubscriptionError =
  * Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
  */
 export const getMonitoringSubscription: API.OperationMethod<
-  GetMonitoringSubscriptionRequest,
+  GetMonitoringSubscriptionRequest & RegionInput,
   GetMonitoringSubscriptionResult,
   GetMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -6606,6 +6786,8 @@ export const getMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitoringSubscription",
+  telemetry: TELEMETRY,
+  span: "GetMonitoringSubscription",
 }));
 
 export type GetOriginAccessControlError = AccessDenied | NoSuchOriginAccessControl | CommonErrors;
@@ -6613,7 +6795,7 @@ export type GetOriginAccessControlError = AccessDenied | NoSuchOriginAccessContr
  * Gets a CloudFront origin access control, including its unique identifier.
  */
 export const getOriginAccessControl: API.OperationMethod<
-  GetOriginAccessControlRequest,
+  GetOriginAccessControlRequest & RegionInput,
   GetOriginAccessControlResult,
   GetOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -6624,6 +6806,8 @@ export const getOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "GetOriginAccessControl",
 }));
 
 export type GetOriginAccessControlConfigError =
@@ -6634,7 +6818,7 @@ export type GetOriginAccessControlConfigError =
  * Gets a CloudFront origin access control configuration.
  */
 export const getOriginAccessControlConfig: API.OperationMethod<
-  GetOriginAccessControlConfigRequest,
+  GetOriginAccessControlConfigRequest & RegionInput,
   GetOriginAccessControlConfigResult,
   GetOriginAccessControlConfigError,
   Credentials | HttpClient.HttpClient
@@ -6645,6 +6829,8 @@ export const getOriginAccessControlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControlConfig",
+  telemetry: TELEMETRY,
+  span: "GetOriginAccessControlConfig",
 }));
 
 export type GetOriginRequestPolicyError = AccessDenied | NoSuchOriginRequestPolicy | CommonErrors;
@@ -6658,7 +6844,7 @@ export type GetOriginRequestPolicyError = AccessDenied | NoSuchOriginRequestPoli
  * To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
 export const getOriginRequestPolicy: API.OperationMethod<
-  GetOriginRequestPolicyRequest,
+  GetOriginRequestPolicyRequest & RegionInput,
   GetOriginRequestPolicyResult,
   GetOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6669,6 +6855,8 @@ export const getOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "GetOriginRequestPolicy",
 }));
 
 export type GetOriginRequestPolicyConfigError =
@@ -6681,7 +6869,7 @@ export type GetOriginRequestPolicyConfigError =
  * To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
 export const getOriginRequestPolicyConfig: API.OperationMethod<
-  GetOriginRequestPolicyConfigRequest,
+  GetOriginRequestPolicyConfigRequest & RegionInput,
   GetOriginRequestPolicyConfigResult,
   GetOriginRequestPolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6692,6 +6880,8 @@ export const getOriginRequestPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetOriginRequestPolicyConfig",
 }));
 
 export type GetPublicKeyError = AccessDenied | NoSuchPublicKey | CommonErrors;
@@ -6699,7 +6889,7 @@ export type GetPublicKeyError = AccessDenied | NoSuchPublicKey | CommonErrors;
  * Gets a public key.
  */
 export const getPublicKey: API.OperationMethod<
-  GetPublicKeyRequest,
+  GetPublicKeyRequest & RegionInput,
   GetPublicKeyResult,
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -6710,6 +6900,8 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type GetPublicKeyConfigError = AccessDenied | NoSuchPublicKey | CommonErrors;
@@ -6717,7 +6909,7 @@ export type GetPublicKeyConfigError = AccessDenied | NoSuchPublicKey | CommonErr
  * Gets a public key configuration.
  */
 export const getPublicKeyConfig: API.OperationMethod<
-  GetPublicKeyConfigRequest,
+  GetPublicKeyConfigRequest & RegionInput,
   GetPublicKeyConfigResult,
   GetPublicKeyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6728,6 +6920,8 @@ export const getPublicKeyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKeyConfig",
+  telemetry: TELEMETRY,
+  span: "GetPublicKeyConfig",
 }));
 
 export type GetRealtimeLogConfigError =
@@ -6741,7 +6935,7 @@ export type GetRealtimeLogConfigError =
  * To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
  */
 export const getRealtimeLogConfig: API.OperationMethod<
-  GetRealtimeLogConfigRequest,
+  GetRealtimeLogConfigRequest & RegionInput,
   GetRealtimeLogConfigResult,
   GetRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -6752,6 +6946,8 @@ export const getRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "GetRealtimeLogConfig",
 }));
 
 export type GetResourcePolicyError =
@@ -6764,7 +6960,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResult,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6775,6 +6971,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetResponseHeadersPolicyError =
@@ -6787,7 +6985,7 @@ export type GetResponseHeadersPolicyError =
  * To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
 export const getResponseHeadersPolicy: API.OperationMethod<
-  GetResponseHeadersPolicyRequest,
+  GetResponseHeadersPolicyRequest & RegionInput,
   GetResponseHeadersPolicyResult,
   GetResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6798,6 +6996,8 @@ export const getResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "GetResponseHeadersPolicy",
 }));
 
 export type GetResponseHeadersPolicyConfigError =
@@ -6810,7 +7010,7 @@ export type GetResponseHeadersPolicyConfigError =
  * To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
 export const getResponseHeadersPolicyConfig: API.OperationMethod<
-  GetResponseHeadersPolicyConfigRequest,
+  GetResponseHeadersPolicyConfigRequest & RegionInput,
   GetResponseHeadersPolicyConfigResult,
   GetResponseHeadersPolicyConfigError,
   Credentials | HttpClient.HttpClient
@@ -6821,6 +7021,8 @@ export const getResponseHeadersPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetResponseHeadersPolicyConfig",
 }));
 
 export type GetStreamingDistributionError =
@@ -6831,7 +7033,7 @@ export type GetStreamingDistributionError =
  * Gets information about a specified RTMP distribution, including the distribution configuration.
  */
 export const getStreamingDistribution: API.OperationMethod<
-  GetStreamingDistributionRequest,
+  GetStreamingDistributionRequest & RegionInput,
   GetStreamingDistributionResult,
   GetStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -6842,6 +7044,8 @@ export const getStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "GetStreamingDistribution",
 }));
 
 export type GetStreamingDistributionConfigError =
@@ -6852,7 +7056,7 @@ export type GetStreamingDistributionConfigError =
  * Get the configuration information about a streaming distribution.
  */
 export const getStreamingDistributionConfig: API.OperationMethod<
-  GetStreamingDistributionConfigRequest,
+  GetStreamingDistributionConfigRequest & RegionInput,
   GetStreamingDistributionConfigResult,
   GetStreamingDistributionConfigError,
   Credentials | HttpClient.HttpClient
@@ -6863,6 +7067,8 @@ export const getStreamingDistributionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistributionConfig",
+  telemetry: TELEMETRY,
+  span: "GetStreamingDistributionConfig",
 }));
 
 export type GetTrustStoreError = AccessDenied | EntityNotFound | InvalidArgument | CommonErrors;
@@ -6870,7 +7076,7 @@ export type GetTrustStoreError = AccessDenied | EntityNotFound | InvalidArgument
  * Gets a trust store.
  */
 export const getTrustStore: API.OperationMethod<
-  GetTrustStoreRequest,
+  GetTrustStoreRequest & RegionInput,
   GetTrustStoreResult,
   GetTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -6881,6 +7087,8 @@ export const getTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStore",
+  telemetry: TELEMETRY,
+  span: "GetTrustStore",
 }));
 
 export type GetVpcOriginError =
@@ -6893,7 +7101,7 @@ export type GetVpcOriginError =
  * Get the details of an Amazon CloudFront VPC origin.
  */
 export const getVpcOrigin: API.OperationMethod<
-  GetVpcOriginRequest,
+  GetVpcOriginRequest & RegionInput,
   GetVpcOriginResult,
   GetVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -6904,6 +7112,8 @@ export const getVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "GetVpcOrigin",
 }));
 
 export type ListAnycastIpListsError =
@@ -6916,7 +7126,7 @@ export type ListAnycastIpListsError =
  * Lists your Anycast static IP lists.
  */
 export const listAnycastIpLists: API.OperationMethod<
-  ListAnycastIpListsRequest,
+  ListAnycastIpListsRequest & RegionInput,
   ListAnycastIpListsResult,
   ListAnycastIpListsError,
   Credentials | HttpClient.HttpClient
@@ -6927,6 +7137,8 @@ export const listAnycastIpLists: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnycastIpLists",
+  telemetry: TELEMETRY,
+  span: "ListAnycastIpLists",
 }));
 
 export type ListCachePoliciesError =
@@ -6942,7 +7154,7 @@ export type ListCachePoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listCachePolicies: API.OperationMethod<
-  ListCachePoliciesRequest,
+  ListCachePoliciesRequest & RegionInput,
   ListCachePoliciesResult,
   ListCachePoliciesError,
   Credentials | HttpClient.HttpClient
@@ -6953,6 +7165,8 @@ export const listCachePolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCachePolicies",
+  telemetry: TELEMETRY,
+  span: "ListCachePolicies",
 }));
 
 export type ListCloudFrontOriginAccessIdentitiesError = InvalidArgument | CommonErrors;
@@ -6960,7 +7174,7 @@ export type ListCloudFrontOriginAccessIdentitiesError = InvalidArgument | Common
  * Lists origin access identities.
  */
 export const listCloudFrontOriginAccessIdentities: API.PaginatedOperationMethod<
-  ListCloudFrontOriginAccessIdentitiesRequest,
+  ListCloudFrontOriginAccessIdentitiesRequest & RegionInput,
   ListCloudFrontOriginAccessIdentitiesResult,
   ListCloudFrontOriginAccessIdentitiesError,
   Credentials | HttpClient.HttpClient,
@@ -6978,6 +7192,8 @@ export const listCloudFrontOriginAccessIdentities: API.PaginatedOperationMethod<
     items: "CloudFrontOriginAccessIdentityList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudFrontOriginAccessIdentities",
 })) as any;
 
 export type ListConflictingAliasesError = InvalidArgument | NoSuchDistribution | CommonErrors;
@@ -6995,7 +7211,7 @@ export type ListConflictingAliasesError = InvalidArgument | NoSuchDistribution |
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listConflictingAliases: API.OperationMethod<
-  ListConflictingAliasesRequest,
+  ListConflictingAliasesRequest & RegionInput,
   ListConflictingAliasesResult,
   ListConflictingAliasesError,
   Credentials | HttpClient.HttpClient
@@ -7006,6 +7222,8 @@ export const listConflictingAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConflictingAliases",
+  telemetry: TELEMETRY,
+  span: "ListConflictingAliases",
 }));
 
 export type ListConnectionFunctionsError =
@@ -7017,7 +7235,7 @@ export type ListConnectionFunctionsError =
  * Lists connection functions.
  */
 export const listConnectionFunctions: API.PaginatedOperationMethod<
-  ListConnectionFunctionsRequest,
+  ListConnectionFunctionsRequest & RegionInput,
   ListConnectionFunctionsResult,
   ListConnectionFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -7035,6 +7253,8 @@ export const listConnectionFunctions: API.PaginatedOperationMethod<
     items: "ConnectionFunctions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectionFunctions",
 })) as any;
 
 export type ListConnectionGroupsError =
@@ -7046,7 +7266,7 @@ export type ListConnectionGroupsError =
  * Lists the connection groups in your Amazon Web Services account.
  */
 export const listConnectionGroups: API.PaginatedOperationMethod<
-  ListConnectionGroupsRequest,
+  ListConnectionGroupsRequest & RegionInput,
   ListConnectionGroupsResult,
   ListConnectionGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -7064,6 +7284,8 @@ export const listConnectionGroups: API.PaginatedOperationMethod<
     items: "ConnectionGroups",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectionGroups",
 })) as any;
 
 export type ListContinuousDeploymentPoliciesError =
@@ -7077,7 +7299,7 @@ export type ListContinuousDeploymentPoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listContinuousDeploymentPolicies: API.OperationMethod<
-  ListContinuousDeploymentPoliciesRequest,
+  ListContinuousDeploymentPoliciesRequest & RegionInput,
   ListContinuousDeploymentPoliciesResult,
   ListContinuousDeploymentPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -7088,6 +7310,8 @@ export const listContinuousDeploymentPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContinuousDeploymentPolicies",
+  telemetry: TELEMETRY,
+  span: "ListContinuousDeploymentPolicies",
 }));
 
 export type ListDistributionsError = InvalidArgument | CommonErrors;
@@ -7095,7 +7319,7 @@ export type ListDistributionsError = InvalidArgument | CommonErrors;
  * List CloudFront distributions.
  */
 export const listDistributions: API.PaginatedOperationMethod<
-  ListDistributionsRequest,
+  ListDistributionsRequest & RegionInput,
   ListDistributionsResult,
   ListDistributionsError,
   Credentials | HttpClient.HttpClient,
@@ -7113,6 +7337,8 @@ export const listDistributions: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributions",
 })) as any;
 
 export type ListDistributionsByAnycastIpListIdError =
@@ -7125,7 +7351,7 @@ export type ListDistributionsByAnycastIpListIdError =
  * Lists the distributions in your account that are associated with the specified `AnycastIpListId`.
  */
 export const listDistributionsByAnycastIpListId: API.OperationMethod<
-  ListDistributionsByAnycastIpListIdRequest,
+  ListDistributionsByAnycastIpListIdRequest & RegionInput,
   ListDistributionsByAnycastIpListIdResult,
   ListDistributionsByAnycastIpListIdError,
   Credentials | HttpClient.HttpClient
@@ -7136,6 +7362,8 @@ export const listDistributionsByAnycastIpListId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByAnycastIpListId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByAnycastIpListId",
 }));
 
 export type ListDistributionsByCachePolicyIdError =
@@ -7149,7 +7377,7 @@ export type ListDistributionsByCachePolicyIdError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByCachePolicyId: API.OperationMethod<
-  ListDistributionsByCachePolicyIdRequest,
+  ListDistributionsByCachePolicyIdRequest & RegionInput,
   ListDistributionsByCachePolicyIdResult,
   ListDistributionsByCachePolicyIdError,
   Credentials | HttpClient.HttpClient
@@ -7160,6 +7388,8 @@ export const listDistributionsByCachePolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByCachePolicyId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByCachePolicyId",
 }));
 
 export type ListDistributionsByConnectionFunctionError =
@@ -7171,7 +7401,7 @@ export type ListDistributionsByConnectionFunctionError =
  * Lists distributions by connection function.
  */
 export const listDistributionsByConnectionFunction: API.PaginatedOperationMethod<
-  ListDistributionsByConnectionFunctionRequest,
+  ListDistributionsByConnectionFunctionRequest & RegionInput,
   ListDistributionsByConnectionFunctionResult,
   ListDistributionsByConnectionFunctionError,
   Credentials | HttpClient.HttpClient,
@@ -7189,6 +7419,8 @@ export const listDistributionsByConnectionFunction: API.PaginatedOperationMethod
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByConnectionFunction",
 })) as any;
 
 export type ListDistributionsByConnectionModeError = AccessDenied | InvalidArgument | CommonErrors;
@@ -7196,7 +7428,7 @@ export type ListDistributionsByConnectionModeError = AccessDenied | InvalidArgum
  * Lists the distributions by the connection mode that you specify.
  */
 export const listDistributionsByConnectionMode: API.PaginatedOperationMethod<
-  ListDistributionsByConnectionModeRequest,
+  ListDistributionsByConnectionModeRequest & RegionInput,
   ListDistributionsByConnectionModeResult,
   ListDistributionsByConnectionModeError,
   Credentials | HttpClient.HttpClient,
@@ -7214,6 +7446,8 @@ export const listDistributionsByConnectionMode: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByConnectionMode",
 })) as any;
 
 export type ListDistributionsByKeyGroupError = InvalidArgument | NoSuchResource | CommonErrors;
@@ -7223,7 +7457,7 @@ export type ListDistributionsByKeyGroupError = InvalidArgument | NoSuchResource 
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByKeyGroup: API.OperationMethod<
-  ListDistributionsByKeyGroupRequest,
+  ListDistributionsByKeyGroupRequest & RegionInput,
   ListDistributionsByKeyGroupResult,
   ListDistributionsByKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -7234,6 +7468,8 @@ export const listDistributionsByKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByKeyGroup",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByKeyGroup",
 }));
 
 export type ListDistributionsByOriginRequestPolicyIdError =
@@ -7247,7 +7483,7 @@ export type ListDistributionsByOriginRequestPolicyIdError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
-  ListDistributionsByOriginRequestPolicyIdRequest,
+  ListDistributionsByOriginRequestPolicyIdRequest & RegionInput,
   ListDistributionsByOriginRequestPolicyIdResult,
   ListDistributionsByOriginRequestPolicyIdError,
   Credentials | HttpClient.HttpClient
@@ -7258,6 +7494,8 @@ export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOriginRequestPolicyId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByOriginRequestPolicyId",
 }));
 
 export type ListDistributionsByOwnedResourceError =
@@ -7270,7 +7508,7 @@ export type ListDistributionsByOwnedResourceError =
  * Lists the CloudFront distributions that are associated with the specified resource that you own.
  */
 export const listDistributionsByOwnedResource: API.OperationMethod<
-  ListDistributionsByOwnedResourceRequest,
+  ListDistributionsByOwnedResourceRequest & RegionInput,
   ListDistributionsByOwnedResourceResult,
   ListDistributionsByOwnedResourceError,
   Credentials | HttpClient.HttpClient
@@ -7281,6 +7519,8 @@ export const listDistributionsByOwnedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOwnedResource",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByOwnedResource",
 }));
 
 export type ListDistributionsByRealtimeLogConfigError = InvalidArgument | CommonErrors;
@@ -7292,7 +7532,7 @@ export type ListDistributionsByRealtimeLogConfigError = InvalidArgument | Common
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
-  ListDistributionsByRealtimeLogConfigRequest,
+  ListDistributionsByRealtimeLogConfigRequest & RegionInput,
   ListDistributionsByRealtimeLogConfigResult,
   ListDistributionsByRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -7303,6 +7543,8 @@ export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByRealtimeLogConfig",
 }));
 
 export type ListDistributionsByResponseHeadersPolicyIdError =
@@ -7316,7 +7558,7 @@ export type ListDistributionsByResponseHeadersPolicyIdError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
-  ListDistributionsByResponseHeadersPolicyIdRequest,
+  ListDistributionsByResponseHeadersPolicyIdRequest & RegionInput,
   ListDistributionsByResponseHeadersPolicyIdResult,
   ListDistributionsByResponseHeadersPolicyIdError,
   Credentials | HttpClient.HttpClient
@@ -7327,6 +7569,8 @@ export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByResponseHeadersPolicyId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByResponseHeadersPolicyId",
 }));
 
 export type ListDistributionsByTrustStoreError =
@@ -7338,7 +7582,7 @@ export type ListDistributionsByTrustStoreError =
  * Lists distributions by trust store.
  */
 export const listDistributionsByTrustStore: API.PaginatedOperationMethod<
-  ListDistributionsByTrustStoreRequest,
+  ListDistributionsByTrustStoreRequest & RegionInput,
   ListDistributionsByTrustStoreResult,
   ListDistributionsByTrustStoreError,
   Credentials | HttpClient.HttpClient,
@@ -7356,6 +7600,8 @@ export const listDistributionsByTrustStore: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByTrustStore",
 })) as any;
 
 export type ListDistributionsByVpcOriginIdError =
@@ -7368,7 +7614,7 @@ export type ListDistributionsByVpcOriginIdError =
  * List CloudFront distributions by their VPC origin ID.
  */
 export const listDistributionsByVpcOriginId: API.OperationMethod<
-  ListDistributionsByVpcOriginIdRequest,
+  ListDistributionsByVpcOriginIdRequest & RegionInput,
   ListDistributionsByVpcOriginIdResult,
   ListDistributionsByVpcOriginIdError,
   Credentials | HttpClient.HttpClient
@@ -7379,6 +7625,8 @@ export const listDistributionsByVpcOriginId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByVpcOriginId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByVpcOriginId",
 }));
 
 export type ListDistributionsByWebACLIdError = InvalidArgument | InvalidWebACLId | CommonErrors;
@@ -7386,7 +7634,7 @@ export type ListDistributionsByWebACLIdError = InvalidArgument | InvalidWebACLId
  * List the distributions that are associated with a specified WAF web ACL.
  */
 export const listDistributionsByWebACLId: API.OperationMethod<
-  ListDistributionsByWebACLIdRequest,
+  ListDistributionsByWebACLIdRequest & RegionInput,
   ListDistributionsByWebACLIdResult,
   ListDistributionsByWebACLIdError,
   Credentials | HttpClient.HttpClient
@@ -7397,6 +7645,8 @@ export const listDistributionsByWebACLId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByWebACLId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByWebACLId",
 }));
 
 export type ListDistributionTenantsError =
@@ -7408,7 +7658,7 @@ export type ListDistributionTenantsError =
  * Lists the distribution tenants in your Amazon Web Services account.
  */
 export const listDistributionTenants: API.PaginatedOperationMethod<
-  ListDistributionTenantsRequest,
+  ListDistributionTenantsRequest & RegionInput,
   ListDistributionTenantsResult,
   ListDistributionTenantsError,
   Credentials | HttpClient.HttpClient,
@@ -7426,6 +7676,8 @@ export const listDistributionTenants: API.PaginatedOperationMethod<
     items: "DistributionTenantList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionTenants",
 })) as any;
 
 export type ListDistributionTenantsByCustomizationError =
@@ -7439,7 +7691,7 @@ export type ListDistributionTenantsByCustomizationError =
  * You must specify either the `CertificateArn` parameter or `WebACLArn` parameter, but not both in the same request.
  */
 export const listDistributionTenantsByCustomization: API.PaginatedOperationMethod<
-  ListDistributionTenantsByCustomizationRequest,
+  ListDistributionTenantsByCustomizationRequest & RegionInput,
   ListDistributionTenantsByCustomizationResult,
   ListDistributionTenantsByCustomizationError,
   Credentials | HttpClient.HttpClient,
@@ -7457,6 +7709,8 @@ export const listDistributionTenantsByCustomization: API.PaginatedOperationMetho
     items: "DistributionTenantList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionTenantsByCustomization",
 })) as any;
 
 export type ListDomainConflictsError =
@@ -7484,7 +7738,7 @@ export type ListDomainConflictsError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listDomainConflicts: API.PaginatedOperationMethod<
-  ListDomainConflictsRequest,
+  ListDomainConflictsRequest & RegionInput,
   ListDomainConflictsResult,
   ListDomainConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -7502,6 +7756,8 @@ export const listDomainConflicts: API.PaginatedOperationMethod<
     items: "DomainConflicts",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainConflicts",
 })) as any;
 
 export type ListFieldLevelEncryptionConfigsError = InvalidArgument | CommonErrors;
@@ -7509,7 +7765,7 @@ export type ListFieldLevelEncryptionConfigsError = InvalidArgument | CommonError
  * List all field-level encryption configurations that have been created in CloudFront for this account.
  */
 export const listFieldLevelEncryptionConfigs: API.OperationMethod<
-  ListFieldLevelEncryptionConfigsRequest,
+  ListFieldLevelEncryptionConfigsRequest & RegionInput,
   ListFieldLevelEncryptionConfigsResult,
   ListFieldLevelEncryptionConfigsError,
   Credentials | HttpClient.HttpClient
@@ -7520,6 +7776,8 @@ export const listFieldLevelEncryptionConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionConfigs",
+  telemetry: TELEMETRY,
+  span: "ListFieldLevelEncryptionConfigs",
 }));
 
 export type ListFieldLevelEncryptionProfilesError = InvalidArgument | CommonErrors;
@@ -7527,7 +7785,7 @@ export type ListFieldLevelEncryptionProfilesError = InvalidArgument | CommonErro
  * Request a list of field-level encryption profiles that have been created in CloudFront for this account.
  */
 export const listFieldLevelEncryptionProfiles: API.OperationMethod<
-  ListFieldLevelEncryptionProfilesRequest,
+  ListFieldLevelEncryptionProfilesRequest & RegionInput,
   ListFieldLevelEncryptionProfilesResult,
   ListFieldLevelEncryptionProfilesError,
   Credentials | HttpClient.HttpClient
@@ -7538,6 +7796,8 @@ export const listFieldLevelEncryptionProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionProfiles",
+  telemetry: TELEMETRY,
+  span: "ListFieldLevelEncryptionProfiles",
 }));
 
 export type ListFunctionsError = InvalidArgument | UnsupportedOperation | CommonErrors;
@@ -7549,7 +7809,7 @@ export type ListFunctionsError = InvalidArgument | UnsupportedOperation | Common
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listFunctions: API.OperationMethod<
-  ListFunctionsRequest,
+  ListFunctionsRequest & RegionInput,
   ListFunctionsResult,
   ListFunctionsError,
   Credentials | HttpClient.HttpClient
@@ -7560,6 +7820,8 @@ export const listFunctions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctions",
+  telemetry: TELEMETRY,
+  span: "ListFunctions",
 }));
 
 export type ListInvalidationsError =
@@ -7571,7 +7833,7 @@ export type ListInvalidationsError =
  * Lists invalidation batches.
  */
 export const listInvalidations: API.PaginatedOperationMethod<
-  ListInvalidationsRequest,
+  ListInvalidationsRequest & RegionInput,
   ListInvalidationsResult,
   ListInvalidationsError,
   Credentials | HttpClient.HttpClient,
@@ -7589,6 +7851,8 @@ export const listInvalidations: API.PaginatedOperationMethod<
     items: "InvalidationList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvalidations",
 })) as any;
 
 export type ListInvalidationsForDistributionTenantError =
@@ -7600,7 +7864,7 @@ export type ListInvalidationsForDistributionTenantError =
  * Lists the invalidations for a distribution tenant.
  */
 export const listInvalidationsForDistributionTenant: API.PaginatedOperationMethod<
-  ListInvalidationsForDistributionTenantRequest,
+  ListInvalidationsForDistributionTenantRequest & RegionInput,
   ListInvalidationsForDistributionTenantResult,
   ListInvalidationsForDistributionTenantError,
   Credentials | HttpClient.HttpClient,
@@ -7618,6 +7882,8 @@ export const listInvalidationsForDistributionTenant: API.PaginatedOperationMetho
     items: "InvalidationList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvalidationsForDistributionTenant",
 })) as any;
 
 export type ListKeyGroupsError = InvalidArgument | CommonErrors;
@@ -7627,7 +7893,7 @@ export type ListKeyGroupsError = InvalidArgument | CommonErrors;
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listKeyGroups: API.OperationMethod<
-  ListKeyGroupsRequest,
+  ListKeyGroupsRequest & RegionInput,
   ListKeyGroupsResult,
   ListKeyGroupsError,
   Credentials | HttpClient.HttpClient
@@ -7638,6 +7904,8 @@ export const listKeyGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKeyGroups",
+  telemetry: TELEMETRY,
+  span: "ListKeyGroups",
 }));
 
 export type ListKeyValueStoresError =
@@ -7649,7 +7917,7 @@ export type ListKeyValueStoresError =
  * Specifies the key value stores to list.
  */
 export const listKeyValueStores: API.PaginatedOperationMethod<
-  ListKeyValueStoresRequest,
+  ListKeyValueStoresRequest & RegionInput,
   ListKeyValueStoresResult,
   ListKeyValueStoresError,
   Credentials | HttpClient.HttpClient,
@@ -7667,6 +7935,8 @@ export const listKeyValueStores: API.PaginatedOperationMethod<
     items: "KeyValueStoreList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyValueStores",
 })) as any;
 
 export type ListOriginAccessControlsError = InvalidArgument | CommonErrors;
@@ -7678,7 +7948,7 @@ export type ListOriginAccessControlsError = InvalidArgument | CommonErrors;
  * If you're not using origin access controls for your Amazon Web Services account, the `ListOriginAccessControls` operation doesn't return the `Items` element in the response.
  */
 export const listOriginAccessControls: API.PaginatedOperationMethod<
-  ListOriginAccessControlsRequest,
+  ListOriginAccessControlsRequest & RegionInput,
   ListOriginAccessControlsResult,
   ListOriginAccessControlsError,
   Credentials | HttpClient.HttpClient,
@@ -7696,6 +7966,8 @@ export const listOriginAccessControls: API.PaginatedOperationMethod<
     items: "OriginAccessControlList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginAccessControls",
 })) as any;
 
 export type ListOriginRequestPoliciesError =
@@ -7711,7 +7983,7 @@ export type ListOriginRequestPoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listOriginRequestPolicies: API.OperationMethod<
-  ListOriginRequestPoliciesRequest,
+  ListOriginRequestPoliciesRequest & RegionInput,
   ListOriginRequestPoliciesResult,
   ListOriginRequestPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -7722,6 +7994,8 @@ export const listOriginRequestPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOriginRequestPolicies",
+  telemetry: TELEMETRY,
+  span: "ListOriginRequestPolicies",
 }));
 
 export type ListPublicKeysError = InvalidArgument | CommonErrors;
@@ -7729,7 +8003,7 @@ export type ListPublicKeysError = InvalidArgument | CommonErrors;
  * List all public keys that have been added to CloudFront for this account.
  */
 export const listPublicKeys: API.PaginatedOperationMethod<
-  ListPublicKeysRequest,
+  ListPublicKeysRequest & RegionInput,
   ListPublicKeysResult,
   ListPublicKeysError,
   Credentials | HttpClient.HttpClient,
@@ -7747,6 +8021,8 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     items: "PublicKeyList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublicKeys",
 })) as any;
 
 export type ListRealtimeLogConfigsError =
@@ -7760,7 +8036,7 @@ export type ListRealtimeLogConfigsError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listRealtimeLogConfigs: API.OperationMethod<
-  ListRealtimeLogConfigsRequest,
+  ListRealtimeLogConfigsRequest & RegionInput,
   ListRealtimeLogConfigsResult,
   ListRealtimeLogConfigsError,
   Credentials | HttpClient.HttpClient
@@ -7771,6 +8047,8 @@ export const listRealtimeLogConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRealtimeLogConfigs",
+  telemetry: TELEMETRY,
+  span: "ListRealtimeLogConfigs",
 }));
 
 export type ListResponseHeadersPoliciesError =
@@ -7786,7 +8064,7 @@ export type ListResponseHeadersPoliciesError =
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
 export const listResponseHeadersPolicies: API.OperationMethod<
-  ListResponseHeadersPoliciesRequest,
+  ListResponseHeadersPoliciesRequest & RegionInput,
   ListResponseHeadersPoliciesResult,
   ListResponseHeadersPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -7797,6 +8075,8 @@ export const listResponseHeadersPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResponseHeadersPolicies",
+  telemetry: TELEMETRY,
+  span: "ListResponseHeadersPolicies",
 }));
 
 export type ListStreamingDistributionsError = InvalidArgument | CommonErrors;
@@ -7804,7 +8084,7 @@ export type ListStreamingDistributionsError = InvalidArgument | CommonErrors;
  * List streaming distributions.
  */
 export const listStreamingDistributions: API.PaginatedOperationMethod<
-  ListStreamingDistributionsRequest,
+  ListStreamingDistributionsRequest & RegionInput,
   ListStreamingDistributionsResult,
   ListStreamingDistributionsError,
   Credentials | HttpClient.HttpClient,
@@ -7822,6 +8102,8 @@ export const listStreamingDistributions: API.PaginatedOperationMethod<
     items: "StreamingDistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamingDistributions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -7834,7 +8116,7 @@ export type ListTagsForResourceError =
  * List tags for a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -7845,6 +8127,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrustStoresError = AccessDenied | EntityNotFound | InvalidArgument | CommonErrors;
@@ -7852,7 +8136,7 @@ export type ListTrustStoresError = AccessDenied | EntityNotFound | InvalidArgume
  * Lists trust stores.
  */
 export const listTrustStores: API.PaginatedOperationMethod<
-  ListTrustStoresRequest,
+  ListTrustStoresRequest & RegionInput,
   ListTrustStoresResult,
   ListTrustStoresError,
   Credentials | HttpClient.HttpClient,
@@ -7870,6 +8154,8 @@ export const listTrustStores: API.PaginatedOperationMethod<
     items: "TrustStoreList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustStores",
 })) as any;
 
 export type ListVpcOriginsError =
@@ -7882,7 +8168,7 @@ export type ListVpcOriginsError =
  * List the CloudFront VPC origins in your account.
  */
 export const listVpcOrigins: API.OperationMethod<
-  ListVpcOriginsRequest,
+  ListVpcOriginsRequest & RegionInput,
   ListVpcOriginsResult,
   ListVpcOriginsError,
   Credentials | HttpClient.HttpClient
@@ -7893,6 +8179,8 @@ export const listVpcOrigins: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcOrigins",
+  telemetry: TELEMETRY,
+  span: "ListVpcOrigins",
 }));
 
 export type PublishConnectionFunctionError =
@@ -7907,7 +8195,7 @@ export type PublishConnectionFunctionError =
  * Publishes a connection function.
  */
 export const publishConnectionFunction: API.OperationMethod<
-  PublishConnectionFunctionRequest,
+  PublishConnectionFunctionRequest & RegionInput,
   PublishConnectionFunctionResult,
   PublishConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -7925,6 +8213,8 @@ export const publishConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "PublishConnectionFunction",
 }));
 
 export type PublishFunctionError =
@@ -7942,7 +8232,7 @@ export type PublishFunctionError =
  * To publish a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const publishFunction: API.OperationMethod<
-  PublishFunctionRequest,
+  PublishFunctionRequest & RegionInput,
   PublishFunctionResult,
   PublishFunctionError,
   Credentials | HttpClient.HttpClient
@@ -7959,6 +8249,8 @@ export const publishFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishFunction",
+  telemetry: TELEMETRY,
+  span: "PublishFunction",
 }));
 
 export type PutResourcePolicyError =
@@ -7973,7 +8265,7 @@ export type PutResourcePolicyError =
  * Creates a resource control policy for a given CloudFront resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7991,6 +8283,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type TagResourceError =
@@ -8003,7 +8297,7 @@ export type TagResourceError =
  * Add tags to a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8014,6 +8308,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestConnectionFunctionError =
@@ -8028,7 +8324,7 @@ export type TestConnectionFunctionError =
  * Tests a connection function.
  */
 export const testConnectionFunction: API.OperationMethod<
-  TestConnectionFunctionRequest,
+  TestConnectionFunctionRequest & RegionInput,
   TestConnectionFunctionResult,
   TestConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8046,6 +8342,8 @@ export const testConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "TestConnectionFunction",
 }));
 
 export type TestFunctionError =
@@ -8063,7 +8361,7 @@ export type TestFunctionError =
  * To test a function, you provide the function's name and version (`ETag` value) along with the event object. To get the function's name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const testFunction: API.OperationMethod<
-  TestFunctionRequest,
+  TestFunctionRequest & RegionInput,
   TestFunctionResult,
   TestFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8080,6 +8378,8 @@ export const testFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFunction",
+  telemetry: TELEMETRY,
+  span: "TestFunction",
 }));
 
 export type UntagResourceError =
@@ -8092,7 +8392,7 @@ export type UntagResourceError =
  * Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8103,6 +8403,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAnycastIpListError =
@@ -8117,7 +8419,7 @@ export type UpdateAnycastIpListError =
  * Updates an Anycast static IP list.
  */
 export const updateAnycastIpList: API.OperationMethod<
-  UpdateAnycastIpListRequest,
+  UpdateAnycastIpListRequest & RegionInput,
   UpdateAnycastIpListResult,
   UpdateAnycastIpListError,
   Credentials | HttpClient.HttpClient
@@ -8135,6 +8437,8 @@ export const updateAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "UpdateAnycastIpList",
 }));
 
 export type UpdateCachePolicyError =
@@ -8164,7 +8468,7 @@ export type UpdateCachePolicyError =
  * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
  */
 export const updateCachePolicy: API.OperationMethod<
-  UpdateCachePolicyRequest,
+  UpdateCachePolicyRequest & RegionInput,
   UpdateCachePolicyResult,
   UpdateCachePolicyError,
   Credentials | HttpClient.HttpClient
@@ -8187,6 +8491,8 @@ export const updateCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCachePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateCachePolicy",
 }));
 
 export type UpdateCloudFrontOriginAccessIdentityError =
@@ -8203,7 +8509,7 @@ export type UpdateCloudFrontOriginAccessIdentityError =
  * Update an origin access identity.
  */
 export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
-  UpdateCloudFrontOriginAccessIdentityRequest,
+  UpdateCloudFrontOriginAccessIdentityRequest & RegionInput,
   UpdateCloudFrontOriginAccessIdentityResult,
   UpdateCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
@@ -8223,6 +8529,8 @@ export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudFrontOriginAccessIdentity",
 }));
 
 export type UpdateConnectionFunctionError =
@@ -8238,7 +8546,7 @@ export type UpdateConnectionFunctionError =
  * Updates a connection function.
  */
 export const updateConnectionFunction: API.OperationMethod<
-  UpdateConnectionFunctionRequest,
+  UpdateConnectionFunctionRequest & RegionInput,
   UpdateConnectionFunctionResult,
   UpdateConnectionFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8257,6 +8565,8 @@ export const updateConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionFunction",
 }));
 
 export type UpdateConnectionGroupError =
@@ -8273,7 +8583,7 @@ export type UpdateConnectionGroupError =
  * Updates a connection group.
  */
 export const updateConnectionGroup: API.OperationMethod<
-  UpdateConnectionGroupRequest,
+  UpdateConnectionGroupRequest & RegionInput,
   UpdateConnectionGroupResult,
   UpdateConnectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -8293,6 +8603,8 @@ export const updateConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionGroup",
 }));
 
 export type UpdateContinuousDeploymentPolicyError =
@@ -8316,7 +8628,7 @@ export type UpdateContinuousDeploymentPolicyError =
  * - Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
  */
 export const updateContinuousDeploymentPolicy: API.OperationMethod<
-  UpdateContinuousDeploymentPolicyRequest,
+  UpdateContinuousDeploymentPolicyRequest & RegionInput,
   UpdateContinuousDeploymentPolicyResult,
   UpdateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8335,6 +8647,8 @@ export const updateContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateContinuousDeploymentPolicy",
 }));
 
 export type UpdateDistributionError =
@@ -8424,7 +8738,7 @@ export type UpdateDistributionError =
  * - Submit an `UpdateDistribution` request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an `UpdateDistribution` request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
  */
 export const updateDistribution: API.OperationMethod<
-  UpdateDistributionRequest,
+  UpdateDistributionRequest & RegionInput,
   UpdateDistributionResult,
   UpdateDistributionError,
   Credentials | HttpClient.HttpClient
@@ -8503,6 +8817,8 @@ export const updateDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistribution",
+  telemetry: TELEMETRY,
+  span: "UpdateDistribution",
 }));
 
 export type UpdateDistributionTenantError =
@@ -8520,7 +8836,7 @@ export type UpdateDistributionTenantError =
  * Updates a distribution tenant.
  */
 export const updateDistributionTenant: API.OperationMethod<
-  UpdateDistributionTenantRequest,
+  UpdateDistributionTenantRequest & RegionInput,
   UpdateDistributionTenantResult,
   UpdateDistributionTenantError,
   Credentials | HttpClient.HttpClient
@@ -8541,6 +8857,8 @@ export const updateDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "UpdateDistributionTenant",
 }));
 
 export type UpdateDistributionWithStagingConfigError =
@@ -8620,7 +8938,7 @@ export type UpdateDistributionWithStagingConfigError =
  * - UpdateDistribution
  */
 export const updateDistributionWithStagingConfig: API.OperationMethod<
-  UpdateDistributionWithStagingConfigRequest,
+  UpdateDistributionWithStagingConfigRequest & RegionInput,
   UpdateDistributionWithStagingConfigResult,
   UpdateDistributionWithStagingConfigError,
   Credentials | HttpClient.HttpClient
@@ -8695,6 +9013,8 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionWithStagingConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateDistributionWithStagingConfig",
 }));
 
 export type UpdateDomainAssociationError =
@@ -8715,7 +9035,7 @@ export type UpdateDomainAssociationError =
  * To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
 export const updateDomainAssociation: API.OperationMethod<
-  UpdateDomainAssociationRequest,
+  UpdateDomainAssociationRequest & RegionInput,
   UpdateDomainAssociationResult,
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -8733,6 +9053,8 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainAssociation",
 }));
 
 export type UpdateFieldLevelEncryptionConfigError =
@@ -8752,7 +9074,7 @@ export type UpdateFieldLevelEncryptionConfigError =
  * Update a field-level encryption configuration.
  */
 export const updateFieldLevelEncryptionConfig: API.OperationMethod<
-  UpdateFieldLevelEncryptionConfigRequest,
+  UpdateFieldLevelEncryptionConfigRequest & RegionInput,
   UpdateFieldLevelEncryptionConfigResult,
   UpdateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -8775,6 +9097,8 @@ export const updateFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateFieldLevelEncryptionConfig",
 }));
 
 export type UpdateFieldLevelEncryptionProfileError =
@@ -8795,7 +9119,7 @@ export type UpdateFieldLevelEncryptionProfileError =
  * Update a field-level encryption profile.
  */
 export const updateFieldLevelEncryptionProfile: API.OperationMethod<
-  UpdateFieldLevelEncryptionProfileRequest,
+  UpdateFieldLevelEncryptionProfileRequest & RegionInput,
   UpdateFieldLevelEncryptionProfileResult,
   UpdateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
@@ -8819,6 +9143,8 @@ export const updateFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateFieldLevelEncryptionProfile",
 }));
 
 export type UpdateFunctionError =
@@ -8837,7 +9163,7 @@ export type UpdateFunctionError =
  * To update a function, you provide the function's name and version (`ETag` value) along with the updated function code. To get the name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
 export const updateFunction: API.OperationMethod<
-  UpdateFunctionRequest,
+  UpdateFunctionRequest & RegionInput,
   UpdateFunctionResult,
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
@@ -8855,6 +9181,8 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
+  telemetry: TELEMETRY,
+  span: "UpdateFunction",
 }));
 
 export type UpdateKeyGroupError =
@@ -8877,7 +9205,7 @@ export type UpdateKeyGroupError =
  * - Call `UpdateKeyGroup` with the entire key group object, including the fields that you modified and those that you didn't.
  */
 export const updateKeyGroup: API.OperationMethod<
-  UpdateKeyGroupRequest,
+  UpdateKeyGroupRequest & RegionInput,
   UpdateKeyGroupResult,
   UpdateKeyGroupError,
   Credentials | HttpClient.HttpClient
@@ -8895,6 +9223,8 @@ export const updateKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyGroup",
 }));
 
 export type UpdateKeyValueStoreError =
@@ -8909,7 +9239,7 @@ export type UpdateKeyValueStoreError =
  * Specifies the key value store to update.
  */
 export const updateKeyValueStore: API.OperationMethod<
-  UpdateKeyValueStoreRequest,
+  UpdateKeyValueStoreRequest & RegionInput,
   UpdateKeyValueStoreResult,
   UpdateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -8927,6 +9257,8 @@ export const updateKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyValueStore",
 }));
 
 export type UpdateOriginAccessControlError =
@@ -8942,7 +9274,7 @@ export type UpdateOriginAccessControlError =
  * Updates a CloudFront origin access control.
  */
 export const updateOriginAccessControl: API.OperationMethod<
-  UpdateOriginAccessControlRequest,
+  UpdateOriginAccessControlRequest & RegionInput,
   UpdateOriginAccessControlResult,
   UpdateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
@@ -8961,6 +9293,8 @@ export const updateOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginAccessControl",
 }));
 
 export type UpdateOriginRequestPolicyError =
@@ -8988,7 +9322,7 @@ export type UpdateOriginRequestPolicyError =
  * - Call `UpdateOriginRequestPolicy` by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
  */
 export const updateOriginRequestPolicy: API.OperationMethod<
-  UpdateOriginRequestPolicyRequest,
+  UpdateOriginRequestPolicyRequest & RegionInput,
   UpdateOriginRequestPolicyResult,
   UpdateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9011,6 +9345,8 @@ export const updateOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginRequestPolicy",
 }));
 
 export type UpdatePublicKeyError =
@@ -9026,7 +9362,7 @@ export type UpdatePublicKeyError =
  * Update public key information. Note that the only value you can change is the comment.
  */
 export const updatePublicKey: API.OperationMethod<
-  UpdatePublicKeyRequest,
+  UpdatePublicKeyRequest & RegionInput,
   UpdatePublicKeyResult,
   UpdatePublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -9045,6 +9381,8 @@ export const updatePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicKey",
+  telemetry: TELEMETRY,
+  span: "UpdatePublicKey",
 }));
 
 export type UpdateRealtimeLogConfigError =
@@ -9066,7 +9404,7 @@ export type UpdateRealtimeLogConfigError =
  * You cannot update a real-time log configuration's `Name` or `ARN`.
  */
 export const updateRealtimeLogConfig: API.OperationMethod<
-  UpdateRealtimeLogConfigRequest,
+  UpdateRealtimeLogConfigRequest & RegionInput,
   UpdateRealtimeLogConfigResult,
   UpdateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
@@ -9077,6 +9415,8 @@ export const updateRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateRealtimeLogConfig",
 }));
 
 export type UpdateResponseHeadersPolicyError =
@@ -9104,7 +9444,7 @@ export type UpdateResponseHeadersPolicyError =
  * - Call `UpdateResponseHeadersPolicy`, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
  */
 export const updateResponseHeadersPolicy: API.OperationMethod<
-  UpdateResponseHeadersPolicyRequest,
+  UpdateResponseHeadersPolicyRequest & RegionInput,
   UpdateResponseHeadersPolicyResult,
   UpdateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9127,6 +9467,8 @@ export const updateResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateResponseHeadersPolicy",
 }));
 
 export type UpdateStreamingDistributionError =
@@ -9149,7 +9491,7 @@ export type UpdateStreamingDistributionError =
  * Update a streaming distribution.
  */
 export const updateStreamingDistribution: API.OperationMethod<
-  UpdateStreamingDistributionRequest,
+  UpdateStreamingDistributionRequest & RegionInput,
   UpdateStreamingDistributionResult,
   UpdateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
@@ -9175,6 +9517,8 @@ export const updateStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "UpdateStreamingDistribution",
 }));
 
 export type UpdateTrustStoreError =
@@ -9188,7 +9532,7 @@ export type UpdateTrustStoreError =
  * Updates a trust store.
  */
 export const updateTrustStore: API.OperationMethod<
-  UpdateTrustStoreRequest,
+  UpdateTrustStoreRequest & RegionInput,
   UpdateTrustStoreResult,
   UpdateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -9205,6 +9549,8 @@ export const updateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustStore",
+  telemetry: TELEMETRY,
+  span: "UpdateTrustStore",
 }));
 
 export type UpdateVpcOriginError =
@@ -9224,7 +9570,7 @@ export type UpdateVpcOriginError =
  * Update an Amazon CloudFront VPC origin in your account.
  */
 export const updateVpcOrigin: API.OperationMethod<
-  UpdateVpcOriginRequest,
+  UpdateVpcOriginRequest & RegionInput,
   UpdateVpcOriginResult,
   UpdateVpcOriginError,
   Credentials | HttpClient.HttpClient
@@ -9247,6 +9593,8 @@ export const updateVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcOrigin",
 }));
 
 export type VerifyDnsConfigurationError =
@@ -9258,7 +9606,7 @@ export type VerifyDnsConfigurationError =
  * Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
  */
 export const verifyDnsConfiguration: API.OperationMethod<
-  VerifyDnsConfigurationRequest,
+  VerifyDnsConfigurationRequest & RegionInput,
   VerifyDnsConfigurationResult,
   VerifyDnsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9269,6 +9617,8 @@ export const verifyDnsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDnsConfiguration",
+  telemetry: TELEMETRY,
+  span: "VerifyDnsConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

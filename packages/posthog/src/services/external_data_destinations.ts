@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ExternalDataDestinations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `PostHogWarehouse` - PostHog warehouse * `Redshift` - Redshift * `Snowflake` - Snowflake * `BigQuery` - BigQuery * `Postgres` - Postgres * `Databricks` - Databricks * `AzureBlob` - Azure Blob * `S3` - S3 */
 export type ExternalDataDestinationTypeEnum =
   | "PostHogWarehouse"
@@ -132,6 +145,8 @@ export const createExternalDataDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataDestination",
 }));
 
 export type ExternalDataDestinationsDestroyError = PosthogOpError;
@@ -147,6 +162,8 @@ export const externalDataDestinationsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataDestinationsDestroy",
 }));
 
 export type GetExternalDataDestinationError = PosthogOpError;
@@ -162,6 +179,8 @@ export const getExternalDataDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataDestination",
 }));
 
 export type ListExternalDataDestinationsError = PosthogOpError;
@@ -177,6 +196,8 @@ export const listExternalDataDestinations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalDataDestinations",
 }));
 
 export type UpdateExternalDataDestinationError = PosthogOpError;
@@ -192,6 +213,8 @@ export const updateExternalDataDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataDestination",
 }));
 
 export type UpdateExternalDataDestinationsPartialError = PosthogOpError;
@@ -207,6 +230,8 @@ export const updateExternalDataDestinationsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalDataDestinationsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

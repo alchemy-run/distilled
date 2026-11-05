@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "McpAnalytics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `results` - Results * `usability` - Usability * `bug` - Bug * `docs` - Docs * `other` - Other */
 export type MCPAnalyticsSubmissionFeedbackCategoryEnum =
   | "results"
@@ -560,6 +573,8 @@ export const createMcpAnalyticsFeedback: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpAnalyticsFeedback",
 }));
 
 export type CreateMcpAnalyticsMissingCapabilityError = PosthogOpError;
@@ -575,6 +590,8 @@ export const createMcpAnalyticsMissingCapability: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpAnalyticsMissingCapability",
 }));
 
 export type GenerateMcpAnalyticsSessionIntentError = PosthogOpError;
@@ -590,6 +607,8 @@ export const generateMcpAnalyticsSessionIntent: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateMcpAnalyticsSessionIntent",
 }));
 
 export type GetMcpAnalyticsIntentClusterError = PosthogOpError;
@@ -605,6 +624,8 @@ export const getMcpAnalyticsIntentCluster: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpAnalyticsIntentCluster",
 }));
 
 export type ListMcpAnalyticsFeedbackError = PosthogOpError;
@@ -620,6 +641,8 @@ export const listMcpAnalyticsFeedback: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpAnalyticsFeedback",
 }));
 
 export type ListMcpAnalyticsMissingCapabilitiesError = PosthogOpError;
@@ -635,6 +658,8 @@ export const listMcpAnalyticsMissingCapabilities: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpAnalyticsMissingCapabilities",
 }));
 
 export type ListMcpAnalyticsSessionsError = PosthogOpError;
@@ -650,6 +675,8 @@ export const listMcpAnalyticsSessions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpAnalyticsSessions",
 }));
 
 export type McpAnalyticsIntentClustersRecomputeError = PosthogOpError;
@@ -665,6 +692,8 @@ export const mcpAnalyticsIntentClustersRecompute: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpAnalyticsIntentClustersRecompute",
 }));
 
 export type McpAnalyticsSessionsActivityOverviewError = PosthogOpError;
@@ -680,6 +709,8 @@ export const mcpAnalyticsSessionsActivityOverview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpAnalyticsSessionsActivityOverview",
 }));
 
 export type McpAnalyticsSessionsIntentDigestError = PosthogOpError;
@@ -695,6 +726,8 @@ export const mcpAnalyticsSessionsIntentDigest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpAnalyticsSessionsIntentDigest",
 }));
 
 export type McpAnalyticsSessionsToolCallsError = PosthogOpError;
@@ -710,6 +743,8 @@ export const mcpAnalyticsSessionsToolCalls: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpAnalyticsSessionsToolCalls",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

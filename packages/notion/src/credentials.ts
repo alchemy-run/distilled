@@ -29,7 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "NotionCredentials",
   ) {}
 
@@ -53,7 +53,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
           message: "NOTION_TOKEN environment variable is required",
         }),
     ),
-    Effect.orDie,
   ),
 );
 

@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StorageDiscovery" },
+  prefix: "Storagediscovery",
+  service: "Storagediscovery",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteStorageDiscoveryWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -420,6 +441,8 @@ export const DeleteStorageDiscoveryWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageDiscoveryWorkspace",
 }));
 
 export type GenerateReportReportError = AzureOpError;
@@ -435,6 +458,8 @@ export const GenerateReportReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateReportReport",
 }));
 
 export type GetReportError = AzureOpError;
@@ -450,6 +475,8 @@ export const GetReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetStorageDiscoveryWorkspaceError = AzureOpError;
@@ -465,6 +492,8 @@ export const GetStorageDiscoveryWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageDiscoveryWorkspace",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -480,6 +509,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListReportByResourceGroupError = AzureOpError;
@@ -495,6 +526,8 @@ export const ListReportByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportByResourceGroup",
 }));
 
 export type ListReportBySubscriptionError = AzureOpError;
@@ -510,6 +543,8 @@ export const ListReportBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportBySubscription",
 }));
 
 export type ListStorageDiscoveryWorkspaceByResourceGroupError = AzureOpError;
@@ -525,6 +560,8 @@ export const ListStorageDiscoveryWorkspaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageDiscoveryWorkspaceByResourceGroup",
 }));
 
 export type ListStorageDiscoveryWorkspaceBySubscriptionError = AzureOpError;
@@ -540,6 +577,8 @@ export const ListStorageDiscoveryWorkspaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageDiscoveryWorkspaceBySubscription",
 }));
 
 export type StorageDiscoveryWorkspacesCreateOrUpdateError = AzureOpError;
@@ -555,6 +594,8 @@ export const StorageDiscoveryWorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageDiscoveryWorkspacesCreateOrUpdate",
 }));
 
 export type StorageDiscoveryWorkspacesReportError = AzureOpError;
@@ -570,6 +611,8 @@ export const StorageDiscoveryWorkspacesReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageDiscoveryWorkspacesReport",
 }));
 
 export type UpdateStorageDiscoveryWorkspaceError = AzureOpError;
@@ -585,6 +628,8 @@ export const UpdateStorageDiscoveryWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageDiscoveryWorkspace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

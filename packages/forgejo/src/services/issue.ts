@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoIssue",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1140,6 +1153,8 @@ export const createIssue: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssue",
 }));
 
 export type CreateIssueAttachmentError =
@@ -1160,6 +1175,8 @@ export const createIssueAttachment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueAttachment",
 }));
 
 export type CreateIssueBlockingError = NotFound | ForgejoOpError;
@@ -1175,6 +1192,8 @@ export const createIssueBlocking: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueBlocking",
 }));
 
 export type CreateIssueCommentAttachmentError =
@@ -1195,6 +1214,8 @@ export const createIssueCommentAttachment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueCommentAttachment",
 }));
 
 export type CreateIssueDependenciesError = NotFound | Locked | ForgejoOpError;
@@ -1210,6 +1231,8 @@ export const createIssueDependencies: API.OperationMethod<
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueDependencies",
 }));
 
 export type DeleteIssueError = Forbidden | NotFound | ForgejoOpError;
@@ -1225,6 +1248,8 @@ export const deleteIssue: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssue",
 }));
 
 export type DeleteIssueAttachmentError = NotFound | Locked | ForgejoOpError;
@@ -1240,6 +1265,8 @@ export const deleteIssueAttachment: API.OperationMethod<
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueAttachment",
 }));
 
 export type DeleteIssueCommentAttachmentError = NotFound | Locked | ForgejoOpError;
@@ -1255,6 +1282,8 @@ export const deleteIssueCommentAttachment: API.OperationMethod<
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueCommentAttachment",
 }));
 
 export type DeleteIssueReactionError = Forbidden | NotFound | ForgejoOpError;
@@ -1270,6 +1299,8 @@ export const deleteIssueReaction: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueReaction",
 }));
 
 export type EditIssueError = Forbidden | NotFound | ForgejoOpError;
@@ -1285,6 +1316,8 @@ export const editIssue: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditIssue",
 }));
 
 export type EditIssueAttachmentError = NotFound | Locked | ForgejoOpError;
@@ -1300,6 +1333,8 @@ export const editIssueAttachment: API.OperationMethod<
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditIssueAttachment",
 }));
 
 export type EditIssueCommentAttachmentError = NotFound | Locked | ForgejoOpError;
@@ -1315,6 +1350,8 @@ export const editIssueCommentAttachment: API.OperationMethod<
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditIssueCommentAttachment",
 }));
 
 export type EditIssueDeadlineError = Forbidden | NotFound | ForgejoOpError;
@@ -1330,6 +1367,8 @@ export const editIssueDeadline: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditIssueDeadline",
 }));
 
 export type GetIssueError = NotFound | ForgejoOpError;
@@ -1345,6 +1384,8 @@ export const getIssue: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssue",
 }));
 
 export type GetIssueAttachmentError = NotFound | ForgejoOpError;
@@ -1360,6 +1401,8 @@ export const getIssueAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssueAttachment",
 }));
 
 export type GetIssueCommentAttachmentError = NotFound | ForgejoOpError;
@@ -1375,6 +1418,8 @@ export const getIssueCommentAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssueCommentAttachment",
 }));
 
 export type GetIssueReactionsError = Forbidden | NotFound | ForgejoOpError;
@@ -1390,6 +1435,8 @@ export const getIssueReactions: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssueReactions",
 }));
 
 export type IssueAddLabelError = Forbidden | NotFound | ForgejoOpError;
@@ -1405,6 +1452,8 @@ export const issueAddLabel: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueAddLabel",
 }));
 
 export type IssueAddSubscriptionError = NotFound | ForgejoOpError;
@@ -1420,6 +1469,8 @@ export const issueAddSubscription: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueAddSubscription",
 }));
 
 export type IssueAddTimeError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1435,6 +1486,8 @@ export const issueAddTime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueAddTime",
 }));
 
 export type IssueCheckSubscriptionError = NotFound | ForgejoOpError;
@@ -1450,6 +1503,8 @@ export const issueCheckSubscription: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueCheckSubscription",
 }));
 
 export type IssueClearLabelsError = Forbidden | NotFound | ForgejoOpError;
@@ -1465,6 +1520,8 @@ export const issueClearLabels: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueClearLabels",
 }));
 
 export type IssueCreateCommentError = Forbidden | NotFound | Locked | ForgejoOpError;
@@ -1480,6 +1537,8 @@ export const issueCreateComment: API.OperationMethod<
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueCreateComment",
 }));
 
 export type IssueCreateLabelError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1495,6 +1554,8 @@ export const issueCreateLabel: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueCreateLabel",
 }));
 
 export type IssueCreateMilestoneError = NotFound | ForgejoOpError;
@@ -1510,6 +1571,8 @@ export const issueCreateMilestone: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueCreateMilestone",
 }));
 
 export type IssueDeleteCommentError = Forbidden | ForgejoOpError;
@@ -1525,6 +1588,8 @@ export const issueDeleteComment: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueDeleteComment",
 }));
 
 export type IssueDeleteCommentReactionError = Forbidden | NotFound | ForgejoOpError;
@@ -1540,6 +1605,8 @@ export const issueDeleteCommentReaction: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueDeleteCommentReaction",
 }));
 
 export type IssueDeleteLabelError = NotFound | ForgejoOpError;
@@ -1555,6 +1622,8 @@ export const issueDeleteLabel: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueDeleteLabel",
 }));
 
 export type IssueDeleteMilestoneError = NotFound | ForgejoOpError;
@@ -1570,6 +1639,8 @@ export const issueDeleteMilestone: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueDeleteMilestone",
 }));
 
 export type IssueDeleteStopWatchError = Forbidden | NotFound | Conflict | ForgejoOpError;
@@ -1585,6 +1656,8 @@ export const issueDeleteStopWatch: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueDeleteStopWatch",
 }));
 
 export type IssueDeleteSubscriptionError = NotFound | ForgejoOpError;
@@ -1600,6 +1673,8 @@ export const issueDeleteSubscription: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueDeleteSubscription",
 }));
 
 export type IssueDeleteTimeError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1615,6 +1690,8 @@ export const issueDeleteTime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueDeleteTime",
 }));
 
 export type IssueEditCommentError = Forbidden | NotFound | Locked | ForgejoOpError;
@@ -1630,6 +1707,8 @@ export const issueEditComment: API.OperationMethod<
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueEditComment",
 }));
 
 export type IssueEditLabelError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1645,6 +1724,8 @@ export const issueEditLabel: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueEditLabel",
 }));
 
 export type IssueEditMilestoneError = NotFound | ForgejoOpError;
@@ -1660,6 +1741,8 @@ export const issueEditMilestone: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueEditMilestone",
 }));
 
 export type IssueGetCommentError = Forbidden | NotFound | ForgejoOpError;
@@ -1675,6 +1758,8 @@ export const issueGetComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetComment",
 }));
 
 export type IssueGetCommentReactionsError = Forbidden | NotFound | ForgejoOpError;
@@ -1690,6 +1775,8 @@ export const issueGetCommentReactions: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetCommentReactions",
 }));
 
 export type IssueGetCommentsError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1705,6 +1792,8 @@ export const issueGetComments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetComments",
 }));
 
 export type IssueGetCommentsAndTimelineError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1720,6 +1809,8 @@ export const issueGetCommentsAndTimeline: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetCommentsAndTimeline",
 }));
 
 export type IssueGetLabelError = NotFound | ForgejoOpError;
@@ -1735,6 +1826,8 @@ export const issueGetLabel: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetLabel",
 }));
 
 export type IssueGetLabelsError = NotFound | ForgejoOpError;
@@ -1750,6 +1843,8 @@ export const issueGetLabels: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetLabels",
 }));
 
 export type IssueGetMilestoneError = NotFound | ForgejoOpError;
@@ -1765,6 +1860,8 @@ export const issueGetMilestone: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetMilestone",
 }));
 
 export type IssueGetMilestonesListError = NotFound | ForgejoOpError;
@@ -1780,6 +1877,8 @@ export const issueGetMilestonesList: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetMilestonesList",
 }));
 
 export type IssueGetRepoCommentsError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1795,6 +1894,8 @@ export const issueGetRepoComments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueGetRepoComments",
 }));
 
 export type IssueListBlocksError = NotFound | ForgejoOpError;
@@ -1810,6 +1911,8 @@ export const issueListBlocks: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueListBlocks",
 }));
 
 export type IssueListLabelsError = Forbidden | NotFound | ForgejoOpError;
@@ -1825,6 +1928,8 @@ export const issueListLabels: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueListLabels",
 }));
 
 export type IssuePostCommentReactionError = Forbidden | NotFound | ForgejoOpError;
@@ -1840,6 +1945,8 @@ export const issuePostCommentReaction: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssuePostCommentReaction",
 }));
 
 export type IssueRemoveLabelError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1855,6 +1962,8 @@ export const issueRemoveLabel: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueRemoveLabel",
 }));
 
 export type IssueReplaceLabelsError = Forbidden | NotFound | ForgejoOpError;
@@ -1870,6 +1979,8 @@ export const issueReplaceLabels: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueReplaceLabels",
 }));
 
 export type IssueResetTimeError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1885,6 +1996,8 @@ export const issueResetTime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueResetTime",
 }));
 
 export type IssueStartStopWatchError = Forbidden | NotFound | Conflict | ForgejoOpError;
@@ -1900,6 +2013,8 @@ export const issueStartStopWatch: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueStartStopWatch",
 }));
 
 export type IssueStopStopWatchError = Forbidden | NotFound | Conflict | ForgejoOpError;
@@ -1915,6 +2030,8 @@ export const issueStopStopWatch: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueStopStopWatch",
 }));
 
 export type IssueSubscriptionsError = NotFound | ForgejoOpError;
@@ -1930,6 +2047,8 @@ export const issueSubscriptions: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueSubscriptions",
 }));
 
 export type IssueTrackedTimesError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1945,6 +2064,8 @@ export const issueTrackedTimes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueTrackedTimes",
 }));
 
 export type ListIssueAttachmentsError = NotFound | ForgejoOpError;
@@ -1960,6 +2081,8 @@ export const listIssueAttachments: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueAttachments",
 }));
 
 export type ListIssueCommentAttachmentsError = NotFound | ForgejoOpError;
@@ -1975,6 +2098,8 @@ export const listIssueCommentAttachments: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueCommentAttachments",
 }));
 
 export type ListIssueDependenciesError = NotFound | ForgejoOpError;
@@ -1990,6 +2115,8 @@ export const listIssueDependencies: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueDependencies",
 }));
 
 export type ListIssuesError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -2005,6 +2132,8 @@ export const listIssues: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssues",
 }));
 
 export type MoveIssuePinError = Forbidden | NotFound | ForgejoOpError;
@@ -2020,6 +2149,8 @@ export const moveIssuePin: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveIssuePin",
 }));
 
 export type PinIssueError = Forbidden | NotFound | ForgejoOpError;
@@ -2035,6 +2166,8 @@ export const pinIssue: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PinIssue",
 }));
 
 export type PostIssueReactionError = Forbidden | NotFound | ForgejoOpError;
@@ -2050,6 +2183,8 @@ export const postIssueReaction: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostIssueReaction",
 }));
 
 export type RemoveIssueBlockingError = NotFound | ForgejoOpError;
@@ -2065,6 +2200,8 @@ export const removeIssueBlocking: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveIssueBlocking",
 }));
 
 export type RemoveIssueDependenciesError = NotFound | Locked | ForgejoOpError;
@@ -2080,6 +2217,8 @@ export const removeIssueDependencies: API.OperationMethod<
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveIssueDependencies",
 }));
 
 export type SearchIssuesError = BadRequest | UnprocessableEntity | ForgejoOpError;
@@ -2095,6 +2234,8 @@ export const searchIssues: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchIssues",
 }));
 
 export type UnpinIssueError = Forbidden | NotFound | ForgejoOpError;
@@ -2110,6 +2251,8 @@ export const unpinIssue: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpinIssue",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

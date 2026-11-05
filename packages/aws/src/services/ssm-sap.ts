@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm-sap.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SsmSap",
+  service: "SsmSap",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -649,7 +665,7 @@ export type DeleteResourcePermissionError =
  * Removes permissions associated with the target database.
  */
 export const deleteResourcePermission: API.OperationMethod<
-  DeleteResourcePermissionInput,
+  DeleteResourcePermissionInput & RegionInput,
   DeleteResourcePermissionOutput,
   DeleteResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -660,6 +676,8 @@ export const deleteResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePermission",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePermission",
 }));
 
 export type DeregisterApplicationError =
@@ -671,7 +689,7 @@ export type DeregisterApplicationError =
  * Deregister an SAP application with AWS Systems Manager for SAP. This action does not aU+FB00ect the existing setup of your SAP workloads on Amazon EC2.
  */
 export const deregisterApplication: API.OperationMethod<
-  DeregisterApplicationInput,
+  DeregisterApplicationInput & RegionInput,
   DeregisterApplicationOutput,
   DeregisterApplicationError,
   Credentials | HttpClient.HttpClient
@@ -682,6 +700,8 @@ export const deregisterApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterApplication",
+  telemetry: TELEMETRY,
+  span: "DeregisterApplication",
 }));
 
 export type GetApplicationError = InternalServerException | ValidationException | CommonErrors;
@@ -689,7 +709,7 @@ export type GetApplicationError = InternalServerException | ValidationException 
  * Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationInput,
+  GetApplicationInput & RegionInput,
   GetApplicationOutput,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -700,6 +720,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetComponentError =
@@ -711,7 +733,7 @@ export type GetComponentError =
  * Gets the component of an application registered with AWS Systems Manager for SAP.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentInput,
+  GetComponentInput & RegionInput,
   GetComponentOutput,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -722,6 +744,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetConfigurationCheckOperationError =
@@ -732,7 +756,7 @@ export type GetConfigurationCheckOperationError =
  * Gets the details of a configuration check operation by specifying the operation ID.
  */
 export const getConfigurationCheckOperation: API.OperationMethod<
-  GetConfigurationCheckOperationInput,
+  GetConfigurationCheckOperationInput & RegionInput,
   GetConfigurationCheckOperationOutput,
   GetConfigurationCheckOperationError,
   Credentials | HttpClient.HttpClient
@@ -743,6 +767,8 @@ export const getConfigurationCheckOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationCheckOperation",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationCheckOperation",
 }));
 
 export type GetDatabaseError = InternalServerException | ValidationException | CommonErrors;
@@ -750,7 +776,7 @@ export type GetDatabaseError = InternalServerException | ValidationException | C
  * Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
  */
 export const getDatabase: API.OperationMethod<
-  GetDatabaseInput,
+  GetDatabaseInput & RegionInput,
   GetDatabaseOutput,
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -761,6 +787,8 @@ export const getDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatabase",
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetOperationError = InternalServerException | ValidationException | CommonErrors;
@@ -768,7 +796,7 @@ export type GetOperationError = InternalServerException | ValidationException | 
  * Gets the details of an operation by specifying the operation ID.
  */
 export const getOperation: API.OperationMethod<
-  GetOperationInput,
+  GetOperationInput & RegionInput,
   GetOperationOutput,
   GetOperationError,
   Credentials | HttpClient.HttpClient
@@ -779,6 +807,8 @@ export const getOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperation",
+  telemetry: TELEMETRY,
+  span: "GetOperation",
 }));
 
 export type GetResourcePermissionError =
@@ -790,7 +820,7 @@ export type GetResourcePermissionError =
  * Gets permissions associated with the target database.
  */
 export const getResourcePermission: API.OperationMethod<
-  GetResourcePermissionInput,
+  GetResourcePermissionInput & RegionInput,
   GetResourcePermissionOutput,
   GetResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -801,6 +831,8 @@ export const getResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePermission",
+  telemetry: TELEMETRY,
+  span: "GetResourcePermission",
 }));
 
 export type ListApplicationsError =
@@ -812,7 +844,7 @@ export type ListApplicationsError =
  * Lists all the applications registered with AWS Systems Manager for SAP.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsInput,
+  ListApplicationsInput & RegionInput,
   ListApplicationsOutput,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -830,6 +862,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListComponentsError =
@@ -842,7 +876,7 @@ export type ListComponentsError =
  * Lists all the components registered with AWS Systems Manager for SAP.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsInput,
+  ListComponentsInput & RegionInput,
   ListComponentsOutput,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -865,6 +899,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "Components",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListConfigurationCheckDefinitionsError =
@@ -875,7 +911,7 @@ export type ListConfigurationCheckDefinitionsError =
  * Lists all configuration check types supported by AWS Systems Manager for SAP.
  */
 export const listConfigurationCheckDefinitions: API.PaginatedOperationMethod<
-  ListConfigurationCheckDefinitionsInput,
+  ListConfigurationCheckDefinitionsInput & RegionInput,
   ListConfigurationCheckDefinitionsOutput,
   ListConfigurationCheckDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -893,6 +929,8 @@ export const listConfigurationCheckDefinitions: API.PaginatedOperationMethod<
     items: "ConfigurationChecks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationCheckDefinitions",
 })) as any;
 
 export type ListConfigurationCheckOperationsError =
@@ -904,7 +942,7 @@ export type ListConfigurationCheckOperationsError =
  * Lists the configuration check operations performed by AWS Systems Manager for SAP.
  */
 export const listConfigurationCheckOperations: API.PaginatedOperationMethod<
-  ListConfigurationCheckOperationsInput,
+  ListConfigurationCheckOperationsInput & RegionInput,
   ListConfigurationCheckOperationsOutput,
   ListConfigurationCheckOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -922,6 +960,8 @@ export const listConfigurationCheckOperations: API.PaginatedOperationMethod<
     items: "ConfigurationCheckOperations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationCheckOperations",
 })) as any;
 
 export type ListDatabasesError =
@@ -933,7 +973,7 @@ export type ListDatabasesError =
  * Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesInput,
+  ListDatabasesInput & RegionInput,
   ListDatabasesOutput,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -951,6 +991,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "Databases",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 })) as any;
 
 export type ListOperationEventsError = InternalServerException | ValidationException | CommonErrors;
@@ -960,7 +1002,7 @@ export type ListOperationEventsError = InternalServerException | ValidationExcep
  * Available parameters include `OperationID`, as well as optional parameters `MaxResults`, `NextToken`, and `Filters`.
  */
 export const listOperationEvents: API.PaginatedOperationMethod<
-  ListOperationEventsInput,
+  ListOperationEventsInput & RegionInput,
   ListOperationEventsOutput,
   ListOperationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -978,6 +1020,8 @@ export const listOperationEvents: API.PaginatedOperationMethod<
     items: "OperationEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOperationEvents",
 })) as any;
 
 export type ListOperationsError = InternalServerException | ValidationException | CommonErrors;
@@ -985,7 +1029,7 @@ export type ListOperationsError = InternalServerException | ValidationException 
  * Lists the operations performed by AWS Systems Manager for SAP.
  */
 export const listOperations: API.PaginatedOperationMethod<
-  ListOperationsInput,
+  ListOperationsInput & RegionInput,
   ListOperationsOutput,
   ListOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1003,6 +1047,8 @@ export const listOperations: API.PaginatedOperationMethod<
     items: "Operations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 })) as any;
 
 export type ListSubCheckResultsError = InternalServerException | ValidationException | CommonErrors;
@@ -1010,7 +1056,7 @@ export type ListSubCheckResultsError = InternalServerException | ValidationExcep
  * Lists the sub-check results of a specified configuration check operation.
  */
 export const listSubCheckResults: API.PaginatedOperationMethod<
-  ListSubCheckResultsInput,
+  ListSubCheckResultsInput & RegionInput,
   ListSubCheckResultsOutput,
   ListSubCheckResultsError,
   Credentials | HttpClient.HttpClient,
@@ -1028,6 +1074,8 @@ export const listSubCheckResults: API.PaginatedOperationMethod<
     items: "SubCheckResults",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubCheckResults",
 })) as any;
 
 export type ListSubCheckRuleResultsError =
@@ -1038,7 +1086,7 @@ export type ListSubCheckRuleResultsError =
  * Lists the rules of a specified sub-check belonging to a configuration check operation.
  */
 export const listSubCheckRuleResults: API.PaginatedOperationMethod<
-  ListSubCheckRuleResultsInput,
+  ListSubCheckRuleResultsInput & RegionInput,
   ListSubCheckRuleResultsOutput,
   ListSubCheckRuleResultsError,
   Credentials | HttpClient.HttpClient,
@@ -1056,6 +1104,8 @@ export const listSubCheckRuleResults: API.PaginatedOperationMethod<
     items: "RuleResults",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubCheckRuleResults",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1067,7 +1117,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1078,6 +1128,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePermissionError =
@@ -1089,7 +1141,7 @@ export type PutResourcePermissionError =
  * Adds permissions to the target database.
  */
 export const putResourcePermission: API.OperationMethod<
-  PutResourcePermissionInput,
+  PutResourcePermissionInput & RegionInput,
   PutResourcePermissionOutput,
   PutResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1100,6 +1152,8 @@ export const putResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePermission",
+  telemetry: TELEMETRY,
+  span: "PutResourcePermission",
 }));
 
 export type RegisterApplicationError =
@@ -1118,7 +1172,7 @@ export type RegisterApplicationError =
  * Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
  */
 export const registerApplication: API.OperationMethod<
-  RegisterApplicationInput,
+  RegisterApplicationInput & RegionInput,
   RegisterApplicationOutput,
   RegisterApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1134,6 +1188,8 @@ export const registerApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterApplication",
+  telemetry: TELEMETRY,
+  span: "RegisterApplication",
 }));
 
 export type StartApplicationError =
@@ -1148,7 +1204,7 @@ export type StartApplicationError =
  * Parameter `ApplicationId` is required.
  */
 export const startApplication: API.OperationMethod<
-  StartApplicationInput,
+  StartApplicationInput & RegionInput,
   StartApplicationOutput,
   StartApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1164,6 +1220,8 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
+  telemetry: TELEMETRY,
+  span: "StartApplication",
 }));
 
 export type StartApplicationRefreshError =
@@ -1177,7 +1235,7 @@ export type StartApplicationRefreshError =
  * Refreshes a registered application.
  */
 export const startApplicationRefresh: API.OperationMethod<
-  StartApplicationRefreshInput,
+  StartApplicationRefreshInput & RegionInput,
   StartApplicationRefreshOutput,
   StartApplicationRefreshError,
   Credentials | HttpClient.HttpClient
@@ -1194,6 +1252,8 @@ export const startApplicationRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplicationRefresh",
+  telemetry: TELEMETRY,
+  span: "StartApplicationRefresh",
 }));
 
 export type StartConfigurationChecksError =
@@ -1206,7 +1266,7 @@ export type StartConfigurationChecksError =
  * Initiates configuration check operations against a specified application.
  */
 export const startConfigurationChecks: API.OperationMethod<
-  StartConfigurationChecksInput,
+  StartConfigurationChecksInput & RegionInput,
   StartConfigurationChecksOutput,
   StartConfigurationChecksError,
   Credentials | HttpClient.HttpClient
@@ -1222,6 +1282,8 @@ export const startConfigurationChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationChecks",
+  telemetry: TELEMETRY,
+  span: "StartConfigurationChecks",
 }));
 
 export type StopApplicationError =
@@ -1236,7 +1298,7 @@ export type StopApplicationError =
  * Parameter `ApplicationId` is required. Parameters `StopConnectedEntity` and `IncludeEc2InstanceShutdown` are optional.
  */
 export const stopApplication: API.OperationMethod<
-  StopApplicationInput,
+  StopApplicationInput & RegionInput,
   StopApplicationOutput,
   StopApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1252,6 +1314,8 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
+  telemetry: TELEMETRY,
+  span: "StopApplication",
 }));
 
 export type TagResourceError =
@@ -1263,7 +1327,7 @@ export type TagResourceError =
  * Creates tag for a resource by specifying the ARN.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1274,6 +1338,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1285,7 +1351,7 @@ export type UntagResourceError =
  * Delete the tags for a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1296,6 +1362,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationSettingsError =
@@ -1309,7 +1377,7 @@ export type UpdateApplicationSettingsError =
  * Updates the settings of an application registered with AWS Systems Manager for SAP.
  */
 export const updateApplicationSettings: API.OperationMethod<
-  UpdateApplicationSettingsInput,
+  UpdateApplicationSettingsInput & RegionInput,
   UpdateApplicationSettingsOutput,
   UpdateApplicationSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1326,6 +1394,8 @@ export const updateApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

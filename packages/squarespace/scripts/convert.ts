@@ -8,11 +8,11 @@
  * Output: .generated-specs/squarespace.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Squarespace's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Squarespace's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
 

@@ -26,6 +26,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   vnetId: "vnet_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "KeylessCertificates",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -237,6 +251,8 @@ export const createKeylessCertificate: API.OperationMethod<
   errors: [KeylessSslNotAvailable, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeylessCertificate",
 }));
 
 export type DeleteKeylessCertificateError =
@@ -255,6 +271,8 @@ export const deleteKeylessCertificate: API.OperationMethod<
   errors: [KeylessCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeylessCertificate",
 }));
 
 export type GetKeylessCertificateError = KeylessCertificateNotFound | Forbidden | CloudflareOpError;
@@ -270,6 +288,8 @@ export const getKeylessCertificate: API.OperationMethod<
   errors: [KeylessCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeylessCertificate",
 }));
 
 export type ListKeylessCertificatesError = Forbidden | CloudflareOpError;
@@ -287,6 +307,8 @@ export const listKeylessCertificates: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListKeylessCertificates",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -308,6 +330,8 @@ export const patchKeylessCertificate: API.OperationMethod<
   errors: [KeylessCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchKeylessCertificate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

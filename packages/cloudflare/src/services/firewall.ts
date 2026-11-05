@@ -34,6 +34,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Firewall",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AccessRuleNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AccessRuleNotFound>()("AccessRuleNotFound", {
@@ -2031,6 +2045,8 @@ export const bulkDeleteRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkDeleteRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2051,6 +2067,8 @@ export const bulkPatchRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkPatchRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2071,6 +2089,8 @@ export const bulkPutRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkPutRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2089,6 +2109,8 @@ export const createAccessRuleForAccount: API.OperationMethod<
   errors: [DuplicateAccessRule, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessRuleForAccount",
 }));
 
 export type CreateAccessRuleForZoneError = DuplicateAccessRule | Forbidden | CloudflareOpError;
@@ -2104,6 +2126,8 @@ export const createAccessRuleForZone: API.OperationMethod<
   errors: [DuplicateAccessRule, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessRuleForZone",
 }));
 
 export type CreateLockdownError = DuplicateLockdown | Forbidden | CloudflareOpError;
@@ -2119,6 +2143,8 @@ export const createLockdown: API.OperationMethod<
   errors: [DuplicateLockdown, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLockdown",
 }));
 
 export type CreateRuleError = CloudflareOpError;
@@ -2136,6 +2162,8 @@ export const createRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2154,6 +2182,8 @@ export const createUaRule: API.OperationMethod<
   errors: [DuplicateUaRule, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUaRule",
 }));
 
 export type CreateWafOverrideError = CloudflareOpError;
@@ -2169,6 +2199,8 @@ export const createWafOverride: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWafOverride",
 }));
 
 export type DeleteAccessRuleForAccountError = AccessRuleNotFound | Forbidden | CloudflareOpError;
@@ -2184,6 +2216,8 @@ export const deleteAccessRuleForAccount: API.OperationMethod<
   errors: [AccessRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessRuleForAccount",
 }));
 
 export type DeleteAccessRuleForZoneError = AccessRuleNotFound | Forbidden | CloudflareOpError;
@@ -2199,6 +2233,8 @@ export const deleteAccessRuleForZone: API.OperationMethod<
   errors: [AccessRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessRuleForZone",
 }));
 
 export type DeleteLockdownError = LockdownNotFound | Forbidden | CloudflareOpError;
@@ -2214,6 +2250,8 @@ export const deleteLockdown: API.OperationMethod<
   errors: [LockdownNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLockdown",
 }));
 
 export type DeleteRuleError = CloudflareOpError;
@@ -2229,6 +2267,8 @@ export const deleteRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteUaRuleError = UaRuleNotFound | Forbidden | CloudflareOpError;
@@ -2244,6 +2284,8 @@ export const deleteUaRule: API.OperationMethod<
   errors: [UaRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUaRule",
 }));
 
 export type DeleteWafOverrideError = CloudflareOpError;
@@ -2259,6 +2301,8 @@ export const deleteWafOverride: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWafOverride",
 }));
 
 export type GetAccessRuleForAccountError = AccessRuleNotFound | Forbidden | CloudflareOpError;
@@ -2274,6 +2318,8 @@ export const getAccessRuleForAccount: API.OperationMethod<
   errors: [AccessRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessRuleForAccount",
 }));
 
 export type GetAccessRuleForZoneError = AccessRuleNotFound | Forbidden | CloudflareOpError;
@@ -2289,6 +2335,8 @@ export const getAccessRuleForZone: API.OperationMethod<
   errors: [AccessRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessRuleForZone",
 }));
 
 export type GetLockdownError = LockdownNotFound | Forbidden | CloudflareOpError;
@@ -2304,6 +2352,8 @@ export const getLockdown: API.OperationMethod<
   errors: [LockdownNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLockdown",
 }));
 
 export type GetRuleError = CloudflareOpError;
@@ -2319,6 +2369,8 @@ export const getRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetUaRuleError = UaRuleNotFound | Forbidden | CloudflareOpError;
@@ -2334,6 +2386,8 @@ export const getUaRule: API.OperationMethod<
   errors: [UaRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUaRule",
 }));
 
 export type GetWafOverrideError = CloudflareOpError;
@@ -2349,6 +2403,8 @@ export const getWafOverride: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWafOverride",
 }));
 
 export type GetWafPackageError = CloudflareOpError;
@@ -2364,6 +2420,8 @@ export const getWafPackage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWafPackage",
 }));
 
 export type GetWafPackageGroupError = CloudflareOpError;
@@ -2379,6 +2437,8 @@ export const getWafPackageGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWafPackageGroup",
 }));
 
 export type GetWafPackageRuleError = CloudflareOpError;
@@ -2394,6 +2454,8 @@ export const getWafPackageRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWafPackageRule",
 }));
 
 export type ListAccessRulesForAccountError = Forbidden | CloudflareOpError;
@@ -2411,6 +2473,8 @@ export const listAccessRulesForAccount: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessRulesForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2437,6 +2501,8 @@ export const listAccessRulesForZone: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessRulesForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2463,6 +2529,8 @@ export const listLockdowns: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLockdowns",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2489,6 +2557,8 @@ export const listRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2515,6 +2585,8 @@ export const listUaRules: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUaRules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2539,6 +2611,8 @@ export const listWafOverrides: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWafOverrides",
 }));
 
 export type ListWafPackageGroupsError = CloudflareOpError;
@@ -2556,6 +2630,8 @@ export const listWafPackageGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWafPackageGroups",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2582,6 +2658,8 @@ export const listWafPackageRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWafPackageRules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2606,6 +2684,8 @@ export const listWafPackages: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWafPackages",
 }));
 
 export type PatchAccessRuleForAccountError = AccessRuleNotFound | Forbidden | CloudflareOpError;
@@ -2621,6 +2701,8 @@ export const patchAccessRuleForAccount: API.OperationMethod<
   errors: [AccessRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessRuleForAccount",
 }));
 
 export type PatchAccessRuleForZoneError = AccessRuleNotFound | Forbidden | CloudflareOpError;
@@ -2636,6 +2718,8 @@ export const patchAccessRuleForZone: API.OperationMethod<
   errors: [AccessRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessRuleForZone",
 }));
 
 export type PatchRuleError = CloudflareOpError;
@@ -2653,6 +2737,8 @@ export const patchRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PatchRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2671,6 +2757,8 @@ export const patchWafPackageGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchWafPackageGroup",
 }));
 
 export type PatchWafPackageRuleError = CloudflareOpError;
@@ -2686,6 +2774,8 @@ export const patchWafPackageRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchWafPackageRule",
 }));
 
 export type UpdateLockdownError =
@@ -2705,6 +2795,8 @@ export const updateLockdown: API.OperationMethod<
   errors: [LockdownNotFound, DuplicateLockdown, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLockdown",
 }));
 
 export type UpdateRuleError = CloudflareOpError;
@@ -2720,6 +2812,8 @@ export const updateRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateUaRuleError = UaRuleNotFound | DuplicateUaRule | Forbidden | CloudflareOpError;
@@ -2735,6 +2829,8 @@ export const updateUaRule: API.OperationMethod<
   errors: [UaRuleNotFound, DuplicateUaRule, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUaRule",
 }));
 
 export type UpdateWafOverrideError = CloudflareOpError;
@@ -2750,6 +2846,8 @@ export const updateWafOverride: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWafOverride",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

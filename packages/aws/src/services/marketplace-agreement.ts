@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://agreement-marketplace.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceAgreement",
+  service: "MarketplaceAgreement",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1330,7 +1347,7 @@ export type AcceptAgreementCancellationRequestError =
  * Only cancellation requests in `PENDING_APPROVAL` status can be accepted. A `ConflictException` is thrown if the cancellation request is in any other status.
  */
 export const acceptAgreementCancellationRequest: API.OperationMethod<
-  AcceptAgreementCancellationRequestInput,
+  AcceptAgreementCancellationRequestInput & RegionInput,
   AcceptAgreementCancellationRequestOutput,
   AcceptAgreementCancellationRequestError,
   Credentials | HttpClient.HttpClient
@@ -1348,6 +1365,8 @@ export const acceptAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAgreementCancellationRequest",
+  telemetry: TELEMETRY,
+  span: "AcceptAgreementCancellationRequest",
 }));
 
 export type AcceptAgreementPaymentRequestError =
@@ -1364,7 +1383,7 @@ export type AcceptAgreementPaymentRequestError =
  * Only payment requests in `PENDING_APPROVAL` status can be accepted. A `ConflictException` is thrown if the payment request is in any other status.
  */
 export const acceptAgreementPaymentRequest: API.OperationMethod<
-  AcceptAgreementPaymentRequestInput,
+  AcceptAgreementPaymentRequestInput & RegionInput,
   AcceptAgreementPaymentRequestOutput,
   AcceptAgreementPaymentRequestError,
   Credentials | HttpClient.HttpClient
@@ -1382,6 +1401,8 @@ export const acceptAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAgreementPaymentRequest",
+  telemetry: TELEMETRY,
+  span: "AcceptAgreementPaymentRequest",
 }));
 
 export type AcceptAgreementRequestError =
@@ -1396,7 +1417,7 @@ export type AcceptAgreementRequestError =
  * Accepts an agreement request to finalize the agreement. The acceptor can optionally provide purchase orders to associate with the agreement charges.
  */
 export const acceptAgreementRequest: API.OperationMethod<
-  AcceptAgreementRequestInput,
+  AcceptAgreementRequestInput & RegionInput,
   AcceptAgreementRequestOutput,
   AcceptAgreementRequestError,
   Credentials | HttpClient.HttpClient
@@ -1414,6 +1435,8 @@ export const acceptAgreementRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAgreementRequest",
+  telemetry: TELEMETRY,
+  span: "AcceptAgreementRequest",
 }));
 
 export type BatchCreateBillingAdjustmentRequestError =
@@ -1429,7 +1452,7 @@ export type BatchCreateBillingAdjustmentRequestError =
  * Each entry requires a unique `clientToken` for idempotency.
  */
 export const batchCreateBillingAdjustmentRequest: API.OperationMethod<
-  BatchCreateBillingAdjustmentRequestInput,
+  BatchCreateBillingAdjustmentRequestInput & RegionInput,
   BatchCreateBillingAdjustmentRequestOutput,
   BatchCreateBillingAdjustmentRequestError,
   Credentials | HttpClient.HttpClient
@@ -1446,6 +1469,8 @@ export const batchCreateBillingAdjustmentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillingAdjustmentRequest",
+  telemetry: TELEMETRY,
+  span: "BatchCreateBillingAdjustmentRequest",
 }));
 
 export type CancelAgreementError =
@@ -1460,7 +1485,7 @@ export type CancelAgreementError =
  * Allows an acceptor to cancel an active agreement. Not all agreements are eligible for cancellation. Use the error response to determine why a cancellation request was rejected.
  */
 export const cancelAgreement: API.OperationMethod<
-  CancelAgreementInput,
+  CancelAgreementInput & RegionInput,
   CancelAgreementOutput,
   CancelAgreementError,
   Credentials | HttpClient.HttpClient
@@ -1478,6 +1503,8 @@ export const cancelAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAgreement",
+  telemetry: TELEMETRY,
+  span: "CancelAgreement",
 }));
 
 export type CancelAgreementCancellationRequestError =
@@ -1494,7 +1521,7 @@ export type CancelAgreementCancellationRequestError =
  * Only cancellation requests in `PENDING_APPROVAL` status can be cancelled. A `ConflictException` is thrown if the cancellation request is in any other status.
  */
 export const cancelAgreementCancellationRequest: API.OperationMethod<
-  CancelAgreementCancellationRequestInput,
+  CancelAgreementCancellationRequestInput & RegionInput,
   CancelAgreementCancellationRequestOutput,
   CancelAgreementCancellationRequestError,
   Credentials | HttpClient.HttpClient
@@ -1512,6 +1539,8 @@ export const cancelAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAgreementCancellationRequest",
+  telemetry: TELEMETRY,
+  span: "CancelAgreementCancellationRequest",
 }));
 
 export type CancelAgreementPaymentRequestError =
@@ -1528,7 +1557,7 @@ export type CancelAgreementPaymentRequestError =
  * Only payment requests in `PENDING_APPROVAL` status can be cancelled. A `ConflictException` is thrown if the payment request is in any other status.
  */
 export const cancelAgreementPaymentRequest: API.OperationMethod<
-  CancelAgreementPaymentRequestInput,
+  CancelAgreementPaymentRequestInput & RegionInput,
   CancelAgreementPaymentRequestOutput,
   CancelAgreementPaymentRequestError,
   Credentials | HttpClient.HttpClient
@@ -1546,6 +1575,8 @@ export const cancelAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAgreementPaymentRequest",
+  telemetry: TELEMETRY,
+  span: "CancelAgreementPaymentRequest",
 }));
 
 export type CreateAgreementRequestError =
@@ -1561,7 +1592,7 @@ export type CreateAgreementRequestError =
  * Creates an agreement request that acts as a quote for the terms you want to accept. The agreement request captures the requested terms, calculates charges, and returns a summary. Use `AcceptAgreementRequest` with the returned `agreementRequestId` to finalize the agreement.
  */
 export const createAgreementRequest: API.OperationMethod<
-  CreateAgreementRequestInput,
+  CreateAgreementRequestInput & RegionInput,
   CreateAgreementRequestOutput,
   CreateAgreementRequestError,
   Credentials | HttpClient.HttpClient
@@ -1580,6 +1611,8 @@ export const createAgreementRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgreementRequest",
+  telemetry: TELEMETRY,
+  span: "CreateAgreementRequest",
 }));
 
 export type DescribeAgreementError =
@@ -1593,7 +1626,7 @@ export type DescribeAgreementError =
  * Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
  */
 export const describeAgreement: API.OperationMethod<
-  DescribeAgreementInput,
+  DescribeAgreementInput & RegionInput,
   DescribeAgreementOutput,
   DescribeAgreementError,
   Credentials | HttpClient.HttpClient
@@ -1610,6 +1643,8 @@ export const describeAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgreement",
+  telemetry: TELEMETRY,
+  span: "DescribeAgreement",
 }));
 
 export type GetAgreementCancellationRequestError =
@@ -1623,7 +1658,7 @@ export type GetAgreementCancellationRequestError =
  * Retrieves detailed information about a specific agreement cancellation request. Both sellers (proposers) and buyers (acceptors) can use this operation to view cancellation requests associated with their agreements.
  */
 export const getAgreementCancellationRequest: API.OperationMethod<
-  GetAgreementCancellationRequestInput,
+  GetAgreementCancellationRequestInput & RegionInput,
   GetAgreementCancellationRequestOutput,
   GetAgreementCancellationRequestError,
   Credentials | HttpClient.HttpClient
@@ -1640,6 +1675,8 @@ export const getAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgreementCancellationRequest",
+  telemetry: TELEMETRY,
+  span: "GetAgreementCancellationRequest",
 }));
 
 export type GetAgreementEntitlementsError =
@@ -1653,7 +1690,7 @@ export type GetAgreementEntitlementsError =
  * Obtains details about the entitlements of an agreement.
  */
 export const getAgreementEntitlements: API.PaginatedOperationMethod<
-  GetAgreementEntitlementsInput,
+  GetAgreementEntitlementsInput & RegionInput,
   GetAgreementEntitlementsOutput,
   GetAgreementEntitlementsError,
   Credentials | HttpClient.HttpClient,
@@ -1677,6 +1714,8 @@ export const getAgreementEntitlements: API.PaginatedOperationMethod<
     items: "agreementEntitlements",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAgreementEntitlements",
 })) as any;
 
 export type GetAgreementPaymentRequestError =
@@ -1692,7 +1731,7 @@ export type GetAgreementPaymentRequestError =
  * The calling identity must be either the acceptor or proposer of the payment request. A `ResourceNotFoundException` is returned if the payment request does not exist.
  */
 export const getAgreementPaymentRequest: API.OperationMethod<
-  GetAgreementPaymentRequestInput,
+  GetAgreementPaymentRequestInput & RegionInput,
   GetAgreementPaymentRequestOutput,
   GetAgreementPaymentRequestError,
   Credentials | HttpClient.HttpClient
@@ -1709,6 +1748,8 @@ export const getAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgreementPaymentRequest",
+  telemetry: TELEMETRY,
+  span: "GetAgreementPaymentRequest",
 }));
 
 export type GetAgreementTermsError =
@@ -1732,7 +1773,7 @@ export type GetAgreementTermsError =
  * - `Configuration` - The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the `EnableAutoRenew` flag.
  */
 export const getAgreementTerms: API.PaginatedOperationMethod<
-  GetAgreementTermsInput,
+  GetAgreementTermsInput & RegionInput,
   GetAgreementTermsOutput,
   GetAgreementTermsError,
   Credentials | HttpClient.HttpClient,
@@ -1756,6 +1797,8 @@ export const getAgreementTerms: API.PaginatedOperationMethod<
     items: "acceptedTerms",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAgreementTerms",
 })) as any;
 
 export type GetBillingAdjustmentRequestError =
@@ -1769,7 +1812,7 @@ export type GetBillingAdjustmentRequestError =
  * Retrieves detailed information about a specific billing adjustment request. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted.
  */
 export const getBillingAdjustmentRequest: API.OperationMethod<
-  GetBillingAdjustmentRequestInput,
+  GetBillingAdjustmentRequestInput & RegionInput,
   GetBillingAdjustmentRequestOutput,
   GetBillingAdjustmentRequestError,
   Credentials | HttpClient.HttpClient
@@ -1786,6 +1829,8 @@ export const getBillingAdjustmentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingAdjustmentRequest",
+  telemetry: TELEMETRY,
+  span: "GetBillingAdjustmentRequest",
 }));
 
 export type ListAgreementCancellationRequestsError =
@@ -1800,7 +1845,7 @@ export type ListAgreementCancellationRequestsError =
  * `PartyType` is a required parameter. A `ValidationException` is returned if `PartyType` is not provided.
  */
 export const listAgreementCancellationRequests: API.PaginatedOperationMethod<
-  ListAgreementCancellationRequestsInput,
+  ListAgreementCancellationRequestsInput & RegionInput,
   ListAgreementCancellationRequestsOutput,
   ListAgreementCancellationRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -1823,6 +1868,8 @@ export const listAgreementCancellationRequests: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgreementCancellationRequests",
 })) as any;
 
 export type ListAgreementChargesError =
@@ -1835,7 +1882,7 @@ export type ListAgreementChargesError =
  * Allows acceptors to view charges and purchase orders that are associated with an agreement. The response includes details about all charges regardless of whether a purchase order is linked to each charge.
  */
 export const listAgreementCharges: API.PaginatedOperationMethod<
-  ListAgreementChargesInput,
+  ListAgreementChargesInput & RegionInput,
   ListAgreementChargesOutput,
   ListAgreementChargesError,
   Credentials | HttpClient.HttpClient,
@@ -1858,6 +1905,8 @@ export const listAgreementCharges: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgreementCharges",
 })) as any;
 
 export type ListAgreementInvoiceLineItemsError =
@@ -1873,7 +1922,7 @@ export type ListAgreementInvoiceLineItemsError =
  * The `groupBy` parameter is required and supports only `INVOICE_ID` as a value. The `agreementId` parameter is required.
  */
 export const listAgreementInvoiceLineItems: API.PaginatedOperationMethod<
-  ListAgreementInvoiceLineItemsInput,
+  ListAgreementInvoiceLineItemsInput & RegionInput,
   ListAgreementInvoiceLineItemsOutput,
   ListAgreementInvoiceLineItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1897,6 +1946,8 @@ export const listAgreementInvoiceLineItems: API.PaginatedOperationMethod<
     items: "agreementInvoiceLineItemGroupSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgreementInvoiceLineItems",
 })) as any;
 
 export type ListAgreementPaymentRequestsError =
@@ -1911,7 +1962,7 @@ export type ListAgreementPaymentRequestsError =
  * `PartyType` is a required parameter. A `ValidationException` is returned if `PartyType` is not provided. Pagination is supported through `maxResults` (1-50, default 50) and `nextToken` parameters.
  */
 export const listAgreementPaymentRequests: API.PaginatedOperationMethod<
-  ListAgreementPaymentRequestsInput,
+  ListAgreementPaymentRequestsInput & RegionInput,
   ListAgreementPaymentRequestsOutput,
   ListAgreementPaymentRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -1934,6 +1985,8 @@ export const listAgreementPaymentRequests: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgreementPaymentRequests",
 })) as any;
 
 export type ListBillingAdjustmentRequestsError =
@@ -1946,7 +1999,7 @@ export type ListBillingAdjustmentRequestsError =
  * Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this operation to view all billing adjustment requests associated with an agreement.
  */
 export const listBillingAdjustmentRequests: API.PaginatedOperationMethod<
-  ListBillingAdjustmentRequestsInput,
+  ListBillingAdjustmentRequestsInput & RegionInput,
   ListBillingAdjustmentRequestsOutput,
   ListBillingAdjustmentRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -1969,6 +2022,8 @@ export const listBillingAdjustmentRequests: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillingAdjustmentRequests",
 })) as any;
 
 export type RejectAgreementCancellationRequestError =
@@ -1985,7 +2040,7 @@ export type RejectAgreementCancellationRequestError =
  * Only cancellation requests in `PENDING_APPROVAL` status can be rejected. A `ConflictException` is thrown if the cancellation request is in any other status.
  */
 export const rejectAgreementCancellationRequest: API.OperationMethod<
-  RejectAgreementCancellationRequestInput,
+  RejectAgreementCancellationRequestInput & RegionInput,
   RejectAgreementCancellationRequestOutput,
   RejectAgreementCancellationRequestError,
   Credentials | HttpClient.HttpClient
@@ -2003,6 +2058,8 @@ export const rejectAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAgreementCancellationRequest",
+  telemetry: TELEMETRY,
+  span: "RejectAgreementCancellationRequest",
 }));
 
 export type RejectAgreementPaymentRequestError =
@@ -2019,7 +2076,7 @@ export type RejectAgreementPaymentRequestError =
  * Only payment requests in `PENDING_APPROVAL` status can be rejected. A `ConflictException` is thrown if the payment request is in any other status.
  */
 export const rejectAgreementPaymentRequest: API.OperationMethod<
-  RejectAgreementPaymentRequestInput,
+  RejectAgreementPaymentRequestInput & RegionInput,
   RejectAgreementPaymentRequestOutput,
   RejectAgreementPaymentRequestError,
   Credentials | HttpClient.HttpClient
@@ -2037,6 +2094,8 @@ export const rejectAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAgreementPaymentRequest",
+  telemetry: TELEMETRY,
+  span: "RejectAgreementPaymentRequest",
 }));
 
 export type SearchAgreementsError =
@@ -2049,7 +2108,7 @@ export type SearchAgreementsError =
  * Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information.
  */
 export const searchAgreements: API.PaginatedOperationMethod<
-  SearchAgreementsInput,
+  SearchAgreementsInput & RegionInput,
   SearchAgreementsOutput,
   SearchAgreementsError,
   Credentials | HttpClient.HttpClient,
@@ -2072,6 +2131,8 @@ export const searchAgreements: API.PaginatedOperationMethod<
     items: "agreementViewSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAgreements",
 })) as any;
 
 export type SendAgreementCancellationRequestError =
@@ -2086,7 +2147,7 @@ export type SendAgreementCancellationRequestError =
  * Allows sellers (proposers) to submit a cancellation request for an active agreement. The cancellation request is created in `PENDING_APPROVAL` status, at which point the buyer can review it.
  */
 export const sendAgreementCancellationRequest: API.OperationMethod<
-  SendAgreementCancellationRequestInput,
+  SendAgreementCancellationRequestInput & RegionInput,
   SendAgreementCancellationRequestOutput,
   SendAgreementCancellationRequestError,
   Credentials | HttpClient.HttpClient
@@ -2104,6 +2165,8 @@ export const sendAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAgreementCancellationRequest",
+  telemetry: TELEMETRY,
+  span: "SendAgreementCancellationRequest",
 }));
 
 export type SendAgreementPaymentRequestError =
@@ -2120,7 +2183,7 @@ export type SendAgreementPaymentRequestError =
  * The agreement must be active and have a `VariablePaymentTerm` to support payment requests. The `chargeAmount` must not exceed the remaining available balance under the `VariablePaymentTerm` `maxTotalChargeAmount`.
  */
 export const sendAgreementPaymentRequest: API.OperationMethod<
-  SendAgreementPaymentRequestInput,
+  SendAgreementPaymentRequestInput & RegionInput,
   SendAgreementPaymentRequestOutput,
   SendAgreementPaymentRequestError,
   Credentials | HttpClient.HttpClient
@@ -2138,6 +2201,8 @@ export const sendAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAgreementPaymentRequest",
+  telemetry: TELEMETRY,
+  span: "SendAgreementPaymentRequest",
 }));
 
 export type UpdatePurchaseOrdersError =
@@ -2152,7 +2217,7 @@ export type UpdatePurchaseOrdersError =
  * Allows acceptors to associate purchase orders with agreement charges after an agreement is created.
  */
 export const updatePurchaseOrders: API.OperationMethod<
-  UpdatePurchaseOrdersInput,
+  UpdatePurchaseOrdersInput & RegionInput,
   UpdatePurchaseOrdersOutput,
   UpdatePurchaseOrdersError,
   Credentials | HttpClient.HttpClient
@@ -2170,6 +2235,8 @@ export const updatePurchaseOrders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePurchaseOrders",
+  telemetry: TELEMETRY,
+  span: "UpdatePurchaseOrders",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

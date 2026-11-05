@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -67,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AccountAccess",
+  service: "AccountAccess",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -288,7 +304,7 @@ export type CreateApplicationError =
  * Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center instance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -306,6 +322,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateEntitlementError =
@@ -321,7 +339,7 @@ export type CreateEntitlementError =
  * Creates an entitlement (assignment) in account access manager. An entitlement (assignment) grants a principal (IAM Identity Center user or group) permission to assume a specified IAM role in an Amazon Web Services account. This operation is idempotent.
  */
 export const createEntitlement: API.OperationMethod<
-  CreateEntitlementRequest,
+  CreateEntitlementRequest & RegionInput,
   CreateEntitlementResponse,
   CreateEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -340,6 +358,8 @@ export const createEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
+  telemetry: TELEMETRY,
+  span: "CreateEntitlement",
 }));
 
 export type DeleteApplicationError =
@@ -354,7 +374,7 @@ export type DeleteApplicationError =
  * Deletes an account access manager application. This operation is idempotent; deleting an application that has already been deleted does not return an error.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -372,6 +392,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteEntitlementError =
@@ -386,7 +408,7 @@ export type DeleteEntitlementError =
  * Deletes an entitlement from an account access manager application. This operation is idempotent; deleting an entitlement that has already been deleted does not return an error.
  */
 export const deleteEntitlement: API.OperationMethod<
-  DeleteEntitlementRequest,
+  DeleteEntitlementRequest & RegionInput,
   DeleteEntitlementResponse,
   DeleteEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -404,6 +426,8 @@ export const deleteEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
+  telemetry: TELEMETRY,
+  span: "DeleteEntitlement",
 }));
 
 export type GetApplicationError =
@@ -417,7 +441,7 @@ export type GetApplicationError =
  * Retrieves details about an account access manager application, including its status, identity source, and tags.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -434,6 +458,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetEntitlementError =
@@ -447,7 +473,7 @@ export type GetEntitlementError =
  * Retrieves details about a specific entitlement for an account access manager application, including the principal, IAM role, and target account.
  */
 export const getEntitlement: API.OperationMethod<
-  GetEntitlementRequest,
+  GetEntitlementRequest & RegionInput,
   GetEntitlementResponse,
   GetEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -464,6 +490,8 @@ export const getEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEntitlement",
+  telemetry: TELEMETRY,
+  span: "GetEntitlement",
 }));
 
 export type ListApplicationsError =
@@ -476,7 +504,7 @@ export type ListApplicationsError =
  * Lists the account access manager applications in your account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -494,6 +522,8 @@ export const listApplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplications",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "applications" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListEntitlementsError =
@@ -507,7 +537,7 @@ export type ListEntitlementsError =
  * Lists the entitlements for a specified account access manager application. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listEntitlements: API.PaginatedOperationMethod<
-  ListEntitlementsRequest,
+  ListEntitlementsRequest & RegionInput,
   ListEntitlementsResponse,
   ListEntitlementsError,
   Credentials | HttpClient.HttpClient,
@@ -526,6 +556,8 @@ export const listEntitlements: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEntitlements",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entitlements" } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntitlements",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -538,7 +570,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with an account access manager resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -554,6 +586,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -566,7 +600,7 @@ export type TagResourceError =
  * Adds tags to an account access manager resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -582,6 +616,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -594,7 +630,7 @@ export type UntagResourceError =
  * Removes tags from an account access manager resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -610,6 +646,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

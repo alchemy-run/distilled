@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Packxdsl",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface CancelPackXdslResiliationRequest {
   /** The internal name of your pack */
   packName: string;
@@ -1571,6 +1585,8 @@ export const cancelPackXdslResiliation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPackXdslResiliation",
 }));
 
 export type CreatePackXdslAddressMoveOfferError = OvhOpError;
@@ -1590,6 +1606,8 @@ export const createPackXdslAddressMoveOffer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslAddressMoveOffer",
 }));
 
 export type CreatePackXdslAddressMoveServicesToDeleteUnpackTermError = OvhOpError;
@@ -1613,6 +1631,8 @@ export const createPackXdslAddressMoveServicesToDeleteUnpackTerm: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslAddressMoveServicesToDeleteUnpackTerm",
 }));
 
 export type CreatePackXdslChangeContactError = OvhOpError;
@@ -1628,6 +1648,8 @@ export const createPackXdslChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslChangeContact",
 }));
 
 export type CreatePackXdslDomainServiceError = OvhOpError;
@@ -1643,6 +1665,8 @@ export const createPackXdslDomainService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslDomainService",
 }));
 
 export type CreatePackXdslEmailProServiceError = OvhOpError;
@@ -1658,6 +1682,8 @@ export const createPackXdslEmailProService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslEmailProService",
 }));
 
 export type CreatePackXdslHostedEmailServiceError = OvhOpError;
@@ -1673,6 +1699,8 @@ export const createPackXdslHostedEmailService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslHostedEmailService",
 }));
 
 export type CreatePackXdslHostedEmailServiceChangePasswordError = OvhOpError;
@@ -1696,6 +1724,8 @@ export const createPackXdslHostedEmailServiceChangePassword: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslHostedEmailServiceChangePassword",
 }));
 
 export type CreatePackXdslMigrationOfferError = OvhOpError;
@@ -1715,6 +1745,8 @@ export const createPackXdslMigrationOffer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslMigrationOffer",
 }));
 
 export type CreatePackXdslMigrationServicesToDeleteUnpackTermError = OvhOpError;
@@ -1738,6 +1770,8 @@ export const createPackXdslMigrationServicesToDeleteUnpackTerm: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslMigrationServicesToDeleteUnpackTerm",
 }));
 
 export type CreatePackXdslResiliateError = OvhOpError;
@@ -1753,6 +1787,8 @@ export const createPackXdslResiliate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslResiliate",
 }));
 
 export type CreatePackXdslVoipEcofaxServiceError = OvhOpError;
@@ -1768,6 +1804,8 @@ export const createPackXdslVoipEcofaxService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslVoipEcofaxService",
 }));
 
 export type CreatePackXdslVoipLineOptionCustomShippingAddressError = OvhOpError;
@@ -1791,6 +1829,8 @@ export const createPackXdslVoipLineOptionCustomShippingAddress: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslVoipLineOptionCustomShippingAddress",
 }));
 
 export type CreatePackXdslVoipLineServiceError = OvhOpError;
@@ -1806,6 +1846,8 @@ export const createPackXdslVoipLineService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePackXdslVoipLineService",
 }));
 
 export type DeletePackXdslHostedEmailServiceError = OvhOpError;
@@ -1821,6 +1863,8 @@ export const deletePackXdslHostedEmailService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackXdslHostedEmailService",
 }));
 
 export type GeneratePackXdslPromotionCodeError = OvhOpError;
@@ -1836,6 +1880,8 @@ export const generatePackXdslPromotionCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GeneratePackXdslPromotionCode",
 }));
 
 export type GetPackXdslError = OvhOpError;
@@ -1851,6 +1897,8 @@ export const getPackXdsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdsl",
 }));
 
 export type GetPackXdslCanCancelResiliationError = OvhOpError;
@@ -1866,6 +1914,8 @@ export const getPackXdslCanCancelResiliation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslCanCancelResiliation",
 }));
 
 export type GetPackXdslContactOwnerError = OvhOpError;
@@ -1881,6 +1931,8 @@ export const getPackXdslContactOwner: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslContactOwner",
 }));
 
 export type GetPackXdslEmailProOptionIsEmailAvailableError = OvhOpError;
@@ -1896,6 +1948,8 @@ export const getPackXdslEmailProOptionIsEmailAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslEmailProOptionIsEmailAvailable",
 }));
 
 export type GetPackXdslExchangeAccountServiceError = OvhOpError;
@@ -1911,6 +1965,8 @@ export const getPackXdslExchangeAccountService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslExchangeAccountService",
 }));
 
 export type GetPackXdslExchangeIndividualOptionIsEmailAvailableError = OvhOpError;
@@ -1934,6 +1990,8 @@ export const getPackXdslExchangeIndividualOptionIsEmailAvailable: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslExchangeIndividualOptionIsEmailAvailable",
 }));
 
 export type GetPackXdslHostedEmailServiceError = OvhOpError;
@@ -1949,6 +2007,8 @@ export const getPackXdslHostedEmailService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslHostedEmailService",
 }));
 
 export type GetPackXdslHostedEmailServiceAccountError = OvhOpError;
@@ -1964,6 +2024,8 @@ export const getPackXdslHostedEmailServiceAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslHostedEmailServiceAccount",
 }));
 
 export type GetPackXdslResiliationFollowUpError = OvhOpError;
@@ -1979,6 +2041,8 @@ export const getPackXdslResiliationFollowUp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslResiliationFollowUp",
 }));
 
 export type GetPackXdslResiliationTermsError = OvhOpError;
@@ -1994,6 +2058,8 @@ export const getPackXdslResiliationTerms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslResiliationTerms",
 }));
 
 export type GetPackXdslServiceInfosError = OvhOpError;
@@ -2009,6 +2075,8 @@ export const getPackXdslServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslServiceInfos",
 }));
 
 export type GetPackXdslSubServiceError = OvhOpError;
@@ -2024,6 +2092,8 @@ export const getPackXdslSubService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslSubService",
 }));
 
 export type GetPackXdslSubServiceKeepServiceTermsError = OvhOpError;
@@ -2039,6 +2109,8 @@ export const getPackXdslSubServiceKeepServiceTerms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslSubServiceKeepServiceTerms",
 }));
 
 export type GetPackXdslTaskError = OvhOpError;
@@ -2054,6 +2126,8 @@ export const getPackXdslTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslTask",
 }));
 
 export type GetPackXdslVoipLineServiceError = OvhOpError;
@@ -2069,6 +2143,8 @@ export const getPackXdslVoipLineService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackXdslVoipLineService",
 }));
 
 export type ListPackXdslError = OvhOpError;
@@ -2084,6 +2160,8 @@ export const listPackXdsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdsl",
 }));
 
 export type ListPackXdslDomainOptionTldsError = OvhOpError;
@@ -2099,6 +2177,8 @@ export const listPackXdslDomainOptionTlds: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslDomainOptionTlds",
 }));
 
 export type ListPackXdslDomainServicesError = OvhOpError;
@@ -2114,6 +2194,8 @@ export const listPackXdslDomainServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslDomainServices",
 }));
 
 export type ListPackXdslEmailProOptionDomainsError = OvhOpError;
@@ -2129,6 +2211,8 @@ export const listPackXdslEmailProOptionDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslEmailProOptionDomains",
 }));
 
 export type ListPackXdslEmailProServicesError = OvhOpError;
@@ -2144,6 +2228,8 @@ export const listPackXdslEmailProServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslEmailProServices",
 }));
 
 export type ListPackXdslExchangeAccountServicesError = OvhOpError;
@@ -2159,6 +2245,8 @@ export const listPackXdslExchangeAccountServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslExchangeAccountServices",
 }));
 
 export type ListPackXdslExchangeIndividualOptionDomainsError = OvhOpError;
@@ -2178,6 +2266,8 @@ export const listPackXdslExchangeIndividualOptionDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslExchangeIndividualOptionDomains",
 }));
 
 export type ListPackXdslExchangeOrganizationServicesError = OvhOpError;
@@ -2193,6 +2283,8 @@ export const listPackXdslExchangeOrganizationServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslExchangeOrganizationServices",
 }));
 
 export type ListPackXdslHostedEmailOptionDomainsError = OvhOpError;
@@ -2208,6 +2300,8 @@ export const listPackXdslHostedEmailOptionDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslHostedEmailOptionDomains",
 }));
 
 export type ListPackXdslHostedEmailServiceConfigurationError = OvhOpError;
@@ -2223,6 +2317,8 @@ export const listPackXdslHostedEmailServiceConfiguration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslHostedEmailServiceConfiguration",
 }));
 
 export type ListPackXdslHostedEmailServicesError = OvhOpError;
@@ -2238,6 +2334,8 @@ export const listPackXdslHostedEmailServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslHostedEmailServices",
 }));
 
 export type ListPackXdslOrderFollowUpError = OvhOpError;
@@ -2253,6 +2351,8 @@ export const listPackXdslOrderFollowUp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslOrderFollowUp",
 }));
 
 export type ListPackXdslPromotionCodeCapabilitiesError = OvhOpError;
@@ -2268,6 +2368,8 @@ export const listPackXdslPromotionCodeCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslPromotionCodeCapabilities",
 }));
 
 export type ListPackXdslSearchError = OvhOpError;
@@ -2283,6 +2385,8 @@ export const listPackXdslSearch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslSearch",
 }));
 
 export type ListPackXdslServicesError = OvhOpError;
@@ -2298,6 +2402,8 @@ export const listPackXdslServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslServices",
 }));
 
 export type ListPackXdslShippingAddressesError = OvhOpError;
@@ -2313,6 +2419,8 @@ export const listPackXdslShippingAddresses: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslShippingAddresses",
 }));
 
 export type ListPackXdslSubServicesError = OvhOpError;
@@ -2328,6 +2436,8 @@ export const listPackXdslSubServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslSubServices",
 }));
 
 export type ListPackXdslTasksError = OvhOpError;
@@ -2343,6 +2453,8 @@ export const listPackXdslTasks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslTasks",
 }));
 
 export type ListPackXdslVoipBillingAccountServicesError = OvhOpError;
@@ -2358,6 +2470,8 @@ export const listPackXdslVoipBillingAccountServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslVoipBillingAccountServices",
 }));
 
 export type ListPackXdslVoipEcofaxServicesError = OvhOpError;
@@ -2373,6 +2487,8 @@ export const listPackXdslVoipEcofaxServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslVoipEcofaxServices",
 }));
 
 export type ListPackXdslVoipLineOptionHardwaresError = OvhOpError;
@@ -2388,6 +2504,8 @@ export const listPackXdslVoipLineOptionHardwares: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslVoipLineOptionHardwares",
 }));
 
 export type ListPackXdslVoipLineOptionShippingAddressesError = OvhOpError;
@@ -2407,6 +2525,8 @@ export const listPackXdslVoipLineOptionShippingAddresses: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslVoipLineOptionShippingAddresses",
 }));
 
 export type ListPackXdslVoipLineServicesError = OvhOpError;
@@ -2422,6 +2542,8 @@ export const listPackXdslVoipLineServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslVoipLineServices",
 }));
 
 export type ListPackXdslXdslAccessServicesError = OvhOpError;
@@ -2437,6 +2559,8 @@ export const listPackXdslXdslAccessServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackXdslXdslAccessServices",
 }));
 
 export type MigratePackXdslMigrationError = OvhOpError;
@@ -2452,6 +2576,8 @@ export const migratePackXdslMigration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigratePackXdslMigration",
 }));
 
 export type MovePackXdslAddressMoveOfferError = OvhOpError;
@@ -2467,6 +2593,8 @@ export const movePackXdslAddressMoveOffer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MovePackXdslAddressMoveOffer",
 }));
 
 export type PutPackXdslError = OvhOpError;
@@ -2482,6 +2610,8 @@ export const putPackXdsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPackXdsl",
 }));
 
 export type PutPackXdslServiceInfosError = OvhOpError;
@@ -2497,6 +2627,8 @@ export const putPackXdslServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPackXdslServiceInfos",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

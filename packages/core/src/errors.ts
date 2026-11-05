@@ -139,13 +139,13 @@ export class GatewayTimeout
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
-/**
- * Configuration error - missing or invalid configuration.
- */
-export class ConfigError
-  extends /*@__PURE__*/ Schema.TaggedError<ConfigError>()("ConfigError", {
-    message: Schema.String,
-  }).pipe(Category.withConfigurationError) {}
+// Defined with the config readers (core's `base` bundle group, which every
+// program loads) so they can fail with it without importing this module.
+export { ConfigError } from "./config.ts";
+
+// Defined with the label check (`protocol-http.ts`), so protocols can fail
+// with it without importing every class in this module.
+export { InvalidInput } from "./protocol-http.ts";
 
 // ============================================================================
 // Error Maps

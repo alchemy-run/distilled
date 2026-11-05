@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mail-manager.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MailManager",
+  service: "MailManager",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1518,7 +1535,7 @@ export type CreateAddonInstanceError =
  * Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
  */
 export const createAddonInstance: API.OperationMethod<
-  CreateAddonInstanceRequest,
+  CreateAddonInstanceRequest & RegionInput,
   CreateAddonInstanceResponse,
   CreateAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1534,6 +1551,8 @@ export const createAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonInstance",
+  telemetry: TELEMETRY,
+  span: "CreateAddonInstance",
 }));
 
 export type CreateAddonSubscriptionError =
@@ -1546,7 +1565,7 @@ export type CreateAddonSubscriptionError =
  * Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
  */
 export const createAddonSubscription: API.OperationMethod<
-  CreateAddonSubscriptionRequest,
+  CreateAddonSubscriptionRequest & RegionInput,
   CreateAddonSubscriptionResponse,
   CreateAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1562,6 +1581,8 @@ export const createAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateAddonSubscription",
 }));
 
 export type CreateAddressListError =
@@ -1575,7 +1596,7 @@ export type CreateAddressListError =
  * Creates a new address list.
  */
 export const createAddressList: API.OperationMethod<
-  CreateAddressListRequest,
+  CreateAddressListRequest & RegionInput,
   CreateAddressListResponse,
   CreateAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1592,6 +1613,8 @@ export const createAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressList",
+  telemetry: TELEMETRY,
+  span: "CreateAddressList",
 }));
 
 export type CreateAddressListImportJobError =
@@ -1604,7 +1627,7 @@ export type CreateAddressListImportJobError =
  * Creates an import job for an address list.
  */
 export const createAddressListImportJob: API.OperationMethod<
-  CreateAddressListImportJobRequest,
+  CreateAddressListImportJobRequest & RegionInput,
   CreateAddressListImportJobResponse,
   CreateAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1620,6 +1643,8 @@ export const createAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateAddressListImportJob",
 }));
 
 export type CreateArchiveError =
@@ -1633,7 +1658,7 @@ export type CreateArchiveError =
  * Creates a new email archive resource for storing and retaining emails.
  */
 export const createArchive: API.OperationMethod<
-  CreateArchiveRequest,
+  CreateArchiveRequest & RegionInput,
   CreateArchiveResponse,
   CreateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1650,6 +1675,8 @@ export const createArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchive",
+  telemetry: TELEMETRY,
+  span: "CreateArchive",
 }));
 
 export type CreateIngressPointError =
@@ -1661,7 +1688,7 @@ export type CreateIngressPointError =
  * Provision a new ingress endpoint resource.
  */
 export const createIngressPoint: API.OperationMethod<
-  CreateIngressPointRequest,
+  CreateIngressPointRequest & RegionInput,
   CreateIngressPointResponse,
   CreateIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -1672,6 +1699,8 @@ export const createIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngressPoint",
+  telemetry: TELEMETRY,
+  span: "CreateIngressPoint",
 }));
 
 export type CreateRelayError =
@@ -1683,7 +1712,7 @@ export type CreateRelayError =
  * Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
  */
 export const createRelay: API.OperationMethod<
-  CreateRelayRequest,
+  CreateRelayRequest & RegionInput,
   CreateRelayResponse,
   CreateRelayError,
   Credentials | HttpClient.HttpClient
@@ -1694,6 +1723,8 @@ export const createRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelay",
+  telemetry: TELEMETRY,
+  span: "CreateRelay",
 }));
 
 export type CreateRuleSetError =
@@ -1705,7 +1736,7 @@ export type CreateRuleSetError =
  * Provision a new rule set.
  */
 export const createRuleSet: API.OperationMethod<
-  CreateRuleSetRequest,
+  CreateRuleSetRequest & RegionInput,
   CreateRuleSetResponse,
   CreateRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1716,6 +1747,8 @@ export const createRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleSet",
+  telemetry: TELEMETRY,
+  span: "CreateRuleSet",
 }));
 
 export type CreateTrafficPolicyError =
@@ -1727,7 +1760,7 @@ export type CreateTrafficPolicyError =
  * Provision a new traffic policy resource.
  */
 export const createTrafficPolicy: API.OperationMethod<
-  CreateTrafficPolicyRequest,
+  CreateTrafficPolicyRequest & RegionInput,
   CreateTrafficPolicyResponse,
   CreateTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1738,6 +1771,8 @@ export const createTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateTrafficPolicy",
 }));
 
 export type DeleteAddonInstanceError = ConflictException | ValidationException | CommonErrors;
@@ -1745,7 +1780,7 @@ export type DeleteAddonInstanceError = ConflictException | ValidationException |
  * Deletes an Add On instance.
  */
 export const deleteAddonInstance: API.OperationMethod<
-  DeleteAddonInstanceRequest,
+  DeleteAddonInstanceRequest & RegionInput,
   DeleteAddonInstanceResponse,
   DeleteAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1756,6 +1791,8 @@ export const deleteAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteAddonInstance",
 }));
 
 export type DeleteAddonSubscriptionError = ConflictException | ValidationException | CommonErrors;
@@ -1763,7 +1800,7 @@ export type DeleteAddonSubscriptionError = ConflictException | ValidationExcepti
  * Deletes an Add On subscription.
  */
 export const deleteAddonSubscription: API.OperationMethod<
-  DeleteAddonSubscriptionRequest,
+  DeleteAddonSubscriptionRequest & RegionInput,
   DeleteAddonSubscriptionResponse,
   DeleteAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1774,6 +1811,8 @@ export const deleteAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteAddonSubscription",
 }));
 
 export type DeleteAddressListError =
@@ -1786,7 +1825,7 @@ export type DeleteAddressListError =
  * Deletes an address list.
  */
 export const deleteAddressList: API.OperationMethod<
-  DeleteAddressListRequest,
+  DeleteAddressListRequest & RegionInput,
   DeleteAddressListResponse,
   DeleteAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1797,6 +1836,8 @@ export const deleteAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddressList",
+  telemetry: TELEMETRY,
+  span: "DeleteAddressList",
 }));
 
 export type DeleteArchiveError =
@@ -1809,7 +1850,7 @@ export type DeleteArchiveError =
  * Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
  */
 export const deleteArchive: API.OperationMethod<
-  DeleteArchiveRequest,
+  DeleteArchiveRequest & RegionInput,
   DeleteArchiveResponse,
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1820,6 +1861,8 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
+  telemetry: TELEMETRY,
+  span: "DeleteArchive",
 }));
 
 export type DeleteIngressPointError =
@@ -1831,7 +1874,7 @@ export type DeleteIngressPointError =
  * Delete an ingress endpoint resource.
  */
 export const deleteIngressPoint: API.OperationMethod<
-  DeleteIngressPointRequest,
+  DeleteIngressPointRequest & RegionInput,
   DeleteIngressPointResponse,
   DeleteIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -1842,6 +1885,8 @@ export const deleteIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngressPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteIngressPoint",
 }));
 
 export type DeleteRelayError =
@@ -1853,7 +1898,7 @@ export type DeleteRelayError =
  * Deletes an existing relay resource.
  */
 export const deleteRelay: API.OperationMethod<
-  DeleteRelayRequest,
+  DeleteRelayRequest & RegionInput,
   DeleteRelayResponse,
   DeleteRelayError,
   Credentials | HttpClient.HttpClient
@@ -1864,6 +1909,8 @@ export const deleteRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelay",
+  telemetry: TELEMETRY,
+  span: "DeleteRelay",
 }));
 
 export type DeleteRuleSetError = ConflictException | ValidationException | CommonErrors;
@@ -1871,7 +1918,7 @@ export type DeleteRuleSetError = ConflictException | ValidationException | Commo
  * Delete a rule set.
  */
 export const deleteRuleSet: API.OperationMethod<
-  DeleteRuleSetRequest,
+  DeleteRuleSetRequest & RegionInput,
   DeleteRuleSetResponse,
   DeleteRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1882,6 +1929,8 @@ export const deleteRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleSet",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleSet",
 }));
 
 export type DeleteTrafficPolicyError =
@@ -1893,7 +1942,7 @@ export type DeleteTrafficPolicyError =
  * Delete a traffic policy resource.
  */
 export const deleteTrafficPolicy: API.OperationMethod<
-  DeleteTrafficPolicyRequest,
+  DeleteTrafficPolicyRequest & RegionInput,
   DeleteTrafficPolicyResponse,
   DeleteTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1904,6 +1953,8 @@ export const deleteTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficPolicy",
 }));
 
 export type DeregisterMemberFromAddressListError =
@@ -1917,7 +1968,7 @@ export type DeregisterMemberFromAddressListError =
  * Removes a member from an address list.
  */
 export const deregisterMemberFromAddressList: API.OperationMethod<
-  DeregisterMemberFromAddressListRequest,
+  DeregisterMemberFromAddressListRequest & RegionInput,
   DeregisterMemberFromAddressListResponse,
   DeregisterMemberFromAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1934,6 +1985,8 @@ export const deregisterMemberFromAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterMemberFromAddressList",
+  telemetry: TELEMETRY,
+  span: "DeregisterMemberFromAddressList",
 }));
 
 export type GetAddonInstanceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1941,7 +1994,7 @@ export type GetAddonInstanceError = ResourceNotFoundException | ValidationExcept
  * Gets detailed information about an Add On instance.
  */
 export const getAddonInstance: API.OperationMethod<
-  GetAddonInstanceRequest,
+  GetAddonInstanceRequest & RegionInput,
   GetAddonInstanceResponse,
   GetAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1952,6 +2005,8 @@ export const getAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonInstance",
+  telemetry: TELEMETRY,
+  span: "GetAddonInstance",
 }));
 
 export type GetAddonSubscriptionError =
@@ -1962,7 +2017,7 @@ export type GetAddonSubscriptionError =
  * Gets detailed information about an Add On subscription.
  */
 export const getAddonSubscription: API.OperationMethod<
-  GetAddonSubscriptionRequest,
+  GetAddonSubscriptionRequest & RegionInput,
   GetAddonSubscriptionResponse,
   GetAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1973,6 +2028,8 @@ export const getAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonSubscription",
+  telemetry: TELEMETRY,
+  span: "GetAddonSubscription",
 }));
 
 export type GetAddressListError =
@@ -1985,7 +2042,7 @@ export type GetAddressListError =
  * Fetch attributes of an address list.
  */
 export const getAddressList: API.OperationMethod<
-  GetAddressListRequest,
+  GetAddressListRequest & RegionInput,
   GetAddressListResponse,
   GetAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2001,6 +2058,8 @@ export const getAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressList",
+  telemetry: TELEMETRY,
+  span: "GetAddressList",
 }));
 
 export type GetAddressListImportJobError =
@@ -2013,7 +2072,7 @@ export type GetAddressListImportJobError =
  * Fetch attributes of an import job.
  */
 export const getAddressListImportJob: API.OperationMethod<
-  GetAddressListImportJobRequest,
+  GetAddressListImportJobRequest & RegionInput,
   GetAddressListImportJobResponse,
   GetAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2029,6 +2088,8 @@ export const getAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "GetAddressListImportJob",
 }));
 
 export type GetArchiveError =
@@ -2041,7 +2102,7 @@ export type GetArchiveError =
  * Retrieves the full details and current state of a specified email archive.
  */
 export const getArchive: API.OperationMethod<
-  GetArchiveRequest,
+  GetArchiveRequest & RegionInput,
   GetArchiveResponse,
   GetArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2057,6 +2118,8 @@ export const getArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchive",
+  telemetry: TELEMETRY,
+  span: "GetArchive",
 }));
 
 export type GetArchiveExportError =
@@ -2068,7 +2131,7 @@ export type GetArchiveExportError =
  * Retrieves the details and current status of a specific email archive export job.
  */
 export const getArchiveExport: API.OperationMethod<
-  GetArchiveExportRequest,
+  GetArchiveExportRequest & RegionInput,
   GetArchiveExportResponse,
   GetArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2079,6 +2142,8 @@ export const getArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveExport",
+  telemetry: TELEMETRY,
+  span: "GetArchiveExport",
 }));
 
 export type GetArchiveMessageError =
@@ -2090,7 +2155,7 @@ export type GetArchiveMessageError =
  * Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
  */
 export const getArchiveMessage: API.OperationMethod<
-  GetArchiveMessageRequest,
+  GetArchiveMessageRequest & RegionInput,
   GetArchiveMessageResponse,
   GetArchiveMessageError,
   Credentials | HttpClient.HttpClient
@@ -2101,6 +2166,8 @@ export const getArchiveMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessage",
+  telemetry: TELEMETRY,
+  span: "GetArchiveMessage",
 }));
 
 export type GetArchiveMessageContentError =
@@ -2112,7 +2179,7 @@ export type GetArchiveMessageContentError =
  * Returns the textual content of a specific email message stored in the archive. Attachments are not included.
  */
 export const getArchiveMessageContent: API.OperationMethod<
-  GetArchiveMessageContentRequest,
+  GetArchiveMessageContentRequest & RegionInput,
   GetArchiveMessageContentResponse,
   GetArchiveMessageContentError,
   Credentials | HttpClient.HttpClient
@@ -2123,6 +2190,8 @@ export const getArchiveMessageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessageContent",
+  telemetry: TELEMETRY,
+  span: "GetArchiveMessageContent",
 }));
 
 export type GetArchiveSearchError =
@@ -2134,7 +2203,7 @@ export type GetArchiveSearchError =
  * Retrieves the details and current status of a specific email archive search job.
  */
 export const getArchiveSearch: API.OperationMethod<
-  GetArchiveSearchRequest,
+  GetArchiveSearchRequest & RegionInput,
   GetArchiveSearchResponse,
   GetArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2145,6 +2214,8 @@ export const getArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearch",
+  telemetry: TELEMETRY,
+  span: "GetArchiveSearch",
 }));
 
 export type GetArchiveSearchResultsError =
@@ -2157,7 +2228,7 @@ export type GetArchiveSearchResultsError =
  * Returns the results of a completed email archive search job.
  */
 export const getArchiveSearchResults: API.OperationMethod<
-  GetArchiveSearchResultsRequest,
+  GetArchiveSearchResultsRequest & RegionInput,
   GetArchiveSearchResultsResponse,
   GetArchiveSearchResultsError,
   Credentials | HttpClient.HttpClient
@@ -2168,6 +2239,8 @@ export const getArchiveSearchResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearchResults",
+  telemetry: TELEMETRY,
+  span: "GetArchiveSearchResults",
 }));
 
 export type GetIngressPointError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2175,7 +2248,7 @@ export type GetIngressPointError = ResourceNotFoundException | ValidationExcepti
  * Fetch ingress endpoint resource attributes.
  */
 export const getIngressPoint: API.OperationMethod<
-  GetIngressPointRequest,
+  GetIngressPointRequest & RegionInput,
   GetIngressPointResponse,
   GetIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -2186,6 +2259,8 @@ export const getIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngressPoint",
+  telemetry: TELEMETRY,
+  span: "GetIngressPoint",
 }));
 
 export type GetMemberOfAddressListError =
@@ -2198,7 +2273,7 @@ export type GetMemberOfAddressListError =
  * Fetch attributes of a member in an address list.
  */
 export const getMemberOfAddressList: API.OperationMethod<
-  GetMemberOfAddressListRequest,
+  GetMemberOfAddressListRequest & RegionInput,
   GetMemberOfAddressListResponse,
   GetMemberOfAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2214,6 +2289,8 @@ export const getMemberOfAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemberOfAddressList",
+  telemetry: TELEMETRY,
+  span: "GetMemberOfAddressList",
 }));
 
 export type GetRelayError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2221,7 +2298,7 @@ export type GetRelayError = ResourceNotFoundException | ValidationException | Co
  * Fetch the relay resource and it's attributes.
  */
 export const getRelay: API.OperationMethod<
-  GetRelayRequest,
+  GetRelayRequest & RegionInput,
   GetRelayResponse,
   GetRelayError,
   Credentials | HttpClient.HttpClient
@@ -2232,6 +2309,8 @@ export const getRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelay",
+  telemetry: TELEMETRY,
+  span: "GetRelay",
 }));
 
 export type GetRuleSetError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2239,7 +2318,7 @@ export type GetRuleSetError = ResourceNotFoundException | ValidationException | 
  * Fetch attributes of a rule set.
  */
 export const getRuleSet: API.OperationMethod<
-  GetRuleSetRequest,
+  GetRuleSetRequest & RegionInput,
   GetRuleSetResponse,
   GetRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2250,6 +2329,8 @@ export const getRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleSet",
+  telemetry: TELEMETRY,
+  span: "GetRuleSet",
 }));
 
 export type GetTrafficPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2257,7 +2338,7 @@ export type GetTrafficPolicyError = ResourceNotFoundException | ValidationExcept
  * Fetch attributes of a traffic policy resource.
  */
 export const getTrafficPolicy: API.OperationMethod<
-  GetTrafficPolicyRequest,
+  GetTrafficPolicyRequest & RegionInput,
   GetTrafficPolicyResponse,
   GetTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2268,6 +2349,8 @@ export const getTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "GetTrafficPolicy",
 }));
 
 export type ListAddonInstancesError = ValidationException | CommonErrors;
@@ -2275,7 +2358,7 @@ export type ListAddonInstancesError = ValidationException | CommonErrors;
  * Lists all Add On instances in your account.
  */
 export const listAddonInstances: API.PaginatedOperationMethod<
-  ListAddonInstancesRequest,
+  ListAddonInstancesRequest & RegionInput,
   ListAddonInstancesResponse,
   ListAddonInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2293,6 +2376,8 @@ export const listAddonInstances: API.PaginatedOperationMethod<
     items: "AddonInstances",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddonInstances",
 })) as any;
 
 export type ListAddonSubscriptionsError = ValidationException | CommonErrors;
@@ -2300,7 +2385,7 @@ export type ListAddonSubscriptionsError = ValidationException | CommonErrors;
  * Lists all Add On subscriptions in your account.
  */
 export const listAddonSubscriptions: API.PaginatedOperationMethod<
-  ListAddonSubscriptionsRequest,
+  ListAddonSubscriptionsRequest & RegionInput,
   ListAddonSubscriptionsResponse,
   ListAddonSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2318,6 +2403,8 @@ export const listAddonSubscriptions: API.PaginatedOperationMethod<
     items: "AddonSubscriptions",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddonSubscriptions",
 })) as any;
 
 export type ListAddressListImportJobsError =
@@ -2330,7 +2417,7 @@ export type ListAddressListImportJobsError =
  * Lists jobs for an address list.
  */
 export const listAddressListImportJobs: API.PaginatedOperationMethod<
-  ListAddressListImportJobsRequest,
+  ListAddressListImportJobsRequest & RegionInput,
   ListAddressListImportJobsResponse,
   ListAddressListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2353,6 +2440,8 @@ export const listAddressListImportJobs: API.PaginatedOperationMethod<
     items: "ImportJobs",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddressListImportJobs",
 })) as any;
 
 export type ListAddressListsError =
@@ -2364,7 +2453,7 @@ export type ListAddressListsError =
  * Lists address lists for this account.
  */
 export const listAddressLists: API.PaginatedOperationMethod<
-  ListAddressListsRequest,
+  ListAddressListsRequest & RegionInput,
   ListAddressListsResponse,
   ListAddressListsError,
   Credentials | HttpClient.HttpClient,
@@ -2382,6 +2471,8 @@ export const listAddressLists: API.PaginatedOperationMethod<
     items: "AddressLists",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddressLists",
 })) as any;
 
 export type ListArchiveExportsError =
@@ -2394,7 +2485,7 @@ export type ListArchiveExportsError =
  * Returns a list of email archive export jobs.
  */
 export const listArchiveExports: API.PaginatedOperationMethod<
-  ListArchiveExportsRequest,
+  ListArchiveExportsRequest & RegionInput,
   ListArchiveExportsResponse,
   ListArchiveExportsError,
   Credentials | HttpClient.HttpClient,
@@ -2417,6 +2508,8 @@ export const listArchiveExports: API.PaginatedOperationMethod<
     items: "Exports",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchiveExports",
 })) as any;
 
 export type ListArchivesError =
@@ -2428,7 +2521,7 @@ export type ListArchivesError =
  * Returns a list of all email archives in your account.
  */
 export const listArchives: API.PaginatedOperationMethod<
-  ListArchivesRequest,
+  ListArchivesRequest & RegionInput,
   ListArchivesResponse,
   ListArchivesError,
   Credentials | HttpClient.HttpClient,
@@ -2446,6 +2539,8 @@ export const listArchives: API.PaginatedOperationMethod<
     items: "Archives",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchives",
 })) as any;
 
 export type ListArchiveSearchesError =
@@ -2458,7 +2553,7 @@ export type ListArchiveSearchesError =
  * Returns a list of email archive search jobs.
  */
 export const listArchiveSearches: API.PaginatedOperationMethod<
-  ListArchiveSearchesRequest,
+  ListArchiveSearchesRequest & RegionInput,
   ListArchiveSearchesResponse,
   ListArchiveSearchesError,
   Credentials | HttpClient.HttpClient,
@@ -2481,6 +2576,8 @@ export const listArchiveSearches: API.PaginatedOperationMethod<
     items: "Searches",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchiveSearches",
 })) as any;
 
 export type ListIngressPointsError = ValidationException | CommonErrors;
@@ -2488,7 +2585,7 @@ export type ListIngressPointsError = ValidationException | CommonErrors;
  * List all ingress endpoint resources.
  */
 export const listIngressPoints: API.PaginatedOperationMethod<
-  ListIngressPointsRequest,
+  ListIngressPointsRequest & RegionInput,
   ListIngressPointsResponse,
   ListIngressPointsError,
   Credentials | HttpClient.HttpClient,
@@ -2506,6 +2603,8 @@ export const listIngressPoints: API.PaginatedOperationMethod<
     items: "IngressPoints",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngressPoints",
 })) as any;
 
 export type ListMembersOfAddressListError =
@@ -2518,7 +2617,7 @@ export type ListMembersOfAddressListError =
  * Lists members of an address list.
  */
 export const listMembersOfAddressList: API.PaginatedOperationMethod<
-  ListMembersOfAddressListRequest,
+  ListMembersOfAddressListRequest & RegionInput,
   ListMembersOfAddressListResponse,
   ListMembersOfAddressListError,
   Credentials | HttpClient.HttpClient,
@@ -2541,6 +2640,8 @@ export const listMembersOfAddressList: API.PaginatedOperationMethod<
     items: "Addresses",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembersOfAddressList",
 })) as any;
 
 export type ListRelaysError = ValidationException | CommonErrors;
@@ -2548,7 +2649,7 @@ export type ListRelaysError = ValidationException | CommonErrors;
  * Lists all the existing relay resources.
  */
 export const listRelays: API.PaginatedOperationMethod<
-  ListRelaysRequest,
+  ListRelaysRequest & RegionInput,
   ListRelaysResponse,
   ListRelaysError,
   Credentials | HttpClient.HttpClient,
@@ -2566,6 +2667,8 @@ export const listRelays: API.PaginatedOperationMethod<
     items: "Relays",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRelays",
 })) as any;
 
 export type ListRuleSetsError = ValidationException | CommonErrors;
@@ -2573,7 +2676,7 @@ export type ListRuleSetsError = ValidationException | CommonErrors;
  * List rule sets for this account.
  */
 export const listRuleSets: API.PaginatedOperationMethod<
-  ListRuleSetsRequest,
+  ListRuleSetsRequest & RegionInput,
   ListRuleSetsResponse,
   ListRuleSetsError,
   Credentials | HttpClient.HttpClient,
@@ -2591,6 +2694,8 @@ export const listRuleSets: API.PaginatedOperationMethod<
     items: "RuleSets",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleSets",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2601,7 +2706,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags (keys and values) assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2612,6 +2717,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrafficPoliciesError = ValidationException | CommonErrors;
@@ -2619,7 +2726,7 @@ export type ListTrafficPoliciesError = ValidationException | CommonErrors;
  * List traffic policy resources.
  */
 export const listTrafficPolicies: API.PaginatedOperationMethod<
-  ListTrafficPoliciesRequest,
+  ListTrafficPoliciesRequest & RegionInput,
   ListTrafficPoliciesResponse,
   ListTrafficPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2637,6 +2744,8 @@ export const listTrafficPolicies: API.PaginatedOperationMethod<
     items: "TrafficPolicies",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrafficPolicies",
 })) as any;
 
 export type RegisterMemberToAddressListError =
@@ -2651,7 +2760,7 @@ export type RegisterMemberToAddressListError =
  * Adds a member to an address list.
  */
 export const registerMemberToAddressList: API.OperationMethod<
-  RegisterMemberToAddressListRequest,
+  RegisterMemberToAddressListRequest & RegionInput,
   RegisterMemberToAddressListResponse,
   RegisterMemberToAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2669,6 +2778,8 @@ export const registerMemberToAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterMemberToAddressList",
+  telemetry: TELEMETRY,
+  span: "RegisterMemberToAddressList",
 }));
 
 export type StartAddressListImportJobError =
@@ -2683,7 +2794,7 @@ export type StartAddressListImportJobError =
  * Starts an import job for an address list.
  */
 export const startAddressListImportJob: API.OperationMethod<
-  StartAddressListImportJobRequest,
+  StartAddressListImportJobRequest & RegionInput,
   StartAddressListImportJobResponse,
   StartAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2701,6 +2812,8 @@ export const startAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "StartAddressListImportJob",
 }));
 
 export type StartArchiveExportError =
@@ -2714,7 +2827,7 @@ export type StartArchiveExportError =
  * Initiates an export of emails from the specified archive.
  */
 export const startArchiveExport: API.OperationMethod<
-  StartArchiveExportRequest,
+  StartArchiveExportRequest & RegionInput,
   StartArchiveExportResponse,
   StartArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2731,6 +2844,8 @@ export const startArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveExport",
+  telemetry: TELEMETRY,
+  span: "StartArchiveExport",
 }));
 
 export type StartArchiveSearchError =
@@ -2745,7 +2860,7 @@ export type StartArchiveSearchError =
  * Initiates a search across emails in the specified archive.
  */
 export const startArchiveSearch: API.OperationMethod<
-  StartArchiveSearchRequest,
+  StartArchiveSearchRequest & RegionInput,
   StartArchiveSearchResponse,
   StartArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2763,6 +2878,8 @@ export const startArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveSearch",
+  telemetry: TELEMETRY,
+  span: "StartArchiveSearch",
 }));
 
 export type StopAddressListImportJobError =
@@ -2776,7 +2893,7 @@ export type StopAddressListImportJobError =
  * Stops an ongoing import job for an address list.
  */
 export const stopAddressListImportJob: API.OperationMethod<
-  StopAddressListImportJobRequest,
+  StopAddressListImportJobRequest & RegionInput,
   StopAddressListImportJobResponse,
   StopAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2793,6 +2910,8 @@ export const stopAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "StopAddressListImportJob",
 }));
 
 export type StopArchiveExportError =
@@ -2804,7 +2923,7 @@ export type StopArchiveExportError =
  * Stops an in-progress export of emails from an archive.
  */
 export const stopArchiveExport: API.OperationMethod<
-  StopArchiveExportRequest,
+  StopArchiveExportRequest & RegionInput,
   StopArchiveExportResponse,
   StopArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2815,6 +2934,8 @@ export const stopArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveExport",
+  telemetry: TELEMETRY,
+  span: "StopArchiveExport",
 }));
 
 export type StopArchiveSearchError =
@@ -2826,7 +2947,7 @@ export type StopArchiveSearchError =
  * Stops an in-progress archive search job.
  */
 export const stopArchiveSearch: API.OperationMethod<
-  StopArchiveSearchRequest,
+  StopArchiveSearchRequest & RegionInput,
   StopArchiveSearchResponse,
   StopArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2837,6 +2958,8 @@ export const stopArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveSearch",
+  telemetry: TELEMETRY,
+  span: "StopArchiveSearch",
 }));
 
 export type TagResourceError =
@@ -2849,7 +2972,7 @@ export type TagResourceError =
  * Adds one or more tags (keys and values) to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2865,6 +2988,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2876,7 +3001,7 @@ export type UntagResourceError =
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2887,6 +3012,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateArchiveError =
@@ -2901,7 +3028,7 @@ export type UpdateArchiveError =
  * Updates the attributes of an existing email archive.
  */
 export const updateArchive: API.OperationMethod<
-  UpdateArchiveRequest,
+  UpdateArchiveRequest & RegionInput,
   UpdateArchiveResponse,
   UpdateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2919,6 +3046,8 @@ export const updateArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchive",
+  telemetry: TELEMETRY,
+  span: "UpdateArchive",
 }));
 
 export type UpdateIngressPointError =
@@ -2930,7 +3059,7 @@ export type UpdateIngressPointError =
  * Update attributes of a provisioned ingress endpoint resource.
  */
 export const updateIngressPoint: API.OperationMethod<
-  UpdateIngressPointRequest,
+  UpdateIngressPointRequest & RegionInput,
   UpdateIngressPointResponse,
   UpdateIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -2941,6 +3070,8 @@ export const updateIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngressPoint",
+  telemetry: TELEMETRY,
+  span: "UpdateIngressPoint",
 }));
 
 export type UpdateRelayError =
@@ -2952,7 +3083,7 @@ export type UpdateRelayError =
  * Updates the attributes of an existing relay resource.
  */
 export const updateRelay: API.OperationMethod<
-  UpdateRelayRequest,
+  UpdateRelayRequest & RegionInput,
   UpdateRelayResponse,
   UpdateRelayError,
   Credentials | HttpClient.HttpClient
@@ -2963,6 +3094,8 @@ export const updateRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelay",
+  telemetry: TELEMETRY,
+  span: "UpdateRelay",
 }));
 
 export type UpdateRuleSetError =
@@ -2974,7 +3107,7 @@ export type UpdateRuleSetError =
  * Update attributes of an already provisioned rule set.
  */
 export const updateRuleSet: API.OperationMethod<
-  UpdateRuleSetRequest,
+  UpdateRuleSetRequest & RegionInput,
   UpdateRuleSetResponse,
   UpdateRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2985,6 +3118,8 @@ export const updateRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleSet",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleSet",
 }));
 
 export type UpdateTrafficPolicyError =
@@ -2996,7 +3131,7 @@ export type UpdateTrafficPolicyError =
  * Update attributes of an already provisioned traffic policy resource.
  */
 export const updateTrafficPolicy: API.OperationMethod<
-  UpdateTrafficPolicyRequest,
+  UpdateTrafficPolicyRequest & RegionInput,
   UpdateTrafficPolicyResponse,
   UpdateTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3007,6 +3142,8 @@ export const updateTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateTrafficPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

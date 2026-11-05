@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the ZeroSSL Smithy model into the Effect ZeroSSL SDK.
  *
@@ -7,12 +7,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *         the ZeroSSL API reference (Markdown) in the spec mirror.
  * Output: src/services/zerossl.ts  +  src/services/index.ts
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const spec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
@@ -55,6 +55,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the ZeroSSL Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs",
   patchesDir: false,

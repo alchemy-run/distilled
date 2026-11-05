@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Autorag",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type FilesRequestStatus = "completed" | "queued" | "running" | "error";
 export interface FilesRequest {
   accountId: string;
@@ -252,6 +266,8 @@ export const files: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Files",
 }));
 
 export type GetJobError = CloudflareOpError;
@@ -267,6 +283,8 @@ export const getJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type JobsLogsError = CloudflareOpError;
@@ -282,6 +300,8 @@ export const jobsLogs: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JobsLogs",
 }));
 
 export type ListJobsError = CloudflareOpError;
@@ -297,6 +317,8 @@ export const listJobs: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 }));
 
 export type SearchError = CloudflareOpError;
@@ -312,6 +334,8 @@ export const search: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search",
 }));
 
 export type SearchAiError = CloudflareOpError;
@@ -327,6 +351,8 @@ export const searchAi: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAi",
 }));
 
 export type SyncError = CloudflareOpError;
@@ -338,6 +364,8 @@ export const sync: API.OperationMethod<SyncRequest, SyncResponse, SyncError, Clo
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Sync",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

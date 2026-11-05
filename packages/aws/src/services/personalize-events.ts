@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://personalize-events.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PersonalizeEvents",
+  service: "PersonalizeEvents",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
@@ -194,7 +210,7 @@ export type PutActionInteractionsError =
  * For more information about actions in an Actions dataset, see Actions dataset.
  */
 export const putActionInteractions: API.OperationMethod<
-  PutActionInteractionsRequest,
+  PutActionInteractionsRequest & RegionInput,
   PutActionInteractionsResponse,
   PutActionInteractionsError,
   Credentials | HttpClient.HttpClient
@@ -205,6 +221,8 @@ export const putActionInteractions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionInteractions",
+  telemetry: TELEMETRY,
+  span: "PutActionInteractions",
 }));
 
 export type PutActionsError =
@@ -217,7 +235,7 @@ export type PutActionsError =
  * Importing actions individually.
  */
 export const putActions: API.OperationMethod<
-  PutActionsRequest,
+  PutActionsRequest & RegionInput,
   PutActionsResponse,
   PutActionsError,
   Credentials | HttpClient.HttpClient
@@ -228,6 +246,8 @@ export const putActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActions",
+  telemetry: TELEMETRY,
+  span: "PutActions",
 }));
 
 export type PutEventsError = InvalidInputException | CommonErrors;
@@ -236,7 +256,7 @@ export type PutEventsError = InvalidInputException | CommonErrors;
  * Recording item interaction events.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
@@ -247,6 +267,8 @@ export const putEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
+  telemetry: TELEMETRY,
+  span: "PutEvents",
 }));
 
 export type PutItemsError =
@@ -259,7 +281,7 @@ export type PutItemsError =
  * Importing items individually.
  */
 export const putItems: API.OperationMethod<
-  PutItemsRequest,
+  PutItemsRequest & RegionInput,
   PutItemsResponse,
   PutItemsError,
   Credentials | HttpClient.HttpClient
@@ -270,6 +292,8 @@ export const putItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItems",
+  telemetry: TELEMETRY,
+  span: "PutItems",
 }));
 
 export type PutUsersError =
@@ -282,7 +306,7 @@ export type PutUsersError =
  * Importing users individually.
  */
 export const putUsers: API.OperationMethod<
-  PutUsersRequest,
+  PutUsersRequest & RegionInput,
   PutUsersResponse,
   PutUsersError,
   Credentials | HttpClient.HttpClient
@@ -293,6 +317,8 @@ export const putUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUsers",
+  telemetry: TELEMETRY,
+  span: "PutUsers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

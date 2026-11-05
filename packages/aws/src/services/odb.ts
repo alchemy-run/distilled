@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -70,6 +72,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://odb.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "odb",
+  service: "odb",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2608,7 +2625,7 @@ export type AcceptMarketplaceRegistrationError =
  * Registers the Amazon Web Services Marketplace token for your Amazon Web Services account to activate your Oracle Database@Amazon Web Services subscription.
  */
 export const acceptMarketplaceRegistration: API.OperationMethod<
-  AcceptMarketplaceRegistrationInput,
+  AcceptMarketplaceRegistrationInput & RegionInput,
   AcceptMarketplaceRegistrationOutput,
   AcceptMarketplaceRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -2625,6 +2642,8 @@ export const acceptMarketplaceRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptMarketplaceRegistration",
+  telemetry: TELEMETRY,
+  span: "AcceptMarketplaceRegistration",
 }));
 
 export type AssociateIamRoleToResourceError =
@@ -2639,7 +2658,7 @@ export type AssociateIamRoleToResourceError =
  * Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration.
  */
 export const associateIamRoleToResource: API.OperationMethod<
-  AssociateIamRoleToResourceInput,
+  AssociateIamRoleToResourceInput & RegionInput,
   AssociateIamRoleToResourceOutput,
   AssociateIamRoleToResourceError,
   Credentials | HttpClient.HttpClient
@@ -2657,6 +2676,8 @@ export const associateIamRoleToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIamRoleToResource",
+  telemetry: TELEMETRY,
+  span: "AssociateIamRoleToResource",
 }));
 
 export type AssociateVirtualMachinesToExadbVmClusterError =
@@ -2672,7 +2693,7 @@ export type AssociateVirtualMachinesToExadbVmClusterError =
  * Adds virtual machines to the specified Exascale VM cluster.
  */
 export const associateVirtualMachinesToExadbVmCluster: API.OperationMethod<
-  AssociateVirtualMachinesToExadbVmClusterInput,
+  AssociateVirtualMachinesToExadbVmClusterInput & RegionInput,
   AssociateVirtualMachinesToExadbVmClusterOutput,
   AssociateVirtualMachinesToExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2691,6 +2712,8 @@ export const associateVirtualMachinesToExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVirtualMachinesToExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "AssociateVirtualMachinesToExadbVmCluster",
 }));
 
 export type CreateAutonomousDatabaseError =
@@ -2706,7 +2729,7 @@ export type CreateAutonomousDatabaseError =
  * Creates a new Autonomous Database.
  */
 export const createAutonomousDatabase: API.OperationMethod<
-  CreateAutonomousDatabaseInput,
+  CreateAutonomousDatabaseInput & RegionInput,
   CreateAutonomousDatabaseOutput,
   CreateAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -2725,6 +2748,8 @@ export const createAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateAutonomousDatabase",
 }));
 
 export type CreateAutonomousDatabaseBackupError =
@@ -2740,7 +2765,7 @@ export type CreateAutonomousDatabaseBackupError =
  * Creates a new backup of the specified Autonomous Database.
  */
 export const createAutonomousDatabaseBackup: API.OperationMethod<
-  CreateAutonomousDatabaseBackupInput,
+  CreateAutonomousDatabaseBackupInput & RegionInput,
   CreateAutonomousDatabaseBackupOutput,
   CreateAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -2759,6 +2784,8 @@ export const createAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "CreateAutonomousDatabaseBackup",
 }));
 
 export type CreateAutonomousDatabaseWalletError =
@@ -2772,7 +2799,7 @@ export type CreateAutonomousDatabaseWalletError =
  * Creates a new wallet for the specified Autonomous Database.
  */
 export const createAutonomousDatabaseWallet: API.OperationMethod<
-  CreateAutonomousDatabaseWalletInput,
+  CreateAutonomousDatabaseWalletInput & RegionInput,
   CreateAutonomousDatabaseWalletOutput,
   CreateAutonomousDatabaseWalletError,
   Credentials | HttpClient.HttpClient
@@ -2789,6 +2816,8 @@ export const createAutonomousDatabaseWallet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabaseWallet",
+  telemetry: TELEMETRY,
+  span: "CreateAutonomousDatabaseWallet",
 }));
 
 export type CreateCloudAutonomousVmClusterError =
@@ -2804,7 +2833,7 @@ export type CreateCloudAutonomousVmClusterError =
  * Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
  */
 export const createCloudAutonomousVmCluster: API.OperationMethod<
-  CreateCloudAutonomousVmClusterInput,
+  CreateCloudAutonomousVmClusterInput & RegionInput,
   CreateCloudAutonomousVmClusterOutput,
   CreateCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2823,6 +2852,8 @@ export const createCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudAutonomousVmCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCloudAutonomousVmCluster",
 }));
 
 export type CreateCloudExadataInfrastructureError =
@@ -2837,7 +2868,7 @@ export type CreateCloudExadataInfrastructureError =
  * Creates an Exadata infrastructure.
  */
 export const createCloudExadataInfrastructure: API.OperationMethod<
-  CreateCloudExadataInfrastructureInput,
+  CreateCloudExadataInfrastructureInput & RegionInput,
   CreateCloudExadataInfrastructureOutput,
   CreateCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -2855,6 +2886,8 @@ export const createCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "CreateCloudExadataInfrastructure",
 }));
 
 export type CreateCloudVmClusterError =
@@ -2870,7 +2903,7 @@ export type CreateCloudVmClusterError =
  * Creates a VM cluster on the specified Exadata infrastructure.
  */
 export const createCloudVmCluster: API.OperationMethod<
-  CreateCloudVmClusterInput,
+  CreateCloudVmClusterInput & RegionInput,
   CreateCloudVmClusterOutput,
   CreateCloudVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2889,6 +2922,8 @@ export const createCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCloudVmCluster",
 }));
 
 export type CreateExadbVmClusterError =
@@ -2904,7 +2939,7 @@ export type CreateExadbVmClusterError =
  * Creates an Exascale VM cluster.
  */
 export const createExadbVmCluster: API.OperationMethod<
-  CreateExadbVmClusterInput,
+  CreateExadbVmClusterInput & RegionInput,
   CreateExadbVmClusterOutput,
   CreateExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2923,6 +2958,8 @@ export const createExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "CreateExadbVmCluster",
 }));
 
 export type CreateExascaleDbStorageVaultError =
@@ -2937,7 +2974,7 @@ export type CreateExascaleDbStorageVaultError =
  * Creates an Exascale storage vault.
  */
 export const createExascaleDbStorageVault: API.OperationMethod<
-  CreateExascaleDbStorageVaultInput,
+  CreateExascaleDbStorageVaultInput & RegionInput,
   CreateExascaleDbStorageVaultOutput,
   CreateExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -2955,6 +2992,8 @@ export const createExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "CreateExascaleDbStorageVault",
 }));
 
 export type CreateOdbNetworkError =
@@ -2969,7 +3008,7 @@ export type CreateOdbNetworkError =
  * Creates an ODB network.
  */
 export const createOdbNetwork: API.OperationMethod<
-  CreateOdbNetworkInput,
+  CreateOdbNetworkInput & RegionInput,
   CreateOdbNetworkOutput,
   CreateOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2987,6 +3026,8 @@ export const createOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateOdbNetwork",
 }));
 
 export type CreateOdbPeeringConnectionError =
@@ -3003,7 +3044,7 @@ export type CreateOdbPeeringConnectionError =
  * A peering connection enables private connectivity between the networks for application-tier communication.
  */
 export const createOdbPeeringConnection: API.OperationMethod<
-  CreateOdbPeeringConnectionInput,
+  CreateOdbPeeringConnectionInput & RegionInput,
   CreateOdbPeeringConnectionOutput,
   CreateOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3021,6 +3062,8 @@ export const createOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "CreateOdbPeeringConnection",
 }));
 
 export type DeleteAutonomousDatabaseError =
@@ -3035,7 +3078,7 @@ export type DeleteAutonomousDatabaseError =
  * Deletes the specified Autonomous Database.
  */
 export const deleteAutonomousDatabase: API.OperationMethod<
-  DeleteAutonomousDatabaseInput,
+  DeleteAutonomousDatabaseInput & RegionInput,
   DeleteAutonomousDatabaseOutput,
   DeleteAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -3053,6 +3096,8 @@ export const deleteAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteAutonomousDatabase",
 }));
 
 export type DeleteAutonomousDatabaseBackupError =
@@ -3067,7 +3112,7 @@ export type DeleteAutonomousDatabaseBackupError =
  * Deletes the specified Autonomous Database backup.
  */
 export const deleteAutonomousDatabaseBackup: API.OperationMethod<
-  DeleteAutonomousDatabaseBackupInput,
+  DeleteAutonomousDatabaseBackupInput & RegionInput,
   DeleteAutonomousDatabaseBackupOutput,
   DeleteAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -3085,6 +3130,8 @@ export const deleteAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteAutonomousDatabaseBackup",
 }));
 
 export type DeleteCloudAutonomousVmClusterError =
@@ -3098,7 +3145,7 @@ export type DeleteCloudAutonomousVmClusterError =
  * Deletes an Autonomous VM cluster.
  */
 export const deleteCloudAutonomousVmCluster: API.OperationMethod<
-  DeleteCloudAutonomousVmClusterInput,
+  DeleteCloudAutonomousVmClusterInput & RegionInput,
   DeleteCloudAutonomousVmClusterOutput,
   DeleteCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3115,6 +3162,8 @@ export const deleteCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudAutonomousVmCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudAutonomousVmCluster",
 }));
 
 export type DeleteCloudExadataInfrastructureError =
@@ -3129,7 +3178,7 @@ export type DeleteCloudExadataInfrastructureError =
  * Deletes the specified Exadata infrastructure. Before you use this operation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure.
  */
 export const deleteCloudExadataInfrastructure: API.OperationMethod<
-  DeleteCloudExadataInfrastructureInput,
+  DeleteCloudExadataInfrastructureInput & RegionInput,
   DeleteCloudExadataInfrastructureOutput,
   DeleteCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -3147,6 +3196,8 @@ export const deleteCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudExadataInfrastructure",
 }));
 
 export type DeleteCloudVmClusterError =
@@ -3160,7 +3211,7 @@ export type DeleteCloudVmClusterError =
  * Deletes the specified VM cluster.
  */
 export const deleteCloudVmCluster: API.OperationMethod<
-  DeleteCloudVmClusterInput,
+  DeleteCloudVmClusterInput & RegionInput,
   DeleteCloudVmClusterOutput,
   DeleteCloudVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3177,6 +3228,8 @@ export const deleteCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudVmCluster",
 }));
 
 export type DeleteExadbVmClusterError =
@@ -3191,7 +3244,7 @@ export type DeleteExadbVmClusterError =
  * Deletes the specified Exascale VM cluster.
  */
 export const deleteExadbVmCluster: API.OperationMethod<
-  DeleteExadbVmClusterInput,
+  DeleteExadbVmClusterInput & RegionInput,
   DeleteExadbVmClusterOutput,
   DeleteExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3209,6 +3262,8 @@ export const deleteExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteExadbVmCluster",
 }));
 
 export type DeleteExascaleDbStorageVaultError =
@@ -3223,7 +3278,7 @@ export type DeleteExascaleDbStorageVaultError =
  * Deletes the specified Exascale storage vault.
  */
 export const deleteExascaleDbStorageVault: API.OperationMethod<
-  DeleteExascaleDbStorageVaultInput,
+  DeleteExascaleDbStorageVaultInput & RegionInput,
   DeleteExascaleDbStorageVaultOutput,
   DeleteExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -3241,6 +3296,8 @@ export const deleteExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "DeleteExascaleDbStorageVault",
 }));
 
 export type DeleteOdbNetworkError =
@@ -3254,7 +3311,7 @@ export type DeleteOdbNetworkError =
  * Deletes the specified ODB network.
  */
 export const deleteOdbNetwork: API.OperationMethod<
-  DeleteOdbNetworkInput,
+  DeleteOdbNetworkInput & RegionInput,
   DeleteOdbNetworkOutput,
   DeleteOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3271,6 +3328,8 @@ export const deleteOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteOdbNetwork",
 }));
 
 export type DeleteOdbPeeringConnectionError =
@@ -3286,7 +3345,7 @@ export type DeleteOdbPeeringConnectionError =
  * When you delete an ODB peering connection, the underlying VPC peering connection is also deleted.
  */
 export const deleteOdbPeeringConnection: API.OperationMethod<
-  DeleteOdbPeeringConnectionInput,
+  DeleteOdbPeeringConnectionInput & RegionInput,
   DeleteOdbPeeringConnectionOutput,
   DeleteOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3303,6 +3362,8 @@ export const deleteOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteOdbPeeringConnection",
 }));
 
 export type DisassociateIamRoleFromResourceError =
@@ -3317,7 +3378,7 @@ export type DisassociateIamRoleFromResourceError =
  * Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration.
  */
 export const disassociateIamRoleFromResource: API.OperationMethod<
-  DisassociateIamRoleFromResourceInput,
+  DisassociateIamRoleFromResourceInput & RegionInput,
   DisassociateIamRoleFromResourceOutput,
   DisassociateIamRoleFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3335,6 +3396,8 @@ export const disassociateIamRoleFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIamRoleFromResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateIamRoleFromResource",
 }));
 
 export type DisassociateVirtualMachinesFromExadbVmClusterError =
@@ -3349,7 +3412,7 @@ export type DisassociateVirtualMachinesFromExadbVmClusterError =
  * Removes virtual machines from the specified Exascale VM cluster.
  */
 export const disassociateVirtualMachinesFromExadbVmCluster: API.OperationMethod<
-  DisassociateVirtualMachinesFromExadbVmClusterInput,
+  DisassociateVirtualMachinesFromExadbVmClusterInput & RegionInput,
   DisassociateVirtualMachinesFromExadbVmClusterOutput,
   DisassociateVirtualMachinesFromExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3371,6 +3434,8 @@ export const disassociateVirtualMachinesFromExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVirtualMachinesFromExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "DisassociateVirtualMachinesFromExadbVmCluster",
 }));
 
 export type FailoverAutonomousDatabaseError =
@@ -3385,7 +3450,7 @@ export type FailoverAutonomousDatabaseError =
  * Initiates a failover of the specified Autonomous Database to a standby peer database.
  */
 export const failoverAutonomousDatabase: API.OperationMethod<
-  FailoverAutonomousDatabaseInput,
+  FailoverAutonomousDatabaseInput & RegionInput,
   FailoverAutonomousDatabaseOutput,
   FailoverAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -3403,6 +3468,8 @@ export const failoverAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "FailoverAutonomousDatabase",
 }));
 
 export type GetAutonomousDatabaseError =
@@ -3416,7 +3483,7 @@ export type GetAutonomousDatabaseError =
  * Gets information about a specific Autonomous Database.
  */
 export const getAutonomousDatabase: API.OperationMethod<
-  GetAutonomousDatabaseInput,
+  GetAutonomousDatabaseInput & RegionInput,
   GetAutonomousDatabaseOutput,
   GetAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -3433,6 +3500,8 @@ export const getAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "GetAutonomousDatabase",
 }));
 
 export type GetAutonomousDatabaseBackupError =
@@ -3446,7 +3515,7 @@ export type GetAutonomousDatabaseBackupError =
  * Gets information about a specific Autonomous Database backup.
  */
 export const getAutonomousDatabaseBackup: API.OperationMethod<
-  GetAutonomousDatabaseBackupInput,
+  GetAutonomousDatabaseBackupInput & RegionInput,
   GetAutonomousDatabaseBackupOutput,
   GetAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -3463,6 +3532,8 @@ export const getAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "GetAutonomousDatabaseBackup",
 }));
 
 export type GetAutonomousDatabaseWalletDetailsError =
@@ -3476,7 +3547,7 @@ export type GetAutonomousDatabaseWalletDetailsError =
  * Gets the wallet details for the specified Autonomous Database.
  */
 export const getAutonomousDatabaseWalletDetails: API.OperationMethod<
-  GetAutonomousDatabaseWalletDetailsInput,
+  GetAutonomousDatabaseWalletDetailsInput & RegionInput,
   GetAutonomousDatabaseWalletDetailsOutput,
   GetAutonomousDatabaseWalletDetailsError,
   Credentials | HttpClient.HttpClient
@@ -3493,6 +3564,8 @@ export const getAutonomousDatabaseWalletDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabaseWalletDetails",
+  telemetry: TELEMETRY,
+  span: "GetAutonomousDatabaseWalletDetails",
 }));
 
 export type GetCloudAutonomousVmClusterError =
@@ -3506,7 +3579,7 @@ export type GetCloudAutonomousVmClusterError =
  * Gets information about a specific Autonomous VM cluster.
  */
 export const getCloudAutonomousVmCluster: API.OperationMethod<
-  GetCloudAutonomousVmClusterInput,
+  GetCloudAutonomousVmClusterInput & RegionInput,
   GetCloudAutonomousVmClusterOutput,
   GetCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3523,6 +3596,8 @@ export const getCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudAutonomousVmCluster",
+  telemetry: TELEMETRY,
+  span: "GetCloudAutonomousVmCluster",
 }));
 
 export type GetCloudExadataInfrastructureError =
@@ -3536,7 +3611,7 @@ export type GetCloudExadataInfrastructureError =
  * Returns information about the specified Exadata infrastructure.
  */
 export const getCloudExadataInfrastructure: API.OperationMethod<
-  GetCloudExadataInfrastructureInput,
+  GetCloudExadataInfrastructureInput & RegionInput,
   GetCloudExadataInfrastructureOutput,
   GetCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -3553,6 +3628,8 @@ export const getCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "GetCloudExadataInfrastructure",
 }));
 
 export type GetCloudExadataInfrastructureUnallocatedResourcesError =
@@ -3566,7 +3643,7 @@ export type GetCloudExadataInfrastructureUnallocatedResourcesError =
  * Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure.
  */
 export const getCloudExadataInfrastructureUnallocatedResources: API.OperationMethod<
-  GetCloudExadataInfrastructureUnallocatedResourcesInput,
+  GetCloudExadataInfrastructureUnallocatedResourcesInput & RegionInput,
   GetCloudExadataInfrastructureUnallocatedResourcesOutput,
   GetCloudExadataInfrastructureUnallocatedResourcesError,
   Credentials | HttpClient.HttpClient
@@ -3591,6 +3668,8 @@ export const getCloudExadataInfrastructureUnallocatedResources: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudExadataInfrastructureUnallocatedResources",
+  telemetry: TELEMETRY,
+  span: "GetCloudExadataInfrastructureUnallocatedResources",
 }));
 
 export type GetCloudVmClusterError =
@@ -3604,7 +3683,7 @@ export type GetCloudVmClusterError =
  * Returns information about the specified VM cluster.
  */
 export const getCloudVmCluster: API.OperationMethod<
-  GetCloudVmClusterInput,
+  GetCloudVmClusterInput & RegionInput,
   GetCloudVmClusterOutput,
   GetCloudVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3621,6 +3700,8 @@ export const getCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "GetCloudVmCluster",
 }));
 
 export type GetDbNodeError =
@@ -3634,7 +3715,7 @@ export type GetDbNodeError =
  * Returns information about the specified DB node.
  */
 export const getDbNode: API.OperationMethod<
-  GetDbNodeInput,
+  GetDbNodeInput & RegionInput,
   GetDbNodeOutput,
   GetDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -3651,6 +3732,8 @@ export const getDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbNode",
+  telemetry: TELEMETRY,
+  span: "GetDbNode",
 }));
 
 export type GetDbServerError =
@@ -3664,7 +3747,7 @@ export type GetDbServerError =
  * Returns information about the specified database server.
  */
 export const getDbServer: API.OperationMethod<
-  GetDbServerInput,
+  GetDbServerInput & RegionInput,
   GetDbServerOutput,
   GetDbServerError,
   Credentials | HttpClient.HttpClient
@@ -3681,6 +3764,8 @@ export const getDbServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbServer",
+  telemetry: TELEMETRY,
+  span: "GetDbServer",
 }));
 
 export type GetExadbVmClusterError =
@@ -3694,7 +3779,7 @@ export type GetExadbVmClusterError =
  * Returns information about the specified Exascale VM cluster.
  */
 export const getExadbVmCluster: API.OperationMethod<
-  GetExadbVmClusterInput,
+  GetExadbVmClusterInput & RegionInput,
   GetExadbVmClusterOutput,
   GetExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3711,6 +3796,8 @@ export const getExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "GetExadbVmCluster",
 }));
 
 export type GetExascaleDbStorageVaultError =
@@ -3724,7 +3811,7 @@ export type GetExascaleDbStorageVaultError =
  * Returns information about the specified Exascale storage vault.
  */
 export const getExascaleDbStorageVault: API.OperationMethod<
-  GetExascaleDbStorageVaultInput,
+  GetExascaleDbStorageVaultInput & RegionInput,
   GetExascaleDbStorageVaultOutput,
   GetExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -3741,6 +3828,8 @@ export const getExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "GetExascaleDbStorageVault",
 }));
 
 export type GetOciOnboardingStatusError =
@@ -3753,7 +3842,7 @@ export type GetOciOnboardingStatusError =
  * Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
  */
 export const getOciOnboardingStatus: API.OperationMethod<
-  GetOciOnboardingStatusInput,
+  GetOciOnboardingStatusInput & RegionInput,
   GetOciOnboardingStatusOutput,
   GetOciOnboardingStatusError,
   Credentials | HttpClient.HttpClient
@@ -3769,6 +3858,8 @@ export const getOciOnboardingStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOciOnboardingStatus",
+  telemetry: TELEMETRY,
+  span: "GetOciOnboardingStatus",
 }));
 
 export type GetOdbNetworkError =
@@ -3782,7 +3873,7 @@ export type GetOdbNetworkError =
  * Returns information about the specified ODB network.
  */
 export const getOdbNetwork: API.OperationMethod<
-  GetOdbNetworkInput,
+  GetOdbNetworkInput & RegionInput,
   GetOdbNetworkOutput,
   GetOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3799,6 +3890,8 @@ export const getOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "GetOdbNetwork",
 }));
 
 export type GetOdbPeeringConnectionError =
@@ -3812,7 +3905,7 @@ export type GetOdbPeeringConnectionError =
  * Retrieves information about an ODB peering connection.
  */
 export const getOdbPeeringConnection: API.OperationMethod<
-  GetOdbPeeringConnectionInput,
+  GetOdbPeeringConnectionInput & RegionInput,
   GetOdbPeeringConnectionOutput,
   GetOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3829,6 +3922,8 @@ export const getOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "GetOdbPeeringConnection",
 }));
 
 export type InitializeServiceError =
@@ -3841,7 +3936,7 @@ export type InitializeServiceError =
  * Initializes the ODB service for the first time in an account.
  */
 export const initializeService: API.OperationMethod<
-  InitializeServiceInput,
+  InitializeServiceInput & RegionInput,
   InitializeServiceOutput,
   InitializeServiceError,
   Credentials | HttpClient.HttpClient
@@ -3857,6 +3952,8 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
+  telemetry: TELEMETRY,
+  span: "InitializeService",
 }));
 
 export type ListAutonomousDatabaseBackupsError =
@@ -3870,7 +3967,7 @@ export type ListAutonomousDatabaseBackupsError =
  * Lists the backups of the specified Autonomous Database.
  */
 export const listAutonomousDatabaseBackups: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseBackupsInput,
+  ListAutonomousDatabaseBackupsInput & RegionInput,
   ListAutonomousDatabaseBackupsOutput,
   ListAutonomousDatabaseBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -3894,6 +3991,8 @@ export const listAutonomousDatabaseBackups: API.PaginatedOperationMethod<
     items: "autonomousDatabaseBackups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseBackups",
 })) as any;
 
 export type ListAutonomousDatabaseCharacterSetsError =
@@ -3906,7 +4005,7 @@ export type ListAutonomousDatabaseCharacterSetsError =
  * Lists the available character sets for Autonomous Databases.
  */
 export const listAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseCharacterSetsInput,
+  ListAutonomousDatabaseCharacterSetsInput & RegionInput,
   ListAutonomousDatabaseCharacterSetsOutput,
   ListAutonomousDatabaseCharacterSetsError,
   Credentials | HttpClient.HttpClient,
@@ -3929,6 +4028,8 @@ export const listAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<
     items: "autonomousDatabaseCharacterSets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseCharacterSets",
 })) as any;
 
 export type ListAutonomousDatabaseClonesError =
@@ -3942,7 +4043,7 @@ export type ListAutonomousDatabaseClonesError =
  * Lists the clones of the specified Autonomous Database.
  */
 export const listAutonomousDatabaseClones: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseClonesInput,
+  ListAutonomousDatabaseClonesInput & RegionInput,
   ListAutonomousDatabaseClonesOutput,
   ListAutonomousDatabaseClonesError,
   Credentials | HttpClient.HttpClient,
@@ -3966,6 +4067,8 @@ export const listAutonomousDatabaseClones: API.PaginatedOperationMethod<
     items: "autonomousDatabaseClones",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseClones",
 })) as any;
 
 export type ListAutonomousDatabasePeersError =
@@ -3979,7 +4082,7 @@ export type ListAutonomousDatabasePeersError =
  * Lists the peer databases of the specified Autonomous Database.
  */
 export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
-  ListAutonomousDatabasePeersInput,
+  ListAutonomousDatabasePeersInput & RegionInput,
   ListAutonomousDatabasePeersOutput,
   ListAutonomousDatabasePeersError,
   Credentials | HttpClient.HttpClient,
@@ -4003,6 +4106,8 @@ export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
     items: "autonomousDatabasePeers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabasePeers",
 })) as any;
 
 export type ListAutonomousDatabasesError =
@@ -4015,7 +4120,7 @@ export type ListAutonomousDatabasesError =
  * Returns information about the Autonomous Databases owned by your Amazon Web Services account in the current Amazon Web Services Region.
  */
 export const listAutonomousDatabases: API.PaginatedOperationMethod<
-  ListAutonomousDatabasesInput,
+  ListAutonomousDatabasesInput & RegionInput,
   ListAutonomousDatabasesOutput,
   ListAutonomousDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -4038,6 +4143,8 @@ export const listAutonomousDatabases: API.PaginatedOperationMethod<
     items: "autonomousDatabases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabases",
 })) as any;
 
 export type ListAutonomousDatabaseVersionsError =
@@ -4050,7 +4157,7 @@ export type ListAutonomousDatabaseVersionsError =
  * Lists the available Oracle Database software versions for Autonomous Databases.
  */
 export const listAutonomousDatabaseVersions: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseVersionsInput,
+  ListAutonomousDatabaseVersionsInput & RegionInput,
   ListAutonomousDatabaseVersionsOutput,
   ListAutonomousDatabaseVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4073,6 +4180,8 @@ export const listAutonomousDatabaseVersions: API.PaginatedOperationMethod<
     items: "autonomousDatabaseVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseVersions",
 })) as any;
 
 export type ListAutonomousVirtualMachinesError =
@@ -4086,7 +4195,7 @@ export type ListAutonomousVirtualMachinesError =
  * Lists all Autonomous VMs in an Autonomous VM cluster.
  */
 export const listAutonomousVirtualMachines: API.PaginatedOperationMethod<
-  ListAutonomousVirtualMachinesInput,
+  ListAutonomousVirtualMachinesInput & RegionInput,
   ListAutonomousVirtualMachinesOutput,
   ListAutonomousVirtualMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -4110,6 +4219,8 @@ export const listAutonomousVirtualMachines: API.PaginatedOperationMethod<
     items: "autonomousVirtualMachines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousVirtualMachines",
 })) as any;
 
 export type ListCloudAutonomousVmClustersError =
@@ -4123,7 +4234,7 @@ export type ListCloudAutonomousVmClustersError =
  * Lists all Autonomous VM clusters in a specified Cloud Exadata infrastructure.
  */
 export const listCloudAutonomousVmClusters: API.PaginatedOperationMethod<
-  ListCloudAutonomousVmClustersInput,
+  ListCloudAutonomousVmClustersInput & RegionInput,
   ListCloudAutonomousVmClustersOutput,
   ListCloudAutonomousVmClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4147,6 +4258,8 @@ export const listCloudAutonomousVmClusters: API.PaginatedOperationMethod<
     items: "cloudAutonomousVmClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudAutonomousVmClusters",
 })) as any;
 
 export type ListCloudExadataInfrastructuresError =
@@ -4159,7 +4272,7 @@ export type ListCloudExadataInfrastructuresError =
  * Returns information about the Exadata infrastructures owned by your Amazon Web Services account.
  */
 export const listCloudExadataInfrastructures: API.PaginatedOperationMethod<
-  ListCloudExadataInfrastructuresInput,
+  ListCloudExadataInfrastructuresInput & RegionInput,
   ListCloudExadataInfrastructuresOutput,
   ListCloudExadataInfrastructuresError,
   Credentials | HttpClient.HttpClient,
@@ -4182,6 +4295,8 @@ export const listCloudExadataInfrastructures: API.PaginatedOperationMethod<
     items: "cloudExadataInfrastructures",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudExadataInfrastructures",
 })) as any;
 
 export type ListCloudVmClustersError =
@@ -4195,7 +4310,7 @@ export type ListCloudVmClustersError =
  * Returns information about the VM clusters owned by your Amazon Web Services account or only the ones on the specified Exadata infrastructure.
  */
 export const listCloudVmClusters: API.PaginatedOperationMethod<
-  ListCloudVmClustersInput,
+  ListCloudVmClustersInput & RegionInput,
   ListCloudVmClustersOutput,
   ListCloudVmClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4219,6 +4334,8 @@ export const listCloudVmClusters: API.PaginatedOperationMethod<
     items: "cloudVmClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudVmClusters",
 })) as any;
 
 export type ListDbNodesError =
@@ -4232,7 +4349,7 @@ export type ListDbNodesError =
  * Returns information about the DB nodes for the specified VM cluster.
  */
 export const listDbNodes: API.PaginatedOperationMethod<
-  ListDbNodesInput,
+  ListDbNodesInput & RegionInput,
   ListDbNodesOutput,
   ListDbNodesError,
   Credentials | HttpClient.HttpClient,
@@ -4256,6 +4373,8 @@ export const listDbNodes: API.PaginatedOperationMethod<
     items: "dbNodes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbNodes",
 })) as any;
 
 export type ListDbServersError =
@@ -4269,7 +4388,7 @@ export type ListDbServersError =
  * Returns information about the database servers that belong to the specified Exadata infrastructure.
  */
 export const listDbServers: API.PaginatedOperationMethod<
-  ListDbServersInput,
+  ListDbServersInput & RegionInput,
   ListDbServersOutput,
   ListDbServersError,
   Credentials | HttpClient.HttpClient,
@@ -4293,6 +4412,8 @@ export const listDbServers: API.PaginatedOperationMethod<
     items: "dbServers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbServers",
 })) as any;
 
 export type ListDbSystemShapesError =
@@ -4305,7 +4426,7 @@ export type ListDbSystemShapesError =
  * Returns information about the shapes that are available for an Exadata infrastructure.
  */
 export const listDbSystemShapes: API.PaginatedOperationMethod<
-  ListDbSystemShapesInput,
+  ListDbSystemShapesInput & RegionInput,
   ListDbSystemShapesOutput,
   ListDbSystemShapesError,
   Credentials | HttpClient.HttpClient,
@@ -4328,6 +4449,8 @@ export const listDbSystemShapes: API.PaginatedOperationMethod<
     items: "dbSystemShapes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbSystemShapes",
 })) as any;
 
 export type ListExadbVmClustersError =
@@ -4341,7 +4464,7 @@ export type ListExadbVmClustersError =
  * Returns information about the Exascale VM clusters owned by your Amazon Web Services account.
  */
 export const listExadbVmClusters: API.PaginatedOperationMethod<
-  ListExadbVmClustersInput,
+  ListExadbVmClustersInput & RegionInput,
   ListExadbVmClustersOutput,
   ListExadbVmClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4365,6 +4488,8 @@ export const listExadbVmClusters: API.PaginatedOperationMethod<
     items: "exadbVmClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExadbVmClusters",
 })) as any;
 
 export type ListExascaleDbStorageVaultsError =
@@ -4377,7 +4502,7 @@ export type ListExascaleDbStorageVaultsError =
  * Returns information about the Exascale storage vaults owned by your Amazon Web Services account.
  */
 export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
-  ListExascaleDbStorageVaultsInput,
+  ListExascaleDbStorageVaultsInput & RegionInput,
   ListExascaleDbStorageVaultsOutput,
   ListExascaleDbStorageVaultsError,
   Credentials | HttpClient.HttpClient,
@@ -4400,6 +4525,8 @@ export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
     items: "exascaleDbStorageVaults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExascaleDbStorageVaults",
 })) as any;
 
 export type ListFlexComponentsError =
@@ -4412,7 +4539,7 @@ export type ListFlexComponentsError =
  * Returns information about the flex components that are available for an Exadata infrastructure.
  */
 export const listFlexComponents: API.PaginatedOperationMethod<
-  ListFlexComponentsInput,
+  ListFlexComponentsInput & RegionInput,
   ListFlexComponentsOutput,
   ListFlexComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -4435,6 +4562,8 @@ export const listFlexComponents: API.PaginatedOperationMethod<
     items: "flexComponents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlexComponents",
 })) as any;
 
 export type ListGiMinorVersionsError =
@@ -4447,7 +4576,7 @@ export type ListGiMinorVersionsError =
  * Returns a list of the Oracle Grid Infrastructure (GI) minor versions for the specified major version.
  */
 export const listGiMinorVersions: API.PaginatedOperationMethod<
-  ListGiMinorVersionsInput,
+  ListGiMinorVersionsInput & RegionInput,
   ListGiMinorVersionsOutput,
   ListGiMinorVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4470,6 +4599,8 @@ export const listGiMinorVersions: API.PaginatedOperationMethod<
     items: "giMinorVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGiMinorVersions",
 })) as any;
 
 export type ListGiVersionsError =
@@ -4482,7 +4613,7 @@ export type ListGiVersionsError =
  * Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape.
  */
 export const listGiVersions: API.PaginatedOperationMethod<
-  ListGiVersionsInput,
+  ListGiVersionsInput & RegionInput,
   ListGiVersionsOutput,
   ListGiVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4505,6 +4636,8 @@ export const listGiVersions: API.PaginatedOperationMethod<
     items: "giVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGiVersions",
 })) as any;
 
 export type ListOdbNetworksError =
@@ -4517,7 +4650,7 @@ export type ListOdbNetworksError =
  * Returns information about the ODB networks owned by your Amazon Web Services account.
  */
 export const listOdbNetworks: API.PaginatedOperationMethod<
-  ListOdbNetworksInput,
+  ListOdbNetworksInput & RegionInput,
   ListOdbNetworksOutput,
   ListOdbNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -4540,6 +4673,8 @@ export const listOdbNetworks: API.PaginatedOperationMethod<
     items: "odbNetworks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOdbNetworks",
 })) as any;
 
 export type ListOdbPeeringConnectionsError =
@@ -4553,7 +4688,7 @@ export type ListOdbPeeringConnectionsError =
  * Lists all ODB peering connections or those associated with a specific ODB network.
  */
 export const listOdbPeeringConnections: API.PaginatedOperationMethod<
-  ListOdbPeeringConnectionsInput,
+  ListOdbPeeringConnectionsInput & RegionInput,
   ListOdbPeeringConnectionsOutput,
   ListOdbPeeringConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4577,6 +4712,8 @@ export const listOdbPeeringConnections: API.PaginatedOperationMethod<
     items: "odbPeeringConnections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOdbPeeringConnections",
 })) as any;
 
 export type ListSystemVersionsError =
@@ -4590,7 +4727,7 @@ export type ListSystemVersionsError =
  * Returns information about the system versions that are available for a VM cluster for the specified `giVersion` and `shape`.
  */
 export const listSystemVersions: API.PaginatedOperationMethod<
-  ListSystemVersionsInput,
+  ListSystemVersionsInput & RegionInput,
   ListSystemVersionsOutput,
   ListSystemVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4614,6 +4751,8 @@ export const listSystemVersions: API.PaginatedOperationMethod<
     items: "systemVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSystemVersions",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -4621,7 +4760,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Returns information about the tags applied to this resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4632,6 +4771,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RebootAutonomousDatabaseError =
@@ -4646,7 +4787,7 @@ export type RebootAutonomousDatabaseError =
  * Reboots the specified Autonomous Database.
  */
 export const rebootAutonomousDatabase: API.OperationMethod<
-  RebootAutonomousDatabaseInput,
+  RebootAutonomousDatabaseInput & RegionInput,
   RebootAutonomousDatabaseOutput,
   RebootAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4664,6 +4805,8 @@ export const rebootAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "RebootAutonomousDatabase",
 }));
 
 export type RebootDbNodeError =
@@ -4677,7 +4820,7 @@ export type RebootDbNodeError =
  * Reboots the specified DB node in a VM cluster.
  */
 export const rebootDbNode: API.OperationMethod<
-  RebootDbNodeInput,
+  RebootDbNodeInput & RegionInput,
   RebootDbNodeOutput,
   RebootDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -4694,6 +4837,8 @@ export const rebootDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbNode",
+  telemetry: TELEMETRY,
+  span: "RebootDbNode",
 }));
 
 export type RestoreAutonomousDatabaseError =
@@ -4708,7 +4853,7 @@ export type RestoreAutonomousDatabaseError =
  * Restores the specified Autonomous Database to a point in time.
  */
 export const restoreAutonomousDatabase: API.OperationMethod<
-  RestoreAutonomousDatabaseInput,
+  RestoreAutonomousDatabaseInput & RegionInput,
   RestoreAutonomousDatabaseOutput,
   RestoreAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4726,6 +4871,8 @@ export const restoreAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "RestoreAutonomousDatabase",
 }));
 
 export type ShrinkAutonomousDatabaseError =
@@ -4740,7 +4887,7 @@ export type ShrinkAutonomousDatabaseError =
  * Shrinks the storage of the specified Autonomous Database to reclaim unused space.
  */
 export const shrinkAutonomousDatabase: API.OperationMethod<
-  ShrinkAutonomousDatabaseInput,
+  ShrinkAutonomousDatabaseInput & RegionInput,
   ShrinkAutonomousDatabaseOutput,
   ShrinkAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4758,6 +4905,8 @@ export const shrinkAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ShrinkAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "ShrinkAutonomousDatabase",
 }));
 
 export type StartAutonomousDatabaseError =
@@ -4772,7 +4921,7 @@ export type StartAutonomousDatabaseError =
  * Starts the specified Autonomous Database.
  */
 export const startAutonomousDatabase: API.OperationMethod<
-  StartAutonomousDatabaseInput,
+  StartAutonomousDatabaseInput & RegionInput,
   StartAutonomousDatabaseOutput,
   StartAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4790,6 +4939,8 @@ export const startAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "StartAutonomousDatabase",
 }));
 
 export type StartDbNodeError =
@@ -4803,7 +4954,7 @@ export type StartDbNodeError =
  * Starts the specified DB node in a VM cluster.
  */
 export const startDbNode: API.OperationMethod<
-  StartDbNodeInput,
+  StartDbNodeInput & RegionInput,
   StartDbNodeOutput,
   StartDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -4820,6 +4971,8 @@ export const startDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDbNode",
+  telemetry: TELEMETRY,
+  span: "StartDbNode",
 }));
 
 export type StopAutonomousDatabaseError =
@@ -4834,7 +4987,7 @@ export type StopAutonomousDatabaseError =
  * Stops the specified Autonomous Database.
  */
 export const stopAutonomousDatabase: API.OperationMethod<
-  StopAutonomousDatabaseInput,
+  StopAutonomousDatabaseInput & RegionInput,
   StopAutonomousDatabaseOutput,
   StopAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4852,6 +5005,8 @@ export const stopAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "StopAutonomousDatabase",
 }));
 
 export type StopDbNodeError =
@@ -4865,7 +5020,7 @@ export type StopDbNodeError =
  * Stops the specified DB node in a VM cluster.
  */
 export const stopDbNode: API.OperationMethod<
-  StopDbNodeInput,
+  StopDbNodeInput & RegionInput,
   StopDbNodeOutput,
   StopDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -4882,6 +5037,8 @@ export const stopDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDbNode",
+  telemetry: TELEMETRY,
+  span: "StopDbNode",
 }));
 
 export type SwitchoverAutonomousDatabaseError =
@@ -4896,7 +5053,7 @@ export type SwitchoverAutonomousDatabaseError =
  * Performs a switchover of the specified Autonomous Database to a standby peer database.
  */
 export const switchoverAutonomousDatabase: API.OperationMethod<
-  SwitchoverAutonomousDatabaseInput,
+  SwitchoverAutonomousDatabaseInput & RegionInput,
   SwitchoverAutonomousDatabaseOutput,
   SwitchoverAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4914,6 +5071,8 @@ export const switchoverAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "SwitchoverAutonomousDatabase",
 }));
 
 export type TagResourceError =
@@ -4924,7 +5083,7 @@ export type TagResourceError =
  * Applies tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4935,6 +5094,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -4942,7 +5103,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4953,6 +5114,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAutonomousDatabaseError =
@@ -4967,7 +5130,7 @@ export type UpdateAutonomousDatabaseError =
  * Updates the properties of an Autonomous Database.
  */
 export const updateAutonomousDatabase: API.OperationMethod<
-  UpdateAutonomousDatabaseInput,
+  UpdateAutonomousDatabaseInput & RegionInput,
   UpdateAutonomousDatabaseOutput,
   UpdateAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4985,6 +5148,8 @@ export const updateAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "UpdateAutonomousDatabase",
 }));
 
 export type UpdateAutonomousDatabaseBackupError =
@@ -4999,7 +5164,7 @@ export type UpdateAutonomousDatabaseBackupError =
  * Updates the properties of an Autonomous Database backup.
  */
 export const updateAutonomousDatabaseBackup: API.OperationMethod<
-  UpdateAutonomousDatabaseBackupInput,
+  UpdateAutonomousDatabaseBackupInput & RegionInput,
   UpdateAutonomousDatabaseBackupOutput,
   UpdateAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -5017,6 +5182,8 @@ export const updateAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "UpdateAutonomousDatabaseBackup",
 }));
 
 export type UpdateCloudExadataInfrastructureError =
@@ -5031,7 +5198,7 @@ export type UpdateCloudExadataInfrastructureError =
  * Updates the properties of an Exadata infrastructure resource.
  */
 export const updateCloudExadataInfrastructure: API.OperationMethod<
-  UpdateCloudExadataInfrastructureInput,
+  UpdateCloudExadataInfrastructureInput & RegionInput,
   UpdateCloudExadataInfrastructureOutput,
   UpdateCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -5049,6 +5216,8 @@ export const updateCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudExadataInfrastructure",
 }));
 
 export type UpdateExadbVmClusterError =
@@ -5063,7 +5232,7 @@ export type UpdateExadbVmClusterError =
  * Updates the specified Exascale VM cluster.
  */
 export const updateExadbVmCluster: API.OperationMethod<
-  UpdateExadbVmClusterInput,
+  UpdateExadbVmClusterInput & RegionInput,
   UpdateExadbVmClusterOutput,
   UpdateExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -5081,6 +5250,8 @@ export const updateExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateExadbVmCluster",
 }));
 
 export type UpdateExascaleDbStorageVaultError =
@@ -5095,7 +5266,7 @@ export type UpdateExascaleDbStorageVaultError =
  * Updates the specified Exascale storage vault.
  */
 export const updateExascaleDbStorageVault: API.OperationMethod<
-  UpdateExascaleDbStorageVaultInput,
+  UpdateExascaleDbStorageVaultInput & RegionInput,
   UpdateExascaleDbStorageVaultOutput,
   UpdateExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -5113,6 +5284,8 @@ export const updateExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "UpdateExascaleDbStorageVault",
 }));
 
 export type UpdateOdbNetworkError =
@@ -5127,7 +5300,7 @@ export type UpdateOdbNetworkError =
  * Updates properties of a specified ODB network.
  */
 export const updateOdbNetwork: API.OperationMethod<
-  UpdateOdbNetworkInput,
+  UpdateOdbNetworkInput & RegionInput,
   UpdateOdbNetworkOutput,
   UpdateOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -5145,6 +5318,8 @@ export const updateOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateOdbNetwork",
 }));
 
 export type UpdateOdbPeeringConnectionError =
@@ -5159,7 +5334,7 @@ export type UpdateOdbPeeringConnectionError =
  * Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection.
  */
 export const updateOdbPeeringConnection: API.OperationMethod<
-  UpdateOdbPeeringConnectionInput,
+  UpdateOdbPeeringConnectionInput & RegionInput,
   UpdateOdbPeeringConnectionOutput,
   UpdateOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -5177,6 +5352,8 @@ export const updateOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateOdbPeeringConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -31,6 +31,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   uploadedOn: "uploaded_on",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "OriginTlsClientAuth",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CertificateAlreadyDeleted
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyDeleted>()("CertificateAlreadyDeleted", {
@@ -589,6 +603,8 @@ export const createHostnameCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostnameCertificate",
 }));
 
 export type CreateOriginTlsClientAuthError =
@@ -616,6 +632,8 @@ export const createOriginTlsClientAuth: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOriginTlsClientAuth",
 }));
 
 export type CreateZoneCertificateError =
@@ -643,6 +661,8 @@ export const createZoneCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZoneCertificate",
 }));
 
 export type DeleteHostnameCertificateError =
@@ -674,6 +694,8 @@ export const deleteHostnameCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostnameCertificate",
 }));
 
 export type DeleteOriginTlsClientAuthError =
@@ -703,6 +725,8 @@ export const deleteOriginTlsClientAuth: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOriginTlsClientAuth",
 }));
 
 export type DeleteZoneCertificateError =
@@ -732,6 +756,8 @@ export const deleteZoneCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZoneCertificate",
 }));
 
 export type GetHostnameError = HostnameAssociationNotFound | Forbidden | CloudflareOpError;
@@ -747,6 +773,8 @@ export const getHostname: API.OperationMethod<
   errors: [HostnameAssociationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostname",
 }));
 
 export type GetHostnameCertificateError =
@@ -765,6 +793,8 @@ export const getHostnameCertificate: API.OperationMethod<
   errors: [HostnameCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostnameCertificate",
 }));
 
 export type GetOriginTlsClientAuthError = CertificateNotFound | Forbidden | CloudflareOpError;
@@ -780,6 +810,8 @@ export const getOriginTlsClientAuth: API.OperationMethod<
   errors: [CertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOriginTlsClientAuth",
 }));
 
 export type GetSettingError = Forbidden | CloudflareOpError;
@@ -795,6 +827,8 @@ export const getSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetting",
 }));
 
 export type GetZoneCertificateError = CertificateNotFound | Forbidden | CloudflareOpError;
@@ -810,6 +844,8 @@ export const getZoneCertificate: API.OperationMethod<
   errors: [CertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZoneCertificate",
 }));
 
 export type ListHostnameCertificatesError = Forbidden | CloudflareOpError;
@@ -827,6 +863,8 @@ export const listHostnameCertificates: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListHostnameCertificates",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -847,6 +885,8 @@ export const listOriginTlsClientAuths: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOriginTlsClientAuths",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -867,6 +907,8 @@ export const listZoneCertificates: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListZoneCertificates",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -897,6 +939,8 @@ export const putHostname: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutHostname",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -915,6 +959,8 @@ export const putSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSetting",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

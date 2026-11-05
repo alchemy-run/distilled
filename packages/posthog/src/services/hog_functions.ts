@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "HogFunctions",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -856,6 +869,8 @@ export const createHogFunction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHogFunction",
 }));
 
 export type CreateHogFunctionsDiscardDraftError = PosthogOpError;
@@ -870,6 +885,8 @@ export const createHogFunctionsDiscardDraft: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHogFunctionsDiscardDraft",
 }));
 
 export type CreateHogFunctionsInvocationError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -884,6 +901,8 @@ export const createHogFunctionsInvocation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHogFunctionsInvocation",
 }));
 
 export type CreateHogFunctionsRerunError = BadRequest | PosthogOpError;
@@ -899,6 +918,8 @@ export const createHogFunctionsRerun: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHogFunctionsRerun",
 }));
 
 export type GetHogFunctionError = Forbidden | NotFound | PosthogOpError;
@@ -913,6 +934,8 @@ export const getHogFunction: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunction",
 }));
 
 export type GetHogFunctionsIconError = Forbidden | NotFound | PosthogOpError;
@@ -927,6 +950,8 @@ export const getHogFunctionsIcon: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionsIcon",
 }));
 
 export type GetHogFunctionsIcon2Error = Forbidden | NotFound | PosthogOpError;
@@ -941,6 +966,8 @@ export const getHogFunctionsIcon2: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionsIcon2",
 }));
 
 export type GetHogFunctionsLogError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -955,6 +982,8 @@ export const getHogFunctionsLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionsLog",
 }));
 
 export type GetHogFunctionsMaskedSecretError = PosthogOpError;
@@ -970,6 +999,8 @@ export const getHogFunctionsMaskedSecret: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionsMaskedSecret",
 }));
 
 export type GetHogFunctionsMetricsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -984,6 +1015,8 @@ export const getHogFunctionsMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionsMetrics",
 }));
 
 export type GetHogFunctionsMetricsTotalError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -998,6 +1031,8 @@ export const getHogFunctionsMetricsTotal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionsMetricsTotal",
 }));
 
 export type GetHogFunctionsRevisionError = PosthogOpError;
@@ -1012,6 +1047,8 @@ export const getHogFunctionsRevision: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHogFunctionsRevision",
 }));
 
 export type HogFunctionsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -1027,6 +1064,8 @@ export const hogFunctionsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HogFunctionsDestroy",
 }));
 
 export type HogFunctionsEnableBackfillsCreateError =
@@ -1045,6 +1084,8 @@ export const hogFunctionsEnableBackfillsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HogFunctionsEnableBackfillsCreate",
 }));
 
 export type HogFunctionsPublishCreateError = PosthogOpError;
@@ -1059,6 +1100,8 @@ export const hogFunctionsPublishCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HogFunctionsPublishCreate",
 }));
 
 export type HogFunctionsRevisionsRestoreCreateError = PosthogOpError;
@@ -1073,6 +1116,8 @@ export const hogFunctionsRevisionsRestoreCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HogFunctionsRevisionsRestoreCreate",
 }));
 
 export type ListHogFunctionsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1087,6 +1132,8 @@ export const listHogFunctions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHogFunctions",
 }));
 
 export type ListHogFunctionsRevisionsError = PosthogOpError;
@@ -1101,6 +1148,8 @@ export const listHogFunctionsRevisions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHogFunctionsRevisions",
 }));
 
 export type UpdateHogFunctionError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1115,6 +1164,8 @@ export const updateHogFunction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHogFunction",
 }));
 
 export type UpdateHogFunctionsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1129,6 +1180,8 @@ export const updateHogFunctionsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHogFunctionsPartial",
 }));
 
 export type UpdateHogFunctionsRearrangePartialError =
@@ -1148,6 +1201,8 @@ export const updateHogFunctionsRearrangePartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHogFunctionsRearrangePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

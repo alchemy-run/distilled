@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "SharedService",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteSharedVolumeRequest {
   sharedVolumeId?: string;
 }
@@ -118,6 +130,8 @@ export const deleteSharedVolume: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharedVolume",
 }));
 
 export type ListSharedVolumeError = ModalOpError;
@@ -132,6 +146,8 @@ export const listSharedVolume: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedVolume",
 }));
 
 export type SharedVolumeGetFileError = ModalOpError;
@@ -146,6 +162,8 @@ export const sharedVolumeGetFile: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedVolumeGetFile",
 }));
 
 export type SharedVolumeGetOrCreateError = ModalOpError;
@@ -160,6 +178,8 @@ export const sharedVolumeGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedVolumeGetOrCreate",
 }));
 
 export type SharedVolumeHeartbeatError = ModalOpError;
@@ -174,6 +194,8 @@ export const sharedVolumeHeartbeat: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedVolumeHeartbeat",
 }));
 
 export type SharedVolumeListFilesError = ModalOpError;
@@ -188,6 +210,8 @@ export const sharedVolumeListFiles: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedVolumeListFiles",
 }));
 
 export type SharedVolumePutFileError = ModalOpError;
@@ -202,6 +226,8 @@ export const sharedVolumePutFile: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedVolumePutFile",
 }));
 
 export type SharedVolumeRemoveFileError = ModalOpError;
@@ -216,6 +242,8 @@ export const sharedVolumeRemoveFile: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedVolumeRemoveFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

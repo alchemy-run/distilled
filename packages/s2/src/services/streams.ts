@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { S2OpError, S2OpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "s2-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "S2",
+  service: "Streams",
+  labels: "s2",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteOnEmptyConfig {
   /** Minimum age in seconds before an empty stream can be deleted. Set to 0 (default) to disable delete-on-empty (don't delete automatically). */
   min_age_secs?: number;
@@ -118,6 +131,8 @@ export const createStream: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStream",
 }));
 
 export type DeleteStreamError = S2OpError;
@@ -133,6 +148,8 @@ export const deleteStream: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStream",
 }));
 
 export type EnsureStreamError = S2OpError;
@@ -148,6 +165,8 @@ export const ensureStream: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnsureStream",
 }));
 
 export type GetStreamConfigError = S2OpError;
@@ -163,6 +182,8 @@ export const getStreamConfig: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamConfig",
 }));
 
 export type ListStreamsError = S2OpError;
@@ -180,6 +201,8 @@ export const listStreams: API.PaginatedOperationMethod<
     errors: [UnknownS2Error],
     protocol: S2Protocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListStreams",
     pagination: {
       inputToken: "start_after",
       outputToken: "name",
@@ -204,6 +227,8 @@ export const reconfigureStream: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReconfigureStream",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

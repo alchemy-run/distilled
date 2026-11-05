@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Preview",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface GetSandboxIdFromSignedPreviewUrlTokenRequest {
   /** Signed preview URL token */
   signedPreviewToken: string;
@@ -62,6 +75,8 @@ export const getSandboxIdFromSignedPreviewUrlToken: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxIdFromSignedPreviewUrlToken",
 }));
 
 export type GetSigningKeyError = DaytonaOpError;
@@ -77,6 +92,8 @@ export const getSigningKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSigningKey",
 }));
 
 export type HasSandboxAccessError = DaytonaOpError;
@@ -92,6 +109,8 @@ export const hasSandboxAccess: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HasSandboxAccess",
 }));
 
 export type IsPreviewWarningEnabledError = DaytonaOpError;
@@ -107,6 +126,8 @@ export const isPreviewWarningEnabled: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IsPreviewWarningEnabled",
 }));
 
 export type IsSandboxPublicError = DaytonaOpError;
@@ -122,6 +143,8 @@ export const isSandboxPublic: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IsSandboxPublic",
 }));
 
 export type IsValidAuthTokenError = DaytonaOpError;
@@ -137,6 +160,8 @@ export const isValidAuthToken: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IsValidAuthToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -136,6 +138,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://streams.dynamodb.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DynamoDBStreams",
+  service: "DynamoDBStreams",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ExpiredIteratorException
   extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()("ExpiredIteratorException", {
@@ -422,7 +439,7 @@ export type DescribeStreamError = InternalServerError | ResourceNotFoundExceptio
  * are present, then that shard is closed and can no longer receive more data.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -433,6 +450,8 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  telemetry: TELEMETRY,
+  span: "DescribeStream",
 }));
 
 export type GetRecordsError =
@@ -455,7 +474,7 @@ export type GetRecordsError =
  * whichever comes first.
  */
 export const getRecords: API.OperationMethod<
-  GetRecordsInput,
+  GetRecordsInput & RegionInput,
   GetRecordsOutput,
   GetRecordsError,
   Credentials | HttpClient.HttpClient
@@ -472,6 +491,8 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  telemetry: TELEMETRY,
+  span: "GetRecords",
 }));
 
 export type GetShardIteratorError =
@@ -489,7 +510,7 @@ export type GetShardIteratorError =
  * A shard iterator expires 15 minutes after it is returned to the requester.
  */
 export const getShardIterator: API.OperationMethod<
-  GetShardIteratorInput,
+  GetShardIteratorInput & RegionInput,
   GetShardIteratorOutput,
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
@@ -500,6 +521,8 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  telemetry: TELEMETRY,
+  span: "GetShardIterator",
 }));
 
 export type ListStreamsError = InternalServerError | ResourceNotFoundException | CommonErrors;
@@ -511,7 +534,7 @@ export type ListStreamsError = InternalServerError | ResourceNotFoundException |
  * You can call `ListStreams` at a maximum rate of 5 times per second.
  */
 export const listStreams: API.OperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient
@@ -522,6 +545,8 @@ export const listStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

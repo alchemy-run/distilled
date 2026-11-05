@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -62,6 +64,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DSQL",
+  service: "DSQL",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -464,7 +480,7 @@ export type CreateClusterError =
  * - The witness Region specified in `multiRegionProperties.witnessRegion` cannot be the same as the cluster's Region.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterInput,
+  CreateClusterInput & RegionInput,
   CreateClusterOutput,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -475,6 +491,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateStreamError =
@@ -507,7 +525,7 @@ export type CreateStreamError =
  * Resources: ARN of the KMS key used by the cluster
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamOutput,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -523,6 +541,8 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  telemetry: TELEMETRY,
+  span: "CreateStream",
 }));
 
 export type DeleteClusterError = ConflictException | ResourceNotFoundException | CommonErrors;
@@ -530,7 +550,7 @@ export type DeleteClusterError = ConflictException | ResourceNotFoundException |
  * Deletes a cluster in Amazon Aurora DSQL.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterInput,
+  DeleteClusterInput & RegionInput,
   DeleteClusterOutput,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -541,6 +561,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterPolicyError =
@@ -552,7 +574,7 @@ export type DeleteClusterPolicyError =
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
  */
 export const deleteClusterPolicy: API.OperationMethod<
-  DeleteClusterPolicyInput,
+  DeleteClusterPolicyInput & RegionInput,
   DeleteClusterPolicyOutput,
   DeleteClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -563,6 +585,8 @@ export const deleteClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterPolicy",
 }));
 
 export type DeleteStreamError = ConflictException | ResourceNotFoundException | CommonErrors;
@@ -570,7 +594,7 @@ export type DeleteStreamError = ConflictException | ResourceNotFoundException | 
  * Deletes a stream from a cluster.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamOutput,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -581,6 +605,8 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  telemetry: TELEMETRY,
+  span: "DeleteStream",
 }));
 
 export type GetClusterError = ResourceNotFoundException | CommonErrors;
@@ -588,7 +614,7 @@ export type GetClusterError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a cluster.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterInput,
+  GetClusterInput & RegionInput,
   GetClusterOutput,
   GetClusterError,
   Credentials | HttpClient.HttpClient
@@ -599,6 +625,8 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetClusterPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -606,7 +634,7 @@ export type GetClusterPolicyError = ResourceNotFoundException | ValidationExcept
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */
 export const getClusterPolicy: API.OperationMethod<
-  GetClusterPolicyInput,
+  GetClusterPolicyInput & RegionInput,
   GetClusterPolicyOutput,
   GetClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -617,6 +645,8 @@ export const getClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "GetClusterPolicy",
 }));
 
 export type GetStreamError = ResourceNotFoundException | CommonErrors;
@@ -624,7 +654,7 @@ export type GetStreamError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a stream.
  */
 export const getStream: API.OperationMethod<
-  GetStreamInput,
+  GetStreamInput & RegionInput,
   GetStreamOutput,
   GetStreamError,
   Credentials | HttpClient.HttpClient
@@ -635,6 +665,8 @@ export const getStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
+  telemetry: TELEMETRY,
+  span: "GetStream",
 }));
 
 export type GetVpcEndpointServiceNameError =
@@ -647,7 +679,7 @@ export type GetVpcEndpointServiceNameError =
  * Retrieves the VPC endpoint service name.
  */
 export const getVpcEndpointServiceName: API.OperationMethod<
-  GetVpcEndpointServiceNameInput,
+  GetVpcEndpointServiceNameInput & RegionInput,
   GetVpcEndpointServiceNameOutput,
   GetVpcEndpointServiceNameError,
   Credentials | HttpClient.HttpClient
@@ -663,6 +695,8 @@ export const getVpcEndpointServiceName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcEndpointServiceName",
+  telemetry: TELEMETRY,
+  span: "GetVpcEndpointServiceName",
 }));
 
 export type ListClustersError = ResourceNotFoundException | CommonErrors;
@@ -670,7 +704,7 @@ export type ListClustersError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a list of clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -688,6 +722,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListStreamsError = ResourceNotFoundException | CommonErrors;
@@ -695,7 +731,7 @@ export type ListStreamsError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a list of streams for a cluster.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -713,6 +749,8 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "streams",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -720,7 +758,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists all of the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +769,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutClusterPolicyError =
@@ -742,7 +782,7 @@ export type PutClusterPolicyError =
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
  */
 export const putClusterPolicy: API.OperationMethod<
-  PutClusterPolicyInput,
+  PutClusterPolicyInput & RegionInput,
   PutClusterPolicyOutput,
   PutClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -753,6 +793,8 @@ export const putClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "PutClusterPolicy",
 }));
 
 export type TagResourceError =
@@ -763,7 +805,7 @@ export type TagResourceError =
  * Tags a resource with a map of key and value pairs.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -774,6 +816,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -781,7 +825,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -792,6 +836,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -857,7 +903,7 @@ export type UpdateClusterError =
  * - When you list peer clusters in `multiRegionProperties.clusters`, you need `dsql:AddPeerCluster` for every peer cluster in your request. You need `dsql:RemovePeerCluster` only for the peer clusters that the update removes.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterInput,
+  UpdateClusterInput & RegionInput,
   UpdateClusterOutput,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -868,6 +914,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

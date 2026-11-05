@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { S2OpError, S2OpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "s2-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "S2",
+  service: "Metrics",
+  labels: "s2",
+  propagate: "w3c",
+} as const;
+
 export type AccountMetricSet = "active-basins" | "account-ops";
 export type TimeseriesInterval = "minute" | "hour" | "day";
 export interface AccountMetricsRequest {
@@ -138,6 +151,8 @@ export const accountMetrics: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountMetrics",
 }));
 
 export type BasinMetricsError = S2OpError;
@@ -153,6 +168,8 @@ export const basinMetrics: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BasinMetrics",
 }));
 
 export type StreamMetricsError = S2OpError;
@@ -168,6 +185,8 @@ export const streamMetrics: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamMetrics",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

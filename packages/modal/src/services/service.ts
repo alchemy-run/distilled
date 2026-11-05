@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "Service",
+  propagate: "w3c",
+} as const;
+
 export interface ListServiceUserRequest {}
 export interface ServiceUser {
   name?: string;
@@ -38,6 +50,8 @@ export const listServiceUser: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

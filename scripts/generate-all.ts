@@ -2,10 +2,10 @@
 /**
  * generate-all — regenerate every SDK in the monorepo, then format.
  *
- * For each packages/<p> with a `generate` script: runs `convert` first when
- * the package has one (openapi/discovery/graphql providers convert their
- * spec submodule into .generated-specs), then `generate` (the shared
- * smithy→SDK compiler). Packages run through a small pool; a single
+ * For each packages/<p> with a `generate` script: runs `generate`, which
+ * converts the package's spec in-process and compiles the models straight
+ * into src/ (the shared smithy→SDK compiler; the converted models are never
+ * written to disk). Packages run through a small pool; a single
  * repo-wide `oxfmt` pass runs at the end (generated output is committed
  * formatted — never diff regeneration results before formatting).
  *
@@ -31,8 +31,7 @@ for (const name of readdirSync(join(root, "packages")).sort()) {
   if (!existsSync(pkgJson)) continue;
   const scripts = JSON.parse(readFileSync(pkgJson, "utf8")).scripts ?? {};
   if (!scripts.generate) continue;
-  const steps = ["convert", "generate"].filter((s) => scripts[s]);
-  jobs.push({ name, steps });
+  jobs.push({ name, steps: ["generate"] });
 }
 
 if (jobs.length === 0) {

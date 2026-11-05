@@ -120,6 +120,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   yamlDiff: "yaml_diff",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "MagicCloudNetworking",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CatalogSyncNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CatalogSyncNotFound>()("CatalogSyncNotFound", {
@@ -144,7 +158,10 @@ export class FeatureNotEnabled
       code: S.Number,
       message: S.String,
     }),
-    [{ code: 1012, status: 403 }],
+    [
+      { code: 1012, status: 403 },
+      { status: 404, message: { includes: "No route for that URI" } },
+    ],
   ) {}
 
 export class Forbidden
@@ -9417,6 +9434,8 @@ export const applyOnRamp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyOnRamp",
 }));
 
 export type CreateCatalogSyncError = FeatureNotEnabled | Forbidden | CloudflareOpError;
@@ -9432,6 +9451,8 @@ export const createCatalogSync: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCatalogSync",
 }));
 
 export type CreateCloudIntegrationError = FeatureNotEnabled | Forbidden | CloudflareOpError;
@@ -9447,6 +9468,8 @@ export const createCloudIntegration: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudIntegration",
 }));
 
 export type CreateOnRampError = FeatureNotEnabled | Forbidden | CloudflareOpError;
@@ -9462,6 +9485,8 @@ export const createOnRamp: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnRamp",
 }));
 
 export type DeleteCatalogSyncError =
@@ -9487,6 +9512,8 @@ export const deleteCatalogSync: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCatalogSync",
 }));
 
 export type DeleteCloudIntegrationError =
@@ -9512,6 +9539,8 @@ export const deleteCloudIntegration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudIntegration",
 }));
 
 export type DeleteOnRampError = FeatureNotEnabled | Forbidden | OnRampNotFound | CloudflareOpError;
@@ -9527,6 +9556,8 @@ export const deleteOnRamp: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, OnRampNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnRamp",
 }));
 
 export type DiscoverAllCloudIntegrationError = CloudflareOpError;
@@ -9542,6 +9573,8 @@ export const discoverAllCloudIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiscoverAllCloudIntegration",
 }));
 
 export type DiscoverCloudIntegrationError = FeatureNotEnabled | Forbidden | CloudflareOpError;
@@ -9557,6 +9590,8 @@ export const discoverCloudIntegration: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiscoverCloudIntegration",
 }));
 
 export type ExportOnRampError = CloudflareOpError;
@@ -9572,6 +9607,8 @@ export const exportOnRamp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportOnRamp",
 }));
 
 export type ExportResourceError = CloudflareOpError;
@@ -9587,6 +9624,8 @@ export const exportResource: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportResource",
 }));
 
 export type GetCatalogSyncError =
@@ -9612,6 +9651,8 @@ export const getCatalogSync: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCatalogSync",
 }));
 
 export type GetCloudIntegrationError =
@@ -9637,6 +9678,8 @@ export const getCloudIntegration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudIntegration",
 }));
 
 export type GetOnRampError = FeatureNotEnabled | Forbidden | OnRampNotFound | CloudflareOpError;
@@ -9652,6 +9695,8 @@ export const getOnRamp: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, OnRampNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnRamp",
 }));
 
 export type GetResourceError = CloudflareOpError;
@@ -9667,6 +9712,8 @@ export const getResource: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResource",
 }));
 
 export type InitialSetupCloudIntegrationError = CloudflareOpError;
@@ -9682,6 +9729,8 @@ export const initialSetupCloudIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InitialSetupCloudIntegration",
 }));
 
 export type ListCatalogSyncPrebuiltPoliciesError =
@@ -9702,6 +9751,8 @@ export const listCatalogSyncPrebuiltPolicies: API.PaginatedOperationMethod<
     errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCatalogSyncPrebuiltPolicies",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -9722,6 +9773,8 @@ export const listCatalogSyncs: API.PaginatedOperationMethod<
     errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCatalogSyncs",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -9742,6 +9795,8 @@ export const listCloudIntegrations: API.PaginatedOperationMethod<
     errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCloudIntegrations",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -9760,6 +9815,8 @@ export const listOnRampAddressSpaces: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnRampAddressSpaces",
 }));
 
 export type ListOnRampsError = FeatureNotEnabled | Forbidden | CloudflareOpError;
@@ -9777,6 +9834,8 @@ export const listOnRamps: API.PaginatedOperationMethod<
     errors: [FeatureNotEnabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOnRamps",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -9797,6 +9856,8 @@ export const listResources: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResources",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -9831,6 +9892,8 @@ export const patchCatalogSync: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCatalogSync",
 }));
 
 export type PatchCloudIntegrationError =
@@ -9856,6 +9919,8 @@ export const patchCloudIntegration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCloudIntegration",
 }));
 
 export type PatchOnRampError = FeatureNotEnabled | Forbidden | OnRampNotFound | CloudflareOpError;
@@ -9871,6 +9936,8 @@ export const patchOnRamp: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, OnRampNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOnRamp",
 }));
 
 export type PatchOnRampAddressSpaceError = CloudflareOpError;
@@ -9886,6 +9953,8 @@ export const patchOnRampAddressSpace: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOnRampAddressSpace",
 }));
 
 export type PlanOnRampError = CloudflareOpError;
@@ -9901,6 +9970,8 @@ export const planOnRamp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PlanOnRamp",
 }));
 
 export type PolicyPreviewResourceError = CloudflareOpError;
@@ -9916,6 +9987,8 @@ export const policyPreviewResource: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyPreviewResource",
 }));
 
 export type PutOnRampAddressSpaceError = CloudflareOpError;
@@ -9931,6 +10004,8 @@ export const putOnRampAddressSpace: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOnRampAddressSpace",
 }));
 
 export type RefreshCatalogSyncError =
@@ -9956,6 +10031,8 @@ export const refreshCatalogSync: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshCatalogSync",
 }));
 
 export type UpdateCatalogSyncError =
@@ -9981,6 +10058,8 @@ export const updateCatalogSync: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCatalogSync",
 }));
 
 export type UpdateCloudIntegrationError =
@@ -10006,6 +10085,8 @@ export const updateCloudIntegration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudIntegration",
 }));
 
 export type UpdateOnRampError = FeatureNotEnabled | Forbidden | OnRampNotFound | CloudflareOpError;
@@ -10021,6 +10102,8 @@ export const updateOnRamp: API.OperationMethod<
   errors: [FeatureNotEnabled, Forbidden, OnRampNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOnRamp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

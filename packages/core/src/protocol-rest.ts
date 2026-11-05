@@ -1,3 +1,28 @@
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
+import type * as AST from "effect/SchemaAST";
+import { rawResponseRootSymbol } from "./annotations.ts";
+import * as API from "./api.ts";
+import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
+import { recordPageHeaders } from "./pagination.ts";
+import { unwrapRedactedDeep } from "./plain-values.ts";
+import {
+  buildRequest,
+  getAnn,
+  mapKeys,
+  mapsVerbatim,
+  matchTypedError,
+  responseHeaderMembers,
+  withResponseHeaders,
+  type ResponseHeaderMember,
+} from "./protocol-http.ts";
+import { checkResponse, withholdActual } from "./response-validation.ts";
+import { parseRetryAfterForStatus } from "./retry-after.ts";
+import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive.ts";
 /**
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
  * (Neon, Fly.io, PlanetScale, Supabase, Turso, ...).
@@ -25,45 +50,18 @@
  * Anything provider-specific (envelope quirks, bespoke error codes) belongs
  * in the provider package -- via these options or a hand-written protocol.
  */
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
-import * as API from "./api.ts";
-import { debugHttp } from "./debug.ts";
-import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
-import { isOpaqueValue, unwrapRedactedDeep } from "./plain-values.ts";
-import {
-  buildRequest,
-  getAnn,
-  getPropAnn,
-  getProps,
-  mapKeys,
-  mapsVerbatim,
-  matchTypedError,
-  resolveNode,
-  responseHeaderMembers,
-  withResponseHeaders,
-  type ResponseHeaderMember,
-} from "./protocol-http.ts";
-import { checkResponse, withholdActual } from "./response-validation.ts";
-import { parseRetryAfterForStatus } from "./retry-after.ts";
+import * as Telemetry from "./telemetry.ts";
 import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
 
 // =============================================================================
 // Traits
 // =============================================================================
 
-export const sensitiveValueSymbol = /*@__PURE__*/ Symbol.for(
-  "@distilled.cloud/core/sensitive-value",
-);
+export { sensitiveValueSymbol };
 /**
- * Marks a string member as sensitive (mirrors `smithy.api#sensitive`).
- * The REST protocol wraps decoded values in `Redacted` on the way out and
+ * Marks a string member, map value or list element as sensitive (mirrors
+ * `smithy.api#sensitive`). The REST protocol wraps decoded values in
+ * `Redacted` on the way out (an untyped `S.Unknown` value whole) and
  * accepts `string | Redacted<string>` on the way in (unwrapped before
  * serialization). Takes an ignored argument so generators can inline the
  * smithy trait value (`T.SensitiveValue({})`).
@@ -77,15 +75,13 @@ export const rawResponseSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core
  */
 export const RawResponse = (_value?: unknown) => makeAnnotation(rawResponseSymbol, true);
 
-export const rawResponseRootSymbol = /*@__PURE__*/ Symbol.for(
-  "@distilled.cloud/core/raw-response-root",
-);
 /**
  * Marks a response schema whose ENTIRE value is the response body (the
  * generator's `rootPipe` for synthesized bare-payload wrappers): the emitted
  * response type IS the payload type and the protocol returns the mapped body
  * directly.
  */
+export { rawResponseRootSymbol };
 export const RawResponseRoot = () => makeAnnotation(rawResponseRootSymbol, true);
 
 export const binaryResponseSymbol = /*@__PURE__*/ Symbol.for(
@@ -101,76 +97,15 @@ export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 
 export { unwrapRedactedDeep };
 
-/**
- * Walk a decoded (TS-named) value alongside its schema AST, wrapping members
- * marked {@link SensitiveValue} in `Redacted`. Keys the schema doesn't model
- * pass through verbatim.
- */
-export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
-  if (value === null || typeof value !== "object" || isOpaqueValue(value)) {
-    return value;
-  }
-  const node = resolveNode(ast);
-  if (node._tag === "Union") {
-    // Redact every possible sensitive member, including in partial responses.
-    return node.types.reduce<unknown>((redacted, arm) => wrapSensitive(arm, redacted), value);
-  }
-  if (node._tag === "Arrays") {
-    if (!Array.isArray(value)) return value;
-    const elem = (node as any).rest?.[0] as AST.AST | undefined;
-    return elem ? value.map((v) => wrapSensitive(elem, v)) : value;
-  }
-  if (node._tag === "Objects" && !Array.isArray(value)) {
-    const props = getProps(node);
-    if (props.length === 0) return value;
-    const byName = new Map(props.map((p) => [String(p.name), p]));
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      if (v === undefined) continue;
-      const prop = byName.get(k);
-      if (!prop) {
-        out[k] = v;
-      } else if (getPropAnn(prop, sensitiveValueSymbol) !== undefined && typeof v === "string") {
-        out[k] = Redacted.make(v);
-      } else {
-        out[k] = wrapSensitive(prop.type, v);
-      }
-    }
-    return out;
-  }
-  return value;
-};
-
-const sensitiveOutputs = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+export { wrapSensitive };
 
 /**
- * Whether any member reachable from `ast` is marked {@link SensitiveValue}.
- * Parse errors for such an output withhold the response body (see
- * {@link RestParseErrorInfo}); hand-written protocols use this to do the same.
+ * Whether any member, map value or list element reachable from `ast` is
+ * marked {@link SensitiveValue}. Such an output is decoded through
+ * {@link wrapSensitive}, and its parse errors withhold the response body (see
+ * {@link checkSuccess}, which every REST-style protocol's success path uses).
  */
-export const hasSensitiveMember = (ast: AST.AST): boolean => {
-  const cached = sensitiveOutputs.get(ast);
-  if (cached !== undefined) return cached;
-  const seen = new Set<AST.AST>();
-  const visit = (node: AST.AST): boolean => {
-    node = resolveNode(node);
-    if (seen.has(node)) return false;
-    seen.add(node);
-    if (node._tag === "Union") return node.types.some(visit);
-    if (node._tag === "Arrays") {
-      return [...node.elements, ...node.rest].some(
-        (e) => getAnn(e, sensitiveValueSymbol) !== undefined || visit(e),
-      );
-    }
-    if (node._tag !== "Objects") return false;
-    return [...node.propertySignatures, ...node.indexSignatures].some(
-      (member) => getAnn(member.type, sensitiveValueSymbol) !== undefined || visit(member.type),
-    );
-  };
-  const result = visit(ast);
-  sensitiveOutputs.set(ast, result);
-  return result;
-};
+export const hasSensitiveMember: (ast: AST.AST) => boolean = holdsSensitive;
 
 // =============================================================================
 // Protocol factory
@@ -278,45 +213,80 @@ const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 // here; the generated operation annotations reintroduce it for callers.
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
-/** Whether {@link wrapSensitive} can change any value of `root`. Cached per schema. */
-export const hasSensitive = (root: AST.AST): boolean => {
-  let result = sensitiveCache.get(root);
-  if (result !== undefined) return result;
-  result = false;
-  const seen = new Set<AST.AST>();
-  const stack: AST.AST[] = [root];
-  walk: while (stack.length > 0) {
-    const ast = stack.pop()!;
-    if (seen.has(ast)) continue;
-    seen.add(ast);
-    const node = resolveNode(ast);
-    if (node._tag === "Union") {
-      for (const t of (node as AST.Union).types) stack.push(t);
-    } else if (node._tag === "Arrays") {
-      const elem = (node as any).rest?.[0] as AST.AST | undefined;
-      if (elem) stack.push(elem);
-    } else if (node._tag === "Objects") {
-      for (const p of getProps(node)) {
-        if (getPropAnn(p, sensitiveValueSymbol) !== undefined) {
-          result = true;
-          break walk;
-        }
-        stack.push(p.type);
-      }
-    }
+// =============================================================================
+// 2xx bodies
+// =============================================================================
+
+/** A 2xx body a protocol read, for {@link checkSuccess}. */
+export interface SuccessBody {
+  /** The value to check and return: the body mapped onto the output's TS names. */
+  readonly value: unknown;
+  /** What a parse error reports as `body` for an output without sensitive members. */
+  readonly body: unknown;
+  /** Whether the body was not JSON. */
+  readonly nonJson: boolean;
+}
+
+/** The outcome of {@link checkSuccess}: the value, or the parse error's fields. */
+export type SuccessCheck =
+  | { readonly ok: true; readonly value: unknown }
+  | { readonly ok: false; readonly error: RestParseErrorInfo };
+
+/**
+ * Check a 2xx body against the operation's output schema and deliver its
+ * sensitive values as `Redacted`. Every REST-style protocol ends its success
+ * path here, so all of them treat a body that can hold a secret alike:
+ *
+ * - The checked value comes back through {@link wrapSensitive}.
+ * - A mismatch (validating modes, see `core/response-validation`) reports
+ *   `read.body` and the schema error.
+ * - For an output with sensitive members ({@link hasSensitiveMember}), a
+ *   non-JSON body fails in every mode with `"Invalid JSON response"`, and a
+ *   mismatch reports `body: "[REDACTED]"` and the schema error without the
+ *   value it found (`withholdActual`).
+ *
+ * Synchronous, for protocols that already hold the calling fiber's context;
+ * {@link validateSuccess} is the `Effect` form.
+ */
+export const checkSuccess = (
+  context: Context.Context<any>,
+  outputAst: AST.AST,
+  read: SuccessBody,
+): SuccessCheck => {
+  const sensitive = hasSensitiveMember(outputAst);
+  if (read.nonJson && sensitive) {
+    return { ok: false, error: { body: "[REDACTED]", cause: "Invalid JSON response" } };
   }
-  sensitiveCache.set(root, result);
-  return result;
+  const invalid = checkResponse(context, outputAst, read.value);
+  if (invalid !== undefined) {
+    return {
+      ok: false,
+      error: sensitive
+        ? { body: "[REDACTED]", cause: withholdActual(invalid) }
+        : { body: read.body, cause: invalid },
+    };
+  }
+  return { ok: true, value: sensitive ? wrapSensitive(outputAst, read.value) : read.value };
 };
-const sensitiveCache = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+
+/**
+ * {@link checkSuccess} on the calling fiber, failing with `parseError` (the
+ * SDK's `<Sdk>ParseError`) built from the withheld-or-not fields.
+ */
+export const validateSuccess = <E>(
+  outputAst: AST.AST,
+  read: SuccessBody,
+  parseError: (info: RestParseErrorInfo) => E,
+): Effect.Effect<unknown, E> =>
+  Effect.withFiber((fiber) => {
+    const checked = checkSuccess(fiber.context as Context.Context<any>, outputAst, read);
+    return checked.ok ? Effect.succeed(checked.value) : Effect.fail(parseError(checked.error));
+  });
 
 /** Per-operation decode facts, read from the output schema once. */
 interface DecodePlan {
   readonly binary: boolean;
   readonly verbatim: boolean;
-  readonly sensitive: boolean;
-  /** Parse errors withhold the body (see {@link hasSensitiveMember}). */
-  readonly withholdBody: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
 }
@@ -328,8 +298,6 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
     plan = {
       binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
       verbatim: mapsVerbatim(outputAst, "decode"),
-      sensitive: hasSensitive(outputAst),
-      withholdBody: hasSensitiveMember(outputAst),
       headers: responseHeaderMembers(outputAst),
     };
     decodePlans.set(outputAst, plan);
@@ -369,12 +337,15 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       f,
     );
 
-  /** The request, or the error a refusing `baseUrl` threw. */
+  /**
+   * The request; fails with the error a refusing `baseUrl` threw, or with
+   * `InvalidInput` for a label that would address another resource.
+   */
   const requestFor = (
     creds: C,
     input: unknown,
     inputAst: AST.AST,
-  ): HttpClientRequest.HttpClientRequest | { readonly refused: unknown } => {
+  ): Effect.Effect<HttpClientRequest.HttpClientRequest> => {
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     let baseUrl: string;
     try {
@@ -386,7 +357,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // A baseUrl that refuses the route (missing scope in the
       // credentials) fails the call with that error, typed for callers by
       // the operation's declared error channel.
-      return { refused: e };
+      return fail(e);
     }
     return buildRequest({
       input: unwrapRedactedDeep(input),
@@ -395,7 +366,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       headers: options.headers(creds),
       mapMemberHeader: options.mapMemberHeader,
       unknownKeyToWire: options.unknownKeyToWire,
-    });
+    }) as Effect.Effect<HttpClientRequest.HttpClientRequest>;
   };
 
   /** Map a read response body to the call's outcome. */
@@ -408,9 +379,6 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     errorClasses: ReadonlyArray<unknown>,
   ): Decoded => {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${status}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -486,30 +454,18 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     // with sensitive members, a non-JSON body fails in every mode and parse
     // errors withhold the body.
     const plan = decodePlanFor(outputAst);
-    if (nonJson && plan.withholdBody) {
-      return {
-        ok: false,
-        error: options.parseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
-      };
-    }
     let body: unknown = nonJson ? text : (json ?? {});
     if (options.transformResponse) body = options.transformResponse(body);
-    const mapped = withResponseHeaders(
-      plan.headers,
-      plan.verbatim ? body : mapKeys(outputAst, body, "decode"),
-      headers,
-    );
-    const invalid = checkResponse(context, outputAst, mapped);
-    if (invalid !== undefined) {
-      return {
-        ok: false,
-        error: options.parseError({
-          body: plan.withholdBody ? "[REDACTED]" : nonJson ? text : json,
-          cause: plan.withholdBody ? withholdActual(invalid) : invalid,
-        }),
-      };
-    }
-    return { ok: true, value: plan.sensitive ? wrapSensitive(outputAst, mapped) : mapped };
+    const checked = checkSuccess(context, outputAst, {
+      value: withResponseHeaders(
+        plan.headers,
+        plan.verbatim ? body : mapKeys(outputAst, body, "decode"),
+        headers,
+      ),
+      body: nonJson ? text : json,
+      nonJson,
+    });
+    return checked.ok ? checked : { ok: false, error: options.parseError(checked.error) };
   };
 
   const decodeResponse = (
@@ -518,32 +474,32 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     outputAst: AST.AST,
     errorClasses: ReadonlyArray<unknown>,
   ): Effect.Effect<unknown> =>
-    response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
-      ? Effect.map(Effect.orDie(response.arrayBuffer), (bytes) => new Uint8Array(bytes))
-      : Effect.matchEffect(response.text, {
-          onFailure: Effect.die,
-          onSuccess: (text) => {
-            const decoded = decodeText(
-              context,
-              response.status,
-              response.headers as Record<string, string | undefined>,
-              text ?? "",
-              outputAst,
-              errorClasses,
-            );
-            return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
-          },
-        });
+    // A body read that fails (reset or abort mid-body) fails the call with
+    // its `HttpClientError`, which every operation's error channel declares.
+    (response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
+      ? Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes))
+      : Effect.flatMap(response.text, (text) => {
+          recordPageHeaders(context, response.headers);
+          const decoded = decodeText(
+            context,
+            response.status,
+            response.headers as Record<string, string | undefined>,
+            text ?? "",
+            outputAst,
+            errorClasses,
+          );
+          return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
+        })) as Effect.Effect<unknown>;
 
   const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
-        const request = requestFor(creds, input, op.inputAst);
-        if ("refused" in request) return fail(request.refused);
         const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(client.execute(request), (response) =>
-          decodeResponse(context, response, op.outputAst, op.errors),
+        return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
+          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+            decodeResponse(context, response, op.outputAst, op.errors),
+          ),
         );
       });
     }) as Effect.Effect<unknown>;
@@ -555,10 +511,9 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // fiber; see RestProtocolOptions.credentials).
       encode: ({ input, inputAst }) =>
         Effect.withFiber((fiber) =>
-          withCredentials(fiber.context as Context.Context<any>, (creds) => {
-            const request = requestFor(creds, input, inputAst);
-            return "refused" in request ? fail(request.refused) : Effect.succeed(request);
-          }),
+          withCredentials(fiber.context as Context.Context<any>, (creds) =>
+            requestFor(creds, input, inputAst),
+          ),
         ) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
       decode: ({ response, outputAst, errors }) =>
         Effect.withFiber((fiber) =>

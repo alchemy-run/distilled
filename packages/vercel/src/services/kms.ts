@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Kms",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -923,6 +937,8 @@ export const activateKmsSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateKmsSigningKey",
 }));
 
 export type CreateKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -938,6 +954,8 @@ export const createKmsIssuer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKmsIssuer",
 }));
 
 export type CreateKmsIssuerPolicyError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -953,6 +971,8 @@ export const createKmsIssuerPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKmsIssuerPolicy",
 }));
 
 export type CreateKmsSigningKeyError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -968,6 +988,8 @@ export const createKmsSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKmsSigningKey",
 }));
 
 export type DeleteKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -983,6 +1005,8 @@ export const deleteKmsIssuer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKmsIssuer",
 }));
 
 export type DeleteKmsIssuerPolicyError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -998,6 +1022,8 @@ export const deleteKmsIssuerPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKmsIssuerPolicy",
 }));
 
 export type GetKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1013,6 +1039,8 @@ export const getKmsIssuer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKmsIssuer",
 }));
 
 export type ListKmsIssuersError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1028,6 +1056,8 @@ export const listKmsIssuers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKmsIssuers",
 }));
 
 export type RevokeKmsSigningKeyError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -1043,6 +1073,8 @@ export const revokeKmsSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeKmsSigningKey",
 }));
 
 export type SignKmsMessageError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1058,6 +1090,8 @@ export const signKmsMessage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignKmsMessage",
 }));
 
 export type SignKmsTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1073,6 +1107,8 @@ export const signKmsToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignKmsToken",
 }));
 
 export type UpdateKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1088,6 +1124,8 @@ export const updateKmsIssuer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKmsIssuer",
 }));
 
 export type UpdateKmsIssuerPolicyError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1103,6 +1141,8 @@ export const updateKmsIssuerPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKmsIssuerPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

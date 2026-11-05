@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -138,6 +140,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ARCRegionswitch",
+  service: "ARCRegionswitch",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1325,7 +1342,7 @@ export type ApprovePlanExecutionStepError =
  * You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision.
  */
 export const approvePlanExecutionStep: API.OperationMethod<
-  ApprovePlanExecutionStepRequest,
+  ApprovePlanExecutionStepRequest & RegionInput,
   ApprovePlanExecutionStepResponse,
   ApprovePlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -1336,6 +1353,8 @@ export const approvePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApprovePlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "ApprovePlanExecutionStep",
 }));
 
 export type CancelPlanExecutionError =
@@ -1348,7 +1367,7 @@ export type CancelPlanExecutionError =
  * You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
  */
 export const cancelPlanExecution: API.OperationMethod<
-  CancelPlanExecutionRequest,
+  CancelPlanExecutionRequest & RegionInput,
   CancelPlanExecutionResponse,
   CancelPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1359,6 +1378,8 @@ export const cancelPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPlanExecution",
+  telemetry: TELEMETRY,
+  span: "CancelPlanExecution",
 }));
 
 export type CreatePlanError = CommonErrors;
@@ -1368,7 +1389,7 @@ export type CreatePlanError = CommonErrors;
  * You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch.
  */
 export const createPlan: API.OperationMethod<
-  CreatePlanRequest,
+  CreatePlanRequest & RegionInput,
   CreatePlanResponse,
   CreatePlanError,
   Credentials | HttpClient.HttpClient
@@ -1379,6 +1400,8 @@ export const createPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlan",
+  telemetry: TELEMETRY,
+  span: "CreatePlan",
 }));
 
 export type DeletePlanError = IllegalStateException | ResourceNotFoundException | CommonErrors;
@@ -1388,7 +1411,7 @@ export type DeletePlanError = IllegalStateException | ResourceNotFoundException 
  * You cannot delete a plan that has an active execution in progress.
  */
 export const deletePlan: API.OperationMethod<
-  DeletePlanRequest,
+  DeletePlanRequest & RegionInput,
   DeletePlanResponse,
   DeletePlanError,
   Credentials | HttpClient.HttpClient
@@ -1399,6 +1422,8 @@ export const deletePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlan",
+  telemetry: TELEMETRY,
+  span: "DeletePlan",
 }));
 
 export type GetPlanError = ResourceNotFoundException | CommonErrors;
@@ -1406,7 +1431,7 @@ export type GetPlanError = ResourceNotFoundException | CommonErrors;
  * Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
  */
 export const getPlan: API.OperationMethod<
-  GetPlanRequest,
+  GetPlanRequest & RegionInput,
   GetPlanResponse,
   GetPlanError,
   Credentials | HttpClient.HttpClient
@@ -1417,6 +1442,8 @@ export const getPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlan",
+  telemetry: TELEMETRY,
+  span: "GetPlan",
 }));
 
 export type GetPlanEvaluationStatusError =
@@ -1427,7 +1454,7 @@ export type GetPlanEvaluationStatusError =
  * Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
  */
 export const getPlanEvaluationStatus: API.PaginatedOperationMethod<
-  GetPlanEvaluationStatusRequest,
+  GetPlanEvaluationStatusRequest & RegionInput,
   GetPlanEvaluationStatusResponse,
   GetPlanEvaluationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1445,6 +1472,8 @@ export const getPlanEvaluationStatus: API.PaginatedOperationMethod<
     items: "warnings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPlanEvaluationStatus",
 })) as any;
 
 export type GetPlanExecutionError =
@@ -1455,7 +1484,7 @@ export type GetPlanExecutionError =
  * Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
  */
 export const getPlanExecution: API.PaginatedOperationMethod<
-  GetPlanExecutionRequest,
+  GetPlanExecutionRequest & RegionInput,
   GetPlanExecutionResponse,
   GetPlanExecutionError,
   Credentials | HttpClient.HttpClient,
@@ -1473,6 +1502,8 @@ export const getPlanExecution: API.PaginatedOperationMethod<
     items: "stepStates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPlanExecution",
 })) as any;
 
 export type GetPlanInRegionError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -1480,7 +1511,7 @@ export type GetPlanInRegionError = AccessDeniedException | ResourceNotFoundExcep
  * Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
  */
 export const getPlanInRegion: API.OperationMethod<
-  GetPlanInRegionRequest,
+  GetPlanInRegionRequest & RegionInput,
   GetPlanInRegionResponse,
   GetPlanInRegionError,
   Credentials | HttpClient.HttpClient
@@ -1491,6 +1522,8 @@ export const getPlanInRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlanInRegion",
+  telemetry: TELEMETRY,
+  span: "GetPlanInRegion",
 }));
 
 export type ListPlanExecutionEventsError =
@@ -1501,7 +1534,7 @@ export type ListPlanExecutionEventsError =
  * Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
  */
 export const listPlanExecutionEvents: API.PaginatedOperationMethod<
-  ListPlanExecutionEventsRequest,
+  ListPlanExecutionEventsRequest & RegionInput,
   ListPlanExecutionEventsResponse,
   ListPlanExecutionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1519,6 +1552,8 @@ export const listPlanExecutionEvents: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlanExecutionEvents",
 })) as any;
 
 export type ListPlanExecutionsError =
@@ -1529,7 +1564,7 @@ export type ListPlanExecutionsError =
  * Lists the executions of a Region switch plan. This operation returns information about both current and historical executions.
  */
 export const listPlanExecutions: API.PaginatedOperationMethod<
-  ListPlanExecutionsRequest,
+  ListPlanExecutionsRequest & RegionInput,
   ListPlanExecutionsResponse,
   ListPlanExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1547,6 +1582,8 @@ export const listPlanExecutions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlanExecutions",
 })) as any;
 
 export type ListPlansError = CommonErrors;
@@ -1554,7 +1591,7 @@ export type ListPlansError = CommonErrors;
  * Lists all Region switch plans in your Amazon Web Services account.
  */
 export const listPlans: API.PaginatedOperationMethod<
-  ListPlansRequest,
+  ListPlansRequest & RegionInput,
   ListPlansResponse,
   ListPlansError,
   Credentials | HttpClient.HttpClient,
@@ -1572,6 +1609,8 @@ export const listPlans: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlans",
 })) as any;
 
 export type ListPlansInRegionError = AccessDeniedException | CommonErrors;
@@ -1579,7 +1618,7 @@ export type ListPlansInRegionError = AccessDeniedException | CommonErrors;
  * Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region.
  */
 export const listPlansInRegion: API.PaginatedOperationMethod<
-  ListPlansInRegionRequest,
+  ListPlansInRegionRequest & RegionInput,
   ListPlansInRegionResponse,
   ListPlansInRegionError,
   Credentials | HttpClient.HttpClient,
@@ -1597,6 +1636,8 @@ export const listPlansInRegion: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlansInRegion",
 })) as any;
 
 export type ListRoute53HealthChecksError =
@@ -1609,7 +1650,7 @@ export type ListRoute53HealthChecksError =
  * List the Amazon Route 53 health checks.
  */
 export const listRoute53HealthChecks: API.PaginatedOperationMethod<
-  ListRoute53HealthChecksRequest,
+  ListRoute53HealthChecksRequest & RegionInput,
   ListRoute53HealthChecksResponse,
   ListRoute53HealthChecksError,
   Credentials | HttpClient.HttpClient,
@@ -1632,6 +1673,8 @@ export const listRoute53HealthChecks: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoute53HealthChecks",
 })) as any;
 
 export type ListRoute53HealthChecksInRegionError =
@@ -1644,7 +1687,7 @@ export type ListRoute53HealthChecksInRegionError =
  * List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
  */
 export const listRoute53HealthChecksInRegion: API.PaginatedOperationMethod<
-  ListRoute53HealthChecksInRegionRequest,
+  ListRoute53HealthChecksInRegionRequest & RegionInput,
   ListRoute53HealthChecksInRegionResponse,
   ListRoute53HealthChecksInRegionError,
   Credentials | HttpClient.HttpClient,
@@ -1667,6 +1710,8 @@ export const listRoute53HealthChecksInRegion: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoute53HealthChecksInRegion",
 })) as any;
 
 export type ListServiceQuotaWarningsError =
@@ -1679,7 +1724,7 @@ export type ListServiceQuotaWarningsError =
  * Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
  */
 export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
-  ListServiceQuotaWarningsRequest,
+  ListServiceQuotaWarningsRequest & RegionInput,
   ListServiceQuotaWarningsResponse,
   ListServiceQuotaWarningsError,
   Credentials | HttpClient.HttpClient,
@@ -1697,6 +1742,8 @@ export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
     items: "serviceQuotaWarningSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceQuotaWarnings",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1707,7 +1754,7 @@ export type ListTagsForResourceError =
  * Lists the tags attached to a Region switch resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1718,6 +1765,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartPlanExecutionError =
@@ -1733,7 +1782,7 @@ export type StartPlanExecutionError =
  * Specifing `ungraceful` mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks.
  */
 export const startPlanExecution: API.OperationMethod<
-  StartPlanExecutionRequest,
+  StartPlanExecutionRequest & RegionInput,
   StartPlanExecutionResponse,
   StartPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1750,6 +1799,8 @@ export const startPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPlanExecution",
+  telemetry: TELEMETRY,
+  span: "StartPlanExecution",
 }));
 
 export type TagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -1757,7 +1808,7 @@ export type TagResourceError = InternalServerException | ResourceNotFoundExcepti
  * Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1768,6 +1819,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -1775,7 +1828,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Removes tags from a Region switch resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1786,6 +1839,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePlanError = ResourceNotFoundException | CommonErrors;
@@ -1793,7 +1848,7 @@ export type UpdatePlanError = ResourceNotFoundException | CommonErrors;
  * Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
  */
 export const updatePlan: API.OperationMethod<
-  UpdatePlanRequest,
+  UpdatePlanRequest & RegionInput,
   UpdatePlanResponse,
   UpdatePlanError,
   Credentials | HttpClient.HttpClient
@@ -1804,6 +1859,8 @@ export const updatePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlan",
+  telemetry: TELEMETRY,
+  span: "UpdatePlan",
 }));
 
 export type UpdatePlanExecutionError =
@@ -1815,7 +1872,7 @@ export type UpdatePlanExecutionError =
  * Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
  */
 export const updatePlanExecution: API.OperationMethod<
-  UpdatePlanExecutionRequest,
+  UpdatePlanExecutionRequest & RegionInput,
   UpdatePlanExecutionResponse,
   UpdatePlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1826,6 +1883,8 @@ export const updatePlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecution",
+  telemetry: TELEMETRY,
+  span: "UpdatePlanExecution",
 }));
 
 export type UpdatePlanExecutionStepError =
@@ -1836,7 +1895,7 @@ export type UpdatePlanExecutionStepError =
  * Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
  */
 export const updatePlanExecutionStep: API.OperationMethod<
-  UpdatePlanExecutionStepRequest,
+  UpdatePlanExecutionStepRequest & RegionInput,
   UpdatePlanExecutionStepResponse,
   UpdatePlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -1847,6 +1906,8 @@ export const updatePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "UpdatePlanExecutionStep",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Cdn",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1023,6 +1036,8 @@ export const createDistribution: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDistribution",
 }));
 
 export type DeleteCustomDomainError = UnprocessableEntity | StackitOpError;
@@ -1038,6 +1053,8 @@ export const deleteCustomDomain: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDomain",
 }));
 
 export type DeleteDistributionError = UnprocessableEntity | StackitOpError;
@@ -1053,6 +1070,8 @@ export const deleteDistribution: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDistribution",
 }));
 
 export type FindCachePathsError = UnprocessableEntity | StackitOpError;
@@ -1068,6 +1087,8 @@ export const findCachePaths: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindCachePaths",
 }));
 
 export type GetCacheInfoError = UnprocessableEntity | StackitOpError;
@@ -1083,6 +1104,8 @@ export const getCacheInfo: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCacheInfo",
 }));
 
 export type GetCustomDomainError = NotFound | UnprocessableEntity | StackitOpError;
@@ -1098,6 +1121,8 @@ export const getCustomDomain: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomDomain",
 }));
 
 export type GetDistributionError = NotFound | UnprocessableEntity | StackitOpError;
@@ -1113,6 +1138,8 @@ export const getDistribution: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDistribution",
 }));
 
 export type GetLogsError = UnprocessableEntity | StackitOpError;
@@ -1128,6 +1155,8 @@ export const getLogs: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogs",
 }));
 
 export type GetLogsSearchFiltersError = BadRequest | UnprocessableEntity | StackitOpError;
@@ -1143,6 +1172,8 @@ export const getLogsSearchFilters: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsSearchFilters",
 }));
 
 export type GetStatisticsError = UnprocessableEntity | StackitOpError;
@@ -1158,6 +1189,8 @@ export const getStatistics: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatistics",
 }));
 
 export type ListDistributionsError = UnprocessableEntity | StackitOpError;
@@ -1173,6 +1206,8 @@ export const listDistributions: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDistributions",
 }));
 
 export type ListWafCollectionsError = UnprocessableEntity | StackitOpError;
@@ -1188,6 +1223,8 @@ export const listWafCollections: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWafCollections",
 }));
 
 export type PatchDistributionError = UnprocessableEntity | StackitOpError;
@@ -1203,6 +1240,8 @@ export const patchDistribution: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDistribution",
 }));
 
 export type PurgeCacheError = UnprocessableEntity | StackitOpError;
@@ -1218,6 +1257,8 @@ export const purgeCache: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeCache",
 }));
 
 export type PutCustomDomainError = UnprocessableEntity | StackitOpError;
@@ -1233,6 +1274,8 @@ export const putCustomDomain: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCustomDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://devops-guru.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DevOpsGuru",
+  service: "DevOpsGuru",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1216,7 +1232,7 @@ export type AddNotificationChannelError =
  * Amazon Web Services KMS-encrypted Amazon SNS topics.
  */
 export const addNotificationChannel: API.OperationMethod<
-  AddNotificationChannelRequest,
+  AddNotificationChannelRequest & RegionInput,
   AddNotificationChannelResponse,
   AddNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1235,6 +1251,8 @@ export const addNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "AddNotificationChannel",
 }));
 
 export type DeleteInsightError =
@@ -1249,7 +1267,7 @@ export type DeleteInsightError =
  * Deletes the insight along with the associated anomalies, events and recommendations.
  */
 export const deleteInsight: API.OperationMethod<
-  DeleteInsightRequest,
+  DeleteInsightRequest & RegionInput,
   DeleteInsightResponse,
   DeleteInsightError,
   Credentials | HttpClient.HttpClient
@@ -1267,6 +1285,8 @@ export const deleteInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsight",
+  telemetry: TELEMETRY,
+  span: "DeleteInsight",
 }));
 
 export type DescribeAccountHealthError =
@@ -1281,7 +1301,7 @@ export type DescribeAccountHealthError =
  * health of operations in your Amazon Web Services account.
  */
 export const describeAccountHealth: API.OperationMethod<
-  DescribeAccountHealthRequest,
+  DescribeAccountHealthRequest & RegionInput,
   DescribeAccountHealthResponse,
   DescribeAccountHealthError,
   Credentials | HttpClient.HttpClient
@@ -1297,6 +1317,8 @@ export const describeAccountHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountHealth",
 }));
 
 export type DescribeAccountOverviewError =
@@ -1311,7 +1333,7 @@ export type DescribeAccountOverviewError =
  * closed reactive insights.
  */
 export const describeAccountOverview: API.OperationMethod<
-  DescribeAccountOverviewRequest,
+  DescribeAccountOverviewRequest & RegionInput,
   DescribeAccountOverviewResponse,
   DescribeAccountOverviewError,
   Credentials | HttpClient.HttpClient
@@ -1327,6 +1349,8 @@ export const describeAccountOverview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountOverview",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountOverview",
 }));
 
 export type DescribeAnomalyError =
@@ -1340,7 +1364,7 @@ export type DescribeAnomalyError =
  * Returns details about an anomaly that you specify using its ID.
  */
 export const describeAnomaly: API.OperationMethod<
-  DescribeAnomalyRequest,
+  DescribeAnomalyRequest & RegionInput,
   DescribeAnomalyResponse,
   DescribeAnomalyError,
   Credentials | HttpClient.HttpClient
@@ -1357,6 +1381,8 @@ export const describeAnomaly: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnomaly",
+  telemetry: TELEMETRY,
+  span: "DescribeAnomaly",
 }));
 
 export type DescribeEventSourcesConfigError =
@@ -1372,7 +1398,7 @@ export type DescribeEventSourcesConfigError =
  * DevOps Guru.
  */
 export const describeEventSourcesConfig: API.OperationMethod<
-  DescribeEventSourcesConfigRequest,
+  DescribeEventSourcesConfigRequest & RegionInput,
   DescribeEventSourcesConfigResponse,
   DescribeEventSourcesConfigError,
   Credentials | HttpClient.HttpClient
@@ -1388,6 +1414,8 @@ export const describeEventSourcesConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventSourcesConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeEventSourcesConfig",
 }));
 
 export type DescribeFeedbackError =
@@ -1401,7 +1429,7 @@ export type DescribeFeedbackError =
  * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
  */
 export const describeFeedback: API.OperationMethod<
-  DescribeFeedbackRequest,
+  DescribeFeedbackRequest & RegionInput,
   DescribeFeedbackResponse,
   DescribeFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1418,6 +1446,8 @@ export const describeFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeedback",
+  telemetry: TELEMETRY,
+  span: "DescribeFeedback",
 }));
 
 export type DescribeInsightError =
@@ -1431,7 +1461,7 @@ export type DescribeInsightError =
  * Returns details about an insight that you specify using its ID.
  */
 export const describeInsight: API.OperationMethod<
-  DescribeInsightRequest,
+  DescribeInsightRequest & RegionInput,
   DescribeInsightResponse,
   DescribeInsightError,
   Credentials | HttpClient.HttpClient
@@ -1448,6 +1478,8 @@ export const describeInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsight",
+  telemetry: TELEMETRY,
+  span: "DescribeInsight",
 }));
 
 export type DescribeOrganizationHealthError =
@@ -1461,7 +1493,7 @@ export type DescribeOrganizationHealthError =
  * hour.
  */
 export const describeOrganizationHealth: API.OperationMethod<
-  DescribeOrganizationHealthRequest,
+  DescribeOrganizationHealthRequest & RegionInput,
   DescribeOrganizationHealthResponse,
   DescribeOrganizationHealthError,
   Credentials | HttpClient.HttpClient
@@ -1477,6 +1509,8 @@ export const describeOrganizationHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationHealth",
 }));
 
 export type DescribeOrganizationOverviewError =
@@ -1490,7 +1524,7 @@ export type DescribeOrganizationOverviewError =
  * The overview includes the total reactive and proactive insights.
  */
 export const describeOrganizationOverview: API.OperationMethod<
-  DescribeOrganizationOverviewRequest,
+  DescribeOrganizationOverviewRequest & RegionInput,
   DescribeOrganizationOverviewResponse,
   DescribeOrganizationOverviewError,
   Credentials | HttpClient.HttpClient
@@ -1506,6 +1540,8 @@ export const describeOrganizationOverview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationOverview",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationOverview",
 }));
 
 export type DescribeOrganizationResourceCollectionHealthError =
@@ -1520,7 +1556,7 @@ export type DescribeOrganizationResourceCollectionHealthError =
  * field.
  */
 export const describeOrganizationResourceCollectionHealth: API.PaginatedOperationMethod<
-  DescribeOrganizationResourceCollectionHealthRequest,
+  DescribeOrganizationResourceCollectionHealthRequest & RegionInput,
   DescribeOrganizationResourceCollectionHealthResponse,
   DescribeOrganizationResourceCollectionHealthError,
   Credentials | HttpClient.HttpClient,
@@ -1542,6 +1578,8 @@ export const describeOrganizationResourceCollectionHealth: API.PaginatedOperatio
   retry: Retry,
   operationName: "DescribeOrganizationResourceCollectionHealth",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationResourceCollectionHealth",
 })) as any;
 
 export type DescribeResourceCollectionHealthError =
@@ -1558,7 +1596,7 @@ export type DescribeResourceCollectionHealthError =
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
 export const describeResourceCollectionHealth: API.PaginatedOperationMethod<
-  DescribeResourceCollectionHealthRequest,
+  DescribeResourceCollectionHealthRequest & RegionInput,
   DescribeResourceCollectionHealthResponse,
   DescribeResourceCollectionHealthError,
   Credentials | HttpClient.HttpClient,
@@ -1576,6 +1614,8 @@ export const describeResourceCollectionHealth: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeResourceCollectionHealth",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeResourceCollectionHealth",
 })) as any;
 
 export type DescribeServiceIntegrationError =
@@ -1591,7 +1631,7 @@ export type DescribeServiceIntegrationError =
  * is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
  */
 export const describeServiceIntegration: API.OperationMethod<
-  DescribeServiceIntegrationRequest,
+  DescribeServiceIntegrationRequest & RegionInput,
   DescribeServiceIntegrationResponse,
   DescribeServiceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1608,6 +1648,8 @@ export const describeServiceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceIntegration",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceIntegration",
 }));
 
 export type GetCostEstimationError =
@@ -1625,7 +1667,7 @@ export type GetCostEstimationError =
  * Amazon DevOps Guru pricing.
  */
 export const getCostEstimation: API.PaginatedOperationMethod<
-  GetCostEstimationRequest,
+  GetCostEstimationRequest & RegionInput,
   GetCostEstimationResponse,
   GetCostEstimationError,
   Credentials | HttpClient.HttpClient,
@@ -1644,6 +1686,8 @@ export const getCostEstimation: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetCostEstimation",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetCostEstimation",
 })) as any;
 
 export type GetResourceCollectionError =
@@ -1660,7 +1704,7 @@ export type GetResourceCollectionError =
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
 export const getResourceCollection: API.PaginatedOperationMethod<
-  GetResourceCollectionRequest,
+  GetResourceCollectionRequest & RegionInput,
   GetResourceCollectionResponse,
   GetResourceCollectionError,
   Credentials | HttpClient.HttpClient,
@@ -1679,6 +1723,8 @@ export const getResourceCollection: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetResourceCollection",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceCollection",
 })) as any;
 
 export type ListAnomaliesForInsightError =
@@ -1693,7 +1739,7 @@ export type ListAnomaliesForInsightError =
  * ID.
  */
 export const listAnomaliesForInsight: API.PaginatedOperationMethod<
-  ListAnomaliesForInsightRequest,
+  ListAnomaliesForInsightRequest & RegionInput,
   ListAnomaliesForInsightResponse,
   ListAnomaliesForInsightError,
   Credentials | HttpClient.HttpClient,
@@ -1716,6 +1762,8 @@ export const listAnomaliesForInsight: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnomaliesForInsight",
 })) as any;
 
 export type ListAnomalousLogGroupsError =
@@ -1729,7 +1777,7 @@ export type ListAnomalousLogGroupsError =
  * Returns the list of log groups that contain log anomalies.
  */
 export const listAnomalousLogGroups: API.PaginatedOperationMethod<
-  ListAnomalousLogGroupsRequest,
+  ListAnomalousLogGroupsRequest & RegionInput,
   ListAnomalousLogGroupsResponse,
   ListAnomalousLogGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1752,6 +1800,8 @@ export const listAnomalousLogGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnomalousLogGroups",
 })) as any;
 
 export type ListEventsError =
@@ -1766,7 +1816,7 @@ export type ListEventsError =
  * You can use filters to specify which events are returned.
  */
 export const listEvents: API.PaginatedOperationMethod<
-  ListEventsRequest,
+  ListEventsRequest & RegionInput,
   ListEventsResponse,
   ListEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1790,6 +1840,8 @@ export const listEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
 })) as any;
 
 export type ListInsightsError =
@@ -1804,7 +1856,7 @@ export type ListInsightsError =
  * `ANY`).
  */
 export const listInsights: API.PaginatedOperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -1826,6 +1878,8 @@ export const listInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInsights",
 })) as any;
 
 export type ListMonitoredResourcesError =
@@ -1838,7 +1892,7 @@ export type ListMonitoredResourcesError =
  * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
  */
 export const listMonitoredResources: API.PaginatedOperationMethod<
-  ListMonitoredResourcesRequest,
+  ListMonitoredResourcesRequest & RegionInput,
   ListMonitoredResourcesResponse,
   ListMonitoredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1860,6 +1914,8 @@ export const listMonitoredResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitoredResources",
 })) as any;
 
 export type ListNotificationChannelsError =
@@ -1875,7 +1931,7 @@ export type ListNotificationChannelsError =
  * supported notification channel is Amazon Simple Notification Service (Amazon SNS).
  */
 export const listNotificationChannels: API.PaginatedOperationMethod<
-  ListNotificationChannelsRequest,
+  ListNotificationChannelsRequest & RegionInput,
   ListNotificationChannelsResponse,
   ListNotificationChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1893,6 +1949,8 @@ export const listNotificationChannels: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListNotificationChannels",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Channels" } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationChannels",
 })) as any;
 
 export type ListOrganizationInsightsError =
@@ -1905,7 +1963,7 @@ export type ListOrganizationInsightsError =
  * Returns a list of insights associated with the account or OU Id.
  */
 export const listOrganizationInsights: API.PaginatedOperationMethod<
-  ListOrganizationInsightsRequest,
+  ListOrganizationInsightsRequest & RegionInput,
   ListOrganizationInsightsResponse,
   ListOrganizationInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -1927,6 +1985,8 @@ export const listOrganizationInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInsights",
 })) as any;
 
 export type ListRecommendationsError =
@@ -1941,7 +2001,7 @@ export type ListRecommendationsError =
  * a list of related metrics and a list of related events.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -1964,6 +2024,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Recommendations",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 })) as any;
 
 export type PutFeedbackError =
@@ -1978,7 +2040,7 @@ export type PutFeedbackError =
  * Collects customer feedback about the specified insight.
  */
 export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
+  PutFeedbackRequest & RegionInput,
   PutFeedbackResponse,
   PutFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2058,8 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  telemetry: TELEMETRY,
+  span: "PutFeedback",
 }));
 
 export type RemoveNotificationChannelError =
@@ -2012,7 +2076,7 @@ export type RemoveNotificationChannelError =
  * operations.
  */
 export const removeNotificationChannel: API.OperationMethod<
-  RemoveNotificationChannelRequest,
+  RemoveNotificationChannelRequest & RegionInput,
   RemoveNotificationChannelResponse,
   RemoveNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -2030,6 +2094,8 @@ export const removeNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "RemoveNotificationChannel",
 }));
 
 export type SearchInsightsError =
@@ -2049,7 +2115,7 @@ export type SearchInsightsError =
  * `PROACTIVE` in your search.
  */
 export const searchInsights: API.PaginatedOperationMethod<
-  SearchInsightsRequest,
+  SearchInsightsRequest & RegionInput,
   SearchInsightsResponse,
   SearchInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2071,6 +2137,8 @@ export const searchInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchInsights",
 })) as any;
 
 export type SearchOrganizationInsightsError =
@@ -2091,7 +2159,7 @@ export type SearchOrganizationInsightsError =
  * `PROACTIVE` in your search.
  */
 export const searchOrganizationInsights: API.PaginatedOperationMethod<
-  SearchOrganizationInsightsRequest,
+  SearchOrganizationInsightsRequest & RegionInput,
   SearchOrganizationInsightsResponse,
   SearchOrganizationInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2113,6 +2181,8 @@ export const searchOrganizationInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchOrganizationInsights",
 })) as any;
 
 export type StartCostEstimationError =
@@ -2128,7 +2198,7 @@ export type StartCostEstimationError =
  * resources.
  */
 export const startCostEstimation: API.OperationMethod<
-  StartCostEstimationRequest,
+  StartCostEstimationRequest & RegionInput,
   StartCostEstimationResponse,
   StartCostEstimationError,
   Credentials | HttpClient.HttpClient
@@ -2146,6 +2216,8 @@ export const startCostEstimation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCostEstimation",
+  telemetry: TELEMETRY,
+  span: "StartCostEstimation",
 }));
 
 export type UpdateEventSourcesConfigError =
@@ -2160,7 +2232,7 @@ export type UpdateEventSourcesConfigError =
  * can produce proactive recommendations which can be stored and viewed in DevOps Guru.
  */
 export const updateEventSourcesConfig: API.OperationMethod<
-  UpdateEventSourcesConfigRequest,
+  UpdateEventSourcesConfigRequest & RegionInput,
   UpdateEventSourcesConfigResponse,
   UpdateEventSourcesConfigError,
   Credentials | HttpClient.HttpClient
@@ -2176,6 +2248,8 @@ export const updateEventSourcesConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventSourcesConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateEventSourcesConfig",
 }));
 
 export type UpdateResourceCollectionError =
@@ -2193,7 +2267,7 @@ export type UpdateResourceCollectionError =
  * you to use DevOps Guru.
  */
 export const updateResourceCollection: API.OperationMethod<
-  UpdateResourceCollectionRequest,
+  UpdateResourceCollectionRequest & RegionInput,
   UpdateResourceCollectionResponse,
   UpdateResourceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2210,6 +2284,8 @@ export const updateResourceCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceCollection",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceCollection",
 }));
 
 export type UpdateServiceIntegrationError =
@@ -2225,7 +2301,7 @@ export type UpdateServiceIntegrationError =
  * an OpsItem for each generated insight.
  */
 export const updateServiceIntegration: API.OperationMethod<
-  UpdateServiceIntegrationRequest,
+  UpdateServiceIntegrationRequest & RegionInput,
   UpdateServiceIntegrationResponse,
   UpdateServiceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2242,6 +2318,8 @@ export const updateServiceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceIntegration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

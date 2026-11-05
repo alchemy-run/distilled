@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Dedicatedceph",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -588,6 +602,8 @@ export const confirmDedicatedCephTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmDedicatedCephTermination",
 }));
 
 export type CreateDedicatedCephAclError = OvhOpError;
@@ -603,6 +619,8 @@ export const createDedicatedCephAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedCephAcl",
 }));
 
 export type CreateDedicatedCephChangeContactError = OvhOpError;
@@ -618,6 +636,8 @@ export const createDedicatedCephChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedCephChangeContact",
 }));
 
 export type CreateDedicatedCephPoolError = OvhOpError;
@@ -633,6 +653,8 @@ export const createDedicatedCephPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedCephPool",
 }));
 
 export type CreateDedicatedCephPoolErasureError = OvhOpError;
@@ -648,6 +670,8 @@ export const createDedicatedCephPoolErasure: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedCephPoolErasure",
 }));
 
 export type CreateDedicatedCephRadosGatewayAclError = OvhOpError;
@@ -663,6 +687,8 @@ export const createDedicatedCephRadosGatewayAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedCephRadosGatewayAcl",
 }));
 
 export type CreateDedicatedCephUserError = OvhOpError;
@@ -678,6 +704,8 @@ export const createDedicatedCephUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedCephUser",
 }));
 
 export type CreateDedicatedCephUserPoolError = OvhOpError;
@@ -693,6 +721,8 @@ export const createDedicatedCephUserPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedCephUserPool",
 }));
 
 export type DeleteDedicatedCephAclError = OvhOpError;
@@ -708,6 +738,8 @@ export const deleteDedicatedCephAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedCephAcl",
 }));
 
 export type DeleteDedicatedCephCephfError = OvhOpError;
@@ -723,6 +755,8 @@ export const deleteDedicatedCephCephf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedCephCephf",
 }));
 
 export type DeleteDedicatedCephPoolError = OvhOpError;
@@ -738,6 +772,8 @@ export const deleteDedicatedCephPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedCephPool",
 }));
 
 export type DeleteDedicatedCephUserError = OvhOpError;
@@ -753,6 +789,8 @@ export const deleteDedicatedCephUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedCephUser",
 }));
 
 export type DeleteDedicatedCephUserPoolError = OvhOpError;
@@ -768,6 +806,8 @@ export const deleteDedicatedCephUserPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedCephUserPool",
 }));
 
 export type DisableDedicatedCephCephfError = OvhOpError;
@@ -783,6 +823,8 @@ export const disableDedicatedCephCephf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableDedicatedCephCephf",
 }));
 
 export type EnableDedicatedCephCephfError = OvhOpError;
@@ -798,6 +840,8 @@ export const enableDedicatedCephCephf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableDedicatedCephCephf",
 }));
 
 export type GetDedicatedCephError = OvhOpError;
@@ -813,6 +857,8 @@ export const getDedicatedCeph: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCeph",
 }));
 
 export type GetDedicatedCephAclError = OvhOpError;
@@ -828,6 +874,8 @@ export const getDedicatedCephAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephAcl",
 }));
 
 export type GetDedicatedCephCephfError = OvhOpError;
@@ -843,6 +891,8 @@ export const getDedicatedCephCephf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephCephf",
 }));
 
 export type GetDedicatedCephHealthError = OvhOpError;
@@ -858,6 +908,8 @@ export const getDedicatedCephHealth: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephHealth",
 }));
 
 export type GetDedicatedCephPoolError = OvhOpError;
@@ -873,6 +925,8 @@ export const getDedicatedCephPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephPool",
 }));
 
 export type GetDedicatedCephRadosGatewayError = OvhOpError;
@@ -887,6 +941,8 @@ export const getDedicatedCephRadosGateway: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephRadosGateway",
 }));
 
 export type GetDedicatedCephServiceInfosError = OvhOpError;
@@ -902,6 +958,8 @@ export const getDedicatedCephServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephServiceInfos",
 }));
 
 export type GetDedicatedCephTaskError = OvhOpError;
@@ -917,6 +975,8 @@ export const getDedicatedCephTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephTask",
 }));
 
 export type GetDedicatedCephUserError = OvhOpError;
@@ -932,6 +992,8 @@ export const getDedicatedCephUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCephUser",
 }));
 
 export type ListDedicatedCephError = OvhOpError;
@@ -947,6 +1009,8 @@ export const listDedicatedCeph: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCeph",
 }));
 
 export type ListDedicatedCephAclError = OvhOpError;
@@ -962,6 +1026,8 @@ export const listDedicatedCephAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephAcl",
 }));
 
 export type ListDedicatedCephCephfsError = OvhOpError;
@@ -977,6 +1043,8 @@ export const listDedicatedCephCephfs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephCephfs",
 }));
 
 export type ListDedicatedCephPoolError = OvhOpError;
@@ -992,6 +1060,8 @@ export const listDedicatedCephPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephPool",
 }));
 
 export type ListDedicatedCephRadosGatewayError = OvhOpError;
@@ -1007,6 +1077,8 @@ export const listDedicatedCephRadosGateway: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephRadosGateway",
 }));
 
 export type ListDedicatedCephRadosGatewayAclError = OvhOpError;
@@ -1022,6 +1094,8 @@ export const listDedicatedCephRadosGatewayAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephRadosGatewayAcl",
 }));
 
 export type ListDedicatedCephTaskError = OvhOpError;
@@ -1037,6 +1111,8 @@ export const listDedicatedCephTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephTask",
 }));
 
 export type ListDedicatedCephUserError = OvhOpError;
@@ -1052,6 +1128,8 @@ export const listDedicatedCephUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephUser",
 }));
 
 export type ListDedicatedCephUserPoolError = OvhOpError;
@@ -1067,6 +1145,8 @@ export const listDedicatedCephUserPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCephUserPool",
 }));
 
 export type PutDedicatedCephError = OvhOpError;
@@ -1082,6 +1162,8 @@ export const putDedicatedCeph: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedCeph",
 }));
 
 export type PutDedicatedCephPoolAllowDeletionError = OvhOpError;
@@ -1097,6 +1179,8 @@ export const putDedicatedCephPoolAllowDeletion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedCephPoolAllowDeletion",
 }));
 
 export type PutDedicatedCephRadosGatewayAclError = OvhOpError;
@@ -1112,6 +1196,8 @@ export const putDedicatedCephRadosGatewayAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedCephRadosGatewayAcl",
 }));
 
 export type PutDedicatedCephServiceInfosError = OvhOpError;
@@ -1127,6 +1213,8 @@ export const putDedicatedCephServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedCephServiceInfos",
 }));
 
 export type PutDedicatedCephUserPoolError = OvhOpError;
@@ -1142,6 +1230,8 @@ export const putDedicatedCephUserPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedCephUserPool",
 }));
 
 export type TerminateDedicatedCephError = OvhOpError;
@@ -1157,6 +1247,8 @@ export const terminateDedicatedCeph: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateDedicatedCeph",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

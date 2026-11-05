@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HealthDataAIServices" },
+  prefix: "Healthdataaiservices",
+  service: "Healthdataaiservices",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateDeidServiceRequestTagsMap = { [key: string]: string | undefined };
 /** State of the public network access. */
@@ -573,6 +594,8 @@ export const CreateDeidService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeidService",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -588,6 +611,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type DeleteDeidServiceError = AzureOpError;
@@ -603,6 +628,8 @@ export const DeleteDeidService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeidService",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -618,6 +645,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type GetDeidServiceError = AzureOpError;
@@ -633,6 +662,8 @@ export const GetDeidService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeidService",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -648,6 +679,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type ListDeidServiceByResourceGroupError = AzureOpError;
@@ -663,6 +696,8 @@ export const ListDeidServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeidServiceByResourceGroup",
 }));
 
 export type ListDeidServiceBySubscriptionError = AzureOpError;
@@ -678,6 +713,8 @@ export const ListDeidServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeidServiceBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -693,6 +730,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByDeidServiceError = AzureOpError;
@@ -708,6 +747,8 @@ export const ListPrivateEndpointConnectionByDeidService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByDeidService",
 }));
 
 export type ListPrivateLinkByDeidServiceError = AzureOpError;
@@ -723,6 +764,8 @@ export const ListPrivateLinkByDeidService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkByDeidService",
 }));
 
 export type UpdateDeidServiceError = AzureOpError;
@@ -738,6 +781,8 @@ export const UpdateDeidService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeidService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

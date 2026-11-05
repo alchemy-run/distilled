@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "oslogin" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Oslogin",
+  service: "oslogin",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -280,6 +299,8 @@ export const createUsersSshPublicKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSshPublicKeys",
 }));
 
 export type DeleteUsersProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -295,6 +316,8 @@ export const deleteUsersProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersProjects",
 }));
 
 export type DeleteUsersSshPublicKeysError =
@@ -315,6 +338,8 @@ export const deleteUsersSshPublicKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSshPublicKeys",
 }));
 
 export type GetLoginProfileUsersError = NotFound | Forbidden | GcpOpError;
@@ -330,6 +355,8 @@ export const getLoginProfileUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoginProfileUsers",
 }));
 
 export type GetUsersSshPublicKeysError = NotFound | Forbidden | GcpOpError;
@@ -345,6 +372,8 @@ export const getUsersSshPublicKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSshPublicKeys",
 }));
 
 export type ImportSshPublicKeyUsersError =
@@ -365,6 +394,8 @@ export const importSshPublicKeyUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSshPublicKeyUsers",
 }));
 
 export type PatchUsersSshPublicKeysError =
@@ -385,6 +416,8 @@ export const patchUsersSshPublicKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersSshPublicKeys",
 }));
 
 export type ProvisionPosixAccountUsersProjectsError =
@@ -405,6 +438,8 @@ export const provisionPosixAccountUsersProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionPosixAccountUsersProjects",
 }));
 
 export type SignSshPublicKeyProjectsLocationsError =
@@ -429,6 +464,8 @@ export const signSshPublicKeyProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSshPublicKeyProjectsLocations",
 }));
 
 export type SignSshPublicKeyUsersProjectsLocationsError =
@@ -449,6 +486,8 @@ export const signSshPublicKeyUsersProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSshPublicKeyUsersProjectsLocations",
 }));
 
 export type SignSshPublicKeyUsersProjectsZonesError =
@@ -469,6 +508,8 @@ export const signSshPublicKeyUsersProjectsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSshPublicKeyUsersProjectsZones",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

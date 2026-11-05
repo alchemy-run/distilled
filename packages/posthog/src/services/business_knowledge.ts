@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "BusinessKnowledge",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -596,6 +609,8 @@ export const businessKnowledgeDocumentsSearchList: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeDocumentsSearchList",
 }));
 
 export type BusinessKnowledgeGapSuggestionsAcceptCreateError = PosthogOpError;
@@ -611,6 +626,8 @@ export const businessKnowledgeGapSuggestionsAcceptCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeGapSuggestionsAcceptCreate",
 }));
 
 export type BusinessKnowledgeGapSuggestionsAcceptTopicCreateError = PosthogOpError;
@@ -630,6 +647,8 @@ export const businessKnowledgeGapSuggestionsAcceptTopicCreate: API.OperationMeth
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeGapSuggestionsAcceptTopicCreate",
 }));
 
 export type BusinessKnowledgePlaygroundChatsDestroyError = PosthogOpError;
@@ -645,6 +664,8 @@ export const businessKnowledgePlaygroundChatsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgePlaygroundChatsDestroy",
 }));
 
 export type BusinessKnowledgeRepositoriesConnectCreateError = PosthogOpError;
@@ -660,6 +681,8 @@ export const businessKnowledgeRepositoriesConnectCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeRepositoriesConnectCreate",
 }));
 
 export type BusinessKnowledgeRepositoriesDisconnectCreateError = PosthogOpError;
@@ -679,6 +702,8 @@ export const businessKnowledgeRepositoriesDisconnectCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeRepositoriesDisconnectCreate",
 }));
 
 export type BusinessKnowledgeSourcesDestroyError = PosthogOpError;
@@ -693,6 +718,8 @@ export const businessKnowledgeSourcesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeSourcesDestroy",
 }));
 
 export type BusinessKnowledgeSourcesRefreshCreateError = PosthogOpError;
@@ -707,6 +734,8 @@ export const businessKnowledgeSourcesRefreshCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeSourcesRefreshCreate",
 }));
 
 export type CreateBusinessKnowledgeGapSuggestionsDismissError = PosthogOpError;
@@ -722,6 +751,8 @@ export const createBusinessKnowledgeGapSuggestionsDismiss: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgeGapSuggestionsDismiss",
 }));
 
 export type CreateBusinessKnowledgeGapSuggestionsDismissTopicError = PosthogOpError;
@@ -741,6 +772,8 @@ export const createBusinessKnowledgeGapSuggestionsDismissTopic: API.OperationMet
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgeGapSuggestionsDismissTopic",
 }));
 
 export type CreateBusinessKnowledgePlaygroundChatError = PosthogOpError;
@@ -756,6 +789,8 @@ export const createBusinessKnowledgePlaygroundChat: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgePlaygroundChat",
 }));
 
 export type CreateBusinessKnowledgePlaygroundChatsAskError = Forbidden | Conflict | PosthogOpError;
@@ -771,6 +806,8 @@ export const createBusinessKnowledgePlaygroundChatsAsk: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgePlaygroundChatsAsk",
 }));
 
 export type CreateBusinessKnowledgeRepositoriesSelectionError = PosthogOpError;
@@ -786,6 +823,8 @@ export const createBusinessKnowledgeRepositoriesSelection: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgeRepositoriesSelection",
 }));
 
 export type CreateBusinessKnowledgeSandboxError = Forbidden | Conflict | PosthogOpError;
@@ -801,6 +840,8 @@ export const createBusinessKnowledgeSandbox: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgeSandbox",
 }));
 
 export type CreateBusinessKnowledgeSourceError = PosthogOpError;
@@ -815,6 +856,8 @@ export const createBusinessKnowledgeSource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgeSource",
 }));
 
 export type GetBusinessKnowledgePlaygroundChatError = NotFound | PosthogOpError;
@@ -830,6 +873,8 @@ export const getBusinessKnowledgePlaygroundChat: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgePlaygroundChat",
 }));
 
 export type GetBusinessKnowledgeRepositoriesFileError = PosthogOpError;
@@ -845,6 +890,8 @@ export const getBusinessKnowledgeRepositoriesFile: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeRepositoriesFile",
 }));
 
 export type GetBusinessKnowledgeRepositoriesStatusError = PosthogOpError;
@@ -860,6 +907,8 @@ export const getBusinessKnowledgeRepositoriesStatus: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeRepositoriesStatus",
 }));
 
 export type GetBusinessKnowledgeSandboxError = NotFound | PosthogOpError;
@@ -875,6 +924,8 @@ export const getBusinessKnowledgeSandbox: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeSandbox",
 }));
 
 export type GetBusinessKnowledgeSettingsError = PosthogOpError;
@@ -890,6 +941,8 @@ export const getBusinessKnowledgeSettings: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeSettings",
 }));
 
 export type GetBusinessKnowledgeSourceError = PosthogOpError;
@@ -904,6 +957,8 @@ export const getBusinessKnowledgeSource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeSource",
 }));
 
 export type GetBusinessKnowledgeSourcesTextError = PosthogOpError;
@@ -918,6 +973,8 @@ export const getBusinessKnowledgeSourcesText: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeSourcesText",
 }));
 
 export type ListBusinessKnowledgeDocumentsWindowError = PosthogOpError;
@@ -933,6 +990,8 @@ export const listBusinessKnowledgeDocumentsWindow: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBusinessKnowledgeDocumentsWindow",
 }));
 
 export type ListBusinessKnowledgeGapSuggestionsError = PosthogOpError;
@@ -948,6 +1007,8 @@ export const listBusinessKnowledgeGapSuggestions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBusinessKnowledgeGapSuggestions",
 }));
 
 export type ListBusinessKnowledgePlaygroundChatsError = PosthogOpError;
@@ -963,6 +1024,8 @@ export const listBusinessKnowledgePlaygroundChats: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBusinessKnowledgePlaygroundChats",
 }));
 
 export type ListBusinessKnowledgeSourcesError = PosthogOpError;
@@ -977,6 +1040,8 @@ export const listBusinessKnowledgeSources: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBusinessKnowledgeSources",
 }));
 
 export type ListBusinessKnowledgeSourcesDocumentsError = PosthogOpError;
@@ -991,6 +1056,8 @@ export const listBusinessKnowledgeSourcesDocuments: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBusinessKnowledgeSourcesDocuments",
 }));
 
 export type SearchBusinessKnowledgeRepositoryError = PosthogOpError;
@@ -1006,6 +1073,8 @@ export const searchBusinessKnowledgeRepository: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchBusinessKnowledgeRepository",
 }));
 
 export type UpdateBusinessKnowledgeSettingsPartialError = BadRequest | PosthogOpError;
@@ -1021,6 +1090,8 @@ export const updateBusinessKnowledgeSettingsPartial: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBusinessKnowledgeSettingsPartial",
 }));
 
 export type UpdateBusinessKnowledgeSourcesPartialError = PosthogOpError;
@@ -1035,6 +1106,8 @@ export const updateBusinessKnowledgeSourcesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBusinessKnowledgeSourcesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

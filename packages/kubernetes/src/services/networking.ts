@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Networking",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1925,6 +1938,8 @@ export const createNetworkingV1IngressClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkingV1IngressClass",
 }));
 
 export type CreateNetworkingV1IPAddressError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -1940,6 +1955,8 @@ export const createNetworkingV1IPAddress: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkingV1IPAddress",
 }));
 
 export type CreateNetworkingV1NamespacedIngressError =
@@ -1958,6 +1975,8 @@ export const createNetworkingV1NamespacedIngress: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkingV1NamespacedIngress",
 }));
 
 export type CreateNetworkingV1NamespacedNetworkPolicyError =
@@ -1976,6 +1995,8 @@ export const createNetworkingV1NamespacedNetworkPolicy: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkingV1NamespacedNetworkPolicy",
 }));
 
 export type CreateNetworkingV1ServiceCIDRError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -1991,6 +2012,8 @@ export const createNetworkingV1ServiceCIDR: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkingV1ServiceCIDR",
 }));
 
 export type DeleteNetworkingV1CollectionIngressClassError = KubernetesOpError;
@@ -2006,6 +2029,8 @@ export const deleteNetworkingV1CollectionIngressClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1CollectionIngressClass",
 }));
 
 export type DeleteNetworkingV1CollectionIPAddressError = KubernetesOpError;
@@ -2021,6 +2046,8 @@ export const deleteNetworkingV1CollectionIPAddress: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1CollectionIPAddress",
 }));
 
 export type DeleteNetworkingV1CollectionNamespacedIngressError = KubernetesOpError;
@@ -2036,6 +2063,8 @@ export const deleteNetworkingV1CollectionNamespacedIngress: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1CollectionNamespacedIngress",
 }));
 
 export type DeleteNetworkingV1CollectionNamespacedNetworkPolicyError = KubernetesOpError;
@@ -2055,6 +2084,8 @@ export const deleteNetworkingV1CollectionNamespacedNetworkPolicy: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1CollectionNamespacedNetworkPolicy",
 }));
 
 export type DeleteNetworkingV1CollectionServiceCIDRError = KubernetesOpError;
@@ -2070,6 +2101,8 @@ export const deleteNetworkingV1CollectionServiceCIDR: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1CollectionServiceCIDR",
 }));
 
 export type DeleteNetworkingV1IngressClassError = NotFound | Conflict | KubernetesOpError;
@@ -2085,6 +2118,8 @@ export const deleteNetworkingV1IngressClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1IngressClass",
 }));
 
 export type DeleteNetworkingV1IPAddressError = NotFound | Conflict | KubernetesOpError;
@@ -2100,6 +2135,8 @@ export const deleteNetworkingV1IPAddress: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1IPAddress",
 }));
 
 export type DeleteNetworkingV1NamespacedIngressError = NotFound | Conflict | KubernetesOpError;
@@ -2115,6 +2152,8 @@ export const deleteNetworkingV1NamespacedIngress: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1NamespacedIngress",
 }));
 
 export type DeleteNetworkingV1NamespacedNetworkPolicyError =
@@ -2133,6 +2172,8 @@ export const deleteNetworkingV1NamespacedNetworkPolicy: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1NamespacedNetworkPolicy",
 }));
 
 export type DeleteNetworkingV1ServiceCIDRError = NotFound | Conflict | KubernetesOpError;
@@ -2148,6 +2189,8 @@ export const deleteNetworkingV1ServiceCIDR: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkingV1ServiceCIDR",
 }));
 
 export type GetNetworkingAPIGroupError = KubernetesOpError;
@@ -2163,6 +2206,8 @@ export const getNetworkingAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkingAPIGroup",
 }));
 
 export type GetNetworkingV1APIResourcesError = KubernetesOpError;
@@ -2178,6 +2223,8 @@ export const getNetworkingV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkingV1APIResources",
 }));
 
 export type ListNetworkingV1IngressClassError = KubernetesOpError;
@@ -2193,6 +2240,8 @@ export const listNetworkingV1IngressClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkingV1IngressClass",
 }));
 
 export type ListNetworkingV1IngressForAllNamespacesError = KubernetesOpError;
@@ -2208,6 +2257,8 @@ export const listNetworkingV1IngressForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkingV1IngressForAllNamespaces",
 }));
 
 export type ListNetworkingV1IPAddressError = KubernetesOpError;
@@ -2223,6 +2274,8 @@ export const listNetworkingV1IPAddress: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkingV1IPAddress",
 }));
 
 export type ListNetworkingV1NamespacedIngressError = KubernetesOpError;
@@ -2238,6 +2291,8 @@ export const listNetworkingV1NamespacedIngress: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkingV1NamespacedIngress",
 }));
 
 export type ListNetworkingV1NamespacedNetworkPolicyError = KubernetesOpError;
@@ -2253,6 +2308,8 @@ export const listNetworkingV1NamespacedNetworkPolicy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkingV1NamespacedNetworkPolicy",
 }));
 
 export type ListNetworkingV1NetworkPolicyForAllNamespacesError = KubernetesOpError;
@@ -2272,6 +2329,8 @@ export const listNetworkingV1NetworkPolicyForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkingV1NetworkPolicyForAllNamespaces",
 }));
 
 export type ListNetworkingV1ServiceCIDRError = KubernetesOpError;
@@ -2287,6 +2346,8 @@ export const listNetworkingV1ServiceCIDR: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkingV1ServiceCIDR",
 }));
 
 export type PatchNetworkingV1IngressClassError =
@@ -2306,6 +2367,8 @@ export const patchNetworkingV1IngressClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkingV1IngressClass",
 }));
 
 export type PatchNetworkingV1IPAddressError =
@@ -2325,6 +2388,8 @@ export const patchNetworkingV1IPAddress: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkingV1IPAddress",
 }));
 
 export type PatchNetworkingV1NamespacedIngressError =
@@ -2344,6 +2409,8 @@ export const patchNetworkingV1NamespacedIngress: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkingV1NamespacedIngress",
 }));
 
 export type PatchNetworkingV1NamespacedIngressStatusError =
@@ -2363,6 +2430,8 @@ export const patchNetworkingV1NamespacedIngressStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkingV1NamespacedIngressStatus",
 }));
 
 export type PatchNetworkingV1NamespacedNetworkPolicyError =
@@ -2382,6 +2451,8 @@ export const patchNetworkingV1NamespacedNetworkPolicy: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkingV1NamespacedNetworkPolicy",
 }));
 
 export type PatchNetworkingV1ServiceCIDRError =
@@ -2401,6 +2472,8 @@ export const patchNetworkingV1ServiceCIDR: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkingV1ServiceCIDR",
 }));
 
 export type PatchNetworkingV1ServiceCIDRStatusError =
@@ -2420,6 +2493,8 @@ export const patchNetworkingV1ServiceCIDRStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkingV1ServiceCIDRStatus",
 }));
 
 export type ReadNetworkingV1IngressClassError = NotFound | KubernetesOpError;
@@ -2435,6 +2510,8 @@ export const readNetworkingV1IngressClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetworkingV1IngressClass",
 }));
 
 export type ReadNetworkingV1IPAddressError = NotFound | KubernetesOpError;
@@ -2450,6 +2527,8 @@ export const readNetworkingV1IPAddress: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetworkingV1IPAddress",
 }));
 
 export type ReadNetworkingV1NamespacedIngressError = NotFound | KubernetesOpError;
@@ -2465,6 +2544,8 @@ export const readNetworkingV1NamespacedIngress: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetworkingV1NamespacedIngress",
 }));
 
 export type ReadNetworkingV1NamespacedIngressStatusError = NotFound | KubernetesOpError;
@@ -2480,6 +2561,8 @@ export const readNetworkingV1NamespacedIngressStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetworkingV1NamespacedIngressStatus",
 }));
 
 export type ReadNetworkingV1NamespacedNetworkPolicyError = NotFound | KubernetesOpError;
@@ -2495,6 +2578,8 @@ export const readNetworkingV1NamespacedNetworkPolicy: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetworkingV1NamespacedNetworkPolicy",
 }));
 
 export type ReadNetworkingV1ServiceCIDRError = NotFound | KubernetesOpError;
@@ -2510,6 +2595,8 @@ export const readNetworkingV1ServiceCIDR: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetworkingV1ServiceCIDR",
 }));
 
 export type ReadNetworkingV1ServiceCIDRStatusError = NotFound | KubernetesOpError;
@@ -2525,6 +2612,8 @@ export const readNetworkingV1ServiceCIDRStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNetworkingV1ServiceCIDRStatus",
 }));
 
 export type ReplaceNetworkingV1IngressClassError =
@@ -2544,6 +2633,8 @@ export const replaceNetworkingV1IngressClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkingV1IngressClass",
 }));
 
 export type ReplaceNetworkingV1IPAddressError =
@@ -2563,6 +2654,8 @@ export const replaceNetworkingV1IPAddress: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkingV1IPAddress",
 }));
 
 export type ReplaceNetworkingV1NamespacedIngressError =
@@ -2582,6 +2675,8 @@ export const replaceNetworkingV1NamespacedIngress: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkingV1NamespacedIngress",
 }));
 
 export type ReplaceNetworkingV1NamespacedIngressStatusError =
@@ -2601,6 +2696,8 @@ export const replaceNetworkingV1NamespacedIngressStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkingV1NamespacedIngressStatus",
 }));
 
 export type ReplaceNetworkingV1NamespacedNetworkPolicyError =
@@ -2620,6 +2717,8 @@ export const replaceNetworkingV1NamespacedNetworkPolicy: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkingV1NamespacedNetworkPolicy",
 }));
 
 export type ReplaceNetworkingV1ServiceCIDRError =
@@ -2639,6 +2738,8 @@ export const replaceNetworkingV1ServiceCIDR: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkingV1ServiceCIDR",
 }));
 
 export type ReplaceNetworkingV1ServiceCIDRStatusError =
@@ -2658,6 +2759,8 @@ export const replaceNetworkingV1ServiceCIDRStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkingV1ServiceCIDRStatus",
 }));
 
 export type WatchNetworkingV1IngressClassError = KubernetesOpError;
@@ -2673,6 +2776,8 @@ export const watchNetworkingV1IngressClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1IngressClass",
 }));
 
 export type WatchNetworkingV1IngressClassListError = KubernetesOpError;
@@ -2688,6 +2793,8 @@ export const watchNetworkingV1IngressClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1IngressClassList",
 }));
 
 export type WatchNetworkingV1IngressListForAllNamespacesError = KubernetesOpError;
@@ -2707,6 +2814,8 @@ export const watchNetworkingV1IngressListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1IngressListForAllNamespaces",
 }));
 
 export type WatchNetworkingV1IPAddressError = KubernetesOpError;
@@ -2722,6 +2831,8 @@ export const watchNetworkingV1IPAddress: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1IPAddress",
 }));
 
 export type WatchNetworkingV1IPAddressListError = KubernetesOpError;
@@ -2737,6 +2848,8 @@ export const watchNetworkingV1IPAddressList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1IPAddressList",
 }));
 
 export type WatchNetworkingV1NamespacedIngressError = KubernetesOpError;
@@ -2752,6 +2865,8 @@ export const watchNetworkingV1NamespacedIngress: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1NamespacedIngress",
 }));
 
 export type WatchNetworkingV1NamespacedIngressListError = KubernetesOpError;
@@ -2767,6 +2882,8 @@ export const watchNetworkingV1NamespacedIngressList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1NamespacedIngressList",
 }));
 
 export type WatchNetworkingV1NamespacedNetworkPolicyError = KubernetesOpError;
@@ -2782,6 +2899,8 @@ export const watchNetworkingV1NamespacedNetworkPolicy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1NamespacedNetworkPolicy",
 }));
 
 export type WatchNetworkingV1NamespacedNetworkPolicyListError = KubernetesOpError;
@@ -2801,6 +2920,8 @@ export const watchNetworkingV1NamespacedNetworkPolicyList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1NamespacedNetworkPolicyList",
 }));
 
 export type WatchNetworkingV1NetworkPolicyListForAllNamespacesError = KubernetesOpError;
@@ -2820,6 +2941,8 @@ export const watchNetworkingV1NetworkPolicyListForAllNamespaces: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1NetworkPolicyListForAllNamespaces",
 }));
 
 export type WatchNetworkingV1ServiceCIDRError = KubernetesOpError;
@@ -2835,6 +2958,8 @@ export const watchNetworkingV1ServiceCIDR: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1ServiceCIDR",
 }));
 
 export type WatchNetworkingV1ServiceCIDRListError = KubernetesOpError;
@@ -2850,6 +2975,8 @@ export const watchNetworkingV1ServiceCIDRList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNetworkingV1ServiceCIDRList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

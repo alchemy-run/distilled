@@ -10,6 +10,23 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Markdown",
+  propagate: "w3c",
+} as const;
+
 /** The rendering mode. */
 export type RenderRequestMode = "markdown" | "gfm";
 export interface RenderRequest {
@@ -36,6 +53,8 @@ export const render: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Render",
 }));
 
 export type RenderRawError = GithubOpError;
@@ -51,6 +70,8 @@ export const renderRaw: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderRaw",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

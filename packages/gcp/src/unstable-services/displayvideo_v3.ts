@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "displayvideo" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Displayvideo",
+  service: "displayvideo",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -8266,6 +8285,8 @@ export const auditAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuditAdvertisers",
 }));
 
 export type BulkEditAdvertisersChannelsSitesError =
@@ -8286,6 +8307,8 @@ export const bulkEditAdvertisersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditAdvertisersChannelsSites",
 }));
 
 export type BulkEditAdvertisersLocationListsAssignedLocationsError =
@@ -8310,6 +8333,8 @@ export const bulkEditAdvertisersLocationListsAssignedLocations: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditAdvertisersLocationListsAssignedLocations",
 }));
 
 export type BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsError =
@@ -8334,6 +8359,8 @@ export const bulkEditAdvertisersNegativeKeywordListsNegativeKeywords: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditAdvertisersNegativeKeywordListsNegativeKeywords",
 }));
 
 export type BulkEditAssignedTargetingOptionsAdvertisersAdGroupsError =
@@ -8358,6 +8385,8 @@ export const bulkEditAssignedTargetingOptionsAdvertisersAdGroups: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditAssignedTargetingOptionsAdvertisersAdGroups",
 }));
 
 export type BulkEditAssignedTargetingOptionsAdvertisersLineItemsError =
@@ -8382,6 +8411,8 @@ export const bulkEditAssignedTargetingOptionsAdvertisersLineItems: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditAssignedTargetingOptionsAdvertisersLineItems",
 }));
 
 export type BulkEditAssignedUserRolesUsersError =
@@ -8402,6 +8433,8 @@ export const bulkEditAssignedUserRolesUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditAssignedUserRolesUsers",
 }));
 
 export type BulkEditInventorySourceGroupsAssignedInventorySourcesError =
@@ -8426,6 +8459,8 @@ export const bulkEditInventorySourceGroupsAssignedInventorySources: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditInventorySourceGroupsAssignedInventorySources",
 }));
 
 export type BulkEditPartnersChannelsSitesError =
@@ -8446,6 +8481,8 @@ export const bulkEditPartnersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditPartnersChannelsSites",
 }));
 
 export type BulkListAdGroupAssignedTargetingOptionsAdvertisersAdGroupsError =
@@ -8469,6 +8506,8 @@ export const bulkListAdGroupAssignedTargetingOptionsAdvertisersAdGroups: API.Pag
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkListAdGroupAssignedTargetingOptionsAdvertisersAdGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8493,6 +8532,8 @@ export const bulkListAssignedTargetingOptionsAdvertisersLineItems: API.Paginated
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkListAssignedTargetingOptionsAdvertisersLineItems",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8514,6 +8555,8 @@ export const bulkUpdateAdvertisersLineItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateAdvertisersLineItems",
 }));
 
 export type CreateAdvertisersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -8529,6 +8572,8 @@ export const createAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisers",
 }));
 
 export type CreateAdvertisersAdGroupAdsError =
@@ -8549,6 +8594,8 @@ export const createAdvertisersAdGroupAds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersAdGroupAds",
 }));
 
 export type CreateAdvertisersAdGroupsError =
@@ -8569,6 +8616,8 @@ export const createAdvertisersAdGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersAdGroups",
 }));
 
 export type CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
@@ -8593,6 +8642,8 @@ export const createAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions",
 }));
 
 export type CreateAdvertisersCampaignsError =
@@ -8613,6 +8664,8 @@ export const createAdvertisersCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersCampaigns",
 }));
 
 export type CreateAdvertisersChannelsError =
@@ -8633,6 +8686,8 @@ export const createAdvertisersChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersChannels",
 }));
 
 export type CreateAdvertisersChannelsSitesError =
@@ -8653,6 +8708,8 @@ export const createAdvertisersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersChannelsSites",
 }));
 
 export type CreateAdvertisersCreativesError =
@@ -8673,6 +8730,8 @@ export const createAdvertisersCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersCreatives",
 }));
 
 export type CreateAdvertisersInsertionOrdersError =
@@ -8693,6 +8752,8 @@ export const createAdvertisersInsertionOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersInsertionOrders",
 }));
 
 export type CreateAdvertisersLineItemsError =
@@ -8713,6 +8774,8 @@ export const createAdvertisersLineItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersLineItems",
 }));
 
 export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
@@ -8737,6 +8800,8 @@ export const createAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: A
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptions",
 }));
 
 export type CreateAdvertisersLocationListsError =
@@ -8757,6 +8822,8 @@ export const createAdvertisersLocationLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersLocationLists",
 }));
 
 export type CreateAdvertisersLocationListsAssignedLocationsError =
@@ -8781,6 +8848,8 @@ export const createAdvertisersLocationListsAssignedLocations: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersLocationListsAssignedLocations",
 }));
 
 export type CreateAdvertisersNegativeKeywordListsError =
@@ -8801,6 +8870,8 @@ export const createAdvertisersNegativeKeywordLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersNegativeKeywordLists",
 }));
 
 export type CreateAdvertisersNegativeKeywordListsNegativeKeywordsError =
@@ -8825,6 +8896,8 @@ export const createAdvertisersNegativeKeywordListsNegativeKeywords: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersNegativeKeywordListsNegativeKeywords",
 }));
 
 export type CreateAdvertisersTargetingTypesAssignedTargetingOptionsError =
@@ -8849,6 +8922,8 @@ export const createAdvertisersTargetingTypesAssignedTargetingOptions: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdvertisersTargetingTypesAssignedTargetingOptions",
 }));
 
 export type CreateCustomBiddingAlgorithmsError =
@@ -8869,6 +8944,8 @@ export const createCustomBiddingAlgorithms: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomBiddingAlgorithms",
 }));
 
 export type CreateCustomBiddingAlgorithmsRulesError =
@@ -8889,6 +8966,8 @@ export const createCustomBiddingAlgorithmsRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomBiddingAlgorithmsRules",
 }));
 
 export type CreateCustomBiddingAlgorithmsScriptsError =
@@ -8909,6 +8988,8 @@ export const createCustomBiddingAlgorithmsScripts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomBiddingAlgorithmsScripts",
 }));
 
 export type CreateGuaranteedOrdersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -8924,6 +9005,8 @@ export const createGuaranteedOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuaranteedOrders",
 }));
 
 export type CreateInventorySourceGroupsError =
@@ -8944,6 +9027,8 @@ export const createInventorySourceGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInventorySourceGroups",
 }));
 
 export type CreateInventorySourceGroupsAssignedInventorySourcesError =
@@ -8968,6 +9053,8 @@ export const createInventorySourceGroupsAssignedInventorySources: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInventorySourceGroupsAssignedInventorySources",
 }));
 
 export type CreatePartnersChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -8983,6 +9070,8 @@ export const createPartnersChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnersChannels",
 }));
 
 export type CreatePartnersChannelsSitesError =
@@ -9003,6 +9092,8 @@ export const createPartnersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnersChannelsSites",
 }));
 
 export type CreatePartnersTargetingTypesAssignedTargetingOptionsError =
@@ -9027,6 +9118,8 @@ export const createPartnersTargetingTypesAssignedTargetingOptions: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnersTargetingTypesAssignedTargetingOptions",
 }));
 
 export type CreateSdfdownloadtasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -9042,6 +9135,8 @@ export const createSdfdownloadtasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSdfdownloadtasks",
 }));
 
 export type CreateUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -9057,6 +9152,8 @@ export const createUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsers",
 }));
 
 export type DeleteAdvertisersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -9072,6 +9169,8 @@ export const deleteAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisers",
 }));
 
 export type DeleteAdvertisersAdGroupAdsError =
@@ -9092,6 +9191,8 @@ export const deleteAdvertisersAdGroupAds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersAdGroupAds",
 }));
 
 export type DeleteAdvertisersAdGroupsError =
@@ -9112,6 +9213,8 @@ export const deleteAdvertisersAdGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersAdGroups",
 }));
 
 export type DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
@@ -9136,6 +9239,8 @@ export const deleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions",
 }));
 
 export type DeleteAdvertisersCampaignsError =
@@ -9156,6 +9261,8 @@ export const deleteAdvertisersCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersCampaigns",
 }));
 
 export type DeleteAdvertisersChannelsSitesError =
@@ -9176,6 +9283,8 @@ export const deleteAdvertisersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersChannelsSites",
 }));
 
 export type DeleteAdvertisersCreativesError =
@@ -9196,6 +9305,8 @@ export const deleteAdvertisersCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersCreatives",
 }));
 
 export type DeleteAdvertisersInsertionOrdersError =
@@ -9216,6 +9327,8 @@ export const deleteAdvertisersInsertionOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersInsertionOrders",
 }));
 
 export type DeleteAdvertisersLineItemsError =
@@ -9236,6 +9349,8 @@ export const deleteAdvertisersLineItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersLineItems",
 }));
 
 export type DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
@@ -9260,6 +9375,8 @@ export const deleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: A
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptions",
 }));
 
 export type DeleteAdvertisersLocationListsAssignedLocationsError =
@@ -9284,6 +9401,8 @@ export const deleteAdvertisersLocationListsAssignedLocations: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersLocationListsAssignedLocations",
 }));
 
 export type DeleteAdvertisersNegativeKeywordListsError =
@@ -9304,6 +9423,8 @@ export const deleteAdvertisersNegativeKeywordLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersNegativeKeywordLists",
 }));
 
 export type DeleteAdvertisersNegativeKeywordListsNegativeKeywordsError =
@@ -9328,6 +9449,8 @@ export const deleteAdvertisersNegativeKeywordListsNegativeKeywords: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersNegativeKeywordListsNegativeKeywords",
 }));
 
 export type DeleteAdvertisersTargetingTypesAssignedTargetingOptionsError =
@@ -9352,6 +9475,8 @@ export const deleteAdvertisersTargetingTypesAssignedTargetingOptions: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertisersTargetingTypesAssignedTargetingOptions",
 }));
 
 export type DeleteInventorySourceGroupsError =
@@ -9372,6 +9497,8 @@ export const deleteInventorySourceGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInventorySourceGroups",
 }));
 
 export type DeleteInventorySourceGroupsAssignedInventorySourcesError =
@@ -9396,6 +9523,8 @@ export const deleteInventorySourceGroupsAssignedInventorySources: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInventorySourceGroupsAssignedInventorySources",
 }));
 
 export type DeletePartnersChannelsSitesError =
@@ -9416,6 +9545,8 @@ export const deletePartnersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePartnersChannelsSites",
 }));
 
 export type DeletePartnersTargetingTypesAssignedTargetingOptionsError =
@@ -9440,6 +9571,8 @@ export const deletePartnersTargetingTypesAssignedTargetingOptions: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePartnersTargetingTypesAssignedTargetingOptions",
 }));
 
 export type DeleteUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -9455,6 +9588,8 @@ export const deleteUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsers",
 }));
 
 export type DownloadMediaError = NotFound | Forbidden | GcpOpError;
@@ -9470,6 +9605,8 @@ export const downloadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMedia",
 }));
 
 export type DuplicateAdvertisersLineItemsError =
@@ -9490,6 +9627,8 @@ export const duplicateAdvertisersLineItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateAdvertisersLineItems",
 }));
 
 export type EditAssignedTargetingOptionsAdvertisersError =
@@ -9514,6 +9653,8 @@ export const editAssignedTargetingOptionsAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditAssignedTargetingOptionsAdvertisers",
 }));
 
 export type EditAssignedTargetingOptionsPartnersError =
@@ -9534,6 +9675,8 @@ export const editAssignedTargetingOptionsPartners: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditAssignedTargetingOptionsPartners",
 }));
 
 export type EditGuaranteedOrderReadAccessorsGuaranteedOrdersError =
@@ -9558,6 +9701,8 @@ export const editGuaranteedOrderReadAccessorsGuaranteedOrders: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditGuaranteedOrderReadAccessorsGuaranteedOrders",
 }));
 
 export type GetAdvertisersError = NotFound | Forbidden | GcpOpError;
@@ -9573,6 +9718,8 @@ export const getAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisers",
 }));
 
 export type GetAdvertisersAdGroupAdsError = NotFound | Forbidden | GcpOpError;
@@ -9588,6 +9735,8 @@ export const getAdvertisersAdGroupAds: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersAdGroupAds",
 }));
 
 export type GetAdvertisersAdGroupsError = NotFound | Forbidden | GcpOpError;
@@ -9603,6 +9752,8 @@ export const getAdvertisersAdGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersAdGroups",
 }));
 
 export type GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
@@ -9625,6 +9776,8 @@ export const getAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.O
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions",
 }));
 
 export type GetAdvertisersCampaignsError = NotFound | Forbidden | GcpOpError;
@@ -9640,6 +9793,8 @@ export const getAdvertisersCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersCampaigns",
 }));
 
 export type GetAdvertisersChannelsError = NotFound | Forbidden | GcpOpError;
@@ -9655,6 +9810,8 @@ export const getAdvertisersChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersChannels",
 }));
 
 export type GetAdvertisersCreativesError = NotFound | Forbidden | GcpOpError;
@@ -9670,6 +9827,8 @@ export const getAdvertisersCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersCreatives",
 }));
 
 export type GetAdvertisersInsertionOrdersError = NotFound | Forbidden | GcpOpError;
@@ -9685,6 +9844,8 @@ export const getAdvertisersInsertionOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersInsertionOrders",
 }));
 
 export type GetAdvertisersLineItemsError = NotFound | Forbidden | GcpOpError;
@@ -9700,6 +9861,8 @@ export const getAdvertisersLineItems: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersLineItems",
 }));
 
 export type GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
@@ -9722,6 +9885,8 @@ export const getAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptions",
 }));
 
 export type GetAdvertisersLocationListsError = NotFound | Forbidden | GcpOpError;
@@ -9737,6 +9902,8 @@ export const getAdvertisersLocationLists: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersLocationLists",
 }));
 
 export type GetAdvertisersNegativeKeywordListsError = NotFound | Forbidden | GcpOpError;
@@ -9752,6 +9919,8 @@ export const getAdvertisersNegativeKeywordLists: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersNegativeKeywordLists",
 }));
 
 export type GetAdvertisersTargetingTypesAssignedTargetingOptionsError =
@@ -9774,6 +9943,8 @@ export const getAdvertisersTargetingTypesAssignedTargetingOptions: API.Operation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisersTargetingTypesAssignedTargetingOptions",
 }));
 
 export type GetCombinedAudiencesError = NotFound | Forbidden | GcpOpError;
@@ -9789,6 +9960,8 @@ export const getCombinedAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCombinedAudiences",
 }));
 
 export type GetCustomBiddingAlgorithmsError = NotFound | Forbidden | GcpOpError;
@@ -9804,6 +9977,8 @@ export const getCustomBiddingAlgorithms: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomBiddingAlgorithms",
 }));
 
 export type GetCustomBiddingAlgorithmsRulesError = NotFound | Forbidden | GcpOpError;
@@ -9819,6 +9994,8 @@ export const getCustomBiddingAlgorithmsRules: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomBiddingAlgorithmsRules",
 }));
 
 export type GetCustomBiddingAlgorithmsScriptsError = NotFound | Forbidden | GcpOpError;
@@ -9834,6 +10011,8 @@ export const getCustomBiddingAlgorithmsScripts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomBiddingAlgorithmsScripts",
 }));
 
 export type GetCustomListsError = NotFound | Forbidden | GcpOpError;
@@ -9849,6 +10028,8 @@ export const getCustomLists: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomLists",
 }));
 
 export type GetFloodlightGroupsError = NotFound | Forbidden | GcpOpError;
@@ -9864,6 +10045,8 @@ export const getFloodlightGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloodlightGroups",
 }));
 
 export type GetFloodlightGroupsFloodlightActivitiesError = NotFound | Forbidden | GcpOpError;
@@ -9879,6 +10062,8 @@ export const getFloodlightGroupsFloodlightActivities: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloodlightGroupsFloodlightActivities",
 }));
 
 export type GetGoogleAudiencesError = NotFound | Forbidden | GcpOpError;
@@ -9894,6 +10079,8 @@ export const getGoogleAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleAudiences",
 }));
 
 export type GetGuaranteedOrdersError = NotFound | Forbidden | GcpOpError;
@@ -9909,6 +10096,8 @@ export const getGuaranteedOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuaranteedOrders",
 }));
 
 export type GetInventorySourceGroupsError = NotFound | Forbidden | GcpOpError;
@@ -9924,6 +10113,8 @@ export const getInventorySourceGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInventorySourceGroups",
 }));
 
 export type GetPartnersError = NotFound | Forbidden | GcpOpError;
@@ -9939,6 +10130,8 @@ export const getPartners: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartners",
 }));
 
 export type GetPartnersChannelsError = NotFound | Forbidden | GcpOpError;
@@ -9954,6 +10147,8 @@ export const getPartnersChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnersChannels",
 }));
 
 export type GetPartnersTargetingTypesAssignedTargetingOptionsError =
@@ -9976,6 +10171,8 @@ export const getPartnersTargetingTypesAssignedTargetingOptions: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnersTargetingTypesAssignedTargetingOptions",
 }));
 
 export type GetSdfdownloadtasksOperationsError = NotFound | Forbidden | GcpOpError;
@@ -9991,6 +10188,8 @@ export const getSdfdownloadtasksOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdfdownloadtasksOperations",
 }));
 
 export type GetTargetingTypesTargetingOptionsError = NotFound | Forbidden | GcpOpError;
@@ -10006,6 +10205,8 @@ export const getTargetingTypesTargetingOptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTargetingTypesTargetingOptions",
 }));
 
 export type GetUsersError = NotFound | Forbidden | GcpOpError;
@@ -10017,6 +10218,8 @@ export const getUsers: API.OperationMethod<GetUsersRequest, User, GetUsersError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUsers",
   }));
 
 export type ListAdvertisersError = NotFound | Forbidden | GcpOpError;
@@ -10033,6 +10236,8 @@ export const listAdvertisers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10050,6 +10255,8 @@ export const listAdvertisersAdGroupAds: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersAdGroupAds",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10067,6 +10274,8 @@ export const listAdvertisersAdGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersAdGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10091,6 +10300,8 @@ export const listAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10108,6 +10319,8 @@ export const listAdvertisersCampaigns: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersCampaigns",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10125,6 +10338,8 @@ export const listAdvertisersChannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersChannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10142,6 +10357,8 @@ export const listAdvertisersChannelsSites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersChannelsSites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10159,6 +10376,8 @@ export const listAdvertisersCreatives: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersCreatives",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10176,6 +10395,8 @@ export const listAdvertisersInsertionOrders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersInsertionOrders",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10193,6 +10414,8 @@ export const listAdvertisersInvoices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersInvoices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10210,6 +10433,8 @@ export const listAdvertisersLineItems: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersLineItems",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10234,6 +10459,8 @@ export const listAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10251,6 +10478,8 @@ export const listAdvertisersLocationLists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersLocationLists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10272,6 +10501,8 @@ export const listAdvertisersLocationListsAssignedLocations: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersLocationListsAssignedLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10289,6 +10520,8 @@ export const listAdvertisersNegativeKeywordLists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersNegativeKeywordLists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10313,6 +10546,8 @@ export const listAdvertisersNegativeKeywordListsNegativeKeywords: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersNegativeKeywordListsNegativeKeywords",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10337,6 +10572,8 @@ export const listAdvertisersTargetingTypesAssignedTargetingOptions: API.Paginate
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisersTargetingTypesAssignedTargetingOptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10358,6 +10595,8 @@ export const listAssignedTargetingOptionsAdvertisers: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssignedTargetingOptionsAdvertisers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10375,6 +10614,8 @@ export const listCombinedAudiences: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCombinedAudiences",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10392,6 +10633,8 @@ export const listCustomBiddingAlgorithms: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomBiddingAlgorithms",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10409,6 +10652,8 @@ export const listCustomBiddingAlgorithmsRules: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomBiddingAlgorithmsRules",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10426,6 +10671,8 @@ export const listCustomBiddingAlgorithmsScripts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomBiddingAlgorithmsScripts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10443,6 +10690,8 @@ export const listCustomLists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomLists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10460,6 +10709,8 @@ export const listFloodlightGroupsFloodlightActivities: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFloodlightGroupsFloodlightActivities",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10477,6 +10728,8 @@ export const listGoogleAudiences: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGoogleAudiences",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10494,6 +10747,8 @@ export const listGuaranteedOrders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuaranteedOrders",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10511,6 +10766,8 @@ export const listInventorySourceGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInventorySourceGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10535,6 +10792,8 @@ export const listInventorySourceGroupsAssignedInventorySources: API.PaginatedOpe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInventorySourceGroupsAssignedInventorySources",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10552,6 +10811,8 @@ export const listPartners: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartners",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10569,6 +10830,8 @@ export const listPartnersChannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnersChannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10586,6 +10849,8 @@ export const listPartnersChannelsSites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnersChannelsSites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10610,6 +10875,8 @@ export const listPartnersTargetingTypesAssignedTargetingOptions: API.PaginatedOp
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnersTargetingTypesAssignedTargetingOptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10627,6 +10894,8 @@ export const listTargetingTypesTargetingOptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargetingTypesTargetingOptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10644,6 +10913,8 @@ export const listUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10660,6 +10931,8 @@ export const lookupInvoiceCurrencyAdvertisersInvoices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupInvoiceCurrencyAdvertisersInvoices",
 }));
 
 export type PatchAdvertisersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -10675,6 +10948,8 @@ export const patchAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisers",
 }));
 
 export type PatchAdvertisersAdGroupAdsError =
@@ -10695,6 +10970,8 @@ export const patchAdvertisersAdGroupAds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersAdGroupAds",
 }));
 
 export type PatchAdvertisersAdGroupsError =
@@ -10715,6 +10992,8 @@ export const patchAdvertisersAdGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersAdGroups",
 }));
 
 export type PatchAdvertisersCampaignsError =
@@ -10735,6 +11014,8 @@ export const patchAdvertisersCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersCampaigns",
 }));
 
 export type PatchAdvertisersChannelsError =
@@ -10755,6 +11036,8 @@ export const patchAdvertisersChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersChannels",
 }));
 
 export type PatchAdvertisersCreativesError =
@@ -10775,6 +11058,8 @@ export const patchAdvertisersCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersCreatives",
 }));
 
 export type PatchAdvertisersInsertionOrdersError =
@@ -10795,6 +11080,8 @@ export const patchAdvertisersInsertionOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersInsertionOrders",
 }));
 
 export type PatchAdvertisersLineItemsError =
@@ -10815,6 +11102,8 @@ export const patchAdvertisersLineItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersLineItems",
 }));
 
 export type PatchAdvertisersLocationListsError =
@@ -10835,6 +11124,8 @@ export const patchAdvertisersLocationLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersLocationLists",
 }));
 
 export type PatchAdvertisersNegativeKeywordListsError =
@@ -10855,6 +11146,8 @@ export const patchAdvertisersNegativeKeywordLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisersNegativeKeywordLists",
 }));
 
 export type PatchCustomBiddingAlgorithmsError =
@@ -10875,6 +11168,8 @@ export const patchCustomBiddingAlgorithms: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomBiddingAlgorithms",
 }));
 
 export type PatchFloodlightGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -10890,6 +11185,8 @@ export const patchFloodlightGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFloodlightGroups",
 }));
 
 export type PatchGuaranteedOrdersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -10905,6 +11202,8 @@ export const patchGuaranteedOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGuaranteedOrders",
 }));
 
 export type PatchInventorySourceGroupsError =
@@ -10925,6 +11224,8 @@ export const patchInventorySourceGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInventorySourceGroups",
 }));
 
 export type PatchPartnersChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -10940,6 +11241,8 @@ export const patchPartnersChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPartnersChannels",
 }));
 
 export type PatchUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -10955,6 +11258,8 @@ export const patchUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsers",
 }));
 
 export type ReplaceAdvertisersChannelsSitesError =
@@ -10975,6 +11280,8 @@ export const replaceAdvertisersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdvertisersChannelsSites",
 }));
 
 export type ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsError =
@@ -10999,6 +11306,8 @@ export const replaceAdvertisersNegativeKeywordListsNegativeKeywords: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdvertisersNegativeKeywordListsNegativeKeywords",
 }));
 
 export type ReplacePartnersChannelsSitesError =
@@ -11019,6 +11328,8 @@ export const replacePartnersChannelsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePartnersChannelsSites",
 }));
 
 export type SearchTargetingTypesTargetingOptionsError =
@@ -11039,6 +11350,8 @@ export const searchTargetingTypesTargetingOptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTargetingTypesTargetingOptions",
 }));
 
 export type UploadAdvertisersAssetsError =
@@ -11059,6 +11372,8 @@ export const uploadAdvertisersAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadAdvertisersAssets",
 }));
 
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -11074,6 +11389,8 @@ export const uploadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadMedia",
 }));
 
 export type UploadRulesCustomBiddingAlgorithmsError = NotFound | Forbidden | GcpOpError;
@@ -11089,6 +11406,8 @@ export const uploadRulesCustomBiddingAlgorithms: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadRulesCustomBiddingAlgorithms",
 }));
 
 export type UploadScriptCustomBiddingAlgorithmsError = NotFound | Forbidden | GcpOpError;
@@ -11104,6 +11423,8 @@ export const uploadScriptCustomBiddingAlgorithms: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadScriptCustomBiddingAlgorithms",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

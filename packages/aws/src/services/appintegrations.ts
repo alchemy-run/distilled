@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://app-integrations.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppIntegrations",
+  service: "AppIntegrations",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -534,7 +550,7 @@ export type CreateApplicationError =
  * Creates and persists an Application resource.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -554,6 +570,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateDataIntegrationError =
@@ -573,7 +591,7 @@ export type CreateDataIntegrationError =
  * using the `CreateDataIntegration` API.
  */
 export const createDataIntegration: API.OperationMethod<
-  CreateDataIntegrationRequest,
+  CreateDataIntegrationRequest & RegionInput,
   CreateDataIntegrationResponse,
   CreateDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -592,6 +610,8 @@ export const createDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegration",
 }));
 
 export type CreateDataIntegrationAssociationError =
@@ -607,7 +627,7 @@ export type CreateDataIntegrationAssociationError =
  * Creates and persists a DataIntegrationAssociation resource.
  */
 export const createDataIntegrationAssociation: API.OperationMethod<
-  CreateDataIntegrationAssociationRequest,
+  CreateDataIntegrationAssociationRequest & RegionInput,
   CreateDataIntegrationAssociationResponse,
   CreateDataIntegrationAssociationError,
   Credentials | HttpClient.HttpClient
@@ -626,6 +646,8 @@ export const createDataIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegrationAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationAssociation",
 }));
 
 export type CreateEventIntegrationError =
@@ -644,7 +666,7 @@ export type CreateEventIntegrationError =
  * EventIntegration control plane.
  */
 export const createEventIntegration: API.OperationMethod<
-  CreateEventIntegrationRequest,
+  CreateEventIntegrationRequest & RegionInput,
   CreateEventIntegrationResponse,
   CreateEventIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -663,6 +685,8 @@ export const createEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateEventIntegration",
 }));
 
 export type DeleteApplicationError =
@@ -679,7 +703,7 @@ export type DeleteApplicationError =
  * associations.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -697,6 +721,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteDataIntegrationError =
@@ -717,7 +743,7 @@ export type DeleteDataIntegrationError =
  * CreateDataIntegration API.
  */
 export const deleteDataIntegration: API.OperationMethod<
-  DeleteDataIntegrationRequest,
+  DeleteDataIntegrationRequest & RegionInput,
   DeleteDataIntegrationResponse,
   DeleteDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -735,6 +761,8 @@ export const deleteDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteDataIntegration",
 }));
 
 export type DeleteEventIntegrationError =
@@ -750,7 +778,7 @@ export type DeleteEventIntegrationError =
  * with clients, the request is rejected.
  */
 export const deleteEventIntegration: API.OperationMethod<
-  DeleteEventIntegrationRequest,
+  DeleteEventIntegrationRequest & RegionInput,
   DeleteEventIntegrationResponse,
   DeleteEventIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -768,6 +796,8 @@ export const deleteEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteEventIntegration",
 }));
 
 export type GetApplicationError =
@@ -782,7 +812,7 @@ export type GetApplicationError =
  * Get an Application resource.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -800,6 +830,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetDataIntegrationError =
@@ -818,7 +850,7 @@ export type GetDataIntegrationError =
  * CreateDataIntegration API.
  */
 export const getDataIntegration: API.OperationMethod<
-  GetDataIntegrationRequest,
+  GetDataIntegrationRequest & RegionInput,
   GetDataIntegrationResponse,
   GetDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -836,6 +868,8 @@ export const getDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegration",
+  telemetry: TELEMETRY,
+  span: "GetDataIntegration",
 }));
 
 export type GetEventIntegrationError =
@@ -850,7 +884,7 @@ export type GetEventIntegrationError =
  * Returns information about the event integration.
  */
 export const getEventIntegration: API.OperationMethod<
-  GetEventIntegrationRequest,
+  GetEventIntegrationRequest & RegionInput,
   GetEventIntegrationResponse,
   GetEventIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -868,6 +902,8 @@ export const getEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventIntegration",
+  telemetry: TELEMETRY,
+  span: "GetEventIntegration",
 }));
 
 export type ListApplicationAssociationsError =
@@ -882,7 +918,7 @@ export type ListApplicationAssociationsError =
  * Returns a paginated list of application associations for an application.
  */
 export const listApplicationAssociations: API.PaginatedOperationMethod<
-  ListApplicationAssociationsRequest,
+  ListApplicationAssociationsRequest & RegionInput,
   ListApplicationAssociationsResponse,
   ListApplicationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -907,6 +943,8 @@ export const listApplicationAssociations: API.PaginatedOperationMethod<
     items: "ApplicationAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationAssociations",
 })) as any;
 
 export type ListApplicationsError =
@@ -920,7 +958,7 @@ export type ListApplicationsError =
  * Lists applications in the account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -944,6 +982,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListDataIntegrationAssociationsError =
@@ -962,7 +1002,7 @@ export type ListDataIntegrationAssociationsError =
  * CreateDataIntegration API.
  */
 export const listDataIntegrationAssociations: API.PaginatedOperationMethod<
-  ListDataIntegrationAssociationsRequest,
+  ListDataIntegrationAssociationsRequest & RegionInput,
   ListDataIntegrationAssociationsResponse,
   ListDataIntegrationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -987,6 +1027,8 @@ export const listDataIntegrationAssociations: API.PaginatedOperationMethod<
     items: "DataIntegrationAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrationAssociations",
 })) as any;
 
 export type ListDataIntegrationsError =
@@ -1004,7 +1046,7 @@ export type ListDataIntegrationsError =
  * CreateDataIntegration API.
  */
 export const listDataIntegrations: API.PaginatedOperationMethod<
-  ListDataIntegrationsRequest,
+  ListDataIntegrationsRequest & RegionInput,
   ListDataIntegrationsResponse,
   ListDataIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1028,6 +1070,8 @@ export const listDataIntegrations: API.PaginatedOperationMethod<
     items: "DataIntegrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrations",
 })) as any;
 
 export type ListEventIntegrationAssociationsError =
@@ -1042,7 +1086,7 @@ export type ListEventIntegrationAssociationsError =
  * Returns a paginated list of event integration associations in the account.
  */
 export const listEventIntegrationAssociations: API.PaginatedOperationMethod<
-  ListEventIntegrationAssociationsRequest,
+  ListEventIntegrationAssociationsRequest & RegionInput,
   ListEventIntegrationAssociationsResponse,
   ListEventIntegrationAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1067,6 +1111,8 @@ export const listEventIntegrationAssociations: API.PaginatedOperationMethod<
     items: "EventIntegrationAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventIntegrationAssociations",
 })) as any;
 
 export type ListEventIntegrationsError =
@@ -1080,7 +1126,7 @@ export type ListEventIntegrationsError =
  * Returns a paginated list of event integrations in the account.
  */
 export const listEventIntegrations: API.PaginatedOperationMethod<
-  ListEventIntegrationsRequest,
+  ListEventIntegrationsRequest & RegionInput,
   ListEventIntegrationsResponse,
   ListEventIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1104,6 +1150,8 @@ export const listEventIntegrations: API.PaginatedOperationMethod<
     items: "EventIntegrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventIntegrations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1117,7 +1165,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1134,6 +1182,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1147,7 +1197,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1164,6 +1214,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1177,7 +1229,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1194,6 +1246,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -1210,7 +1264,7 @@ export type UpdateApplicationError =
  * Updates and persists an Application resource.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1230,6 +1284,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateDataIntegrationError =
@@ -1248,7 +1304,7 @@ export type UpdateDataIntegrationError =
  * CreateDataIntegration API.
  */
 export const updateDataIntegration: API.OperationMethod<
-  UpdateDataIntegrationRequest,
+  UpdateDataIntegrationRequest & RegionInput,
   UpdateDataIntegrationResponse,
   UpdateDataIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1266,6 +1322,8 @@ export const updateDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegration",
 }));
 
 export type UpdateDataIntegrationAssociationError =
@@ -1282,7 +1340,7 @@ export type UpdateDataIntegrationAssociationError =
  * Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
  */
 export const updateDataIntegrationAssociation: API.OperationMethod<
-  UpdateDataIntegrationAssociationRequest,
+  UpdateDataIntegrationAssociationRequest & RegionInput,
   UpdateDataIntegrationAssociationResponse,
   UpdateDataIntegrationAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1300,6 +1358,8 @@ export const updateDataIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegrationAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegrationAssociation",
 }));
 
 export type UpdateEventIntegrationError =
@@ -1314,7 +1374,7 @@ export type UpdateEventIntegrationError =
  * Updates the description of an event integration.
  */
 export const updateEventIntegration: API.OperationMethod<
-  UpdateEventIntegrationRequest,
+  UpdateEventIntegrationRequest & RegionInput,
   UpdateEventIntegrationResponse,
   UpdateEventIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1332,6 +1392,8 @@ export const updateEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateEventIntegration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

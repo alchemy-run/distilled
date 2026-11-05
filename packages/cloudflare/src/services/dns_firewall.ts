@@ -38,6 +38,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   upstreamIps: "upstream_ips",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "DnsFirewall",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class DnsFirewallNotEntitled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DnsFirewallNotEntitled>()("DnsFirewallNotEntitled", {
@@ -482,6 +496,8 @@ export const createDnsFirewall: API.OperationMethod<
   errors: [DnsFirewallNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDnsFirewall",
 }));
 
 export type DeleteDnsFirewallError = DnsFirewallNotFound | Forbidden | CloudflareOpError;
@@ -497,6 +513,8 @@ export const deleteDnsFirewall: API.OperationMethod<
   errors: [DnsFirewallNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsFirewall",
 }));
 
 export type GetAnalyticReportError = CloudflareOpError;
@@ -512,6 +530,8 @@ export const getAnalyticReport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticReport",
 }));
 
 export type GetAnalyticReportBytimeError = CloudflareOpError;
@@ -527,6 +547,8 @@ export const getAnalyticReportBytime: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticReportBytime",
 }));
 
 export type GetDnsFirewallError = DnsFirewallNotFound | Forbidden | CloudflareOpError;
@@ -542,6 +564,8 @@ export const getDnsFirewall: API.OperationMethod<
   errors: [DnsFirewallNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsFirewall",
 }));
 
 export type GetReverseDnError = DnsFirewallNotFound | Forbidden | CloudflareOpError;
@@ -557,6 +581,8 @@ export const getReverseDn: API.OperationMethod<
   errors: [DnsFirewallNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReverseDn",
 }));
 
 export type ListDnsFirewallsError = Forbidden | CloudflareOpError;
@@ -574,6 +600,8 @@ export const listDnsFirewalls: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDnsFirewalls",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -598,6 +626,8 @@ export const patchDnsFirewall: API.OperationMethod<
   errors: [DnsFirewallNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDnsFirewall",
 }));
 
 export type PatchReverseDnError = DnsFirewallNotFound | Forbidden | CloudflareOpError;
@@ -613,6 +643,8 @@ export const patchReverseDn: API.OperationMethod<
   errors: [DnsFirewallNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchReverseDn",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

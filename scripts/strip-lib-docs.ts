@@ -14,7 +14,7 @@
  * a template literal can never be cut.
  *
  * Generated service modules (`lib/services/*.js`) are then rewritten into
- * data operations (`packages/core/src/codegen/datafy.ts`): each operation
+ * data operations (`packages/dev/src/codegen/datafy.ts`): each operation
  * and its schemas become a description evaluated on first call, so
  * importing a service builds no schema code. `src/` keeps the code form,
  * which bundlers resolving the `bun` condition read and tree-shake. The
@@ -23,17 +23,11 @@
  *   node scripts/strip-lib-docs.ts [packages/<pkg> ...]
  */
 import { existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
-import { createRequire } from "node:module";
 import { join, sep } from "node:path";
+import { parseAst } from "rolldown/parseAst";
+import { datafyOperations } from "../packages/dev/src/codegen/datafy.ts";
 
 const ROOT = join(import.meta.dirname, "..");
-const require = createRequire(join(ROOT, "packages", "core", "package.json"));
-const { parseAst } = (await import(require.resolve("rolldown/parseAst"))) as {
-  parseAst: (code: string, options: object, filename: string) => unknown;
-};
-const { datafyOperations } = (await import(
-  join(ROOT, "packages", "core", "src", "codegen", "datafy.ts")
-)) as typeof import("../packages/core/src/codegen/datafy.ts");
 const DOC = /^[ \t]*\/\*\*(?![ \t]*[@#]__PURE__)[\s\S]*?\*\/[ \t]*$/gm;
 
 const literals = (code: string, file: string): string => {

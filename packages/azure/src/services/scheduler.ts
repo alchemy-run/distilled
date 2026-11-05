@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Scheduler" },
+  prefix: "Scheduler",
+  service: "Scheduler",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteJobRequest {
   /** The subscription id. */
   subscriptionId: string;
@@ -572,6 +593,8 @@ export const DeleteJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteJobCollectionError = AzureOpError;
@@ -587,6 +610,8 @@ export const DeleteJobCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJobCollection",
 }));
 
 export type DisableJobCollectionError = AzureOpError;
@@ -602,6 +627,8 @@ export const DisableJobCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableJobCollection",
 }));
 
 export type EnableJobCollectionError = AzureOpError;
@@ -617,6 +644,8 @@ export const EnableJobCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableJobCollection",
 }));
 
 export type GetJobError = AzureOpError;
@@ -632,6 +661,8 @@ export const GetJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetJobCollectionError = AzureOpError;
@@ -647,6 +678,8 @@ export const GetJobCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobCollection",
 }));
 
 export type JobCollectionsCreateOrUpdateError = AzureOpError;
@@ -662,6 +695,8 @@ export const JobCollectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JobCollectionsCreateOrUpdate",
 }));
 
 export type JobsCreateOrUpdateError = AzureOpError;
@@ -677,6 +712,8 @@ export const JobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JobsCreateOrUpdate",
 }));
 
 export type ListJobCollectionByResourceGroupError = AzureOpError;
@@ -692,6 +729,8 @@ export const ListJobCollectionByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobCollectionByResourceGroup",
 }));
 
 export type ListJobCollectionBySubscriptionError = AzureOpError;
@@ -707,6 +746,8 @@ export const ListJobCollectionBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobCollectionBySubscription",
 }));
 
 export type ListJobJobHistoryError = AzureOpError;
@@ -722,6 +763,8 @@ export const ListJobJobHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobJobHistory",
 }));
 
 export type ListJobsError = AzureOpError;
@@ -737,6 +780,8 @@ export const ListJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 }));
 
 export type PatchJobError = AzureOpError;
@@ -752,6 +797,8 @@ export const PatchJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchJob",
 }));
 
 export type PatchJobCollectionError = AzureOpError;
@@ -767,6 +814,8 @@ export const PatchJobCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchJobCollection",
 }));
 
 export type RunJobError = AzureOpError;
@@ -782,6 +831,8 @@ export const RunJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunJob",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

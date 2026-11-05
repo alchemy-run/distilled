@@ -41,6 +41,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   usingLatestModel: "using_latest_model",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "BotManagement",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -764,6 +778,8 @@ export const createFeedback: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeedback",
 }));
 
 export type GetBotManagementError = Forbidden | CloudflareOpError;
@@ -779,6 +795,8 @@ export const getBotManagement: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBotManagement",
 }));
 
 export type ListFeedbackError = CloudflareOpError;
@@ -794,6 +812,8 @@ export const listFeedback: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeedback",
 }));
 
 export type PutBotManagementError = Forbidden | CloudflareOpError;
@@ -809,6 +829,8 @@ export const putBotManagement: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutBotManagement",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

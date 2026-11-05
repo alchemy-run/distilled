@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "NotificationsWebhooksV1",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteWebhookRequest {
   /** The ID of the webhook for which to list subscriptions. */
   webhook_id: string;
@@ -248,6 +262,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeleteWebhooksLookupError = PaypalOpError;
@@ -263,6 +279,8 @@ export const deleteWebhooksLookup: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhooksLookup",
 }));
 
 export type GetWebhookError = PaypalOpError;
@@ -278,6 +296,8 @@ export const getWebhook: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWebhooksEventError = PaypalOpError;
@@ -293,6 +313,8 @@ export const getWebhooksEvent: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhooksEvent",
 }));
 
 export type GetWebhooksLookupError = PaypalOpError;
@@ -308,6 +330,8 @@ export const getWebhooksLookup: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhooksLookup",
 }));
 
 export type ListEventTypesError = PaypalOpError;
@@ -323,6 +347,8 @@ export const listEventTypes: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventTypes",
 }));
 
 export type ListWebhooksError = PaypalOpError;
@@ -338,6 +364,8 @@ export const listWebhooks: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type ListWebhooksEventsError = PaypalOpError;
@@ -353,6 +381,8 @@ export const listWebhooksEvents: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooksEvents",
 }));
 
 export type ListWebhooksEventTypesError = PaypalOpError;
@@ -368,6 +398,8 @@ export const listWebhooksEventTypes: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooksEventTypes",
 }));
 
 export type ListWebhooksLookupError = PaypalOpError;
@@ -383,6 +415,8 @@ export const listWebhooksLookup: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooksLookup",
 }));
 
 export type PostSimulateEventError = PaypalOpError;
@@ -398,6 +432,8 @@ export const postSimulateEvent: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSimulateEvent",
 }));
 
 export type PostWebhookError = PaypalOpError;
@@ -413,6 +449,8 @@ export const postWebhook: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostWebhook",
 }));
 
 export type PostWebhooksLookupError = PaypalOpError;
@@ -428,6 +466,8 @@ export const postWebhooksLookup: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostWebhooksLookup",
 }));
 
 export type ResendWebhooksEventError = PaypalOpError;
@@ -443,6 +483,8 @@ export const resendWebhooksEvent: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendWebhooksEvent",
 }));
 
 export type UpdateWebhookError = PaypalOpError;
@@ -458,6 +500,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type VerifyWebhookSignaturePostError = PaypalOpError;
@@ -473,6 +517,8 @@ export const verifyWebhookSignaturePost: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyWebhookSignaturePost",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

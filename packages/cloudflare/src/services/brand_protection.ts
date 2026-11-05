@@ -48,6 +48,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   urlScanId: "url_scan_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "BrandProtection",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type QueriesBulkRequestQueriesItemMap = { [key: string]: unknown | undefined };
 export type QueriesBulkRequestQueriesList = Array<QueriesBulkRequestQueriesItemMap>;
 export interface BulkQueryRequest {
@@ -68,6 +82,11 @@ export interface CreateLogoResponse {
   tag?: string | null;
   uploadPath?: string | null;
 }
+export interface QueriesCreateRequestStringMatchesItem {
+  pattern: string;
+  maxEditDistance?: number;
+}
+export type QueriesCreateRequestStringMatchesList = Array<QueriesCreateRequestStringMatchesItem>;
 export interface CreateQueryRequest {
   accountId: string;
   id?: string;
@@ -75,7 +94,7 @@ export interface CreateQueryRequest {
   tag?: string;
   maxTime?: string;
   minTime?: string;
-  stringMatches?: unknown;
+  stringMatches?: QueriesCreateRequestStringMatchesList;
   bodyScan?: boolean;
   bodyTag?: string;
 }
@@ -348,7 +367,7 @@ export interface UrlInfoBrandProtectionResponse {
   resultInfo?: ResultInfo | null;
 }
 export type BulkQueryError = CloudflareOpError;
-/** Return a success message after creating new saved string queries in bulk */
+/** Return a success message after creating new saved string queries in bulk. */
 export const bulkQuery: API.OperationMethod<
   BulkQueryRequest,
   BulkQueryResponse,
@@ -360,10 +379,12 @@ export const bulkQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkQuery",
 }));
 
 export type CreateLogoError = CloudflareOpError;
-/** Return new saved logo queries created from image files */
+/** Return new saved logo queries created from image files. */
 export const createLogo: API.OperationMethod<
   CreateLogoRequest,
   CreateLogoResponse,
@@ -375,21 +396,25 @@ export const createLogo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogo",
 }));
 
 export type CreateQueryError = CloudflareOpError;
-/** Return a success message after creating new saved string queries */
+/** Return a success message after creating new saved string queries. */
 export const createQuery: API.OperationMethod<
   CreateQueryRequest,
   CreateQueryResponse,
   CreateQueryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateQueryRequest>,
+  input: __S(90, __c11, 2) as any as S.Schema<CreateQueryRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateQueryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuery",
 }));
 
 export type CreateV2LogoError = CloudflareOpError;
@@ -405,10 +430,12 @@ export const createV2Logo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Logo",
 }));
 
 export type DeleteLogoError = CloudflareOpError;
-/** Return a success message after deleting saved logo queries by ID */
+/** Return a success message after deleting saved logo queries by ID. */
 export const deleteLogo: API.OperationMethod<
   DeleteLogoRequest,
   DeleteLogoResponse,
@@ -420,10 +447,12 @@ export const deleteLogo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogo",
 }));
 
 export type DeleteQueryError = CloudflareOpError;
-/** Return a success message after deleting saved string queries by ID */
+/** Return a success message after deleting saved string queries by ID. */
 export const deleteQuery: API.OperationMethod<
   DeleteQueryRequest,
   DeleteQueryResponse,
@@ -435,6 +464,8 @@ export const deleteQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQuery",
 }));
 
 export type DeleteV2LogoError = CloudflareOpError;
@@ -450,10 +481,12 @@ export const deleteV2Logo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV2Logo",
 }));
 
 export type DownloadLogoMatchError = CloudflareOpError;
-/** Return matches as CSV for logo queries based on ID */
+/** Return matches as CSV for logo queries based on ID. */
 export const downloadLogoMatch: API.OperationMethod<
   DownloadLogoMatchRequest,
   DownloadLogoMatchResponse,
@@ -465,10 +498,12 @@ export const downloadLogoMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadLogoMatch",
 }));
 
 export type DownloadMatchError = CloudflareOpError;
-/** Return matches as CSV for string queries based on ID */
+/** Return matches as CSV for string queries based on ID. */
 export const downloadMatch: API.OperationMethod<
   DownloadMatchRequest,
   DownloadMatchResponse,
@@ -480,10 +515,12 @@ export const downloadMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMatch",
 }));
 
 export type GetLogoMatchError = CloudflareOpError;
-/** Return matches for logo queries based on ID */
+/** Return matches for logo queries based on ID. */
 export const getLogoMatch: API.OperationMethod<
   GetLogoMatchRequest,
   GetLogoMatchResponse,
@@ -495,10 +532,12 @@ export const getLogoMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogoMatch",
 }));
 
 export type GetMatchError = CloudflareOpError;
-/** Return matches for string queries based on ID */
+/** Return matches for string queries based on ID. */
 export const getMatch: API.OperationMethod<
   GetMatchRequest,
   GetMatchResponse,
@@ -510,6 +549,8 @@ export const getMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMatch",
 }));
 
 export type GetV2LogoError = CloudflareOpError;
@@ -525,6 +566,8 @@ export const getV2Logo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Logo",
 }));
 
 export type GetV2LogoMatchError = CloudflareOpError;
@@ -540,6 +583,8 @@ export const getV2LogoMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2LogoMatch",
 }));
 
 export type GetV2MatchError = CloudflareOpError;
@@ -555,6 +600,8 @@ export const getV2Match: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Match",
 }));
 
 export type GetV2QueryError = CloudflareOpError;
@@ -570,10 +617,12 @@ export const getV2Query: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Query",
 }));
 
 export type SubmitBrandProtectionError = CloudflareOpError;
-/** Return new URL submissions */
+/** Return new URL submissions. */
 export const submitBrandProtection: API.OperationMethod<
   SubmitBrandProtectionRequest,
   SubmitBrandProtectionResponse,
@@ -585,10 +634,12 @@ export const submitBrandProtection: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitBrandProtection",
 }));
 
 export type UrlInfoBrandProtectionError = CloudflareOpError;
-/** Return submitted URLs based on ID */
+/** Return submitted URLs based on ID. */
 export const urlInfoBrandProtection: API.PaginatedOperationMethod<
   UrlInfoBrandProtectionRequest,
   UrlInfoBrandProtectionResponse,
@@ -602,6 +653,8 @@ export const urlInfoBrandProtection: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UrlInfoBrandProtection",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -928,13 +981,22 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pattern: S.String,
+          maxEditDistance: S.optional(S.Number.pipe(T.Body("max_edit_distance"))),
+        }),
+      ).annotate({ identifier: "QueriesCreateRequestStringMatchesItem" });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           id: S.optional(S.String.pipe(T.Query())),
           scan: S.optional(S.Boolean.pipe(T.Query())),
           tag: S.optional(S.String.pipe(T.Query())),
           maxTime: S.optional(S.String.pipe(T.Body("max_time"))),
           minTime: S.optional(S.String.pipe(T.Body("min_time"))),
-          stringMatches: S.optional(S.Unknown.pipe(T.Body("string_matches"))),
+          stringMatches: S.optional(__S(89, __c11, 1).pipe(T.Body("string_matches"))),
           bodyScan: S.optional(S.Boolean.pipe(T.Body("scan"))),
           bodyTag: S.optional(S.String.pipe(T.Body("tag"))),
         })

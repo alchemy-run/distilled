@@ -30,6 +30,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Turnstile",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -464,6 +478,8 @@ export const createWidget: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWidget",
 }));
 
 export type DeleteWidgetError = WidgetNotFound | Forbidden | CloudflareOpError;
@@ -479,6 +495,8 @@ export const deleteWidget: API.OperationMethod<
   errors: [WidgetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWidget",
 }));
 
 export type GetWidgetError = WidgetNotFound | Forbidden | CloudflareOpError;
@@ -494,6 +512,8 @@ export const getWidget: API.OperationMethod<
   errors: [WidgetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWidget",
 }));
 
 export type ListWidgetsError = CloudflareOpError;
@@ -511,6 +531,8 @@ export const listWidgets: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWidgets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -535,6 +557,8 @@ export const rotateSecretWidget: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSecretWidget",
 }));
 
 export type UpdateWidgetError = CloudflareOpError;
@@ -550,6 +574,8 @@ export const updateWidget: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWidget",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

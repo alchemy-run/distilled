@@ -19,7 +19,7 @@ export {
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import type { DefaultErrors as CoreDefaultErrors, Forbidden } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // Schema parse error wrapper
@@ -68,11 +68,13 @@ export class CloudflareHttpError
 
 /**
  * Errors that any Cloudflare operation may surface in addition to status/code-
- * matched API errors declared per endpoint.
+ * matched API errors declared per endpoint. `Forbidden` is here because any
+ * authenticated call returns 403 when the token lacks a permission it needs.
  */
 export type ClientErrors =
   | CloudflareHttpError
   | CloudflareParseError
+  | Forbidden
   | InvalidRoute
   | UnknownCloudflareError;
 

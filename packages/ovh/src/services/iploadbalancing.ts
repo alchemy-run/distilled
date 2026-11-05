@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Iploadbalancing",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface CancelIpLoadbalancingZoneTerminationRequest {
   /** The internal name of your IP load balancing */
   serviceName: string;
@@ -2395,6 +2409,8 @@ export const cancelIpLoadbalancingZoneTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelIpLoadbalancingZoneTermination",
 }));
 
 export type ConfirmIpLoadbalancingTerminationError = OvhOpError;
@@ -2410,6 +2426,8 @@ export const confirmIpLoadbalancingTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmIpLoadbalancingTermination",
 }));
 
 export type CreateIpLoadbalancingChangeContactError = OvhOpError;
@@ -2425,6 +2443,8 @@ export const createIpLoadbalancingChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingChangeContact",
 }));
 
 export type CreateIpLoadbalancingFreeCertificateError = OvhOpError;
@@ -2440,6 +2460,8 @@ export const createIpLoadbalancingFreeCertificate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingFreeCertificate",
 }));
 
 export type CreateIpLoadbalancingHttpFarmError = OvhOpError;
@@ -2455,6 +2477,8 @@ export const createIpLoadbalancingHttpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingHttpFarm",
 }));
 
 export type CreateIpLoadbalancingHttpFarmServerError = OvhOpError;
@@ -2474,6 +2498,8 @@ export const createIpLoadbalancingHttpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingHttpFarmServer",
 }));
 
 export type CreateIpLoadbalancingHttpFarmServerTransparentError = OvhOpError;
@@ -2497,6 +2523,8 @@ export const createIpLoadbalancingHttpFarmServerTransparent: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingHttpFarmServerTransparent",
 }));
 
 export type CreateIpLoadbalancingHttpFrontendError = OvhOpError;
@@ -2512,6 +2540,8 @@ export const createIpLoadbalancingHttpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingHttpFrontend",
 }));
 
 export type CreateIpLoadbalancingHttpFrontendPrivateError = OvhOpError;
@@ -2527,6 +2557,8 @@ export const createIpLoadbalancingHttpFrontendPrivate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingHttpFrontendPrivate",
 }));
 
 export type CreateIpLoadbalancingHttpRouteError = OvhOpError;
@@ -2542,6 +2574,8 @@ export const createIpLoadbalancingHttpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingHttpRoute",
 }));
 
 export type CreateIpLoadbalancingHttpRouteRuleError = OvhOpError;
@@ -2557,6 +2591,8 @@ export const createIpLoadbalancingHttpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingHttpRouteRule",
 }));
 
 export type CreateIpLoadbalancingLogSubscriptionError = OvhOpError;
@@ -2572,6 +2608,8 @@ export const createIpLoadbalancingLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingLogSubscription",
 }));
 
 export type CreateIpLoadbalancingLogUrlError = OvhOpError;
@@ -2587,6 +2625,8 @@ export const createIpLoadbalancingLogUrl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingLogUrl",
 }));
 
 export type CreateIpLoadbalancingSslError = OvhOpError;
@@ -2602,6 +2642,8 @@ export const createIpLoadbalancingSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingSsl",
 }));
 
 export type CreateIpLoadbalancingTcpFarmError = OvhOpError;
@@ -2617,6 +2659,8 @@ export const createIpLoadbalancingTcpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingTcpFarm",
 }));
 
 export type CreateIpLoadbalancingTcpFarmServerError = OvhOpError;
@@ -2636,6 +2680,8 @@ export const createIpLoadbalancingTcpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingTcpFarmServer",
 }));
 
 export type CreateIpLoadbalancingTcpFarmServerTransparentError = OvhOpError;
@@ -2659,6 +2705,8 @@ export const createIpLoadbalancingTcpFarmServerTransparent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingTcpFarmServerTransparent",
 }));
 
 export type CreateIpLoadbalancingTcpFrontendError = OvhOpError;
@@ -2674,6 +2722,8 @@ export const createIpLoadbalancingTcpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingTcpFrontend",
 }));
 
 export type CreateIpLoadbalancingTcpFrontendPrivateError = OvhOpError;
@@ -2689,6 +2739,8 @@ export const createIpLoadbalancingTcpFrontendPrivate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingTcpFrontendPrivate",
 }));
 
 export type CreateIpLoadbalancingTcpRouteError = OvhOpError;
@@ -2704,6 +2756,8 @@ export const createIpLoadbalancingTcpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingTcpRoute",
 }));
 
 export type CreateIpLoadbalancingTcpRouteRuleError = OvhOpError;
@@ -2719,6 +2773,8 @@ export const createIpLoadbalancingTcpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingTcpRouteRule",
 }));
 
 export type CreateIpLoadbalancingUdpFarmError = OvhOpError;
@@ -2734,6 +2790,8 @@ export const createIpLoadbalancingUdpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingUdpFarm",
 }));
 
 export type CreateIpLoadbalancingUdpFarmServerError = OvhOpError;
@@ -2753,6 +2811,8 @@ export const createIpLoadbalancingUdpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingUdpFarmServer",
 }));
 
 export type CreateIpLoadbalancingUdpFrontendError = OvhOpError;
@@ -2768,6 +2828,8 @@ export const createIpLoadbalancingUdpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingUdpFrontend",
 }));
 
 export type CreateIpLoadbalancingVrackNetworkError = OvhOpError;
@@ -2783,6 +2845,8 @@ export const createIpLoadbalancingVrackNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpLoadbalancingVrackNetwork",
 }));
 
 export type DeleteIpLoadbalancingHttpFarmError = OvhOpError;
@@ -2798,6 +2862,8 @@ export const deleteIpLoadbalancingHttpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingHttpFarm",
 }));
 
 export type DeleteIpLoadbalancingHttpFarmServerError = OvhOpError;
@@ -2813,6 +2879,8 @@ export const deleteIpLoadbalancingHttpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingHttpFarmServer",
 }));
 
 export type DeleteIpLoadbalancingHttpFarmServerTransparentError = OvhOpError;
@@ -2836,6 +2904,8 @@ export const deleteIpLoadbalancingHttpFarmServerTransparent: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingHttpFarmServerTransparent",
 }));
 
 export type DeleteIpLoadbalancingHttpFrontendError = OvhOpError;
@@ -2851,6 +2921,8 @@ export const deleteIpLoadbalancingHttpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingHttpFrontend",
 }));
 
 export type DeleteIpLoadbalancingHttpRouteError = OvhOpError;
@@ -2866,6 +2938,8 @@ export const deleteIpLoadbalancingHttpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingHttpRoute",
 }));
 
 export type DeleteIpLoadbalancingHttpRouteRuleError = OvhOpError;
@@ -2881,6 +2955,8 @@ export const deleteIpLoadbalancingHttpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingHttpRouteRule",
 }));
 
 export type DeleteIpLoadbalancingLogSubscriptionError = OvhOpError;
@@ -2896,6 +2972,8 @@ export const deleteIpLoadbalancingLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingLogSubscription",
 }));
 
 export type DeleteIpLoadbalancingSslError = OvhOpError;
@@ -2911,6 +2989,8 @@ export const deleteIpLoadbalancingSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingSsl",
 }));
 
 export type DeleteIpLoadbalancingTcpFarmError = OvhOpError;
@@ -2926,6 +3006,8 @@ export const deleteIpLoadbalancingTcpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingTcpFarm",
 }));
 
 export type DeleteIpLoadbalancingTcpFarmServerError = OvhOpError;
@@ -2941,6 +3023,8 @@ export const deleteIpLoadbalancingTcpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingTcpFarmServer",
 }));
 
 export type DeleteIpLoadbalancingTcpFarmServerTransparentError = OvhOpError;
@@ -2960,6 +3044,8 @@ export const deleteIpLoadbalancingTcpFarmServerTransparent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingTcpFarmServerTransparent",
 }));
 
 export type DeleteIpLoadbalancingTcpFrontendError = OvhOpError;
@@ -2975,6 +3061,8 @@ export const deleteIpLoadbalancingTcpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingTcpFrontend",
 }));
 
 export type DeleteIpLoadbalancingTcpRouteError = OvhOpError;
@@ -2990,6 +3078,8 @@ export const deleteIpLoadbalancingTcpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingTcpRoute",
 }));
 
 export type DeleteIpLoadbalancingTcpRouteRuleError = OvhOpError;
@@ -3005,6 +3095,8 @@ export const deleteIpLoadbalancingTcpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingTcpRouteRule",
 }));
 
 export type DeleteIpLoadbalancingUdpFarmError = OvhOpError;
@@ -3020,6 +3112,8 @@ export const deleteIpLoadbalancingUdpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingUdpFarm",
 }));
 
 export type DeleteIpLoadbalancingUdpFarmServerError = OvhOpError;
@@ -3035,6 +3129,8 @@ export const deleteIpLoadbalancingUdpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingUdpFarmServer",
 }));
 
 export type DeleteIpLoadbalancingUdpFrontendError = OvhOpError;
@@ -3050,6 +3146,8 @@ export const deleteIpLoadbalancingUdpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingUdpFrontend",
 }));
 
 export type DeleteIpLoadbalancingVrackNetworkError = OvhOpError;
@@ -3065,6 +3163,8 @@ export const deleteIpLoadbalancingVrackNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpLoadbalancingVrackNetwork",
 }));
 
 export type GetIpLoadbalancingError = OvhOpError;
@@ -3080,6 +3180,8 @@ export const getIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancing",
 }));
 
 export type GetIpLoadbalancingHttpFarmError = OvhOpError;
@@ -3095,6 +3197,8 @@ export const getIpLoadbalancingHttpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingHttpFarm",
 }));
 
 export type GetIpLoadbalancingHttpFarmServerError = OvhOpError;
@@ -3114,6 +3218,8 @@ export const getIpLoadbalancingHttpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingHttpFarmServer",
 }));
 
 export type GetIpLoadbalancingHttpFarmServerTransparentError = OvhOpError;
@@ -3133,6 +3239,8 @@ export const getIpLoadbalancingHttpFarmServerTransparent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingHttpFarmServerTransparent",
 }));
 
 export type GetIpLoadbalancingHttpFrontendError = OvhOpError;
@@ -3148,6 +3256,8 @@ export const getIpLoadbalancingHttpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingHttpFrontend",
 }));
 
 export type GetIpLoadbalancingHttpRouteError = OvhOpError;
@@ -3163,6 +3273,8 @@ export const getIpLoadbalancingHttpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingHttpRoute",
 }));
 
 export type GetIpLoadbalancingHttpRouteRuleError = OvhOpError;
@@ -3178,6 +3290,8 @@ export const getIpLoadbalancingHttpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingHttpRouteRule",
 }));
 
 export type GetIpLoadbalancingLogKindError = OvhOpError;
@@ -3193,6 +3307,8 @@ export const getIpLoadbalancingLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingLogKind",
 }));
 
 export type GetIpLoadbalancingLogSubscriptionError = OvhOpError;
@@ -3208,6 +3324,8 @@ export const getIpLoadbalancingLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingLogSubscription",
 }));
 
 export type GetIpLoadbalancingMetricsTokenError = OvhOpError;
@@ -3223,6 +3341,8 @@ export const getIpLoadbalancingMetricsToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingMetricsToken",
 }));
 
 export type GetIpLoadbalancingQuotaError = OvhOpError;
@@ -3238,6 +3358,8 @@ export const getIpLoadbalancingQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingQuota",
 }));
 
 export type GetIpLoadbalancingQuotaHistoryError = OvhOpError;
@@ -3253,6 +3375,8 @@ export const getIpLoadbalancingQuotaHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingQuotaHistory",
 }));
 
 export type GetIpLoadbalancingServiceInfosError = OvhOpError;
@@ -3268,6 +3392,8 @@ export const getIpLoadbalancingServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingServiceInfos",
 }));
 
 export type GetIpLoadbalancingSslError = OvhOpError;
@@ -3283,6 +3409,8 @@ export const getIpLoadbalancingSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingSsl",
 }));
 
 export type GetIpLoadbalancingStatusError = OvhOpError;
@@ -3298,6 +3426,8 @@ export const getIpLoadbalancingStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingStatus",
 }));
 
 export type GetIpLoadbalancingTaskError = OvhOpError;
@@ -3313,6 +3443,8 @@ export const getIpLoadbalancingTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingTask",
 }));
 
 export type GetIpLoadbalancingTcpFarmError = OvhOpError;
@@ -3328,6 +3460,8 @@ export const getIpLoadbalancingTcpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingTcpFarm",
 }));
 
 export type GetIpLoadbalancingTcpFarmServerError = OvhOpError;
@@ -3347,6 +3481,8 @@ export const getIpLoadbalancingTcpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingTcpFarmServer",
 }));
 
 export type GetIpLoadbalancingTcpFarmServerTransparentError = OvhOpError;
@@ -3366,6 +3502,8 @@ export const getIpLoadbalancingTcpFarmServerTransparent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingTcpFarmServerTransparent",
 }));
 
 export type GetIpLoadbalancingTcpFrontendError = OvhOpError;
@@ -3381,6 +3519,8 @@ export const getIpLoadbalancingTcpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingTcpFrontend",
 }));
 
 export type GetIpLoadbalancingTcpRouteError = OvhOpError;
@@ -3396,6 +3536,8 @@ export const getIpLoadbalancingTcpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingTcpRoute",
 }));
 
 export type GetIpLoadbalancingTcpRouteRuleError = OvhOpError;
@@ -3411,6 +3553,8 @@ export const getIpLoadbalancingTcpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingTcpRouteRule",
 }));
 
 export type GetIpLoadbalancingUdpFarmError = OvhOpError;
@@ -3426,6 +3570,8 @@ export const getIpLoadbalancingUdpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingUdpFarm",
 }));
 
 export type GetIpLoadbalancingUdpFarmServerError = OvhOpError;
@@ -3445,6 +3591,8 @@ export const getIpLoadbalancingUdpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingUdpFarmServer",
 }));
 
 export type GetIpLoadbalancingUdpFrontendError = OvhOpError;
@@ -3460,6 +3608,8 @@ export const getIpLoadbalancingUdpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingUdpFrontend",
 }));
 
 export type GetIpLoadbalancingVrackNetworkError = OvhOpError;
@@ -3475,6 +3625,8 @@ export const getIpLoadbalancingVrackNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingVrackNetwork",
 }));
 
 export type GetIpLoadbalancingVrackNetworkCreationRulesError = OvhOpError;
@@ -3490,6 +3642,8 @@ export const getIpLoadbalancingVrackNetworkCreationRules: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingVrackNetworkCreationRules",
 }));
 
 export type GetIpLoadbalancingZoneError = OvhOpError;
@@ -3505,6 +3659,8 @@ export const getIpLoadbalancingZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpLoadbalancingZone",
 }));
 
 export type ListIpLoadbalancingError = OvhOpError;
@@ -3520,6 +3676,8 @@ export const listIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancing",
 }));
 
 export type ListIpLoadbalancingAvailableFarmProbesError = OvhOpError;
@@ -3535,6 +3693,8 @@ export const listIpLoadbalancingAvailableFarmProbes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingAvailableFarmProbes",
 }));
 
 export type ListIpLoadbalancingAvailableFarmTypeError = OvhOpError;
@@ -3550,6 +3710,8 @@ export const listIpLoadbalancingAvailableFarmType: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingAvailableFarmType",
 }));
 
 export type ListIpLoadbalancingAvailableFrontendTypeError = OvhOpError;
@@ -3565,6 +3727,8 @@ export const listIpLoadbalancingAvailableFrontendType: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingAvailableFrontendType",
 }));
 
 export type ListIpLoadbalancingAvailableRouteActionsError = OvhOpError;
@@ -3580,6 +3744,8 @@ export const listIpLoadbalancingAvailableRouteActions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingAvailableRouteActions",
 }));
 
 export type ListIpLoadbalancingAvailableRouteRulesError = OvhOpError;
@@ -3595,6 +3761,8 @@ export const listIpLoadbalancingAvailableRouteRules: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingAvailableRouteRules",
 }));
 
 export type ListIpLoadbalancingDefinedFarmsError = OvhOpError;
@@ -3610,6 +3778,8 @@ export const listIpLoadbalancingDefinedFarms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingDefinedFarms",
 }));
 
 export type ListIpLoadbalancingDefinedFrontendsError = OvhOpError;
@@ -3625,6 +3795,8 @@ export const listIpLoadbalancingDefinedFrontends: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingDefinedFrontends",
 }));
 
 export type ListIpLoadbalancingDefinedRoutesError = OvhOpError;
@@ -3640,6 +3812,8 @@ export const listIpLoadbalancingDefinedRoutes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingDefinedRoutes",
 }));
 
 export type ListIpLoadbalancingFailoverError = OvhOpError;
@@ -3655,6 +3829,8 @@ export const listIpLoadbalancingFailover: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingFailover",
 }));
 
 export type ListIpLoadbalancingHttpFarmError = OvhOpError;
@@ -3670,6 +3846,8 @@ export const listIpLoadbalancingHttpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingHttpFarm",
 }));
 
 export type ListIpLoadbalancingHttpFarmServerError = OvhOpError;
@@ -3685,6 +3863,8 @@ export const listIpLoadbalancingHttpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingHttpFarmServer",
 }));
 
 export type ListIpLoadbalancingHttpFarmServerTransparentError = OvhOpError;
@@ -3708,6 +3888,8 @@ export const listIpLoadbalancingHttpFarmServerTransparent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingHttpFarmServerTransparent",
 }));
 
 export type ListIpLoadbalancingHttpFrontendError = OvhOpError;
@@ -3723,6 +3905,8 @@ export const listIpLoadbalancingHttpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingHttpFrontend",
 }));
 
 export type ListIpLoadbalancingHttpRouteError = OvhOpError;
@@ -3738,6 +3922,8 @@ export const listIpLoadbalancingHttpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingHttpRoute",
 }));
 
 export type ListIpLoadbalancingHttpRouteRuleError = OvhOpError;
@@ -3753,6 +3939,8 @@ export const listIpLoadbalancingHttpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingHttpRouteRule",
 }));
 
 export type ListIpLoadbalancingLogKindError = OvhOpError;
@@ -3768,6 +3956,8 @@ export const listIpLoadbalancingLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingLogKind",
 }));
 
 export type ListIpLoadbalancingLogSubscriptionError = OvhOpError;
@@ -3783,6 +3973,8 @@ export const listIpLoadbalancingLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingLogSubscription",
 }));
 
 export type ListIpLoadbalancingNatIpError = OvhOpError;
@@ -3798,6 +3990,8 @@ export const listIpLoadbalancingNatIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingNatIp",
 }));
 
 export type ListIpLoadbalancingPendingChangesError = OvhOpError;
@@ -3813,6 +4007,8 @@ export const listIpLoadbalancingPendingChanges: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingPendingChanges",
 }));
 
 export type ListIpLoadbalancingQuotaError = OvhOpError;
@@ -3828,6 +4024,8 @@ export const listIpLoadbalancingQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingQuota",
 }));
 
 export type ListIpLoadbalancingQuotaHistoryError = OvhOpError;
@@ -3843,6 +4041,8 @@ export const listIpLoadbalancingQuotaHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingQuotaHistory",
 }));
 
 export type ListIpLoadbalancingSslError = OvhOpError;
@@ -3858,6 +4058,8 @@ export const listIpLoadbalancingSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingSsl",
 }));
 
 export type ListIpLoadbalancingTaskError = OvhOpError;
@@ -3873,6 +4075,8 @@ export const listIpLoadbalancingTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingTask",
 }));
 
 export type ListIpLoadbalancingTcpFarmError = OvhOpError;
@@ -3888,6 +4092,8 @@ export const listIpLoadbalancingTcpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingTcpFarm",
 }));
 
 export type ListIpLoadbalancingTcpFarmServerError = OvhOpError;
@@ -3903,6 +4109,8 @@ export const listIpLoadbalancingTcpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingTcpFarmServer",
 }));
 
 export type ListIpLoadbalancingTcpFarmServerTransparentError = OvhOpError;
@@ -3926,6 +4134,8 @@ export const listIpLoadbalancingTcpFarmServerTransparent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingTcpFarmServerTransparent",
 }));
 
 export type ListIpLoadbalancingTcpFrontendError = OvhOpError;
@@ -3941,6 +4151,8 @@ export const listIpLoadbalancingTcpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingTcpFrontend",
 }));
 
 export type ListIpLoadbalancingTcpRouteError = OvhOpError;
@@ -3956,6 +4168,8 @@ export const listIpLoadbalancingTcpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingTcpRoute",
 }));
 
 export type ListIpLoadbalancingTcpRouteRuleError = OvhOpError;
@@ -3971,6 +4185,8 @@ export const listIpLoadbalancingTcpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingTcpRouteRule",
 }));
 
 export type ListIpLoadbalancingUdpFarmError = OvhOpError;
@@ -3986,6 +4202,8 @@ export const listIpLoadbalancingUdpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingUdpFarm",
 }));
 
 export type ListIpLoadbalancingUdpFarmServerError = OvhOpError;
@@ -4001,6 +4219,8 @@ export const listIpLoadbalancingUdpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingUdpFarmServer",
 }));
 
 export type ListIpLoadbalancingUdpFrontendError = OvhOpError;
@@ -4016,6 +4236,8 @@ export const listIpLoadbalancingUdpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingUdpFrontend",
 }));
 
 export type ListIpLoadbalancingVrackNetworkError = OvhOpError;
@@ -4031,6 +4253,8 @@ export const listIpLoadbalancingVrackNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingVrackNetwork",
 }));
 
 export type ListIpLoadbalancingVrackStatusError = OvhOpError;
@@ -4046,6 +4270,8 @@ export const listIpLoadbalancingVrackStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingVrackStatus",
 }));
 
 export type ListIpLoadbalancingVrackTransparentGatewaysError = OvhOpError;
@@ -4061,6 +4287,8 @@ export const listIpLoadbalancingVrackTransparentGateways: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingVrackTransparentGateways",
 }));
 
 export type ListIpLoadbalancingZoneError = OvhOpError;
@@ -4076,6 +4304,8 @@ export const listIpLoadbalancingZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLoadbalancingZone",
 }));
 
 export type PutIpLoadbalancingError = OvhOpError;
@@ -4091,6 +4321,8 @@ export const putIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancing",
 }));
 
 export type PutIpLoadbalancingHttpFarmError = OvhOpError;
@@ -4106,6 +4338,8 @@ export const putIpLoadbalancingHttpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingHttpFarm",
 }));
 
 export type PutIpLoadbalancingHttpFarmServerError = OvhOpError;
@@ -4121,6 +4355,8 @@ export const putIpLoadbalancingHttpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingHttpFarmServer",
 }));
 
 export type PutIpLoadbalancingHttpFrontendError = OvhOpError;
@@ -4136,6 +4372,8 @@ export const putIpLoadbalancingHttpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingHttpFrontend",
 }));
 
 export type PutIpLoadbalancingHttpRouteError = OvhOpError;
@@ -4151,6 +4389,8 @@ export const putIpLoadbalancingHttpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingHttpRoute",
 }));
 
 export type PutIpLoadbalancingHttpRouteRuleError = OvhOpError;
@@ -4166,6 +4406,8 @@ export const putIpLoadbalancingHttpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingHttpRouteRule",
 }));
 
 export type PutIpLoadbalancingQuotaError = OvhOpError;
@@ -4181,6 +4423,8 @@ export const putIpLoadbalancingQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingQuota",
 }));
 
 export type PutIpLoadbalancingServiceInfosError = OvhOpError;
@@ -4196,6 +4440,8 @@ export const putIpLoadbalancingServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingServiceInfos",
 }));
 
 export type PutIpLoadbalancingSslError = OvhOpError;
@@ -4211,6 +4457,8 @@ export const putIpLoadbalancingSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingSsl",
 }));
 
 export type PutIpLoadbalancingTcpFarmError = OvhOpError;
@@ -4226,6 +4474,8 @@ export const putIpLoadbalancingTcpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingTcpFarm",
 }));
 
 export type PutIpLoadbalancingTcpFarmServerError = OvhOpError;
@@ -4241,6 +4491,8 @@ export const putIpLoadbalancingTcpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingTcpFarmServer",
 }));
 
 export type PutIpLoadbalancingTcpFrontendError = OvhOpError;
@@ -4256,6 +4508,8 @@ export const putIpLoadbalancingTcpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingTcpFrontend",
 }));
 
 export type PutIpLoadbalancingTcpRouteError = OvhOpError;
@@ -4271,6 +4525,8 @@ export const putIpLoadbalancingTcpRoute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingTcpRoute",
 }));
 
 export type PutIpLoadbalancingTcpRouteRuleError = OvhOpError;
@@ -4286,6 +4542,8 @@ export const putIpLoadbalancingTcpRouteRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingTcpRouteRule",
 }));
 
 export type PutIpLoadbalancingUdpFarmError = OvhOpError;
@@ -4301,6 +4559,8 @@ export const putIpLoadbalancingUdpFarm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingUdpFarm",
 }));
 
 export type PutIpLoadbalancingUdpFarmServerError = OvhOpError;
@@ -4316,6 +4576,8 @@ export const putIpLoadbalancingUdpFarmServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingUdpFarmServer",
 }));
 
 export type PutIpLoadbalancingUdpFrontendError = OvhOpError;
@@ -4331,6 +4593,8 @@ export const putIpLoadbalancingUdpFrontend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingUdpFrontend",
 }));
 
 export type PutIpLoadbalancingVrackNetworkError = OvhOpError;
@@ -4346,6 +4610,8 @@ export const putIpLoadbalancingVrackNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpLoadbalancingVrackNetwork",
 }));
 
 export type RefreshIpLoadbalancingError = OvhOpError;
@@ -4361,6 +4627,8 @@ export const refreshIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshIpLoadbalancing",
 }));
 
 export type TerminateIpLoadbalancingError = OvhOpError;
@@ -4376,6 +4644,8 @@ export const terminateIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateIpLoadbalancing",
 }));
 
 export type TerminateIpLoadbalancingZoneError = OvhOpError;
@@ -4391,6 +4661,8 @@ export const terminateIpLoadbalancingZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateIpLoadbalancingZone",
 }));
 
 export type UpdateIpLoadbalancingVrackNetworkFarmIdError = OvhOpError;
@@ -4406,6 +4678,8 @@ export const updateIpLoadbalancingVrackNetworkFarmId: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIpLoadbalancingVrackNetworkFarmId",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

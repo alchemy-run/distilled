@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "ZoneRrsetActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type AddZoneRrsetRecordsRequestRrType =
   | "A"
@@ -398,6 +411,8 @@ export const addZoneRrsetRecords: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddZoneRrsetRecords",
 }));
 
 export type ChangeZoneRrsetProtectionError = HetznerOpError;
@@ -413,6 +428,8 @@ export const changeZoneRrsetProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeZoneRrsetProtection",
 }));
 
 export type ChangeZoneRrsetTtlError = HetznerOpError;
@@ -428,6 +445,8 @@ export const changeZoneRrsetTtl: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeZoneRrsetTtl",
 }));
 
 export type RemoveZoneRrsetRecordsError = HetznerOpError;
@@ -443,6 +462,8 @@ export const removeZoneRrsetRecords: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveZoneRrsetRecords",
 }));
 
 export type SetZoneRrsetRecordsError = HetznerOpError;
@@ -458,6 +479,8 @@ export const setZoneRrsetRecords: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetZoneRrsetRecords",
 }));
 
 export type UpdateZoneRrsetRecordsError = HetznerOpError;
@@ -473,6 +496,8 @@ export const updateZoneRrsetRecords: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateZoneRrsetRecords",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

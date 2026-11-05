@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://imagebuilder.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "imagebuilder",
+  service: "imagebuilder",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2154,7 +2170,7 @@ export type CancelImageCreationError =
  * created, such as AMIs and snapshots, aren't removed.
  */
 export const cancelImageCreation: API.OperationMethod<
-  CancelImageCreationRequest,
+  CancelImageCreationRequest & RegionInput,
   CancelImageCreationResponse,
   CancelImageCreationError,
   Credentials | HttpClient.HttpClient
@@ -2175,6 +2191,8 @@ export const cancelImageCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImageCreation",
+  telemetry: TELEMETRY,
+  span: "CancelImageCreation",
 }));
 
 export type CancelLifecycleExecutionError =
@@ -2195,7 +2213,7 @@ export type CancelLifecycleExecutionError =
  * completed lifecycle actions.
  */
 export const cancelLifecycleExecution: API.OperationMethod<
-  CancelLifecycleExecutionRequest,
+  CancelLifecycleExecutionRequest & RegionInput,
   CancelLifecycleExecutionResponse,
   CancelLifecycleExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2215,6 +2233,8 @@ export const cancelLifecycleExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLifecycleExecution",
+  telemetry: TELEMETRY,
+  span: "CancelLifecycleExecution",
 }));
 
 export type CreateComponentError =
@@ -2246,7 +2266,7 @@ export type CreateComponentError =
  * `TEST`. Otherwise, the component type is `BUILD`.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentRequest,
+  CreateComponentRequest & RegionInput,
   CreateComponentResponse,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -2270,6 +2290,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateContainerRecipeError =
@@ -2291,7 +2313,7 @@ export type CreateContainerRecipeError =
  * tested, and assessed.
  */
 export const createContainerRecipe: API.OperationMethod<
-  CreateContainerRecipeRequest,
+  CreateContainerRecipeRequest & RegionInput,
   CreateContainerRecipeResponse,
   CreateContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2315,6 +2337,8 @@ export const createContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerRecipe",
+  telemetry: TELEMETRY,
+  span: "CreateContainerRecipe",
 }));
 
 export type CreateDistributionConfigurationError =
@@ -2337,7 +2361,7 @@ export type CreateDistributionConfigurationError =
  * accounts, and settings for each Region.
  */
 export const createDistributionConfiguration: API.OperationMethod<
-  CreateDistributionConfigurationRequest,
+  CreateDistributionConfigurationRequest & RegionInput,
   CreateDistributionConfigurationResponse,
   CreateDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2361,6 +2385,8 @@ export const createDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateDistributionConfiguration",
 }));
 
 export type CreateImageError =
@@ -2384,7 +2410,7 @@ export type CreateImageError =
  * GetImage and check the image status.
  */
 export const createImage: API.OperationMethod<
-  CreateImageRequest,
+  CreateImageRequest & RegionInput,
   CreateImageResponse,
   CreateImageError,
   Credentials | HttpClient.HttpClient
@@ -2405,6 +2431,8 @@ export const createImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImage",
+  telemetry: TELEMETRY,
+  span: "CreateImage",
 }));
 
 export type CreateImagePipelineError =
@@ -2427,7 +2455,7 @@ export type CreateImagePipelineError =
  * `imageRecipeArn`.
  */
 export const createImagePipeline: API.OperationMethod<
-  CreateImagePipelineRequest,
+  CreateImagePipelineRequest & RegionInput,
   CreateImagePipelineResponse,
   CreateImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -2450,6 +2478,8 @@ export const createImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImagePipeline",
+  telemetry: TELEMETRY,
+  span: "CreateImagePipeline",
 }));
 
 export type CreateImageRecipeError =
@@ -2471,7 +2501,7 @@ export type CreateImageRecipeError =
  * and assessed.
  */
 export const createImageRecipe: API.OperationMethod<
-  CreateImageRecipeRequest,
+  CreateImageRecipeRequest & RegionInput,
   CreateImageRecipeResponse,
   CreateImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2495,6 +2525,8 @@ export const createImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageRecipe",
+  telemetry: TELEMETRY,
+  span: "CreateImageRecipe",
 }));
 
 export type CreateInfrastructureConfigurationError =
@@ -2516,7 +2548,7 @@ export type CreateInfrastructureConfigurationError =
  * the environment in which your image will be built and tested.
  */
 export const createInfrastructureConfiguration: API.OperationMethod<
-  CreateInfrastructureConfigurationRequest,
+  CreateInfrastructureConfigurationRequest & RegionInput,
   CreateInfrastructureConfigurationResponse,
   CreateInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2540,6 +2572,8 @@ export const createInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateInfrastructureConfiguration",
 }));
 
 export type CreateLifecyclePolicyError =
@@ -2559,7 +2593,7 @@ export type CreateLifecyclePolicyError =
  * Creates a lifecycle policy resource.
  */
 export const createLifecyclePolicy: API.OperationMethod<
-  CreateLifecyclePolicyRequest,
+  CreateLifecyclePolicyRequest & RegionInput,
   CreateLifecyclePolicyResponse,
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2582,6 +2616,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLifecyclePolicy",
 }));
 
 export type CreateWorkflowError =
@@ -2606,7 +2642,7 @@ export type CreateWorkflowError =
  * fails because that workflow configuration already exists.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2630,6 +2666,8 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type DeleteComponentError =
@@ -2649,7 +2687,7 @@ export type DeleteComponentError =
  * build version is shared with other accounts.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -2669,6 +2707,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteContainerRecipeError =
@@ -2686,7 +2726,7 @@ export type DeleteContainerRecipeError =
  * accounts, or if an image pipeline references it.
  */
 export const deleteContainerRecipe: API.OperationMethod<
-  DeleteContainerRecipeRequest,
+  DeleteContainerRecipeRequest & RegionInput,
   DeleteContainerRecipeResponse,
   DeleteContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2705,6 +2745,8 @@ export const deleteContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerRecipe",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerRecipe",
 }));
 
 export type DeleteDistributionConfigurationError =
@@ -2724,7 +2766,7 @@ export type DeleteDistributionConfigurationError =
  * pipelines first.
  */
 export const deleteDistributionConfiguration: API.OperationMethod<
-  DeleteDistributionConfigurationRequest,
+  DeleteDistributionConfigurationRequest & RegionInput,
   DeleteDistributionConfigurationResponse,
   DeleteDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2744,6 +2786,8 @@ export const deleteDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteDistributionConfiguration",
 }));
 
 export type DeleteImageError =
@@ -2781,7 +2825,7 @@ export type DeleteImageError =
  * an image in the *Amazon ECR User Guide*.
  */
 export const deleteImage: API.OperationMethod<
-  DeleteImageRequest,
+  DeleteImageRequest & RegionInput,
   DeleteImageResponse,
   DeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -2801,6 +2845,8 @@ export const deleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteImagePipelineError =
@@ -2820,7 +2866,7 @@ export type DeleteImagePipelineError =
  * build continues independently.
  */
 export const deleteImagePipeline: API.OperationMethod<
-  DeleteImagePipelineRequest,
+  DeleteImagePipelineRequest & RegionInput,
   DeleteImagePipelineResponse,
   DeleteImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -2840,6 +2886,8 @@ export const deleteImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImagePipeline",
+  telemetry: TELEMETRY,
+  span: "DeleteImagePipeline",
 }));
 
 export type DeleteImageRecipeError =
@@ -2856,7 +2904,7 @@ export type DeleteImageRecipeError =
  * Deletes an image recipe.
  */
 export const deleteImageRecipe: API.OperationMethod<
-  DeleteImageRecipeRequest,
+  DeleteImageRecipeRequest & RegionInput,
   DeleteImageRecipeResponse,
   DeleteImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2876,6 +2924,8 @@ export const deleteImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageRecipe",
+  telemetry: TELEMETRY,
+  span: "DeleteImageRecipe",
 }));
 
 export type DeleteInfrastructureConfigurationError =
@@ -2895,7 +2945,7 @@ export type DeleteInfrastructureConfigurationError =
  * pipelines first.
  */
 export const deleteInfrastructureConfiguration: API.OperationMethod<
-  DeleteInfrastructureConfigurationRequest,
+  DeleteInfrastructureConfigurationRequest & RegionInput,
   DeleteInfrastructureConfigurationResponse,
   DeleteInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2915,6 +2965,8 @@ export const deleteInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteInfrastructureConfiguration",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -2934,7 +2986,7 @@ export type DeleteLifecyclePolicyError =
  * resources.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2953,6 +3005,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type DeleteWorkflowError =
@@ -2970,7 +3024,7 @@ export type DeleteWorkflowError =
  * `ResourceDependencyException`.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2989,6 +3043,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DistributeImageError =
@@ -3011,7 +3067,7 @@ export type DistributeImageError =
  * phase on an image that has already been built.
  */
 export const distributeImage: API.OperationMethod<
-  DistributeImageRequest,
+  DistributeImageRequest & RegionInput,
   DistributeImageResponse,
   DistributeImageError,
   Credentials | HttpClient.HttpClient
@@ -3035,6 +3091,8 @@ export const distributeImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DistributeImage",
+  telemetry: TELEMETRY,
+  span: "DistributeImage",
 }));
 
 export type GetComponentError =
@@ -3050,7 +3108,7 @@ export type GetComponentError =
  * Retrieves a component object.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentRequest,
+  GetComponentRequest & RegionInput,
   GetComponentResponse,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -3069,6 +3127,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetComponentPolicyError =
@@ -3083,7 +3143,7 @@ export type GetComponentPolicyError =
  * Retrieves a component policy.
  */
 export const getComponentPolicy: API.OperationMethod<
-  GetComponentPolicyRequest,
+  GetComponentPolicyRequest & RegionInput,
   GetComponentPolicyResponse,
   GetComponentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3101,6 +3161,8 @@ export const getComponentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponentPolicy",
+  telemetry: TELEMETRY,
+  span: "GetComponentPolicy",
 }));
 
 export type GetContainerRecipeError =
@@ -3115,7 +3177,7 @@ export type GetContainerRecipeError =
  * Retrieves a container recipe.
  */
 export const getContainerRecipe: API.OperationMethod<
-  GetContainerRecipeRequest,
+  GetContainerRecipeRequest & RegionInput,
   GetContainerRecipeResponse,
   GetContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -3133,6 +3195,8 @@ export const getContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerRecipe",
+  telemetry: TELEMETRY,
+  span: "GetContainerRecipe",
 }));
 
 export type GetContainerRecipePolicyError =
@@ -3147,7 +3211,7 @@ export type GetContainerRecipePolicyError =
  * Retrieves the policy for a container recipe.
  */
 export const getContainerRecipePolicy: API.OperationMethod<
-  GetContainerRecipePolicyRequest,
+  GetContainerRecipePolicyRequest & RegionInput,
   GetContainerRecipePolicyResponse,
   GetContainerRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3165,6 +3229,8 @@ export const getContainerRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "GetContainerRecipePolicy",
 }));
 
 export type GetDistributionConfigurationError =
@@ -3180,7 +3246,7 @@ export type GetDistributionConfigurationError =
  * Retrieves a distribution configuration.
  */
 export const getDistributionConfiguration: API.OperationMethod<
-  GetDistributionConfigurationRequest,
+  GetDistributionConfigurationRequest & RegionInput,
   GetDistributionConfigurationResponse,
   GetDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3199,6 +3265,8 @@ export const getDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDistributionConfiguration",
 }));
 
 export type GetImageError =
@@ -3214,7 +3282,7 @@ export type GetImageError =
  * Retrieves an image.
  */
 export const getImage: API.OperationMethod<
-  GetImageRequest,
+  GetImageRequest & RegionInput,
   GetImageResponse,
   GetImageError,
   Credentials | HttpClient.HttpClient
@@ -3233,6 +3301,8 @@ export const getImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImage",
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetImagePipelineError =
@@ -3248,7 +3318,7 @@ export type GetImagePipelineError =
  * Retrieves an image pipeline.
  */
 export const getImagePipeline: API.OperationMethod<
-  GetImagePipelineRequest,
+  GetImagePipelineRequest & RegionInput,
   GetImagePipelineResponse,
   GetImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -3267,6 +3337,8 @@ export const getImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImagePipeline",
+  telemetry: TELEMETRY,
+  span: "GetImagePipeline",
 }));
 
 export type GetImagePolicyError =
@@ -3281,7 +3353,7 @@ export type GetImagePolicyError =
  * Retrieves an image policy.
  */
 export const getImagePolicy: API.OperationMethod<
-  GetImagePolicyRequest,
+  GetImagePolicyRequest & RegionInput,
   GetImagePolicyResponse,
   GetImagePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3299,6 +3371,8 @@ export const getImagePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImagePolicy",
+  telemetry: TELEMETRY,
+  span: "GetImagePolicy",
 }));
 
 export type GetImageRecipeError =
@@ -3314,7 +3388,7 @@ export type GetImageRecipeError =
  * Retrieves an image recipe.
  */
 export const getImageRecipe: API.OperationMethod<
-  GetImageRecipeRequest,
+  GetImageRecipeRequest & RegionInput,
   GetImageRecipeResponse,
   GetImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -3333,6 +3407,8 @@ export const getImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageRecipe",
+  telemetry: TELEMETRY,
+  span: "GetImageRecipe",
 }));
 
 export type GetImageRecipePolicyError =
@@ -3347,7 +3423,7 @@ export type GetImageRecipePolicyError =
  * Retrieves an image recipe policy.
  */
 export const getImageRecipePolicy: API.OperationMethod<
-  GetImageRecipePolicyRequest,
+  GetImageRecipePolicyRequest & RegionInput,
   GetImageRecipePolicyResponse,
   GetImageRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3365,6 +3441,8 @@ export const getImageRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "GetImageRecipePolicy",
 }));
 
 export type GetInfrastructureConfigurationError =
@@ -3380,7 +3458,7 @@ export type GetInfrastructureConfigurationError =
  * Retrieves an infrastructure configuration.
  */
 export const getInfrastructureConfiguration: API.OperationMethod<
-  GetInfrastructureConfigurationRequest,
+  GetInfrastructureConfigurationRequest & RegionInput,
   GetInfrastructureConfigurationResponse,
   GetInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3399,6 +3477,8 @@ export const getInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetInfrastructureConfiguration",
 }));
 
 export type GetLifecycleExecutionError =
@@ -3415,7 +3495,7 @@ export type GetLifecycleExecutionError =
  * StartResourceStateUpdate request started.
  */
 export const getLifecycleExecution: API.OperationMethod<
-  GetLifecycleExecutionRequest,
+  GetLifecycleExecutionRequest & RegionInput,
   GetLifecycleExecutionResponse,
   GetLifecycleExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3433,6 +3513,8 @@ export const getLifecycleExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecycleExecution",
+  telemetry: TELEMETRY,
+  span: "GetLifecycleExecution",
 }));
 
 export type GetLifecyclePolicyError =
@@ -3447,7 +3529,7 @@ export type GetLifecyclePolicyError =
  * Retrieves details for the specified image lifecycle policy.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyRequest,
+  GetLifecyclePolicyRequest & RegionInput,
   GetLifecyclePolicyResponse,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3465,6 +3547,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicy",
 }));
 
 export type GetMarketplaceResourceError =
@@ -3482,7 +3566,7 @@ export type GetMarketplaceResourceError =
  * and their artifacts.
  */
 export const getMarketplaceResource: API.OperationMethod<
-  GetMarketplaceResourceRequest,
+  GetMarketplaceResourceRequest & RegionInput,
   GetMarketplaceResourceResponse,
   GetMarketplaceResourceError,
   Credentials | HttpClient.HttpClient
@@ -3500,6 +3584,8 @@ export const getMarketplaceResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMarketplaceResource",
+  telemetry: TELEMETRY,
+  span: "GetMarketplaceResource",
 }));
 
 export type GetWorkflowError =
@@ -3514,7 +3600,7 @@ export type GetWorkflowError =
  * Retrieves a workflow resource object.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3532,6 +3618,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowExecutionError =
@@ -3547,7 +3635,7 @@ export type GetWorkflowExecutionError =
  * of the workflow.
  */
 export const getWorkflowExecution: API.OperationMethod<
-  GetWorkflowExecutionRequest,
+  GetWorkflowExecutionRequest & RegionInput,
   GetWorkflowExecutionResponse,
   GetWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3565,6 +3653,8 @@ export const getWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowExecution",
 }));
 
 export type GetWorkflowStepExecutionError =
@@ -3580,7 +3670,7 @@ export type GetWorkflowStepExecutionError =
  * the workflow step.
  */
 export const getWorkflowStepExecution: API.OperationMethod<
-  GetWorkflowStepExecutionRequest,
+  GetWorkflowStepExecutionRequest & RegionInput,
   GetWorkflowStepExecutionResponse,
   GetWorkflowStepExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3598,6 +3688,8 @@ export const getWorkflowStepExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowStepExecution",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowStepExecution",
 }));
 
 export type ImportComponentError =
@@ -3618,7 +3710,7 @@ export type ImportComponentError =
  * document with a single step that runs the script.
  */
 export const importComponent: API.OperationMethod<
-  ImportComponentRequest,
+  ImportComponentRequest & RegionInput,
   ImportComponentResponse,
   ImportComponentError,
   Credentials | HttpClient.HttpClient
@@ -3640,6 +3732,8 @@ export const importComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportComponent",
+  telemetry: TELEMETRY,
+  span: "ImportComponent",
 }));
 
 export type ImportDiskImageError =
@@ -3661,7 +3755,7 @@ export type ImportDiskImageError =
  * infrastructure configuration.
  */
 export const importDiskImage: API.OperationMethod<
-  ImportDiskImageRequest,
+  ImportDiskImageRequest & RegionInput,
   ImportDiskImageResponse,
   ImportDiskImageError,
   Credentials | HttpClient.HttpClient
@@ -3678,6 +3772,8 @@ export const importDiskImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDiskImage",
+  telemetry: TELEMETRY,
+  span: "ImportDiskImage",
 }));
 
 export type ImportVmImageError =
@@ -3699,7 +3795,7 @@ export type ImportVmImageError =
  * CLI command.
  */
 export const importVmImage: API.OperationMethod<
-  ImportVmImageRequest,
+  ImportVmImageRequest & RegionInput,
   ImportVmImageResponse,
   ImportVmImageError,
   Credentials | HttpClient.HttpClient
@@ -3710,6 +3806,8 @@ export const importVmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportVmImage",
+  telemetry: TELEMETRY,
+  span: "ImportVmImage",
 }));
 
 export type ListComponentBuildVersionsError =
@@ -3729,7 +3827,7 @@ export type ListComponentBuildVersionsError =
  * results.
  */
 export const listComponentBuildVersions: API.PaginatedOperationMethod<
-  ListComponentBuildVersionsRequest,
+  ListComponentBuildVersionsRequest & RegionInput,
   ListComponentBuildVersionsResponse,
   ListComponentBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3756,6 +3854,8 @@ export const listComponentBuildVersions: API.PaginatedOperationMethod<
     items: "componentSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentBuildVersions",
 })) as any;
 
 export type ListComponentsError =
@@ -3781,7 +3881,7 @@ export type ListComponentsError =
  * to the right of the first wildcard must also be wildcards.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -3807,6 +3907,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "componentVersionList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListContainerRecipesError =
@@ -3822,7 +3924,7 @@ export type ListContainerRecipesError =
  * Returns a list of container recipes.
  */
 export const listContainerRecipes: API.PaginatedOperationMethod<
-  ListContainerRecipesRequest,
+  ListContainerRecipesRequest & RegionInput,
   ListContainerRecipesResponse,
   ListContainerRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -3848,6 +3950,8 @@ export const listContainerRecipes: API.PaginatedOperationMethod<
     items: "containerRecipeSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerRecipes",
 })) as any;
 
 export type ListDistributionConfigurationsError =
@@ -3863,7 +3967,7 @@ export type ListDistributionConfigurationsError =
  * Returns a list of distribution configurations.
  */
 export const listDistributionConfigurations: API.PaginatedOperationMethod<
-  ListDistributionConfigurationsRequest,
+  ListDistributionConfigurationsRequest & RegionInput,
   ListDistributionConfigurationsResponse,
   ListDistributionConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3889,6 +3993,8 @@ export const listDistributionConfigurations: API.PaginatedOperationMethod<
     items: "distributionConfigurationSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionConfigurations",
 })) as any;
 
 export type ListImageBuildVersionsError =
@@ -3904,7 +4010,7 @@ export type ListImageBuildVersionsError =
  * Returns a list of image build versions.
  */
 export const listImageBuildVersions: API.PaginatedOperationMethod<
-  ListImageBuildVersionsRequest,
+  ListImageBuildVersionsRequest & RegionInput,
   ListImageBuildVersionsResponse,
   ListImageBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3930,6 +4036,8 @@ export const listImageBuildVersions: API.PaginatedOperationMethod<
     items: "imageSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageBuildVersions",
 })) as any;
 
 export type ListImagePackagesError =
@@ -3947,7 +4055,7 @@ export type ListImagePackagesError =
  * Amazon Web Services Systems Manager Inventory at build time.
  */
 export const listImagePackages: API.PaginatedOperationMethod<
-  ListImagePackagesRequest,
+  ListImagePackagesRequest & RegionInput,
   ListImagePackagesResponse,
   ListImagePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -3974,6 +4082,8 @@ export const listImagePackages: API.PaginatedOperationMethod<
     items: "imagePackageList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImagePackages",
 })) as any;
 
 export type ListImagePipelineImagesError =
@@ -3990,7 +4100,7 @@ export type ListImagePipelineImagesError =
  * Returns a list of images created by the specified pipeline.
  */
 export const listImagePipelineImages: API.PaginatedOperationMethod<
-  ListImagePipelineImagesRequest,
+  ListImagePipelineImagesRequest & RegionInput,
   ListImagePipelineImagesResponse,
   ListImagePipelineImagesError,
   Credentials | HttpClient.HttpClient,
@@ -4017,6 +4127,8 @@ export const listImagePipelineImages: API.PaginatedOperationMethod<
     items: "imageSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImagePipelineImages",
 })) as any;
 
 export type ListImagePipelinesError =
@@ -4032,7 +4144,7 @@ export type ListImagePipelinesError =
  * Returns a list of image pipelines.
  */
 export const listImagePipelines: API.PaginatedOperationMethod<
-  ListImagePipelinesRequest,
+  ListImagePipelinesRequest & RegionInput,
   ListImagePipelinesResponse,
   ListImagePipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -4058,6 +4170,8 @@ export const listImagePipelines: API.PaginatedOperationMethod<
     items: "imagePipelineList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImagePipelines",
 })) as any;
 
 export type ListImageRecipesError =
@@ -4073,7 +4187,7 @@ export type ListImageRecipesError =
  * Returns a list of image recipes.
  */
 export const listImageRecipes: API.PaginatedOperationMethod<
-  ListImageRecipesRequest,
+  ListImageRecipesRequest & RegionInput,
   ListImageRecipesResponse,
   ListImageRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -4099,6 +4213,8 @@ export const listImageRecipes: API.PaginatedOperationMethod<
     items: "imageRecipeSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageRecipes",
 })) as any;
 
 export type ListImagesError =
@@ -4114,7 +4230,7 @@ export type ListImagesError =
  * Returns the list of images that you have access to.
  */
 export const listImages: API.PaginatedOperationMethod<
-  ListImagesRequest,
+  ListImagesRequest & RegionInput,
   ListImagesResponse,
   ListImagesError,
   Credentials | HttpClient.HttpClient,
@@ -4140,6 +4256,8 @@ export const listImages: API.PaginatedOperationMethod<
     items: "imageVersionList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 })) as any;
 
 export type ListImageScanFindingAggregationsError =
@@ -4167,7 +4285,7 @@ export type ListImageScanFindingAggregationsError =
  * - `vulnerabilityId`
  */
 export const listImageScanFindingAggregations: API.PaginatedOperationMethod<
-  ListImageScanFindingAggregationsRequest,
+  ListImageScanFindingAggregationsRequest & RegionInput,
   ListImageScanFindingAggregationsResponse,
   ListImageScanFindingAggregationsError,
   Credentials | HttpClient.HttpClient,
@@ -4188,6 +4306,8 @@ export const listImageScanFindingAggregations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListImageScanFindingAggregations",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "responses" } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageScanFindingAggregations",
 })) as any;
 
 export type ListImageScanFindingsError =
@@ -4204,7 +4324,7 @@ export type ListImageScanFindingsError =
  * findings when it scans images that have scanning enabled.
  */
 export const listImageScanFindings: API.PaginatedOperationMethod<
-  ListImageScanFindingsRequest,
+  ListImageScanFindingsRequest & RegionInput,
   ListImageScanFindingsResponse,
   ListImageScanFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -4230,6 +4350,8 @@ export const listImageScanFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageScanFindings",
 })) as any;
 
 export type ListInfrastructureConfigurationsError =
@@ -4245,7 +4367,7 @@ export type ListInfrastructureConfigurationsError =
  * Returns a list of infrastructure configurations.
  */
 export const listInfrastructureConfigurations: API.PaginatedOperationMethod<
-  ListInfrastructureConfigurationsRequest,
+  ListInfrastructureConfigurationsRequest & RegionInput,
   ListInfrastructureConfigurationsResponse,
   ListInfrastructureConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4271,6 +4393,8 @@ export const listInfrastructureConfigurations: API.PaginatedOperationMethod<
     items: "infrastructureConfigurationSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInfrastructureConfigurations",
 })) as any;
 
 export type ListLifecycleExecutionResourcesError =
@@ -4286,7 +4410,7 @@ export type ListLifecycleExecutionResourcesError =
  * Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.
  */
 export const listLifecycleExecutionResources: API.PaginatedOperationMethod<
-  ListLifecycleExecutionResourcesRequest,
+  ListLifecycleExecutionResourcesRequest & RegionInput,
   ListLifecycleExecutionResourcesResponse,
   ListLifecycleExecutionResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4312,6 +4436,8 @@ export const listLifecycleExecutionResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleExecutionResources",
 })) as any;
 
 export type ListLifecycleExecutionsError =
@@ -4327,7 +4453,7 @@ export type ListLifecycleExecutionsError =
  * Retrieves the lifecycle runtime history for the specified resource.
  */
 export const listLifecycleExecutions: API.PaginatedOperationMethod<
-  ListLifecycleExecutionsRequest,
+  ListLifecycleExecutionsRequest & RegionInput,
   ListLifecycleExecutionsResponse,
   ListLifecycleExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4353,6 +4479,8 @@ export const listLifecycleExecutions: API.PaginatedOperationMethod<
     items: "lifecycleExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleExecutions",
 })) as any;
 
 export type ListLifecyclePoliciesError =
@@ -4368,7 +4496,7 @@ export type ListLifecyclePoliciesError =
  * Retrieves a list of lifecycle policies in your Amazon Web Services account.
  */
 export const listLifecyclePolicies: API.PaginatedOperationMethod<
-  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesRequest & RegionInput,
   ListLifecyclePoliciesResponse,
   ListLifecyclePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4394,6 +4522,8 @@ export const listLifecyclePolicies: API.PaginatedOperationMethod<
     items: "lifecyclePolicySummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecyclePolicies",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4405,7 +4535,7 @@ export type ListTagsForResourceError =
  * Returns the list of tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4416,6 +4546,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWaitingWorkflowStepsError =
@@ -4433,7 +4565,7 @@ export type ListWaitingWorkflowStepsError =
  * a response, call SendWorkflowStepAction.
  */
 export const listWaitingWorkflowSteps: API.PaginatedOperationMethod<
-  ListWaitingWorkflowStepsRequest,
+  ListWaitingWorkflowStepsRequest & RegionInput,
   ListWaitingWorkflowStepsResponse,
   ListWaitingWorkflowStepsError,
   Credentials | HttpClient.HttpClient,
@@ -4459,6 +4591,8 @@ export const listWaitingWorkflowSteps: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWaitingWorkflowSteps",
 })) as any;
 
 export type ListWorkflowBuildVersionsError =
@@ -4474,7 +4608,7 @@ export type ListWorkflowBuildVersionsError =
  * Returns a list of build versions for a specific workflow resource.
  */
 export const listWorkflowBuildVersions: API.PaginatedOperationMethod<
-  ListWorkflowBuildVersionsRequest,
+  ListWorkflowBuildVersionsRequest & RegionInput,
   ListWorkflowBuildVersionsResponse,
   ListWorkflowBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4500,6 +4634,8 @@ export const listWorkflowBuildVersions: API.PaginatedOperationMethod<
     items: "workflowSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowBuildVersions",
 })) as any;
 
 export type ListWorkflowExecutionsError =
@@ -4516,7 +4652,7 @@ export type ListWorkflowExecutionsError =
  * version.
  */
 export const listWorkflowExecutions: API.PaginatedOperationMethod<
-  ListWorkflowExecutionsRequest,
+  ListWorkflowExecutionsRequest & RegionInput,
   ListWorkflowExecutionsResponse,
   ListWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4542,6 +4678,8 @@ export const listWorkflowExecutions: API.PaginatedOperationMethod<
     items: "workflowExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowExecutions",
 })) as any;
 
 export type ListWorkflowsError =
@@ -4559,7 +4697,7 @@ export type ListWorkflowsError =
  * ListWorkflowBuildVersions.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -4585,6 +4723,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "workflowVersionList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type ListWorkflowStepExecutionsError =
@@ -4601,7 +4741,7 @@ export type ListWorkflowStepExecutionsError =
  * that you specify in the request.
  */
 export const listWorkflowStepExecutions: API.PaginatedOperationMethod<
-  ListWorkflowStepExecutionsRequest,
+  ListWorkflowStepExecutionsRequest & RegionInput,
   ListWorkflowStepExecutionsResponse,
   ListWorkflowStepExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4627,6 +4767,8 @@ export const listWorkflowStepExecutions: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowStepExecutions",
 })) as any;
 
 export type PutComponentPolicyError =
@@ -4646,7 +4788,7 @@ export type PutComponentPolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putComponentPolicy: API.OperationMethod<
-  PutComponentPolicyRequest,
+  PutComponentPolicyRequest & RegionInput,
   PutComponentPolicyResponse,
   PutComponentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4666,6 +4808,8 @@ export const putComponentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComponentPolicy",
+  telemetry: TELEMETRY,
+  span: "PutComponentPolicy",
 }));
 
 export type PutContainerRecipePolicyError =
@@ -4685,7 +4829,7 @@ export type PutContainerRecipePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putContainerRecipePolicy: API.OperationMethod<
-  PutContainerRecipePolicyRequest,
+  PutContainerRecipePolicyRequest & RegionInput,
   PutContainerRecipePolicyResponse,
   PutContainerRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4705,6 +4849,8 @@ export const putContainerRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContainerRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "PutContainerRecipePolicy",
 }));
 
 export type PutImagePolicyError =
@@ -4724,7 +4870,7 @@ export type PutImagePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putImagePolicy: API.OperationMethod<
-  PutImagePolicyRequest,
+  PutImagePolicyRequest & RegionInput,
   PutImagePolicyResponse,
   PutImagePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4744,6 +4890,8 @@ export const putImagePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImagePolicy",
+  telemetry: TELEMETRY,
+  span: "PutImagePolicy",
 }));
 
 export type PutImageRecipePolicyError =
@@ -4763,7 +4911,7 @@ export type PutImageRecipePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putImageRecipePolicy: API.OperationMethod<
-  PutImageRecipePolicyRequest,
+  PutImageRecipePolicyRequest & RegionInput,
   PutImageRecipePolicyResponse,
   PutImageRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4783,6 +4931,8 @@ export const putImageRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImageRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "PutImageRecipePolicy",
 }));
 
 export type RetryImageError =
@@ -4803,7 +4953,7 @@ export type RetryImageError =
  * supported for AMI-based images.
  */
 export const retryImage: API.OperationMethod<
-  RetryImageRequest,
+  RetryImageRequest & RegionInput,
   RetryImageResponse,
   RetryImageError,
   Credentials | HttpClient.HttpClient
@@ -4823,6 +4973,8 @@ export const retryImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryImage",
+  telemetry: TELEMETRY,
+  span: "RetryImage",
 }));
 
 export type SendWorkflowStepActionError =
@@ -4844,7 +4996,7 @@ export type SendWorkflowStepActionError =
  * ListWaitingWorkflowSteps.
  */
 export const sendWorkflowStepAction: API.OperationMethod<
-  SendWorkflowStepActionRequest,
+  SendWorkflowStepActionRequest & RegionInput,
   SendWorkflowStepActionResponse,
   SendWorkflowStepActionError,
   Credentials | HttpClient.HttpClient
@@ -4866,6 +5018,8 @@ export const sendWorkflowStepAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWorkflowStepAction",
+  telemetry: TELEMETRY,
+  span: "SendWorkflowStepAction",
 }));
 
 export type StartImagePipelineExecutionError =
@@ -4887,7 +5041,7 @@ export type StartImagePipelineExecutionError =
  * GetImage to track build progress.
  */
 export const startImagePipelineExecution: API.OperationMethod<
-  StartImagePipelineExecutionRequest,
+  StartImagePipelineExecutionRequest & RegionInput,
   StartImagePipelineExecutionResponse,
   StartImagePipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -4908,6 +5062,8 @@ export const startImagePipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImagePipelineExecution",
+  telemetry: TELEMETRY,
+  span: "StartImagePipelineExecution",
 }));
 
 export type StartResourceStateUpdateError =
@@ -4933,7 +5089,7 @@ export type StartResourceStateUpdateError =
  * progress, Image Builder rejects it.
  */
 export const startResourceStateUpdate: API.OperationMethod<
-  StartResourceStateUpdateRequest,
+  StartResourceStateUpdateRequest & RegionInput,
   StartResourceStateUpdateResponse,
   StartResourceStateUpdateError,
   Credentials | HttpClient.HttpClient
@@ -4954,6 +5110,8 @@ export const startResourceStateUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceStateUpdate",
+  telemetry: TELEMETRY,
+  span: "StartResourceStateUpdate",
 }));
 
 export type TagResourceError =
@@ -4965,7 +5123,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4976,6 +5134,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4987,7 +5147,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4998,6 +5158,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDistributionConfigurationError =
@@ -5022,7 +5184,7 @@ export type UpdateDistributionConfigurationError =
  * want to keep.
  */
 export const updateDistributionConfiguration: API.OperationMethod<
-  UpdateDistributionConfigurationRequest,
+  UpdateDistributionConfigurationRequest & RegionInput,
   UpdateDistributionConfigurationResponse,
   UpdateDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5044,6 +5206,8 @@ export const updateDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateDistributionConfiguration",
 }));
 
 export type UpdateImagePipelineError =
@@ -5070,7 +5234,7 @@ export type UpdateImagePipelineError =
  * or reset to its default.
  */
 export const updateImagePipeline: API.OperationMethod<
-  UpdateImagePipelineRequest,
+  UpdateImagePipelineRequest & RegionInput,
   UpdateImagePipelineResponse,
   UpdateImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -5091,6 +5255,8 @@ export const updateImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImagePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdateImagePipeline",
 }));
 
 export type UpdateInfrastructureConfigurationError =
@@ -5114,7 +5280,7 @@ export type UpdateInfrastructureConfigurationError =
  * you want to keep. Omitted optional properties are cleared.
  */
 export const updateInfrastructureConfiguration: API.OperationMethod<
-  UpdateInfrastructureConfigurationRequest,
+  UpdateInfrastructureConfigurationRequest & RegionInput,
   UpdateInfrastructureConfigurationResponse,
   UpdateInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5136,6 +5302,8 @@ export const updateInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateInfrastructureConfiguration",
 }));
 
 export type UpdateLifecyclePolicyError =
@@ -5156,7 +5324,7 @@ export type UpdateLifecyclePolicyError =
  * policy's value.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
-  UpdateLifecyclePolicyRequest,
+  UpdateLifecyclePolicyRequest & RegionInput,
   UpdateLifecyclePolicyResponse,
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5177,6 +5345,8 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateLifecyclePolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

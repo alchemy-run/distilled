@@ -1,0 +1,60 @@
+{
+  "description": "Type Bigtable's 400 for a table that isn't ready: still being created, restored or deleted. Observed live 2026-10-27: deleting a table whose column-family change is still applying, and reading or reading the IAM policy of a table being restored by UndeleteTable, answer 400 '... is still being created' or '... is either creating or deleting, please try again'. It surfaced as an out-of-union BadRequest, so callers could not wait it out with a typed retry.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#TableNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The table isn't ready: it is still being created, modified, restored or deleted (HTTP 400: '... is still being created' / '... is either creating or deleting'). The API doesn't say which. Retryable after a short wait.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "is still being created"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "is either creating or deleting"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetProjectsInstancesTables/errors/-",
+      "value": {
+        "target": "com.gcp.bigtableadmin_v2#TableNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#DeleteProjectsInstancesTables/errors/-",
+      "value": {
+        "target": "com.gcp.bigtableadmin_v2#TableNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#UndeleteProjectsInstancesTables/errors/-",
+      "value": {
+        "target": "com.gcp.bigtableadmin_v2#TableNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetIamPolicyProjectsInstancesTables/errors/-",
+      "value": {
+        "target": "com.gcp.bigtableadmin_v2#TableNotReady"
+      }
+    }
+  ]
+}

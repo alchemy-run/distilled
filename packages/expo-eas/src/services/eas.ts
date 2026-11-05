@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ExpoEasOpError, ExpoEasOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "expo-eas-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  attributes: { "graphql.operation.type": "mutation" },
+  prefix: "ExpoEas",
+  service: "Eas",
+  propagate: "w3c",
+} as const;
+
 export interface CreateAccessTokenInput {
   actorID: string;
   note?: string | null;
@@ -59803,6 +59816,11 @@ export const accessTokenCreateAccessToken: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccessTokenCreateAccessToken",
+    attributes: { "graphql.operation.name": "accessTokenCreateAccessToken" },
+  },
 }));
 
 export type AccessTokenDeleteAccessTokenError = ExpoEasOpError;
@@ -59817,6 +59835,11 @@ export const accessTokenDeleteAccessToken: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccessTokenDeleteAccessToken",
+    attributes: { "graphql.operation.name": "accessTokenDeleteAccessToken" },
+  },
 }));
 
 export type AccessTokenSetAccessTokenRevokedError = ExpoEasOpError;
@@ -59831,6 +59854,11 @@ export const accessTokenSetAccessTokenRevoked: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccessTokenSetAccessTokenRevoked",
+    attributes: { "graphql.operation.name": "accessTokenSetAccessTokenRevoked" },
+  },
 }));
 
 export type AccountByIdError = ExpoEasOpError;
@@ -59845,6 +59873,11 @@ export const accountById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountById",
+    attributes: { "graphql.operation.name": "accountById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type AccountByNameError = ExpoEasOpError;
@@ -59859,6 +59892,11 @@ export const accountByName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountByName",
+    attributes: { "graphql.operation.name": "accountByName", "graphql.operation.type": "query" },
+  },
 }));
 
 export type AccountCancelAllSubscriptionsImmediatelyError = ExpoEasOpError;
@@ -59877,6 +59915,11 @@ export const accountCancelAllSubscriptionsImmediately: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountCancelAllSubscriptionsImmediately",
+    attributes: { "graphql.operation.name": "accountCancelAllSubscriptionsImmediately" },
+  },
 }));
 
 export type AccountCancelScheduledSubscriptionChangeError = ExpoEasOpError;
@@ -59895,6 +59938,11 @@ export const accountCancelScheduledSubscriptionChange: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountCancelScheduledSubscriptionChange",
+    attributes: { "graphql.operation.name": "accountCancelScheduledSubscriptionChange" },
+  },
 }));
 
 export type AccountChangeAdditionalAgentCreditsCountError = ExpoEasOpError;
@@ -59913,6 +59961,11 @@ export const accountChangeAdditionalAgentCreditsCount: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountChangeAdditionalAgentCreditsCount",
+    attributes: { "graphql.operation.name": "accountChangeAdditionalAgentCreditsCount" },
+  },
 }));
 
 export type AccountChangeAdditionalConcurrenciesCountError = ExpoEasOpError;
@@ -59931,6 +59984,11 @@ export const accountChangeAdditionalConcurrenciesCount: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountChangeAdditionalConcurrenciesCount",
+    attributes: { "graphql.operation.name": "accountChangeAdditionalConcurrenciesCount" },
+  },
 }));
 
 export type AccountChangePlanError = ExpoEasOpError;
@@ -59945,6 +60003,8 @@ export const accountChangePlan: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "AccountChangePlan", attributes: { "graphql.operation.name": "accountChangePlan" } },
 }));
 
 export type AccountGrantActorPermissionsError = ExpoEasOpError;
@@ -59959,6 +60019,11 @@ export const accountGrantActorPermissions: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountGrantActorPermissions",
+    attributes: { "graphql.operation.name": "accountGrantActorPermissions" },
+  },
 }));
 
 export type AccountRemoveProfileImageError = ExpoEasOpError;
@@ -59973,6 +60038,11 @@ export const accountRemoveProfileImage: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountRemoveProfileImage",
+    attributes: { "graphql.operation.name": "accountRemoveProfileImage" },
+  },
 }));
 
 export type AccountRevokeActorPermissionsError = ExpoEasOpError;
@@ -59987,6 +60057,11 @@ export const accountRevokeActorPermissions: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountRevokeActorPermissions",
+    attributes: { "graphql.operation.name": "accountRevokeActorPermissions" },
+  },
 }));
 
 export type AccountSetDisplayNameError = ExpoEasOpError;
@@ -60001,6 +60076,11 @@ export const accountSetDisplayName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSetDisplayName",
+    attributes: { "graphql.operation.name": "accountSetDisplayName" },
+  },
 }));
 
 export type AccountSetObserveIngestionPausedError = ExpoEasOpError;
@@ -60015,6 +60095,11 @@ export const accountSetObserveIngestionPaused: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSetObserveIngestionPaused",
+    attributes: { "graphql.operation.name": "accountSetObserveIngestionPaused" },
+  },
 }));
 
 export type AccountSetPushSecurityEnabledError = ExpoEasOpError;
@@ -60029,6 +60114,11 @@ export const accountSetPushSecurityEnabled: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSetPushSecurityEnabled",
+    attributes: { "graphql.operation.name": "accountSetPushSecurityEnabled" },
+  },
 }));
 
 export type AccountSetRequireTwoFactorError = ExpoEasOpError;
@@ -60043,6 +60133,11 @@ export const accountSetRequireTwoFactor: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSetRequireTwoFactor",
+    attributes: { "graphql.operation.name": "accountSetRequireTwoFactor" },
+  },
 }));
 
 export type AccountSetUserSpecifiedAccountUsageError = ExpoEasOpError;
@@ -60057,6 +60152,11 @@ export const accountSetUserSpecifiedAccountUsage: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSetUserSpecifiedAccountUsage",
+    attributes: { "graphql.operation.name": "accountSetUserSpecifiedAccountUsage" },
+  },
 }));
 
 export type AccountSSOConfigurationCreateAccountSSOConfigurationError = ExpoEasOpError;
@@ -60079,6 +60179,13 @@ export const accountSSOConfigurationCreateAccountSSOConfiguration: API.Operation
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSSOConfigurationCreateAccountSSOConfiguration",
+    attributes: {
+      "graphql.operation.name": "accountSSOConfigurationCreateAccountSSOConfiguration",
+    },
+  },
 }));
 
 export type AccountSSOConfigurationDeleteAccountSSOConfigurationError = ExpoEasOpError;
@@ -60101,6 +60208,13 @@ export const accountSSOConfigurationDeleteAccountSSOConfiguration: API.Operation
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSSOConfigurationDeleteAccountSSOConfiguration",
+    attributes: {
+      "graphql.operation.name": "accountSSOConfigurationDeleteAccountSSOConfiguration",
+    },
+  },
 }));
 
 export type AccountSSOConfigurationPublicDataPublicDataByAccountNameError = ExpoEasOpError;
@@ -60123,6 +60237,14 @@ export const accountSSOConfigurationPublicDataPublicDataByAccountName: API.Opera
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSSOConfigurationPublicDataPublicDataByAccountName",
+    attributes: {
+      "graphql.operation.name": "accountSSOConfigurationPublicDataPublicDataByAccountName",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AccountSSOConfigurationUpdateAccountSSOConfigurationError = ExpoEasOpError;
@@ -60145,6 +60267,13 @@ export const accountSSOConfigurationUpdateAccountSSOConfiguration: API.Operation
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSSOConfigurationUpdateAccountSSOConfiguration",
+    attributes: {
+      "graphql.operation.name": "accountSSOConfigurationUpdateAccountSSOConfiguration",
+    },
+  },
 }));
 
 export type AccountSSOConfigurationUpdateAccountSSOConfigurationClientSecretError = ExpoEasOpError;
@@ -60167,6 +60296,13 @@ export const accountSSOConfigurationUpdateAccountSSOConfigurationClientSecret: A
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AccountSSOConfigurationUpdateAccountSSOConfigurationClientSecret",
+    attributes: {
+      "graphql.operation.name": "accountSSOConfigurationUpdateAccountSSOConfigurationClientSecret",
+    },
+  },
 }));
 
 export type ActorExperimentCreateOrUpdateActorExperimentError = ExpoEasOpError;
@@ -60189,6 +60325,11 @@ export const actorExperimentCreateOrUpdateActorExperiment: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ActorExperimentCreateOrUpdateActorExperiment",
+    attributes: { "graphql.operation.name": "actorExperimentCreateOrUpdateActorExperiment" },
+  },
 }));
 
 export type AgentProviderConnectionCompleteClaudeConnectionError = ExpoEasOpError;
@@ -60211,6 +60352,11 @@ export const agentProviderConnectionCompleteClaudeConnection: API.OperationMetho
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AgentProviderConnectionCompleteClaudeConnection",
+    attributes: { "graphql.operation.name": "agentProviderConnectionCompleteClaudeConnection" },
+  },
 }));
 
 export type AgentProviderConnectionDeleteAgentProviderConnectionError = ExpoEasOpError;
@@ -60233,6 +60379,13 @@ export const agentProviderConnectionDeleteAgentProviderConnection: API.Operation
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AgentProviderConnectionDeleteAgentProviderConnection",
+    attributes: {
+      "graphql.operation.name": "agentProviderConnectionDeleteAgentProviderConnection",
+    },
+  },
 }));
 
 export type AgentProviderConnectionPollCodexConnectionError = ExpoEasOpError;
@@ -60251,6 +60404,11 @@ export const agentProviderConnectionPollCodexConnection: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AgentProviderConnectionPollCodexConnection",
+    attributes: { "graphql.operation.name": "agentProviderConnectionPollCodexConnection" },
+  },
 }));
 
 export type AgentProviderConnectionStartClaudeConnectionError = ExpoEasOpError;
@@ -60273,6 +60431,11 @@ export const agentProviderConnectionStartClaudeConnection: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AgentProviderConnectionStartClaudeConnection",
+    attributes: { "graphql.operation.name": "agentProviderConnectionStartClaudeConnection" },
+  },
 }));
 
 export type AgentProviderConnectionStartCodexConnectionError = ExpoEasOpError;
@@ -60295,6 +60458,11 @@ export const agentProviderConnectionStartCodexConnection: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AgentProviderConnectionStartCodexConnection",
+    attributes: { "graphql.operation.name": "agentProviderConnectionStartCodexConnection" },
+  },
 }));
 
 export type AgentProviderConnectionUpdateAgentProviderConnectionError = ExpoEasOpError;
@@ -60317,6 +60485,13 @@ export const agentProviderConnectionUpdateAgentProviderConnection: API.Operation
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AgentProviderConnectionUpdateAgentProviderConnection",
+    attributes: {
+      "graphql.operation.name": "agentProviderConnectionUpdateAgentProviderConnection",
+    },
+  },
 }));
 
 export type AndroidAppBuildCredentialsCreateAndroidAppBuildCredentialsError = ExpoEasOpError;
@@ -60339,6 +60514,13 @@ export const androidAppBuildCredentialsCreateAndroidAppBuildCredentials: API.Ope
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppBuildCredentialsCreateAndroidAppBuildCredentials",
+    attributes: {
+      "graphql.operation.name": "androidAppBuildCredentialsCreateAndroidAppBuildCredentials",
+    },
+  },
 }));
 
 export type AndroidAppBuildCredentialsDeleteAndroidAppBuildCredentialsError = ExpoEasOpError;
@@ -60361,6 +60543,13 @@ export const androidAppBuildCredentialsDeleteAndroidAppBuildCredentials: API.Ope
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppBuildCredentialsDeleteAndroidAppBuildCredentials",
+    attributes: {
+      "graphql.operation.name": "androidAppBuildCredentialsDeleteAndroidAppBuildCredentials",
+    },
+  },
 }));
 
 export type AndroidAppBuildCredentialsSetDefaultError = ExpoEasOpError;
@@ -60375,6 +60564,11 @@ export const androidAppBuildCredentialsSetDefault: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppBuildCredentialsSetDefault",
+    attributes: { "graphql.operation.name": "androidAppBuildCredentialsSetDefault" },
+  },
 }));
 
 export type AndroidAppBuildCredentialsSetKeystoreError = ExpoEasOpError;
@@ -60389,6 +60583,11 @@ export const androidAppBuildCredentialsSetKeystore: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppBuildCredentialsSetKeystore",
+    attributes: { "graphql.operation.name": "androidAppBuildCredentialsSetKeystore" },
+  },
 }));
 
 export type AndroidAppBuildCredentialsSetNameError = ExpoEasOpError;
@@ -60403,6 +60602,11 @@ export const androidAppBuildCredentialsSetName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppBuildCredentialsSetName",
+    attributes: { "graphql.operation.name": "androidAppBuildCredentialsSetName" },
+  },
 }));
 
 export type AndroidAppCredentialsCreateAndroidAppCredentialsError = ExpoEasOpError;
@@ -60425,6 +60629,11 @@ export const androidAppCredentialsCreateAndroidAppCredentials: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppCredentialsCreateAndroidAppCredentials",
+    attributes: { "graphql.operation.name": "androidAppCredentialsCreateAndroidAppCredentials" },
+  },
 }));
 
 export type AndroidAppCredentialsCreateFcmV1CredentialError = ExpoEasOpError;
@@ -60447,6 +60656,11 @@ export const androidAppCredentialsCreateFcmV1Credential: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppCredentialsCreateFcmV1Credential",
+    attributes: { "graphql.operation.name": "androidAppCredentialsCreateFcmV1Credential" },
+  },
 }));
 
 export type AndroidAppCredentialsDeleteAndroidAppCredentialsError = ExpoEasOpError;
@@ -60469,6 +60683,11 @@ export const androidAppCredentialsDeleteAndroidAppCredentials: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppCredentialsDeleteAndroidAppCredentials",
+    attributes: { "graphql.operation.name": "androidAppCredentialsDeleteAndroidAppCredentials" },
+  },
 }));
 
 export type AndroidAppCredentialsSetFcmError = ExpoEasOpError;
@@ -60483,6 +60702,11 @@ export const androidAppCredentialsSetFcm: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppCredentialsSetFcm",
+    attributes: { "graphql.operation.name": "androidAppCredentialsSetFcm" },
+  },
 }));
 
 export type AndroidAppCredentialsSetGoogleServiceAccountKeyForFcmV1Error = ExpoEasOpError;
@@ -60505,6 +60729,13 @@ export const androidAppCredentialsSetGoogleServiceAccountKeyForFcmV1: API.Operat
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppCredentialsSetGoogleServiceAccountKeyForFcmV1",
+    attributes: {
+      "graphql.operation.name": "androidAppCredentialsSetGoogleServiceAccountKeyForFcmV1",
+    },
+  },
 }));
 
 export type AndroidAppCredentialsSetGoogleServiceAccountKeyForSubmissionsError = ExpoEasOpError;
@@ -60527,6 +60758,13 @@ export const androidAppCredentialsSetGoogleServiceAccountKeyForSubmissions: API.
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidAppCredentialsSetGoogleServiceAccountKeyForSubmissions",
+    attributes: {
+      "graphql.operation.name": "androidAppCredentialsSetGoogleServiceAccountKeyForSubmissions",
+    },
+  },
 }));
 
 export type AndroidFcmDeleteAndroidFcmError = ExpoEasOpError;
@@ -60541,6 +60779,11 @@ export const androidFcmDeleteAndroidFcm: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidFcmDeleteAndroidFcm",
+    attributes: { "graphql.operation.name": "androidFcmDeleteAndroidFcm" },
+  },
 }));
 
 export type AndroidKeystoreCreateAndroidKeystoreError = ExpoEasOpError;
@@ -60555,6 +60798,11 @@ export const androidKeystoreCreateAndroidKeystore: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidKeystoreCreateAndroidKeystore",
+    attributes: { "graphql.operation.name": "androidKeystoreCreateAndroidKeystore" },
+  },
 }));
 
 export type AndroidKeystoreDeleteAndroidKeystoreError = ExpoEasOpError;
@@ -60569,6 +60817,11 @@ export const androidKeystoreDeleteAndroidKeystore: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AndroidKeystoreDeleteAndroidKeystore",
+    attributes: { "graphql.operation.name": "androidKeystoreDeleteAndroidKeystore" },
+  },
 }));
 
 export type AppByDevDomainNameError = ExpoEasOpError;
@@ -60583,6 +60836,14 @@ export const appByDevDomainName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppByDevDomainName",
+    attributes: {
+      "graphql.operation.name": "appByDevDomainName",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AppByFullNameError = ExpoEasOpError;
@@ -60597,6 +60858,11 @@ export const appByFullName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppByFullName",
+    attributes: { "graphql.operation.name": "appByFullName", "graphql.operation.type": "query" },
+  },
 }));
 
 export type AppByIdError = ExpoEasOpError;
@@ -60611,6 +60877,11 @@ export const appById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppById",
+    attributes: { "graphql.operation.name": "appById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type AppleAppIdentifierCreateAppleAppIdentifierError = ExpoEasOpError;
@@ -60633,6 +60904,11 @@ export const appleAppIdentifierCreateAppleAppIdentifier: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleAppIdentifierCreateAppleAppIdentifier",
+    attributes: { "graphql.operation.name": "appleAppIdentifierCreateAppleAppIdentifier" },
+  },
 }));
 
 export type AppleDeviceCreateAppleDeviceError = ExpoEasOpError;
@@ -60647,6 +60923,11 @@ export const appleDeviceCreateAppleDevice: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDeviceCreateAppleDevice",
+    attributes: { "graphql.operation.name": "appleDeviceCreateAppleDevice" },
+  },
 }));
 
 export type AppleDeviceDeleteAppleDeviceError = ExpoEasOpError;
@@ -60661,6 +60942,11 @@ export const appleDeviceDeleteAppleDevice: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDeviceDeleteAppleDevice",
+    attributes: { "graphql.operation.name": "appleDeviceDeleteAppleDevice" },
+  },
 }));
 
 export type AppleDeviceRegistrationRequestByIdError = ExpoEasOpError;
@@ -60675,6 +60961,14 @@ export const appleDeviceRegistrationRequestById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDeviceRegistrationRequestById",
+    attributes: {
+      "graphql.operation.name": "appleDeviceRegistrationRequestById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AppleDeviceRegistrationRequestCreateAppleDeviceRegistrationRequestError =
@@ -60698,6 +60992,14 @@ export const appleDeviceRegistrationRequestCreateAppleDeviceRegistrationRequest:
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDeviceRegistrationRequestCreateAppleDeviceRegistrationRequest",
+    attributes: {
+      "graphql.operation.name":
+        "appleDeviceRegistrationRequestCreateAppleDeviceRegistrationRequest",
+    },
+  },
 }));
 
 export type AppleDeviceRegistrationRequestPublicDataByIdError = ExpoEasOpError;
@@ -60720,6 +61022,14 @@ export const appleDeviceRegistrationRequestPublicDataById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDeviceRegistrationRequestPublicDataById",
+    attributes: {
+      "graphql.operation.name": "appleDeviceRegistrationRequestPublicDataById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AppleDeviceUpdateAppleDeviceError = ExpoEasOpError;
@@ -60734,6 +61044,11 @@ export const appleDeviceUpdateAppleDevice: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDeviceUpdateAppleDevice",
+    attributes: { "graphql.operation.name": "appleDeviceUpdateAppleDevice" },
+  },
 }));
 
 export type AppleDistributionCertificateByIdError = ExpoEasOpError;
@@ -60748,6 +61063,14 @@ export const appleDistributionCertificateById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDistributionCertificateById",
+    attributes: {
+      "graphql.operation.name": "appleDistributionCertificateById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AppleDistributionCertificateCreateAppleDistributionCertificateError = ExpoEasOpError;
@@ -60770,6 +61093,13 @@ export const appleDistributionCertificateCreateAppleDistributionCertificate: API
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDistributionCertificateCreateAppleDistributionCertificate",
+    attributes: {
+      "graphql.operation.name": "appleDistributionCertificateCreateAppleDistributionCertificate",
+    },
+  },
 }));
 
 export type AppleDistributionCertificateDeleteAppleDistributionCertificateError = ExpoEasOpError;
@@ -60792,6 +61122,13 @@ export const appleDistributionCertificateDeleteAppleDistributionCertificate: API
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleDistributionCertificateDeleteAppleDistributionCertificate",
+    attributes: {
+      "graphql.operation.name": "appleDistributionCertificateDeleteAppleDistributionCertificate",
+    },
+  },
 }));
 
 export type AppleProvisioningProfileByIdError = ExpoEasOpError;
@@ -60806,6 +61143,14 @@ export const appleProvisioningProfileById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleProvisioningProfileById",
+    attributes: {
+      "graphql.operation.name": "appleProvisioningProfileById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AppleProvisioningProfileCreateAppleProvisioningProfileError = ExpoEasOpError;
@@ -60828,6 +61173,13 @@ export const appleProvisioningProfileCreateAppleProvisioningProfile: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleProvisioningProfileCreateAppleProvisioningProfile",
+    attributes: {
+      "graphql.operation.name": "appleProvisioningProfileCreateAppleProvisioningProfile",
+    },
+  },
 }));
 
 export type AppleProvisioningProfileDeleteAppleProvisioningProfileError = ExpoEasOpError;
@@ -60850,6 +61202,13 @@ export const appleProvisioningProfileDeleteAppleProvisioningProfile: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleProvisioningProfileDeleteAppleProvisioningProfile",
+    attributes: {
+      "graphql.operation.name": "appleProvisioningProfileDeleteAppleProvisioningProfile",
+    },
+  },
 }));
 
 export type AppleProvisioningProfileDeleteAppleProvisioningProfilesError = ExpoEasOpError;
@@ -60872,6 +61231,13 @@ export const appleProvisioningProfileDeleteAppleProvisioningProfiles: API.Operat
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleProvisioningProfileDeleteAppleProvisioningProfiles",
+    attributes: {
+      "graphql.operation.name": "appleProvisioningProfileDeleteAppleProvisioningProfiles",
+    },
+  },
 }));
 
 export type AppleProvisioningProfileUpdateAppleProvisioningProfileError = ExpoEasOpError;
@@ -60894,6 +61260,13 @@ export const appleProvisioningProfileUpdateAppleProvisioningProfile: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleProvisioningProfileUpdateAppleProvisioningProfile",
+    attributes: {
+      "graphql.operation.name": "appleProvisioningProfileUpdateAppleProvisioningProfile",
+    },
+  },
 }));
 
 export type ApplePushKeyCreateApplePushKeyError = ExpoEasOpError;
@@ -60908,6 +61281,11 @@ export const applePushKeyCreateApplePushKey: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ApplePushKeyCreateApplePushKey",
+    attributes: { "graphql.operation.name": "applePushKeyCreateApplePushKey" },
+  },
 }));
 
 export type ApplePushKeyDeleteApplePushKeyError = ExpoEasOpError;
@@ -60922,6 +61300,11 @@ export const applePushKeyDeleteApplePushKey: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ApplePushKeyDeleteApplePushKey",
+    attributes: { "graphql.operation.name": "applePushKeyDeleteApplePushKey" },
+  },
 }));
 
 export type AppleTeamByAppleTeamIdentifierError = ExpoEasOpError;
@@ -60936,6 +61319,14 @@ export const appleTeamByAppleTeamIdentifier: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleTeamByAppleTeamIdentifier",
+    attributes: {
+      "graphql.operation.name": "appleTeamByAppleTeamIdentifier",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AppleTeamCreateAppleTeamError = ExpoEasOpError;
@@ -60950,6 +61341,11 @@ export const appleTeamCreateAppleTeam: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleTeamCreateAppleTeam",
+    attributes: { "graphql.operation.name": "appleTeamCreateAppleTeam" },
+  },
 }));
 
 export type AppleTeamScheduleAppleTeamDeletionError = ExpoEasOpError;
@@ -60964,6 +61360,11 @@ export const appleTeamScheduleAppleTeamDeletion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleTeamScheduleAppleTeamDeletion",
+    attributes: { "graphql.operation.name": "appleTeamScheduleAppleTeamDeletion" },
+  },
 }));
 
 export type AppleTeamUpdateAppleTeamError = ExpoEasOpError;
@@ -60978,6 +61379,11 @@ export const appleTeamUpdateAppleTeam: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppleTeamUpdateAppleTeam",
+    attributes: { "graphql.operation.name": "appleTeamUpdateAppleTeam" },
+  },
 }));
 
 export type AppRemoveProfileImageError = ExpoEasOpError;
@@ -60992,6 +61398,11 @@ export const appRemoveProfileImage: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppRemoveProfileImage",
+    attributes: { "graphql.operation.name": "appRemoveProfileImage" },
+  },
 }));
 
 export type AppScheduleAppDeletionError = ExpoEasOpError;
@@ -61006,6 +61417,11 @@ export const appScheduleAppDeletion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppScheduleAppDeletion",
+    attributes: { "graphql.operation.name": "appScheduleAppDeletion" },
+  },
 }));
 
 export type AppSetAppInfoError = ExpoEasOpError;
@@ -61020,6 +61436,8 @@ export const appSetAppInfo: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "AppSetAppInfo", attributes: { "graphql.operation.name": "appSetAppInfo" } },
 }));
 
 export type AppSetObserveIngestionPausedError = ExpoEasOpError;
@@ -61034,6 +61452,11 @@ export const appSetObserveIngestionPaused: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppSetObserveIngestionPaused",
+    attributes: { "graphql.operation.name": "appSetObserveIngestionPaused" },
+  },
 }));
 
 export type AppSetPushSecurityEnabledError = ExpoEasOpError;
@@ -61048,6 +61471,11 @@ export const appSetPushSecurityEnabled: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppSetPushSecurityEnabled",
+    attributes: { "graphql.operation.name": "appSetPushSecurityEnabled" },
+  },
 }));
 
 export type AppSetResourceClassExperimentError = ExpoEasOpError;
@@ -61062,6 +61490,11 @@ export const appSetResourceClassExperiment: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppSetResourceClassExperiment",
+    attributes: { "graphql.operation.name": "appSetResourceClassExperiment" },
+  },
 }));
 
 export type AppSetWorkflowCachingConfigError = ExpoEasOpError;
@@ -61076,6 +61509,11 @@ export const appSetWorkflowCachingConfig: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppSetWorkflowCachingConfig",
+    attributes: { "graphql.operation.name": "appSetWorkflowCachingConfig" },
+  },
 }));
 
 export type AppStoreConnectApiKeyByIdError = ExpoEasOpError;
@@ -61090,6 +61528,14 @@ export const appStoreConnectApiKeyById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppStoreConnectApiKeyById",
+    attributes: {
+      "graphql.operation.name": "appStoreConnectApiKeyById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AppStoreConnectApiKeyCreateAppStoreConnectApiKeyError = ExpoEasOpError;
@@ -61112,6 +61558,11 @@ export const appStoreConnectApiKeyCreateAppStoreConnectApiKey: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppStoreConnectApiKeyCreateAppStoreConnectApiKey",
+    attributes: { "graphql.operation.name": "appStoreConnectApiKeyCreateAppStoreConnectApiKey" },
+  },
 }));
 
 export type AppStoreConnectApiKeyDeleteAppStoreConnectApiKeyError = ExpoEasOpError;
@@ -61134,6 +61585,11 @@ export const appStoreConnectApiKeyDeleteAppStoreConnectApiKey: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppStoreConnectApiKeyDeleteAppStoreConnectApiKey",
+    attributes: { "graphql.operation.name": "appStoreConnectApiKeyDeleteAppStoreConnectApiKey" },
+  },
 }));
 
 export type AppStoreConnectApiKeyUpdateAppStoreConnectApiKeyError = ExpoEasOpError;
@@ -61156,6 +61612,11 @@ export const appStoreConnectApiKeyUpdateAppStoreConnectApiKey: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppStoreConnectApiKeyUpdateAppStoreConnectApiKey",
+    attributes: { "graphql.operation.name": "appStoreConnectApiKeyUpdateAppStoreConnectApiKey" },
+  },
 }));
 
 export type AppStoreConnectAppCreateAppStoreConnectAppError = ExpoEasOpError;
@@ -61178,6 +61639,11 @@ export const appStoreConnectAppCreateAppStoreConnectApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppStoreConnectAppCreateAppStoreConnectApp",
+    attributes: { "graphql.operation.name": "appStoreConnectAppCreateAppStoreConnectApp" },
+  },
 }));
 
 export type AppStoreConnectAppDeleteAppStoreConnectAppError = ExpoEasOpError;
@@ -61200,6 +61666,11 @@ export const appStoreConnectAppDeleteAppStoreConnectApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppStoreConnectAppDeleteAppStoreConnectApp",
+    attributes: { "graphql.operation.name": "appStoreConnectAppDeleteAppStoreConnectApp" },
+  },
 }));
 
 export type AppVersionCreateAppVersionError = ExpoEasOpError;
@@ -61214,6 +61685,11 @@ export const appVersionCreateAppVersion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AppVersionCreateAppVersion",
+    attributes: { "graphql.operation.name": "appVersionCreateAppVersion" },
+  },
 }));
 
 export type AssetByStorageKeysError = ExpoEasOpError;
@@ -61228,6 +61704,14 @@ export const assetByStorageKeys: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AssetByStorageKeys",
+    attributes: {
+      "graphql.operation.name": "assetByStorageKeys",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type AssetGetSignedAssetUploadSpecificationsError = ExpoEasOpError;
@@ -61242,6 +61726,11 @@ export const assetGetSignedAssetUploadSpecifications: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AssetGetSignedAssetUploadSpecifications",
+    attributes: { "graphql.operation.name": "assetGetSignedAssetUploadSpecifications" },
+  },
 }));
 
 export type AssetMetadataError = ExpoEasOpError;
@@ -61256,6 +61745,11 @@ export const assetMetadata: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AssetMetadata",
+    attributes: { "graphql.operation.name": "assetMetadata", "graphql.operation.type": "query" },
+  },
 }));
 
 export type AssetSignedUrlsError = ExpoEasOpError;
@@ -61270,6 +61764,11 @@ export const assetSignedUrls: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AssetSignedUrls",
+    attributes: { "graphql.operation.name": "assetSignedUrls", "graphql.operation.type": "query" },
+  },
 }));
 
 export type AuditLogExportAuditLogsError = ExpoEasOpError;
@@ -61284,6 +61783,11 @@ export const auditLogExportAuditLogs: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AuditLogExportAuditLogs",
+    attributes: { "graphql.operation.name": "auditLogExportAuditLogs" },
+  },
 }));
 
 export type AuditLogsError = ExpoEasOpError;
@@ -61299,6 +61803,11 @@ export const auditLogs: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AuditLogs",
+    attributes: { "graphql.operation.name": "auditLogs", "graphql.operation.type": "query" },
+  },
 }));
 
 export type BackgroundJobReceiptByIdError = ExpoEasOpError;
@@ -61313,6 +61822,14 @@ export const backgroundJobReceiptById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BackgroundJobReceiptById",
+    attributes: {
+      "graphql.operation.name": "backgroundJobReceiptById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type BranchesByIdError = ExpoEasOpError;
@@ -61327,6 +61844,11 @@ export const branchesById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BranchesById",
+    attributes: { "graphql.operation.name": "branchesById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type BuildError = ExpoEasOpError;
@@ -61338,6 +61860,8 @@ export const build: API.OperationMethod<BuildRequest, BuildResponse, BuildError,
     errors: [UnknownEasError, EasParseError],
     protocol: ExpoGraphqlProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: { op: "Build", attributes: { "graphql.operation.name": "build" } },
   }));
 
 export type BuildAnnotationCreateBuildAnnotationError = ExpoEasOpError;
@@ -61352,6 +61876,11 @@ export const buildAnnotationCreateBuildAnnotation: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BuildAnnotationCreateBuildAnnotation",
+    attributes: { "graphql.operation.name": "buildAnnotationCreateBuildAnnotation" },
+  },
 }));
 
 export type BuildAnnotationDeleteBuildAnnotationError = ExpoEasOpError;
@@ -61366,6 +61895,11 @@ export const buildAnnotationDeleteBuildAnnotation: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BuildAnnotationDeleteBuildAnnotation",
+    attributes: { "graphql.operation.name": "buildAnnotationDeleteBuildAnnotation" },
+  },
 }));
 
 export type BuildAnnotationsAllError = ExpoEasOpError;
@@ -61380,6 +61914,14 @@ export const buildAnnotationsAll: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BuildAnnotationsAll",
+    attributes: {
+      "graphql.operation.name": "buildAnnotationsAll",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type BuildAnnotationsByIdError = ExpoEasOpError;
@@ -61394,6 +61936,14 @@ export const buildAnnotationsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BuildAnnotationsById",
+    attributes: {
+      "graphql.operation.name": "buildAnnotationsById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type BuildAnnotationUpdateBuildAnnotationError = ExpoEasOpError;
@@ -61408,6 +61958,11 @@ export const buildAnnotationUpdateBuildAnnotation: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BuildAnnotationUpdateBuildAnnotation",
+    attributes: { "graphql.operation.name": "buildAnnotationUpdateBuildAnnotation" },
+  },
 }));
 
 export type BuildPublicDataByIdError = ExpoEasOpError;
@@ -61422,6 +61977,14 @@ export const buildPublicDataById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BuildPublicDataById",
+    attributes: {
+      "graphql.operation.name": "buildPublicDataById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type BuildsByIdError = ExpoEasOpError;
@@ -61436,6 +61999,11 @@ export const buildsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BuildsById",
+    attributes: { "graphql.operation.name": "buildsById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type CancelSubmissionError = ExpoEasOpError;
@@ -61450,6 +62018,11 @@ export const cancelSubmission: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelSubmission",
+    attributes: { "graphql.operation.name": "submissionCancelSubmission" },
+  },
 }));
 
 export type ChannelsByIdError = ExpoEasOpError;
@@ -61464,6 +62037,11 @@ export const channelsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ChannelsById",
+    attributes: { "graphql.operation.name": "channelsById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type CompleteExitInterviewError = ExpoEasOpError;
@@ -61478,6 +62056,11 @@ export const completeExitInterview: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CompleteExitInterview",
+    attributes: { "graphql.operation.name": "exitInterviewComplete" },
+  },
 }));
 
 export type ConvexIntegrationError = ExpoEasOpError;
@@ -61493,6 +62076,14 @@ export const convexIntegration: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConvexIntegration",
+    attributes: {
+      "graphql.operation.name": "convexIntegration",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type ConvexProjectDeleteConvexProjectError = ExpoEasOpError;
@@ -61507,6 +62098,11 @@ export const convexProjectDeleteConvexProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConvexProjectDeleteConvexProject",
+    attributes: { "graphql.operation.name": "convexProjectDeleteConvexProject" },
+  },
 }));
 
 export type ConvexProjectSetupConvexProjectError = ExpoEasOpError;
@@ -61521,6 +62117,11 @@ export const convexProjectSetupConvexProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConvexProjectSetupConvexProject",
+    attributes: { "graphql.operation.name": "convexProjectSetupConvexProject" },
+  },
 }));
 
 export type ConvexTeamConnectionCreateConvexTeamConnectionError = ExpoEasOpError;
@@ -61543,6 +62144,11 @@ export const convexTeamConnectionCreateConvexTeamConnection: API.OperationMethod
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConvexTeamConnectionCreateConvexTeamConnection",
+    attributes: { "graphql.operation.name": "convexTeamConnectionCreateConvexTeamConnection" },
+  },
 }));
 
 export type ConvexTeamConnectionDeleteConvexTeamConnectionError = ExpoEasOpError;
@@ -61565,6 +62171,11 @@ export const convexTeamConnectionDeleteConvexTeamConnection: API.OperationMethod
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConvexTeamConnectionDeleteConvexTeamConnection",
+    attributes: { "graphql.operation.name": "convexTeamConnectionDeleteConvexTeamConnection" },
+  },
 }));
 
 export type ConvexTeamConnectionSendConvexTeamInviteToVerifiedEmailError = ExpoEasOpError;
@@ -61587,6 +62198,13 @@ export const convexTeamConnectionSendConvexTeamInviteToVerifiedEmail: API.Operat
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConvexTeamConnectionSendConvexTeamInviteToVerifiedEmail",
+    attributes: {
+      "graphql.operation.name": "convexTeamConnectionSendConvexTeamInviteToVerifiedEmail",
+    },
+  },
 }));
 
 export type CreateAppError = ExpoEasOpError;
@@ -61601,6 +62219,8 @@ export const createApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "CreateApp", attributes: { "graphql.operation.name": "appCreateApp" } },
 }));
 
 export type CreateRobotForAccountError = ExpoEasOpError;
@@ -61615,6 +62235,11 @@ export const createRobotForAccount: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateRobotForAccount",
+    attributes: { "graphql.operation.name": "robotCreateRobotForAccount" },
+  },
 }));
 
 export type CreateSandboxError = ExpoEasOpError;
@@ -61629,6 +62254,8 @@ export const createSandbox: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "CreateSandbox", attributes: { "graphql.operation.name": "sandboxCreateSandbox" } },
 }));
 
 export type CreateWebhookError = ExpoEasOpError;
@@ -61643,6 +62270,8 @@ export const createWebhook: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "CreateWebhook", attributes: { "graphql.operation.name": "webhookCreateWebhook" } },
 }));
 
 export type CustomDomainDeleteCustomDomainError = ExpoEasOpError;
@@ -61657,6 +62286,11 @@ export const customDomainDeleteCustomDomain: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CustomDomainDeleteCustomDomain",
+    attributes: { "graphql.operation.name": "customDomainDeleteCustomDomain" },
+  },
 }));
 
 export type CustomDomainRefreshCustomDomainError = ExpoEasOpError;
@@ -61671,6 +62305,11 @@ export const customDomainRefreshCustomDomain: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CustomDomainRefreshCustomDomain",
+    attributes: { "graphql.operation.name": "customDomainRefreshCustomDomain" },
+  },
 }));
 
 export type CustomDomainRegisterCustomDomainError = ExpoEasOpError;
@@ -61685,6 +62324,11 @@ export const customDomainRegisterCustomDomain: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CustomDomainRegisterCustomDomain",
+    attributes: { "graphql.operation.name": "customDomainRegisterCustomDomain" },
+  },
 }));
 
 export type DeleteUserPreferenceError = ExpoEasOpError;
@@ -61699,6 +62343,11 @@ export const deleteUserPreference: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteUserPreference",
+    attributes: { "graphql.operation.name": "userPreferenceDelete" },
+  },
 }));
 
 export type DeleteWebhookError = ExpoEasOpError;
@@ -61713,6 +62362,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "DeleteWebhook", attributes: { "graphql.operation.name": "webhookDeleteWebhook" } },
 }));
 
 export type DeploymentsAssignAliasError = ExpoEasOpError;
@@ -61727,6 +62378,11 @@ export const deploymentsAssignAlias: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsAssignAlias",
+    attributes: { "graphql.operation.name": "deploymentsAssignAlias" },
+  },
 }));
 
 export type DeploymentsByIdError = ExpoEasOpError;
@@ -61741,6 +62397,11 @@ export const deploymentsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsById",
+    attributes: { "graphql.operation.name": "deploymentsById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type DeploymentsCreateSignedDeploymentUrlError = ExpoEasOpError;
@@ -61755,6 +62416,11 @@ export const deploymentsCreateSignedDeploymentUrl: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsCreateSignedDeploymentUrl",
+    attributes: { "graphql.operation.name": "deploymentsCreateSignedDeploymentUrl" },
+  },
 }));
 
 export type DeploymentsDeleteAliasError = ExpoEasOpError;
@@ -61769,6 +62435,11 @@ export const deploymentsDeleteAlias: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsDeleteAlias",
+    attributes: { "graphql.operation.name": "deploymentsDeleteAlias" },
+  },
 }));
 
 export type DeploymentsDeleteWorkerDeploymentError = ExpoEasOpError;
@@ -61783,6 +62454,11 @@ export const deploymentsDeleteWorkerDeployment: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsDeleteWorkerDeployment",
+    attributes: { "graphql.operation.name": "deploymentsDeleteWorkerDeployment" },
+  },
 }));
 
 export type DeploymentsDeleteWorkerDeploymentByIdentifierError = ExpoEasOpError;
@@ -61805,6 +62481,11 @@ export const deploymentsDeleteWorkerDeploymentByIdentifier: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsDeleteWorkerDeploymentByIdentifier",
+    attributes: { "graphql.operation.name": "deploymentsDeleteWorkerDeploymentByIdentifier" },
+  },
 }));
 
 export type DevDomainNameAssignDevDomainNameError = ExpoEasOpError;
@@ -61819,6 +62500,11 @@ export const devDomainNameAssignDevDomainName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DevDomainNameAssignDevDomainName",
+    attributes: { "graphql.operation.name": "devDomainNameAssignDevDomainName" },
+  },
 }));
 
 export type DevDomainNameChangeDevDomainNameError = ExpoEasOpError;
@@ -61833,6 +62519,11 @@ export const devDomainNameChangeDevDomainName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DevDomainNameChangeDevDomainName",
+    attributes: { "graphql.operation.name": "devDomainNameChangeDevDomainName" },
+  },
 }));
 
 export type DeviceRunSessionArtifactsByIdError = ExpoEasOpError;
@@ -61847,6 +62538,14 @@ export const deviceRunSessionArtifactsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionArtifactsById",
+    attributes: {
+      "graphql.operation.name": "deviceRunSessionArtifactsById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type DeviceRunSessionCreateArtifactUploadSessionError = ExpoEasOpError;
@@ -61865,6 +62564,11 @@ export const deviceRunSessionCreateArtifactUploadSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionCreateArtifactUploadSession",
+    attributes: { "graphql.operation.name": "deviceRunSessionCreateArtifactUploadSession" },
+  },
 }));
 
 export type DeviceRunSessionCreateDeviceRunSessionError = ExpoEasOpError;
@@ -61879,6 +62583,11 @@ export const deviceRunSessionCreateDeviceRunSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionCreateDeviceRunSession",
+    attributes: { "graphql.operation.name": "deviceRunSessionCreateDeviceRunSession" },
+  },
 }));
 
 export type DeviceRunSessionCreateEventLogUploadSessionError = ExpoEasOpError;
@@ -61897,6 +62606,11 @@ export const deviceRunSessionCreateEventLogUploadSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionCreateEventLogUploadSession",
+    attributes: { "graphql.operation.name": "deviceRunSessionCreateEventLogUploadSession" },
+  },
 }));
 
 export type DeviceRunSessionDeleteDeviceRunSessionError = ExpoEasOpError;
@@ -61911,6 +62625,11 @@ export const deviceRunSessionDeleteDeviceRunSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionDeleteDeviceRunSession",
+    attributes: { "graphql.operation.name": "deviceRunSessionDeleteDeviceRunSession" },
+  },
 }));
 
 export type DeviceRunSessionEnsureDeviceRunSessionStoppedError = ExpoEasOpError;
@@ -61933,6 +62652,11 @@ export const deviceRunSessionEnsureDeviceRunSessionStopped: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionEnsureDeviceRunSessionStopped",
+    attributes: { "graphql.operation.name": "deviceRunSessionEnsureDeviceRunSessionStopped" },
+  },
 }));
 
 export type DeviceRunSessionsByIdError = ExpoEasOpError;
@@ -61947,6 +62671,14 @@ export const deviceRunSessionsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionsById",
+    attributes: {
+      "graphql.operation.name": "deviceRunSessionsById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type DeviceRunSessionsProfilesError = ExpoEasOpError;
@@ -61961,6 +62693,14 @@ export const deviceRunSessionsProfiles: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionsProfiles",
+    attributes: {
+      "graphql.operation.name": "deviceRunSessionsProfiles",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type DeviceRunSessionStartDeviceRunSessionError = ExpoEasOpError;
@@ -61975,6 +62715,11 @@ export const deviceRunSessionStartDeviceRunSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionStartDeviceRunSession",
+    attributes: { "graphql.operation.name": "deviceRunSessionStartDeviceRunSession" },
+  },
 }));
 
 export type DeviceRunSessionUpdateDeviceRunSessionError = ExpoEasOpError;
@@ -61989,6 +62734,11 @@ export const deviceRunSessionUpdateDeviceRunSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeviceRunSessionUpdateDeviceRunSession",
+    attributes: { "graphql.operation.name": "deviceRunSessionUpdateDeviceRunSession" },
+  },
 }));
 
 export type DiscordUserDeleteDiscordUserError = ExpoEasOpError;
@@ -62003,6 +62753,11 @@ export const discordUserDeleteDiscordUser: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DiscordUserDeleteDiscordUser",
+    attributes: { "graphql.operation.name": "discordUserDeleteDiscordUser" },
+  },
 }));
 
 export type EchoChatByIdError = ExpoEasOpError;
@@ -62017,6 +62772,11 @@ export const echoChatById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoChatById",
+    attributes: { "graphql.operation.name": "echoChatById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type EchoChatCreateChatError = ExpoEasOpError;
@@ -62031,6 +62791,11 @@ export const echoChatCreateChat: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoChatCreateChat",
+    attributes: { "graphql.operation.name": "echoChatCreateChat" },
+  },
 }));
 
 export type EchoChatDeleteChatError = ExpoEasOpError;
@@ -62045,6 +62810,11 @@ export const echoChatDeleteChat: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoChatDeleteChat",
+    attributes: { "graphql.operation.name": "echoChatDeleteChat" },
+  },
 }));
 
 export type EchoChatUpdateChatError = ExpoEasOpError;
@@ -62059,6 +62829,11 @@ export const echoChatUpdateChat: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoChatUpdateChat",
+    attributes: { "graphql.operation.name": "echoChatUpdateChat" },
+  },
 }));
 
 export type EchoMessageByIdError = ExpoEasOpError;
@@ -62073,6 +62848,11 @@ export const echoMessageById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessageById",
+    attributes: { "graphql.operation.name": "echoMessageById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type EchoMessageCompleteMessageError = ExpoEasOpError;
@@ -62087,6 +62867,11 @@ export const echoMessageCompleteMessage: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessageCompleteMessage",
+    attributes: { "graphql.operation.name": "echoMessageCompleteMessage" },
+  },
 }));
 
 export type EchoMessageCreateMessageError = ExpoEasOpError;
@@ -62101,6 +62886,11 @@ export const echoMessageCreateMessage: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessageCreateMessage",
+    attributes: { "graphql.operation.name": "echoMessageCreateMessage" },
+  },
 }));
 
 export type EchoMessagePartByEchoMessageIdError = ExpoEasOpError;
@@ -62115,6 +62905,14 @@ export const echoMessagePartByEchoMessageId: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessagePartByEchoMessageId",
+    attributes: {
+      "graphql.operation.name": "echoMessagePartByEchoMessageId",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type EchoMessagePartByIdError = ExpoEasOpError;
@@ -62129,6 +62927,14 @@ export const echoMessagePartById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessagePartById",
+    attributes: {
+      "graphql.operation.name": "echoMessagePartById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type EchoMessagePartCreatePartError = ExpoEasOpError;
@@ -62143,6 +62949,11 @@ export const echoMessagePartCreatePart: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessagePartCreatePart",
+    attributes: { "graphql.operation.name": "echoMessagePartCreatePart" },
+  },
 }));
 
 export type EchoMessagePartCreatePartsError = ExpoEasOpError;
@@ -62157,6 +62968,11 @@ export const echoMessagePartCreateParts: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessagePartCreateParts",
+    attributes: { "graphql.operation.name": "echoMessagePartCreateParts" },
+  },
 }));
 
 export type EchoMessagePartUpdatePartError = ExpoEasOpError;
@@ -62171,6 +62987,11 @@ export const echoMessagePartUpdatePart: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoMessagePartUpdatePart",
+    attributes: { "graphql.operation.name": "echoMessagePartUpdatePart" },
+  },
 }));
 
 export type EchoProjectByIdError = ExpoEasOpError;
@@ -62185,6 +63006,11 @@ export const echoProjectById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectById",
+    attributes: { "graphql.operation.name": "echoProjectById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type EchoProjectBySlugError = ExpoEasOpError;
@@ -62199,6 +63025,14 @@ export const echoProjectBySlug: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectBySlug",
+    attributes: {
+      "graphql.operation.name": "echoProjectBySlug",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type EchoProjectCreateEchoProjectError = ExpoEasOpError;
@@ -62213,6 +63047,11 @@ export const echoProjectCreateEchoProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectCreateEchoProject",
+    attributes: { "graphql.operation.name": "echoProjectCreateEchoProject" },
+  },
 }));
 
 export type EchoProjectCreateEchoProjectIconsError = ExpoEasOpError;
@@ -62227,6 +63066,11 @@ export const echoProjectCreateEchoProjectIcons: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectCreateEchoProjectIcons",
+    attributes: { "graphql.operation.name": "echoProjectCreateEchoProjectIcons" },
+  },
 }));
 
 export type EchoProjectDeleteEchoProjectError = ExpoEasOpError;
@@ -62241,6 +63085,11 @@ export const echoProjectDeleteEchoProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectDeleteEchoProject",
+    attributes: { "graphql.operation.name": "echoProjectDeleteEchoProject" },
+  },
 }));
 
 export type EchoProjectDeleteEchoProjectIconError = ExpoEasOpError;
@@ -62255,6 +63104,11 @@ export const echoProjectDeleteEchoProjectIcon: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectDeleteEchoProjectIcon",
+    attributes: { "graphql.operation.name": "echoProjectDeleteEchoProjectIcon" },
+  },
 }));
 
 export type EchoProjectPublicByAccountNameError = ExpoEasOpError;
@@ -62269,6 +63123,14 @@ export const echoProjectPublicByAccountName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectPublicByAccountName",
+    attributes: {
+      "graphql.operation.name": "echoProjectPublicByAccountName",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type EchoProjectSelectEchoProjectIconError = ExpoEasOpError;
@@ -62283,6 +63145,11 @@ export const echoProjectSelectEchoProjectIcon: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectSelectEchoProjectIcon",
+    attributes: { "graphql.operation.name": "echoProjectSelectEchoProjectIcon" },
+  },
 }));
 
 export type EchoProjectUpdateEchoProjectError = ExpoEasOpError;
@@ -62297,6 +63164,11 @@ export const echoProjectUpdateEchoProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoProjectUpdateEchoProject",
+    attributes: { "graphql.operation.name": "echoProjectUpdateEchoProject" },
+  },
 }));
 
 export type EchoRepositoryCreateEchoRepositoryError = ExpoEasOpError;
@@ -62311,6 +63183,11 @@ export const echoRepositoryCreateEchoRepository: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoRepositoryCreateEchoRepository",
+    attributes: { "graphql.operation.name": "echoRepositoryCreateEchoRepository" },
+  },
 }));
 
 export type EchoRepositoryGenerateEchoRepositoryAccessTokenError = ExpoEasOpError;
@@ -62333,6 +63210,11 @@ export const echoRepositoryGenerateEchoRepositoryAccessToken: API.OperationMetho
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoRepositoryGenerateEchoRepositoryAccessToken",
+    attributes: { "graphql.operation.name": "echoRepositoryGenerateEchoRepositoryAccessToken" },
+  },
 }));
 
 export type EchoTurnCompleteTurnError = ExpoEasOpError;
@@ -62347,6 +63229,11 @@ export const echoTurnCompleteTurn: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoTurnCompleteTurn",
+    attributes: { "graphql.operation.name": "echoTurnCompleteTurn" },
+  },
 }));
 
 export type EchoVersionByIdError = ExpoEasOpError;
@@ -62361,6 +63248,11 @@ export const echoVersionById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoVersionById",
+    attributes: { "graphql.operation.name": "echoVersionById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type EchoVersionCreateVersionError = ExpoEasOpError;
@@ -62375,6 +63267,11 @@ export const echoVersionCreateVersion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoVersionCreateVersion",
+    attributes: { "graphql.operation.name": "echoVersionCreateVersion" },
+  },
 }));
 
 export type EchoVersionUpdateVersionError = ExpoEasOpError;
@@ -62389,6 +63286,11 @@ export const echoVersionUpdateVersion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EchoVersionUpdateVersion",
+    attributes: { "graphql.operation.name": "echoVersionUpdateVersion" },
+  },
 }));
 
 export type EmbeddedUpdateAssetGetSignedEmbeddedUpdateAssetUploadSpecificationsError =
@@ -62412,6 +63314,14 @@ export const embeddedUpdateAssetGetSignedEmbeddedUpdateAssetUploadSpecifications
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EmbeddedUpdateAssetGetSignedEmbeddedUpdateAssetUploadSpecifications",
+    attributes: {
+      "graphql.operation.name":
+        "embeddedUpdateAssetGetSignedEmbeddedUpdateAssetUploadSpecifications",
+    },
+  },
 }));
 
 export type EmbeddedUpdateDeleteEmbeddedUpdateError = ExpoEasOpError;
@@ -62426,6 +63336,11 @@ export const embeddedUpdateDeleteEmbeddedUpdate: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EmbeddedUpdateDeleteEmbeddedUpdate",
+    attributes: { "graphql.operation.name": "embeddedUpdateDeleteEmbeddedUpdate" },
+  },
 }));
 
 export type EmbeddedUpdatesByIdError = ExpoEasOpError;
@@ -62440,6 +63355,14 @@ export const embeddedUpdatesById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EmbeddedUpdatesById",
+    attributes: {
+      "graphql.operation.name": "embeddedUpdatesById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type EmbeddedUpdateUploadEmbeddedUpdateError = ExpoEasOpError;
@@ -62454,6 +63377,11 @@ export const embeddedUpdateUploadEmbeddedUpdate: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EmbeddedUpdateUploadEmbeddedUpdate",
+    attributes: { "graphql.operation.name": "embeddedUpdateUploadEmbeddedUpdate" },
+  },
 }));
 
 export type EnvironmentSecretCreateEnvironmentSecretForAccountError = ExpoEasOpError;
@@ -62476,6 +63404,11 @@ export const environmentSecretCreateEnvironmentSecretForAccount: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentSecretCreateEnvironmentSecretForAccount",
+    attributes: { "graphql.operation.name": "environmentSecretCreateEnvironmentSecretForAccount" },
+  },
 }));
 
 export type EnvironmentSecretCreateEnvironmentSecretForAppError = ExpoEasOpError;
@@ -62498,6 +63431,11 @@ export const environmentSecretCreateEnvironmentSecretForApp: API.OperationMethod
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentSecretCreateEnvironmentSecretForApp",
+    attributes: { "graphql.operation.name": "environmentSecretCreateEnvironmentSecretForApp" },
+  },
 }));
 
 export type EnvironmentSecretDeleteEnvironmentSecretError = ExpoEasOpError;
@@ -62512,6 +63450,11 @@ export const environmentSecretDeleteEnvironmentSecret: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentSecretDeleteEnvironmentSecret",
+    attributes: { "graphql.operation.name": "environmentSecretDeleteEnvironmentSecret" },
+  },
 }));
 
 export type EnvironmentVariableCreateBulkEnvironmentVariablesForAccountError = ExpoEasOpError;
@@ -62534,6 +63477,13 @@ export const environmentVariableCreateBulkEnvironmentVariablesForAccount: API.Op
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableCreateBulkEnvironmentVariablesForAccount",
+    attributes: {
+      "graphql.operation.name": "environmentVariableCreateBulkEnvironmentVariablesForAccount",
+    },
+  },
 }));
 
 export type EnvironmentVariableCreateBulkEnvironmentVariablesForAppError = ExpoEasOpError;
@@ -62556,6 +63506,13 @@ export const environmentVariableCreateBulkEnvironmentVariablesForApp: API.Operat
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableCreateBulkEnvironmentVariablesForApp",
+    attributes: {
+      "graphql.operation.name": "environmentVariableCreateBulkEnvironmentVariablesForApp",
+    },
+  },
 }));
 
 export type EnvironmentVariableCreateBulkEnvironmentVariablesForEchoProjectError = ExpoEasOpError;
@@ -62578,6 +63535,13 @@ export const environmentVariableCreateBulkEnvironmentVariablesForEchoProject: AP
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableCreateBulkEnvironmentVariablesForEchoProject",
+    attributes: {
+      "graphql.operation.name": "environmentVariableCreateBulkEnvironmentVariablesForEchoProject",
+    },
+  },
 }));
 
 export type EnvironmentVariableCreateEnvironmentVariableForAccountError = ExpoEasOpError;
@@ -62600,6 +63564,13 @@ export const environmentVariableCreateEnvironmentVariableForAccount: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableCreateEnvironmentVariableForAccount",
+    attributes: {
+      "graphql.operation.name": "environmentVariableCreateEnvironmentVariableForAccount",
+    },
+  },
 }));
 
 export type EnvironmentVariableCreateEnvironmentVariableForAppError = ExpoEasOpError;
@@ -62622,6 +63593,11 @@ export const environmentVariableCreateEnvironmentVariableForApp: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableCreateEnvironmentVariableForApp",
+    attributes: { "graphql.operation.name": "environmentVariableCreateEnvironmentVariableForApp" },
+  },
 }));
 
 export type EnvironmentVariableCreateEnvironmentVariableForEchoProjectError = ExpoEasOpError;
@@ -62644,6 +63620,13 @@ export const environmentVariableCreateEnvironmentVariableForEchoProject: API.Ope
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableCreateEnvironmentVariableForEchoProject",
+    attributes: {
+      "graphql.operation.name": "environmentVariableCreateEnvironmentVariableForEchoProject",
+    },
+  },
 }));
 
 export type EnvironmentVariableDeleteBulkEnvironmentVariablesError = ExpoEasOpError;
@@ -62666,6 +63649,11 @@ export const environmentVariableDeleteBulkEnvironmentVariables: API.OperationMet
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableDeleteBulkEnvironmentVariables",
+    attributes: { "graphql.operation.name": "environmentVariableDeleteBulkEnvironmentVariables" },
+  },
 }));
 
 export type EnvironmentVariableDeleteEnvironmentVariableError = ExpoEasOpError;
@@ -62688,6 +63676,11 @@ export const environmentVariableDeleteEnvironmentVariable: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableDeleteEnvironmentVariable",
+    attributes: { "graphql.operation.name": "environmentVariableDeleteEnvironmentVariable" },
+  },
 }));
 
 export type EnvironmentVariableUpdateBulkEnvironmentVariablesError = ExpoEasOpError;
@@ -62710,6 +63703,11 @@ export const environmentVariableUpdateBulkEnvironmentVariables: API.OperationMet
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableUpdateBulkEnvironmentVariables",
+    attributes: { "graphql.operation.name": "environmentVariableUpdateBulkEnvironmentVariables" },
+  },
 }));
 
 export type EnvironmentVariableUpdateEnvironmentVariableError = ExpoEasOpError;
@@ -62732,6 +63730,11 @@ export const environmentVariableUpdateEnvironmentVariable: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnvironmentVariableUpdateEnvironmentVariable",
+    attributes: { "graphql.operation.name": "environmentVariableUpdateEnvironmentVariable" },
+  },
 }));
 
 export type ExitInterviewBeginChatTurnError = ExpoEasOpError;
@@ -62746,6 +63749,11 @@ export const exitInterviewBeginChatTurn: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExitInterviewBeginChatTurn",
+    attributes: { "graphql.operation.name": "exitInterviewBeginChatTurn" },
+  },
 }));
 
 export type ExitInterviewSubmitFeedbackError = ExpoEasOpError;
@@ -62760,6 +63768,11 @@ export const exitInterviewSubmitFeedback: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExitInterviewSubmitFeedback",
+    attributes: { "graphql.operation.name": "exitInterviewSubmitFeedback" },
+  },
 }));
 
 export type ExperimentationError = ExpoEasOpError;
@@ -62775,6 +63788,11 @@ export const experimentation: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "Experimentation",
+    attributes: { "graphql.operation.name": "experimentation", "graphql.operation.type": "query" },
+  },
 }));
 
 export type ExpoGoBuildError = ExpoEasOpError;
@@ -62789,6 +63807,11 @@ export const expoGoBuild: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExpoGoBuild",
+    attributes: { "graphql.operation.name": "expoGoBuild", "graphql.operation.type": "query" },
+  },
 }));
 
 export type FingerprintCreateOrGetExistingFingerprintError = ExpoEasOpError;
@@ -62807,6 +63830,11 @@ export const fingerprintCreateOrGetExistingFingerprint: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "FingerprintCreateOrGetExistingFingerprint",
+    attributes: { "graphql.operation.name": "fingerprintCreateOrGetExistingFingerprint" },
+  },
 }));
 
 export type GetUserPreferenceError = ExpoEasOpError;
@@ -62821,6 +63849,14 @@ export const getUserPreference: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetUserPreference",
+    attributes: {
+      "graphql.operation.name": "userPreferenceGet",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type GithubAppError = ExpoEasOpError;
@@ -62836,6 +63872,11 @@ export const githubApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubApp",
+    attributes: { "graphql.operation.name": "githubApp", "graphql.operation.type": "query" },
+  },
 }));
 
 export type GithubAppCreateGitHubBuildError = ExpoEasOpError;
@@ -62850,6 +63891,11 @@ export const githubAppCreateGitHubBuild: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubAppCreateGitHubBuild",
+    attributes: { "graphql.operation.name": "githubAppCreateGitHubBuild" },
+  },
 }));
 
 export type GithubAppInstallationCreateGitHubAppInstallationForAccountError = ExpoEasOpError;
@@ -62872,6 +63918,13 @@ export const githubAppInstallationCreateGitHubAppInstallationForAccount: API.Ope
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubAppInstallationCreateGitHubAppInstallationForAccount",
+    attributes: {
+      "graphql.operation.name": "githubAppInstallationCreateGitHubAppInstallationForAccount",
+    },
+  },
 }));
 
 export type GithubAppInstallationDeleteGitHubAppInstallationError = ExpoEasOpError;
@@ -62894,6 +63947,11 @@ export const githubAppInstallationDeleteGitHubAppInstallation: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubAppInstallationDeleteGitHubAppInstallation",
+    attributes: { "graphql.operation.name": "githubAppInstallationDeleteGitHubAppInstallation" },
+  },
 }));
 
 export type GithubAppRegistrationDeleteGitHubAppRegistrationError = ExpoEasOpError;
@@ -62916,6 +63974,11 @@ export const githubAppRegistrationDeleteGitHubAppRegistration: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubAppRegistrationDeleteGitHubAppRegistration",
+    attributes: { "graphql.operation.name": "githubAppRegistrationDeleteGitHubAppRegistration" },
+  },
 }));
 
 export type GithubAppRegistrationFinalizeGitHubAppRegistrationError = ExpoEasOpError;
@@ -62938,6 +64001,11 @@ export const githubAppRegistrationFinalizeGitHubAppRegistration: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubAppRegistrationFinalizeGitHubAppRegistration",
+    attributes: { "graphql.operation.name": "githubAppRegistrationFinalizeGitHubAppRegistration" },
+  },
 }));
 
 export type GithubAppRegistrationsByIdError = ExpoEasOpError;
@@ -62952,6 +64020,14 @@ export const githubAppRegistrationsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubAppRegistrationsById",
+    attributes: {
+      "graphql.operation.name": "githubAppRegistrationsById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type GithubAppRegistrationStartGitHubAppRegistrationError = ExpoEasOpError;
@@ -62974,6 +64050,11 @@ export const githubAppRegistrationStartGitHubAppRegistration: API.OperationMetho
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubAppRegistrationStartGitHubAppRegistration",
+    attributes: { "graphql.operation.name": "githubAppRegistrationStartGitHubAppRegistration" },
+  },
 }));
 
 export type GithubBuildTriggerCreateGitHubBuildTriggerError = ExpoEasOpError;
@@ -62992,6 +64073,11 @@ export const githubBuildTriggerCreateGitHubBuildTrigger: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubBuildTriggerCreateGitHubBuildTrigger",
+    attributes: { "graphql.operation.name": "githubBuildTriggerCreateGitHubBuildTrigger" },
+  },
 }));
 
 export type GithubBuildTriggerDeleteGitHubBuildTriggerError = ExpoEasOpError;
@@ -63010,6 +64096,11 @@ export const githubBuildTriggerDeleteGitHubBuildTrigger: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubBuildTriggerDeleteGitHubBuildTrigger",
+    attributes: { "graphql.operation.name": "githubBuildTriggerDeleteGitHubBuildTrigger" },
+  },
 }));
 
 export type GithubBuildTriggerUpdateGitHubBuildTriggerError = ExpoEasOpError;
@@ -63028,6 +64119,11 @@ export const githubBuildTriggerUpdateGitHubBuildTrigger: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubBuildTriggerUpdateGitHubBuildTrigger",
+    attributes: { "graphql.operation.name": "githubBuildTriggerUpdateGitHubBuildTrigger" },
+  },
 }));
 
 export type GithubJobRunTriggerCreateGitHubJobRunTriggerError = ExpoEasOpError;
@@ -63050,6 +64146,11 @@ export const githubJobRunTriggerCreateGitHubJobRunTrigger: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubJobRunTriggerCreateGitHubJobRunTrigger",
+    attributes: { "graphql.operation.name": "githubJobRunTriggerCreateGitHubJobRunTrigger" },
+  },
 }));
 
 export type GithubJobRunTriggerDeleteGitHubJobRunTriggerError = ExpoEasOpError;
@@ -63072,6 +64173,11 @@ export const githubJobRunTriggerDeleteGitHubJobRunTrigger: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubJobRunTriggerDeleteGitHubJobRunTrigger",
+    attributes: { "graphql.operation.name": "githubJobRunTriggerDeleteGitHubJobRunTrigger" },
+  },
 }));
 
 export type GithubJobRunTriggerUpdateGitHubJobRunTriggerError = ExpoEasOpError;
@@ -63094,6 +64200,11 @@ export const githubJobRunTriggerUpdateGitHubJobRunTrigger: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubJobRunTriggerUpdateGitHubJobRunTrigger",
+    attributes: { "graphql.operation.name": "githubJobRunTriggerUpdateGitHubJobRunTrigger" },
+  },
 }));
 
 export type GithubRepositoryConfigureEASError = ExpoEasOpError;
@@ -63108,6 +64219,11 @@ export const githubRepositoryConfigureEAS: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubRepositoryConfigureEAS",
+    attributes: { "graphql.operation.name": "githubRepositoryConfigureEAS" },
+  },
 }));
 
 export type GithubRepositoryCreateAndConfigureRepositoryError = ExpoEasOpError;
@@ -63130,6 +64246,11 @@ export const githubRepositoryCreateAndConfigureRepository: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubRepositoryCreateAndConfigureRepository",
+    attributes: { "graphql.operation.name": "githubRepositoryCreateAndConfigureRepository" },
+  },
 }));
 
 export type GithubRepositoryCreateGitHubRepositoryError = ExpoEasOpError;
@@ -63144,6 +64265,11 @@ export const githubRepositoryCreateGitHubRepository: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubRepositoryCreateGitHubRepository",
+    attributes: { "graphql.operation.name": "githubRepositoryCreateGitHubRepository" },
+  },
 }));
 
 export type GithubRepositoryScheduleGitHubRepositoryDeletionError = ExpoEasOpError;
@@ -63166,6 +64292,11 @@ export const githubRepositoryScheduleGitHubRepositoryDeletion: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubRepositoryScheduleGitHubRepositoryDeletion",
+    attributes: { "graphql.operation.name": "githubRepositoryScheduleGitHubRepositoryDeletion" },
+  },
 }));
 
 export type GithubRepositorySettingsCreateGitHubRepositorySettingsError = ExpoEasOpError;
@@ -63188,6 +64319,13 @@ export const githubRepositorySettingsCreateGitHubRepositorySettings: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubRepositorySettingsCreateGitHubRepositorySettings",
+    attributes: {
+      "graphql.operation.name": "githubRepositorySettingsCreateGitHubRepositorySettings",
+    },
+  },
 }));
 
 export type GithubRepositorySettingsDeleteGitHubRepositorySettingsError = ExpoEasOpError;
@@ -63210,6 +64348,13 @@ export const githubRepositorySettingsDeleteGitHubRepositorySettings: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubRepositorySettingsDeleteGitHubRepositorySettings",
+    attributes: {
+      "graphql.operation.name": "githubRepositorySettingsDeleteGitHubRepositorySettings",
+    },
+  },
 }));
 
 export type GithubRepositorySettingsUpdateGitHubRepositorySettingsError = ExpoEasOpError;
@@ -63232,6 +64377,13 @@ export const githubRepositorySettingsUpdateGitHubRepositorySettings: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubRepositorySettingsUpdateGitHubRepositorySettings",
+    attributes: {
+      "graphql.operation.name": "githubRepositorySettingsUpdateGitHubRepositorySettings",
+    },
+  },
 }));
 
 export type GithubUserDeleteGitHubUserError = ExpoEasOpError;
@@ -63246,6 +64398,11 @@ export const githubUserDeleteGitHubUser: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GithubUserDeleteGitHubUser",
+    attributes: { "graphql.operation.name": "githubUserDeleteGitHubUser" },
+  },
 }));
 
 export type GoogleServiceAccountKeyByIdError = ExpoEasOpError;
@@ -63260,6 +64417,14 @@ export const googleServiceAccountKeyById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GoogleServiceAccountKeyById",
+    attributes: {
+      "graphql.operation.name": "googleServiceAccountKeyById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type GoogleServiceAccountKeyCreateGoogleServiceAccountKeyError = ExpoEasOpError;
@@ -63282,6 +64447,13 @@ export const googleServiceAccountKeyCreateGoogleServiceAccountKey: API.Operation
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GoogleServiceAccountKeyCreateGoogleServiceAccountKey",
+    attributes: {
+      "graphql.operation.name": "googleServiceAccountKeyCreateGoogleServiceAccountKey",
+    },
+  },
 }));
 
 export type GoogleServiceAccountKeyDeleteGoogleServiceAccountKeyError = ExpoEasOpError;
@@ -63304,6 +64476,13 @@ export const googleServiceAccountKeyDeleteGoogleServiceAccountKey: API.Operation
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GoogleServiceAccountKeyDeleteGoogleServiceAccountKey",
+    attributes: {
+      "graphql.operation.name": "googleServiceAccountKeyDeleteGoogleServiceAccountKey",
+    },
+  },
 }));
 
 export type IosAppBuildCredentialsCreateIosAppBuildCredentialsError = ExpoEasOpError;
@@ -63326,6 +64505,11 @@ export const iosAppBuildCredentialsCreateIosAppBuildCredentials: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppBuildCredentialsCreateIosAppBuildCredentials",
+    attributes: { "graphql.operation.name": "iosAppBuildCredentialsCreateIosAppBuildCredentials" },
+  },
 }));
 
 export type IosAppBuildCredentialsDeleteIosAppBuildCredentialsError = ExpoEasOpError;
@@ -63348,6 +64532,11 @@ export const iosAppBuildCredentialsDeleteIosAppBuildCredentials: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppBuildCredentialsDeleteIosAppBuildCredentials",
+    attributes: { "graphql.operation.name": "iosAppBuildCredentialsDeleteIosAppBuildCredentials" },
+  },
 }));
 
 export type IosAppBuildCredentialsSetDistributionCertificateError = ExpoEasOpError;
@@ -63370,6 +64559,11 @@ export const iosAppBuildCredentialsSetDistributionCertificate: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppBuildCredentialsSetDistributionCertificate",
+    attributes: { "graphql.operation.name": "iosAppBuildCredentialsSetDistributionCertificate" },
+  },
 }));
 
 export type IosAppBuildCredentialsSetProvisioningProfileError = ExpoEasOpError;
@@ -63392,6 +64586,11 @@ export const iosAppBuildCredentialsSetProvisioningProfile: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppBuildCredentialsSetProvisioningProfile",
+    attributes: { "graphql.operation.name": "iosAppBuildCredentialsSetProvisioningProfile" },
+  },
 }));
 
 export type IosAppCredentialsCreateIosAppCredentialsError = ExpoEasOpError;
@@ -63406,6 +64605,11 @@ export const iosAppCredentialsCreateIosAppCredentials: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppCredentialsCreateIosAppCredentials",
+    attributes: { "graphql.operation.name": "iosAppCredentialsCreateIosAppCredentials" },
+  },
 }));
 
 export type IosAppCredentialsDeleteIosAppCredentialsError = ExpoEasOpError;
@@ -63420,6 +64624,11 @@ export const iosAppCredentialsDeleteIosAppCredentials: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppCredentialsDeleteIosAppCredentials",
+    attributes: { "graphql.operation.name": "iosAppCredentialsDeleteIosAppCredentials" },
+  },
 }));
 
 export type IosAppCredentialsSetAppStoreConnectApiKeyForSubmissionsError = ExpoEasOpError;
@@ -63442,6 +64651,13 @@ export const iosAppCredentialsSetAppStoreConnectApiKeyForSubmissions: API.Operat
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppCredentialsSetAppStoreConnectApiKeyForSubmissions",
+    attributes: {
+      "graphql.operation.name": "iosAppCredentialsSetAppStoreConnectApiKeyForSubmissions",
+    },
+  },
 }));
 
 export type IosAppCredentialsSetPushKeyError = ExpoEasOpError;
@@ -63456,6 +64672,11 @@ export const iosAppCredentialsSetPushKey: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppCredentialsSetPushKey",
+    attributes: { "graphql.operation.name": "iosAppCredentialsSetPushKey" },
+  },
 }));
 
 export type IosAppCredentialsUpdateIosAppCredentialsError = ExpoEasOpError;
@@ -63470,6 +64691,11 @@ export const iosAppCredentialsUpdateIosAppCredentials: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "IosAppCredentialsUpdateIosAppCredentials",
+    attributes: { "graphql.operation.name": "iosAppCredentialsUpdateIosAppCredentials" },
+  },
 }));
 
 export type JobRunByIdError = ExpoEasOpError;
@@ -63484,6 +64710,11 @@ export const jobRunById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "JobRunById",
+    attributes: { "graphql.operation.name": "jobRunById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type JobRunCancelJobRunError = ExpoEasOpError;
@@ -63498,6 +64729,11 @@ export const jobRunCancelJobRun: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "JobRunCancelJobRun",
+    attributes: { "graphql.operation.name": "jobRunCancelJobRun" },
+  },
 }));
 
 export type KeystoreGenerationUrlError = ExpoEasOpError;
@@ -63512,6 +64748,11 @@ export const keystoreGenerationUrl: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "KeystoreGenerationUrl",
+    attributes: { "graphql.operation.name": "keystoreGenerationUrl" },
+  },
 }));
 
 export type LogRocketOrganizationDeleteLogRocketOrganizationError = ExpoEasOpError;
@@ -63534,6 +64775,11 @@ export const logRocketOrganizationDeleteLogRocketOrganization: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LogRocketOrganizationDeleteLogRocketOrganization",
+    attributes: { "graphql.operation.name": "logRocketOrganizationDeleteLogRocketOrganization" },
+  },
 }));
 
 export type LogRocketOrganizationGenerateLogRocketOrganizationLinkingURLError = ExpoEasOpError;
@@ -63556,6 +64802,13 @@ export const logRocketOrganizationGenerateLogRocketOrganizationLinkingURL: API.O
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LogRocketOrganizationGenerateLogRocketOrganizationLinkingURL",
+    attributes: {
+      "graphql.operation.name": "logRocketOrganizationGenerateLogRocketOrganizationLinkingURL",
+    },
+  },
 }));
 
 export type LogRocketOrganizationGenerateLogRocketReplayTokenError = ExpoEasOpError;
@@ -63578,6 +64831,11 @@ export const logRocketOrganizationGenerateLogRocketReplayToken: API.OperationMet
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LogRocketOrganizationGenerateLogRocketReplayToken",
+    attributes: { "graphql.operation.name": "logRocketOrganizationGenerateLogRocketReplayToken" },
+  },
 }));
 
 export type LogRocketOrganizationLinkLogRocketOrganizationToExpoAccountError = ExpoEasOpError;
@@ -63600,6 +64858,13 @@ export const logRocketOrganizationLinkLogRocketOrganizationToExpoAccount: API.Op
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LogRocketOrganizationLinkLogRocketOrganizationToExpoAccount",
+    attributes: {
+      "graphql.operation.name": "logRocketOrganizationLinkLogRocketOrganizationToExpoAccount",
+    },
+  },
 }));
 
 export type LogRocketProjectCreateLogRocketProjectError = ExpoEasOpError;
@@ -63614,6 +64879,11 @@ export const logRocketProjectCreateLogRocketProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LogRocketProjectCreateLogRocketProject",
+    attributes: { "graphql.operation.name": "logRocketProjectCreateLogRocketProject" },
+  },
 }));
 
 export type LogRocketProjectDeleteLogRocketProjectError = ExpoEasOpError;
@@ -63628,6 +64898,11 @@ export const logRocketProjectDeleteLogRocketProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LogRocketProjectDeleteLogRocketProject",
+    attributes: { "graphql.operation.name": "logRocketProjectDeleteLogRocketProject" },
+  },
 }));
 
 export type MeError = ExpoEasOpError;
@@ -63639,6 +64914,11 @@ export const me: API.OperationMethod<MeRequest, MeResponse, MeError, ExpoEasOpCo
     errors: [UnknownEasError, EasParseError],
     protocol: ExpoGraphqlProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: {
+      op: "Me",
+      attributes: { "graphql.operation.name": "me", "graphql.operation.type": "query" },
+    },
   }));
 
 export type MeActorError = ExpoEasOpError;
@@ -63654,6 +64934,11 @@ export const meActor: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "MeActor",
+    attributes: { "graphql.operation.name": "meActor", "graphql.operation.type": "query" },
+  },
 }));
 
 export type MeUserActorError = ExpoEasOpError;
@@ -63669,6 +64954,11 @@ export const meUserActor: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "MeUserActor",
+    attributes: { "graphql.operation.name": "meUserActor", "graphql.operation.type": "query" },
+  },
 }));
 
 export type NotificationPreferenceSetAccountNotificationPreferenceError = ExpoEasOpError;
@@ -63691,6 +64981,13 @@ export const notificationPreferenceSetAccountNotificationPreference: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "NotificationPreferenceSetAccountNotificationPreference",
+    attributes: {
+      "graphql.operation.name": "notificationPreferenceSetAccountNotificationPreference",
+    },
+  },
 }));
 
 export type NotificationPreferenceSetAppNotificationPreferenceError = ExpoEasOpError;
@@ -63713,6 +65010,11 @@ export const notificationPreferenceSetAppNotificationPreference: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "NotificationPreferenceSetAppNotificationPreference",
+    attributes: { "graphql.operation.name": "notificationPreferenceSetAppNotificationPreference" },
+  },
 }));
 
 export type PosthogIntegrationError = ExpoEasOpError;
@@ -63728,6 +65030,14 @@ export const posthogIntegration: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogIntegration",
+    attributes: {
+      "graphql.operation.name": "posthogIntegration",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type PosthogOrganizationConnectionCompletePostHogConnectionError = ExpoEasOpError;
@@ -63750,6 +65060,13 @@ export const posthogOrganizationConnectionCompletePostHogConnection: API.Operati
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogOrganizationConnectionCompletePostHogConnection",
+    attributes: {
+      "graphql.operation.name": "posthogOrganizationConnectionCompletePostHogConnection",
+    },
+  },
 }));
 
 export type PosthogOrganizationConnectionCreatePostHogAccountRequestError = ExpoEasOpError;
@@ -63772,6 +65089,13 @@ export const posthogOrganizationConnectionCreatePostHogAccountRequest: API.Opera
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogOrganizationConnectionCreatePostHogAccountRequest",
+    attributes: {
+      "graphql.operation.name": "posthogOrganizationConnectionCreatePostHogAccountRequest",
+    },
+  },
 }));
 
 export type PosthogOrganizationConnectionCreatePostHogDeepLinkError = ExpoEasOpError;
@@ -63794,6 +65118,11 @@ export const posthogOrganizationConnectionCreatePostHogDeepLink: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogOrganizationConnectionCreatePostHogDeepLink",
+    attributes: { "graphql.operation.name": "posthogOrganizationConnectionCreatePostHogDeepLink" },
+  },
 }));
 
 export type PosthogOrganizationConnectionDeletePostHogOrganizationConnectionError = ExpoEasOpError;
@@ -63816,6 +65145,13 @@ export const posthogOrganizationConnectionDeletePostHogOrganizationConnection: A
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogOrganizationConnectionDeletePostHogOrganizationConnection",
+    attributes: {
+      "graphql.operation.name": "posthogOrganizationConnectionDeletePostHogOrganizationConnection",
+    },
+  },
 }));
 
 export type PosthogOrganizationConnectionStartPostHogConnectionError = ExpoEasOpError;
@@ -63838,6 +65174,11 @@ export const posthogOrganizationConnectionStartPostHogConnection: API.OperationM
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogOrganizationConnectionStartPostHogConnection",
+    attributes: { "graphql.operation.name": "posthogOrganizationConnectionStartPostHogConnection" },
+  },
 }));
 
 export type PosthogProjectDeletePostHogProjectError = ExpoEasOpError;
@@ -63852,6 +65193,11 @@ export const posthogProjectDeletePostHogProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogProjectDeletePostHogProject",
+    attributes: { "graphql.operation.name": "posthogProjectDeletePostHogProject" },
+  },
 }));
 
 export type PosthogProjectSetupPostHogProjectError = ExpoEasOpError;
@@ -63866,6 +65212,11 @@ export const posthogProjectSetupPostHogProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PosthogProjectSetupPostHogProject",
+    attributes: { "graphql.operation.name": "posthogProjectSetupPostHogProject" },
+  },
 }));
 
 export type RealtimeLogsError = ExpoEasOpError;
@@ -63880,6 +65231,8 @@ export const realtimeLogs: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "RealtimeLogs", attributes: { "graphql.operation.name": "realtimeLogs" } },
 }));
 
 export type RefundAccountRequestError = ExpoEasOpError;
@@ -63894,6 +65247,11 @@ export const refundAccountRequest: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RefundAccountRequest",
+    attributes: { "graphql.operation.name": "accountRequestRefund" },
+  },
 }));
 
 export type RenameAccountError = ExpoEasOpError;
@@ -63908,6 +65266,8 @@ export const renameAccount: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "RenameAccount", attributes: { "graphql.operation.name": "accountRename" } },
 }));
 
 export type RetrySubmissionError = ExpoEasOpError;
@@ -63922,6 +65282,11 @@ export const retrySubmission: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RetrySubmission",
+    attributes: { "graphql.operation.name": "submissionRetrySubmission" },
+  },
 }));
 
 export type RobotScheduleRobotDeletionError = ExpoEasOpError;
@@ -63936,6 +65301,11 @@ export const robotScheduleRobotDeletion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RobotScheduleRobotDeletion",
+    attributes: { "graphql.operation.name": "robotScheduleRobotDeletion" },
+  },
 }));
 
 export type RuntimesByIdError = ExpoEasOpError;
@@ -63950,6 +65320,11 @@ export const runtimesById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RuntimesById",
+    attributes: { "graphql.operation.name": "runtimesById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type SandboxesByAppIdPaginatedError = ExpoEasOpError;
@@ -63964,6 +65339,14 @@ export const sandboxesByAppIdPaginated: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SandboxesByAppIdPaginated",
+    attributes: {
+      "graphql.operation.name": "sandboxesByAppIdPaginated",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type SandboxesByIdError = ExpoEasOpError;
@@ -63978,6 +65361,11 @@ export const sandboxesById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SandboxesById",
+    attributes: { "graphql.operation.name": "sandboxesById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type SandboxMarkSandboxReadyError = ExpoEasOpError;
@@ -63992,6 +65380,11 @@ export const sandboxMarkSandboxReady: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SandboxMarkSandboxReady",
+    attributes: { "graphql.operation.name": "sandboxMarkSandboxReady" },
+  },
 }));
 
 export type SandboxTouchSandboxError = ExpoEasOpError;
@@ -64006,6 +65399,11 @@ export const sandboxTouchSandbox: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SandboxTouchSandbox",
+    attributes: { "graphql.operation.name": "sandboxTouchSandbox" },
+  },
 }));
 
 export type SentryInstallationConfirmPendingSentryInstallationError = ExpoEasOpError;
@@ -64028,6 +65426,11 @@ export const sentryInstallationConfirmPendingSentryInstallation: API.OperationMe
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SentryInstallationConfirmPendingSentryInstallation",
+    attributes: { "graphql.operation.name": "sentryInstallationConfirmPendingSentryInstallation" },
+  },
 }));
 
 export type SentryInstallationDeleteSentryInstallationError = ExpoEasOpError;
@@ -64046,6 +65449,11 @@ export const sentryInstallationDeleteSentryInstallation: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SentryInstallationDeleteSentryInstallation",
+    attributes: { "graphql.operation.name": "sentryInstallationDeleteSentryInstallation" },
+  },
 }));
 
 export type SentryInstallationGenerateSentryTokenError = ExpoEasOpError;
@@ -64060,6 +65468,11 @@ export const sentryInstallationGenerateSentryToken: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SentryInstallationGenerateSentryToken",
+    attributes: { "graphql.operation.name": "sentryInstallationGenerateSentryToken" },
+  },
 }));
 
 export type SentryInstallationLinkSentryInstallationToExpoAccountError = ExpoEasOpError;
@@ -64082,6 +65495,13 @@ export const sentryInstallationLinkSentryInstallationToExpoAccount: API.Operatio
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SentryInstallationLinkSentryInstallationToExpoAccount",
+    attributes: {
+      "graphql.operation.name": "sentryInstallationLinkSentryInstallationToExpoAccount",
+    },
+  },
 }));
 
 export type SentryProjectCreateSentryProjectError = ExpoEasOpError;
@@ -64096,6 +65516,11 @@ export const sentryProjectCreateSentryProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SentryProjectCreateSentryProject",
+    attributes: { "graphql.operation.name": "sentryProjectCreateSentryProject" },
+  },
 }));
 
 export type SentryProjectDeleteSentryProjectError = ExpoEasOpError;
@@ -64110,6 +65535,11 @@ export const sentryProjectDeleteSentryProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SentryProjectDeleteSentryProject",
+    attributes: { "graphql.operation.name": "sentryProjectDeleteSentryProject" },
+  },
 }));
 
 export type SetUserPreferenceError = ExpoEasOpError;
@@ -64124,6 +65554,8 @@ export const setUserPreference: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "SetUserPreference", attributes: { "graphql.operation.name": "userPreferenceSet" } },
 }));
 
 export type SnackByHashIdError = ExpoEasOpError;
@@ -64138,6 +65570,11 @@ export const snackByHashId: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SnackByHashId",
+    attributes: { "graphql.operation.name": "snackByHashId", "graphql.operation.type": "query" },
+  },
 }));
 
 export type StatuspageServiceByServiceNamesError = ExpoEasOpError;
@@ -64152,6 +65589,14 @@ export const statuspageServiceByServiceNames: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "StatuspageServiceByServiceNames",
+    attributes: {
+      "graphql.operation.name": "statuspageServiceByServiceNames",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type StopSandboxError = ExpoEasOpError;
@@ -64166,6 +65611,8 @@ export const stopSandbox: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "StopSandbox", attributes: { "graphql.operation.name": "sandboxStopSandbox" } },
 }));
 
 export type SubmissionCreateAndroidSubmissionError = ExpoEasOpError;
@@ -64180,6 +65627,11 @@ export const submissionCreateAndroidSubmission: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SubmissionCreateAndroidSubmission",
+    attributes: { "graphql.operation.name": "submissionCreateAndroidSubmission" },
+  },
 }));
 
 export type SubmissionCreateIosSubmissionError = ExpoEasOpError;
@@ -64194,6 +65646,11 @@ export const submissionCreateIosSubmission: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SubmissionCreateIosSubmission",
+    attributes: { "graphql.operation.name": "submissionCreateIosSubmission" },
+  },
 }));
 
 export type SubmissionsByIdError = ExpoEasOpError;
@@ -64208,6 +65665,11 @@ export const submissionsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SubmissionsById",
+    attributes: { "graphql.operation.name": "submissionsById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type SupabaseConnectionBeginSupabaseOAuthError = ExpoEasOpError;
@@ -64222,6 +65684,11 @@ export const supabaseConnectionBeginSupabaseOAuth: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseConnectionBeginSupabaseOAuth",
+    attributes: { "graphql.operation.name": "supabaseConnectionBeginSupabaseOAuth" },
+  },
 }));
 
 export type SupabaseConnectionCompleteSupabaseOAuthError = ExpoEasOpError;
@@ -64236,6 +65703,11 @@ export const supabaseConnectionCompleteSupabaseOAuth: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseConnectionCompleteSupabaseOAuth",
+    attributes: { "graphql.operation.name": "supabaseConnectionCompleteSupabaseOAuth" },
+  },
 }));
 
 export type SupabaseConnectionDisconnectSupabaseError = ExpoEasOpError;
@@ -64250,6 +65722,11 @@ export const supabaseConnectionDisconnectSupabase: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseConnectionDisconnectSupabase",
+    attributes: { "graphql.operation.name": "supabaseConnectionDisconnectSupabase" },
+  },
 }));
 
 export type SupabaseConnectionListSupabaseOrganizationsError = ExpoEasOpError;
@@ -64272,6 +65749,11 @@ export const supabaseConnectionListSupabaseOrganizations: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseConnectionListSupabaseOrganizations",
+    attributes: { "graphql.operation.name": "supabaseConnectionListSupabaseOrganizations" },
+  },
 }));
 
 export type SupabaseConnectionSetSupabaseConnectionOrganizationError = ExpoEasOpError;
@@ -64294,6 +65776,11 @@ export const supabaseConnectionSetSupabaseConnectionOrganization: API.OperationM
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseConnectionSetSupabaseConnectionOrganization",
+    attributes: { "graphql.operation.name": "supabaseConnectionSetSupabaseConnectionOrganization" },
+  },
 }));
 
 export type SupabaseProjectDeleteSupabaseProjectError = ExpoEasOpError;
@@ -64308,6 +65795,11 @@ export const supabaseProjectDeleteSupabaseProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseProjectDeleteSupabaseProject",
+    attributes: { "graphql.operation.name": "supabaseProjectDeleteSupabaseProject" },
+  },
 }));
 
 export type SupabaseProjectFetchSupabasePublishableKeyError = ExpoEasOpError;
@@ -64326,6 +65818,11 @@ export const supabaseProjectFetchSupabasePublishableKey: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseProjectFetchSupabasePublishableKey",
+    attributes: { "graphql.operation.name": "supabaseProjectFetchSupabasePublishableKey" },
+  },
 }));
 
 export type SupabaseProjectLinkSupabaseProjectError = ExpoEasOpError;
@@ -64340,6 +65837,11 @@ export const supabaseProjectLinkSupabaseProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseProjectLinkSupabaseProject",
+    attributes: { "graphql.operation.name": "supabaseProjectLinkSupabaseProject" },
+  },
 }));
 
 export type SupabaseProjectProvisionAdditionalSupabaseProjectError = ExpoEasOpError;
@@ -64362,6 +65864,11 @@ export const supabaseProjectProvisionAdditionalSupabaseProject: API.OperationMet
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseProjectProvisionAdditionalSupabaseProject",
+    attributes: { "graphql.operation.name": "supabaseProjectProvisionAdditionalSupabaseProject" },
+  },
 }));
 
 export type SupabaseProjectProvisionSupabaseProjectError = ExpoEasOpError;
@@ -64376,6 +65883,11 @@ export const supabaseProjectProvisionSupabaseProject: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SupabaseProjectProvisionSupabaseProject",
+    attributes: { "graphql.operation.name": "supabaseProjectProvisionSupabaseProject" },
+  },
 }));
 
 export type TunnelsCreateSignedTunnelUrlError = ExpoEasOpError;
@@ -64390,6 +65902,11 @@ export const tunnelsCreateSignedTunnelUrl: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TunnelsCreateSignedTunnelUrl",
+    attributes: { "graphql.operation.name": "tunnelsCreateSignedTunnelUrl" },
+  },
 }));
 
 export type TurtleBrownfieldArtifactsByIdError = ExpoEasOpError;
@@ -64404,6 +65921,14 @@ export const turtleBrownfieldArtifactsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TurtleBrownfieldArtifactsById",
+    attributes: {
+      "graphql.operation.name": "turtleBrownfieldArtifactsById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type TurtleBrownfieldArtifactsCreateTurtleBrownfieldArtifactError = ExpoEasOpError;
@@ -64426,6 +65951,13 @@ export const turtleBrownfieldArtifactsCreateTurtleBrownfieldArtifact: API.Operat
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TurtleBrownfieldArtifactsCreateTurtleBrownfieldArtifact",
+    attributes: {
+      "graphql.operation.name": "turtleBrownfieldArtifactsCreateTurtleBrownfieldArtifact",
+    },
+  },
 }));
 
 export type TurtleBrownfieldArtifactsLatestForAppError = ExpoEasOpError;
@@ -64440,6 +65972,14 @@ export const turtleBrownfieldArtifactsLatestForApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TurtleBrownfieldArtifactsLatestForApp",
+    attributes: {
+      "graphql.operation.name": "turtleBrownfieldArtifactsLatestForApp",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type TurtleSshSessionCreateOrUpdateTurtleSshSessionError = ExpoEasOpError;
@@ -64462,6 +66002,11 @@ export const turtleSshSessionCreateOrUpdateTurtleSshSession: API.OperationMethod
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TurtleSshSessionCreateOrUpdateTurtleSshSession",
+    attributes: { "graphql.operation.name": "turtleSshSessionCreateOrUpdateTurtleSshSession" },
+  },
 }));
 
 export type UpdateBranchCreateUpdateBranchForAppError = ExpoEasOpError;
@@ -64476,6 +66021,11 @@ export const updateBranchCreateUpdateBranchForApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateBranchCreateUpdateBranchForApp",
+    attributes: { "graphql.operation.name": "updateBranchCreateUpdateBranchForApp" },
+  },
 }));
 
 export type UpdateBranchEditUpdateBranchError = ExpoEasOpError;
@@ -64490,6 +66040,11 @@ export const updateBranchEditUpdateBranch: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateBranchEditUpdateBranch",
+    attributes: { "graphql.operation.name": "updateBranchEditUpdateBranch" },
+  },
 }));
 
 export type UpdateBranchPublishUpdateGroupsError = ExpoEasOpError;
@@ -64504,6 +66059,11 @@ export const updateBranchPublishUpdateGroups: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateBranchPublishUpdateGroups",
+    attributes: { "graphql.operation.name": "updateBranchPublishUpdateGroups" },
+  },
 }));
 
 export type UpdateBranchScheduleUpdateBranchDeletionError = ExpoEasOpError;
@@ -64518,6 +66078,11 @@ export const updateBranchScheduleUpdateBranchDeletion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateBranchScheduleUpdateBranchDeletion",
+    attributes: { "graphql.operation.name": "updateBranchScheduleUpdateBranchDeletion" },
+  },
 }));
 
 export type UpdateChannelCreateUpdateChannelForAppError = ExpoEasOpError;
@@ -64532,6 +66097,11 @@ export const updateChannelCreateUpdateChannelForApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateChannelCreateUpdateChannelForApp",
+    attributes: { "graphql.operation.name": "updateChannelCreateUpdateChannelForApp" },
+  },
 }));
 
 export type UpdateChannelEditUpdateChannelError = ExpoEasOpError;
@@ -64546,6 +66116,11 @@ export const updateChannelEditUpdateChannel: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateChannelEditUpdateChannel",
+    attributes: { "graphql.operation.name": "updateChannelEditUpdateChannel" },
+  },
 }));
 
 export type UpdateChannelPauseUpdateChannelError = ExpoEasOpError;
@@ -64560,6 +66135,11 @@ export const updateChannelPauseUpdateChannel: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateChannelPauseUpdateChannel",
+    attributes: { "graphql.operation.name": "updateChannelPauseUpdateChannel" },
+  },
 }));
 
 export type UpdateChannelProtectUpdateChannelError = ExpoEasOpError;
@@ -64574,6 +66154,11 @@ export const updateChannelProtectUpdateChannel: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateChannelProtectUpdateChannel",
+    attributes: { "graphql.operation.name": "updateChannelProtectUpdateChannel" },
+  },
 }));
 
 export type UpdateChannelResumeUpdateChannelError = ExpoEasOpError;
@@ -64588,6 +66173,11 @@ export const updateChannelResumeUpdateChannel: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateChannelResumeUpdateChannel",
+    attributes: { "graphql.operation.name": "updateChannelResumeUpdateChannel" },
+  },
 }));
 
 export type UpdateChannelScheduleUpdateChannelDeletionError = ExpoEasOpError;
@@ -64606,6 +66196,11 @@ export const updateChannelScheduleUpdateChannelDeletion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateChannelScheduleUpdateChannelDeletion",
+    attributes: { "graphql.operation.name": "updateChannelScheduleUpdateChannelDeletion" },
+  },
 }));
 
 export type UpdateChannelUnprotectUpdateChannelError = ExpoEasOpError;
@@ -64620,6 +66215,11 @@ export const updateChannelUnprotectUpdateChannel: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateChannelUnprotectUpdateChannel",
+    attributes: { "graphql.operation.name": "updateChannelUnprotectUpdateChannel" },
+  },
 }));
 
 export type UpdateInvoicePreviewInvoiceForAdditionalAgentCreditsCountError = ExpoEasOpError;
@@ -64642,6 +66242,14 @@ export const updateInvoicePreviewInvoiceForAdditionalAgentCreditsCount: API.Oper
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateInvoicePreviewInvoiceForAdditionalAgentCreditsCount",
+    attributes: {
+      "graphql.operation.name": "invoicePreviewInvoiceForAdditionalAgentCreditsCountUpdate",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type UpdateInvoicePreviewInvoiceForAdditionalConcurrenciesCountError = ExpoEasOpError;
@@ -64664,6 +66272,14 @@ export const updateInvoicePreviewInvoiceForAdditionalConcurrenciesCount: API.Ope
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateInvoicePreviewInvoiceForAdditionalConcurrenciesCount",
+    attributes: {
+      "graphql.operation.name": "invoicePreviewInvoiceForAdditionalConcurrenciesCountUpdate",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type UpdateInvoicePreviewInvoiceForSubscriptionError = ExpoEasOpError;
@@ -64682,6 +66298,14 @@ export const updateInvoicePreviewInvoiceForSubscription: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateInvoicePreviewInvoiceForSubscription",
+    attributes: {
+      "graphql.operation.name": "invoicePreviewInvoiceForSubscriptionUpdate",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type UpdateRobotError = ExpoEasOpError;
@@ -64696,6 +66320,8 @@ export const updateRobot: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "UpdateRobot", attributes: { "graphql.operation.name": "robotUpdateRobot" } },
 }));
 
 export type UpdatesByGroupError = ExpoEasOpError;
@@ -64711,6 +66337,11 @@ export const updatesByGroup: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdatesByGroup",
+    attributes: { "graphql.operation.name": "updatesByGroup", "graphql.operation.type": "query" },
+  },
 }));
 
 export type UpdatesByIdError = ExpoEasOpError;
@@ -64725,6 +66356,11 @@ export const updatesById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdatesById",
+    attributes: { "graphql.operation.name": "updatesById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type UpdateScheduleUpdateGroupDeletionError = ExpoEasOpError;
@@ -64739,6 +66375,11 @@ export const updateScheduleUpdateGroupDeletion: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateScheduleUpdateGroupDeletion",
+    attributes: { "graphql.operation.name": "updateScheduleUpdateGroupDeletion" },
+  },
 }));
 
 export type UpdateSetCodeSigningInfoError = ExpoEasOpError;
@@ -64753,6 +66394,11 @@ export const updateSetCodeSigningInfo: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateSetCodeSigningInfo",
+    attributes: { "graphql.operation.name": "updateSetCodeSigningInfo" },
+  },
 }));
 
 export type UpdateSetRolloutPercentageError = ExpoEasOpError;
@@ -64767,6 +66413,11 @@ export const updateSetRolloutPercentage: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateSetRolloutPercentage",
+    attributes: { "graphql.operation.name": "updateSetRolloutPercentage" },
+  },
 }));
 
 export type UpdateWebhookError = ExpoEasOpError;
@@ -64781,6 +66432,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "UpdateWebhook", attributes: { "graphql.operation.name": "webhookUpdateWebhook" } },
 }));
 
 export type UploadSessionCreateAccountScopedUploadSessionError = ExpoEasOpError;
@@ -64803,6 +66456,11 @@ export const uploadSessionCreateAccountScopedUploadSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UploadSessionCreateAccountScopedUploadSession",
+    attributes: { "graphql.operation.name": "uploadSessionCreateAccountScopedUploadSession" },
+  },
 }));
 
 export type UploadSessionCreateAppScopedUploadSessionError = ExpoEasOpError;
@@ -64821,6 +66479,11 @@ export const uploadSessionCreateAppScopedUploadSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UploadSessionCreateAppScopedUploadSession",
+    attributes: { "graphql.operation.name": "uploadSessionCreateAppScopedUploadSession" },
+  },
 }));
 
 export type UploadSessionCreateEchoProjectScopedUploadSessionError = ExpoEasOpError;
@@ -64843,6 +66506,11 @@ export const uploadSessionCreateEchoProjectScopedUploadSession: API.OperationMet
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UploadSessionCreateEchoProjectScopedUploadSession",
+    attributes: { "graphql.operation.name": "uploadSessionCreateEchoProjectScopedUploadSession" },
+  },
 }));
 
 export type UploadSessionCreateUploadSessionError = ExpoEasOpError;
@@ -64857,6 +66525,11 @@ export const uploadSessionCreateUploadSession: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UploadSessionCreateUploadSession",
+    attributes: { "graphql.operation.name": "uploadSessionCreateUploadSession" },
+  },
 }));
 
 export type UsageBudgetCreateUsageBudgetError = ExpoEasOpError;
@@ -64871,6 +66544,11 @@ export const usageBudgetCreateUsageBudget: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UsageBudgetCreateUsageBudget",
+    attributes: { "graphql.operation.name": "usageBudgetCreateUsageBudget" },
+  },
 }));
 
 export type UserActorPublicDataByUsernameError = ExpoEasOpError;
@@ -64885,6 +66563,14 @@ export const userActorPublicDataByUsername: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserActorPublicDataByUsername",
+    attributes: {
+      "graphql.operation.name": "userActorPublicDataByUsername",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type UserAppPinsPinAppError = ExpoEasOpError;
@@ -64899,6 +66585,8 @@ export const userAppPinsPinApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "UserAppPinsPinApp", attributes: { "graphql.operation.name": "userAppPinsPinApp" } },
 }));
 
 export type UserAppPinsUnpinAppError = ExpoEasOpError;
@@ -64913,6 +66601,11 @@ export const userAppPinsUnpinApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserAppPinsUnpinApp",
+    attributes: { "graphql.operation.name": "userAppPinsUnpinApp" },
+  },
 }));
 
 export type UserAuditLogExportUserAuditLogsError = ExpoEasOpError;
@@ -64927,6 +66620,11 @@ export const userAuditLogExportUserAuditLogs: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserAuditLogExportUserAuditLogs",
+    attributes: { "graphql.operation.name": "userAuditLogExportUserAuditLogs" },
+  },
 }));
 
 export type UserAuditLogsError = ExpoEasOpError;
@@ -64942,6 +66640,11 @@ export const userAuditLogs: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserAuditLogs",
+    attributes: { "graphql.operation.name": "userAuditLogs", "graphql.operation.type": "query" },
+  },
 }));
 
 export type UserDashboardViewPinsPinDashboardViewError = ExpoEasOpError;
@@ -64956,6 +66659,11 @@ export const userDashboardViewPinsPinDashboardView: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserDashboardViewPinsPinDashboardView",
+    attributes: { "graphql.operation.name": "userDashboardViewPinsPinDashboardView" },
+  },
 }));
 
 export type UserDashboardViewPinsUnpinDashboardViewError = ExpoEasOpError;
@@ -64970,6 +66678,11 @@ export const userDashboardViewPinsUnpinDashboardView: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserDashboardViewPinsUnpinDashboardView",
+    attributes: { "graphql.operation.name": "userDashboardViewPinsUnpinDashboardView" },
+  },
 }));
 
 export type UserInvitationAcceptUserInvitationAsViewerError = ExpoEasOpError;
@@ -64992,6 +66705,11 @@ export const userInvitationAcceptUserInvitationAsViewer: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationAcceptUserInvitationAsViewer",
+    attributes: { "graphql.operation.name": "userInvitationAcceptUserInvitationAsViewer" },
+  },
 }));
 
 export type UserInvitationAcceptUserInvitationByTokenAsViewerError = ExpoEasOpError;
@@ -65014,6 +66732,11 @@ export const userInvitationAcceptUserInvitationByTokenAsViewer: API.OperationMet
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationAcceptUserInvitationByTokenAsViewer",
+    attributes: { "graphql.operation.name": "userInvitationAcceptUserInvitationByTokenAsViewer" },
+  },
 }));
 
 export type UserInvitationCreateUserInvitationForAccountError = ExpoEasOpError;
@@ -65036,6 +66759,11 @@ export const userInvitationCreateUserInvitationForAccount: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationCreateUserInvitationForAccount",
+    attributes: { "graphql.operation.name": "userInvitationCreateUserInvitationForAccount" },
+  },
 }));
 
 export type UserInvitationDeleteUserInvitationError = ExpoEasOpError;
@@ -65050,6 +66778,11 @@ export const userInvitationDeleteUserInvitation: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationDeleteUserInvitation",
+    attributes: { "graphql.operation.name": "userInvitationDeleteUserInvitation" },
+  },
 }));
 
 export type UserInvitationDeleteUserInvitationByTokenError = ExpoEasOpError;
@@ -65068,6 +66801,11 @@ export const userInvitationDeleteUserInvitationByToken: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationDeleteUserInvitationByToken",
+    attributes: { "graphql.operation.name": "userInvitationDeleteUserInvitationByToken" },
+  },
 }));
 
 export type UserInvitationPublicDataByTokenError = ExpoEasOpError;
@@ -65082,6 +66820,14 @@ export const userInvitationPublicDataByToken: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationPublicDataByToken",
+    attributes: {
+      "graphql.operation.name": "userInvitationPublicDataByToken",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type UserInvitationResendUserInvitationError = ExpoEasOpError;
@@ -65096,6 +66842,11 @@ export const userInvitationResendUserInvitation: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationResendUserInvitation",
+    attributes: { "graphql.operation.name": "userInvitationResendUserInvitation" },
+  },
 }));
 
 export type UserInvitationUpdateUserInvitationPermissionsError = ExpoEasOpError;
@@ -65118,6 +66869,11 @@ export const userInvitationUpdateUserInvitationPermissions: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UserInvitationUpdateUserInvitationPermissions",
+    attributes: { "graphql.operation.name": "userInvitationUpdateUserInvitationPermissions" },
+  },
 }));
 
 export type VexoAccountConnectionCreateVexoAccountConnectionError = ExpoEasOpError;
@@ -65140,6 +66896,11 @@ export const vexoAccountConnectionCreateVexoAccountConnection: API.OperationMeth
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VexoAccountConnectionCreateVexoAccountConnection",
+    attributes: { "graphql.operation.name": "vexoAccountConnectionCreateVexoAccountConnection" },
+  },
 }));
 
 export type VexoAccountConnectionRevokeAndDeleteVexoAccountConnectionError = ExpoEasOpError;
@@ -65162,6 +66923,13 @@ export const vexoAccountConnectionRevokeAndDeleteVexoAccountConnection: API.Oper
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VexoAccountConnectionRevokeAndDeleteVexoAccountConnection",
+    attributes: {
+      "graphql.operation.name": "vexoAccountConnectionRevokeAndDeleteVexoAccountConnection",
+    },
+  },
 }));
 
 export type VexoAppCreateVexoAppError = ExpoEasOpError;
@@ -65176,6 +66944,11 @@ export const vexoAppCreateVexoApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VexoAppCreateVexoApp",
+    attributes: { "graphql.operation.name": "vexoAppCreateVexoApp" },
+  },
 }));
 
 export type VexoAppDeleteVexoAppError = ExpoEasOpError;
@@ -65190,6 +66963,11 @@ export const vexoAppDeleteVexoApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VexoAppDeleteVexoApp",
+    attributes: { "graphql.operation.name": "vexoAppDeleteVexoApp" },
+  },
 }));
 
 export type VexoAppUpdateVexoAppError = ExpoEasOpError;
@@ -65204,6 +66982,11 @@ export const vexoAppUpdateVexoApp: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VexoAppUpdateVexoApp",
+    attributes: { "graphql.operation.name": "vexoAppUpdateVexoApp" },
+  },
 }));
 
 export type VexoIntegrationError = ExpoEasOpError;
@@ -65219,6 +67002,11 @@ export const vexoIntegration: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VexoIntegration",
+    attributes: { "graphql.operation.name": "vexoIntegration", "graphql.operation.type": "query" },
+  },
 }));
 
 export type ViewerError = ExpoEasOpError;
@@ -65234,6 +67022,11 @@ export const viewer: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "Viewer",
+    attributes: { "graphql.operation.name": "viewer", "graphql.operation.type": "query" },
+  },
 }));
 
 export type WebhookByIdError = ExpoEasOpError;
@@ -65248,6 +67041,11 @@ export const webhookById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WebhookById",
+    attributes: { "graphql.operation.name": "webhookById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type WebsiteNotificationsError = ExpoEasOpError;
@@ -65263,6 +67061,11 @@ export const websiteNotifications: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WebsiteNotifications",
+    attributes: { "graphql.operation.name": "websiteNotifications" },
+  },
 }));
 
 export type WorkerDeploymentByIdError = ExpoEasOpError;
@@ -65277,6 +67080,14 @@ export const workerDeploymentById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkerDeploymentById",
+    attributes: {
+      "graphql.operation.name": "workerDeploymentById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type WorkflowCacheDeleteWorkflowCacheError = ExpoEasOpError;
@@ -65291,6 +67102,11 @@ export const workflowCacheDeleteWorkflowCache: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowCacheDeleteWorkflowCache",
+    attributes: { "graphql.operation.name": "workflowCacheDeleteWorkflowCache" },
+  },
 }));
 
 export type WorkflowDeviceTestCaseResultCreateWorkflowDeviceTestCaseResultsError = ExpoEasOpError;
@@ -65313,6 +67129,13 @@ export const workflowDeviceTestCaseResultCreateWorkflowDeviceTestCaseResults: AP
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowDeviceTestCaseResultCreateWorkflowDeviceTestCaseResults",
+    attributes: {
+      "graphql.operation.name": "workflowDeviceTestCaseResultCreateWorkflowDeviceTestCaseResults",
+    },
+  },
 }));
 
 export type WorkflowJobAppleDeviceRegistrationRequestApproveAppleDeviceRegistrationError =
@@ -65336,6 +67159,14 @@ export const workflowJobAppleDeviceRegistrationRequestApproveAppleDeviceRegistra
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowJobAppleDeviceRegistrationRequestApproveAppleDeviceRegistration",
+    attributes: {
+      "graphql.operation.name":
+        "workflowJobAppleDeviceRegistrationRequestApproveAppleDeviceRegistration",
+    },
+  },
 }));
 
 export type WorkflowJobAppleDeviceRegistrationRequestRejectAppleDeviceRegistrationError =
@@ -65359,6 +67190,14 @@ export const workflowJobAppleDeviceRegistrationRequestRejectAppleDeviceRegistrat
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowJobAppleDeviceRegistrationRequestRejectAppleDeviceRegistration",
+    attributes: {
+      "graphql.operation.name":
+        "workflowJobAppleDeviceRegistrationRequestRejectAppleDeviceRegistration",
+    },
+  },
 }));
 
 export type WorkflowJobApprovalSetWorkflowJobApprovalDecisionError = ExpoEasOpError;
@@ -65381,6 +67220,11 @@ export const workflowJobApprovalSetWorkflowJobApprovalDecision: API.OperationMet
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowJobApprovalSetWorkflowJobApprovalDecision",
+    attributes: { "graphql.operation.name": "workflowJobApprovalSetWorkflowJobApprovalDecision" },
+  },
 }));
 
 export type WorkflowJobsByIdError = ExpoEasOpError;
@@ -65395,6 +67239,11 @@ export const workflowJobsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowJobsById",
+    attributes: { "graphql.operation.name": "workflowJobsById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type WorkflowRevisionGetOrCreateWorkflowRevisionFromGitRefError = ExpoEasOpError;
@@ -65417,6 +67266,13 @@ export const workflowRevisionGetOrCreateWorkflowRevisionFromGitRef: API.Operatio
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRevisionGetOrCreateWorkflowRevisionFromGitRef",
+    attributes: {
+      "graphql.operation.name": "workflowRevisionGetOrCreateWorkflowRevisionFromGitRef",
+    },
+  },
 }));
 
 export type WorkflowRevisionGetWorkflowRevisionsFromGitRefError = ExpoEasOpError;
@@ -65439,6 +67295,11 @@ export const workflowRevisionGetWorkflowRevisionsFromGitRef: API.OperationMethod
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRevisionGetWorkflowRevisionsFromGitRef",
+    attributes: { "graphql.operation.name": "workflowRevisionGetWorkflowRevisionsFromGitRef" },
+  },
 }));
 
 export type WorkflowRevisionsByIdError = ExpoEasOpError;
@@ -65453,6 +67314,14 @@ export const workflowRevisionsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRevisionsById",
+    attributes: {
+      "graphql.operation.name": "workflowRevisionsById",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type WorkflowRevisionValidateWorkflowYamlConfigError = ExpoEasOpError;
@@ -65475,6 +67344,11 @@ export const workflowRevisionValidateWorkflowYamlConfig: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRevisionValidateWorkflowYamlConfig",
+    attributes: { "graphql.operation.name": "workflowRevisionValidateWorkflowYamlConfig" },
+  },
 }));
 
 export type WorkflowRunCancelWorkflowRunError = ExpoEasOpError;
@@ -65489,6 +67363,11 @@ export const workflowRunCancelWorkflowRun: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRunCancelWorkflowRun",
+    attributes: { "graphql.operation.name": "workflowRunCancelWorkflowRun" },
+  },
 }));
 
 export type WorkflowRunCreateExpoGoRepackWorkflowRunError = ExpoEasOpError;
@@ -65507,6 +67386,11 @@ export const workflowRunCreateExpoGoRepackWorkflowRun: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRunCreateExpoGoRepackWorkflowRun",
+    attributes: { "graphql.operation.name": "workflowRunCreateExpoGoRepackWorkflowRun" },
+  },
 }));
 
 export type WorkflowRunCreateWorkflowRunError = ExpoEasOpError;
@@ -65521,6 +67405,11 @@ export const workflowRunCreateWorkflowRun: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRunCreateWorkflowRun",
+    attributes: { "graphql.operation.name": "workflowRunCreateWorkflowRun" },
+  },
 }));
 
 export type WorkflowRunCreateWorkflowRunFromGitRefError = ExpoEasOpError;
@@ -65535,6 +67424,11 @@ export const workflowRunCreateWorkflowRunFromGitRef: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRunCreateWorkflowRunFromGitRef",
+    attributes: { "graphql.operation.name": "workflowRunCreateWorkflowRunFromGitRef" },
+  },
 }));
 
 export type WorkflowRunRetryWorkflowRunError = ExpoEasOpError;
@@ -65549,6 +67443,11 @@ export const workflowRunRetryWorkflowRun: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRunRetryWorkflowRun",
+    attributes: { "graphql.operation.name": "workflowRunRetryWorkflowRun" },
+  },
 }));
 
 export type WorkflowRunsByIdError = ExpoEasOpError;
@@ -65563,6 +67462,11 @@ export const workflowRunsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowRunsById",
+    attributes: { "graphql.operation.name": "workflowRunsById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type WorkflowsByAppIdAndFileNameError = ExpoEasOpError;
@@ -65577,6 +67481,14 @@ export const workflowsByAppIdAndFileName: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowsByAppIdAndFileName",
+    attributes: {
+      "graphql.operation.name": "workflowsByAppIdAndFileName",
+      "graphql.operation.type": "query",
+    },
+  },
 }));
 
 export type WorkflowsByIdError = ExpoEasOpError;
@@ -65591,6 +67503,11 @@ export const workflowsById: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowsById",
+    attributes: { "graphql.operation.name": "workflowsById", "graphql.operation.type": "query" },
+  },
 }));
 
 export type WorkflowsInsightsExportWorkflowRunsError = ExpoEasOpError;
@@ -65605,6 +67522,11 @@ export const workflowsInsightsExportWorkflowRuns: API.OperationMethod<
   errors: [UnknownEasError, EasParseError],
   protocol: ExpoGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "WorkflowsInsightsExportWorkflowRuns",
+    attributes: { "graphql.operation.name": "workflowsInsightsExportWorkflowRuns" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

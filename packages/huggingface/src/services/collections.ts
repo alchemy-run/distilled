@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Collections",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -6863,6 +6876,8 @@ export const addItem: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddItem",
 }));
 
 export type AddItemBySlugError = HuggingFaceOpError;
@@ -6878,6 +6893,8 @@ export const addItemBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddItemBySlug",
 }));
 
 export type BatchUpdateItemsError = HuggingFaceOpError;
@@ -6893,6 +6910,8 @@ export const batchUpdateItems: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateItems",
 }));
 
 export type BatchUpdateItemsBySlugError = HuggingFaceOpError;
@@ -6908,6 +6927,8 @@ export const batchUpdateItemsBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateItemsBySlug",
 }));
 
 export type CreateCollectionError = Conflict | HuggingFaceOpError;
@@ -6923,6 +6944,8 @@ export const createCollection: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type DeleteCollectionError = HuggingFaceOpError;
@@ -6938,6 +6961,8 @@ export const deleteCollection: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteCollectionBySlugError = HuggingFaceOpError;
@@ -6953,6 +6978,8 @@ export const deleteCollectionBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollectionBySlug",
 }));
 
 export type DeleteItemError = HuggingFaceOpError;
@@ -6968,6 +6995,8 @@ export const deleteItem: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItem",
 }));
 
 export type DeleteItemBySlugError = HuggingFaceOpError;
@@ -6983,6 +7012,8 @@ export const deleteItemBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItemBySlug",
 }));
 
 export type GetCollectionError = HuggingFaceOpError;
@@ -6998,6 +7029,8 @@ export const getCollection: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollection",
 }));
 
 export type GetCollectionBySlugError = HuggingFaceOpError;
@@ -7013,6 +7046,8 @@ export const getCollectionBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionBySlug",
 }));
 
 export type GetCollectionResourceGroupError = HuggingFaceOpError;
@@ -7028,6 +7063,8 @@ export const getCollectionResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionResourceGroup",
 }));
 
 export type GetCollectionResourceGroupBySlugError = HuggingFaceOpError;
@@ -7043,6 +7080,8 @@ export const getCollectionResourceGroupBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionResourceGroupBySlug",
 }));
 
 export type GetCollectionsError = HuggingFaceOpError;
@@ -7058,6 +7097,8 @@ export const getCollections: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollections",
 }));
 
 export type SetCollectionResourceGroupError = HuggingFaceOpError;
@@ -7073,6 +7114,8 @@ export const setCollectionResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCollectionResourceGroup",
 }));
 
 export type SetCollectionResourceGroupBySlugError = HuggingFaceOpError;
@@ -7088,6 +7131,8 @@ export const setCollectionResourceGroupBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCollectionResourceGroupBySlug",
 }));
 
 export type UpdateCollectionError = HuggingFaceOpError;
@@ -7103,6 +7148,8 @@ export const updateCollection: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollection",
 }));
 
 export type UpdateCollectionBySlugError = HuggingFaceOpError;
@@ -7118,6 +7165,8 @@ export const updateCollectionBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollectionBySlug",
 }));
 
 export type UpdateItemError = HuggingFaceOpError;
@@ -7133,6 +7182,8 @@ export const updateItem: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItem",
 }));
 
 export type UpdateItemBySlugError = HuggingFaceOpError;
@@ -7148,6 +7199,8 @@ export const updateItemBySlug: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItemBySlug",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

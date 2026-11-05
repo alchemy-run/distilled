@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   HTTP_STATUS_MAP,
@@ -11,26 +10,23 @@ import {
   Locked,
   NotFound,
   UnprocessableEntity,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
   getAnn,
   getProps,
   hasPropAnn,
+  invalidLabel,
   makeRequest,
   mapKeys,
   mapsVerbatim,
   matchTypedError,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
-import {
-  hasSensitive,
-  hasSensitiveMember,
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import { checkResponse, withholdActual } from "@distilled.cloud/core/response-validation";
+import { checkSuccess, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * StripeProtocol -- hand-written.
  *
@@ -181,7 +177,8 @@ export type StripeOpError =
   | Locked
   | CoreDefaultErrors
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
@@ -349,7 +346,7 @@ const requestFor = (
   options: StripeRequestOptions | undefined,
   input: unknown,
   inputAst: AST.AST,
-): HttpClientRequest.HttpClientRequest => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
   const { http, members, known } = requestPlanFor(inputAst);
 
   const baseHeaders: Record<string, string> = {
@@ -382,9 +379,12 @@ const requestFor = (
     const value = inputObj[m.key];
     if (value === undefined) continue;
     switch (m.bind) {
-      case "label":
+      case "label": {
+        const invalid = invalidLabel(m.key, value);
+        if (invalid) return Effect.fail(invalid);
         uri = uri.replace(`{${m.name}}`, encodeURIComponent(String(value)));
         break;
+      }
       case "header":
         headers[m.name] = String(value);
         break;
@@ -420,21 +420,17 @@ const requestFor = (
 
   const qs = query === undefined ? "" : query.toString();
   const url = qs ? `${creds.apiBaseUrl}${uri}?${qs}` : `${creds.apiBaseUrl}${uri}`;
-  if (debugHttp()) {
-    console.error(
-      `[distilled] ${http.method} ${url}` +
-        (bodyKeys && !bodyless ? ` body=${JSON.stringify(body).slice(0, 400)}` : ""),
-    );
-  }
 
   const request = makeRequest(http.method, url, headers);
-  if (bodyless || bodyKeys === 0) return request;
-  return HttpClientRequest.setBody(
-    request,
-    http.contentType === "form-urlencoded"
-      ? HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded")
-      : // The /v2/* operations are plain JSON.
-        HttpBody.jsonUnsafe(body),
+  if (bodyless || bodyKeys === 0) return Effect.succeed(request);
+  return Effect.succeed(
+    HttpClientRequest.setBody(
+      request,
+      http.contentType === "form-urlencoded"
+        ? HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded")
+        : // The /v2/* operations are plain JSON.
+          HttpBody.jsonUnsafe(body),
+    ),
   );
 };
 
@@ -455,9 +451,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) =>
-      Effect.succeed(
-        requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, inputAst),
-      ),
+      requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, inputAst),
     );
   });
 
@@ -587,13 +581,10 @@ const decodeResponse = (
   errorClasses: ReadonlyArray<unknown>,
 ): Effect.Effect<unknown> =>
   Effect.matchEffect(response.text, {
-    onFailure: Effect.die,
+    onFailure: fail,
     onSuccess: (read): Effect.Effect<unknown> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";
-      if (debugHttp()) {
-        console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-      }
       let json: unknown;
       let nonJson = false;
       if (text.trim().length > 0) {
@@ -616,30 +607,28 @@ const decodeResponse = (
           headers,
         });
         if (typed !== undefined) return fail(typed);
-        return fail(matchStripeError(status, errorBody, headers));
+        // Its own frames would point into this decoder; the failure frame
+        // names the operation at the caller's line instead.
+        const saved = Telemetry.suppressStack();
+        try {
+          return fail(matchStripeError(status, errorBody, headers));
+        } finally {
+          Telemetry.restoreStack(saved);
+        }
       }
 
       // 2xx: the response body IS the payload (no envelope). Wire->TS key
       // mapping is schema-driven; sensitive members come back Redacted.
-      // Strict mode checks the mapped body against the output schema first.
-      // For an output with sensitive members, a non-JSON body fails in every
-      // mode and parse errors withhold the body.
-      const withholdBody = hasSensitiveMember(outputAst);
-      if (nonJson && withholdBody) {
-        return fail(new StripeParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }));
-      }
+      // Strict mode checks the mapped body against the output schema first,
+      // and parse errors withhold a body that can hold a secret (core
+      // `checkSuccess`).
       const body: unknown = nonJson ? text : (json ?? {});
-      const mapped = mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode");
-      const cause = checkResponse(context, outputAst, mapped);
-      if (cause !== undefined) {
-        return fail(
-          new StripeParseError({
-            body: withholdBody ? "[REDACTED]" : nonJson ? text : json,
-            cause: withholdBody ? withholdActual(cause) : cause,
-          }),
-        );
-      }
-      return Effect.succeed(hasSensitive(outputAst) ? wrapSensitive(outputAst, mapped) : mapped);
+      const checked = checkSuccess(context, outputAst, {
+        value: mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode"),
+        body: nonJson ? text : json,
+        nonJson,
+      });
+      return checked.ok ? Effect.succeed(checked.value) : fail(new StripeParseError(checked.error));
     },
   });
 
@@ -647,15 +636,13 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) => {
-      const request = requestFor(
-        creds,
-        Context.getOrUndefined(context, RequestOptions),
-        input,
-        op.inputAst,
-      );
       const client = Context.get(context, HttpClient.HttpClient);
-      return Effect.flatMap(client.execute(request), (response) =>
-        decodeResponse(context, response, op.outputAst, op.errors),
+      return Effect.flatMap(
+        requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, op.inputAst),
+        (request) =>
+          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+            decodeResponse(context, response, op.outputAst, op.errors),
+          ),
       );
     });
   }) as Effect.Effect<unknown>;

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -74,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloud9.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Cloud9",
+  service: "Cloud9",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()("BadRequestException", {
@@ -321,7 +338,7 @@ export type CreateEnvironmentEC2Error =
  * Learn more"
  */
 export const createEnvironmentEC2: API.OperationMethod<
-  CreateEnvironmentEC2Request,
+  CreateEnvironmentEC2Request & RegionInput,
   CreateEnvironmentEC2Result,
   CreateEnvironmentEC2Error,
   Credentials | HttpClient.HttpClient
@@ -340,6 +357,8 @@ export const createEnvironmentEC2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentEC2",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentEC2",
 }));
 
 export type CreateEnvironmentMembershipError =
@@ -359,7 +378,7 @@ export type CreateEnvironmentMembershipError =
  * Learn more"
  */
 export const createEnvironmentMembership: API.OperationMethod<
-  CreateEnvironmentMembershipRequest,
+  CreateEnvironmentMembershipRequest & RegionInput,
   CreateEnvironmentMembershipResult,
   CreateEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -378,6 +397,8 @@ export const createEnvironmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentMembership",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentMembership",
 }));
 
 export type DeleteEnvironmentError =
@@ -398,7 +419,7 @@ export type DeleteEnvironmentError =
  * Learn more"
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResult,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -417,6 +438,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvironmentMembershipError =
@@ -436,7 +459,7 @@ export type DeleteEnvironmentMembershipError =
  * Learn more"
  */
 export const deleteEnvironmentMembership: API.OperationMethod<
-  DeleteEnvironmentMembershipRequest,
+  DeleteEnvironmentMembershipRequest & RegionInput,
   DeleteEnvironmentMembershipResult,
   DeleteEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -455,6 +478,8 @@ export const deleteEnvironmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentMembership",
 }));
 
 export type DescribeEnvironmentMembershipsError =
@@ -474,7 +499,7 @@ export type DescribeEnvironmentMembershipsError =
  * Learn more"
  */
 export const describeEnvironmentMemberships: API.PaginatedOperationMethod<
-  DescribeEnvironmentMembershipsRequest,
+  DescribeEnvironmentMembershipsRequest & RegionInput,
   DescribeEnvironmentMembershipsResult,
   DescribeEnvironmentMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -499,6 +524,8 @@ export const describeEnvironmentMemberships: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentMemberships",
 })) as any;
 
 export type DescribeEnvironmentsError =
@@ -518,7 +545,7 @@ export type DescribeEnvironmentsError =
  * Learn more"
  */
 export const describeEnvironments: API.OperationMethod<
-  DescribeEnvironmentsRequest,
+  DescribeEnvironmentsRequest & RegionInput,
   DescribeEnvironmentsResult,
   DescribeEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -537,6 +564,8 @@ export const describeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironments",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironments",
 }));
 
 export type DescribeEnvironmentStatusError =
@@ -556,7 +585,7 @@ export type DescribeEnvironmentStatusError =
  * Learn more"
  */
 export const describeEnvironmentStatus: API.OperationMethod<
-  DescribeEnvironmentStatusRequest,
+  DescribeEnvironmentStatusRequest & RegionInput,
   DescribeEnvironmentStatusResult,
   DescribeEnvironmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -575,6 +604,8 @@ export const describeEnvironmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentStatus",
 }));
 
 export type ListEnvironmentsError =
@@ -598,7 +629,7 @@ export type ListEnvironmentsError =
  * Learn more"
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResult,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -623,6 +654,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -638,7 +671,7 @@ export type ListTagsForResourceError =
  * Learn more"
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -649,6 +682,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -668,7 +703,7 @@ export type TagResourceError =
  * automatically propagated to underlying resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -684,6 +719,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -700,7 +737,7 @@ export type UntagResourceError =
  * Learn more"
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -716,6 +753,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEnvironmentError =
@@ -735,7 +774,7 @@ export type UpdateEnvironmentError =
  * Learn more"
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResult,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -754,6 +793,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateEnvironmentMembershipError =
@@ -774,7 +815,7 @@ export type UpdateEnvironmentMembershipError =
  * Learn more"
  */
 export const updateEnvironmentMembership: API.OperationMethod<
-  UpdateEnvironmentMembershipRequest,
+  UpdateEnvironmentMembershipRequest & RegionInput,
   UpdateEnvironmentMembershipResult,
   UpdateEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -793,6 +834,8 @@ export const updateEnvironmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentMembership",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentMembership",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Rabbitmq",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -426,6 +439,8 @@ export const createBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackup",
 }));
 
 export type CreateCredentialsError = BadRequest | StackitOpError;
@@ -441,6 +456,8 @@ export const createCredentials: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCredentials",
 }));
 
 export type CreateInstanceError = BadRequest | Conflict | StackitOpError;
@@ -456,6 +473,8 @@ export const createInstance: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type DeleteCredentialsError = BadRequest | NotFound | StackitOpError;
@@ -471,6 +490,8 @@ export const deleteCredentials: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentials",
 }));
 
 export type DeleteInstanceError = BadRequest | NotFound | StackitOpError;
@@ -486,6 +507,8 @@ export const deleteInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DownloadBackupError = BadRequest | NotFound | StackitOpError;
@@ -501,6 +524,8 @@ export const downloadBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadBackup",
 }));
 
 export type GetCredentialsError = BadRequest | NotFound | StackitOpError;
@@ -516,6 +541,8 @@ export const getCredentials: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredentials",
 }));
 
 export type GetInstanceError = BadRequest | NotFound | StackitOpError;
@@ -531,6 +558,8 @@ export const getInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetMetricsError = BadRequest | NotFound | StackitOpError;
@@ -546,6 +575,8 @@ export const getMetrics: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetrics",
 }));
 
 export type ListBackupsError = BadRequest | NotFound | StackitOpError;
@@ -561,6 +592,8 @@ export const listBackups: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackups",
 }));
 
 export type ListCredentialsError = BadRequest | NotFound | StackitOpError;
@@ -576,6 +609,8 @@ export const listCredentials: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredentials",
 }));
 
 export type ListInstancesError = BadRequest | NotFound | StackitOpError;
@@ -591,6 +626,8 @@ export const listInstances: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 }));
 
 export type ListOfferingsError = BadRequest | NotFound | StackitOpError;
@@ -606,6 +643,8 @@ export const listOfferings: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfferings",
 }));
 
 export type ListRestoresError = BadRequest | NotFound | StackitOpError;
@@ -621,6 +660,8 @@ export const listRestores: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestores",
 }));
 
 export type PartialUpdateInstanceError = BadRequest | NotFound | StackitOpError;
@@ -636,6 +677,8 @@ export const partialUpdateInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateInstance",
 }));
 
 export type TriggerRecreateError = BadRequest | NotFound | StackitOpError;
@@ -651,6 +694,8 @@ export const triggerRecreate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRecreate",
 }));
 
 export type TriggerRestartError = BadRequest | NotFound | StackitOpError;
@@ -666,6 +711,8 @@ export const triggerRestart: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRestart",
 }));
 
 export type TriggerRestoreError = BadRequest | NotFound | StackitOpError;
@@ -681,6 +728,8 @@ export const triggerRestore: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRestore",
 }));
 
 export type UpdateBackupsConfigError = BadRequest | NotFound | StackitOpError;
@@ -696,6 +745,8 @@ export const updateBackupsConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackupsConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

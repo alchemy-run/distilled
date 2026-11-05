@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Me",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface AcceptMeAgreementRequest {
   /** Id of the contract */
   id: number;
@@ -6265,6 +6279,8 @@ export const acceptMeAgreement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptMeAgreement",
 }));
 
 export type AcceptMeMigrationContractError = OvhOpError;
@@ -6280,6 +6296,8 @@ export const acceptMeMigrationContract: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptMeMigrationContract",
 }));
 
 export type AcceptMeTaskContactChangeError = OvhOpError;
@@ -6295,6 +6313,8 @@ export const acceptMeTaskContactChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptMeTaskContactChange",
 }));
 
 export type AcceptMeTaskEmailChangeError = OvhOpError;
@@ -6310,6 +6330,8 @@ export const acceptMeTaskEmailChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptMeTaskEmailChange",
 }));
 
 export type ApplyMeSlaError = OvhOpError;
@@ -6325,6 +6347,8 @@ export const applyMeSla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyMeSla",
 }));
 
 export type CancelMeTaskDnsError = OvhOpError;
@@ -6340,6 +6364,8 @@ export const cancelMeTaskDns: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMeTaskDns",
 }));
 
 export type CancelMeTaskDomainError = OvhOpError;
@@ -6355,6 +6381,8 @@ export const cancelMeTaskDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMeTaskDomain",
 }));
 
 export type CheckMeVoucherValidityError = OvhOpError;
@@ -6370,6 +6398,8 @@ export const checkMeVoucherValidity: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMeVoucherValidity",
 }));
 
 export type CreateMeAccessRestrictionBackupCodeError = OvhOpError;
@@ -6385,6 +6415,8 @@ export const createMeAccessRestrictionBackupCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeAccessRestrictionBackupCode",
 }));
 
 export type CreateMeAccessRestrictionIpError = OvhOpError;
@@ -6400,6 +6432,8 @@ export const createMeAccessRestrictionIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeAccessRestrictionIp",
 }));
 
 export type CreateMeAccessRestrictionSmsError = OvhOpError;
@@ -6415,6 +6449,8 @@ export const createMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeAccessRestrictionSms",
 }));
 
 export type CreateMeAccessRestrictionTotpError = OvhOpError;
@@ -6430,6 +6466,8 @@ export const createMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeAccessRestrictionTotp",
 }));
 
 export type CreateMeAccessRestrictionU2fError = OvhOpError;
@@ -6445,6 +6483,8 @@ export const createMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeAccessRestrictionU2f",
 }));
 
 export type CreateMeAccountError = OvhOpError;
@@ -6460,6 +6500,8 @@ export const createMeAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeAccount",
 }));
 
 export type CreateMeAutorenewError = OvhOpError;
@@ -6475,6 +6517,8 @@ export const createMeAutorenew: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeAutorenew",
 }));
 
 export type CreateMeBillDebtPayError = OvhOpError;
@@ -6490,6 +6534,8 @@ export const createMeBillDebtPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeBillDebtPay",
 }));
 
 export type CreateMeBillingGroupError = OvhOpError;
@@ -6505,6 +6551,8 @@ export const createMeBillingGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeBillingGroup",
 }));
 
 export type CreateMeBillingGroupServiceError = OvhOpError;
@@ -6520,6 +6568,8 @@ export const createMeBillingGroupService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeBillingGroupService",
 }));
 
 export type CreateMeBillingInvoicesByPostalMailError = OvhOpError;
@@ -6535,6 +6585,8 @@ export const createMeBillingInvoicesByPostalMail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeBillingInvoicesByPostalMail",
 }));
 
 export type CreateMeBillingPurchaseOrderError = OvhOpError;
@@ -6550,6 +6602,8 @@ export const createMeBillingPurchaseOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeBillingPurchaseOrder",
 }));
 
 export type CreateMeBillingReportConsumptionError = OvhOpError;
@@ -6565,6 +6619,8 @@ export const createMeBillingReportConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeBillingReportConsumption",
 }));
 
 export type CreateMeCarbonCalculatorTaskError = OvhOpError;
@@ -6580,6 +6636,8 @@ export const createMeCarbonCalculatorTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeCarbonCalculatorTask",
 }));
 
 export type CreateMeChangeEmailError = OvhOpError;
@@ -6595,6 +6653,8 @@ export const createMeChangeEmail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeChangeEmail",
 }));
 
 export type CreateMeChangePasswordError = OvhOpError;
@@ -6610,6 +6670,8 @@ export const createMeChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeChangePassword",
 }));
 
 export type CreateMeContactError = OvhOpError;
@@ -6625,6 +6687,8 @@ export const createMeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeContact",
 }));
 
 export type CreateMeCorrectiveInvoiceDebtPayError = OvhOpError;
@@ -6640,6 +6704,8 @@ export const createMeCorrectiveInvoiceDebtPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeCorrectiveInvoiceDebtPay",
 }));
 
 export type CreateMeCreditCodeError = OvhOpError;
@@ -6655,6 +6721,8 @@ export const createMeCreditCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeCreditCode",
 }));
 
 export type CreateMeDebtAccountDebtPayError = OvhOpError;
@@ -6670,6 +6738,8 @@ export const createMeDebtAccountDebtPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeDebtAccountDebtPay",
 }));
 
 export type CreateMeDebtAccountPayError = OvhOpError;
@@ -6685,6 +6755,8 @@ export const createMeDebtAccountPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeDebtAccountPay",
 }));
 
 export type CreateMeDepositPaidBillDebtPayError = OvhOpError;
@@ -6700,6 +6772,8 @@ export const createMeDepositPaidBillDebtPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeDepositPaidBillDebtPay",
 }));
 
 export type CreateMeDocumentError = OvhOpError;
@@ -6715,6 +6789,8 @@ export const createMeDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeDocument",
 }));
 
 export type CreateMeDocumentCorsError = OvhOpError;
@@ -6730,6 +6806,8 @@ export const createMeDocumentCors: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeDocumentCors",
 }));
 
 export type CreateMeDownPaymentInvoiceDebtPayError = OvhOpError;
@@ -6745,6 +6823,8 @@ export const createMeDownPaymentInvoiceDebtPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeDownPaymentInvoiceDebtPay",
 }));
 
 export type CreateMeFaxCustomDomainError = OvhOpError;
@@ -6760,6 +6840,8 @@ export const createMeFaxCustomDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeFaxCustomDomain",
 }));
 
 export type CreateMeFeedbackError = OvhOpError;
@@ -6775,6 +6857,8 @@ export const createMeFeedback: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeFeedback",
 }));
 
 export type CreateMeFidelityAccountCreditOrderError = OvhOpError;
@@ -6790,6 +6874,8 @@ export const createMeFidelityAccountCreditOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeFidelityAccountCreditOrder",
 }));
 
 export type CreateMeGeolocationError = OvhOpError;
@@ -6805,6 +6891,8 @@ export const createMeGeolocation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeGeolocation",
 }));
 
 export type CreateMeIdentityGroupError = OvhOpError;
@@ -6820,6 +6908,8 @@ export const createMeIdentityGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeIdentityGroup",
 }));
 
 export type CreateMeIdentityGroupUserError = OvhOpError;
@@ -6835,6 +6925,8 @@ export const createMeIdentityGroupUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeIdentityGroupUser",
 }));
 
 export type CreateMeIdentityProviderError = OvhOpError;
@@ -6850,6 +6942,8 @@ export const createMeIdentityProvider: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeIdentityProvider",
 }));
 
 export type CreateMeIdentityUserError = OvhOpError;
@@ -6865,6 +6959,8 @@ export const createMeIdentityUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeIdentityUser",
 }));
 
 export type CreateMeIdentityUserTokenError = OvhOpError;
@@ -6880,6 +6976,8 @@ export const createMeIdentityUserToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeIdentityUserToken",
 }));
 
 export type CreateMeIpOrganisationError = OvhOpError;
@@ -6895,6 +6993,8 @@ export const createMeIpOrganisation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeIpOrganisation",
 }));
 
 export type CreateMeLogAuditLogSubscriptionError = OvhOpError;
@@ -6910,6 +7010,8 @@ export const createMeLogAuditLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeLogAuditLogSubscription",
 }));
 
 export type CreateMeLogAuditLogUrlError = OvhOpError;
@@ -6925,6 +7027,8 @@ export const createMeLogAuditLogUrl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeLogAuditLogUrl",
 }));
 
 export type CreateMeLogSubscriptionError = OvhOpError;
@@ -6940,6 +7044,8 @@ export const createMeLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeLogSubscription",
 }));
 
 export type CreateMeLogUrlError = OvhOpError;
@@ -6955,6 +7061,8 @@ export const createMeLogUrl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeLogUrl",
 }));
 
 export type CreateMeManualDomainPaymentError = OvhOpError;
@@ -6970,6 +7078,8 @@ export const createMeManualDomainPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeManualDomainPayment",
 }));
 
 export type CreateMeOauth2ClientError = OvhOpError;
@@ -6985,6 +7095,8 @@ export const createMeOauth2Client: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOauth2Client",
 }));
 
 export type CreateMeOrderBalanceError = OvhOpError;
@@ -7000,6 +7112,8 @@ export const createMeOrderBalance: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOrderBalance",
 }));
 
 export type CreateMeOrderDebtPayError = OvhOpError;
@@ -7015,6 +7129,8 @@ export const createMeOrderDebtPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOrderDebtPay",
 }));
 
 export type CreateMeOrderPayError = OvhOpError;
@@ -7030,6 +7146,8 @@ export const createMeOrderPay: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOrderPay",
 }));
 
 export type CreateMeOrderPayWithRegisteredPaymentMeanError = OvhOpError;
@@ -7049,6 +7167,8 @@ export const createMeOrderPayWithRegisteredPaymentMean: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOrderPayWithRegisteredPaymentMean",
 }));
 
 export type CreateMeOrderRetractionError = OvhOpError;
@@ -7064,6 +7184,8 @@ export const createMeOrderRetraction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOrderRetraction",
 }));
 
 export type CreateMeOrderWaiveRetractionError = OvhOpError;
@@ -7079,6 +7201,8 @@ export const createMeOrderWaiveRetraction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOrderWaiveRetraction",
 }));
 
 export type CreateMeOvhAccountCreditOrderError = OvhOpError;
@@ -7094,6 +7218,8 @@ export const createMeOvhAccountCreditOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOvhAccountCreditOrder",
 }));
 
 export type CreateMeOvhAccountMovementRequestRefundError = OvhOpError;
@@ -7109,6 +7235,8 @@ export const createMeOvhAccountMovementRequestRefund: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeOvhAccountMovementRequestRefund",
 }));
 
 export type CreateMePasswordRecoverError = OvhOpError;
@@ -7124,6 +7252,8 @@ export const createMePasswordRecover: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMePasswordRecover",
 }));
 
 export type CreateMePaymentMeanDeferredPaymentAccountChooseAsDefaultPaymentMeanError = OvhOpError;
@@ -7147,6 +7277,8 @@ export const createMePaymentMeanDeferredPaymentAccountChooseAsDefaultPaymentMean
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMePaymentMeanDeferredPaymentAccountChooseAsDefaultPaymentMean",
 }));
 
 export type CreateMePaymentMethodError = OvhOpError;
@@ -7162,6 +7294,8 @@ export const createMePaymentMethod: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMePaymentMethod",
 }));
 
 export type CreateMePaymentMethodChallengeError = OvhOpError;
@@ -7177,6 +7311,8 @@ export const createMePaymentMethodChallenge: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMePaymentMethodChallenge",
 }));
 
 export type CreateMePaymentMethodDetailError = OvhOpError;
@@ -7192,6 +7328,8 @@ export const createMePaymentMethodDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMePaymentMethodDetail",
 }));
 
 export type CreateMePreferenceManagerError = OvhOpError;
@@ -7207,6 +7345,8 @@ export const createMePreferenceManager: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMePreferenceManager",
 }));
 
 export type CreateMeSshKeyError = OvhOpError;
@@ -7222,6 +7362,8 @@ export const createMeSshKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeSshKey",
 }));
 
 export type CreateMeSubAccountError = OvhOpError;
@@ -7237,6 +7379,8 @@ export const createMeSubAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeSubAccount",
 }));
 
 export type CreateMeSubAccountConsumerKeyError = OvhOpError;
@@ -7252,6 +7396,8 @@ export const createMeSubAccountConsumerKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeSubAccountConsumerKey",
 }));
 
 export type CreateMeTagError = OvhOpError;
@@ -7267,6 +7413,8 @@ export const createMeTag: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTag",
 }));
 
 export type CreateMeTaskContactChangeRefuseError = OvhOpError;
@@ -7282,6 +7430,8 @@ export const createMeTaskContactChangeRefuse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTaskContactChangeRefuse",
 }));
 
 export type CreateMeTaskDnsAccelerateError = OvhOpError;
@@ -7297,6 +7447,8 @@ export const createMeTaskDnsAccelerate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTaskDnsAccelerate",
 }));
 
 export type CreateMeTaskDnsRelaunchError = OvhOpError;
@@ -7312,6 +7464,8 @@ export const createMeTaskDnsRelaunch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTaskDnsRelaunch",
 }));
 
 export type CreateMeTaskDomainAccelerateError = OvhOpError;
@@ -7327,6 +7481,8 @@ export const createMeTaskDomainAccelerate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTaskDomainAccelerate",
 }));
 
 export type CreateMeTaskDomainRelaunchError = OvhOpError;
@@ -7342,6 +7498,8 @@ export const createMeTaskDomainRelaunch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTaskDomainRelaunch",
 }));
 
 export type CreateMeTaskEmailChangeRefuseError = OvhOpError;
@@ -7357,6 +7515,8 @@ export const createMeTaskEmailChangeRefuse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTaskEmailChangeRefuse",
 }));
 
 export type CreateMeTelephonyDefaultIpRestrictionError = OvhOpError;
@@ -7372,6 +7532,8 @@ export const createMeTelephonyDefaultIpRestriction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTelephonyDefaultIpRestriction",
 }));
 
 export type CreateMeTelephonySettingsError = OvhOpError;
@@ -7387,6 +7549,8 @@ export const createMeTelephonySettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeTelephonySettings",
 }));
 
 export type CreateMeXdslSettingError = OvhOpError;
@@ -7402,6 +7566,8 @@ export const createMeXdslSetting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeXdslSetting",
 }));
 
 export type DeleteMeAccessRestrictionBackupCodeError = OvhOpError;
@@ -7417,6 +7583,8 @@ export const deleteMeAccessRestrictionBackupCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeAccessRestrictionBackupCode",
 }));
 
 export type DeleteMeAccessRestrictionIpError = OvhOpError;
@@ -7432,6 +7600,8 @@ export const deleteMeAccessRestrictionIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeAccessRestrictionIp",
 }));
 
 export type DeleteMeAccessRestrictionSmsError = OvhOpError;
@@ -7447,6 +7617,8 @@ export const deleteMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeAccessRestrictionSms",
 }));
 
 export type DeleteMeAccessRestrictionTotpError = OvhOpError;
@@ -7462,6 +7634,8 @@ export const deleteMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeAccessRestrictionTotp",
 }));
 
 export type DeleteMeAccessRestrictionU2fError = OvhOpError;
@@ -7477,6 +7651,8 @@ export const deleteMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeAccessRestrictionU2f",
 }));
 
 export type DeleteMeApplicationError = OvhOpError;
@@ -7492,6 +7668,8 @@ export const deleteMeApplication: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeApplication",
 }));
 
 export type DeleteMeBillingGroupError = OvhOpError;
@@ -7507,6 +7685,8 @@ export const deleteMeBillingGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeBillingGroup",
 }));
 
 export type DeleteMeBillingGroupServiceError = OvhOpError;
@@ -7522,6 +7702,8 @@ export const deleteMeBillingGroupService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeBillingGroupService",
 }));
 
 export type DeleteMeBillingPurchaseOrderError = OvhOpError;
@@ -7537,6 +7719,8 @@ export const deleteMeBillingPurchaseOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeBillingPurchaseOrder",
 }));
 
 export type DeleteMeCredentialError = OvhOpError;
@@ -7552,6 +7736,8 @@ export const deleteMeCredential: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeCredential",
 }));
 
 export type DeleteMeDocumentError = OvhOpError;
@@ -7567,6 +7753,8 @@ export const deleteMeDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeDocument",
 }));
 
 export type DeleteMeFaxCustomDomainError = OvhOpError;
@@ -7582,6 +7770,8 @@ export const deleteMeFaxCustomDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeFaxCustomDomain",
 }));
 
 export type DeleteMeIdentityGroupError = OvhOpError;
@@ -7597,6 +7787,8 @@ export const deleteMeIdentityGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeIdentityGroup",
 }));
 
 export type DeleteMeIdentityGroupUserError = OvhOpError;
@@ -7612,6 +7804,8 @@ export const deleteMeIdentityGroupUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeIdentityGroupUser",
 }));
 
 export type DeleteMeIdentityProviderError = OvhOpError;
@@ -7627,6 +7821,8 @@ export const deleteMeIdentityProvider: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeIdentityProvider",
 }));
 
 export type DeleteMeIdentityUserError = OvhOpError;
@@ -7642,6 +7838,8 @@ export const deleteMeIdentityUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeIdentityUser",
 }));
 
 export type DeleteMeIdentityUserTokenError = OvhOpError;
@@ -7657,6 +7855,8 @@ export const deleteMeIdentityUserToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeIdentityUserToken",
 }));
 
 export type DeleteMeIpOrganisationError = OvhOpError;
@@ -7672,6 +7872,8 @@ export const deleteMeIpOrganisation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeIpOrganisation",
 }));
 
 export type DeleteMeLogAuditLogSubscriptionError = OvhOpError;
@@ -7687,6 +7889,8 @@ export const deleteMeLogAuditLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeLogAuditLogSubscription",
 }));
 
 export type DeleteMeLogSubscriptionError = OvhOpError;
@@ -7702,6 +7906,8 @@ export const deleteMeLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeLogSubscription",
 }));
 
 export type DeleteMeOauth2ClientError = OvhOpError;
@@ -7717,6 +7923,8 @@ export const deleteMeOauth2Client: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeOauth2Client",
 }));
 
 export type DeleteMeOauth2TokenError = OvhOpError;
@@ -7732,6 +7940,8 @@ export const deleteMeOauth2Token: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeOauth2Token",
 }));
 
 export type DeleteMeOrderBalanceError = OvhOpError;
@@ -7747,6 +7957,8 @@ export const deleteMeOrderBalance: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeOrderBalance",
 }));
 
 export type DeleteMePaymentMethodError = OvhOpError;
@@ -7762,6 +7974,8 @@ export const deleteMePaymentMethod: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMePaymentMethod",
 }));
 
 export type DeleteMePreferenceManagerError = OvhOpError;
@@ -7777,6 +7991,8 @@ export const deleteMePreferenceManager: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMePreferenceManager",
 }));
 
 export type DeleteMeSshKeyError = OvhOpError;
@@ -7792,6 +8008,8 @@ export const deleteMeSshKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeSshKey",
 }));
 
 export type DeleteMeTagError = OvhOpError;
@@ -7807,6 +8025,8 @@ export const deleteMeTag: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeTag",
 }));
 
 export type DeleteMeTelephonyDefaultIpRestrictionError = OvhOpError;
@@ -7822,6 +8042,8 @@ export const deleteMeTelephonyDefaultIpRestriction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMeTelephonyDefaultIpRestriction",
 }));
 
 export type DisableMeAccessRestrictionBackupCodeError = OvhOpError;
@@ -7837,6 +8059,8 @@ export const disableMeAccessRestrictionBackupCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMeAccessRestrictionBackupCode",
 }));
 
 export type DisableMeAccessRestrictionSmsError = OvhOpError;
@@ -7852,6 +8076,8 @@ export const disableMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMeAccessRestrictionSms",
 }));
 
 export type DisableMeAccessRestrictionTotpError = OvhOpError;
@@ -7867,6 +8093,8 @@ export const disableMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMeAccessRestrictionTotp",
 }));
 
 export type DisableMeAccessRestrictionU2fError = OvhOpError;
@@ -7882,6 +8110,8 @@ export const disableMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMeAccessRestrictionU2f",
 }));
 
 export type DisableMeIdentityUserError = OvhOpError;
@@ -7897,6 +8127,8 @@ export const disableMeIdentityUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMeIdentityUser",
 }));
 
 export type EditAccountDetailsError = OvhOpError;
@@ -7912,6 +8144,8 @@ export const editAccountDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditAccountDetails",
 }));
 
 export type EnableMeAccessRestrictionBackupCodeError = OvhOpError;
@@ -7927,6 +8161,8 @@ export const enableMeAccessRestrictionBackupCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableMeAccessRestrictionBackupCode",
 }));
 
 export type EnableMeAccessRestrictionSmsError = OvhOpError;
@@ -7942,6 +8178,8 @@ export const enableMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableMeAccessRestrictionSms",
 }));
 
 export type EnableMeAccessRestrictionTotpError = OvhOpError;
@@ -7957,6 +8195,8 @@ export const enableMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableMeAccessRestrictionTotp",
 }));
 
 export type EnableMeAccessRestrictionU2fError = OvhOpError;
@@ -7972,6 +8212,8 @@ export const enableMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableMeAccessRestrictionU2f",
 }));
 
 export type EnableMeIdentityUserError = OvhOpError;
@@ -7987,6 +8229,8 @@ export const enableMeIdentityUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableMeIdentityUser",
 }));
 
 export type ExportMeBillError = OvhOpError;
@@ -8002,6 +8246,8 @@ export const exportMeBill: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportMeBill",
 }));
 
 export type ExportMeRefundError = OvhOpError;
@@ -8017,6 +8263,8 @@ export const exportMeRefund: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportMeRefund",
 }));
 
 export type FinalizeMePaymentMethodError = OvhOpError;
@@ -8032,6 +8280,8 @@ export const finalizeMePaymentMethod: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeMePaymentMethod",
 }));
 
 export type GetAccountDetailsError = OvhOpError;
@@ -8047,6 +8297,8 @@ export const getAccountDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountDetails",
 }));
 
 export type GetCertificatesError = OvhOpError;
@@ -8062,6 +8314,8 @@ export const getCertificates: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificates",
 }));
 
 export type GetMeAbuseError = OvhOpError;
@@ -8077,6 +8331,8 @@ export const getMeAbuse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAbuse",
 }));
 
 export type GetMeAccessRestrictionBackupCodeError = OvhOpError;
@@ -8092,6 +8348,8 @@ export const getMeAccessRestrictionBackupCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAccessRestrictionBackupCode",
 }));
 
 export type GetMeAccessRestrictionDeveloperModeError = OvhOpError;
@@ -8107,6 +8365,8 @@ export const getMeAccessRestrictionDeveloperMode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAccessRestrictionDeveloperMode",
 }));
 
 export type GetMeAccessRestrictionIpError = OvhOpError;
@@ -8122,6 +8382,8 @@ export const getMeAccessRestrictionIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAccessRestrictionIp",
 }));
 
 export type GetMeAccessRestrictionIpDefaultRuleError = OvhOpError;
@@ -8137,6 +8399,8 @@ export const getMeAccessRestrictionIpDefaultRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAccessRestrictionIpDefaultRule",
 }));
 
 export type GetMeAccessRestrictionSmsError = OvhOpError;
@@ -8152,6 +8416,8 @@ export const getMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAccessRestrictionSms",
 }));
 
 export type GetMeAccessRestrictionTotpError = OvhOpError;
@@ -8167,6 +8433,8 @@ export const getMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAccessRestrictionTotp",
 }));
 
 export type GetMeAccessRestrictionU2fError = OvhOpError;
@@ -8182,6 +8450,8 @@ export const getMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAccessRestrictionU2f",
 }));
 
 export type GetMeAgreementError = OvhOpError;
@@ -8197,6 +8467,8 @@ export const getMeAgreement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAgreement",
 }));
 
 export type GetMeAgreementContractError = OvhOpError;
@@ -8212,6 +8484,8 @@ export const getMeAgreementContract: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAgreementContract",
 }));
 
 export type GetMeApplicationError = OvhOpError;
@@ -8227,6 +8501,8 @@ export const getMeApplication: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeApplication",
 }));
 
 export type GetMeAutorenewError = OvhOpError;
@@ -8242,6 +8518,8 @@ export const getMeAutorenew: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAutorenew",
 }));
 
 export type GetMeAvailableAutomaticPaymentMeansError = OvhOpError;
@@ -8257,6 +8535,8 @@ export const getMeAvailableAutomaticPaymentMeans: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeAvailableAutomaticPaymentMeans",
 }));
 
 export type GetMeBillError = OvhOpError;
@@ -8272,6 +8552,8 @@ export const getMeBill: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBill",
 }));
 
 export type GetMeBillDebtError = OvhOpError;
@@ -8287,6 +8569,8 @@ export const getMeBillDebt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillDebt",
 }));
 
 export type GetMeBillDebtOperationError = OvhOpError;
@@ -8302,6 +8586,8 @@ export const getMeBillDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillDebtOperation",
 }));
 
 export type GetMeBillDebtOperationAssociatedObjectError = OvhOpError;
@@ -8317,6 +8603,8 @@ export const getMeBillDebtOperationAssociatedObject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillDebtOperationAssociatedObject",
 }));
 
 export type GetMeBillDetailError = OvhOpError;
@@ -8332,6 +8620,8 @@ export const getMeBillDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillDetail",
 }));
 
 export type GetMeBillingCapacitiesError = OvhOpError;
@@ -8347,6 +8637,8 @@ export const getMeBillingCapacities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillingCapacities",
 }));
 
 export type GetMeBillingGroupError = OvhOpError;
@@ -8362,6 +8654,8 @@ export const getMeBillingGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillingGroup",
 }));
 
 export type GetMeBillingGroupServiceError = OvhOpError;
@@ -8377,6 +8671,8 @@ export const getMeBillingGroupService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillingGroupService",
 }));
 
 export type GetMeBillingInvoicesByPostalMailError = OvhOpError;
@@ -8392,6 +8688,8 @@ export const getMeBillingInvoicesByPostalMail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillingInvoicesByPostalMail",
 }));
 
 export type GetMeBillingPurchaseOrderError = OvhOpError;
@@ -8407,6 +8705,8 @@ export const getMeBillingPurchaseOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillingPurchaseOrder",
 }));
 
 export type GetMeBillingReportConsumptionError = OvhOpError;
@@ -8422,6 +8722,8 @@ export const getMeBillingReportConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillingReportConsumption",
 }));
 
 export type GetMeBillingTaskError = OvhOpError;
@@ -8437,6 +8739,8 @@ export const getMeBillingTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillingTask",
 }));
 
 export type GetMeBillPaymentError = OvhOpError;
@@ -8452,6 +8756,8 @@ export const getMeBillPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBillPayment",
 }));
 
 export type GetMeBringYourOwnIpTokenError = OvhOpError;
@@ -8467,6 +8773,8 @@ export const getMeBringYourOwnIpToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeBringYourOwnIpToken",
 }));
 
 export type GetMeCarbonCalculatorHasInvoiceError = OvhOpError;
@@ -8482,6 +8790,8 @@ export const getMeCarbonCalculatorHasInvoice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCarbonCalculatorHasInvoice",
 }));
 
 export type GetMeCarbonCalculatorTaskError = OvhOpError;
@@ -8497,6 +8807,8 @@ export const getMeCarbonCalculatorTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCarbonCalculatorTask",
 }));
 
 export type GetMeConsentError = OvhOpError;
@@ -8512,6 +8824,8 @@ export const getMeConsent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeConsent",
 }));
 
 export type GetMeContactError = OvhOpError;
@@ -8527,6 +8841,8 @@ export const getMeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeContact",
 }));
 
 export type GetMeCorrectiveInvoiceError = OvhOpError;
@@ -8542,6 +8858,8 @@ export const getMeCorrectiveInvoice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCorrectiveInvoice",
 }));
 
 export type GetMeCorrectiveInvoiceDebtError = OvhOpError;
@@ -8557,6 +8875,8 @@ export const getMeCorrectiveInvoiceDebt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCorrectiveInvoiceDebt",
 }));
 
 export type GetMeCorrectiveInvoiceDebtOperationError = OvhOpError;
@@ -8572,6 +8892,8 @@ export const getMeCorrectiveInvoiceDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCorrectiveInvoiceDebtOperation",
 }));
 
 export type GetMeCorrectiveInvoiceDebtOperationAssociatedObjectError = OvhOpError;
@@ -8591,6 +8913,8 @@ export const getMeCorrectiveInvoiceDebtOperationAssociatedObject: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCorrectiveInvoiceDebtOperationAssociatedObject",
 }));
 
 export type GetMeCorrectiveInvoiceDetailError = OvhOpError;
@@ -8606,6 +8930,8 @@ export const getMeCorrectiveInvoiceDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCorrectiveInvoiceDetail",
 }));
 
 export type GetMeCorrectiveInvoicePaymentError = OvhOpError;
@@ -8621,6 +8947,8 @@ export const getMeCorrectiveInvoicePayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCorrectiveInvoicePayment",
 }));
 
 export type GetMeCredentialError = OvhOpError;
@@ -8636,6 +8964,8 @@ export const getMeCredential: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCredential",
 }));
 
 export type GetMeCredentialApplicationError = OvhOpError;
@@ -8651,6 +8981,8 @@ export const getMeCredentialApplication: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCredentialApplication",
 }));
 
 export type GetMeCreditBalanceError = OvhOpError;
@@ -8666,6 +8998,8 @@ export const getMeCreditBalance: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCreditBalance",
 }));
 
 export type GetMeCreditBalanceMovementError = OvhOpError;
@@ -8681,6 +9015,8 @@ export const getMeCreditBalanceMovement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeCreditBalanceMovement",
 }));
 
 export type GetMeDebtAccountError = OvhOpError;
@@ -8696,6 +9032,8 @@ export const getMeDebtAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDebtAccount",
 }));
 
 export type GetMeDebtAccountDebtError = OvhOpError;
@@ -8711,6 +9049,8 @@ export const getMeDebtAccountDebt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDebtAccountDebt",
 }));
 
 export type GetMeDebtAccountDebtOperationError = OvhOpError;
@@ -8726,6 +9066,8 @@ export const getMeDebtAccountDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDebtAccountDebtOperation",
 }));
 
 export type GetMeDebtAccountDebtOperationAssociatedObjectError = OvhOpError;
@@ -8745,6 +9087,8 @@ export const getMeDebtAccountDebtOperationAssociatedObject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDebtAccountDebtOperationAssociatedObject",
 }));
 
 export type GetMeDepositError = OvhOpError;
@@ -8760,6 +9104,8 @@ export const getMeDeposit: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDeposit",
 }));
 
 export type GetMeDepositDetailError = OvhOpError;
@@ -8775,6 +9121,8 @@ export const getMeDepositDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositDetail",
 }));
 
 export type GetMeDepositPaidBillError = OvhOpError;
@@ -8790,6 +9138,8 @@ export const getMeDepositPaidBill: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositPaidBill",
 }));
 
 export type GetMeDepositPaidBillDebtError = OvhOpError;
@@ -8805,6 +9155,8 @@ export const getMeDepositPaidBillDebt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositPaidBillDebt",
 }));
 
 export type GetMeDepositPaidBillDebtOperationError = OvhOpError;
@@ -8820,6 +9172,8 @@ export const getMeDepositPaidBillDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositPaidBillDebtOperation",
 }));
 
 export type GetMeDepositPaidBillDebtOperationAssociatedObjectError = OvhOpError;
@@ -8839,6 +9193,8 @@ export const getMeDepositPaidBillDebtOperationAssociatedObject: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositPaidBillDebtOperationAssociatedObject",
 }));
 
 export type GetMeDepositPaidBillDetailError = OvhOpError;
@@ -8854,6 +9210,8 @@ export const getMeDepositPaidBillDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositPaidBillDetail",
 }));
 
 export type GetMeDepositPaidBillPaymentError = OvhOpError;
@@ -8869,6 +9227,8 @@ export const getMeDepositPaidBillPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositPaidBillPayment",
 }));
 
 export type GetMeDepositPaymentError = OvhOpError;
@@ -8884,6 +9244,8 @@ export const getMeDepositPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDepositPayment",
 }));
 
 export type GetMeDocumentError = OvhOpError;
@@ -8899,6 +9261,8 @@ export const getMeDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDocument",
 }));
 
 export type GetMeDownPaymentInvoiceError = OvhOpError;
@@ -8914,6 +9278,8 @@ export const getMeDownPaymentInvoice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDownPaymentInvoice",
 }));
 
 export type GetMeDownPaymentInvoiceDebtError = OvhOpError;
@@ -8929,6 +9295,8 @@ export const getMeDownPaymentInvoiceDebt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDownPaymentInvoiceDebt",
 }));
 
 export type GetMeDownPaymentInvoiceDebtOperationError = OvhOpError;
@@ -8944,6 +9312,8 @@ export const getMeDownPaymentInvoiceDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDownPaymentInvoiceDebtOperation",
 }));
 
 export type GetMeDownPaymentInvoiceDebtOperationAssociatedObjectError = OvhOpError;
@@ -8963,6 +9333,8 @@ export const getMeDownPaymentInvoiceDebtOperationAssociatedObject: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDownPaymentInvoiceDebtOperationAssociatedObject",
 }));
 
 export type GetMeDownPaymentInvoiceDetailError = OvhOpError;
@@ -8978,6 +9350,8 @@ export const getMeDownPaymentInvoiceDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDownPaymentInvoiceDetail",
 }));
 
 export type GetMeDownPaymentInvoicePaymentError = OvhOpError;
@@ -8993,6 +9367,8 @@ export const getMeDownPaymentInvoicePayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeDownPaymentInvoicePayment",
 }));
 
 export type GetMeFaxCustomDomainError = OvhOpError;
@@ -9008,6 +9384,8 @@ export const getMeFaxCustomDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeFaxCustomDomain",
 }));
 
 export type GetMeFidelityAccountError = OvhOpError;
@@ -9023,6 +9401,8 @@ export const getMeFidelityAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeFidelityAccount",
 }));
 
 export type GetMeFidelityAccountMovementError = OvhOpError;
@@ -9038,6 +9418,8 @@ export const getMeFidelityAccountMovement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeFidelityAccountMovement",
 }));
 
 export type GetMeIdentityGroupError = OvhOpError;
@@ -9053,6 +9435,8 @@ export const getMeIdentityGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeIdentityGroup",
 }));
 
 export type GetMeIdentityProviderError = OvhOpError;
@@ -9068,6 +9452,8 @@ export const getMeIdentityProvider: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeIdentityProvider",
 }));
 
 export type GetMeIdentityProviderSamlServiceProviderInfoError = OvhOpError;
@@ -9087,6 +9473,8 @@ export const getMeIdentityProviderSamlServiceProviderInfo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeIdentityProviderSamlServiceProviderInfo",
 }));
 
 export type GetMeIdentityUserError = OvhOpError;
@@ -9102,6 +9490,8 @@ export const getMeIdentityUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeIdentityUser",
 }));
 
 export type GetMeIdentityUserTokenError = OvhOpError;
@@ -9117,6 +9507,8 @@ export const getMeIdentityUserToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeIdentityUserToken",
 }));
 
 export type GetMeInsightError = OvhOpError;
@@ -9132,6 +9524,8 @@ export const getMeInsight: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeInsight",
 }));
 
 export type GetMeIpOrganisationError = OvhOpError;
@@ -9147,6 +9541,8 @@ export const getMeIpOrganisation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeIpOrganisation",
 }));
 
 export type GetMeLogAuditLogKindError = OvhOpError;
@@ -9162,6 +9558,8 @@ export const getMeLogAuditLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeLogAuditLogKind",
 }));
 
 export type GetMeLogAuditLogSubscriptionError = OvhOpError;
@@ -9177,6 +9575,8 @@ export const getMeLogAuditLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeLogAuditLogSubscription",
 }));
 
 export type GetMeLogKindError = OvhOpError;
@@ -9192,6 +9592,8 @@ export const getMeLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeLogKind",
 }));
 
 export type GetMeLogSelfError = OvhOpError;
@@ -9207,6 +9609,8 @@ export const getMeLogSelf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeLogSelf",
 }));
 
 export type GetMeLogServiceError = OvhOpError;
@@ -9222,6 +9626,8 @@ export const getMeLogService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeLogService",
 }));
 
 export type GetMeLogSubscriptionError = OvhOpError;
@@ -9237,6 +9643,8 @@ export const getMeLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeLogSubscription",
 }));
 
 export type GetMeManualDomainPaymentError = OvhOpError;
@@ -9252,6 +9660,8 @@ export const getMeManualDomainPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeManualDomainPayment",
 }));
 
 export type GetMeMarketingError = OvhOpError;
@@ -9267,6 +9677,8 @@ export const getMeMarketing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeMarketing",
 }));
 
 export type GetMeMigrationError = OvhOpError;
@@ -9282,6 +9694,8 @@ export const getMeMigration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeMigration",
 }));
 
 export type GetMeMigrationContractError = OvhOpError;
@@ -9297,6 +9711,8 @@ export const getMeMigrationContract: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeMigrationContract",
 }));
 
 export type GetMeMigrationContractAgreementError = OvhOpError;
@@ -9312,6 +9728,8 @@ export const getMeMigrationContractAgreement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeMigrationContractAgreement",
 }));
 
 export type GetMeNotificationEmailHistoryError = OvhOpError;
@@ -9327,6 +9745,8 @@ export const getMeNotificationEmailHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeNotificationEmailHistory",
 }));
 
 export type GetMeOauth2ClientError = OvhOpError;
@@ -9341,6 +9761,8 @@ export const getMeOauth2Client: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOauth2Client",
 }));
 
 export type GetMeOauth2TokenError = OvhOpError;
@@ -9355,6 +9777,8 @@ export const getMeOauth2Token: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOauth2Token",
 }));
 
 export type GetMeOrderError = OvhOpError;
@@ -9370,6 +9794,8 @@ export const getMeOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrder",
 }));
 
 export type GetMeOrderAssociatedObjectError = OvhOpError;
@@ -9385,6 +9811,8 @@ export const getMeOrderAssociatedObject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderAssociatedObject",
 }));
 
 export type GetMeOrderBalanceError = OvhOpError;
@@ -9400,6 +9828,8 @@ export const getMeOrderBalance: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderBalance",
 }));
 
 export type GetMeOrderConsumptionDetailsError = OvhOpError;
@@ -9415,6 +9845,8 @@ export const getMeOrderConsumptionDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderConsumptionDetails",
 }));
 
 export type GetMeOrderDebtError = OvhOpError;
@@ -9430,6 +9862,8 @@ export const getMeOrderDebt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderDebt",
 }));
 
 export type GetMeOrderDebtOperationError = OvhOpError;
@@ -9445,6 +9879,8 @@ export const getMeOrderDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderDebtOperation",
 }));
 
 export type GetMeOrderDebtOperationAssociatedObjectError = OvhOpError;
@@ -9460,6 +9896,8 @@ export const getMeOrderDebtOperationAssociatedObject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderDebtOperationAssociatedObject",
 }));
 
 export type GetMeOrderDetailError = OvhOpError;
@@ -9475,6 +9913,8 @@ export const getMeOrderDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderDetail",
 }));
 
 export type GetMeOrderDetailExtensionError = OvhOpError;
@@ -9490,6 +9930,8 @@ export const getMeOrderDetailExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderDetailExtension",
 }));
 
 export type GetMeOrderPaymentError = OvhOpError;
@@ -9505,6 +9947,8 @@ export const getMeOrderPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderPayment",
 }));
 
 export type GetMeOrderStatusError = OvhOpError;
@@ -9520,6 +9964,8 @@ export const getMeOrderStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOrderStatus",
 }));
 
 export type GetMeOvhAccountError = OvhOpError;
@@ -9535,6 +9981,8 @@ export const getMeOvhAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOvhAccount",
 }));
 
 export type GetMeOvhAccountMoneyError = OvhOpError;
@@ -9550,6 +9998,8 @@ export const getMeOvhAccountMoney: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOvhAccountMoney",
 }));
 
 export type GetMeOvhAccountMovementError = OvhOpError;
@@ -9565,6 +10015,8 @@ export const getMeOvhAccountMovement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeOvhAccountMovement",
 }));
 
 export type GetMePartnerLevelError = OvhOpError;
@@ -9580,6 +10032,8 @@ export const getMePartnerLevel: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMePartnerLevel",
 }));
 
 export type GetMePaymentMeanDeferredPaymentAccountError = OvhOpError;
@@ -9595,6 +10049,8 @@ export const getMePaymentMeanDeferredPaymentAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMePaymentMeanDeferredPaymentAccount",
 }));
 
 export type GetMePaymentMethodError = OvhOpError;
@@ -9610,6 +10066,8 @@ export const getMePaymentMethod: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMePaymentMethod",
 }));
 
 export type GetMePaymentTransactionError = OvhOpError;
@@ -9625,6 +10083,8 @@ export const getMePaymentTransaction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMePaymentTransaction",
 }));
 
 export type GetMePreferenceManagerError = OvhOpError;
@@ -9640,6 +10100,8 @@ export const getMePreferenceManager: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMePreferenceManager",
 }));
 
 export type GetMeRefundError = OvhOpError;
@@ -9655,6 +10117,8 @@ export const getMeRefund: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeRefund",
 }));
 
 export type GetMeRefundDetailError = OvhOpError;
@@ -9670,6 +10134,8 @@ export const getMeRefundDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeRefundDetail",
 }));
 
 export type GetMeRefundPaymentError = OvhOpError;
@@ -9685,6 +10151,8 @@ export const getMeRefundPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeRefundPayment",
 }));
 
 export type GetMeReverseBillError = OvhOpError;
@@ -9700,6 +10168,8 @@ export const getMeReverseBill: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeReverseBill",
 }));
 
 export type GetMeReverseBillDetailError = OvhOpError;
@@ -9715,6 +10185,8 @@ export const getMeReverseBillDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeReverseBillDetail",
 }));
 
 export type GetMeReverseBillPaymentError = OvhOpError;
@@ -9730,6 +10202,8 @@ export const getMeReverseBillPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeReverseBillPayment",
 }));
 
 export type GetMeSlaError = OvhOpError;
@@ -9745,6 +10219,8 @@ export const getMeSla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeSla",
 }));
 
 export type GetMeSlaCanBeAppliedError = OvhOpError;
@@ -9760,6 +10236,8 @@ export const getMeSlaCanBeApplied: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeSlaCanBeApplied",
 }));
 
 export type GetMeSlaStatusError = OvhOpError;
@@ -9775,6 +10253,8 @@ export const getMeSlaStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeSlaStatus",
 }));
 
 export type GetMeSshKeyError = OvhOpError;
@@ -9790,6 +10270,8 @@ export const getMeSshKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeSshKey",
 }));
 
 export type GetMeSubAccountError = OvhOpError;
@@ -9805,6 +10287,8 @@ export const getMeSubAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeSubAccount",
 }));
 
 export type GetMeSupportLevelError = OvhOpError;
@@ -9820,6 +10304,8 @@ export const getMeSupportLevel: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeSupportLevel",
 }));
 
 export type GetMeTagError = OvhOpError;
@@ -9831,6 +10317,8 @@ export const getMeTag: API.OperationMethod<GetMeTagRequest, MeTagTag, GetMeTagEr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetMeTag",
   }));
 
 export type GetMeTaskContactChangeError = OvhOpError;
@@ -9846,6 +10334,8 @@ export const getMeTaskContactChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTaskContactChange",
 }));
 
 export type GetMeTaskDnsError = OvhOpError;
@@ -9861,6 +10351,8 @@ export const getMeTaskDns: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTaskDns",
 }));
 
 export type GetMeTaskDomainError = OvhOpError;
@@ -9876,6 +10368,8 @@ export const getMeTaskDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTaskDomain",
 }));
 
 export type GetMeTaskDomainArgumentError = OvhOpError;
@@ -9891,6 +10385,8 @@ export const getMeTaskDomainArgument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTaskDomainArgument",
 }));
 
 export type GetMeTaskDomainProgressbarError = OvhOpError;
@@ -9906,6 +10402,8 @@ export const getMeTaskDomainProgressbar: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTaskDomainProgressbar",
 }));
 
 export type GetMeTaskEmailChangeError = OvhOpError;
@@ -9921,6 +10419,8 @@ export const getMeTaskEmailChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTaskEmailChange",
 }));
 
 export type GetMeTelephonyDefaultIpRestrictionError = OvhOpError;
@@ -9936,6 +10436,8 @@ export const getMeTelephonyDefaultIpRestriction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTelephonyDefaultIpRestriction",
 }));
 
 export type GetMeTelephonySettingsError = OvhOpError;
@@ -9951,6 +10453,8 @@ export const getMeTelephonySettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeTelephonySettings",
 }));
 
 export type GetMeVipStatusError = OvhOpError;
@@ -9966,6 +10470,8 @@ export const getMeVipStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeVipStatus",
 }));
 
 export type GetMeVoucherAccountError = OvhOpError;
@@ -9981,6 +10487,8 @@ export const getMeVoucherAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeVoucherAccount",
 }));
 
 export type GetMeVoucherAccountMovementError = OvhOpError;
@@ -9996,6 +10504,8 @@ export const getMeVoucherAccountMovement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeVoucherAccountMovement",
 }));
 
 export type GetMeWithdrawalError = OvhOpError;
@@ -10011,6 +10521,8 @@ export const getMeWithdrawal: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeWithdrawal",
 }));
 
 export type GetMeWithdrawalDetailError = OvhOpError;
@@ -10026,6 +10538,8 @@ export const getMeWithdrawalDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeWithdrawalDetail",
 }));
 
 export type GetMeWithdrawalPaymentError = OvhOpError;
@@ -10041,6 +10555,8 @@ export const getMeWithdrawalPayment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeWithdrawalPayment",
 }));
 
 export type GetMeXdslSettingError = OvhOpError;
@@ -10056,6 +10572,8 @@ export const getMeXdslSetting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeXdslSetting",
 }));
 
 export type ListMeAbuseError = OvhOpError;
@@ -10071,6 +10589,8 @@ export const listMeAbuse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeAbuse",
 }));
 
 export type ListMeAccessRestrictionIpError = OvhOpError;
@@ -10086,6 +10606,8 @@ export const listMeAccessRestrictionIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeAccessRestrictionIp",
 }));
 
 export type ListMeAccessRestrictionSmsError = OvhOpError;
@@ -10101,6 +10623,8 @@ export const listMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeAccessRestrictionSms",
 }));
 
 export type ListMeAccessRestrictionTotpError = OvhOpError;
@@ -10116,6 +10640,8 @@ export const listMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeAccessRestrictionTotp",
 }));
 
 export type ListMeAccessRestrictionU2fError = OvhOpError;
@@ -10131,6 +10657,8 @@ export const listMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeAccessRestrictionU2f",
 }));
 
 export type ListMeAgreementsError = OvhOpError;
@@ -10146,6 +10674,8 @@ export const listMeAgreements: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeAgreements",
 }));
 
 export type ListMeApplicationError = OvhOpError;
@@ -10161,6 +10691,8 @@ export const listMeApplication: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeApplication",
 }));
 
 export type ListMeBillError = OvhOpError;
@@ -10176,6 +10708,8 @@ export const listMeBill: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBill",
 }));
 
 export type ListMeBillDebtOperationError = OvhOpError;
@@ -10191,6 +10725,8 @@ export const listMeBillDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBillDebtOperation",
 }));
 
 export type ListMeBillDetailsError = OvhOpError;
@@ -10206,6 +10742,8 @@ export const listMeBillDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBillDetails",
 }));
 
 export type ListMeBillingGroupError = OvhOpError;
@@ -10221,6 +10759,8 @@ export const listMeBillingGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBillingGroup",
 }));
 
 export type ListMeBillingGroupServiceError = OvhOpError;
@@ -10236,6 +10776,8 @@ export const listMeBillingGroupService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBillingGroupService",
 }));
 
 export type ListMeBillingPurchaseOrderError = OvhOpError;
@@ -10251,6 +10793,8 @@ export const listMeBillingPurchaseOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBillingPurchaseOrder",
 }));
 
 export type ListMeBillingReportConsumptionError = OvhOpError;
@@ -10266,6 +10810,8 @@ export const listMeBillingReportConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBillingReportConsumption",
 }));
 
 export type ListMeBillingTaskError = OvhOpError;
@@ -10281,6 +10827,8 @@ export const listMeBillingTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeBillingTask",
 }));
 
 export type ListMeCarbonCalculatorTaskError = OvhOpError;
@@ -10296,6 +10844,8 @@ export const listMeCarbonCalculatorTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeCarbonCalculatorTask",
 }));
 
 export type ListMeConsentError = OvhOpError;
@@ -10311,6 +10861,8 @@ export const listMeConsent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeConsent",
 }));
 
 export type ListMeConsentDecisionError = OvhOpError;
@@ -10326,6 +10878,8 @@ export const listMeConsentDecision: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeConsentDecision",
 }));
 
 export type ListMeConsumptionUsageCurrentError = OvhOpError;
@@ -10341,6 +10895,8 @@ export const listMeConsumptionUsageCurrent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeConsumptionUsageCurrent",
 }));
 
 export type ListMeConsumptionUsageForecastError = OvhOpError;
@@ -10356,6 +10912,8 @@ export const listMeConsumptionUsageForecast: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeConsumptionUsageForecast",
 }));
 
 export type ListMeConsumptionUsageHistoryError = OvhOpError;
@@ -10371,6 +10929,8 @@ export const listMeConsumptionUsageHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeConsumptionUsageHistory",
 }));
 
 export type ListMeContactError = OvhOpError;
@@ -10386,6 +10946,8 @@ export const listMeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeContact",
 }));
 
 export type ListMeContactFieldsError = OvhOpError;
@@ -10401,6 +10963,8 @@ export const listMeContactFields: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeContactFields",
 }));
 
 export type ListMeCorrectiveInvoiceError = OvhOpError;
@@ -10416,6 +10980,8 @@ export const listMeCorrectiveInvoice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeCorrectiveInvoice",
 }));
 
 export type ListMeCorrectiveInvoiceDebtOperationError = OvhOpError;
@@ -10431,6 +10997,8 @@ export const listMeCorrectiveInvoiceDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeCorrectiveInvoiceDebtOperation",
 }));
 
 export type ListMeCorrectiveInvoiceDetailsError = OvhOpError;
@@ -10446,6 +11014,8 @@ export const listMeCorrectiveInvoiceDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeCorrectiveInvoiceDetails",
 }));
 
 export type ListMeCredentialError = OvhOpError;
@@ -10461,6 +11031,8 @@ export const listMeCredential: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeCredential",
 }));
 
 export type ListMeCreditBalanceError = OvhOpError;
@@ -10476,6 +11048,8 @@ export const listMeCreditBalance: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeCreditBalance",
 }));
 
 export type ListMeCreditBalanceMovementError = OvhOpError;
@@ -10491,6 +11065,8 @@ export const listMeCreditBalanceMovement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeCreditBalanceMovement",
 }));
 
 export type ListMeDebtAccountDebtError = OvhOpError;
@@ -10506,6 +11082,8 @@ export const listMeDebtAccountDebt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDebtAccountDebt",
 }));
 
 export type ListMeDebtAccountDebtOperationError = OvhOpError;
@@ -10521,6 +11099,8 @@ export const listMeDebtAccountDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDebtAccountDebtOperation",
 }));
 
 export type ListMeDepositError = OvhOpError;
@@ -10536,6 +11116,8 @@ export const listMeDeposit: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDeposit",
 }));
 
 export type ListMeDepositDetailsError = OvhOpError;
@@ -10551,6 +11133,8 @@ export const listMeDepositDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDepositDetails",
 }));
 
 export type ListMeDepositPaidBillDebtOperationError = OvhOpError;
@@ -10566,6 +11150,8 @@ export const listMeDepositPaidBillDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDepositPaidBillDebtOperation",
 }));
 
 export type ListMeDepositPaidBillDetailsError = OvhOpError;
@@ -10581,6 +11167,8 @@ export const listMeDepositPaidBillDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDepositPaidBillDetails",
 }));
 
 export type ListMeDepositPaidBillsError = OvhOpError;
@@ -10596,6 +11184,8 @@ export const listMeDepositPaidBills: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDepositPaidBills",
 }));
 
 export type ListMeDocumentError = OvhOpError;
@@ -10611,6 +11201,8 @@ export const listMeDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDocument",
 }));
 
 export type ListMeDownPaymentInvoiceError = OvhOpError;
@@ -10626,6 +11218,8 @@ export const listMeDownPaymentInvoice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDownPaymentInvoice",
 }));
 
 export type ListMeDownPaymentInvoiceDebtOperationError = OvhOpError;
@@ -10641,6 +11235,8 @@ export const listMeDownPaymentInvoiceDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDownPaymentInvoiceDebtOperation",
 }));
 
 export type ListMeDownPaymentInvoiceDetailsError = OvhOpError;
@@ -10656,6 +11252,8 @@ export const listMeDownPaymentInvoiceDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeDownPaymentInvoiceDetails",
 }));
 
 export type ListMeFaxCustomDomainsError = OvhOpError;
@@ -10671,6 +11269,8 @@ export const listMeFaxCustomDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeFaxCustomDomains",
 }));
 
 export type ListMeFidelityAccountMovementsError = OvhOpError;
@@ -10686,6 +11286,8 @@ export const listMeFidelityAccountMovements: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeFidelityAccountMovements",
 }));
 
 export type ListMeIdentityGroupError = OvhOpError;
@@ -10701,6 +11303,8 @@ export const listMeIdentityGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeIdentityGroup",
 }));
 
 export type ListMeIdentityGroupUserError = OvhOpError;
@@ -10716,6 +11320,8 @@ export const listMeIdentityGroupUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeIdentityGroupUser",
 }));
 
 export type ListMeIdentityUserError = OvhOpError;
@@ -10731,6 +11337,8 @@ export const listMeIdentityUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeIdentityUser",
 }));
 
 export type ListMeIdentityUserTokenError = OvhOpError;
@@ -10746,6 +11354,8 @@ export const listMeIdentityUserToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeIdentityUserToken",
 }));
 
 export type ListMeIncidentSbgMigrateServicesError = OvhOpError;
@@ -10761,6 +11371,8 @@ export const listMeIncidentSbgMigrateServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeIncidentSbgMigrateServices",
 }));
 
 export type ListMeIpOrganisationError = OvhOpError;
@@ -10776,6 +11388,8 @@ export const listMeIpOrganisation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeIpOrganisation",
 }));
 
 export type ListMeLogAuditError = OvhOpError;
@@ -10791,6 +11405,8 @@ export const listMeLogAudit: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeLogAudit",
 }));
 
 export type ListMeLogAuditLogKindError = OvhOpError;
@@ -10806,6 +11422,8 @@ export const listMeLogAuditLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeLogAuditLogKind",
 }));
 
 export type ListMeLogAuditLogSubscriptionError = OvhOpError;
@@ -10821,6 +11439,8 @@ export const listMeLogAuditLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeLogAuditLogSubscription",
 }));
 
 export type ListMeLogKindError = OvhOpError;
@@ -10836,6 +11456,8 @@ export const listMeLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeLogKind",
 }));
 
 export type ListMeLogSelfError = OvhOpError;
@@ -10851,6 +11473,8 @@ export const listMeLogSelf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeLogSelf",
 }));
 
 export type ListMeLogServicesError = OvhOpError;
@@ -10866,6 +11490,8 @@ export const listMeLogServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeLogServices",
 }));
 
 export type ListMeLogSubscriptionError = OvhOpError;
@@ -10881,6 +11507,8 @@ export const listMeLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeLogSubscription",
 }));
 
 export type ListMeMailingListAvailableListsError = OvhOpError;
@@ -10896,6 +11524,8 @@ export const listMeMailingListAvailableLists: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeMailingListAvailableLists",
 }));
 
 export type ListMeMigrationError = OvhOpError;
@@ -10911,6 +11541,8 @@ export const listMeMigration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeMigration",
 }));
 
 export type ListMeMigrationContractError = OvhOpError;
@@ -10926,6 +11558,8 @@ export const listMeMigrationContract: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeMigrationContract",
 }));
 
 export type ListMeNotificationEmailHistoryError = OvhOpError;
@@ -10941,6 +11575,8 @@ export const listMeNotificationEmailHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeNotificationEmailHistory",
 }));
 
 export type ListMeOauth2ClientError = OvhOpError;
@@ -10956,6 +11592,8 @@ export const listMeOauth2Client: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOauth2Client",
 }));
 
 export type ListMeOauth2TokenError = OvhOpError;
@@ -10971,6 +11609,8 @@ export const listMeOauth2Token: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOauth2Token",
 }));
 
 export type ListMeOrderError = OvhOpError;
@@ -10986,6 +11626,8 @@ export const listMeOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrder",
 }));
 
 export type ListMeOrderAvailablePaymentMeanError = OvhOpError;
@@ -11001,6 +11643,8 @@ export const listMeOrderAvailablePaymentMean: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderAvailablePaymentMean",
 }));
 
 export type ListMeOrderAvailableRegisteredPaymentMeanError = OvhOpError;
@@ -11020,6 +11664,8 @@ export const listMeOrderAvailableRegisteredPaymentMean: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderAvailableRegisteredPaymentMean",
 }));
 
 export type ListMeOrderBalanceError = OvhOpError;
@@ -11035,6 +11681,8 @@ export const listMeOrderBalance: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderBalance",
 }));
 
 export type ListMeOrderDebtOperationError = OvhOpError;
@@ -11050,6 +11698,8 @@ export const listMeOrderDebtOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderDebtOperation",
 }));
 
 export type ListMeOrderDetailsError = OvhOpError;
@@ -11065,6 +11715,8 @@ export const listMeOrderDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderDetails",
 }));
 
 export type ListMeOrderFollowUpError = OvhOpError;
@@ -11080,6 +11732,8 @@ export const listMeOrderFollowUp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderFollowUp",
 }));
 
 export type ListMeOrderPaymentMeansError = OvhOpError;
@@ -11095,6 +11749,8 @@ export const listMeOrderPaymentMeans: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderPaymentMeans",
 }));
 
 export type ListMeOrderPaymentMethodsError = OvhOpError;
@@ -11110,6 +11766,8 @@ export const listMeOrderPaymentMethods: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOrderPaymentMethods",
 }));
 
 export type ListMeOvhAccountError = OvhOpError;
@@ -11125,6 +11783,8 @@ export const listMeOvhAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOvhAccount",
 }));
 
 export type ListMeOvhAccountMovementsError = OvhOpError;
@@ -11140,6 +11800,8 @@ export const listMeOvhAccountMovements: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeOvhAccountMovements",
 }));
 
 export type ListMePaymentAvailableMethodsError = OvhOpError;
@@ -11155,6 +11817,8 @@ export const listMePaymentAvailableMethods: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMePaymentAvailableMethods",
 }));
 
 export type ListMePaymentMeanDeferredPaymentAccountError = OvhOpError;
@@ -11170,6 +11834,8 @@ export const listMePaymentMeanDeferredPaymentAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMePaymentMeanDeferredPaymentAccount",
 }));
 
 export type ListMePaymentMethodError = OvhOpError;
@@ -11185,6 +11851,8 @@ export const listMePaymentMethod: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMePaymentMethod",
 }));
 
 export type ListMePaymentTransactionError = OvhOpError;
@@ -11200,6 +11868,8 @@ export const listMePaymentTransaction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMePaymentTransaction",
 }));
 
 export type ListMePreferenceManagerError = OvhOpError;
@@ -11215,6 +11885,8 @@ export const listMePreferenceManager: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMePreferenceManager",
 }));
 
 export type ListMeRecommendationsError = OvhOpError;
@@ -11230,6 +11902,8 @@ export const listMeRecommendations: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeRecommendations",
 }));
 
 export type ListMeRefundError = OvhOpError;
@@ -11245,6 +11919,8 @@ export const listMeRefund: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeRefund",
 }));
 
 export type ListMeRefundDetailsError = OvhOpError;
@@ -11260,6 +11936,8 @@ export const listMeRefundDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeRefundDetails",
 }));
 
 export type ListMeRepricingFall22Error = OvhOpError;
@@ -11275,6 +11953,8 @@ export const listMeRepricingFall22: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeRepricingFall22",
 }));
 
 export type ListMeReverseBillError = OvhOpError;
@@ -11290,6 +11970,8 @@ export const listMeReverseBill: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeReverseBill",
 }));
 
 export type ListMeReverseBillDetailsError = OvhOpError;
@@ -11305,6 +11987,8 @@ export const listMeReverseBillDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeReverseBillDetails",
 }));
 
 export type ListMeSlaError = OvhOpError;
@@ -11320,6 +12004,8 @@ export const listMeSla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeSla",
 }));
 
 export type ListMeSlaServicesError = OvhOpError;
@@ -11335,6 +12021,8 @@ export const listMeSlaServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeSlaServices",
 }));
 
 export type ListMeSshKeyError = OvhOpError;
@@ -11350,6 +12038,8 @@ export const listMeSshKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeSshKey",
 }));
 
 export type ListMeSubAccountError = OvhOpError;
@@ -11365,6 +12055,8 @@ export const listMeSubAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeSubAccount",
 }));
 
 export type ListMeTagError = OvhOpError;
@@ -11380,6 +12072,8 @@ export const listMeTag: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTag",
 }));
 
 export type ListMeTagAvailableError = OvhOpError;
@@ -11395,6 +12089,8 @@ export const listMeTagAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTagAvailable",
 }));
 
 export type ListMeTaskContactChangeError = OvhOpError;
@@ -11410,6 +12106,8 @@ export const listMeTaskContactChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTaskContactChange",
 }));
 
 export type ListMeTaskDnsError = OvhOpError;
@@ -11425,6 +12123,8 @@ export const listMeTaskDns: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTaskDns",
 }));
 
 export type ListMeTaskDomainError = OvhOpError;
@@ -11440,6 +12140,8 @@ export const listMeTaskDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTaskDomain",
 }));
 
 export type ListMeTaskDomainArgumentError = OvhOpError;
@@ -11455,6 +12157,8 @@ export const listMeTaskDomainArgument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTaskDomainArgument",
 }));
 
 export type ListMeTaskEmailChangeError = OvhOpError;
@@ -11470,6 +12174,8 @@ export const listMeTaskEmailChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTaskEmailChange",
 }));
 
 export type ListMeTelephonyDefaultIpRestrictionError = OvhOpError;
@@ -11485,6 +12191,8 @@ export const listMeTelephonyDefaultIpRestriction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeTelephonyDefaultIpRestriction",
 }));
 
 export type ListMeVoucherAccountError = OvhOpError;
@@ -11500,6 +12208,8 @@ export const listMeVoucherAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeVoucherAccount",
 }));
 
 export type ListMeVoucherAccountMovementsError = OvhOpError;
@@ -11515,6 +12225,8 @@ export const listMeVoucherAccountMovements: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeVoucherAccountMovements",
 }));
 
 export type ListMeWithdrawalError = OvhOpError;
@@ -11530,6 +12242,8 @@ export const listMeWithdrawal: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeWithdrawal",
 }));
 
 export type ListMeWithdrawalDetailsError = OvhOpError;
@@ -11545,6 +12259,8 @@ export const listMeWithdrawalDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMeWithdrawalDetails",
 }));
 
 export type MigrateMeIncidentSbgServicesError = OvhOpError;
@@ -11560,6 +12276,8 @@ export const migrateMeIncidentSbgServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateMeIncidentSbgServices",
 }));
 
 export type PutMeAccessRestrictionDeveloperModeError = OvhOpError;
@@ -11575,6 +12293,8 @@ export const putMeAccessRestrictionDeveloperMode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeAccessRestrictionDeveloperMode",
 }));
 
 export type PutMeAccessRestrictionIpError = OvhOpError;
@@ -11590,6 +12310,8 @@ export const putMeAccessRestrictionIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeAccessRestrictionIp",
 }));
 
 export type PutMeAccessRestrictionIpDefaultRuleError = OvhOpError;
@@ -11605,6 +12327,8 @@ export const putMeAccessRestrictionIpDefaultRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeAccessRestrictionIpDefaultRule",
 }));
 
 export type PutMeAccessRestrictionSmsError = OvhOpError;
@@ -11620,6 +12344,8 @@ export const putMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeAccessRestrictionSms",
 }));
 
 export type PutMeAccessRestrictionTotpError = OvhOpError;
@@ -11635,6 +12361,8 @@ export const putMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeAccessRestrictionTotp",
 }));
 
 export type PutMeAccessRestrictionU2fError = OvhOpError;
@@ -11650,6 +12378,8 @@ export const putMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeAccessRestrictionU2f",
 }));
 
 export type PutMeAutorenewError = OvhOpError;
@@ -11665,6 +12395,8 @@ export const putMeAutorenew: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeAutorenew",
 }));
 
 export type PutMeBillingGroupError = OvhOpError;
@@ -11680,6 +12412,8 @@ export const putMeBillingGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeBillingGroup",
 }));
 
 export type PutMeBillingPurchaseOrderError = OvhOpError;
@@ -11695,6 +12429,8 @@ export const putMeBillingPurchaseOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeBillingPurchaseOrder",
 }));
 
 export type PutMeConsentDecisionError = OvhOpError;
@@ -11710,6 +12446,8 @@ export const putMeConsentDecision: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeConsentDecision",
 }));
 
 export type PutMeContactError = OvhOpError;
@@ -11725,6 +12463,8 @@ export const putMeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeContact",
 }));
 
 export type PutMeCredentialError = OvhOpError;
@@ -11740,6 +12480,8 @@ export const putMeCredential: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeCredential",
 }));
 
 export type PutMeDocumentError = OvhOpError;
@@ -11755,6 +12497,8 @@ export const putMeDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeDocument",
 }));
 
 export type PutMeFidelityAccountError = OvhOpError;
@@ -11770,6 +12514,8 @@ export const putMeFidelityAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeFidelityAccount",
 }));
 
 export type PutMeIdentityGroupError = OvhOpError;
@@ -11785,6 +12531,8 @@ export const putMeIdentityGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeIdentityGroup",
 }));
 
 export type PutMeIdentityProviderError = OvhOpError;
@@ -11800,6 +12548,8 @@ export const putMeIdentityProvider: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeIdentityProvider",
 }));
 
 export type PutMeIdentityUserError = OvhOpError;
@@ -11815,6 +12565,8 @@ export const putMeIdentityUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeIdentityUser",
 }));
 
 export type PutMeIdentityUserTokenError = OvhOpError;
@@ -11830,6 +12582,8 @@ export const putMeIdentityUserToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeIdentityUserToken",
 }));
 
 export type PutMeIpOrganisationError = OvhOpError;
@@ -11845,6 +12599,8 @@ export const putMeIpOrganisation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeIpOrganisation",
 }));
 
 export type PutMeMarketingError = OvhOpError;
@@ -11860,6 +12616,8 @@ export const putMeMarketing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeMarketing",
 }));
 
 export type PutMeOauth2ClientError = OvhOpError;
@@ -11874,6 +12632,8 @@ export const putMeOauth2Client: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeOauth2Client",
 }));
 
 export type PutMeOvhAccountError = OvhOpError;
@@ -11889,6 +12649,8 @@ export const putMeOvhAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeOvhAccount",
 }));
 
 export type PutMePaymentMeanDeferredPaymentAccountError = OvhOpError;
@@ -11904,6 +12666,8 @@ export const putMePaymentMeanDeferredPaymentAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMePaymentMeanDeferredPaymentAccount",
 }));
 
 export type PutMePaymentMethodError = OvhOpError;
@@ -11919,6 +12683,8 @@ export const putMePaymentMethod: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMePaymentMethod",
 }));
 
 export type PutMePreferenceManagerError = OvhOpError;
@@ -11934,6 +12700,8 @@ export const putMePreferenceManager: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMePreferenceManager",
 }));
 
 export type PutMeSubAccountError = OvhOpError;
@@ -11949,6 +12717,8 @@ export const putMeSubAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeSubAccount",
 }));
 
 export type PutMeTaskDomainArgumentError = OvhOpError;
@@ -11964,6 +12734,8 @@ export const putMeTaskDomainArgument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeTaskDomainArgument",
 }));
 
 export type ResendMeTaskContactChangeEmailError = OvhOpError;
@@ -11979,6 +12751,8 @@ export const resendMeTaskContactChangeEmail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendMeTaskContactChangeEmail",
 }));
 
 export type SendMeAccessRestrictionSmsCodeError = OvhOpError;
@@ -11994,6 +12768,8 @@ export const sendMeAccessRestrictionSmsCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendMeAccessRestrictionSmsCode",
 }));
 
 export type SubscribeMeMailingListError = OvhOpError;
@@ -12009,6 +12785,8 @@ export const subscribeMeMailingList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeMeMailingList",
 }));
 
 export type ValidateMeAccessRestrictionBackupCodeError = OvhOpError;
@@ -12024,6 +12802,8 @@ export const validateMeAccessRestrictionBackupCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMeAccessRestrictionBackupCode",
 }));
 
 export type ValidateMeAccessRestrictionSmsError = OvhOpError;
@@ -12039,6 +12819,8 @@ export const validateMeAccessRestrictionSms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMeAccessRestrictionSms",
 }));
 
 export type ValidateMeAccessRestrictionTotpError = OvhOpError;
@@ -12054,6 +12836,8 @@ export const validateMeAccessRestrictionTotp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMeAccessRestrictionTotp",
 }));
 
 export type ValidateMeAccessRestrictionU2fError = OvhOpError;
@@ -12069,6 +12853,8 @@ export const validateMeAccessRestrictionU2f: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMeAccessRestrictionU2f",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

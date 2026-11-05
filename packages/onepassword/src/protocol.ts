@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import {
   makeRestProtocol,
   type RestErrorInfo,
@@ -27,6 +27,7 @@ import {
  *             operation's typed error classes by status, then the shared
  *             HTTP-status classes, then {@link UnknownOnepasswordError}.
  */
+import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
@@ -56,7 +57,8 @@ export type OnepasswordOpError =
   | UnknownOnepasswordError
   | ConfigError
   | HttpClientError.HttpClientError
-  | OnepasswordParseError;
+  | OnepasswordParseError
+  | InvalidInput;
 
 /** Context (requirements) of every generated Connect operation. */
 export type ConnectOpContext = ConnectCredentials | HttpClient.HttpClient;
@@ -135,7 +137,7 @@ export const OAuthProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
     credentials: OAuthCredentials,
     baseUrl: (creds) => trimBase(creds.apiBaseUrl),
     headers: (creds) => ({
-      Authorization: `Basic ${btoa(`${creds.clientId}:${Redacted.value(creds.clientSecret)}`)}`,
+      Authorization: `Basic ${Base64.encode(`${creds.clientId}:${Redacted.value(creds.clientSecret)}`)}`,
     }),
     // RFC 6749 §5.2: `{ error, error_description }`
     errorEnvelope: (body) => {

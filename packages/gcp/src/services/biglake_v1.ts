@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "biglake" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Biglake",
+  service: "biglake",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -435,6 +454,8 @@ export const createProjectsLocationsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsCatalogs",
 }));
 
 export type CreateProjectsLocationsCatalogsDatabasesError =
@@ -456,6 +477,8 @@ export const createProjectsLocationsCatalogsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsCatalogsDatabases",
 }));
 
 export type CreateProjectsLocationsCatalogsDatabasesTablesError =
@@ -481,6 +504,8 @@ export const createProjectsLocationsCatalogsDatabasesTables: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsCatalogsDatabasesTables",
 }));
 
 export type DeleteProjectsLocationsCatalogsError =
@@ -502,6 +527,8 @@ export const deleteProjectsLocationsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsCatalogs",
 }));
 
 export type DeleteProjectsLocationsCatalogsDatabasesError =
@@ -523,6 +550,8 @@ export const deleteProjectsLocationsCatalogsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsCatalogsDatabases",
 }));
 
 export type DeleteProjectsLocationsCatalogsDatabasesTablesError =
@@ -544,6 +573,8 @@ export const deleteProjectsLocationsCatalogsDatabasesTables: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsCatalogsDatabasesTables",
 }));
 
 export type GetIamPolicyProjectsCatalogsError =
@@ -563,6 +594,8 @@ export const getIamPolicyProjectsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsCatalogs",
 }));
 
 export type GetIamPolicyProjectsCatalogsNamespacesError =
@@ -582,6 +615,8 @@ export const getIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsCatalogsNamespaces",
 }));
 
 export type GetIamPolicyProjectsCatalogsNamespacesTablesError =
@@ -601,6 +636,8 @@ export const getIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsCatalogsNamespacesTables",
 }));
 
 export type GetProjectsLocationsCatalogsError =
@@ -620,6 +657,8 @@ export const getProjectsLocationsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogs",
 }));
 
 export type GetProjectsLocationsCatalogsDatabasesError =
@@ -639,6 +678,8 @@ export const getProjectsLocationsCatalogsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsDatabases",
 }));
 
 export type GetProjectsLocationsCatalogsDatabasesTablesError =
@@ -658,6 +699,8 @@ export const getProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsDatabasesTables",
 }));
 
 export type ListProjectsLocationsCatalogsError =
@@ -678,6 +721,8 @@ export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -699,6 +744,8 @@ export const listProjectsLocationsCatalogsDatabases: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsDatabases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -720,6 +767,8 @@ export const listProjectsLocationsCatalogsDatabasesTables: API.PaginatedOperatio
   errors: [NotFound, Forbidden, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsDatabasesTables",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -742,6 +791,8 @@ export const patchProjectsLocationsCatalogsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsCatalogsDatabases",
 }));
 
 export type PatchProjectsLocationsCatalogsDatabasesTablesError =
@@ -767,6 +818,8 @@ export const patchProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsCatalogsDatabasesTables",
 }));
 
 export type RenameProjectsLocationsCatalogsDatabasesTablesError =
@@ -792,6 +845,8 @@ export const renameProjectsLocationsCatalogsDatabasesTables: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameProjectsLocationsCatalogsDatabasesTables",
 }));
 
 export type SetIamPolicyProjectsCatalogsError =
@@ -813,6 +868,8 @@ export const setIamPolicyProjectsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsCatalogs",
 }));
 
 export type SetIamPolicyProjectsCatalogsNamespacesError =
@@ -834,6 +891,8 @@ export const setIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsCatalogsNamespaces",
 }));
 
 export type SetIamPolicyProjectsCatalogsNamespacesTablesError =
@@ -855,6 +914,8 @@ export const setIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsCatalogsNamespacesTables",
 }));
 
 export type TestIamPermissionsProjectsCatalogsError =
@@ -876,6 +937,8 @@ export const testIamPermissionsProjectsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsCatalogs",
 }));
 
 export type TestIamPermissionsProjectsCatalogsNamespacesError =
@@ -897,6 +960,8 @@ export const testIamPermissionsProjectsCatalogsNamespaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsCatalogsNamespaces",
 }));
 
 export type TestIamPermissionsProjectsCatalogsNamespacesTablesError =
@@ -922,6 +987,8 @@ export const testIamPermissionsProjectsCatalogsNamespacesTables: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, BigLakeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsCatalogsNamespacesTables",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

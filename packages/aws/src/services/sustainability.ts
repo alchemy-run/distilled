@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -116,6 +118,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Sustainability",
+  service: "Sustainability",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -268,7 +284,7 @@ export type GetEstimatedCarbonEmissionsError =
  * Returns estimated carbon emission values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedCarbonEmissions: API.PaginatedOperationMethod<
-  GetEstimatedCarbonEmissionsRequest,
+  GetEstimatedCarbonEmissionsRequest & RegionInput,
   GetEstimatedCarbonEmissionsResponse,
   GetEstimatedCarbonEmissionsError,
   Credentials | HttpClient.HttpClient,
@@ -291,6 +307,8 @@ export const getEstimatedCarbonEmissions: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEstimatedCarbonEmissions",
 })) as any;
 
 export type GetEstimatedCarbonEmissionsDimensionValuesError =
@@ -303,7 +321,7 @@ export type GetEstimatedCarbonEmissionsDimensionValuesError =
  * Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedCarbonEmissionsDimensionValues: API.PaginatedOperationMethod<
-  GetEstimatedCarbonEmissionsDimensionValuesRequest,
+  GetEstimatedCarbonEmissionsDimensionValuesRequest & RegionInput,
   GetEstimatedCarbonEmissionsDimensionValuesResponse,
   GetEstimatedCarbonEmissionsDimensionValuesError,
   Credentials | HttpClient.HttpClient,
@@ -326,6 +344,8 @@ export const getEstimatedCarbonEmissionsDimensionValues: API.PaginatedOperationM
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEstimatedCarbonEmissionsDimensionValues",
 })) as any;
 
 export type GetEstimatedWaterAllocationError =
@@ -338,7 +358,7 @@ export type GetEstimatedWaterAllocationError =
  * Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedWaterAllocation: API.PaginatedOperationMethod<
-  GetEstimatedWaterAllocationRequest,
+  GetEstimatedWaterAllocationRequest & RegionInput,
   GetEstimatedWaterAllocationResponse,
   GetEstimatedWaterAllocationError,
   Credentials | HttpClient.HttpClient,
@@ -361,6 +381,8 @@ export const getEstimatedWaterAllocation: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEstimatedWaterAllocation",
 })) as any;
 
 export type GetEstimatedWaterAllocationDimensionValuesError =
@@ -373,7 +395,7 @@ export type GetEstimatedWaterAllocationDimensionValuesError =
  * Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationMethod<
-  GetEstimatedWaterAllocationDimensionValuesRequest,
+  GetEstimatedWaterAllocationDimensionValuesRequest & RegionInput,
   GetEstimatedWaterAllocationDimensionValuesResponse,
   GetEstimatedWaterAllocationDimensionValuesError,
   Credentials | HttpClient.HttpClient,
@@ -396,6 +418,8 @@ export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationM
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEstimatedWaterAllocationDimensionValues",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

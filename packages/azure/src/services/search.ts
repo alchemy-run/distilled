@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Search" },
+  prefix: "Search",
+  service: "Search",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The type of the resource whose name is to be validated. This value must always be 'searchServices'. */
 export type CheckServiceNameAvailabilityRequestType = "searchServices";
 export interface CheckServiceNameAvailabilityRequest {
@@ -1144,6 +1165,8 @@ export const CheckServiceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceNameAvailability",
 }));
 
 export type CreateQueryKeyError = AzureOpError;
@@ -1159,6 +1182,8 @@ export const CreateQueryKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQueryKey",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1174,6 +1199,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteQueryKeyError = AzureOpError;
@@ -1189,6 +1216,8 @@ export const DeleteQueryKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQueryKey",
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -1204,6 +1233,8 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteSharedPrivateLinkResourceError = AzureOpError;
@@ -1219,6 +1250,8 @@ export const DeleteSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharedPrivateLinkResource",
 }));
 
 export type GetAdminKeyError = AzureOpError;
@@ -1234,6 +1267,8 @@ export const GetAdminKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdminKey",
 }));
 
 export type GetNetworkSecurityPerimeterConfigurationError = AzureOpError;
@@ -1249,6 +1284,8 @@ export const GetNetworkSecurityPerimeterConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkSecurityPerimeterConfiguration",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1264,6 +1301,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetServiceError = AzureOpError;
@@ -1279,6 +1318,8 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetSharedPrivateLinkResourceError = AzureOpError;
@@ -1294,6 +1335,8 @@ export const GetSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedPrivateLinkResource",
 }));
 
 export type ListNetworkSecurityPerimeterConfigurationByServiceError = AzureOpError;
@@ -1313,6 +1356,8 @@ export const ListNetworkSecurityPerimeterConfigurationByService: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkSecurityPerimeterConfigurationByService",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1328,6 +1373,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByServiceError = AzureOpError;
@@ -1343,6 +1390,8 @@ export const ListPrivateEndpointConnectionByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByService",
 }));
 
 export type ListPrivateLinkResourceSupportedError = AzureOpError;
@@ -1358,6 +1407,8 @@ export const ListPrivateLinkResourceSupported: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceSupported",
 }));
 
 export type ListServiceByResourceGroupError = AzureOpError;
@@ -1373,6 +1424,8 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceByResourceGroup",
 }));
 
 export type ListServiceBySubscriptionError = AzureOpError;
@@ -1388,6 +1441,8 @@ export const ListServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceBySubscription",
 }));
 
 export type ListSharedPrivateLinkResourceByServiceError = AzureOpError;
@@ -1403,6 +1458,8 @@ export const ListSharedPrivateLinkResourceByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedPrivateLinkResourceByService",
 }));
 
 export type ListUsageBySubscriptionError = AzureOpError;
@@ -1418,6 +1475,8 @@ export const ListUsageBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsageBySubscription",
 }));
 
 export type NetworkSecurityPerimeterConfigurationsReconcileError = AzureOpError;
@@ -1441,6 +1500,8 @@ export const NetworkSecurityPerimeterConfigurationsReconcile: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkSecurityPerimeterConfigurationsReconcile",
 }));
 
 export type QueryKeysListBySearchServiceError = AzureOpError;
@@ -1456,6 +1517,8 @@ export const QueryKeysListBySearchService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryKeysListBySearchService",
 }));
 
 export type RegenerateAdminKeyError = AzureOpError;
@@ -1471,6 +1534,8 @@ export const RegenerateAdminKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateAdminKey",
 }));
 
 export type ServicesCreateOrUpdateError = AzureOpError;
@@ -1486,6 +1551,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServicesCreateOrUpdate",
 }));
 
 export type ServicesUpgradeError = AzureOpError;
@@ -1501,6 +1568,8 @@ export const ServicesUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServicesUpgrade",
 }));
 
 export type SharedPrivateLinkResourcesCreateOrUpdateError = AzureOpError;
@@ -1516,6 +1585,8 @@ export const SharedPrivateLinkResourcesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedPrivateLinkResourcesCreateOrUpdate",
 }));
 
 export type UpdatePrivateEndpointConnectionError = AzureOpError;
@@ -1531,6 +1602,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnection",
 }));
 
 export type UpdateServiceError = AzureOpError;
@@ -1546,6 +1619,8 @@ export const UpdateService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UsageBySubscriptionSkuError = AzureOpError;
@@ -1561,6 +1636,8 @@ export const UsageBySubscriptionSku: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsageBySubscriptionSku",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

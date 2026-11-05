@@ -1,11 +1,15 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxMessage from "@distilled.cloud/core/telemetry-message-context";
+import * as TxName from "@distilled.cloud/core/telemetry-name-template";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -71,6 +75,22 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sqs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  attributes: { "messaging.system": "aws_sqs" },
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SQS",
+  service: "SQS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BatchEntryIdsNotDistinct
   extends /*@__PURE__*/ S.TaggedError<BatchEntryIdsNotDistinct>()(
@@ -703,7 +723,7 @@ export type AddPermissionError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const addPermission: API.OperationMethod<
-  AddPermissionRequest,
+  AddPermissionRequest & RegionInput,
   AddPermissionResponse,
   AddPermissionError,
   Credentials | HttpClient.HttpClient
@@ -721,6 +741,16 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "AddPermission",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type CancelMessageMoveTaskError =
@@ -747,7 +777,7 @@ export type CancelMessageMoveTaskError =
  * time.
  */
 export const cancelMessageMoveTask: API.OperationMethod<
-  CancelMessageMoveTaskRequest,
+  CancelMessageMoveTaskRequest & RegionInput,
   CancelMessageMoveTaskResult,
   CancelMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
@@ -766,6 +796,8 @@ export const cancelMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMessageMoveTask",
+  telemetry: TELEMETRY,
+  span: "CancelMessageMoveTask",
 }));
 
 export type ChangeMessageVisibilityError =
@@ -823,7 +855,7 @@ export type ChangeMessageVisibilityError =
  * received.
  */
 export const changeMessageVisibility: API.OperationMethod<
-  ChangeMessageVisibilityRequest,
+  ChangeMessageVisibilityRequest & RegionInput,
   ChangeMessageVisibilityResponse,
   ChangeMessageVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -842,6 +874,16 @@ export const changeMessageVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibility",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ChangeMessageVisibility",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type ChangeMessageVisibilityBatchError =
@@ -868,7 +910,7 @@ export type ChangeMessageVisibilityBatchError =
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
 export const changeMessageVisibilityBatch: API.OperationMethod<
-  ChangeMessageVisibilityBatchRequest,
+  ChangeMessageVisibilityBatchRequest & RegionInput,
   ChangeMessageVisibilityBatchResult,
   ChangeMessageVisibilityBatchError,
   Credentials | HttpClient.HttpClient
@@ -889,6 +931,17 @@ export const changeMessageVisibilityBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibilityBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ChangeMessageVisibilityBatch",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+      Entries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+  },
 }));
 
 export type CreateQueueError =
@@ -952,7 +1005,7 @@ export type CreateQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResult,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
@@ -974,6 +1027,8 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type DeleteMessageError =
@@ -1009,7 +1064,7 @@ export type DeleteMessageError =
  * receiving a message more than once does not cause issues.
  */
 export const deleteMessage: API.OperationMethod<
-  DeleteMessageRequest,
+  DeleteMessageRequest & RegionInput,
   DeleteMessageResponse,
   DeleteMessageError,
   Credentials | HttpClient.HttpClient
@@ -1028,6 +1083,18 @@ export const deleteMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessage",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteMessage",
+    attributes: { "messaging.operation.name": "settle", "messaging.operation.type": "settle" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+    rename: TxName.nameTemplate("settle {messaging.destination.name}"),
+  },
 }));
 
 export type DeleteMessageBatchError =
@@ -1050,7 +1117,7 @@ export type DeleteMessageBatchError =
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
 export const deleteMessageBatch: API.OperationMethod<
-  DeleteMessageBatchRequest,
+  DeleteMessageBatchRequest & RegionInput,
   DeleteMessageBatchResult,
   DeleteMessageBatchError,
   Credentials | HttpClient.HttpClient
@@ -1071,6 +1138,19 @@ export const deleteMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteMessageBatch",
+    attributes: { "messaging.operation.name": "settle", "messaging.operation.type": "settle" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+      Entries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+    rename: TxName.nameTemplate("settle {messaging.destination.name}"),
+  },
 }));
 
 export type DeleteQueueError =
@@ -1104,7 +1184,7 @@ export type DeleteQueueError =
  * The delete operation uses the HTTP `GET` verb.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
@@ -1121,6 +1201,16 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type GetQueueAttributesError =
@@ -1137,7 +1227,7 @@ export type GetQueueAttributesError =
  * To determine whether a queue is FIFO, you can check whether `QueueName` ends with the `.fifo` suffix.
  */
 export const getQueueAttributes: API.OperationMethod<
-  GetQueueAttributesRequest,
+  GetQueueAttributesRequest & RegionInput,
   GetQueueAttributesResult,
   GetQueueAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1155,6 +1245,16 @@ export const getQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetQueueAttributes",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type GetQueueUrlError =
@@ -1179,7 +1279,7 @@ export type GetQueueUrlError =
  * Developer Guide.
  */
 export const getQueueUrl: API.OperationMethod<
-  GetQueueUrlRequest,
+  GetQueueUrlRequest & RegionInput,
   GetQueueUrlResult,
   GetQueueUrlError,
   Credentials | HttpClient.HttpClient
@@ -1196,6 +1296,8 @@ export const getQueueUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueUrl",
+  telemetry: TELEMETRY,
+  span: "GetQueueUrl",
 }));
 
 export type ListDeadLetterSourceQueuesError =
@@ -1221,7 +1323,7 @@ export type ListDeadLetterSourceQueuesError =
  * Guide.
  */
 export const listDeadLetterSourceQueues: API.PaginatedOperationMethod<
-  ListDeadLetterSourceQueuesRequest,
+  ListDeadLetterSourceQueuesRequest & RegionInput,
   ListDeadLetterSourceQueuesResult,
   ListDeadLetterSourceQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -1245,6 +1347,16 @@ export const listDeadLetterSourceQueues: API.PaginatedOperationMethod<
     items: "queueUrls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeadLetterSourceQueues",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 })) as any;
 
 export type ListMessageMoveTasksError =
@@ -1269,7 +1381,7 @@ export type ListMessageMoveTasksError =
  * time.
  */
 export const listMessageMoveTasks: API.OperationMethod<
-  ListMessageMoveTasksRequest,
+  ListMessageMoveTasksRequest & RegionInput,
   ListMessageMoveTasksResult,
   ListMessageMoveTasksError,
   Credentials | HttpClient.HttpClient
@@ -1288,6 +1400,8 @@ export const listMessageMoveTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMessageMoveTasks",
+  telemetry: TELEMETRY,
+  span: "ListMessageMoveTasks",
 }));
 
 export type ListQueuesError =
@@ -1315,7 +1429,7 @@ export type ListQueuesError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResult,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -1333,6 +1447,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "QueueUrls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListQueueTagsError =
@@ -1352,7 +1468,7 @@ export type ListQueueTagsError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const listQueueTags: API.OperationMethod<
-  ListQueueTagsRequest,
+  ListQueueTagsRequest & RegionInput,
   ListQueueTagsResult,
   ListQueueTagsError,
   Credentials | HttpClient.HttpClient
@@ -1369,6 +1485,16 @@ export const listQueueTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueueTags",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListQueueTags",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type PurgeQueueError =
@@ -1397,7 +1523,7 @@ export type PurgeQueueError =
  * might be deleted while the queue is being purged.
  */
 export const purgeQueue: API.OperationMethod<
-  PurgeQueueRequest,
+  PurgeQueueRequest & RegionInput,
   PurgeQueueResponse,
   PurgeQueueError,
   Credentials | HttpClient.HttpClient
@@ -1415,6 +1541,16 @@ export const purgeQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurgeQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PurgeQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type ReceiveMessageError =
@@ -1475,7 +1611,7 @@ export type ReceiveMessageError =
  * In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
  */
 export const receiveMessage: API.OperationMethod<
-  ReceiveMessageRequest,
+  ReceiveMessageRequest & RegionInput,
   ReceiveMessageResult,
   ReceiveMessageError,
   Credentials | HttpClient.HttpClient
@@ -1502,6 +1638,28 @@ export const receiveMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReceiveMessage",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ReceiveMessage",
+    attributes: { "messaging.operation.name": "receive", "messaging.operation.type": "receive" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+    output: { Messages: [{ name: "messaging.batch.message_count", transform: "count" }] },
+    rename: TxName.nameTemplate("receive {messaging.destination.name}"),
+    extract: TxMessage.extractAwsMessageAttributes({
+      list: "Messages",
+      member: "MessageAttributes",
+      request: "MessageAttributeNames",
+      envelope: "Body",
+      system: "Attributes",
+      systemRequest: "MessageSystemAttributeNames",
+      messageId: "MessageId",
+    }),
+  },
 }));
 
 export type RemovePermissionError =
@@ -1524,7 +1682,7 @@ export type RemovePermissionError =
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1541,6 +1699,16 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemovePermission",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type SendMessageError =
@@ -1571,7 +1739,7 @@ export type SendMessageError =
  * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResult,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1767,21 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SendMessage",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+    output: { MessageId: [{ name: "messaging.message.id" }] },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({ member: "MessageAttributes" }),
+  },
 }));
 
 export type SendMessageBatchError =
@@ -1647,7 +1830,7 @@ export type SendMessageBatchError =
  * the default value for the queue.
  */
 export const sendMessageBatch: API.OperationMethod<
-  SendMessageBatchRequest,
+  SendMessageBatchRequest & RegionInput,
   SendMessageBatchResult,
   SendMessageBatchError,
   Credentials | HttpClient.HttpClient
@@ -1679,6 +1862,21 @@ export const sendMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessageBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SendMessageBatch",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+      Entries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({ list: "Entries", member: "MessageAttributes" }),
+  },
 }));
 
 export type SetQueueAttributesError =
@@ -1713,7 +1911,7 @@ export type SetQueueAttributesError =
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
 export const setQueueAttributes: API.OperationMethod<
-  SetQueueAttributesRequest,
+  SetQueueAttributesRequest & RegionInput,
   SetQueueAttributesResponse,
   SetQueueAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1737,6 +1935,16 @@ export const setQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetQueueAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SetQueueAttributes",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type StartMessageMoveTaskError =
@@ -1767,7 +1975,7 @@ export type StartMessageMoveTaskError =
  * time.
  */
 export const startMessageMoveTask: API.OperationMethod<
-  StartMessageMoveTaskRequest,
+  StartMessageMoveTaskRequest & RegionInput,
   StartMessageMoveTaskResult,
   StartMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
@@ -1787,6 +1995,8 @@ export const startMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMessageMoveTask",
+  telemetry: TELEMETRY,
+  span: "StartMessageMoveTask",
 }));
 
 export type TagQueueError =
@@ -1819,7 +2029,7 @@ export type TagQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const tagQueue: API.OperationMethod<
-  TagQueueRequest,
+  TagQueueRequest & RegionInput,
   TagQueueResponse,
   TagQueueError,
   Credentials | HttpClient.HttpClient
@@ -1836,6 +2046,16 @@ export const tagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "TagQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type UntagQueueError =
@@ -1854,7 +2074,7 @@ export type UntagQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const untagQueue: API.OperationMethod<
-  UntagQueueRequest,
+  UntagQueueRequest & RegionInput,
   UntagQueueResponse,
   UntagQueueError,
   Credentials | HttpClient.HttpClient
@@ -1871,6 +2091,16 @@ export const untagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UntagQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

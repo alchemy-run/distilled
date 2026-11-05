@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.SignalRService" },
+  prefix: "Webpubsub",
+  service: "Webpubsub",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckWebPubSubNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1520,6 +1541,8 @@ export const CheckWebPubSubNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckWebPubSubNameAvailability",
 }));
 
 export type DeleteWebPubSubError = AzureOpError;
@@ -1535,6 +1558,8 @@ export const DeleteWebPubSub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebPubSub",
 }));
 
 export type DeleteWebPubSubCustomCertificateError = AzureOpError;
@@ -1550,6 +1575,8 @@ export const DeleteWebPubSubCustomCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebPubSubCustomCertificate",
 }));
 
 export type DeleteWebPubSubCustomDomainError = AzureOpError;
@@ -1565,6 +1592,8 @@ export const DeleteWebPubSubCustomDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebPubSubCustomDomain",
 }));
 
 export type DeleteWebPubSubHubError = AzureOpError;
@@ -1580,6 +1609,8 @@ export const DeleteWebPubSubHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebPubSubHub",
 }));
 
 export type DeleteWebPubSubPrivateEndpointConnectionError = AzureOpError;
@@ -1595,6 +1626,8 @@ export const DeleteWebPubSubPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebPubSubPrivateEndpointConnection",
 }));
 
 export type DeleteWebPubSubReplicasError = AzureOpError;
@@ -1610,6 +1643,8 @@ export const DeleteWebPubSubReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebPubSubReplicas",
 }));
 
 export type DeleteWebPubSubSharedPrivateLinkResourceError = AzureOpError;
@@ -1625,6 +1660,8 @@ export const DeleteWebPubSubSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebPubSubSharedPrivateLinkResource",
 }));
 
 export type GetWebPubSubError = AzureOpError;
@@ -1640,6 +1677,8 @@ export const GetWebPubSub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSub",
 }));
 
 export type GetWebPubSubCustomCertificateError = AzureOpError;
@@ -1655,6 +1694,8 @@ export const GetWebPubSubCustomCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSubCustomCertificate",
 }));
 
 export type GetWebPubSubCustomDomainError = AzureOpError;
@@ -1670,6 +1711,8 @@ export const GetWebPubSubCustomDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSubCustomDomain",
 }));
 
 export type GetWebPubSubHubError = AzureOpError;
@@ -1685,6 +1728,8 @@ export const GetWebPubSubHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSubHub",
 }));
 
 export type GetWebPubSubPrivateEndpointConnectionError = AzureOpError;
@@ -1700,6 +1745,8 @@ export const GetWebPubSubPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSubPrivateEndpointConnection",
 }));
 
 export type GetWebPubSubReplicasError = AzureOpError;
@@ -1715,6 +1762,8 @@ export const GetWebPubSubReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSubReplicas",
 }));
 
 export type GetWebPubSubReplicaSharedPrivateLinkResourceError = AzureOpError;
@@ -1734,6 +1783,8 @@ export const GetWebPubSubReplicaSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSubReplicaSharedPrivateLinkResource",
 }));
 
 export type GetWebPubSubSharedPrivateLinkResourceError = AzureOpError;
@@ -1749,6 +1800,8 @@ export const GetWebPubSubSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebPubSubSharedPrivateLinkResource",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1764,6 +1817,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListUsagesError = AzureOpError;
@@ -1779,6 +1834,8 @@ export const ListUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsages",
 }));
 
 export type ListWebPubSubByResourceGroupError = AzureOpError;
@@ -1794,6 +1851,8 @@ export const ListWebPubSubByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubByResourceGroup",
 }));
 
 export type ListWebPubSubBySubscriptionError = AzureOpError;
@@ -1809,6 +1868,8 @@ export const ListWebPubSubBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubBySubscription",
 }));
 
 export type ListWebPubSubCustomCertificatesError = AzureOpError;
@@ -1824,6 +1885,8 @@ export const ListWebPubSubCustomCertificates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubCustomCertificates",
 }));
 
 export type ListWebPubSubCustomDomainsError = AzureOpError;
@@ -1839,6 +1902,8 @@ export const ListWebPubSubCustomDomains: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubCustomDomains",
 }));
 
 export type ListWebPubSubHubsError = AzureOpError;
@@ -1854,6 +1919,8 @@ export const ListWebPubSubHubs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubHubs",
 }));
 
 export type ListWebPubSubKeysError = AzureOpError;
@@ -1869,6 +1936,8 @@ export const ListWebPubSubKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubKeys",
 }));
 
 export type ListWebPubSubPrivateEndpointConnectionsError = AzureOpError;
@@ -1884,6 +1953,8 @@ export const ListWebPubSubPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubPrivateEndpointConnections",
 }));
 
 export type ListWebPubSubPrivateLinkResourcesError = AzureOpError;
@@ -1899,6 +1970,8 @@ export const ListWebPubSubPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubPrivateLinkResources",
 }));
 
 export type ListWebPubSubReplicasError = AzureOpError;
@@ -1914,6 +1987,8 @@ export const ListWebPubSubReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubReplicas",
 }));
 
 export type ListWebPubSubReplicaSharedPrivateLinkResourcesError = AzureOpError;
@@ -1933,6 +2008,8 @@ export const ListWebPubSubReplicaSharedPrivateLinkResources: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubReplicaSharedPrivateLinkResources",
 }));
 
 export type ListWebPubSubReplicaSkusError = AzureOpError;
@@ -1948,6 +2025,8 @@ export const ListWebPubSubReplicaSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubReplicaSkus",
 }));
 
 export type ListWebPubSubSharedPrivateLinkResourcesError = AzureOpError;
@@ -1963,6 +2042,8 @@ export const ListWebPubSubSharedPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubSharedPrivateLinkResources",
 }));
 
 export type ListWebPubSubSkusError = AzureOpError;
@@ -1978,6 +2059,8 @@ export const ListWebPubSubSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebPubSubSkus",
 }));
 
 export type RegenerateWebPubSubKeyError = AzureOpError;
@@ -1993,6 +2076,8 @@ export const RegenerateWebPubSubKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateWebPubSubKey",
 }));
 
 export type RestartWebPubSubError = AzureOpError;
@@ -2008,6 +2093,8 @@ export const RestartWebPubSub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartWebPubSub",
 }));
 
 export type RestartWebPubSubReplicasError = AzureOpError;
@@ -2023,6 +2110,8 @@ export const RestartWebPubSubReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartWebPubSubReplicas",
 }));
 
 export type UpdateWebPubSubError = AzureOpError;
@@ -2038,6 +2127,8 @@ export const UpdateWebPubSub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebPubSub",
 }));
 
 export type UpdateWebPubSubPrivateEndpointConnectionError = AzureOpError;
@@ -2053,6 +2144,8 @@ export const UpdateWebPubSubPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebPubSubPrivateEndpointConnection",
 }));
 
 export type UpdateWebPubSubReplicasError = AzureOpError;
@@ -2068,6 +2161,8 @@ export const UpdateWebPubSubReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebPubSubReplicas",
 }));
 
 export type WebPubSubCreateOrUpdateError = AzureOpError;
@@ -2083,6 +2178,8 @@ export const WebPubSubCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebPubSubCreateOrUpdate",
 }));
 
 export type WebPubSubCustomCertificatesCreateOrUpdateError = AzureOpError;
@@ -2098,6 +2195,8 @@ export const WebPubSubCustomCertificatesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebPubSubCustomCertificatesCreateOrUpdate",
 }));
 
 export type WebPubSubCustomDomainsCreateOrUpdateError = AzureOpError;
@@ -2113,6 +2212,8 @@ export const WebPubSubCustomDomainsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebPubSubCustomDomainsCreateOrUpdate",
 }));
 
 export type WebPubSubHubsCreateOrUpdateError = AzureOpError;
@@ -2128,6 +2229,8 @@ export const WebPubSubHubsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebPubSubHubsCreateOrUpdate",
 }));
 
 export type WebPubSubReplicasCreateOrUpdateError = AzureOpError;
@@ -2143,6 +2246,8 @@ export const WebPubSubReplicasCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebPubSubReplicasCreateOrUpdate",
 }));
 
 export type WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateError = AzureOpError;
@@ -2166,6 +2271,8 @@ export const WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdate: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdate",
 }));
 
 export type WebPubSubSharedPrivateLinkResourcesCreateOrUpdateError = AzureOpError;
@@ -2189,6 +2296,8 @@ export const WebPubSubSharedPrivateLinkResourcesCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebPubSubSharedPrivateLinkResourcesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

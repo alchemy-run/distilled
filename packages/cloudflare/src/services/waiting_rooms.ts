@@ -56,6 +56,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   turnstileMode: "turnstile_mode",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "WaitingRooms",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1685,6 +1699,8 @@ export const createEvent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvent",
 }));
 
 export type CreateRuleError = CloudflareOpError;
@@ -1702,6 +1718,8 @@ export const createRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1720,6 +1738,8 @@ export const createWaitingRoom: API.OperationMethod<
   errors: [ZoneNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWaitingRoom",
 }));
 
 export type DeleteEventError = CloudflareOpError;
@@ -1735,6 +1755,8 @@ export const deleteEvent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEvent",
 }));
 
 export type DeleteRuleError = CloudflareOpError;
@@ -1752,6 +1774,8 @@ export const deleteRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DeleteRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1770,6 +1794,8 @@ export const deleteWaitingRoom: API.OperationMethod<
   errors: [WaitingRoomNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWaitingRoom",
 }));
 
 export type GetEventError = CloudflareOpError;
@@ -1785,6 +1811,8 @@ export const getEvent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetEventDetailError = CloudflareOpError;
@@ -1800,6 +1828,8 @@ export const getEventDetail: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDetail",
 }));
 
 export type GetRuleError = CloudflareOpError;
@@ -1817,6 +1847,8 @@ export const getRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1835,6 +1867,8 @@ export const getSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetting",
 }));
 
 export type GetStatusError = CloudflareOpError;
@@ -1850,6 +1884,8 @@ export const getStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatus",
 }));
 
 export type GetWaitingRoomError = WaitingRoomNotFound | Forbidden | CloudflareOpError;
@@ -1865,6 +1901,8 @@ export const getWaitingRoom: API.OperationMethod<
   errors: [WaitingRoomNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWaitingRoom",
 }));
 
 export type ListEventsError = CloudflareOpError;
@@ -1882,6 +1920,8 @@ export const listEvents: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEvents",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1908,6 +1948,8 @@ export const listWaitingRoomsForAccount: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWaitingRoomsForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1934,6 +1976,8 @@ export const listWaitingRoomsForZone: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWaitingRoomsForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1958,6 +2002,8 @@ export const patchEvent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEvent",
 }));
 
 export type PatchRuleError = CloudflareOpError;
@@ -1975,6 +2021,8 @@ export const patchRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PatchRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1993,6 +2041,8 @@ export const patchSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSetting",
 }));
 
 export type PatchWaitingRoomError = CloudflareOpError;
@@ -2008,6 +2058,8 @@ export const patchWaitingRoom: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchWaitingRoom",
 }));
 
 export type PreviewPageError = CloudflareOpError;
@@ -2023,6 +2075,8 @@ export const previewPage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewPage",
 }));
 
 export type PutSettingError = ZoneNotEntitled | Forbidden | CloudflareOpError;
@@ -2038,6 +2092,8 @@ export const putSetting: API.OperationMethod<
   errors: [ZoneNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSetting",
 }));
 
 export type UpdateEventError = CloudflareOpError;
@@ -2053,6 +2109,8 @@ export const updateEvent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvent",
 }));
 
 export type UpdateRuleError = CloudflareOpError;
@@ -2070,6 +2128,8 @@ export const updateRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2092,6 +2152,8 @@ export const updateWaitingRoom: API.OperationMethod<
   errors: [WaitingRoomNotFound, ZoneNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWaitingRoom",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

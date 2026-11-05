@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Dashboards",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -9326,6 +9339,8 @@ export const createDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDashboardsCollaboratorError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9340,6 +9355,8 @@ export const createDashboardsCollaborator: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardsCollaborator",
 }));
 
 export type CreateDashboardsReorderTileError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9354,6 +9371,8 @@ export const createDashboardsReorderTile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardsReorderTile",
 }));
 
 export type CreateDashboardsSharingPasswordError =
@@ -9373,6 +9392,8 @@ export const createDashboardsSharingPassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardsSharingPassword",
 }));
 
 export type CreateDashboardsWidgetsBatchError = PosthogOpError;
@@ -9388,6 +9409,8 @@ export const createDashboardsWidgetsBatch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardsWidgetsBatch",
 }));
 
 export type DashboardsCollaboratorsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -9402,6 +9425,8 @@ export const dashboardsCollaboratorsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsCollaboratorsDestroy",
 }));
 
 export type DashboardsCopyTileCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9417,6 +9442,8 @@ export const dashboardsCopyTileCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsCopyTileCreate",
 }));
 
 export type DashboardsCreateTextTileCreateError = PosthogOpError;
@@ -9432,6 +9459,8 @@ export const dashboardsCreateTextTileCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsCreateTextTileCreate",
 }));
 
 export type DashboardsDestroyError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9447,6 +9476,8 @@ export const dashboardsDestroy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsDestroy",
 }));
 
 export type DashboardsMoveTileCreateError = PosthogOpError;
@@ -9461,6 +9492,8 @@ export const dashboardsMoveTileCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsMoveTileCreate",
 }));
 
 export type DashboardsSharingPasswordsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -9476,6 +9509,8 @@ export const dashboardsSharingPasswordsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsSharingPasswordsDestroy",
 }));
 
 export type DashboardsSharingRefreshCreateError =
@@ -9494,6 +9529,8 @@ export const dashboardsSharingRefreshCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsSharingRefreshCreate",
 }));
 
 export type DashboardsSubscribeNudgeCreateError = PosthogOpError;
@@ -9509,6 +9546,8 @@ export const dashboardsSubscribeNudgeCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsSubscribeNudgeCreate",
 }));
 
 export type DashboardsUpdateTextTileCreateError = PosthogOpError;
@@ -9524,6 +9563,8 @@ export const dashboardsUpdateTextTileCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsUpdateTextTileCreate",
 }));
 
 export type DeleteDashboardTileError = PosthogOpError;
@@ -9539,6 +9580,8 @@ export const deleteDashboardTile: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardTile",
 }));
 
 export type GetDashboardError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9553,6 +9596,8 @@ export const getDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetDashboardsRunInsightError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9568,6 +9613,8 @@ export const getDashboardsRunInsight: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardsRunInsight",
 }));
 
 export type GetDashboardsRunWidgetError = PosthogOpError;
@@ -9582,6 +9629,8 @@ export const getDashboardsRunWidget: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardsRunWidget",
 }));
 
 export type GetDashboardsStreamTileError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9597,6 +9646,8 @@ export const getDashboardsStreamTile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardsStreamTile",
 }));
 
 export type GetDashboardsWidgetCatalogError = PosthogOpError;
@@ -9612,6 +9663,8 @@ export const getDashboardsWidgetCatalog: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardsWidgetCatalog",
 }));
 
 export type ListDashboardsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9626,6 +9679,8 @@ export const listDashboards: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 }));
 
 export type ListDashboardsCollaboratorsError = Forbidden | NotFound | PosthogOpError;
@@ -9640,6 +9695,8 @@ export const listDashboardsCollaborators: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardsCollaborators",
 }));
 
 export type ListDashboardsSharingError = Forbidden | NotFound | PosthogOpError;
@@ -9654,6 +9711,8 @@ export const listDashboardsSharing: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardsSharing",
 }));
 
 export type UpdateDashboardError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9668,6 +9727,8 @@ export const updateDashboard: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateDashboardsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9682,6 +9743,8 @@ export const updateDashboardsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardsPartial",
 }));
 
 export type UpdateDashboardWidgetsBatchError = PosthogOpError;
@@ -9697,6 +9760,8 @@ export const updateDashboardWidgetsBatch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardWidgetsBatch",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

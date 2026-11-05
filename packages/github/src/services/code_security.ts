@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "CodeSecurity",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1320,6 +1338,8 @@ export const attachConfiguration: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachConfiguration",
 }));
 
 export type AttachEnterpriseConfigurationError = Forbidden | NotFound | Conflict | GithubOpError;
@@ -1335,6 +1355,8 @@ export const attachEnterpriseConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachEnterpriseConfiguration",
 }));
 
 export type CreateConfigurationError = GithubOpError;
@@ -1350,6 +1372,8 @@ export const createConfiguration: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateConfigurationForEnterpriseError =
@@ -1369,6 +1393,8 @@ export const createConfigurationForEnterprise: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationForEnterprise",
 }));
 
 export type DeleteConfigurationError = BadRequest | Forbidden | NotFound | Conflict | GithubOpError;
@@ -1384,6 +1410,8 @@ export const deleteConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteConfigurationForEnterpriseError =
@@ -1404,6 +1432,8 @@ export const deleteConfigurationForEnterprise: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationForEnterprise",
 }));
 
 export type DetachConfigurationError = BadRequest | Forbidden | NotFound | Conflict | GithubOpError;
@@ -1419,6 +1449,8 @@ export const detachConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachConfiguration",
 }));
 
 export type GetConfigurationError = Forbidden | NotFound | GithubOpError;
@@ -1434,6 +1466,8 @@ export const getConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetConfigurationForRepositoryError = Forbidden | NotFound | GithubOpError;
@@ -1449,6 +1483,8 @@ export const getConfigurationForRepository: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationForRepository",
 }));
 
 export type GetConfigurationsForEnterpriseError = Forbidden | NotFound | GithubOpError;
@@ -1464,6 +1500,8 @@ export const getConfigurationsForEnterprise: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationsForEnterprise",
 }));
 
 export type GetConfigurationsForOrgError = Forbidden | NotFound | GithubOpError;
@@ -1479,6 +1517,8 @@ export const getConfigurationsForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationsForOrg",
 }));
 
 export type GetDefaultConfigurationsError = Forbidden | NotFound | GithubOpError;
@@ -1494,6 +1534,8 @@ export const getDefaultConfigurations: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultConfigurations",
 }));
 
 export type GetDefaultConfigurationsForEnterpriseError = GithubOpError;
@@ -1509,6 +1551,8 @@ export const getDefaultConfigurationsForEnterprise: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultConfigurationsForEnterprise",
 }));
 
 export type GetRepositoriesForConfigurationError = Forbidden | NotFound | GithubOpError;
@@ -1524,6 +1568,8 @@ export const getRepositoriesForConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoriesForConfiguration",
 }));
 
 export type GetRepositoriesForEnterpriseConfigurationError = Forbidden | NotFound | GithubOpError;
@@ -1539,6 +1585,8 @@ export const getRepositoriesForEnterpriseConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoriesForEnterpriseConfiguration",
 }));
 
 export type GetSingleConfigurationForEnterpriseError = Forbidden | NotFound | GithubOpError;
@@ -1554,6 +1602,8 @@ export const getSingleConfigurationForEnterprise: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSingleConfigurationForEnterprise",
 }));
 
 export type SetConfigurationAsDefaultError = Forbidden | NotFound | GithubOpError;
@@ -1569,6 +1619,8 @@ export const setConfigurationAsDefault: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetConfigurationAsDefault",
 }));
 
 export type SetConfigurationAsDefaultForEnterpriseError = Forbidden | NotFound | GithubOpError;
@@ -1584,6 +1636,8 @@ export const setConfigurationAsDefaultForEnterprise: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetConfigurationAsDefaultForEnterprise",
 }));
 
 export type UpdateConfigurationError = GithubOpError;
@@ -1599,6 +1653,8 @@ export const updateConfiguration: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateEnterpriseConfigurationError = Forbidden | NotFound | Conflict | GithubOpError;
@@ -1614,6 +1670,8 @@ export const updateEnterpriseConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnterpriseConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

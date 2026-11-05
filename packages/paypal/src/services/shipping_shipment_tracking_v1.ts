@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "ShippingShipmentTrackingV1",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1105,6 +1119,8 @@ export const getTracker: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracker",
 }));
 
 export type GetTrackerBatchError = PaypalOpError;
@@ -1120,6 +1136,8 @@ export const getTrackerBatch: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrackerBatch",
 }));
 
 export type PostTrackerError = PaypalOpError;
@@ -1135,6 +1153,8 @@ export const postTracker: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostTracker",
 }));
 
 export type PostTrackerBatchError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1150,6 +1170,8 @@ export const postTrackerBatch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostTrackerBatch",
 }));
 
 export type PutTrackerError = PaypalOpError;
@@ -1165,6 +1187,8 @@ export const putTracker: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTracker",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

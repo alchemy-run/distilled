@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ComputeSchedule" },
+  prefix: "Computeschedule",
+  service: "Computeschedule",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -438,6 +458,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ScheduledActionsVirtualMachinesCancelOperationsError = AzureOpError;
@@ -453,6 +475,8 @@ export const ScheduledActionsVirtualMachinesCancelOperations: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesCancelOperations",
 }));
 
 export type ScheduledActionsVirtualMachinesExecuteCreateError = AzureOpError;
@@ -468,6 +492,8 @@ export const ScheduledActionsVirtualMachinesExecuteCreate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesExecuteCreate",
 }));
 
 export type ScheduledActionsVirtualMachinesExecuteDeallocateError = AzureOpError;
@@ -487,6 +513,8 @@ export const ScheduledActionsVirtualMachinesExecuteDeallocate: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesExecuteDeallocate",
 }));
 
 export type ScheduledActionsVirtualMachinesExecuteDeleteError = AzureOpError;
@@ -502,6 +530,8 @@ export const ScheduledActionsVirtualMachinesExecuteDelete: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesExecuteDelete",
 }));
 
 export type ScheduledActionsVirtualMachinesExecuteHibernateError = AzureOpError;
@@ -521,6 +551,8 @@ export const ScheduledActionsVirtualMachinesExecuteHibernate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesExecuteHibernate",
 }));
 
 export type ScheduledActionsVirtualMachinesExecuteStartError = AzureOpError;
@@ -536,6 +568,8 @@ export const ScheduledActionsVirtualMachinesExecuteStart: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesExecuteStart",
 }));
 
 export type ScheduledActionsVirtualMachinesGetOperationErrorsError = AzureOpError;
@@ -555,6 +589,8 @@ export const ScheduledActionsVirtualMachinesGetOperationErrors: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesGetOperationErrors",
 }));
 
 export type ScheduledActionsVirtualMachinesGetOperationStatusError = AzureOpError;
@@ -574,6 +610,8 @@ export const ScheduledActionsVirtualMachinesGetOperationStatus: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesGetOperationStatus",
 }));
 
 export type ScheduledActionsVirtualMachinesSubmitDeallocateError = AzureOpError;
@@ -593,6 +631,8 @@ export const ScheduledActionsVirtualMachinesSubmitDeallocate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesSubmitDeallocate",
 }));
 
 export type ScheduledActionsVirtualMachinesSubmitHibernateError = AzureOpError;
@@ -608,6 +648,8 @@ export const ScheduledActionsVirtualMachinesSubmitHibernate: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesSubmitHibernate",
 }));
 
 export type ScheduledActionsVirtualMachinesSubmitStartError = AzureOpError;
@@ -623,6 +665,8 @@ export const ScheduledActionsVirtualMachinesSubmitStart: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledActionsVirtualMachinesSubmitStart",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

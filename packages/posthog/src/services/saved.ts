@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Saved",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -260,6 +273,8 @@ export const createSaved: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSaved",
 }));
 
 export type CreateSavedCaptureError = PosthogOpError;
@@ -275,6 +290,8 @@ export const createSavedCapture: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedCapture",
 }));
 
 export type CreateSavedPreflightError = PosthogOpError;
@@ -290,6 +307,8 @@ export const createSavedPreflight: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedPreflight",
 }));
 
 export type CreateSavedPrewarmError = PosthogOpError;
@@ -305,6 +324,8 @@ export const createSavedPrewarm: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedPrewarm",
 }));
 
 export type GetSavedError = Forbidden | NotFound | PosthogOpError;
@@ -320,6 +341,8 @@ export const getSaved: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSaved",
 }));
 
 export type ListSavedError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -335,6 +358,8 @@ export const listSaved: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSaved",
 }));
 
 export type SavedDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -350,6 +375,8 @@ export const savedDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SavedDestroy",
 }));
 
 export type SavedRegenerateCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -365,6 +392,8 @@ export const savedRegenerateCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SavedRegenerateCreate",
 }));
 
 export type UpdateSavedPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -380,6 +409,8 @@ export const updateSavedPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavedPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
