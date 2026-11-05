@@ -50,7 +50,7 @@ export type Trailers = Readonly<Record<string, string>>;
 // `response.request` through the wrappers `HttpClient` puts around it.
 const trailersByRequest = /*@__PURE__*/ new WeakMap<
   HttpClientRequest.HttpClientRequest,
-  Promise<Trailers>
+  { readonly trailers: Promise<Trailers>; readonly reliable: boolean }
 >();
 
 /**
@@ -71,18 +71,31 @@ export const respond = (
     readonly headers: Trailers;
     readonly body: ReadableStream<Uint8Array>;
     readonly trailers: Promise<Trailers>;
+    /**
+     * Whether the trailers always arrive. HTTP/2 delivers them end to end;
+     * over HTTP/1.1 a bridging proxy may drop them, so the protocol then
+     * treats a reply with messages and no status as OK.
+     * @default true
+     */
+    readonly reliableTrailers?: boolean;
   },
 ): HttpClientResponse.HttpClientResponse => {
-  trailersByRequest.set(request, reply.trailers);
+  trailersByRequest.set(request, {
+    trailers: reply.trailers,
+    reliable: reply.reliableTrailers ?? true,
+  });
   return HttpClientResponse.fromWeb(
     request,
     new Response(reply.body, { status: reply.status, headers: reply.headers }),
   );
 };
 
-/** Whether `response` came from a transport that reads trailers ({@link respond}). */
+/**
+ * Whether `response` came from a transport whose trailers always arrive
+ * ({@link respond} with `reliableTrailers`), so a missing status is an error.
+ */
 export const hasTrailers = (response: HttpClientResponse.HttpClientResponse): boolean =>
-  trailersByRequest.has(response.request);
+  trailersByRequest.get(response.request)?.reliable === true;
 
 /**
  * The trailers of a response a transport built with {@link respond}, read
@@ -91,8 +104,8 @@ export const hasTrailers = (response: HttpClientResponse.HttpClientResponse): bo
 export const trailersOf = (
   response: HttpClientResponse.HttpClientResponse,
 ): Effect.Effect<Trailers> => {
-  const trailers = trailersByRequest.get(response.request);
-  return trailers === undefined
+  const entry = trailersByRequest.get(response.request);
+  return entry === undefined
     ? Effect.succeed({})
-    : Effect.promise(() => trailers.catch((): Trailers => ({})));
+    : Effect.promise(() => entry.trailers.catch((): Trailers => ({})));
 };

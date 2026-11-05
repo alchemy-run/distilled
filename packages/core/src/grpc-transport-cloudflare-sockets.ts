@@ -274,7 +274,8 @@ const send = async (
       finish();
     },
   });
-  return { status, headers, body: stream, trailers };
+  // HTTP/1.1: a bridging proxy may drop the trailers.
+  return { status, headers, body: stream, trailers, reliableTrailers: false };
 };
 
 /** An `HttpClient` that sends each request over its own `cloudflare:sockets` socket. */
