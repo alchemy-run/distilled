@@ -94,8 +94,11 @@ jobs:
         id: runner
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: packages/core/conformance/.build/protobuf/conformance_test_runner
-          key: protobuf-conformance-runner-${{ runner.os }}-${{ steps.pin.outputs.sha }}
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
+          key: protobuf-conformance-runner-v2-${{ runner.os }}-${{ steps.pin.outputs.sha }}
 
       - name: Run the protobuf conformance suite
         run: packages/core/conformance/run.sh protobuf
@@ -104,7 +107,10 @@ jobs:
         if: steps.runner.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: packages/core/conformance/.build/protobuf/conformance_test_runner
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
           key: ${{ steps.runner.outputs.cache-primary-key }}
 
       - name: Run the gRPC conformance suite
