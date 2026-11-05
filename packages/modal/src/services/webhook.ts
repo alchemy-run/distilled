@@ -24,6 +24,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The environment doesn't exist (gRPC NOT_FOUND). */
+export class EnvironmentNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5, message: { includes: "Environment" } }],
+  ) {}
+
 /** The webhook token doesn't exist (gRPC NOT_FOUND). */
 export class WebhookTokenNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -210,7 +220,7 @@ export const updateWebhookToken: API.OperationMethod<
   span: "UpdateWebhookToken",
 }));
 
-export type WebhookTokenListForEnvironmentError = ModalOpError;
+export type WebhookTokenListForEnvironmentError = EnvironmentNotFound | ModalOpError;
 export const webhookTokenListForEnvironment: API.OperationMethod<
   WebhookTokenListForEnvironmentRequest,
   WebhookTokenListForEnvironmentResponse,
@@ -219,7 +229,7 @@ export const webhookTokenListForEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<WebhookTokenListForEnvironmentRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<WebhookTokenListForEnvironmentResponse>,
-  errors: [UnknownModalError],
+  errors: [EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
