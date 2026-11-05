@@ -339,3 +339,84 @@ describe("UnionCases decoding", () => {
     });
   });
 });
+
+describe("Verbatim members", () => {
+  const dict = { className: "class_name", scriptName: "script_name" };
+  const content = { className: "kept", nested: { scriptName: "kept" } };
+
+  /** Worker-binding shaped: a service case with props, a durable object case without. */
+  const bindings = S.Unknown.pipe(
+    T.UnionCases(
+      [
+        ["name", "service", "props", "type"],
+        ["name", "className", "scriptName", "type"],
+      ],
+      { key: "type", values: ["service", "durable_object_namespace"] },
+      [["props"], []],
+    ),
+  );
+
+  test("a union case's verbatim member keeps its keys on encode", () => {
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "service", name: "A", service: "s", props: content },
+        "encode",
+        dict,
+      ),
+    ).toEqual({ type: "service", name: "A", service: "s", props: content });
+  });
+
+  test("a case without verbatim members still renames through the dictionary", () => {
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "durable_object_namespace", name: "B", className: "C", scriptName: "w" },
+        "encode",
+        dict,
+      ),
+    ).toEqual({ type: "durable_object_namespace", name: "B", class_name: "C", script_name: "w" });
+  });
+
+  test("a union case's verbatim member keeps its keys on decode", () => {
+    const wireContent = { class_name: "kept", nested: { script_name: "kept" } };
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "service", name: "A", service: "s", props: wireContent, class_name: null },
+        "decode",
+        dict,
+      ),
+    ).toEqual({ type: "service", name: "A", service: "s", props: wireContent });
+  });
+
+  test("a struct member keeps its keys while its siblings rename", () => {
+    const struct = S.Struct({
+      props: S.optional(S.Unknown.pipe(T.Verbatim())),
+      other: S.optional(S.Unknown),
+    });
+    expect(mapKeys(struct.ast, { props: content, other: content }, "encode", dict)).toEqual({
+      props: content,
+      other: { class_name: "kept", nested: { script_name: "kept" } },
+    });
+  });
+
+  test("a top-level request member is sent as written under a root dictionary", () => {
+    const input = S.Struct({
+      props: S.optional(S.Unknown.pipe(T.Body("props"), T.Verbatim())),
+      other: S.optional(S.Unknown.pipe(T.Body("other"))),
+    }).pipe(T.Http({ method: "POST", uri: "/things" }), T.KeyDictionary(dict));
+    const request = Effect.runSync(
+      buildRequest({
+        input: { props: content, other: content },
+        inputAst: input.ast,
+        baseUrl: "https://example.test",
+      }),
+    );
+    const body = request.body as { readonly body?: string };
+    expect(JSON.parse(body.body ?? "{}")).toEqual({
+      props: content,
+      other: { class_name: "kept", nested: { script_name: "kept" } },
+    });
+  });
+});

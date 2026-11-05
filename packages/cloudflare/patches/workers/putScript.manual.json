@@ -1,5 +1,5 @@
 {
-  "description": "Hand-authored typed multipart Worker upload metadata. Keep shared metadata shapes manually synchronized with workers_for_platforms/putDispatchNamespaceScript.manual.json. Wire names verified against Cloudflare workers-sdk packages/workers-utils/src/types.ts (AssetConfigMetadata) and packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts: assets.config contains _headers and _redirects strings, and run_worker_first is boolean | string[]. Shapes originally transcribed from distilled v0. The version endpoint reuses these shapes; endpoint support for individual settings may differ. Workers Issues observability.issues.enabled is documented at https://developers.cloudflare.com/workers/observability/issues/ (Wrangler 4.134.0+); omitting it on redeploy disables Issues. Alchemy WorkerIssues.test.ts live tests on 2026-10-05 verified PUT with issues-only observability (without top-level enabled), GET script-settings, combined GET settings, and PATCH false-to-true while preserving logs/traces. Top-level enabled is optional for independent Issues configuration.",
+  "description": "Hand-authored typed multipart Worker upload metadata. Keep shared metadata shapes manually synchronized with workers_for_platforms/putDispatchNamespaceScript.manual.json. Wire names verified against Cloudflare workers-sdk packages/workers-utils/src/types.ts (AssetConfigMetadata) and packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts: assets.config contains _headers and _redirects strings, and run_worker_first is boolean | string[]. Shapes originally transcribed from distilled v0. The version endpoint reuses these shapes; endpoint support for individual settings may differ. Workers Issues observability.issues.enabled is documented at https://developers.cloudflare.com/workers/observability/issues/ (Wrangler 4.134.0+); omitting it on redeploy disables Issues. Alchemy WorkerIssues.test.ts live tests on 2026-10-05 verified PUT with issues-only observability (without top-level enabled), GET script-settings, combined GET settings, and PATCH false-to-true while preserving logs/traces. Top-level enabled is optional for independent Issues configuration. A service binding carries an optional props object, which the bound entrypoint reads as ctx.props (https://developers.cloudflare.com/workers/runtime-apis/context/#props); Wrangler sends it in packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts. props and a json binding's json are the caller's own JSON, which the Worker reads back unchanged, so both carry distilled.protocols#verbatim and keep their keys instead of being renamed through the key dictionary.",
   "patches": [
     {
       "op": "add",
@@ -1060,7 +1060,8 @@
           "json": {
             "target": "smithy.api#Document",
             "traits": {
-              "smithy.api#required": {}
+              "smithy.api#required": {},
+              "distilled.protocols#verbatim": {}
             }
           },
           "name": {
@@ -1585,6 +1586,13 @@
           },
           "environment": {
             "target": "smithy.api#String"
+          },
+          "props": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, sent with its keys as written.",
+              "distilled.protocols#verbatim": {}
+            }
           },
           "type": {
             "target": "com.cloudflare.workers#PutScriptBindingServiceType",

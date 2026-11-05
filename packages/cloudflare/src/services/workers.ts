@@ -4847,6 +4847,8 @@ export interface PutScriptBindingService {
   service: string;
   entrypoint?: string;
   environment?: string;
+  /** JSON object the bound entrypoint reads as `ctx.props`, sent with its keys as written. */
+  props?: unknown;
   type: PutScriptBindingServiceType;
 }
 export type PutScriptBindingTextBlobType = "text_blob";
@@ -22368,7 +22370,7 @@ function __c90(j: number): any {
               "destinationAddress",
               "type",
             ],
-            ["name", "service", "entrypoint", "environment", "type"],
+            ["name", "service", "entrypoint", "environment", "props", "type"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -22428,6 +22430,47 @@ function __c90(j: number): any {
               "k2",
             ],
           },
+          [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            ["json"],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            ["props"],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+          ],
         ),
       );
     case 6:
